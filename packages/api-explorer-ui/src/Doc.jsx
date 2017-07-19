@@ -1,15 +1,16 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 
 const extensions = require('readme-oas-extensions');
 
-const PathUrl = require('./PathUrl.jsx');
-const Params = require('./Params.jsx');
+const PathUrl = require('./PathUrl');
+const Params = require('./Params');
 
 const getPath = require('./lib/get-path');
 const getPathOperation = require('./lib/get-path-operation');
 const showCode = require('./lib/show-code');
 
-module.exports = function Doc({ doc, oas }) {
+function Doc({ doc, oas }) {
   // TODO rename swagger -> oas
   const swagger = oas;
 
@@ -65,3 +66,20 @@ module.exports = function Doc({ doc, oas }) {
     </div>
   );
 }
+
+module.exports = Doc;
+
+Doc.propTypes = {
+  doc: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    excerpt: PropTypes.string,
+    slug: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    api: PropTypes.shape({
+      method: PropTypes.string.isRequired,
+    }).isRequired,
+    swagger: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};

@@ -1,8 +1,9 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 
-const Doc = require('./Doc.jsx');
+const Doc = require('./Doc');
 
-module.exports = ({ docs, oasFiles }) => {
+function ApiExplorer({ docs, oasFiles }) {
   return (
     <div>
       {
@@ -17,4 +18,11 @@ module.exports = ({ docs, oasFiles }) => {
       }
     </div>
   );
+}
+
+ApiExplorer.propTypes = {
+  docs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  oasFiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
+module.exports = ApiExplorer;
