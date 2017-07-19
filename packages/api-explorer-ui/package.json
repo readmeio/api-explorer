@@ -12,8 +12,17 @@
     "lint": "eslint -f unix .",
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run inspect",
-    "test": "nyc mocha",
-    "posttest": "nyc check-coverage --statements 90 --branches 70 --functions 90 --lines 90"
+    "test": "jest"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
