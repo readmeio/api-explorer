@@ -1,0 +1,44 @@
+{
+  "name": "api-explorer-ui",
+  "description": "UI components for the API explorer",
+  "version": "0.0.0",
+  "main": "src/index.jsx",
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-jsonschema-form": "^0.49.0",
+    "readme-oas-extensions": "^0.0.0"
+  },
+  "scripts": {
+    "lint": "eslint -f unix .",
+    "inspect": "jsinspect",
+    "pretest": "npm run lint && npm run inspect",
+    "test": "nyc mocha",
+    "posttest": "nyc check-coverage --statements 90 --branches 70 --functions 90 --lines 90"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:readme/api-explorer-ui.git"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015-without-strict": "0.0.4",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "jsinspect": "^0.12.6",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.3",
+    "watchify": "^3.9.0",
+    "webpack": "^3.3.0"
+  }
+}

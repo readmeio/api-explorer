@@ -1,0 +1,23 @@
+{
+  "name": "readme-oas-extensions",
+  "description": "A list of extensions that ReadMe has added to the OAS spec",
+  "version": "0.0.0",
+  "dependencies": {},
+  "scripts": {
+    "test": "eslint -f unix ."
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:readme/readme-oas-extensions.git"
+  },
+  "devDependencies": {
+    "eslint": "^4.2.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0"
+  }
+}
