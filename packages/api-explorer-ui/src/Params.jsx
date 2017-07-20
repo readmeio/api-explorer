@@ -9,9 +9,7 @@ const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 module.exports = function Params({ swagger, path, pathOperation }) {
   // const paramGroups = groupParams(path, pathOperation);
 
-  const jsonSchema = parametersToJsonSchema(pathOperation);
-
-  console.log(jsonSchema);
+  const jsonSchema = parametersToJsonSchema(pathOperation, swagger);
 
   return (
     <div className="api-manager">
