@@ -1,0 +1,37 @@
+// Gah, you have to manually restart the app if you change this!
+
+mixin loop(content, column)
+  if content
+    for block in content
+      if block.type == 'textarea'
+        include textarea
+      if block.type == 'code'
+        include code
+        +block-code(block.data, {dark: column === 'right'})
+      if block.type == 'html'
+        include html
+      if block.type == 'image'
+        include image
+      if block.type == 'embed'
+        include embed
+      if block.type == 'parameters'
+        include parameters
+      if block.type == 'callout'
+        include callout
+      if block.type == 'api-header'
+        include api-header
+
+if opts && opts.isThreeColumn
+  if opts.isThreeColumn === true
+    .hub-reference-section
+      .hub-reference-left
+        .content-body
+          +loop(content.left, 'left')
+      .hub-reference-right
+        .content-body
+          +loop(content.right, 'right')
+  else
+    +loop(content[opts.isThreeColumn])
+
+else
+  +loop(content)
