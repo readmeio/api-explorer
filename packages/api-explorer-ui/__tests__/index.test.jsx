@@ -13,9 +13,5 @@ test('ApiExplorer renders a doc for each', () => {
     <ApiExplorer docs={docs} oasFiles={[{ 'api-setting': oas }]} />,
   );
 
-  // expect(checkbox.text()).toEqual('Off');
-
-  // checkbox.find('input').simulate('change');
-
-  // expect(checkbox.text()).toEqual('On');
+  expect(explorer.find('Doc').length).toBe(docs.length);
 });
