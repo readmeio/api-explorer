@@ -1,8 +1,15 @@
 module.exports = (pathOperation, oas) => {
+  const hasRequestBody = !!pathOperation.requestBody;
+  const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
+
+  if (!hasParameters && !hasRequestBody) return null;
+
+  // https://github.com/OAI/OpenAPI-Specification/blob/4875e02d97048d030de3060185471b9f9443296c/versions/3.0.md#parameterObject
   const types = {
     path: 'Path Params',
     query: 'Query Params',
     body: 'Body Params',
+    cookie: 'Cookie Params',
     formData: 'Form Data',
     header: 'Headers',
   };
@@ -10,7 +17,11 @@ module.exports = (pathOperation, oas) => {
   function getBodyParam() {
     let schema;
     try {
-      schema = pathOperation.requestBody.content['application/json'].schema;
+      if (pathOperation.requestBody.content) {
+        schema = pathOperation.requestBody.content['application/json'].schema;
+      } else {
+        schema = pathOperation.requestBody;
+      }
     } catch (e) {}
 
     if (!schema) return {};
@@ -21,12 +32,12 @@ module.exports = (pathOperation, oas) => {
       schema.$ref = split.join('/');
     }
 
-    return { body: Object.assign({ description: types.body }, schema) };
+    return { body: Object.assign({ description: types.body }, { schema }) };
   }
 
   return {
     type: 'object',
-    definitions: { components: { schemas: oas.components.schemas } },
+    definitions: oas.components ? { components: oas.components } : {},
     properties: Object.assign(getBodyParam(), (pathOperation.parameters || []).reduce((prev, current) => {
       prev[current.in] = prev[current.in] || {
         type: 'object',
@@ -37,7 +48,7 @@ module.exports = (pathOperation, oas) => {
 
       const schema = {
         type: 'string',
-        description: current.description,
+        description: current.description || null,
       };
 
       if (current.schema) {

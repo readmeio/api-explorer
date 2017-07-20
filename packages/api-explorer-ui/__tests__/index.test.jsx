@@ -10,7 +10,7 @@ const docs = createDocs(oas, 'api-setting');
 
 test('ApiExplorer renders a doc for each', () => {
   const explorer = shallow(
-    <ApiExplorer docs={docs} oasFiles={[{ 'api-setting': oas }]} />,
+    <ApiExplorer docs={docs} oasFiles={{ 'api-setting': oas }} />,
   );
 
   expect(explorer.find('Doc').length).toBe(docs.length);
