@@ -15,11 +15,7 @@ test('it should return with a json schema for each parameter type', () => {
     ],
   }, {})).toEqual({
     type: 'object',
-    definitions: {
-      components: {
-        schemas: {},
-      },
-    },
+    definitions: {},
     properties: {
       cookie: {
         description: 'Cookie Params',
@@ -84,24 +80,22 @@ test('it should work for request body inline', () => {
     },
   }, {})).toEqual({
     type: 'object',
-    definitions: {
-      components: {
-        schemas: {},
-      },
-    },
+    definitions: {},
     properties: {
       body: {
         description: 'Body Params',
-        type: 'object',
-        properties: {
-          a: { type: 'string' },
+        schema: {
+          type: 'object',
+          properties: {
+            a: { type: 'string' },
+          },
         },
       },
     },
   });
 });
 
-test.only('it should work for top-level request body $ref', () => {
+test('it should work for top-level request body $ref', () => {
   expect(parametersToJsonSchema({
     requestBody: {
       $ref: '#/components/schemas/Pet',
