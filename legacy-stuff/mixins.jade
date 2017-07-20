@@ -1,0 +1,307 @@
+//- API Explorer
+mixin full_url(swagger)
+  .api-definition-parent
+    .api-definition
+      .api-definition-container
+        // Don't show try it now button if host isn't set
+        // if doc.apiSettings.host
+        if swagger[extensions.EXPLORER_ENABLED]
+          .api-definition-actions
+            if swaggerUtils.hasAuth(swagger)
+              +authbox(swagger)
+            button.api-try-it-out(type='submit' ng-disabled='results.loading' ng-class="{active: endpointForm.$dirty}")
+              span.fa.fa-compass(ng-show='!results.loading')
+              | &nbsp;
+              span(ng-show='!results.loading') Try It
+              i.fa.fa-circle-o-notch.fa-spin.ng-cloak(ng-show='results.loading')
+
+        span(class="pg-type-big pg-type type-" + swagger._method)= swagger._method
+
+        // Show relative path if base path isn't set
+        if swagger.host && swagger.schemes
+          | #{swagger.schemes[0]}://
+        span.definition-url
+          if swagger.host
+            span #{swagger.host}#{swagger.basePath}
+          for section in swaggerUtils.chunkUrl(swagger)
+            if section.type == 'variable'
+              span.api-variable= section.value
+            if section.type == 'text'
+              span= section.value
+
+mixin authbox(swagger)
+  .hub-auth-dropdown(simple-dropdown="isAuthOpen")
+    a.icon.icon-user-lock(href="" ng-click="toggle()")
+    div.nopad
+      div
+        each securities, type in swaggerUtils.prepareSecurity(swagger)
+          h3 #{type} Auth
+          .pad
+            section
+              - var multipleOauths = type === 'OAuth2' && securities.length > 1
+              if multipleOauths
+                select(ng-model="oauth2_show" ng-init="oauth2_show = oauth2_show || '"+securities[0]._key+"'")
+                  each security, security_name in securities
+                    option(value=security._key)= security._key
+              each security in securities
+                +securityInput(security, multipleOauths)
+
+        .hub-authrequired(ng-class="{active: results.needsAuth}")
+          .hub-authrequired-slider
+            i.icon.icon-notification &nbsp;
+            | Authentication is required for this endpoint.
+
+mixin securityInput(security, multipleOauths)
+  if security.type == 'oauth2'
+    section(ng-if="key.api_key || !hasOauthUrl()" ng-show=multipleOauths ? 'oauth2_show === "' + security._key + '"' : undefined)
+      if security.description
+        != marked(security.description)
+      .row
+        .col-xs-4
+          label Authorization
+        .col-xs-2
+          div(style="display: inline-block; margin-right: 10px; margin-top: 5px; font-size: 13px;") Bearer
+        .col-xs-6
+          input(type="text" ng-model="key.api_key" ng-disabled="hasOauthUrl()" placeholder=security['x-default'])
+      //- p.text-center
+      //-   em <strong>Note:</strong> Do not use this token in your app; you'll need to get the OAuth token yourself.
+    section(ng-if="!(key.api_key || !hasOauthUrl())")
+      .text-center
+        a.btn.btn-primary(ng-href='{{getOauthUrl}}',  target="_self") Authenticate via OAuth2
+
+  if security.type == 'basic'
+    .row
+      .col-xs-6
+        label username
+        input(type="text" ng-model="apiAuth.auth._basic_username" focus-me="authFocus")
+      .col-xs-6
+        label password
+        input(type="text" ng-model="apiAuth.auth._basic_password")
+  if security.type == 'apiKey'
+    .row
+      .col-xs-5
+        label= security.name
+      .col-xs-7
+        input(type="text" placeholder=security['x-default'] ng-model="apiAuth.auth['"+security.name+"']")
+        // TODO: put this back
+        //if security.description
+          p= security.description
+mixin code_sample(doc, swagger, variables)
+  .code-sample.tabber-parent
+    if swaggerUtils.showCodeExamples(swagger).length
+      ul.code-sample-tabs
+        each example, index in swaggerUtils.showCodeExamples(swagger)
+          - var name = example.name ? example.name : shared.code_type(example.language)
+          li
+            a.tabber-tab(href="" data-tab=index class=index===0 ? "selected" : "") #{name}
+    else if swagger[extensions.SAMPLES_ENABLED]
+      ul.code-sample-tabs
+        for lang in swagger[extensions.SAMPLES_LANGUAGES]
+          li
+            a(class="hub-lang-switch-#{lang}" ng-click="setLanguage('#{lang}')" href="")= swaggerUtils.getLangName(lang)
+    else
+      .hub-no-code No code samples available
+
+    if swaggerUtils.showCodeExamples(swagger).length
+      .code-sample-body
+        each example, index in swaggerUtils.showCodeExamples(swagger)
+          pre.tomorrow-night.tabber-body(style=index === 0 ? "display: block;" : "" class="tabber-body-#{index}")!= replaceVars(codemirror(example.code, example.language, true), variables)
+    else if swagger[extensions.SAMPLES_ENABLED]
+      -var codes = swaggerUtils.getCodeSnippet(swagger, swagger[extensions.SAMPLES_LANGUAGES]);
+      .hub-code-auto
+        i.icon.icon-sync.icon-spin.ng-cloak(ng-show="codeLoading")
+        for lang in swagger[extensions.SAMPLES_LANGUAGES]
+          pre.tomorrow-night.hub-lang(class="hub-lang-#{lang}")!= codes[lang]
+
+    .clear
+
+mixin results(doc, swagger, variables)
+  .hub-reference-results-slider
+    .hub-reference-results-explorer.code-sample
+      div(ng-if="results.init")
+        ul.code-sample-tabs.hub-reference-results-header
+          a.hub-reference-results-header-item.tabber-tab(href="" data-tab='result')
+            span(ng-class="{httpsuccess: results.statusCode[2] == 'success', httperror: results.statusCode[2] != 'success'}")
+              i(class="fa fa-circle")
+              em &nbsp;{{ results.statusCode[0] }}&nbsp;
+              | {{ results.statusCode[1] }}
+          a.hub-reference-results-header-item.tabber-tab(href="" data-tab='metadata')
+            | Metadata
+          if swaggerUtils.showCodeResults(swagger).length
+            a.hub-reference-results-back.pull-right(href="" ng-click="hideResults();")
+              | <span class="fa fa-chevron-circle-left"></span> to examples
+
+        .tabber-body.tabber-body-result
+          pre.tomorrow-night(ng-show="results.statusCode[0] != 401")
+            div(ng-if="results.isBinary")
+              div #[i A binary file was returned]
+            div(ng-if="!results.isBinary")
+              .cm-s-tomorrow-night.codemirror-highlight(ng-model="results.dataString")
+          div(ng-show="results.statusCode[0] == 401")
+            - var allSecurities = swaggerUtils.prepareSecurity(swagger);
+            .text-center.hub-expired-token
+              if allSecurities['OAuth2']
+                if project.oauth_url
+                  p Your OAuth2 token has expired
+                  a.btn.btn-primary(href="/oauth" target="_self") Reauthenticate via OAuth2
+                else
+                  p Your OAuth2 token is incorrect or has expired
+              else
+                p You couldn't be authenticated
+
+        .hub-reference-results-meta.tabber-body-metadata.tabber-body
+          .meta
+            label Method
+            div {{ results.method }}
+          .meta
+            label URL
+            div {{ results.url }}
+          .meta
+            label Request Headers
+            pre {{ results.requestHeaders }}
+          .meta
+            label Request Data
+            pre {{ results.data }}
+          .meta
+            label Status
+            span.httpstatus(ng-model="results.statusCode")
+          .meta
+            label Response Headers
+            pre {{ results.responseHeaders }}
+
+    // Example results
+    .hub-reference-results-examples.code-sample
+      if swaggerUtils.showCodeResults(swagger).length
+        ul.code-sample-tabs.hub-reference-results-header
+          for result, index in swaggerUtils.showCodeResults(swagger)
+            - var status = statusCodes(result.status)
+            - var title = result.name ? result.name : status[1]
+            a.hub-reference-results-header-item.tabber-tab(href="" data-tab=index class=index===0 ? "selected" : "")
+              if result.status
+                span(class=status[2] === "success" ? "httpsuccess" : "httperror")
+                  i(class="fa fa-circle")
+                  em &nbsp;#{status[0]}&nbsp;
+                  | #{title}
+              else
+                span= result.name ? result.name : shared.code_type(result.language)
+        .code-sample-body
+          for result, index in swaggerUtils.showCodeResults(swagger)
+            pre.tomorrow-night.tabber-body(style=index === 0 ? "display: block;" : "" class="tabber-body-#{index}")!= replaceVars(codemirror(result.code, result.language, true), variables)
+      else
+        .hub-no-code
+          if swagger[extensions.EXPLORER_ENABLED]
+            | Try the API to see results
+          else
+            | No response examples available
+
+mixin params(swagger)
+  .api-manager
+    .param-table
+      for params, paramIn in swaggerUtils.groupParams(swagger)
+        //- - params = swaggerUtils.fixRequired(params)
+        .param-header
+          h3= params.name
+
+          // We need this to have a border...
+          .param-header-border
+        each param in swaggerUtils.convertToParams(params.params, paramIn)
+          +param(param, paramIn, swagger)
+
+mixin param(param, paramIn, swagger)
+  .param-item
+    .param-item-name
+      strong= param.name
+      if param.type === 'array' && param.items
+        div.param-type array of #{param.items.type}s
+
+      else
+        div.param-type= prettyType(param.format || param.type)
+    .param-item-info
+      .param-item-table
+        .param-item-desc
+          if param.required === true
+            div.param-item-required required
+          != marked(param.description)
+
+        if swagger[extensions.EXPLORER_ENABLED]
+          .param-item-input
+            +paramInput(param, paramIn, swagger[extensions.SEND_DEFAULTS])
+
+mixin inputType(param, model, placeholder, sendDefaults)
+  -  function isRequired(param) { return param.required && (param.in == 'body' || param.in == 'formData' || !param.default) };
+  if param.type == 'string' && param.enum && param.enum.length
+    .selectize
+      select(ng-model=model required=param.required ng-init=sendDefaults ? "#{model} = '#{placeholder}'" : null)
+        for option in param.enum
+          option= option
+  else if param.type == 'string'
+    input.full(type="text" ng-model=model required=isRequired(param) placeholder=placeholder ng-init=sendDefaults ? "#{model} = '#{placeholder}'" : null)
+  else if param.type == 'integer' || param.type == 'int' || param.type == 'double'
+    - var value = !isNaN(placeholder) ? placeholder : 0;
+    input.full(type="number" step="any", ng-model=model required=isRequired(param) placeholder=value ng-init=sendDefaults ? "#{model} = #{value}" : null)
+  else if param.type == 'boolean'
+    .selectize
+      select(ng-model=model required=isRequired(param) ng-init=sendDefaults ? "#{model} = '#{placeholder}'" : null)
+        option(value="true") true
+        option(value="false") false
+  else if(param.type == 'object')
+    | &nbsp;
+  else if (param.type == 'json')
+    textarea.full(ng-model=model required=isRequired(param), placeholder=placeholder)
+  else if(param.type != 'file')
+    input.full(type='text' ng-model=model required=isRequired(param))
+
+mixin paramInput(param, paramIn, sendDefaults)
+  - var model = "values."+paramIn+"['"+param.name+"']"
+
+  if(param.type && param.type.indexOf('array') == 0)
+    //- Object editor/array builder
+    if param.items && param.items.properties && param.items.type === 'object'
+      .arrayBuilder(ng-init='json=false' ng-show='!json')
+        each field, key in param.items.properties
+          .arrayObjectsInput
+            span!= key
+            - var model = 'paramObject.' + key
+            +inputType(field, model, field.type, sendDefaults)
+        button.arrayObjectsAdd.main_background(type='button' ng-click='addObjectToArray("#{paramIn}", "#{param.name}", paramObject)') Add Object
+        button.arrayEditJSON.main_color(type='button' ng-click='json = !json') Edit Array JSON
+      .arrayJson(ng-show='json' ng-cloak)
+        textarea {{#{model}}}
+        button.arrayEditJSON.main_color(type='button' ng-click='json = !json') Array Builder
+
+      //- Enum support (this comment is indented otherwise jade errors)
+    else if param.items && param.items.enum && param.items.enum.length
+      select(ng-model=model)
+        each value in param.items.enum
+          option(value=value) #{value}
+
+    else
+      tags-input(ng-model=model placeholder="<Enter> for new item" min-length="1", replace-spaces-with-dashes="false")
+
+  else
+    +inputType(param, model, param.default, sendDefaults)
+
+mixin responseSchema(swagger)
+  .hub-reference-response-definitions
+    h3
+      .pull-right
+        select.switcher-switch
+          for response, status in swagger._endpoint.responses
+            option(value=status)= status
+      | Response
+    - var i = 0;
+    for response, status in swagger._endpoint.responses
+      div(switcher=status style=i == 0 ? "" : "display: none;")
+        - i++;
+        if response.description
+          p.desc= response.description
+
+        if response.schema && response.schema.type == 'object' && response.schema.properties
+          table
+            for param in swaggerUtils.convertToParams([response], 'response')
+              tr
+                th= param.name
+                td
+                  = param.type
+                  if param.description
+                    != marked(param.description)

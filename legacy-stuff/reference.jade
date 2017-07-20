@@ -1,0 +1,68 @@
+extends ../partial
+
+block content
+  - var theme = project.flags.stripe ? 'stripe' : ''
+
+  #hub-reference.content-body.hub-reference-sticky(class="hub-reference-theme-"+theme, ng-non-bindable)
+    //- if isPreview
+      .hub-reference
+        .hub-reference-section
+          .hub-reference-left
+            .hub-preview
+              .hub-preview-owlbert
+              i.icon.icon-readme
+              p #[strong Like what you see?] ReadMe makes it easy to create beautiful documentation for your API! You can import a Swagger file&hellip; but that's not all! ReadMe also helps you build a community, document non-API references and much more! Sign up now to get awesome docs for your Swagger file!
+              a.btn.btn-primary.btn-lg(href="https://dash.readme.io/signup") Sign Up for ReadMe
+          .hub-reference-right &nbsp;
+
+    //- for doc in docs
+      if doc.type != 'link'
+        .hub-reference(id='page-'+doc.slug)
+          a.anchor-page-title(id=doc.slug)
+          .hub-reference-section.hub-reference-section-top
+            .hub-reference-left
+              header
+                if project.modules.suggested_edits
+                  a.hub-reference-edit.pull-right(href="" ui-sref="reference-edit({doc: '"+doc.slug+"'})" ng-cloak)
+                    i.icon.icon-register
+                    | Suggest Edits
+
+                h2= doc.title
+                .excerpt!= marked(doc.excerpt)
+            .hub-reference-right &nbsp;
+
+          if doc.isApi
+            - swagger = doc.getMiniSwagger(version.version)
+            if isPreview
+              .mini-swagger-inline(style="display:none;")= swaggerUtils.prepareMiniSwaggerInline(swagger)
+
+            if swagger[extensions.SEND_DEFAULTS]
+              input(type='hidden', id='swagger-' + extensions.SEND_DEFAULTS, value="#{swagger[extensions.SEND_DEFAULTS]}")
+
+          if doc.isApi
+              form.hub-api(ng-submit="tryItOut()" ng-controller="Endpoint" ng-init="setSlug('"+doc.slug+"')" name="endpointForm")
+                //- +full_url(swagger)
+
+                if swaggerUtils.showCode(swagger)
+                  .hub-reference-section.hub-reference-section-code
+                    .hub-reference-left
+                      //- +code_sample(doc, swagger, variables)
+                    .hub-reference-right.hub-reference-results.tabber-parent
+                      //- +results(doc, swagger, variables)
+
+                .hub-reference-section
+                  .hub-reference-left
+                    //- +params(swagger)
+                  .hub-reference-right.switcher
+                    if !swagger._endpoint.responses
+                      | &nbsp;
+                    else
+                      //- +responseSchema(swagger)
+
+            != renderMagic(doc.body, {'isThreeColumn': true}, variables)
+
+    .hub-reference-end
+
+  script#docs !{JSON.stringify(docs.filter(doc => doc.type !== 'link'))}
+  script#swaggerFiles !{JSON.stringify(swaggerFiles)}
+  script(src=asset_url('js/bundle-reference.js'))
