@@ -22,7 +22,7 @@ function ApiExplorer({ docs, oasFiles }) {
 
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  oasFiles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  oasFiles: PropTypes.shape({}).isRequired,
 };
 
 module.exports = ApiExplorer;
