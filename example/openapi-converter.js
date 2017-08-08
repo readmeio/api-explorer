@@ -12,8 +12,7 @@ http.createServer((req, res) => {
     res.writeHead(200, cors);
     return res.end();
   }
-  bodyParser.json()(req, res, async () => {
-    console.log(req.body);
+  bodyParser.json({ limit: '1mb' })(req, res, async () => {
     try {
       const oas = await converter.convertObj(req.body, {});
       res.writeHead(200, Object.assign({ 'content-type': 'application/json' }, cors));

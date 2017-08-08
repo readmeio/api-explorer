@@ -5,11 +5,13 @@ module.exports = (oas, apiSetting) => {
     return Object.keys(oas.paths[path]).map((method) => {
       const operation = oas.paths[path][method];
       let isCategory;
-      if (!docs.find(category => category.slug === operation.tags[0] && category.type === 'basic')) {
+
+      const tag = operation.tags ? operation.tags[0] : path;
+      if (!docs.find(category => category.slug === tag && category.type === 'basic')) {
         docs.push({
           _id: Math.random().toString(16),
-          title: operation.tags[0],
-          slug: operation.tags[0],
+          title: tag,
+          slug: tag,
           type: 'basic',
           category: { apiSetting },
           api: { method },
