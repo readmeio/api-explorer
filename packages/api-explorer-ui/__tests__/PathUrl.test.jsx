@@ -2,8 +2,6 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const PathUrl = require('../src/PathUrl');
 
-const swagger = require('../../../legacy-stuff/swagger');
-
 const oas = require('./fixtures/petstore/oas');
 
 const path = '/pet/{petId}';
