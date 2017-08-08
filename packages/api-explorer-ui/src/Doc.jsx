@@ -11,11 +11,8 @@ const getPathOperation = require('./lib/get-path-operation');
 const showCode = require('./lib/show-code');
 
 function Doc({ doc, oas }) {
-  // TODO rename swagger -> oas
-  const swagger = oas;
-
-  const path = getPath(swagger, doc);
-  const pathOperation = getPathOperation(swagger, doc);
+  const path = getPath(oas, doc);
+  const pathOperation = getPathOperation(oas, doc);
 
   return (
     <div className="hub-reference" id={`page-${doc.slug}`}>
@@ -39,7 +36,7 @@ function Doc({ doc, oas }) {
         <div className="hub-api">
           <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} />
           {
-            showCode(swagger, pathOperation) && (
+            showCode(oas, pathOperation) && (
               <div className="hub-reference-section hub-reference-section-code">
                 <div className="hub-reference-left"></div>
                 <div className="hub-reference-right"></div>
@@ -49,7 +46,7 @@ function Doc({ doc, oas }) {
 
           <div className="hub-reference-section">
             <div className="hub-reference-left">
-              <Params swagger={swagger} path={path} pathOperation={pathOperation} />
+              <Params swagger={oas} path={path} pathOperation={pathOperation} />
             </div>
             <div className="hub-reference-right switcher">
             </div>
@@ -62,7 +59,7 @@ function Doc({ doc, oas }) {
       // TODO maybe we dont need to do this with a hidden input now
       // cos we can just pass it around?
       }
-      <input type="hidden" id={`swagger-${extensions.SEND_DEFAULTS}`} value={swagger[extensions.SEND_DEFAULTS]} />
+      <input type="hidden" id={`swagger-${extensions.SEND_DEFAULTS}`} value={oas[extensions.SEND_DEFAULTS]} />
     </div>
   );
 }
