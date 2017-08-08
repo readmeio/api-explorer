@@ -16,6 +16,7 @@ module.exports = (pathOperation, oas) => {
 
   function getBodyParam() {
     let schema;
+
     try {
       if (pathOperation.requestBody.content) {
         schema = pathOperation.requestBody.content['application/json'].schema;
@@ -26,13 +27,7 @@ module.exports = (pathOperation, oas) => {
 
     if (!schema) return {};
 
-    if (schema.$ref) {
-      const split = schema.$ref.split('/');
-      split.splice(1, 0, 'definitions');
-      schema.$ref = split.join('/');
-    }
-
-    return { body: Object.assign({ description: types.body }, { schema }) };
+    return { body: Object.assign({ description: types.body }, schema) };
   }
 
   return {
