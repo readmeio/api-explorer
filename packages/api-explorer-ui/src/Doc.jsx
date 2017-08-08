@@ -37,7 +37,7 @@ function Doc({ doc, oas }) {
       {
         doc.type === 'endpoint' && (
         <div className="hub-api">
-          <PathUrl swagger={swagger} method={doc.api.method} />
+          <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} />
           {
             showCode(swagger, pathOperation) && (
               <div className="hub-reference-section hub-reference-section-code">
