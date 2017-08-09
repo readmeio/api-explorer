@@ -5,6 +5,7 @@ const extensions = require('readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
+const CodeSample = require('./CodeSample');
 
 const getPath = require('./lib/get-path');
 const getPathOperation = require('./lib/get-path-operation');
@@ -35,10 +36,13 @@ function Doc({ doc, oas }) {
         doc.type === 'endpoint' && (
         <div className="hub-api">
           <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} />
+
           {
             showCode(oas, pathOperation) && (
               <div className="hub-reference-section hub-reference-section-code">
-                <div className="hub-reference-left"></div>
+                <div className="hub-reference-left">
+                  <CodeSample oas={oas} />
+                </div>
                 <div className="hub-reference-right"></div>
               </div>
             )
