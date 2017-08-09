@@ -21,6 +21,7 @@ describe('tabs', () => {
           [extensions.SAMPLES_LANGUAGES]: languages,
         }}
         operation={operation}
+        setLanguage={() => {}}
       />,
     );
 
@@ -36,6 +37,7 @@ describe('tabs', () => {
           [extensions.SAMPLES_LANGUAGES]: ['node'],
         }}
         operation={operation}
+        setLanguage={() => {}}
       />,
     );
 
@@ -53,6 +55,7 @@ describe('code examples', () => {
           [extensions.SAMPLES_LANGUAGES]: languages,
         }}
         operation={operation}
+        setLanguage={() => {}}
       />,
     );
 
@@ -61,19 +64,21 @@ describe('code examples', () => {
   });
 });
 
-describe('selected language', () => {
-  test('should default to the first language', () => {
-    const languages = ['node', 'curl'];
+describe('updating language', () => {
+  test('should call setLanguage', () => {
+    const setLanguage = jest.fn();
+
     const codeSample = shallow(
       <CodeSample
         oas={{
           [extensions.SAMPLES_ENABLED]: true,
-          [extensions.SAMPLES_LANGUAGES]: languages,
+          [extensions.SAMPLES_LANGUAGES]: ['node'],
         }}
-        operation={operation}
+        setLanguage={setLanguage}
       />,
     );
 
-    expect(codeSample.state('language')).toBe('node');
+    codeSample.find('.hub-lang-switch-node').simulate('click');
+    expect(setLanguage.mock.calls[0]).toEqual(['node']);
   });
 });
