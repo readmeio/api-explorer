@@ -11,7 +11,7 @@ const getPath = require('./lib/get-path');
 const getPathOperation = require('./lib/get-path-operation');
 const showCode = require('./lib/show-code');
 
-function Doc({ doc, oas }) {
+function Doc({ doc, oas, setLanguage }) {
   const path = getPath(oas, doc);
   const pathOperation = getPathOperation(oas, doc);
 
@@ -41,7 +41,7 @@ function Doc({ doc, oas }) {
             showCode(oas, pathOperation) && (
               <div className="hub-reference-section hub-reference-section-code">
                 <div className="hub-reference-left">
-                  <CodeSample oas={oas} />
+                  <CodeSample oas={oas} setLanguage={setLanguage} />
                 </div>
                 <div className="hub-reference-right"></div>
               </div>
@@ -83,4 +83,6 @@ Doc.propTypes = {
       path: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  oas: PropTypes.shape({}).isRequired,
+  setLanguage: PropTypes.func.isRequired,
 };

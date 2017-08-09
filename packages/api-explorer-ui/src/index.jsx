@@ -13,23 +13,28 @@ class ApiExplorer extends React.Component {
       const firstOas = Object.keys(this.props.oasFiles)[0];
       this.state.language = this.props.oasFiles[firstOas][extensions.SAMPLES_LANGUAGES][0];
     } catch (e) {} // eslint-disable-line no-empty
+
+    this.setLanguage = this.setLanguage.bind(this);
   }
   setLanguage(language) {
     this.setState({ language });
   }
   render() {
     return (
-      <div>
-        {
-          this.props.docs.map(doc => (
-            <Doc
-              key={doc._id}
-              doc={doc}
-              oas={doc.category.apiSetting ? this.props.oasFiles[doc.category.apiSetting] : {}}
-            />
-            ),
-          )
-        }
+      <div className={`is-lang-${this.state.language}`}>
+        <div id="hub-reference">
+          {
+            this.props.docs.map(doc => (
+              <Doc
+                key={doc._id}
+                doc={doc}
+                oas={doc.category.apiSetting ? this.props.oasFiles[doc.category.apiSetting] : {}}
+                setLanguage={this.setLanguage}
+              />
+              ),
+            )
+          }
+        </div>
       </div>
     );
   }

@@ -31,11 +31,11 @@ function CodeSample({ oas, setLanguage }) {
                 oas[extensions.SAMPLES_LANGUAGES].map(lang =>
                   (
                     <li key={lang}>
-                      <button
+                      <a
                         role="link"
                         className={`hub-lang-switch-${lang}`}
                         onClick={setLanguage.bind(null, lang)}
-                      >{lang}</button>
+                      >{lang}</a>
                     </li>
                   ),
                 )
