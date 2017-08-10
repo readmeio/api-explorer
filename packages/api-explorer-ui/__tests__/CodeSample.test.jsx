@@ -6,8 +6,6 @@ const CodeSample = require('../src/CodeSample');
 
 const oas = require('./fixtures/petstore/oas');
 
-const operation = oas.paths['/pet/{petId}'].get;
-
 describe('tabs', () => {
   // TODO this doesnt work in readme
   test('should display tabs if there are examples in the oas file');
@@ -19,9 +17,13 @@ describe('tabs', () => {
         oas={{
           [extensions.SAMPLES_ENABLED]: true,
           [extensions.SAMPLES_LANGUAGES]: languages,
+          servers: [
+            { url: 'http://example.com' },
+          ],
         }}
-        operation={operation}
         setLanguage={() => {}}
+        path="/pet/{id}"
+        method="get"
       />,
     );
 
@@ -36,8 +38,9 @@ describe('tabs', () => {
           [extensions.SAMPLES_ENABLED]: false,
           [extensions.SAMPLES_LANGUAGES]: ['node'],
         }}
-        operation={operation}
         setLanguage={() => {}}
+        path="/pet/{id}"
+        method="get"
       />,
     );
 
@@ -53,9 +56,13 @@ describe('code examples', () => {
         oas={{
           [extensions.SAMPLES_ENABLED]: true,
           [extensions.SAMPLES_LANGUAGES]: languages,
+          servers: [
+            { url: 'http://example.com' },
+          ],
         }}
-        operation={operation}
         setLanguage={() => {}}
+        path="/pet/{id}"
+        method="get"
       />,
     );
 
@@ -73,8 +80,13 @@ describe('updating language', () => {
         oas={{
           [extensions.SAMPLES_ENABLED]: true,
           [extensions.SAMPLES_LANGUAGES]: ['node'],
+          servers: [
+            { url: 'http://example.com' },
+          ],
         }}
         setLanguage={setLanguage}
+        path="/pet/{id}"
+        method="get"
       />,
     );
 

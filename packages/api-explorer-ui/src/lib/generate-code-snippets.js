@@ -1,0 +1,71 @@
+const HTTPSnippet = require('httpsnippet');
+const generateHar = require('./oas-to-har');
+
+const supportedLanguages = {
+  node: {
+    httpsnippet: ['node', 'request'],
+    highlight: 'javascript',
+    name: 'Node',
+  },
+  curl: {
+    httpsnippet: ['shell', 'curl'],
+    highlight: 'shell',
+    name: 'cURL',
+  },
+  ruby: {
+    httpsnippet: ['ruby'],
+    highlight: 'ruby',
+    name: 'Ruby',
+  },
+  javascript: {
+    httpsnippet: ['javascript', 'jq'],
+    highlight: 'javascript',
+    name: 'JavaScript',
+  },
+  objectivec: {
+    httpsnippet: ['objc', 'NSURLSession'],
+    highlight: 'objectivec',
+    name: 'Objective-C',
+  },
+  python: {
+    httpsnippet: ['python', 'requests'],
+    highlight: 'python',
+    name: 'Python',
+  },
+  java: {
+    httpsnippet: ['java', 'okhttp'],
+    highlight: 'java',
+    name: 'Java',
+  },
+  php: {
+    httpsnippet: ['php', 'curl'],
+    highlight: 'php',
+    name: 'PHP',
+  },
+  csharp: {
+    httpsnippet: ['csharp', 'restsharp'],
+    highlight: 'text/x-csharp',
+    name: 'C#',
+  },
+  swift: {
+    httpsnippet: ['swift', 'nsurlsession'],
+    highlight: 'swift',
+    name: 'Swift',
+  },
+  go: {
+    httpsnippet: ['go', 'native'],
+    highlight: 'go',
+    name: 'Go',
+  },
+};
+
+module.exports = (oas, path, method, languages) => {
+  const har = generateHar(oas, path, method);
+  const snippet = new HTTPSnippet(har);
+
+  return languages.reduce((snippets, lang) => {
+    return Object.assign(snippets, {
+      [lang]: snippet.convert(...supportedLanguages[lang].httpsnippet),
+    });
+  }, {});
+};

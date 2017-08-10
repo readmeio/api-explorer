@@ -1,9 +1,10 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('readme-oas-extensions');
-const classNames = require('classnames');
 
-function CodeSample({ oas, setLanguage }) {
+const generateCodeSnippets = require('./lib/generate-code-snippets');
+
+function CodeSample({ oas, setLanguage, path, method }) {
   return (
     <div className="code-sample tabber-parent">
       {
@@ -65,17 +66,17 @@ function CodeSample({ oas, setLanguage }) {
       {(() => {
         if (!oas[extensions.SAMPLES_ENABLED]) return null;
 
+        const snippets = generateCodeSnippets(oas, path, method, oas[extensions.SAMPLES_LANGUAGES]);
+
         return (
           <div className="hub-code-auto">
             <i className="icon icon-sync icon-spin" ng-show="codeLoading" />
             {
-              oas[extensions.SAMPLES_LANGUAGES].map(lang =>
-                (
-                  <pre key={lang} className={`tomorrow-night hub-lang hub-lang-${lang}`}>
-                    {lang}
-                  </pre>
-                ),
-              )
+              Object.keys(snippets).map(lang => (
+                <pre key={lang} className={`tomorrow-night hub-lang hub-lang-${lang}`}>
+                  {snippets[lang]}
+                </pre>
+              ))
             }
           </div>
         );
@@ -88,6 +89,8 @@ function CodeSample({ oas, setLanguage }) {
 CodeSample.propTypes = {
   oas: PropTypes.shape({}).isRequired,
   setLanguage: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
+  method: PropTypes.string.isRequired,
 };
 
 module.exports = CodeSample;

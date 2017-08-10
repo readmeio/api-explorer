@@ -41,7 +41,7 @@ function Doc({ doc, oas, setLanguage }) {
             showCode(oas, pathOperation) && (
               <div className="hub-reference-section hub-reference-section-code">
                 <div className="hub-reference-left">
-                  <CodeSample oas={oas} setLanguage={setLanguage} />
+                  <CodeSample oas={oas} setLanguage={setLanguage} path={doc.swagger.path} method={doc.api.method} />
                 </div>
                 <div className="hub-reference-right"></div>
               </div>
