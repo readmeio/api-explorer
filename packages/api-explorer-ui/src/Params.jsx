@@ -6,18 +6,21 @@ const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDow
 // const groupParams = require('../../../../lib/swagger/group-params');
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
-module.exports = function Params({ swagger, path, pathOperation }) {
+module.exports = function Params({ swagger, path, pathOperation, formData, onChange }) {
   // const paramGroups = groupParams(path, pathOperation);
 
   const jsonSchema = parametersToJsonSchema(pathOperation, swagger);
 
   return (
     <div className="api-manager">
-      { jsonSchema && (
+      {
+        jsonSchema && (
         <Form
           schema={jsonSchema}
           widgets={{ int64: UpDownWidget, int32: UpDownWidget }}
           onSubmit={form => console.log('submit', form.formData)}
+          formData={formData}
+          onChange={form => onChange(form.formData)}
         />
         )
       }

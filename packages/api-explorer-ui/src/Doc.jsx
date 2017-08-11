@@ -11,61 +11,74 @@ const getPath = require('./lib/get-path');
 const getPathOperation = require('./lib/get-path-operation');
 const showCode = require('./lib/show-code');
 
-function Doc({ doc, oas, setLanguage }) {
-  const path = getPath(oas, doc);
-  const pathOperation = getPathOperation(oas, doc);
+class Doc extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { formData: {} };
+    this.onChange = this.onChange.bind(this);
+  }
 
-  return (
-    <div className="hub-reference" id={`page-${doc.slug}`}>
-      <a className="anchor-page-title" id={doc.slug} />
+  onChange(formData) {
+    this.setState({ formData });
+  }
 
-      <div className="hub-reference-section hub-reference-section-top">
-        <div className="hub-reference-left">
-          <header>
-            {
-            // TODO suggested edits
-            }
-            <h2>{doc.title}</h2>
-            { doc.excerpt && <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} /> }
-          </header>
+  render() {
+    const { doc, oas, setLanguage } = this.props;
+    const path = getPath(oas, doc);
+    const pathOperation = getPathOperation(oas, doc);
+
+    return (
+      <div className="hub-reference" id={`page-${doc.slug}`}>
+        <a className="anchor-page-title" id={doc.slug} />
+
+        <div className="hub-reference-section hub-reference-section-top">
+          <div className="hub-reference-left">
+            <header>
+              {
+              // TODO suggested edits
+              }
+              <h2>{doc.title}</h2>
+              { doc.excerpt && <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} /> }
+            </header>
+          </div>
+          <div className="hub-reference-right">&nbsp;</div>
         </div>
-        <div className="hub-reference-right">&nbsp;</div>
-      </div>
 
-      {
-        doc.type === 'endpoint' && (
-        <div className="hub-api">
-          <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} />
+        {
+          doc.type === 'endpoint' && (
+          <div className="hub-api">
+            <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} />
 
-          {
-            showCode(oas, pathOperation) && (
-              <div className="hub-reference-section hub-reference-section-code">
-                <div className="hub-reference-left">
-                  <CodeSample oas={oas} setLanguage={setLanguage} path={doc.swagger.path} method={doc.api.method} />
+            {
+              showCode(oas, pathOperation) && (
+                <div className="hub-reference-section hub-reference-section-code">
+                  <div className="hub-reference-left">
+                    <CodeSample oas={oas} setLanguage={setLanguage} path={doc.swagger.path} method={doc.api.method} formData={this.state.formData} />
+                  </div>
+                  <div className="hub-reference-right"></div>
                 </div>
-                <div className="hub-reference-right"></div>
-              </div>
-            )
-          }
+              )
+            }
 
-          <div className="hub-reference-section">
-            <div className="hub-reference-left">
-              <Params swagger={oas} path={path} pathOperation={pathOperation} />
-            </div>
-            <div className="hub-reference-right switcher">
+            <div className="hub-reference-section">
+              <div className="hub-reference-left">
+                <Params swagger={oas} path={path} pathOperation={pathOperation} formData={this.state.formData} onChange={this.onChange} />
+              </div>
+              <div className="hub-reference-right switcher">
+              </div>
             </div>
           </div>
-        </div>
-        )
-      }
+          )
+        }
 
-      {
-      // TODO maybe we dont need to do this with a hidden input now
-      // cos we can just pass it around?
-      }
-      <input type="hidden" id={`swagger-${extensions.SEND_DEFAULTS}`} value={oas[extensions.SEND_DEFAULTS]} />
-    </div>
-  );
+        {
+        // TODO maybe we dont need to do this with a hidden input now
+        // cos we can just pass it around?
+        }
+        <input type="hidden" id={`swagger-${extensions.SEND_DEFAULTS}`} value={oas[extensions.SEND_DEFAULTS]} />
+      </div>
+    );
+  }
 }
 
 module.exports = Doc;
