@@ -26,12 +26,12 @@ describe('url', () => {
     }, '/path', '').url).toBe('http://example.com/path');
   });
 
-  it('should replace whitespace with %20', () => {
+  test('should replace whitespace with %20', () => {
     expect(oasToHar({
       servers: [{ url: 'http://example.com' }],
     }, '/path with spaces', '').url).toBe('http://example.com/path%20with%20spaces');
   });
 
-  it('should replace path params with values');
+  test('should replace path params with values');
 });
 
