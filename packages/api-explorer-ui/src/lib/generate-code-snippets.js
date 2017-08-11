@@ -1,5 +1,6 @@
 const HTTPSnippet = require('httpsnippet');
 const generateHar = require('./oas-to-har');
+const syntaxHighlighter = require('readme-syntax-highlighter');
 
 const supportedLanguages = {
   node: {
@@ -64,8 +65,9 @@ module.exports = (oas, path, method, languages) => {
   const snippet = new HTTPSnippet(har);
 
   return languages.reduce((snippets, lang) => {
+    const language = supportedLanguages[lang];
     return Object.assign(snippets, {
-      [lang]: snippet.convert(...supportedLanguages[lang].httpsnippet),
+      [lang]: syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight),
     });
   }, {});
 };

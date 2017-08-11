@@ -13,6 +13,6 @@ test('should generate a HTML snippet for each lang', () => {
 
   Object.keys(snippets).forEach((lang) => {
     expect(typeof snippets[lang]).toBe('string');
-    // expect(snippets[lang]).toEqual(expect.stringMatching(/cm-s-tomorrow-night/));
+    expect(snippets[lang]).toEqual(expect.stringMatching(/cm-s-tomorrow-night/));
   });
 });

@@ -34,6 +34,7 @@ function CodeSample({ oas, setLanguage, path, method }) {
                     <li key={lang}>
                       <a
                         role="link"
+                        href="#"
                         className={`hub-lang-switch-${lang}`}
                         onClick={setLanguage.bind(null, lang)}
                       >{lang}</a>
@@ -73,9 +74,11 @@ function CodeSample({ oas, setLanguage, path, method }) {
             <i className="icon icon-sync icon-spin" ng-show="codeLoading" />
             {
               Object.keys(snippets).map(lang => (
-                <pre key={lang} className={`tomorrow-night hub-lang hub-lang-${lang}`}>
-                  {snippets[lang]}
-                </pre>
+                <pre
+                  key={lang}
+                  className={`tomorrow-night hub-lang hub-lang-${lang}`}
+                  dangerouslySetInnerHTML={{ __html: snippets[lang] }}
+                />
               ))
             }
           </div>
