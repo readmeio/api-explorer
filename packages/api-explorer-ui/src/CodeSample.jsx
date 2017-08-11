@@ -36,7 +36,7 @@ function CodeSample({ oas, setLanguage, path, method }) {
                         role="link"
                         href="#"
                         className={`hub-lang-switch-${lang}`}
-                        onClick={setLanguage.bind(null, lang)}
+                        onClick={(e) => { e.preventDefault(); setLanguage(lang); }}
                       >{lang}</a>
                     </li>
                   ),
