@@ -47,5 +47,18 @@ module.exports = (oas, path = '', method = '', values = {}) => {
     return encodeURIComponent(formatter(formData, parameter, 'path'));
   });
 
+  const queryStrings = pathOperation && pathOperation.parameters && pathOperation.parameters.filter(param => param.in === 'query');
+
+  if (queryStrings && queryStrings.length) {
+    queryStrings.forEach((queryString) => {
+      const value = formatter(formData, queryString, 'query', true);
+      if (!value) return;
+      har.queryString.push({
+        name: queryString.name,
+        value: String(value),
+      });
+    });
+  }
+
   return har;
 };

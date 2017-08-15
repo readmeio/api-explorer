@@ -110,3 +110,60 @@ describe('path values', () => {
     }, '/param-path/{id}', 'get', { path: { id: '456' } }).url).toBe('/param-path/456');
   });
 });
+
+describe('query values', () => {
+  it('should not add on empty unrequired values', () => {
+    expect(oasToHar({
+      paths: {
+        '/query': {
+          get: {
+            parameters: [
+              {
+                name: 'a',
+                in: 'query',
+              },
+            ],
+          },
+        },
+      },
+    }, '/query', 'get').queryString).toEqual([]);
+  });
+
+  it('should set defaults if no value provided but is required', () => {
+    expect(oasToHar({
+      paths: {
+        '/query': {
+          get: {
+            parameters: [
+              {
+                name: 'a',
+                in: 'query',
+                required: true,
+                example: 'value',
+              },
+            ],
+          },
+        },
+      },
+    }, '/query', 'get').queryString).toEqual([{ name: 'a', value: 'value' }]);
+  });
+
+  it('should pass in value if one is set and prioritise provided values', () => {
+    expect(oasToHar({
+      paths: {
+        '/query': {
+          get: {
+            parameters: [
+              {
+                name: 'a',
+                in: 'query',
+                required: true,
+                example: 'value',
+              },
+            ],
+          },
+        },
+      },
+    }, '/query', 'get', { query: { a: 'test' } }).queryString).toEqual([{ name: 'a', value: 'test' }]);
+  });
+});
