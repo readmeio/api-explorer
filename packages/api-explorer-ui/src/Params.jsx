@@ -2,6 +2,7 @@ const React = require('react');
 const Form = require('react-jsonschema-form').default;
 
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
+const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 
 // const groupParams = require('../../../../lib/swagger/group-params');
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
@@ -17,7 +18,7 @@ module.exports = function Params({ swagger, path, pathOperation, formData, onCha
         jsonSchema && (
         <Form
           schema={jsonSchema}
-          widgets={{ int64: UpDownWidget, int32: UpDownWidget }}
+          widgets={{ int64: UpDownWidget, int32: UpDownWidget, uuid: TextWidget }}
           onSubmit={form => console.log('submit', form.formData)}
           formData={formData}
           onChange={form => onChange(form.formData)}
