@@ -8,7 +8,7 @@
     "pretest": "npm run lint && npm run inspect",
     "test": "nyc mocha",
     "posttest": "nyc check-coverage --statements 90 --branches 70 --functions 90 --lines 90",
-    "example": "budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx"
+    "example": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer & budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
@@ -24,6 +24,7 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "budo": "^10.0.3",
+    "derequire": "^2.0.6",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-plugin-import": "^2.7.0",
