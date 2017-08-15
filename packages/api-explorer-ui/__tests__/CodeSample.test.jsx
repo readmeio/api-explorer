@@ -4,8 +4,6 @@ const extensions = require('readme-oas-extensions');
 
 const CodeSample = require('../src/CodeSample');
 
-const oas = require('./fixtures/petstore/oas');
-
 describe('tabs', () => {
   // TODO this doesnt work in readme
   test('should display tabs if there are examples in the oas file');
@@ -90,7 +88,7 @@ describe('updating language', () => {
       />,
     );
 
-    codeSample.find('.hub-lang-switch-node').simulate('click');
+    codeSample.find('.hub-lang-switch-node').simulate('click', { preventDefault: () => {} });
     expect(setLanguage.mock.calls[0]).toEqual(['node']);
   });
 });
