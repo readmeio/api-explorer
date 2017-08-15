@@ -7,7 +7,6 @@ const generateCodeSnippets = require('./lib/generate-code-snippets');
 function CodeSample({ oas, setLanguage, path, method, formData }) {
   return (
     <div className="code-sample tabber-parent">
-      <pre>{JSON.stringify(formData)}</pre>
       {
         // if swaggerUtils.showCodeExamples(swagger).length
         //   ul.code-sample-tabs
