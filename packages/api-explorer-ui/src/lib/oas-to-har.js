@@ -60,5 +60,18 @@ module.exports = (oas, path = '', method = '', values = {}) => {
     });
   }
 
+  const headers = pathOperation && pathOperation.parameters && pathOperation.parameters.filter(param => param.in === 'header');
+
+  if (headers && headers.length) {
+    headers.forEach((header) => {
+      const value = formatter(formData, header, 'header', true);
+      if (!value) return;
+      har.headers.push({
+        name: header.name,
+        value: String(value),
+      });
+    });
+  }
+
   return har;
 };

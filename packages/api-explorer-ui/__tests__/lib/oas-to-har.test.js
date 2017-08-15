@@ -167,3 +167,60 @@ describe('query values', () => {
     }, '/query', 'get', { query: { a: 'test' } }).queryString).toEqual([{ name: 'a', value: 'test' }]);
   });
 });
+
+describe('header values', () => {
+  it('should not add on empty unrequired values', () => {
+    expect(oasToHar({
+      paths: {
+        '/header': {
+          get: {
+            parameters: [
+              {
+                name: 'a',
+                in: 'header',
+              },
+            ],
+          },
+        },
+      },
+    }, '/header', 'get').headers).toEqual([]);
+  });
+
+  it('should set defaults if no value provided but is required', () => {
+    expect(oasToHar({
+      paths: {
+        '/header': {
+          get: {
+            parameters: [
+              {
+                name: 'a',
+                in: 'header',
+                required: true,
+                example: 'value',
+              },
+            ],
+          },
+        },
+      },
+    }, '/header', 'get').headers).toEqual([{ name: 'a', value: 'value' }]);
+  });
+
+  it('should pass in value if one is set and prioritise provided values', () => {
+    expect(oasToHar({
+      paths: {
+        '/header': {
+          get: {
+            parameters: [
+              {
+                name: 'a',
+                in: 'header',
+                required: true,
+                example: 'value',
+              },
+            ],
+          },
+        },
+      },
+    }, '/header', 'get', { header: { a: 'test' } }).headers).toEqual([{ name: 'a', value: 'test' }]);
+  });
+});
