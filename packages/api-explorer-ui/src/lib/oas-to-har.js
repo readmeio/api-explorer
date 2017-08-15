@@ -90,7 +90,7 @@ module.exports = (oas, path = '', method = '', values = {}) => {
 
   const body = getBodyParam(pathOperation);
 
-  if (body && Object.keys(body).length) {
+  if (body && Object.keys(body).length && Object.keys(formData.body).length) {
     har.postData.text = JSON.stringify(formData.body);
   }
 

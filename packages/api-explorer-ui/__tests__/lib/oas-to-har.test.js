@@ -226,7 +226,7 @@ describe('header values', () => {
 });
 
 describe('body values', () => {
-  it.skip('should not add on empty unrequired values', () => {
+  it('should not add on empty unrequired values', () => {
     expect(oasToHar({
       paths: {
         '/body': {
@@ -248,9 +248,10 @@ describe('body values', () => {
           },
         },
       },
-    }, '/body', 'get').postData.text).toEqual('');
+    }, '/body', 'get').postData.text).toEqual(undefined);
   });
 
+  // TODO extensions[SEND_DEFAULTS]
   it.skip('should set defaults if no value provided but is required', () => {
     expect(oasToHar({
       paths: {
