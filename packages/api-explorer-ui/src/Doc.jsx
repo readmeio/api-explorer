@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const extensions = require('readme-oas-extensions');
+const extensions = require('../../readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');

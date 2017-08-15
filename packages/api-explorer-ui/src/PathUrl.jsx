@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const extensions = require('readme-oas-extensions');
+const extensions = require('../../readme-oas-extensions');
 
 function splitPath(path) {
   return path.split(/({\w.+})/).filter(Boolean).map(part => {
