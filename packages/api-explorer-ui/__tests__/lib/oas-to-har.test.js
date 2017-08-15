@@ -224,3 +224,86 @@ describe('header values', () => {
     }, '/header', 'get', { header: { a: 'test' } }).headers).toEqual([{ name: 'a', value: 'test' }]);
   });
 });
+
+describe('body values', () => {
+  it.skip('should not add on empty unrequired values', () => {
+    expect(oasToHar({
+      paths: {
+        '/body': {
+          get: {
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }, '/body', 'get').postData.text).toEqual('');
+  });
+
+  it.skip('should set defaults if no value provided but is required', () => {
+    expect(oasToHar({
+      paths: {
+        '/body': {
+          get: {
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: { a: 'value' },
+                },
+              },
+            },
+          },
+        },
+      },
+    }, '/body', 'get').postData.text).toEqual(JSON.stringify({ a: 'value' }));
+  });
+
+  it('should pass in value if one is set and prioritise provided values', () => {
+    expect(oasToHar({
+      paths: {
+        '/body': {
+          get: {
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: { a: 'value' },
+                },
+              },
+            },
+          },
+        },
+      },
+    }, '/body', 'get', { body: { a: 'test' } }).postData.text).toEqual(JSON.stringify({ a: 'test' }));
+  });
+});
+
+describe('form data values', () => {})

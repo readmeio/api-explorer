@@ -27,6 +27,21 @@ const defaultValues = Object.keys(require('./parameters-to-json-schema').types).
   return Object.assign(prev, { [curr]: {} });
 }, {});
 
+// TODO use this from parameters-to-json-schema
+function getBodyParam(pathOperation) {
+  let schema;
+
+  try {
+    if (pathOperation.requestBody.content) {
+      schema = pathOperation.requestBody.content['application/json'].schema;
+    } else {
+      schema = pathOperation.requestBody;
+    }
+  } catch (e) {}
+
+  return schema || {};
+}
+
 module.exports = (oas, path = '', method = '', values = {}) => {
   const formData = Object.assign({}, defaultValues, values);
   const har = {
@@ -71,6 +86,12 @@ module.exports = (oas, path = '', method = '', values = {}) => {
         value: String(value),
       });
     });
+  }
+
+  const body = getBodyParam(pathOperation);
+
+  if (body && Object.keys(body).length) {
+    har.postData.text = JSON.stringify(formData.body);
   }
 
   return har;
