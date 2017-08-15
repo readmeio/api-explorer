@@ -60,8 +60,8 @@ const supportedLanguages = {
   },
 };
 
-module.exports = (oas, path, method, languages) => {
-  const har = generateHar(oas, path, method);
+module.exports = (oas, path, method, values, languages) => {
+  const har = generateHar(oas, path, method, values);
   const snippet = new HTTPSnippet(har);
 
   return languages.reduce((snippets, lang) => {

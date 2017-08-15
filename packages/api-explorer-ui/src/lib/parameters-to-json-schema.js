@@ -1,18 +1,18 @@
+// https://github.com/OAI/OpenAPI-Specification/blob/4875e02d97048d030de3060185471b9f9443296c/versions/3.0.md#parameterObject
+const types = {
+  path: 'Path Params',
+  query: 'Query Params',
+  body: 'Body Params',
+  cookie: 'Cookie Params',
+  formData: 'Form Data',
+  header: 'Headers',
+};
+
 module.exports = (pathOperation, oas) => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
 
   if (!hasParameters && !hasRequestBody) return null;
-
-  // https://github.com/OAI/OpenAPI-Specification/blob/4875e02d97048d030de3060185471b9f9443296c/versions/3.0.md#parameterObject
-  const types = {
-    path: 'Path Params',
-    query: 'Query Params',
-    body: 'Body Params',
-    cookie: 'Cookie Params',
-    formData: 'Form Data',
-    header: 'Headers',
-  };
 
   function getBodyParam() {
     let schema;
@@ -65,3 +65,6 @@ module.exports = (pathOperation, oas) => {
     }, {})),
   };
 };
+
+// Exported for use in oas-to-har for default values object
+module.exports.types = types;

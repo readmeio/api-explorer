@@ -68,7 +68,7 @@ function CodeSample({ oas, setLanguage, path, method, formData }) {
       {(() => {
         if (!oas[extensions.SAMPLES_ENABLED]) return null;
 
-        const snippets = generateCodeSnippets(oas, path, method, oas[extensions.SAMPLES_LANGUAGES]);
+        const snippets = generateCodeSnippets(oas, path, method, formData, oas[extensions.SAMPLES_LANGUAGES]);
 
         return (
           <div className="hub-code-auto">
