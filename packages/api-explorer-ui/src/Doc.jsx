@@ -7,8 +7,7 @@ const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
 
-const getPath = require('./lib/get-path');
-const getPathOperation = require('./lib/get-path-operation');
+const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
 
 class Doc extends React.Component {
@@ -16,6 +15,7 @@ class Doc extends React.Component {
     super(props);
     this.state = { formData: {} };
     this.onChange = this.onChange.bind(this);
+    this.oas = new Oas(this.props.oas);
   }
 
   onChange(formData) {
@@ -23,9 +23,9 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, oas, setLanguage } = this.props;
-    const path = getPath(oas, doc);
-    const pathOperation = getPathOperation(oas, doc);
+    const { doc, setLanguage } = this.props;
+    const oas = this.oas;
+    const pathOperation = oas.getPathOperation(doc);
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
@@ -62,7 +62,7 @@ class Doc extends React.Component {
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
-                <Params swagger={oas} path={path} pathOperation={pathOperation} formData={this.state.formData} onChange={this.onChange} />
+                <Params swagger={oas} pathOperation={pathOperation} formData={this.state.formData} onChange={this.onChange} />
               </div>
               <div className="hub-reference-right switcher">
               </div>

@@ -4,7 +4,7 @@ const PropTypes = require('prop-types');
 const extensions = require('../../readme-oas-extensions');
 
 function splitPath(path) {
-  return path.split(/({\w.+})/).filter(Boolean).map(part => {
+  return path.split(/({\w.+})/).filter(Boolean).map((part) => {
     return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
   });
 }
@@ -55,6 +55,7 @@ PathUrl.propTypes = {
   oas: PropTypes.shape({
     servers: PropTypes.array.isRequired,
   }).isRequired,
+  path: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired,
 };
 
