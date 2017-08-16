@@ -8,7 +8,8 @@
     "pretest": "npm run lint && npm run inspect",
     "test": "nyc mocha",
     "posttest": "nyc check-coverage --statements 90 --branches 70 --functions 90 --lines 90",
-    "example": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer & budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx"
+    "example": "budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx",
+    "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
