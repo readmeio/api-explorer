@@ -1,0 +1,105 @@
+a {
+  color: #5ea43f;
+}
+a:hover {
+  color: #345a23;
+}
+a.text-muted:hover {
+  color: #5ea43f;
+}
+.btn.btn-primary {
+  background-color: #5ea43f;
+}
+.btn.btn-primary:hover {
+  background-color: #345a23;
+}
+.theme-line #hub-landing-top h2 {
+  color: #5ea43f;
+}
+#hub-landing-top .btn:hover {
+  color: #5ea43f;
+}
+.theme-line #hub-landing-top .btn:hover {
+  color: #fff;
+}
+.theme-solid header#hub-header #header-top {
+  background-color: #5ea43f;
+}
+.theme-solid.header-gradient header#hub-header #header-top {
+  background: linear-gradient(to bottom, #5ea43f, #3e6d2a);
+}
+.theme-solid.header-custom header#hub-header #header-top {
+  background-image: url("undefined");
+}
+.theme-line header#hub-header #header-top {
+  border-bottom-color: #5ea43f;
+}
+.theme-line header#hub-header #header-top .btn {
+  background-color: #5ea43f;
+}
+header#hub-header #header-top #header-logo {
+  width: 146px;
+  height: 40px;
+  margin-top: 0px;
+  background-image: url("https://files.readme.io/JkLUlRaMSUOuUatO0XDi_sample-logo.png");
+}
+nav#hub-sidebar ul a.active {
+  background-color: #5ea43f;
+}
+#hub-subheader-parent #hub-subheader .hub-subheader-breadcrumbs .dropdown-menu a:hover {
+  background-color: #5ea43f;
+}
+.discussion .submit-vote.submit-vote-parent.voted a.submit-vote-button {
+  background-color: #5ea43f;
+}
+section#hub-discuss .discussion a .discuss-body h4 {
+  color: #5ea43f;
+}
+section#hub-discuss .discussion a:hover .discuss-body h4 {
+  color: #345a23;
+}
+#hub-subheader-parent #hub-subheader.sticky-header.sticky {
+  border-bottom-color: #5ea43f;
+}
+#hub-subheader-parent #hub-subheader.sticky-header.sticky .search-box {
+  border-bottom-color: #5ea43f;
+}
+#hub-search-results h3 em {
+  color: #5ea43f;
+}
+.main_background,
+.tag-item {
+  background: #5ea43f !important;
+}
+.main_background:hover {
+  background: #345a23 !important;
+}
+.main_color {
+  color: #5ea43f !important;
+}
+.main_color_hover:hover {
+  color: #5ea43f !important;
+}
+section#hub-discuss h1 {
+  color: #5ea43f;
+}
+#hub-reference .hub-api .api-manager .param-table .param-item .param-item-info .param-item-table .param-item-input textarea:focus,
+#hub-reference .hub-api .api-manager .param-table .param-item .param-item-info .param-item-table .param-item-input input[type="text"]:focus,
+#hub-reference .hub-api .api-manager .param-table .param-item .param-item-info .param-item-table .param-item-input input[type="number"]:focus {
+  border: 1px solid #5ea43f;
+}
+#hub-reference .hub-api .api-definition .api-try-it-out.active {
+  border-color: #5ea43f;
+  background-color: #5ea43f;
+}
+#hub-reference .hub-api .api-definition .api-try-it-out.active:hover {
+  background-color: #345a23;
+  border-color: #345a23;
+}
+#hub-reference .hub-api .api-definition .api-try-it-out:hover {
+  border-color: #5ea43f;
+  color: #5ea43f;
+}
+#hub-reference .hub-reference .hub-reference-section .hub-reference-left header .hub-reference-edit:hover {
+  color: #5ea43f;
+}
