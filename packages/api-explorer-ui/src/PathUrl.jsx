@@ -27,7 +27,7 @@ function PathUrl({ oas, path, operationId, method, loading, dirty }) {
                 {
                   !loading && (
                     <span className="try-it-now-btn">
-                      <span className="fa fa-compass" />
+                      <span className="fa fa-compass" />&nbsp;
                       <span>Try It</span>
                     </span>
                   )
