@@ -47,7 +47,7 @@ class Doc extends React.Component {
         {
           doc.type === 'endpoint' && (
           <div className="hub-api">
-            <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} />
+            <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} operationId={pathOperation.operationId} />
 
             {
               showCode(oas, pathOperation) && (
@@ -62,7 +62,7 @@ class Doc extends React.Component {
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
-                <Params swagger={oas} pathOperation={pathOperation} formData={this.state.formData} onChange={this.onChange} />
+                <Params oas={oas} pathOperation={pathOperation} formData={this.state.formData} onChange={this.onChange} />
               </div>
               <div className="hub-reference-right switcher">
               </div>

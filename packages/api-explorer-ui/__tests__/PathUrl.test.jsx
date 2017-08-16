@@ -8,7 +8,7 @@ const path = '/pet/{petId}';
 const method = 'get';
 const operation = oas.paths[path][method];
 
-const props = { oas, path, method, operation };
+const props = { oas, path, method, operation, operationId: operation.operationId };
 
 test('should display the path', () => {
   const pathUrl = shallow(<PathUrl {...props} />);
@@ -59,5 +59,13 @@ describe('dirty prop', () => {
     expect(shallow(
       <PathUrl {...props} dirty={false} />,
     ).find('button.active').length).toBe(0);
+  });
+});
+
+describe('button form attribute', () => {
+  test('should be set to the operationId', () => {
+    expect(shallow(
+      <PathUrl {...props} operationId="123" />,
+    ).find('button[form="form-123"]').length).toBe(1);
   });
 });

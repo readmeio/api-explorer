@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const classNames = require('classNames');
+const classNames = require('classnames');
 
 const extensions = require('../../readme-oas-extensions');
 
@@ -10,7 +10,7 @@ function splitPath(path) {
   });
 }
 
-function PathUrl({ oas, path, method, loading, dirty }) {
+function PathUrl({ oas, path, operationId, method, loading, dirty }) {
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
@@ -23,7 +23,7 @@ function PathUrl({ oas, path, method, loading, dirty }) {
               //   <!-- authBox -->
               }
 
-              <button className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
+              <button form={`form-${operationId}`} className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
                 {
                   !loading && (
                     <span className="try-it-now-btn">
