@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "main": "dist/index.js",
   "dependencies": {
+    "classnames": "^2.2.5",
     "httpsnippet": "^1.16.5",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",

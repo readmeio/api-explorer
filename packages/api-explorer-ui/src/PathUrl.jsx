@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const classNames = require('classNames');
 
 const extensions = require('../../readme-oas-extensions');
 
@@ -9,7 +10,7 @@ function splitPath(path) {
   });
 }
 
-function PathUrl({ oas, path, method }) {
+function PathUrl({ oas, path, method, loading, dirty }) {
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
@@ -21,11 +22,20 @@ function PathUrl({ oas, path, method }) {
               // <!-- oasUtils.hasAuth(oas) && -->
               //   <!-- authBox -->
               }
-              <button className="api-try-it-out" type="submit" ng-disabled="results.loading" ng-className="{active: endpointForm.$dirty}">
-                <span className="fa fa-compass" ng-show='!results.loading'></span>
-                <span ng-show="!results.loading"></span>
-                <i className="fa fa-circle-o-notch fa-spin" ng-show='results.loading'></i>
 
+              <button className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
+                {
+                  !loading && (
+                    <span className="try-it-now-btn">
+                      <span className="fa fa-compass" />
+                      <span>Try It</span>
+                    </span>
+                  )
+                }
+
+                {
+                  loading && <i className="fa fa-circle-o-notch fa-spin" />
+                }
               </button>
             </div>
           }
