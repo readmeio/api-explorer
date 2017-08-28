@@ -1,28 +1,28 @@
-module.exports = function (type) {
-  return function (endpoint) {
-    endpoint._cache = endpoint._cache || {};
+module.exports = (type) => {
+  return (pathOperation) => {
+    pathOperation._cache = pathOperation._cache || {};
 
-    if (endpoint._cache[type]) return endpoint._cache[type];
+    if (pathOperation._cache[type]) return pathOperation._cache[type];
 
     const codes = [];
     if (type === 'results') { // Only examples so far...
-      Object.keys(endpoint.responses || {}).forEach((status) => {
-        const response = endpoint.responses[status];
+      Object.keys(pathOperation.responses || {}).forEach((status) => {
+        const response = pathOperation.responses[status];
 
         if (response.examples) {
-          const lang = Object.keys(response.examples)[0];
-          const example = response.examples[lang];
+          // const lang = Object.keys(response.examples)[0];
+          // const example = response.examples[lang];
 
-          codes.push({
-            code: _.isObject(example) ? JSON.stringify(example, undefined, 2) : example,
-            language: lang,
-            status,
-          });
+          // codes.push({
+          //   code: _.isObject(example) ? JSON.stringify(example, undefined, 2) : example,
+          //   language: lang,
+          //   status,
+          // });
         }
       });
     }
 
-    endpoint._cache[type] = codes;
+    pathOperation._cache[type] = codes;
     return codes;
   };
 };

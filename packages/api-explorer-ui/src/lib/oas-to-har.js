@@ -1,3 +1,5 @@
+const getSchema = require('./get-schema');
+
 // const format = {
 //   value: v => `__START_VALUE__${v}__END__`,
 //   default: v => `__START_DEFAULT__${v}__END__`,
@@ -26,21 +28,6 @@ function formatter(values, param, type, onlyIfExists) {
 const defaultValues = Object.keys(require('./parameters-to-json-schema').types).reduce((prev, curr) => {
   return Object.assign(prev, { [curr]: {} });
 }, {});
-
-// TODO use this from parameters-to-json-schema
-function getBodyParam(pathOperation) {
-  let schema;
-
-  try {
-    if (pathOperation.requestBody.content) {
-      schema = pathOperation.requestBody.content['application/json'].schema;
-    } else {
-      schema = pathOperation.requestBody;
-    }
-  } catch (e) {}
-
-  return schema || {};
-}
 
 module.exports = (oas, path = '', method = '', values = {}) => {
   const formData = Object.assign({}, defaultValues, values);
@@ -88,7 +75,7 @@ module.exports = (oas, path = '', method = '', values = {}) => {
     });
   }
 
-  const body = getBodyParam(pathOperation);
+  const body = getSchema(pathOperation) || {};
 
   if (body && Object.keys(body).length && Object.keys(formData.body).length) {
     har.postData.text = JSON.stringify(formData.body);

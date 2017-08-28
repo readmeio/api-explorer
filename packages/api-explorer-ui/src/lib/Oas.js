@@ -30,10 +30,10 @@ class Oas {
         key = Object.keys(requirement)[0];
         security = this.components.securitySchemes[key];
       } catch (e) {
-        return;
+        return false;
       }
 
-      if (!security) return;
+      if (!security) return false;
       let type = security.type;
       if (security.type === 'http' && security.scheme === 'basic') {
         type = 'Basic';
