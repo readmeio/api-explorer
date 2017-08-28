@@ -34,16 +34,16 @@ test('should display a dropdown for when multiple oauths are present', () => {
   expect(authBox.find('select option').map(option => option.text())).toEqual(['oauth', 'oauthDiff']);
 });
 
-test.skip('should be able to be opened by clicking padlock', () => {
+test('should have an open class when state is open', () => {
   const authBox = shallow(<AuthBox {...props} />);
 
-  expect(authBox.find('div.nopad').hasClass('open')).toBe(false);
+  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
 
-  authBox.find('hub-auth-dropdown').simulate('click', { preventDefault: () => {} });
+  authBox.instance().toggle({ preventDefault() {} });
 
-  expect(authBox.find('div.nopad').hasClass('open')).toBe(true);
+  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(true);
 
-  authBox.find('hub-auth-dropdown').simulate('click', { preventDefault: () => {} });
+  authBox.instance().toggle({ preventDefault() {} });
 
-  expect(authBox.find('div.nopad').hasClass('open')).toBe(false);
+  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
 });

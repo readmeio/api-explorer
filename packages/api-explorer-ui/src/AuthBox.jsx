@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const classNames = require('classnames');
 
 function renderSecurities(oas, path, method) {
   const securityTypes = oas.prepareSecurity(path, method);
@@ -24,20 +25,32 @@ function renderSecurities(oas, path, method) {
   });
 }
 
-function toggle() {}
+class AuthBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { open: false };
 
-function AuthBox({ oas, path, method }) {
-  if (!oas.hasAuth(path, method)) return null;
+    this.toggle = this.toggle.bind(this);
+  }
+  toggle(e) {
+    e.preventDefault();
+    this.setState({ open: !this.state.open });
+  }
+  render() {
+    const { oas, path, method } = this.props;
 
-  return (
-    <div className="hub-auth-dropdown" simple-dropdown="isAuthOpen">
-      <a href="" className="icon icon-user-lock" onClick={toggle}></a>
-      <div className="nopad">
-        <div>{ renderSecurities(oas, path, method) }</div>
+    if (!oas.hasAuth(path, method)) return null;
+
+    return (
+      <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.state.open })}>
+        <a href="" className="icon icon-user-lock" onClick={this.toggle}></a>
+        <div className="nopad">
+          <div className="triangle"></div>
+          <div>{ renderSecurities(oas, path, method) }</div>
+        </div>
       </div>
-    </div>
-  );
-
+    );
+  }
 
   // .hub-auth-dropdown()
   //   a.icon.icon-user-lock(href="" ng-click="toggle()")
