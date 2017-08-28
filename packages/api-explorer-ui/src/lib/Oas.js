@@ -23,10 +23,12 @@ class Oas {
   prepareSecurity(path, method) {
     const securityRequirements = this.getSecurity(path, method);
 
-    return Object.keys(securityRequirements).map((requirement) => {
+    return securityRequirements.map((requirement) => {
       let security;
+      let key;
       try {
-        security = this.components.securitySchemes[requirement];
+        key = Object.keys(requirement)[0];
+        security = this.components.securitySchemes[key];
       } catch (e) {
         return;
       }
@@ -43,7 +45,7 @@ class Oas {
         type = 'Header';
       }
 
-      security._key = requirement;
+      security._key = key;
       return { type, security };
     }).reduce((prev, next) => {
       if (!prev[next.type]) prev[next.type] = [];

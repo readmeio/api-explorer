@@ -19,8 +19,7 @@ function PathUrl({ oas, path, operationId, method, loading, dirty }) {
 
             <div className="api-definition-actions">
               {
-              // <!-- oasUtils.hasAuth(oas) && -->
-              //   <!-- authBox -->
+                // oas.hasAuth(path, method) && console.log(oas.prepareSecurity(path, method))
               }
 
               <button form={`form-${operationId}`} className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>

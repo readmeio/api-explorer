@@ -1,4 +1,5 @@
 const Oas = require('../../src/lib/Oas');
+const petstore = require('../fixtures/petstore/oas.json');
 
 describe('hasAuth()', () => {
   test('should return true if there is a top level security object', () => {
@@ -67,9 +68,9 @@ describe('prepareSecurity()', () => {
 
   function createSecurityOas(schemes) {
     // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securityRequirementObject
-    const security = Object.keys(schemes).reduce((prev, scheme) => {
-      return Object.assign(prev, { [scheme]: [] });
-    }, {});
+    const security = Object.keys(schemes).map((scheme) => {
+      return { [scheme]: [] };
+    });
 
     return new Oas({
       components: { securitySchemes: schemes },
@@ -118,6 +119,12 @@ describe('prepareSecurity()', () => {
     expect(oas.prepareSecurity(path, method)).toEqual({
       Header: [oas.components.securitySchemes.securityScheme],
     });
+  });
+
+  test('should work for petstore', () => {
+    const oas = new Oas(petstore);
+
+    expect(oas.prepareSecurity('/pet', 'post')).toMatchSnapshot();
   });
 
   test('should set a `key` property');
