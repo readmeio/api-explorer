@@ -1,5 +1,6 @@
 const Oas = require('../../src/lib/Oas');
 const petstore = require('../fixtures/petstore/oas.json');
+const multipleSecurities = require('../fixtures/multiple-securities/oas.json');
 
 describe('hasAuth()', () => {
   test('should return true if there is a top level security object', () => {
@@ -125,6 +126,12 @@ describe('prepareSecurity()', () => {
     const oas = new Oas(petstore);
 
     expect(oas.prepareSecurity('/pet', 'post')).toMatchSnapshot();
+  });
+
+  test('should work for multiple securities', () => {
+    const oas = new Oas(multipleSecurities);
+
+    expect(Object.keys(oas.prepareSecurity('/things', 'post')).length).toBe(2);
   });
 
   test('should set a `key` property');

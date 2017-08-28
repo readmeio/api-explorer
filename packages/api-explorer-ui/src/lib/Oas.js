@@ -47,7 +47,7 @@ class Oas {
 
       security._key = key;
       return { type, security };
-    }).reduce((prev, next) => {
+    }).filter(Boolean).reduce((prev, next) => {
       if (!prev[next.type]) prev[next.type] = [];
       prev[next.type].push(next.security);
       return prev;

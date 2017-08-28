@@ -2,6 +2,8 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 
+const AuthBox = require('./AuthBox');
+
 const extensions = require('../../readme-oas-extensions');
 
 function splitPath(path) {
@@ -19,7 +21,7 @@ function PathUrl({ oas, path, operationId, method, loading, dirty }) {
 
             <div className="api-definition-actions">
               {
-                // oas.hasAuth(path, method) && console.log(oas.prepareSecurity(path, method))
+                <AuthBox oas={oas} path={path} method={method} />
               }
 
               <button form={`form-${operationId}`} className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
