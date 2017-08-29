@@ -55,7 +55,7 @@ class Doc extends React.Component {
                   <div className="hub-reference-left">
                     <CodeSample oas={oas} setLanguage={setLanguage} path={doc.swagger.path} method={doc.api.method} formData={this.state.formData} />
                   </div>
-                  <div className="hub-reference-right"></div>
+                  <div className="hub-reference-right" />
                 </div>
               )
             }
@@ -64,8 +64,7 @@ class Doc extends React.Component {
               <div className="hub-reference-left">
                 <Params oas={oas} pathOperation={pathOperation} formData={this.state.formData} onChange={this.onChange} />
               </div>
-              <div className="hub-reference-right switcher">
-              </div>
+              <div className="hub-reference-right switcher" />
             </div>
           </div>
           )

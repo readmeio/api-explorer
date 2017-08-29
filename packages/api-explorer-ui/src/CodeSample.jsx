@@ -71,7 +71,7 @@ function CodeSample({ oas, setLanguage, path, method, formData }) {
 
         return (
           <div className="hub-code-auto">
-            <i className="icon icon-sync icon-spin" ng-show="codeLoading" />
+            <i className="icon icon-sync icon-spin" />
             {
               Object.keys(snippets).map(lang => (
                 <pre

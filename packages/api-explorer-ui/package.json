@@ -11,7 +11,7 @@
     "react-jsonschema-form": "^0.49.0"
   },
   "scripts": {
-    "lint": "eslint -f unix .",
+    "lint": "eslint -f unix . --ext js --ext jsx",
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run inspect",
     "test": "jest"

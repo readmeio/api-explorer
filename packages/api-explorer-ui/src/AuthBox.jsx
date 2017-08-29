@@ -43,9 +43,9 @@ class AuthBox extends React.Component {
 
     return (
       <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.state.open })}>
-        <a href="" className="icon icon-user-lock" onClick={this.toggle}></a>
+        <a href="" className="icon icon-user-lock" onClick={this.toggle} />
         <div className="nopad">
-          <div className="triangle"></div>
+          <div className="triangle" />
           <div>{ renderSecurities(oas, path, method) }</div>
         </div>
       </div>
