@@ -1,6 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
+const SecurityInput = require('./SecurityInput');
 
 function renderSecurities(oas, path, method) {
   const securityTypes = oas.prepareSecurity(path, method);
@@ -12,10 +13,24 @@ function renderSecurities(oas, path, method) {
         <div className="pad">
           <section>
             {
-              (type === 'OAuth2' && securities.length > 1) && (
-                <select>
-                  { securities.map(security => <option key={security._key} value={security._key}>{security._key}</option>) }
-                </select>
+              // https://github.com/readmeio/api-explorer/issues/20
+              // (type === 'OAuth2' && securities.length > 1) && (
+              //   <select>
+              //     {
+              //       securities.map(security =>
+              //         <option key={security._key} value={security._key}>{security._key}</option>,
+              //       )
+              //     }
+              //   </select>
+              // )
+            }
+            {
+              securities.map(security => (
+                <SecurityInput
+                  key={security._key}
+                  scheme={security}
+                  apiKey=""
+                />),
               )
             }
           </section>
