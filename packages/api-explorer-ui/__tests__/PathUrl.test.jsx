@@ -8,7 +8,15 @@ const path = '/pet/{petId}';
 const method = 'get';
 const operation = oas.paths[path][method];
 
-const props = { oas, path, method, operation, operationId: operation.operationId };
+const props = {
+  oas,
+  path,
+  method,
+  operation,
+  operationId: operation.operationId,
+  dirty: false,
+  loading: false,
+};
 
 test('should display the path', () => {
   const pathUrl = shallow(<PathUrl {...props} />);

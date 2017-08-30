@@ -13,13 +13,13 @@ const showCode = require('./lib/show-code');
 class Doc extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { formData: {} };
+    this.state = { formData: {}, dirty: false, loading: false };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
   }
 
   onChange(formData) {
-    this.setState({ formData });
+    this.setState({ formData, dirty: true });
   }
 
   render() {
@@ -52,6 +52,8 @@ class Doc extends React.Component {
               path={doc.swagger.path}
               method={doc.api.method}
               operationId={pathOperation.operationId}
+              dirty={this.state.dirty}
+              loading={this.state.loading}
             />
 
             {

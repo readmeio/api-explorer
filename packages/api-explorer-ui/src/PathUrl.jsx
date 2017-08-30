@@ -67,7 +67,10 @@ PathUrl.propTypes = {
     servers: PropTypes.array.isRequired,
   }).isRequired,
   path: PropTypes.string.isRequired,
+  operationId: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired,
+  dirty: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 module.exports = PathUrl;
