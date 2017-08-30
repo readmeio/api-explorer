@@ -47,13 +47,24 @@ class Doc extends React.Component {
         {
           doc.type === 'endpoint' && (
           <div className="hub-api">
-            <PathUrl oas={oas} path={doc.swagger.path} method={doc.api.method} operationId={pathOperation.operationId} />
+            <PathUrl
+              oas={oas}
+              path={doc.swagger.path}
+              method={doc.api.method}
+              operationId={pathOperation.operationId}
+            />
 
             {
               showCode(oas, pathOperation) && (
                 <div className="hub-reference-section hub-reference-section-code">
                   <div className="hub-reference-left">
-                    <CodeSample oas={oas} setLanguage={setLanguage} path={doc.swagger.path} method={doc.api.method} formData={this.state.formData} />
+                    <CodeSample
+                      oas={oas}
+                      setLanguage={setLanguage}
+                      path={doc.swagger.path}
+                      method={doc.api.method}
+                      formData={this.state.formData}
+                    />
                   </div>
                   <div className="hub-reference-right" />
                 </div>
@@ -62,7 +73,12 @@ class Doc extends React.Component {
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
-                <Params oas={oas} pathOperation={pathOperation} formData={this.state.formData} onChange={this.onChange} />
+                <Params
+                  oas={oas}
+                  pathOperation={pathOperation}
+                  formData={this.state.formData}
+                  onChange={this.onChange}
+                />
               </div>
               <div className="hub-reference-right switcher" />
             </div>
