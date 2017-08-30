@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function oauth2({ scheme, apiKey, oauthUrl }) {
+function Oauth2({ scheme, apiKey, oauthUrl }) {
   if (!apiKey && oauthUrl) {
     return (
       <section>
@@ -34,21 +34,29 @@ function oauth2({ scheme, apiKey, oauthUrl }) {
   );
 }
 
-function SecurityInput(props) {
-  switch (props.scheme.type) {
-    case 'oauth2':
-      return oauth2(props);
-  }
-  return <span />;
-}
-
-SecurityInput.propTypes = {
-  scheme: PropTypes.shape({}).isRequired,
+Oauth2.propTypes = {
+  scheme: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+  }).isRequired,
   apiKey: PropTypes.string,
 };
 
-SecurityInput.defaultProps = {
+Oauth2.defaultProps = {
   apiKey: '',
+};
+
+function SecurityInput(props) {
+  switch (props.scheme.type) {
+    case 'oauth2':
+      return Oauth2(props);
+    default: return <span />;
+  }
+}
+
+SecurityInput.propTypes = {
+  scheme: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 module.exports = SecurityInput;
