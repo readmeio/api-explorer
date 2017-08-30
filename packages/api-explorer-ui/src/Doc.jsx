@@ -19,13 +19,18 @@ class Doc extends React.Component {
   }
 
   onChange(formData) {
-    this.setState({ formData, dirty: true });
+    this.setState((previousState) => {
+      return {
+        formData: Object.assign({}, previousState.formData, formData),
+        dirty: true,
+      };
+    });
   }
 
   render() {
     const { doc, setLanguage } = this.props;
     const oas = this.oas;
-    const pathOperation = oas.getPathOperation(doc);
+    const operation = oas.operation(doc.swagger.path, doc.api.method);
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
@@ -49,22 +54,19 @@ class Doc extends React.Component {
           <div className="hub-api">
             <PathUrl
               oas={oas}
-              path={doc.swagger.path}
-              method={doc.api.method}
-              operationId={pathOperation.operationId}
+              operation={operation}
               dirty={this.state.dirty}
               loading={this.state.loading}
             />
 
             {
-              showCode(oas, pathOperation) && (
+              showCode(oas, operation) && (
                 <div className="hub-reference-section hub-reference-section-code">
                   <div className="hub-reference-left">
                     <CodeSample
                       oas={oas}
                       setLanguage={setLanguage}
-                      path={doc.swagger.path}
-                      method={doc.api.method}
+                      operation={operation}
                       formData={this.state.formData}
                     />
                   </div>
@@ -77,7 +79,7 @@ class Doc extends React.Component {
               <div className="hub-reference-left">
                 <Params
                   oas={oas}
-                  pathOperation={pathOperation}
+                  operation={operation}
                   formData={this.state.formData}
                   onChange={this.onChange}
                 />

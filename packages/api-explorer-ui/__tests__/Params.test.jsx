@@ -2,18 +2,23 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const Params = require('../src/Params');
 
-const oas = require('./fixtures/petstore/oas');
+const Oas = require('../src/lib/Oas');
+const petstore = require('./fixtures/petstore/oas.json');
 
-const path = '/pet/{petId}';
-const method = 'get';
-const pathOperation = oas.paths[path][method];
+const oas = new Oas(petstore);
+const operation = oas.operation('/pet/{petId}', 'get');
 
-const props = { oas, pathOperation, formData: {}, onChange: () => {} };
+const props = {
+  oas,
+  operation,
+  formData: {},
+  onChange: () => {},
+};
 
 describe('form id attribute', () => {
   test('should be set to the operationId', () => {
     expect(shallow(
       <Params {...props} />,
-    ).find(`#form-${pathOperation.operationId}`).length).toBe(1);
+    ).find(`#form-${operation.operationId}`).length).toBe(1);
   });
 });

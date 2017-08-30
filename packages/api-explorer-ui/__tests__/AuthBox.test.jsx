@@ -6,17 +6,15 @@ const Oas = require('../src/lib/Oas.js');
 const petstore = require('./fixtures/multiple-securities/oas');
 
 const oas = new Oas(petstore);
-const path = '/things';
-const method = 'post';
 
-const props = { oas, path, method };
+const props = { operation: oas.operation('/things', 'post') };
 
 test('should not display if no auth', () => {
-  expect(shallow(<AuthBox {...props} path="/no-auth" />).html()).toBe(null);
+  expect(shallow(<AuthBox operation={oas.operation('/no-auth', 'post')} />).html()).toBe(null);
 });
 
 test('should display a single heading heading for single auth type', () => {
-  const authBox = shallow(<AuthBox {...props} path="/single-auth" />);
+  const authBox = shallow(<AuthBox operation={oas.operation('/single-auth', 'post')} />);
   expect(authBox.find('h3').length).toBe(1);
   expect(authBox.find('h3').text()).toBe('Header Auth');
 });

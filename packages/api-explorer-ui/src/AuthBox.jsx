@@ -2,9 +2,10 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
+const { Operation } = require('./lib/Oas');
 
-function renderSecurities(oas, path, method) {
-  const securityTypes = oas.prepareSecurity(path, method);
+function renderSecurities(operation) {
+  const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map((type) => {
     const securities = securityTypes[type];
     return (
@@ -50,50 +51,29 @@ class AuthBox extends React.Component {
   toggle(e) {
     e.preventDefault();
     this.setState({ open: !this.state.open });
+    // this.props.onChange({ header: { 'test': '111' } });
   }
-  render() {
-    const { oas, path, method } = this.props;
 
-    if (!oas.hasAuth(path, method)) return null;
+  render() {
+    const { operation } = this.props;
+
+    if (!operation.hasAuth()) return null;
 
     return (
       <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.state.open })}>
         <a href="" className="icon icon-user-lock" onClick={this.toggle} />
         <div className="nopad">
           <div className="triangle" />
-          <div>{ renderSecurities(oas, path, method) }</div>
+          <div>{ renderSecurities(operation) }</div>
         </div>
       </div>
     );
   }
 
-  // .hub-auth-dropdown()
-  //   a.icon.icon-user-lock(href="" ng-click="toggle()")
-  //   div.nopad
-  //     div
-  //       each securities, type in swaggerUtils.prepareSecurity(swagger)
-  //         h3 #{type} Auth
-  //         .pad
-  //           section
-  //             - var multipleOauths = type === 'OAuth2' && securities.length > 1
-  //             if multipleOauths
-  //               select(ng-model="oauth2_show" ng-init="oauth2_show = oauth2_show || '"+securities[0]._key+"'")
-  //                 each security, security_name in securities
-  //                   option(value=security._key)= security._key
-  //             each security in securities
-  //               +securityInput(security, multipleOauths)
-
-  //       .hub-authrequired(ng-class="{active: results.needsAuth}")
-  //         .hub-authrequired-slider
-  //           i.icon.icon-notification &nbsp;
-  //           | Authentication is required for this endpoint.
-
 }
 
 AuthBox.propTypes = {
-  oas: PropTypes.shape({}).isRequired,
-  path: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
 };
 
 module.exports = AuthBox;

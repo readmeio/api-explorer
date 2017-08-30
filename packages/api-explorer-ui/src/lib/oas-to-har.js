@@ -29,17 +29,15 @@ const defaultValues = Object.keys(require('./parameters-to-json-schema').types).
   return Object.assign(prev, { [curr]: {} });
 }, {});
 
-module.exports = (oas, path = '', method = '', values = {}) => {
+module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) => {
   const formData = Object.assign({}, defaultValues, values);
   const har = {
     headers: [],
     queryString: [],
     postData: {},
-    method: method.toUpperCase(),
-    url: `${oas.servers ? oas.servers[0].url : ''}${path}`.replace(/\s/g, '%20'),
+    method: pathOperation.method.toUpperCase(),
+    url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
-
-  const pathOperation = oas.paths && oas.paths[path] && oas.paths[path][method];
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
     if (!pathOperation || !pathOperation.parameters) return key; // No path params at all

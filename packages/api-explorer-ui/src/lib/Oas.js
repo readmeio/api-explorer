@@ -1,8 +1,11 @@
 const getPathOperation = require('./get-path-operation');
 
-class Oas {
-  constructor(oas) {
-    Object.assign(this, oas);
+class Operation {
+  constructor(oas, path, method, operation) {
+    Object.assign(this, operation);
+    this.oas = oas;
+    this.path = path;
+    this.method = method;
   }
 
   hasAuth(path, method) {
@@ -10,25 +13,24 @@ class Oas {
     return !!(security && security.length);
   }
 
-  getPathOperation(doc) {
-    return getPathOperation(this, doc);
+  getSecurity() {
+    const operation = getPathOperation(this.oas, {
+      swagger: { path: this.path },
+      api: { method: this.method },
+    });
+
+    return operation.security || this.oas.security;
   }
 
-  getSecurity(path, method) {
-    const operation = getPathOperation(this, { swagger: { path }, api: { method } });
-
-    return operation.security || this.security;
-  }
-
-  prepareSecurity(path, method) {
-    const securityRequirements = this.getSecurity(path, method);
+  prepareSecurity() {
+    const securityRequirements = this.getSecurity();
 
     return securityRequirements.map((requirement) => {
       let security;
       let key;
       try {
         key = Object.keys(requirement)[0];
-        security = this.components.securitySchemes[key];
+        security = this.oas.components.securitySchemes[key];
       } catch (e) {
         return false;
       }
@@ -55,4 +57,16 @@ class Oas {
   }
 }
 
+class Oas {
+  constructor(oas) {
+    Object.assign(this, oas);
+  }
+
+  operation(path, method) {
+    const operation = getPathOperation(this, { swagger: { path }, api: { method } });
+    return new Operation(this, path, method, operation);
+  }
+}
+
 module.exports = Oas;
+module.exports.Operation = Operation;

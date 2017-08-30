@@ -1,19 +1,16 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const PathUrl = require('../src/PathUrl');
+const Oas = require('../src/lib/Oas');
 
-const oas = require('./fixtures/petstore/oas');
+const { Operation } = Oas;
+const petstore = require('./fixtures/petstore/oas');
 
-const path = '/pet/{petId}';
-const method = 'get';
-const operation = oas.paths[path][method];
+const oas = new Oas(petstore);
 
 const props = {
   oas,
-  path,
-  method,
-  operation,
-  operationId: operation.operationId,
+  operation: oas.operation('/pet/{petId}', 'get'),
   dirty: false,
   loading: false,
 };
@@ -73,7 +70,7 @@ describe('dirty prop', () => {
 describe('button form attribute', () => {
   test('should be set to the operationId', () => {
     expect(shallow(
-      <PathUrl {...props} operationId="123" />,
+      <PathUrl {...props} operation={new Operation({}, '/path', 'get', { operationId: '123' })} />,
     ).find('button[form="form-123"]').length).toBe(1);
   });
 });

@@ -1,22 +1,23 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
-
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 
+const Oas = require('./lib/Oas');
+
+const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
-module.exports = function Params({ oas, path, pathOperation, formData, onChange }) {
-  // const paramGroups = groupParams(path, pathOperation);
-
-  const jsonSchema = parametersToJsonSchema(pathOperation, oas);
+function Params({ oas, operation, formData, onChange }) {
+  const jsonSchema = parametersToJsonSchema(operation, oas);
 
   return (
     <div className="api-manager">
       {
         jsonSchema && (
         <Form
-          id={`form-${pathOperation.operationId}`}
+          id={`form-${operation.operationId}`}
           schema={jsonSchema}
           widgets={{ int64: UpDownWidget, int32: UpDownWidget, uuid: TextWidget }}
           onSubmit={form => console.log('submit', form.formData)}
@@ -25,34 +26,15 @@ module.exports = function Params({ oas, path, pathOperation, formData, onChange 
         ><button type="submit" style={{ display: 'none' }} /></Form>
         )
       }
-
-      {
-        // <div className="param-table">
-        //   {
-        //     Object.keys(paramGroups).map(type => <ParamGroup key={type} group={paramGroups[type]} />)
-        //   }
-        // </div>
-      }
-
     </div>
   );
+}
+
+Params.propTypes = {
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  formData: PropTypes.shape({}).isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
-// function ParamGroup({ group }) {
-//   return (
-//     <span>
-//       <div className="param-header"><h3>{group.name}</h3></div>
-//       { group.params.map(param => <Param key={param.name} param={param} />) }
-//     </span>
-//   );
-// }
-
-// function Param({ param }) {
-//   return (
-//     <div className="param-item">
-//       <div className="param-item-name">
-//         <strong>{param.name}</strong>
-//       </div>
-//     </div>
-//   );
-// }
+module.exports = Params;

@@ -1,11 +1,27 @@
 const Oas = require('../../src/lib/Oas');
+const { Operation } = require('../../src/lib/Oas');
 const petstore = require('../fixtures/petstore/oas.json');
 const multipleSecurities = require('../fixtures/multiple-securities/oas.json');
 
-describe('hasAuth()', () => {
+describe('operation()', () => {
+  test('should return an operation object', () => {
+    const oas = { paths: { '/path': { get: { a: 1 } } } };
+    const operation = new Oas(oas).operation('/path', 'get');
+    expect(operation).toBeInstanceOf(Operation);
+    expect(operation.a).toBe(1);
+    expect(operation.path).toBe('/path');
+    expect(operation.method).toBe('get');
+  });
+
+  test('should return a default when no operation', () => {
+    expect(new Oas({}).operation('/unknown', 'get')).toMatchSnapshot();
+  });
+});
+
+describe('operation.hasAuth()', () => {
   test('should return true if there is a top level security object', () => {
-    expect(new Oas({ security: [{ 'security-scheme': [] }] }).hasAuth()).toBe(true);
-    expect(new Oas({ security: [{ 'security-scheme': ['scope'] }] }).hasAuth()).toBe(true);
+    expect(new Oas({ security: [{ 'security-scheme': [] }] }).operation().hasAuth()).toBe(true);
+    expect(new Oas({ security: [{ 'security-scheme': ['scope'] }] }).operation().hasAuth()).toBe(true);
   });
 
   test('should return true if a path has security', () => {
@@ -17,12 +33,12 @@ describe('hasAuth()', () => {
           },
         },
       },
-    }).hasAuth('/path', 'get')).toBe(true);
+    }).operation('/path', 'get').hasAuth()).toBe(true);
   });
 
   test('should return false if there is no top level security object', () => {
-    expect(new Oas({}).hasAuth()).toBe(false);
-    expect(new Oas({ security: [] }).hasAuth()).toBe(false);
+    expect(new Oas({}).operation().hasAuth()).toBe(false);
+    expect(new Oas({ security: [] }).operation().hasAuth()).toBe(false);
   });
 
   test('should return false if the path has no security', () => {
@@ -32,27 +48,7 @@ describe('hasAuth()', () => {
           get: {},
         },
       },
-    }).hasAuth('/path', 'get')).toBe(false);
-  });
-});
-
-describe('getPathOperation()', () => {
-  test('should return a stub if there is no operation', () => {
-    expect(new Oas({}).getPathOperation({
-      swagger: { path: '/path' },
-      api: { method: 'get' },
-    })).toEqual({ parameters: [] });
-  });
-
-  test('should return the operation if there is one', () => {
-    const operation = { a: 1 };
-    expect(new Oas({
-      paths: {
-        '/path': {
-          get: operation,
-        },
-      },
-    }).getPathOperation({ swagger: { path: '/path' }, api: { method: 'get' } })).toBe(operation);
+    }).operation('/path', 'get').hasAuth()).toBe(false);
   });
 });
 
@@ -63,7 +59,7 @@ test('should be able to access properties on oas', () => {
 });
 
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
-describe('prepareSecurity()', () => {
+describe('operation.prepareSecurity()', () => {
   const path = '/auth';
   const method = 'get';
 
@@ -90,8 +86,9 @@ describe('prepareSecurity()', () => {
         scheme: 'basic',
       },
     });
+    const operation = oas.operation(path, method);
 
-    expect(oas.prepareSecurity(path, method)).toEqual({
+    expect(operation.prepareSecurity()).toEqual({
       Basic: [oas.components.securitySchemes.securityScheme],
     });
   });
@@ -103,8 +100,9 @@ describe('prepareSecurity()', () => {
         in: 'query',
       },
     });
+    const operation = oas.operation(path, method);
 
-    expect(oas.prepareSecurity(path, method)).toEqual({
+    expect(operation.prepareSecurity()).toEqual({
       Query: [oas.components.securitySchemes.securityScheme],
     });
   });
@@ -116,22 +114,23 @@ describe('prepareSecurity()', () => {
         in: 'header',
       },
     });
+    const operation = oas.operation(path, method);
 
-    expect(oas.prepareSecurity(path, method)).toEqual({
+    expect(operation.prepareSecurity()).toEqual({
       Header: [oas.components.securitySchemes.securityScheme],
     });
   });
 
   test('should work for petstore', () => {
-    const oas = new Oas(petstore);
+    const operation = new Oas(petstore).operation('/pet', 'post');
 
-    expect(oas.prepareSecurity('/pet', 'post')).toMatchSnapshot();
+    expect(operation.prepareSecurity()).toMatchSnapshot();
   });
 
   test('should work for multiple securities', () => {
-    const oas = new Oas(multipleSecurities);
+    const operation = new Oas(multipleSecurities).operation('/things', 'post');
 
-    expect(Object.keys(oas.prepareSecurity('/things', 'post')).length).toBe(2);
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(2);
   });
 
   test('should set a `key` property');

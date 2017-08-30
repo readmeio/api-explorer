@@ -3,6 +3,14 @@ const { shallow } = require('enzyme');
 const extensions = require('../../readme-oas-extensions');
 
 const CodeSample = require('../src/CodeSample');
+const Oas = require('../src/lib/Oas');
+
+const { Operation } = Oas;
+const props = {
+  setLanguage: () => {},
+  operation: new Operation({}, '/pet/{id}', 'get'),
+  formData: {},
+};
 
 describe('tabs', () => {
   // TODO this doesnt work in readme
@@ -12,16 +20,14 @@ describe('tabs', () => {
     const languages = ['node'];
     const codeSample = shallow(
       <CodeSample
-        oas={{
+        {...props}
+        oas={new Oas({
           [extensions.SAMPLES_ENABLED]: true,
           [extensions.SAMPLES_LANGUAGES]: languages,
           servers: [
             { url: 'http://example.com' },
           ],
-        }}
-        setLanguage={() => {}}
-        path="/pet/{id}"
-        method="get"
+        })}
       />,
     );
 
@@ -32,13 +38,11 @@ describe('tabs', () => {
   test('should display a message if no code samples', () => {
     const codeSample = shallow(
       <CodeSample
-        oas={{
+        {...props}
+        oas={new Oas({
           [extensions.SAMPLES_ENABLED]: false,
           [extensions.SAMPLES_LANGUAGES]: ['node'],
-        }}
-        setLanguage={() => {}}
-        path="/pet/{id}"
-        method="get"
+        })}
       />,
     );
 
@@ -51,16 +55,14 @@ describe('code examples', () => {
     const languages = ['node'];
     const codeSample = shallow(
       <CodeSample
-        oas={{
+        {...props}
+        oas={new Oas({
           [extensions.SAMPLES_ENABLED]: true,
           [extensions.SAMPLES_LANGUAGES]: languages,
           servers: [
             { url: 'http://example.com' },
           ],
-        }}
-        setLanguage={() => {}}
-        path="/pet/{id}"
-        method="get"
+        })}
       />,
     );
 
@@ -75,16 +77,15 @@ describe('updating language', () => {
 
     const codeSample = shallow(
       <CodeSample
-        oas={{
+        {...props}
+        oas={new Oas({
           [extensions.SAMPLES_ENABLED]: true,
           [extensions.SAMPLES_LANGUAGES]: ['node'],
           servers: [
             { url: 'http://example.com' },
           ],
-        }}
+        })}
         setLanguage={setLanguage}
-        path="/pet/{id}"
-        method="get"
       />,
     );
 

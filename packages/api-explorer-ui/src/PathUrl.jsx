@@ -3,6 +3,9 @@ const PropTypes = require('prop-types');
 const classNames = require('classnames');
 
 const AuthBox = require('./AuthBox');
+const Oas = require('./lib/Oas');
+
+const { Operation } = Oas;
 
 const extensions = require('../../readme-oas-extensions');
 
@@ -12,7 +15,7 @@ function splitPath(path) {
   });
 }
 
-function PathUrl({ oas, path, operationId, method, loading, dirty }) {
+function PathUrl({ oas, operation, loading, dirty }) {
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
@@ -20,11 +23,9 @@ function PathUrl({ oas, path, operationId, method, loading, dirty }) {
           { oas[extensions.EXPLORER_ENABLED] &&
 
             <div className="api-definition-actions">
-              {
-                <AuthBox oas={oas} path={path} method={method} />
-              }
+              <AuthBox operation={operation} />
 
-              <button form={`form-${operationId}`} className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
+              <button form={`form-${operation.operationId}`} className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
                 {
                   !loading && (
                     <span className="try-it-now-btn">
@@ -41,21 +42,20 @@ function PathUrl({ oas, path, operationId, method, loading, dirty }) {
             </div>
           }
 
-          <span className={`pg-type-big pg-type type-${method}`}>{method}</span>
+          <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
 
-          { (oas.servers && oas.servers.length > 0) &&
+          {
+            (oas.servers && oas.servers.length > 0) &&
 
             <span className="definition-url">
               <span className="url">{oas.servers[0].url}</span>
               {
-                splitPath(path).map(part =>
+                splitPath(operation.path).map(part =>
                   <span key={part.value} className={`api-${part.type}`}>{part.value}</span>,
                 )
               }
             </span>
-
           }
-
         </div>
       </div>
     </div>
@@ -63,12 +63,8 @@ function PathUrl({ oas, path, operationId, method, loading, dirty }) {
 }
 
 PathUrl.propTypes = {
-  oas: PropTypes.shape({
-    servers: PropTypes.array.isRequired,
-  }).isRequired,
-  path: PropTypes.string.isRequired,
-  operationId: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
   dirty: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
 };
