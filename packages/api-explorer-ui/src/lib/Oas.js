@@ -14,12 +14,7 @@ class Operation {
   }
 
   getSecurity() {
-    const operation = getPathOperation(this.oas, {
-      swagger: { path: this.path },
-      api: { method: this.method },
-    });
-
-    return operation.security || this.oas.security;
+    return this.security || this.oas.security;
   }
 
   prepareSecurity() {
