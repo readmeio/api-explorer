@@ -1,0 +1,11 @@
+.magic-block-embed
+  if block.data.html
+    != block.data.html
+  else if block.data.iframe
+    iframe.media-iframe(src=block.data.url width=block.data.width || '100%' height=block.data.height || '300px')
+  else
+    strong
+      if block.data.favicon
+        img(src=block.data.favicon, class="favicon")
+      a(href=block.data.url target="_new")= block.data.title || block.data.url
+

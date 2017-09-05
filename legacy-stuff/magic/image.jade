@@ -1,0 +1,10 @@
+.magic-block-image
+  for image in block.data.images
+    if image && image.image && image.image.length
+      figure
+        - var imageClass = image.sizing ? image.sizing : 'smart'
+        - var border = image.border ? 'block-display-image-border' : ''
+        a.block-display-image-parent(href=image.image[0] class="block-display-image-size-#{imageClass} #{border}")
+          img(src=image.image[0] alt=image.caption)
+      if image.caption
+        figcaption!= marked(image.caption)
