@@ -11,8 +11,15 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
   return (
     <div className="code-sample tabber-parent">
       {(() => {
-        if (oas[extensions.SAMPLES_ENABLED]) {
-          return (
+        if (!oas[extensions.SAMPLES_ENABLED]) {
+          return <div className="hub-no-code">No code samples available</div>;
+
+        }
+
+        const snippets = generateCodeSnippets(oas, operation, formData, oas[extensions.SAMPLES_LANGUAGES]);
+
+        return (
+          <div>
             <ul className="code-sample-tabs">
               {
                 // TODO add `is-lang-${lang}` class, to body?
@@ -23,39 +30,33 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
                         role="link"
                         href="#"
                         className={`hub-lang-switch-${lang}`}
-                        onClick={(e) => { e.preventDefault(); setLanguage(lang); }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setLanguage(lang);
+                        }}
                       >{lang}</a>
                     </li>
                   ),
                 )
               }
             </ul>
-          );
-        }
 
-        return <div className="hub-no-code">No code samples available</div>;
-      })()}
 
-      {(() => {
-        if (!oas[extensions.SAMPLES_ENABLED]) return null;
-
-        const snippets = generateCodeSnippets(oas, operation, formData, oas[extensions.SAMPLES_LANGUAGES]);
-
-        return (
-          <div className="hub-code-auto">
-            {
-              Object.keys(snippets).map(lang => (
-                <pre
-                  key={lang}
-                  className={`tomorrow-night hub-lang hub-lang-${lang}`}
-                  dangerouslySetInnerHTML={{ __html: snippets[lang] }}
-                />
-              ))
-            }
+            <div className="hub-code-auto">
+              {
+                Object.keys(snippets).map(lang => (
+                  <pre
+                    key={lang}
+                    className={`tomorrow-night hub-lang hub-lang-${lang}`}
+                    dangerouslySetInnerHTML={{__html: snippets[lang]}}
+                  />
+                ))
+              }
+            </div>
           </div>
+
         );
       })()}
-
     </div>
   );
 }
@@ -68,3 +69,4 @@ CodeSample.propTypes = {
 };
 
 module.exports = CodeSample;
+
