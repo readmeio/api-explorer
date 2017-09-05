@@ -34,7 +34,7 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
                           e.preventDefault();
                           setLanguage(lang);
                         }}
-                      >{lang}</a>
+                      >{generateCodeSnippets.getLangName(lang)}</a>
                     </li>
                   ),
                 )
