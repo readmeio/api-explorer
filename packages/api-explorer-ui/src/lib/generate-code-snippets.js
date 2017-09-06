@@ -71,3 +71,5 @@ module.exports = (oas, operation, values, languages) => {
     });
   }, {});
 };
+
+module.exports.getLangName = lang => supportedLanguages[lang].name;

@@ -68,6 +68,7 @@ describe('code examples', () => {
 
     expect(codeSample.find('.hub-code-auto').length).toBe(1);
     expect(codeSample.find('.hub-code-auto pre').length).toBe(languages.length);
+    expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 });
 
