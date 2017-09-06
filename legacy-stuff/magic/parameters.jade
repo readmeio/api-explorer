@@ -1,0 +1,13 @@
+.magic-block-parameters
+  .block-parameters-table
+    .table
+      - if (block.data.data['h-0'] || block.data.data['h-1'])
+        .tr
+          - for(var c = 0; c < block.data.cols; c++)
+            .th= block.data.data['h-' + c]
+
+      - for(var r = 0; r < block.data.rows; r++)
+        .tr
+          - for(var c = 0; c < block.data.cols; c++)
+            .td!= marked(block.data.data[r + '-' + c] || '')
+

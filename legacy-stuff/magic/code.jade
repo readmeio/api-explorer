@@ -1,0 +1,29 @@
+mixin block-code(data, opts)
+  if !data || !data.codes || data.codes.length == 0 || data.codes[0].code == '' || data.codes[0].code == '{}'
+    - return
+
+  - opts = opts || {};
+  if opts.label
+    label= opts.label
+  .magic-block-code
+    if !opts.hideHeaderOnOne || data.codes.length > 1
+      ul.block-code-header
+        for code, i in data.codes
+          li
+            a(href="" ng-click="showCode(#{i})" ng-class="{active: (#{i} == tab)}")
+              if code.status
+                span(class="status-icon status-icon-" + statusCodes(code.status)[2])
+                if !statusCodes(code.status)[3]
+                  = statusCodes(code.status)[0]
+                em= code.name ? code.name : statusCodes(code.status)[1]
+              else
+                if exists(code.name)
+                  = code.name
+                else
+                  = codemirrorUppercase(code.language)
+
+    div.block-code-code
+      for code, i in data.codes
+        pre(ng-if="tab == #{i}")
+          code!= codemirror(code.code, code.language, opts.dark)
+

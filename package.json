@@ -3,11 +3,7 @@
   "description": "Open source components that make up ReadMe&#39;s API explorer",
   "version": "0.0.0",
   "scripts": {
-    "lint": "eslint -f unix .",
-    "inspect": "jsinspect",
-    "pretest": "npm run lint && npm run inspect",
-    "test": "nyc mocha",
-    "posttest": "nyc check-coverage --statements 90 --branches 70 --functions 90 --lines 90",
+    "test": "eslint -f unix example && lerna run test",
     "example": "budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx",
     "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer"
   },
@@ -31,7 +27,6 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
-    "jsinspect": "^0.12.6",
     "lerna": "^2.0.0"
   },
   "dependencies": {

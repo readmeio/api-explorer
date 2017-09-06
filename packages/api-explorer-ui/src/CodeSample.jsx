@@ -13,10 +13,10 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
       {(() => {
         if (!oas[extensions.SAMPLES_ENABLED]) {
           return <div className="hub-no-code">No code samples available</div>;
-
         }
 
-        const snippets = generateCodeSnippets(oas, operation, formData, oas[extensions.SAMPLES_LANGUAGES]);
+        const snippets = generateCodeSnippets(oas, operation, formData,
+          oas[extensions.SAMPLES_LANGUAGES]);
 
         return (
           <div>
@@ -26,15 +26,17 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
                 oas[extensions.SAMPLES_LANGUAGES].map(lang =>
                   (
                     <li key={lang}>
-                      <a
-                        role="link"
-                        href="#"
-                        className={`hub-lang-switch-${lang}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setLanguage(lang);
-                        }}
-                      >{generateCodeSnippets.getLangName(lang)}</a>
+                      {
+                        // eslint-disable-next-line jsx-a11y/href-no-hash
+                        <a
+                          href="#"
+                          className={`hub-lang-switch-${lang}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setLanguage(lang);
+                          }}
+                        >{generateCodeSnippets.getLangName(lang)}</a>
+                      }
                     </li>
                   ),
                 )
@@ -48,7 +50,8 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
                   <pre
                     key={lang}
                     className={`tomorrow-night hub-lang hub-lang-${lang}`}
-                    dangerouslySetInnerHTML={{__html: snippets[lang]}}
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{ __html: snippets[lang] }}
                   />
                 ))
               }

@@ -1,0 +1,10 @@
+.magic-block-api-header
+  h1(class="header-scroll is-api-header")
+    //- This span is here to support the linkage of anchors with and without
+    //- the #section- prefix. This should be removed when everyone is on hub2.
+    span(id=uslug(block.data.title))
+    .anchor(class='waypoint' id='section-' + uslug(block.data.title))
+    if block.data.type && block.data.type != 'basic'
+      span(class="pg-type-big pg-type type-" + uslug(block.data.type))
+    = block.data.title
+    a.fa.fa-anchor(href="#section-" + uslug(block.data.title))
