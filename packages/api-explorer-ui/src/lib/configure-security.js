@@ -2,8 +2,8 @@ module.exports = function configureSecurity(oas, values, scheme) {
   const key = Object.keys(scheme)[0];
   if (!key) return {};
 
-  if (!oas.securitySchemes[key]) return undefined;
-  const security = oas.securitySchemes[key];
+  if (!oas.components.securitySchemes[key]) return undefined;
+  const security = oas.components.securitySchemes[key];
 
   if (security.type === 'basic') {
     return {

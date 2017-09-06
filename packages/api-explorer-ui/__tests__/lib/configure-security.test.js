@@ -14,7 +14,7 @@ describe('configure-security', () => {
       };
 
       expect(configureSecurity({
-        securitySchemes: { test: { type: 'basic' } },
+        components: { securitySchemes: { test: { type: 'basic' } } },
       }, values, { test: {} })).toEqual({
         type: 'header',
         name: 'Authorization',
@@ -31,7 +31,7 @@ describe('configure-security', () => {
       };
 
       expect(configureSecurity({
-        securitySchemes: { test: { type: 'oauth2' } },
+        components: { securitySchemes: { test: { type: 'oauth2' } } },
       }, values, { test: {} })).toEqual({
         type: 'header',
         name: 'Authorization',
@@ -47,7 +47,7 @@ describe('configure-security', () => {
         const security = { type: 'apiKey', in: 'query', name: 'key' };
 
         expect(configureSecurity({
-          securitySchemes: { test: security },
+          components: { securitySchemes: { test: security } },
         }, values, { test: {} })).toEqual({
           type: 'query',
           name: security.name,
@@ -62,7 +62,7 @@ describe('configure-security', () => {
         const security = { type: 'apiKey', in: 'header', name: 'key' };
 
         expect(configureSecurity({
-          securitySchemes: { test: security },
+          components: { securitySchemes: { test: security } },
         }, values, { test: {} })).toEqual({
           type: 'header',
           name: security.name,
@@ -76,7 +76,7 @@ describe('configure-security', () => {
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'bearer' };
 
           expect(configureSecurity({
-            securitySchemes: { test: security },
+            components: { securitySchemes: { test: security } },
           }, values, { test: {} })).toEqual({
             type: 'header',
             name: security.name,
@@ -89,7 +89,7 @@ describe('configure-security', () => {
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'basic' };
 
           expect(configureSecurity({
-            securitySchemes: { test: security },
+            components: { securitySchemes: { test: security } },
           }, values, { test: {} })).toEqual({
             type: 'header',
             name: security.name,
@@ -102,7 +102,7 @@ describe('configure-security', () => {
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'token' };
 
           expect(configureSecurity({
-            securitySchemes: { test: security },
+            components: { securitySchemes: { test: security } },
           }, values, { test: {} })).toEqual({
             type: 'header',
             name: security.name,
