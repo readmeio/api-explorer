@@ -29,6 +29,13 @@ module.exports = (oas, apiSetting) => {
           category: { apiSetting },
           api: { method },
           swagger: { path },
+          body: `
+          [block:api-header]
+          {
+            "title": "This is an API header block"
+          }
+          [/block]
+          `,
         });
       }
     });

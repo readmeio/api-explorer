@@ -92,6 +92,7 @@ class Doc extends React.Component {
                   formData={this.state.formData}
                   onChange={this.onChange}
                 />
+                { doc.body }
               </div>
               <div className="hub-reference-right switcher" />
             </div>
