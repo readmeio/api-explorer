@@ -8,8 +8,8 @@ class Operation {
     this.method = method;
   }
 
-  hasAuth(path, method) {
-    const security = this.getSecurity(path, method);
+  hasAuth() {
+    const security = this.getSecurity();
     return !!(security && security.length);
   }
 
