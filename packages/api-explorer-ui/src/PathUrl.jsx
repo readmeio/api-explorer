@@ -15,7 +15,7 @@ function splitPath(path) {
   });
 }
 
-function PathUrl({ oas, operation, loading, dirty }) {
+function PathUrl({ oas, operation, loading, dirty, onChange }) {
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
@@ -23,7 +23,7 @@ function PathUrl({ oas, operation, loading, dirty }) {
           { oas[extensions.EXPLORER_ENABLED] &&
 
             <div className="api-definition-actions">
-              <AuthBox operation={operation} />
+              <AuthBox operation={operation} onChange={onChange} />
 
               <button form={`form-${operation.operationId}`} className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
                 {
@@ -67,6 +67,7 @@ PathUrl.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   dirty: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 module.exports = PathUrl;

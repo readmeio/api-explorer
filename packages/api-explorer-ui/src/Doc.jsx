@@ -65,6 +65,7 @@ class Doc extends React.Component {
               operation={operation}
               dirty={this.state.dirty}
               loading={this.state.loading}
+              onChange={this.onChange}
             />
 
             {

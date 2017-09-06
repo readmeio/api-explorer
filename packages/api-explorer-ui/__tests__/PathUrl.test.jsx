@@ -13,6 +13,7 @@ const props = {
   operation: oas.operation('/pet/{petId}', 'get'),
   dirty: false,
   loading: false,
+  onChange: () => {},
 };
 
 test('should display the path', () => {

@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(operation) {
+function renderSecurities(operation, onChange) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map((type) => {
     const securities = securityTypes[type];
@@ -31,6 +31,7 @@ function renderSecurities(operation) {
                   key={security._key}
                   scheme={security}
                   apiKey=""
+                  onChange={onChange}
                 />),
               )
             }
@@ -67,16 +68,16 @@ class AuthBox extends React.Component {
         }
         <div className="nopad">
           <div className="triangle" />
-          <div>{ renderSecurities(operation) }</div>
+          <div>{ renderSecurities(operation, this.props.onChange) }</div>
         </div>
       </div>
     );
   }
-
 }
 
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 module.exports = AuthBox;

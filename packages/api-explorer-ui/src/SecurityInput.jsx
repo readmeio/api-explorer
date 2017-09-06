@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function Oauth2({ scheme, apiKey, oauthUrl }) { // eslint-disable-line
+function Oauth2({ apiKey, oauthUrl, change }) {
   if (!apiKey && oauthUrl) {
     return (
       <section>
@@ -27,7 +27,7 @@ function Oauth2({ scheme, apiKey, oauthUrl }) { // eslint-disable-line
           <div style={{ display: 'inline-block', marginRight: '10px', marginTop: '5px', fontSize: '13px' }}>Bearer</div>
         </div>
         <div className="col-xs-6">
-          <input type="text" value={apiKey} name="apiKey" />
+          <input type="text" onChange={e => change(e.currentTarget.value)} name="apiKey" />
         </div>
       </div>
     </section>
@@ -35,10 +35,9 @@ function Oauth2({ scheme, apiKey, oauthUrl }) { // eslint-disable-line
 }
 
 Oauth2.propTypes = {
-  scheme: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-  }).isRequired,
   apiKey: PropTypes.string,
+  oauthUrl: PropTypes.string.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 Oauth2.defaultProps = {
@@ -46,9 +45,12 @@ Oauth2.defaultProps = {
 };
 
 function SecurityInput(props) {
+  function change(value) {
+    return props.onChange({ auth: { [props.scheme._key]: value } });
+  }
   switch (props.scheme.type) {
     case 'oauth2':
-      return Oauth2(props);
+      return Oauth2(Object.assign({}, props, { change }));
     default: return <span />;
   }
 }
@@ -56,7 +58,9 @@ function SecurityInput(props) {
 SecurityInput.propTypes = {
   scheme: PropTypes.shape({
     type: PropTypes.string.isRequired,
+    _key: PropTypes.string.isRequired,
   }).isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 module.exports = SecurityInput;
