@@ -1,14 +1,12 @@
-const assert = require('assert');
-
 const configureSecurity = require('../../src/lib/configure-security');
 
 describe('configure-security', () => {
-  it('should return undefined if there is no security keys', () => {
-    assert.equal(typeof configureSecurity({}, {}, {}, {}), 'undefined');
+  test('should return undefined if there is no security keys', () => {
+    expect(typeof configureSecurity({}, {}, {}, {})).toBe('undefined');
   });
 
   describe('type=basic', () => {
-    it('should work for basic type', () => {
+    test('should work for basic type', () => {
       const headers = {};
       const username = 'username';
       const password = 'password';
@@ -25,12 +23,12 @@ describe('configure-security', () => {
         securitySchemes: { test: { type: 'basic' } },
       }, {}, headers, scope, { test: {} });
 
-      assert.equal(headers.Authorization, `Basic ${new Buffer(`${username}:${password}`).toString('base64')}`);
+      expect(headers.Authorization).toBe(`Basic ${new Buffer(`${username}:${password}`).toString('base64')}`);
     });
   });
 
   describe('type=oauth2', () => {
-    it('should work for oauth2', () => {
+    test('should work for oauth2', () => {
       const headers = {};
       const apiKey = '123456';
       const scope = { key: { api_key: apiKey } };
@@ -39,13 +37,13 @@ describe('configure-security', () => {
         securitySchemes: { test: { type: 'oauth2' } },
       }, {}, headers, scope, { test: {} });
 
-      assert.equal(headers.Authorization, `Bearer ${apiKey}`);
+      expect(headers.Authorization).toBe(`Bearer ${apiKey}`);
     });
   });
 
   describe('type=apiKey', () => {
     describe('in=query', () => {
-      it('should work for query', () => {
+      test('should work for query', () => {
         const query = {};
         const scope = { apiAuth: { auth: { key: 'value' } } };
         const security = { type: 'apiKey', in: 'query', name: 'key' };
@@ -54,12 +52,12 @@ describe('configure-security', () => {
           securitySchemes: { test: security },
         }, query, {}, scope, { test: {} });
 
-        assert.equal(query[security.name], scope.apiAuth.auth[security.name]);
+        expect(query[security.name]).toBe(scope.apiAuth.auth[security.name]);
       });
     });
 
     describe('in=header', () => {
-      it('should work for header', () => {
+      test('should work for header', () => {
         const headers = {};
         const scope = { apiAuth: { auth: { key: 'value' } } };
         const security = { type: 'apiKey', in: 'header', name: 'key' };
@@ -68,11 +66,11 @@ describe('configure-security', () => {
           securitySchemes: { test: security },
         }, {}, headers, scope, { test: {} });
 
-        assert.equal(headers[security.name], scope.apiAuth.auth[security.name]);
+        expect(headers[security.name]).toBe(scope.apiAuth.auth[security.name]);
       });
 
       describe('x-bearer-format', () => {
-        it('should work for bearer', () => {
+        test('should work for bearer', () => {
           const headers = {};
           const scope = { apiAuth: { auth: { key: 'value' } } };
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'bearer' };
@@ -81,10 +79,10 @@ describe('configure-security', () => {
             securitySchemes: { test: security },
           }, {}, headers, scope, { test: {} });
 
-          assert.equal(headers[security.name], `Bearer ${scope.apiAuth.auth[security.name]}`);
+          expect(headers[security.name]).toBe(`Bearer ${scope.apiAuth.auth[security.name]}`);
         });
 
-        it('should work for basic', () => {
+        test('should work for basic', () => {
           const headers = {};
           const scope = { apiAuth: { auth: { key: 'value' } } };
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'basic' };
@@ -93,10 +91,10 @@ describe('configure-security', () => {
             securitySchemes: { test: security },
           }, {}, headers, scope, { test: {} });
 
-          assert.equal(headers[security.name], `Basic ${scope.apiAuth.auth[security.name]}`);
+          expect(headers[security.name]).toBe(`Basic ${scope.apiAuth.auth[security.name]}`);
         });
 
-        it('should work for token', () => {
+        test('should work for token', () => {
           const headers = {};
           const scope = { apiAuth: { auth: { key: 'value' } } };
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'token' };
@@ -105,7 +103,7 @@ describe('configure-security', () => {
             securitySchemes: { test: security },
           }, {}, headers, scope, { test: {} });
 
-          assert.equal(headers[security.name], `Token ${scope.apiAuth.auth[security.name]}`);
+          expect(headers[security.name]).toBe(`Token ${scope.apiAuth.auth[security.name]}`);
         });
       });
     });
