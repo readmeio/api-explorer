@@ -87,6 +87,7 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     securityRequirements.forEach((security) => {
       const securityValue = configureSecurity(oas, formData, security);
 
+      if (!securityValue) return;
       har[securityValue.type].push(securityValue.value);
     });
   }

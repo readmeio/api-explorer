@@ -5,6 +5,24 @@ describe('configure-security', () => {
     expect(configureSecurity({}, {}, {})).toEqual({});
   });
 
+  test('should return undefined if no values', () => {
+    const values = {};
+    const security = { type: 'apiKey', in: 'header', name: 'key' };
+
+    expect(configureSecurity({
+      components: { securitySchemes: { test: security } },
+    }, values, { test: {} })).toEqual(undefined);
+  });
+
+  test('should not return non-existent values', () => {
+    const values = { auth: {} };
+    const security = { type: 'apiKey', in: 'header', name: 'key' };
+
+    expect(configureSecurity({
+      components: { securitySchemes: { test: security } },
+    }, values, { test: {} })).toEqual(undefined);
+  });
+
   describe('type=basic', () => {
     test('should work for basic type', () => {
       const user = 'user';
@@ -29,7 +47,7 @@ describe('configure-security', () => {
     test('should work for oauth2', () => {
       const apiKey = '123456';
       const values = {
-        auth: apiKey,
+        auth: { test: apiKey },
       };
 
       expect(configureSecurity({

@@ -312,4 +312,24 @@ describe('auth', () => {
   });
 
   test('should work for multiple');
+
+  test('should not set non-existent values', () => {
+    expect(oasToHar({
+      components: {
+        securitySchemes: {
+          'auth-header': {
+            type: 'apiKey',
+            name: 'x-auth-header',
+            in: 'header',
+          },
+        },
+      },
+    }, {
+      path: '/security',
+      method: 'get',
+      security: [
+        { 'auth-header': [] },
+      ],
+    }, { auth: {} }).headers).toEqual([]);
+  });
 });

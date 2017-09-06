@@ -1,10 +1,13 @@
 function harValue(type, value) {
+  if (!value.value) return undefined;
   return { type, value };
 }
 
 module.exports = function configureSecurity(oas, values, scheme) {
   const key = Object.keys(scheme)[0];
   if (!key) return {};
+
+  if (Object.keys(values.auth || {}).length === 0) return undefined;
 
   if (!oas.components.securitySchemes[key]) return undefined;
   const security = oas.components.securitySchemes[key];
@@ -42,7 +45,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
   if (security.type === 'oauth2') {
     return harValue('headers', {
       name: 'Authorization',
-      value: `Bearer ${values.auth}`,
+      value: `Bearer ${values.auth[key]}`,
     });
   }
 
