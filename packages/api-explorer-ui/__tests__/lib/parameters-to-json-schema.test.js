@@ -65,7 +65,7 @@ test('it should return with a json schema for each parameter type', () => {
   });
 });
 
-test.only('it should work for request body inline', () => {
+test('it should work for request body inline', () => {
   expect(parametersToJsonSchema({
     requestBody: {
       description: 'Body description',
