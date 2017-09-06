@@ -1,3 +1,7 @@
+function harValue(type, value) {
+  return { type, value };
+}
+
 module.exports = function configureSecurity(oas, values, scheme) {
   const key = Object.keys(scheme)[0];
   if (!key) return {};
@@ -6,26 +10,23 @@ module.exports = function configureSecurity(oas, values, scheme) {
   const security = oas.components.securitySchemes[key];
 
   if (security.type === 'basic') {
-    return {
-      type: 'header',
+    return harValue('headers', {
       name: 'Authorization',
       value: `Basic ${new Buffer(`${values.auth.user}:${values.auth.password}`).toString('base64')}`,
-    };
+    });
   }
 
   if (security.type === 'apiKey') {
     if (security.in === 'query') {
-      return {
-        type: 'query',
+      return harValue('queryString', {
         name: security.name,
-        value: values.auth[security.name],
-      };
+        value: values.auth[key],
+      });
     }
     if (security.in === 'header') {
       const header = {
-        type: 'header',
         name: security.name,
-        value: values.auth[security.name],
+        value: values.auth[key],
       };
 
       if (security['x-bearer-format']) {
@@ -34,16 +35,15 @@ module.exports = function configureSecurity(oas, values, scheme) {
         header.name = security.name;
         header.value = `${bearerFormat} ${header.value}`;
       }
-      return header;
+      return harValue('headers', header);
     }
   }
 
   if (security.type === 'oauth2') {
-    return {
-      type: 'header',
+    return harValue('headers', {
       name: 'Authorization',
       value: `Bearer ${values.auth}`,
-    };
+    });
   }
 
   return undefined;

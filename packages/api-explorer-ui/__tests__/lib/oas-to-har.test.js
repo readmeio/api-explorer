@@ -255,3 +255,61 @@ describe('body values', () => {
 });
 
 describe('form data values', () => {});
+
+describe('auth', () => {
+  test('should work for header', () => {
+    expect(oasToHar({
+      components: {
+        securitySchemes: {
+          'auth-header': {
+            type: 'apiKey',
+            name: 'x-auth-header',
+            in: 'header',
+          },
+        },
+      },
+    }, {
+      path: '/security',
+      method: 'get',
+      security: [
+        { 'auth-header': [] },
+      ],
+    }, {
+      auth: {
+        'auth-header': 'value',
+      },
+    }).headers).toEqual([{
+      name: 'x-auth-header',
+      value: 'value',
+    }]);
+  });
+
+  test('should work for query', () => {
+    expect(oasToHar({
+      components: {
+        securitySchemes: {
+          'auth-query': {
+            type: 'apiKey',
+            name: 'authQuery',
+            in: 'query',
+          },
+        },
+      },
+    }, {
+      path: '/security',
+      method: 'get',
+      security: [
+        { 'auth-query': [] },
+      ],
+    }, {
+      auth: {
+        'auth-query': 'value',
+      },
+    }).queryString).toEqual([{
+      name: 'authQuery',
+      value: 'value',
+    }]);
+  });
+
+  test('should work for multiple');
+});

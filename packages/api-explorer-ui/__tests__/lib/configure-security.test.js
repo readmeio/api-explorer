@@ -16,9 +16,11 @@ describe('configure-security', () => {
       expect(configureSecurity({
         components: { securitySchemes: { test: { type: 'basic' } } },
       }, values, { test: {} })).toEqual({
-        type: 'header',
-        name: 'Authorization',
-        value: `Basic ${new Buffer(`${user}:${password}`).toString('base64')}`,
+        type: 'headers',
+        value: {
+          name: 'Authorization',
+          value: `Basic ${new Buffer(`${user}:${password}`).toString('base64')}`,
+        },
       });
     });
   });
@@ -33,9 +35,11 @@ describe('configure-security', () => {
       expect(configureSecurity({
         components: { securitySchemes: { test: { type: 'oauth2' } } },
       }, values, { test: {} })).toEqual({
-        type: 'header',
-        name: 'Authorization',
-        value: `Bearer ${apiKey}`,
+        type: 'headers',
+        value: {
+          name: 'Authorization',
+          value: `Bearer ${apiKey}`,
+        },
       });
     });
   });
@@ -49,9 +53,11 @@ describe('configure-security', () => {
         expect(configureSecurity({
           components: { securitySchemes: { test: security } },
         }, values, { test: {} })).toEqual({
-          type: 'query',
-          name: security.name,
-          value: values.auth[security.name],
+          type: 'queryString',
+          value: {
+            name: security.name,
+            value: values.auth.test,
+          },
         });
       });
     });
@@ -64,9 +70,11 @@ describe('configure-security', () => {
         expect(configureSecurity({
           components: { securitySchemes: { test: security } },
         }, values, { test: {} })).toEqual({
-          type: 'header',
-          name: security.name,
-          value: values.auth[security.name],
+          type: 'headers',
+          value: {
+            name: security.name,
+            value: values.auth.test,
+          },
         });
       });
 
@@ -78,9 +86,11 @@ describe('configure-security', () => {
           expect(configureSecurity({
             components: { securitySchemes: { test: security } },
           }, values, { test: {} })).toEqual({
-            type: 'header',
-            name: security.name,
-            value: `Bearer ${values.auth[security.name]}`,
+            type: 'headers',
+            value: {
+              name: security.name,
+              value: `Bearer ${values.auth.test}`,
+            },
           });
         });
 
@@ -91,9 +101,11 @@ describe('configure-security', () => {
           expect(configureSecurity({
             components: { securitySchemes: { test: security } },
           }, values, { test: {} })).toEqual({
-            type: 'header',
-            name: security.name,
-            value: `Basic ${values.auth[security.name]}`,
+            type: 'headers',
+            value: {
+              name: security.name,
+              value: `Basic ${values.auth.test}`,
+            },
           });
         });
 
@@ -104,9 +116,11 @@ describe('configure-security', () => {
           expect(configureSecurity({
             components: { securitySchemes: { test: security } },
           }, values, { test: {} })).toEqual({
-            type: 'header',
-            name: security.name,
-            value: `Token ${values.auth[security.name]}`,
+            type: 'headers',
+            value: {
+              name: security.name,
+              value: `Token ${values.auth.test}`,
+            },
           });
         });
       });

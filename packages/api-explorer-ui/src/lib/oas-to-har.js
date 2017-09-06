@@ -1,4 +1,5 @@
 const getSchema = require('./get-schema');
+const configureSecurity = require('./configure-security');
 
 // const format = {
 //   value: v => `__START_VALUE__${v}__END__`,
@@ -77,6 +78,17 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
 
   if (body && Object.keys(body).length && Object.keys(formData.body).length) {
     har.postData.text = JSON.stringify(formData.body);
+  }
+
+  const securityRequirements = pathOperation.security || oas.security;
+
+  if (securityRequirements && securityRequirements.length) {
+    // TODO pass these values through the formatter?
+    securityRequirements.forEach((security) => {
+      const securityValue = configureSecurity(oas, formData, security);
+
+      har[securityValue.type].push(securityValue.value);
+    });
   }
 
   return har;
