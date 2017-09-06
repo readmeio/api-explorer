@@ -2,8 +2,7 @@
 
 Open source components that make up ReadMe's API explorer
 
-[![build status](https://secure.travis-ci.org/readme/api-explorer.svg)](http://travis-ci.org/readme/api-explorer)
-[![dependency status](https://david-dm.org/readme/api-explorer.svg)](https://david-dm.org/readme/api-explorer)
+[![CircleCI](https://circleci.com/gh/readmeio/api-explorer.svg?style=svg&circle-token=2a91256819c6da2e388896859d4f7fbb34ec9d84)](https://circleci.com/gh/readmeio/api-explorer)
 
 ## Installation
 
