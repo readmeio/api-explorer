@@ -1,11 +1,12 @@
-const Parameters = (block) => {
+import Marked from '../lib/marked';
+
+const Parameters = ({block}) => {
   return (
     <div className="magic-block-parameters">
       <div className="block-parameters-table">
         <div className="table">
-
-          if (block.data.data['h-0'] || block.data.data['h-1']) {
-            return(
+          {
+            (block.data.data['h-0'] || block.data.data['h-1']) && (
               <div className="tr">
                 for (let c = 0; c < block.data.cols; c++) {
                   <div className="th">
@@ -14,14 +15,13 @@ const Parameters = (block) => {
                 }
               </div>
             )
+
           }
 
           for (let r = 0; r < block.data.rows; r++) {
             <div className="tr">
               for (let c = 0; c < block.data.cols; c++) {
-                <div className="td">
-                  //marked? dangerouslySetInnerHTML
-                </div>
+                <div className="td" dangerouslySetInnerHTML={Marked(block.data.data[r + '-' + c] || '')}></div>
               }
             </div>
           }

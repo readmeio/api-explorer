@@ -1,62 +1,95 @@
-import callout from './callout';
-import html from './html';
+import Callout from './callout';
+import Html from './html';
+import Textarea from './textarea';
+import { Code, BlockCode } from './code';
+import Image from './image';
+import Embed from './embed';
+import Parameters from './parameters';
+import ApiHeader from './api-header';
 
-const Loop = (content, column) => {
-  if(content) {
-    for (block in content) {
-      if(block.type === 'textarea') {
 
-      }
-      if(block.type === 'code') {
-        code
-        //block-code doesn't inherit from loop
-      }
-      if(block.type === 'html') {
-        <html/> //?
-      }
-      if(block.type === 'image') {
+const Loop = ({content, column}) => {
+  {
+    (content)  && (
+      for (block in content) {
+        {
+          (block.type === 'textarea') && (
+            <Textarea/>
+           )
+        }
 
-      }
-      if(block.type === 'embed') {
+        {
+          (block.type === 'code') && (
+            <Code/>
+            <BlockCode dark={column === 'right'} />
+          )
+        }
 
-      }
-      if(block.type === 'parameters') {
+        {
+          (block.type === 'html') && (
+            <Html/>
+          )
+        }
 
-      }
-      if(block.type === 'callout') {
-        callout
-      }
-      if(block.type === 'api-header') {
+        {
+          (block.type === 'image')  && (
+            <Image/>
+          )
+        }
 
+        {
+          (block.type === 'embed') && (
+            <Embed/>
+          )
+        }
+
+        {
+          (block.type === 'parameters') && (
+            <Parameters/>
+          )
+        }
+
+        {
+          (block.type === 'callout') && (
+            <Callout/>
+          )
+        }
+
+        {
+          (block.type === 'api-header') && (
+            <ApiHeader/>
+          )
+        }
       }
-    }
+    )
   }
 }
 
-const Opts = () => {
-  if(opts && opts.isThreeColumn) {
-    if(opts.isThreeColumn === true) {
-      return (
-        <div className="hub-reference-section">
+const Opts = ({opts, content}) => {
+  {
+    (opts && opts.isThreeColumn) && (
+      (opts.isThreeColumn === true)  && (
+          <div className="hub-reference-section">
 
-          <div className="hub-reference-left">
-            <div className="content-body" dangerouslySetInnerHTML={Loop(content.left, 'left')}>
+            <div className="hub-reference-left">
+              <div className="content-body" dangerouslySetInnerHTML={Loop(content.left, 'left')}>
+              </div>
+            </div>
+
+            <div className="hub-reference-right">
+              <div className="content-body" dangerouslySetInnerHTML={Loop(content.right, 'right')}>
+              </div>
             </div>
           </div>
-
-          <div className="hub-reference-right">
-            <div className="content-body" dangerouslySetInnerHTML={Loop(content.right, 'right')}>
-            </div>
-          </div>
-        </div>
       )
+      else {
+        Loop(content[opts.isThreeColumn])
+      }
     }
     else {
-      Loop(content[opts.isThreeColumn])
+      Loop(content)
     }
-  }
-  else {
-    Loop(content)
+    )
   }
 };
 

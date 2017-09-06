@@ -1,7 +1,7 @@
 const marked = require('marked');
 const Emoji = require('./emojis.js').emoji;
-const syntaxHighlighter = require('../../../readme-syntax-highlighter');
-
+const syntaxHighlighter = require('../../../readme-syntax-highlighter')
+;
 // Configure marked
 exports.configure = function (req) {
   const renderer = new marked.Renderer();

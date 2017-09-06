@@ -1,52 +1,72 @@
-const CallOut = (block) => {
+import Marked from '../lib/marked';
+
+const CallOut = ({block}) => {
   const c = block.data.title ? '' : 'no-title';
 
   return (
-    <div className=`magic-block-callout type-${block.data/type} ${c} `>
-      if (block.data.title) {
-        <h3>
-          if (block.data.type ==='info') {
-            return <i className="fa fa-info-circle" title="Info"></i>
-          }
-          if (block.data.type ==='warning') {
-            return <i className="fa fa-exclamation-circle" title="Warning"></i>
-          }
-          if (block.data.type ==='danger') {
-            return <i className="fa fa-exclamation-triangle" title="Danger"></i>
-          }
-          if (block.data.type ==='success') {
-            return <i className="fa fa-check-square" title="Success"></i>
-          }
-          dangerouslySetInnerHTML={block.data.title}
-        </h3>
+    <div className={`magic-block-callout type-${block.data/type} ${c} `}>
+      {
+        (block.data.title) && (
+          <h3>
+            {
+              (block.data.type === 'info') && (
+                <i className="fa fa-info-circle" title="Info"></i>
+              )
+            }
 
-      if (!block.data.title) {
-        <span className="noTitleIcon">
-          if (block.data.type ==='info') {
-            return <i className="fa fa-info-circle" title="Info"></i>
-          }
-          if (block.data.type ==='warning') {
-            return <i className="fa fa-exclamation-circle" title="Warning"></i>
-          }
-          if (block.data.type ==='danger') {
-            return <i className="fa fa-exclamation-triangle" title="Danger"></i>
-          }
-          if (block.data.type ==='success') {
-            return <i className="fa fa-check-square" title="Success"></i>
-          }
-        </span>
-      }
+            {
+              (block.data.type ==='warning') && (
+                <i className="fa fa-exclamation-circle" title="Warning"></i>
+              )
+            }
 
-      if (block.data && block.data.body) {
-        return (
-         <div className="callout-body">
-  //!=marked??
-         </div>
-        )
-      }
+            {
+              (block.data.type ==='danger') && (
+                <i className="fa fa-exclamation-triangle" title="Danger"></i>
+              )
+            }
 
+            {
+              (block.data.type ==='success') && (
+                <i className="fa fa-check-square" title="Success"></i>
+              )
+            }
 
+            {block.data.title}
+          </h3>
 
+          (!block.data.title) && (
+            <span className="noTitleIcon">
+              {
+                (block.data.type ==='info') && (
+                  <i className="fa fa-info-circle" title="Info"></i>
+                )
+              }
+
+                  {
+                    (block.data.type ==='warning') && (
+                      <i className="fa fa-exclamation-circle" title="Warning"></i>
+                    )
+                  }
+
+                  {
+                    (block.data.type ==='danger') && (
+                      <i className="fa fa-exclamation-triangle" title="Danger"></i>
+                    )
+                  }
+
+                  {
+                    (block.data.type ==='success') && (
+                      <i className="fa fa-check-square" title="Success"></i>
+                    )
+                  }
+
+            </span>
+          )
+
+          (block.data && block.data.body) && (
+            <div className="callout-body" dangerouslySetInnerHTML={Marked(block.data.body)}></div>
+          )
       }
     </div>
   )
