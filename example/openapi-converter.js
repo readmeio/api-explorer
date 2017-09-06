@@ -12,13 +12,12 @@ http.createServer((req, res) => {
     res.writeHead(200, cors);
     return res.end();
   }
-  bodyParser.json({ limit: '1mb' })(req, res, async () => {
+  return bodyParser.json({ limit: '1mb' })(req, res, async () => {
     try {
       const oas = await converter.convertObj(req.body, {});
       res.writeHead(200, Object.assign({ 'content-type': 'application/json' }, cors));
       res.end(JSON.stringify(oas.openapi));
     } catch (e) {
-      console.log(e);
       res.statusCode = 400;
       res.end(e.message);
     }

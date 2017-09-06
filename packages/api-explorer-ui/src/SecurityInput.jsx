@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function Oauth2({ scheme, apiKey, oauthUrl }) {
+function Oauth2({ scheme, apiKey, oauthUrl }) { // eslint-disable-line
   if (!apiKey && oauthUrl) {
     return (
       <section>

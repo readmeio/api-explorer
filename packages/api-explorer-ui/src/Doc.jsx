@@ -34,7 +34,10 @@ class Doc extends React.Component {
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
-        <a className="anchor-page-title" id={doc.slug} />
+        {
+          // eslint-disable-next-line jsx-a11y/anchor-has-content
+          <a className="anchor-page-title" id={doc.slug} />
+        }
 
         <div className="hub-reference-section hub-reference-section-top">
           <div className="hub-reference-left">
@@ -43,7 +46,12 @@ class Doc extends React.Component {
               // TODO suggested edits
               }
               <h2>{doc.title}</h2>
-              { doc.excerpt && <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} /> }
+              {
+                doc.excerpt && (
+                  // eslint-disable-next-line react/no-danger
+                  <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
+                )
+              }
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>

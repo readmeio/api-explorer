@@ -19,12 +19,14 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
                 oas[extensions.SAMPLES_LANGUAGES].map(lang =>
                   (
                     <li key={lang}>
-                      <a
-                        role="link"
-                        href="#"
-                        className={`hub-lang-switch-${lang}`}
-                        onClick={(e) => { e.preventDefault(); setLanguage(lang); }}
-                      >{lang}</a>
+                      {
+                        // eslint-disable-next-line jsx-a11y/href-no-hash
+                        <a
+                          href="#"
+                          className={`hub-lang-switch-${lang}`}
+                          onClick={(e) => { e.preventDefault(); setLanguage(lang); }}
+                        >{lang}</a>
+                      }
                     </li>
                   ),
                 )
@@ -39,7 +41,8 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
       {(() => {
         if (!oas[extensions.SAMPLES_ENABLED]) return null;
 
-        const snippets = generateCodeSnippets(oas, operation, formData, oas[extensions.SAMPLES_LANGUAGES]);
+        const snippets = generateCodeSnippets(oas, operation,
+          formData, oas[extensions.SAMPLES_LANGUAGES]);
 
         return (
           <div className="hub-code-auto">
@@ -48,6 +51,7 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
                 <pre
                   key={lang}
                   className={`tomorrow-night hub-lang hub-lang-${lang}`}
+                  // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{ __html: snippets[lang] }}
                 />
               ))

@@ -61,7 +61,10 @@ class AuthBox extends React.Component {
 
     return (
       <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.state.open })}>
-        <a href="" className="icon icon-user-lock" onClick={this.toggle} />
+        {
+          // eslint-disable-next-line jsx-a11y/anchor-has-content
+          <a href="" className="icon icon-user-lock" onClick={this.toggle} />
+        }
         <div className="nopad">
           <div className="triangle" />
           <div>{ renderSecurities(operation) }</div>

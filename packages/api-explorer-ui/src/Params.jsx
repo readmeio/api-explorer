@@ -20,6 +20,7 @@ function Params({ oas, operation, formData, onChange }) {
           id={`form-${operation.operationId}`}
           schema={jsonSchema}
           widgets={{ int64: UpDownWidget, int32: UpDownWidget, uuid: TextWidget }}
+          // eslint-disable-next-line no-console
           onSubmit={form => console.log('submit', form.formData)}
           formData={formData}
           onChange={form => onChange(form.formData)}
