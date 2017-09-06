@@ -22,7 +22,7 @@ describe('configure-security', () => {
       };
 
       configureSecurity({
-        securityDefinitions: { test: { type: 'basic' } },
+        securitySchemes: { test: { type: 'basic' } },
       }, {}, headers, scope, { test: {} });
 
       assert.equal(headers.Authorization, `Basic ${new Buffer(`${username}:${password}`).toString('base64')}`);
@@ -36,7 +36,7 @@ describe('configure-security', () => {
       const scope = { key: { api_key: apiKey } };
 
       configureSecurity({
-        securityDefinitions: { test: { type: 'oauth2' } },
+        securitySchemes: { test: { type: 'oauth2' } },
       }, {}, headers, scope, { test: {} });
 
       assert.equal(headers.Authorization, `Bearer ${apiKey}`);
@@ -51,7 +51,7 @@ describe('configure-security', () => {
         const security = { type: 'apiKey', in: 'query', name: 'key' };
 
         configureSecurity({
-          securityDefinitions: { test: security },
+          securitySchemes: { test: security },
         }, query, {}, scope, { test: {} });
 
         assert.equal(query[security.name], scope.apiAuth.auth[security.name]);
@@ -65,7 +65,7 @@ describe('configure-security', () => {
         const security = { type: 'apiKey', in: 'header', name: 'key' };
 
         configureSecurity({
-          securityDefinitions: { test: security },
+          securitySchemes: { test: security },
         }, {}, headers, scope, { test: {} });
 
         assert.equal(headers[security.name], scope.apiAuth.auth[security.name]);
@@ -78,7 +78,7 @@ describe('configure-security', () => {
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'bearer' };
 
           configureSecurity({
-            securityDefinitions: { test: security },
+            securitySchemes: { test: security },
           }, {}, headers, scope, { test: {} });
 
           assert.equal(headers[security.name], `Bearer ${scope.apiAuth.auth[security.name]}`);
@@ -90,7 +90,7 @@ describe('configure-security', () => {
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'basic' };
 
           configureSecurity({
-            securityDefinitions: { test: security },
+            securitySchemes: { test: security },
           }, {}, headers, scope, { test: {} });
 
           assert.equal(headers[security.name], `Basic ${scope.apiAuth.auth[security.name]}`);
@@ -102,7 +102,7 @@ describe('configure-security', () => {
           const security = { type: 'apiKey', in: 'header', name: 'key', 'x-bearer-format': 'token' };
 
           configureSecurity({
-            securityDefinitions: { test: security },
+            securitySchemes: { test: security },
           }, {}, headers, scope, { test: {} });
 
           assert.equal(headers[security.name], `Token ${scope.apiAuth.auth[security.name]}`);

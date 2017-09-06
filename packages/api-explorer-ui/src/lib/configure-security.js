@@ -1,4 +1,4 @@
-module.exports = function configureSecurity(swagger, query, headers, scope, sec) {
+module.exports = function configureSecurity(oas, query, headers, scope, sec) {
   let key;
   try {
     key = Object.keys(sec)[0];
@@ -6,8 +6,8 @@ module.exports = function configureSecurity(swagger, query, headers, scope, sec)
     return;
   }
 
-  if (!swagger.securityDefinitions[key]) return;
-  const security = swagger.securityDefinitions[key];
+  if (!oas.securitySchemes[key]) return;
+  const security = oas.securitySchemes[key];
 
   if (security.type === 'basic') {
     headers.Authorization = `Basic ${new Buffer(`${scope.apiAuth.auth._basic_username}:${scope.apiAuth.auth._basic_password}`).toString('base64')}`;
