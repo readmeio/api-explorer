@@ -67,29 +67,37 @@ const Loop = ({content, column}) => {
 
 const Opts = ({opts, content}) => {
   {
-    (opts && opts.isThreeColumn) && (
-      (opts.isThreeColumn === true)  && (
-          <div className="hub-reference-section">
+    (() => {
+      switch (opts) {
+        case (opts && opts.isThreeColumn) :
+          return (
+          switch (opts.isThreeColumn) {
+            case opts.isThreeColumn === true :
+              return (
+                <div className="hub-reference-section">
+                  <div className="hub-reference-left">
+                    <div className="content-body" dangerouslySetInnerHTML={Loop(content.left, 'left')}>
+                    </div>
+                  </div>
 
-            <div className="hub-reference-left">
-              <div className="content-body" dangerouslySetInnerHTML={Loop(content.left, 'left')}>
-              </div>
-            </div>
-
-            <div className="hub-reference-right">
-              <div className="content-body" dangerouslySetInnerHTML={Loop(content.right, 'right')}>
-              </div>
-            </div>
-          </div>
-      )
-      else {
-        Loop(content[opts.isThreeColumn])
+                  <div className="hub-reference-right">
+                    <div className="content-body" dangerouslySetInnerHTML={Loop(content.right, 'right')}>
+                    </div>
+                  </div>
+                </div>
+              )
+            default :
+              return (
+                Loop(content[opts.isThreeColumn])
+              )
+          }
+        )
+        default :
+          return (
+            Loop(content)
+          )
       }
-    }
-    else {
-      Loop(content)
-    }
-    )
+    }) ()
   }
 };
 
