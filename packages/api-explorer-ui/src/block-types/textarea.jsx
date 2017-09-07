@@ -1,13 +1,12 @@
-import Marked from '../marked';
+// import Marked from '../lib/marked';
+const React = require('react');
 
 const Textarea = ({block}) => {
-  <div className="magic-block-textarea">
-    (block.text) && (
-      {
-        Marked(block.text)
-      }
-    )
-  </div>
+  return (
+    <div className="magic-block-textarea">
+      {block.text}
+    </div>
+  );
 }
 
 module.exports = Textarea;

@@ -30,9 +30,9 @@ module.exports = (oas, apiSetting) => {
           api: { method },
           swagger: { path },
           body: `
-          [block:api-header]
+          [block:textarea]
           {
-            "title": "This is an API header block"
+            "text": "This is an API header block"
           }
           [/block]
           `,
