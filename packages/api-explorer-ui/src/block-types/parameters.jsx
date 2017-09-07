@@ -1,6 +1,9 @@
-import Marked from '../lib/marked';
+const React = require('react');
+// import Marked from '../lib/marked';
 
 const Parameters = ({block}) => {
+  const columns= block.data.cols;
+  const rows= block.data.rows;
   return (
     <div className="magic-block-parameters">
       <div className="block-parameters-table">
@@ -8,27 +11,29 @@ const Parameters = ({block}) => {
           {
             (block.data.data['h-0'] || block.data.data['h-1']) && (
               <div className="tr">
-                for (let c = 0; c < block.data.cols; c++) {
+                {columns.map((item, c) => (
                   <div className="th">
                     {block.data.data['h-' + c]}
                   </div>
-                }
+                ))}
               </div>
             )
-
           }
 
-          for (let r = 0; r < block.data.rows; r++) {
+          {
+            rows.map((item, r) => (
             <div className="tr">
-              for (let c = 0; c < block.data.cols; c++) {
-                <div className="td" dangerouslySetInnerHTML={Marked(block.data.data[r + '-' + c] || '')}></div>
-              }
+              {columns.map((ele, c) => (
+                <div className="td" >
+                  {block.data.data[r + '-' + c] || ''}
+                </div>
+              ))}
             </div>
-          }
+          ))}
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 module.exports = Parameters;

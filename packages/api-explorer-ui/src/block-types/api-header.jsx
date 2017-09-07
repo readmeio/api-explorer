@@ -1,4 +1,5 @@
 import uslug from 'uslug';
+const React = require('react');
 
 const ApiHeader = ({block}) => {
   return (
@@ -11,15 +12,15 @@ const ApiHeader = ({block}) => {
         {
           (block.data.type && block.data.type !== 'basic') && (
             <span className={`pg-type-big pg-type type-${uslug(block.data.type)}`}>
-              {block.data.title}
             </span>
           )
         }
+        {block.data.title}
         <a className="fa fa-anchor" href={`#section-${uslug(block.data.title)}`}>
         </a>
       </h1>
     </div>
-  )
+  );
 };
 
 module.exports = ApiHeader;
