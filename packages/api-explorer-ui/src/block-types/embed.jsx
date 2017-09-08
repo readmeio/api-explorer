@@ -9,7 +9,7 @@ const Embed = ({ block }) => {
           // eslint-disable-next-line react/no-danger
           return <span dangerouslySetInnerHTML={{ __html: block.data.html }} />;
         } else if (block.data.iframe) {
-          return (<iframe className="media-iframe" title={block.data.title} src={block.data.url} width={block.data.width || '100%'} height={block.data.height || '300px'} />);
+          return <iframe className="media-iframe" title={block.data.title} src={block.data.url} width={block.data.width || '100%'} height={block.data.height || '300px'} />;
         }
         return (
           <strong>

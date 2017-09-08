@@ -6,36 +6,41 @@ const Parameters = ({ block }) => {
   const columns = block.data.cols;
   const rows = block.data.rows;
 
-  const Th = () => {
-    const th = [];
+  function th() {
+    const thCells = [];
     for (let c = 0; c < columns; c += 1) {
-      th.push(<div className="th">
+      thCells.push(<div className="th">
         {block.data.data[`h-${c}`]}
       </div>);
     }
-    return th;
-  };
+    return thCells;
+  }
 
-  const Tr = () => {
-    const tr = [];
-    const td = [];
-    for (let r = 0; r < rows; r += 1) {
-      tr.push(
-        <div className="tr">
-          {() => {
-            for (let c = 0; c < columns; c += 1) {
-              td.push(
-                <div className="td" >
-                  {block.data.data[`${r}-${c}`] || ''}
-                </div>,
-              );
-            }
-          }}
+  function td(r) {
+    const tdCells = [];
+
+    for (let c = 0; c < columns; c += 1) {
+      tdCells.push(
+        <div className="td" >
+          {block.data.data[`${r}-${c}`] || ''}
         </div>,
       );
     }
-    return tr;
-  };
+    return tdCells;
+  }
+
+  function tr() {
+    const trCells = [];
+
+    for (let r = 0; r < rows; r += 1) {
+      trCells.push(
+        <div className="tr">
+          {td(r)}
+        </div>,
+      );
+    }
+    return trCells;
+  }
 
   return (
     <div className="magic-block-parameters">
@@ -44,11 +49,11 @@ const Parameters = ({ block }) => {
           {
             (block.data.data['h-0'] || block.data.data['h-1']) && (
               <div className="tr">
-                {Th()}
+                {th()}
               </div>
             )
           }
-          {Tr()}
+          {tr()}
 
         </div>
       </div>

@@ -3,13 +3,15 @@ const PropTypes = require('prop-types');
 
 // import Marked from '../lib/marked';
 
-const ImageBlock = ({ image }) => {
-  const imageClass = image.sizing ? image.sizing : 'smart';
-  const border = image.border ? image.border : '';
+const ImageBlock = ({ block }) => {
+  const myImage = block.data.images.map((image) => {
+    const imageClass = image.sizing ? image.sizing : 'smart';
+    const border = image.border ? image.border : '';
 
-  return (
-    <div className="magic-block-image">
-      {
+
+    return (
+      <div className="magic-block-image">
+        {
           (image && image.image && image.image.length) && (
             <div>
               <figure>
@@ -20,26 +22,22 @@ const ImageBlock = ({ image }) => {
                   <img src={image.image[0]} alt={image.caption} />
                 </a>
               </figure>
-              { (image.caption) && (<figcaption> { image.caption } </figcaption>)}
+              { image.caption && <figcaption> { image.caption } </figcaption>}
 
             </div>
           )
         }
-    </div>
-  );
-};
-
-const ImagesBlock = ({ block }) => {
-  const myImages = block.data.images.map((image) => {
-    return <ImageBlock image={image} />;
+      </div>
+    );
   });
 
   return (
-    <div> { myImages } </div>
+    <div> { myImage } </div>
   );
 };
 
-ImagesBlock.propTypes = {
+
+ImageBlock.propTypes = {
   block: PropTypes.shape({
     data: PropTypes.shape({
       images: PropTypes.array.isRequired,
@@ -47,14 +45,5 @@ ImagesBlock.propTypes = {
   }).isRequired,
 };
 
-ImageBlock.propTypes = {
-  image: PropTypes.shape({
-    sizing: PropTypes.string,
-    border: PropTypes.string,
-    image: PropTypes.array.isRequired,
-    caption: PropTypes.string,
-  }).isRequired,
-};
 
-
-module.exports = ImagesBlock;
+module.exports = ImageBlock;

@@ -55,11 +55,16 @@ const BlockCode = ({ data, opts = {} }) => {
 
 BlockCode.propTypes = {
   data: PropTypes.shape({
-    codes: PropTypes.array.isRequired,
-  }).isRequired,
+    codes: PropTypes.array,
+  }),
   opts: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-  }).isRequired,
+    label: PropTypes.string,
+  }),
+};
+
+BlockCode.defaultProps = {
+  data: null,
+  opts: {},
 };
 
 module.exports = BlockCode;

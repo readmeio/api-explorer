@@ -74,10 +74,16 @@ module.exports = (oas, apiSetting) => {
           [block:code]
           {
             "codes": [
-              {
-                "code": "Code sample",
-                "language": "text"
-              }
+               {
+                  "code": "whjdwhjwejhkwhjk",
+                  "language": "text",
+                  "status": 400,
+                  "name": "    "
+                },
+                {
+                  "code": "var a = 1;",
+                  "language": "javascript"
+                }
             ]
           }
           [/block]

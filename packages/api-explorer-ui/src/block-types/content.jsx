@@ -32,7 +32,7 @@ const Loop = ({ content, column }) => {
       case 'image' :
         return <ImageBlock block={block} />;
       default :
-        return <div />;
+        return null;
     }
   });
   return (

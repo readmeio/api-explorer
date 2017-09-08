@@ -1,5 +1,4 @@
-import uslug from 'uslug';
-
+const uslug = require('uslug');
 const React = require('react');
 const PropTypes = require('prop-types');
 
