@@ -8,7 +8,7 @@ const ImageBlock = ({ image }) => {
   const border = image.border ? image.border : '';
 
   return (
-    <div>
+    <div className="magic-block-image">
       {
           (image && image.image && image.image.length) && (
             <div>
@@ -49,10 +49,10 @@ ImagesBlock.propTypes = {
 
 ImageBlock.propTypes = {
   image: PropTypes.shape({
-    sizing: PropTypes.string.isRequired,
-    border: PropTypes.string.isRequired,
+    sizing: PropTypes.string,
+    border: PropTypes.string,
     image: PropTypes.array.isRequired,
-    caption: PropTypes.string.isRequired,
+    caption: PropTypes.string,
   }).isRequired,
 };
 

@@ -44,11 +44,11 @@ const Parameters = ({ block }) => {
           {
             (block.data.data['h-0'] || block.data.data['h-1']) && (
               <div className="tr">
-                {Th}
+                {Th()}
               </div>
             )
           }
-          {Tr}
+          {Tr()}
 
         </div>
       </div>

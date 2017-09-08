@@ -11,8 +11,10 @@ const BlockCode = ({ data, opts = {} }) => {
 
   return (
     <span>
-      { opts.label && <hlabel>{opts.label}</hlabel> }
-
+      {
+        // eslint-disable-next-line jsx-a11y/label-has-for
+        opts.label && <label>{opts.label}</label>
+      }
       <div className="magic-block-code">
         {(!opts.hideHeaderOnOne || data.codes.length > 1) && (
           <ul className="block-code-header">
@@ -21,6 +23,7 @@ const BlockCode = ({ data, opts = {} }) => {
                 <li>
                   <a href="" onClick={`showCode${i}`} style={`active: ${i === 'tab'} `}>
                     {
+                      //eslint-disable-next-line
                       code.status ? (
                         <span>
                           <span className={`status-icon status-icon-${statusCodes(code.status)[2]}`} />
@@ -38,7 +41,7 @@ const BlockCode = ({ data, opts = {} }) => {
 
         <div className="block-code-code">
           {
-            data.codes.map((code, i) => (
+            data.codes.map(code => (
               <pre>
                 <code>{syntaxHighlighter(code.code, code.language, opts.dark)}</code>
               </pre>

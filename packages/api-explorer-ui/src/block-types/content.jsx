@@ -12,7 +12,7 @@ const PropTypes = require('prop-types');
 
 const parseBlocks = require('../lib/parse-magic-blocks');
 
-const Loop = ({ content }) => {
+const Loop = ({ content, column }) => {
   const elements = content.map((block) => {
     switch (block.type) {
       case 'textarea':
@@ -84,15 +84,15 @@ const Opts = (props) => {
 
 
 Loop.propTypes = {
-  block: PropTypes.shape({
+  content: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
-  }).isRequired,
-  content: PropTypes.shape({}).isRequired,
+  })).isRequired,
+  column: PropTypes.string.isRequired,
 };
 
 Opts.propTypes = {
   'is-three-column': PropTypes.bool.isRequired,
-  body: PropTypes.shape({}).isRequired,
+  body: PropTypes.string.isRequired,
 };
 
 module.exports = Opts;

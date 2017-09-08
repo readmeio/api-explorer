@@ -27,7 +27,7 @@ const ApiHeader = ({ block }) => {
 ApiHeader.propTypes = {
   block: PropTypes.shape({
     data: PropTypes.shape({
-      type: PropTypes.string.isRequired,
+      type: PropTypes.string,
       title: PropTypes.string.isRequired,
     }),
   }).isRequired,

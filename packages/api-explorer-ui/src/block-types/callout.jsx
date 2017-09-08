@@ -85,7 +85,7 @@ CallOut.propTypes = {
     data: PropTypes.shape({
       type: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      body: PropTypes.array.isRequired,
+      body: PropTypes.array,
     }),
   }).isRequired,
 };
