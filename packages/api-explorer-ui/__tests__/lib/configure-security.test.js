@@ -41,6 +41,16 @@ describe('configure-security', () => {
         },
       });
     });
+
+    test('should return with no header if user and password are blank', () => {
+      const values = {
+        auth: { test: { user: '', password: '' } },
+      };
+
+      expect(configureSecurity({
+        components: { securitySchemes: { test: { type: 'basic' } } },
+      }, values, { test: {} })).toEqual(false);
+    });
   });
 
   describe('type=oauth2', () => {
@@ -59,6 +69,16 @@ describe('configure-security', () => {
           value: `Bearer ${apiKey}`,
         },
       });
+    });
+
+    test('should return with no header if apiKey is blank', () => {
+      const values = {
+        auth: { test: '' },
+      };
+
+      expect(configureSecurity({
+        components: { securitySchemes: { test: { type: 'oauth2' } } },
+      }, values, { test: {} })).toEqual(false);
     });
   });
 
