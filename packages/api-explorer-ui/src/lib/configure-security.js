@@ -13,9 +13,12 @@ module.exports = function configureSecurity(oas, values, scheme) {
   const security = oas.components.securitySchemes[key];
 
   if (security.type === 'basic') {
+    // Return with no header if user and password are blank
+    if (!values.auth[key].user && !values.auth[key].password) return false;
+
     return harValue('headers', {
       name: 'Authorization',
-      value: `Basic ${new Buffer(`${values.auth.user}:${values.auth.password}`).toString('base64')}`,
+      value: `Basic ${new Buffer(`${values.auth[key].user}:${values.auth[key].password}`).toString('base64')}`,
     });
   }
 
@@ -43,6 +46,8 @@ module.exports = function configureSecurity(oas, values, scheme) {
   }
 
   if (security.type === 'oauth2') {
+    if (!values.auth[key]) return false;
+
     return harValue('headers', {
       name: 'Authorization',
       value: `Bearer ${values.auth[key]}`,

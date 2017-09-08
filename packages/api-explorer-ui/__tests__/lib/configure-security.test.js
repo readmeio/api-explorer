@@ -28,7 +28,7 @@ describe('configure-security', () => {
       const user = 'user';
       const password = 'password';
       const values = {
-        auth: { user, password },
+        auth: { test: { user, password } },
       };
 
       expect(configureSecurity({
@@ -38,6 +38,33 @@ describe('configure-security', () => {
         value: {
           name: 'Authorization',
           value: `Basic ${new Buffer(`${user}:${password}`).toString('base64')}`,
+        },
+      });
+    });
+
+    test('should return with no header if user and password are blank', () => {
+      const values = {
+        auth: { test: { user: '', password: '' } },
+      };
+
+      expect(configureSecurity({
+        components: { securitySchemes: { test: { type: 'basic' } } },
+      }, values, { test: {} })).toEqual(false);
+    });
+
+    test('should return with a header if user or password are not blank', () => {
+      const user = 'user';
+      const values = {
+        auth: { test: { user, password: '' } },
+      };
+
+      expect(configureSecurity({
+        components: { securitySchemes: { test: { type: 'basic' } } },
+      }, values, { test: {} })).toEqual({
+        type: 'headers',
+        value: {
+          name: 'Authorization',
+          value: `Basic ${new Buffer(`${user}:`).toString('base64')}`,
         },
       });
     });
@@ -59,6 +86,16 @@ describe('configure-security', () => {
           value: `Bearer ${apiKey}`,
         },
       });
+    });
+
+    test('should return with no header if apiKey is blank', () => {
+      const values = {
+        auth: { test: '' },
+      };
+
+      expect(configureSecurity({
+        components: { securitySchemes: { test: { type: 'oauth2' } } },
+      }, values, { test: {} })).toEqual(false);
     });
   });
 

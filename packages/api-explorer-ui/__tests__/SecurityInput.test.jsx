@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { mount, shallow } = require('enzyme');
 const SecurityInput = require('../src/SecurityInput');
 
 describe('oauth2', () => {
@@ -7,7 +7,7 @@ describe('oauth2', () => {
 
   test('should display authenticate button if no api key and has an oauth url', () => {
     const oauthUrl = 'http://example.com/auth';
-    const securityInput = shallow(<SecurityInput {...props} oauthUrl={oauthUrl} />);
+    const securityInput = mount(<SecurityInput {...props} oauthUrl={oauthUrl} />);
 
     expect(securityInput.find('a.btn.btn-primary').text()).toBe('Authenticate via OAuth2');
     expect(securityInput.find('a.btn.btn-primary').prop('href')).toBe(oauthUrl);
@@ -25,10 +25,34 @@ describe('oauth2', () => {
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = shallow(<SecurityInput {...props} onChange={onChange} />);
+    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
 
-    securityInput.find('input[type="text"]').simulate('change', { currentTarget: { value: '1234' } });
+    securityInput.find('input[type="text"]').node.value = '1234';
+    securityInput.find('input[type="text"]').simulate('change');
 
     expect(onChange.mock.calls[0][0]).toEqual({ auth: { 'test-auth': '1234' } });
+  });
+});
+
+describe('basic', () => {
+  const props = { scheme: { type: 'basic', _key: 'test-basic' }, onChange: () => {} };
+
+  test('should send auth apiKey into onChange()', () => {
+    const onChange = jest.fn();
+    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+
+    securityInput.find('input[name="user"]').node.value = 'user';
+    securityInput.find('input[name="user"]').simulate('change');
+    securityInput.find('input[name="password"]').node.value = 'pass';
+    securityInput.find('input[name="password"]').simulate('change');
+
+    expect(onChange.mock.calls[1][0]).toEqual({
+      auth: {
+        'test-basic': {
+          user: 'user',
+          password: 'pass',
+        },
+      },
+    });
   });
 });
