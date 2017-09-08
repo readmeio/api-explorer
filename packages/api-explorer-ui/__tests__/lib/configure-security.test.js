@@ -28,7 +28,7 @@ describe('configure-security', () => {
       const user = 'user';
       const password = 'password';
       const values = {
-        auth: { user, password },
+        auth: { test: { user, password } },
       };
 
       expect(configureSecurity({

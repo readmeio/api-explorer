@@ -15,7 +15,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
   if (security.type === 'basic') {
     return harValue('headers', {
       name: 'Authorization',
-      value: `Basic ${new Buffer(`${values.auth.user}:${values.auth.password}`).toString('base64')}`,
+      value: `Basic ${new Buffer(`${values.auth[key].user}:${values.auth[key].password}`).toString('base64')}`,
     });
   }
 

@@ -72,4 +72,3 @@ CodeSample.propTypes = {
 };
 
 module.exports = CodeSample;
-
