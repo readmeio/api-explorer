@@ -76,8 +76,7 @@ module.exports = (oas, apiSetting) => {
             "codes": [
               {
                 "code": "Code sample",
-                "language": "text",
-                "name": null
+                "language": "text"
               }
             ]
           }

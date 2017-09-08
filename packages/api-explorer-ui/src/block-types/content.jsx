@@ -1,37 +1,38 @@
 import Callout from './callout';
-import Html from './html'
-const React = require('react');
+import Html from './html';
 import Textarea from './textarea';
-import  BlockCode  from './code';
+import BlockCode from './code';
 import ImageBlock from './image';
 import Embed from './embed';
 import Parameters from './parameters';
 import ApiHeader from './api-header';
 
+const React = require('react');
+const PropTypes = require('prop-types');
+
 const parseBlocks = require('../lib/parse-magic-blocks');
 
 const Loop = ({ content }) => {
   const elements = content.map((block) => {
-    switch(block.type) {
+    switch (block.type) {
       case 'textarea':
         return <Textarea block={block} />;
-      case  'html' :
+      case 'html' :
         return <Html block={block} />;
       case 'embed' :
-        return <Embed block={block}/>;
+        return <Embed block={block} />;
       case 'api-header' :
-        return <ApiHeader block={block}/>;
+        return <ApiHeader block={block} />;
       case 'code' :
-        return
-          <BlockCode dark={column === 'right'} />
-      case  'callout':
+        return <BlockCode dark={column === 'right'} />;
+      case 'callout':
         return <Callout block={block} />;
       case 'parameters' :
-        return <Parameters block={block}/>;
+        return <Parameters block={block} />;
       case 'image' :
         return <ImageBlock block={block} />;
-
-
+      default :
+        return <div />;
     }
   });
   return (
@@ -79,6 +80,19 @@ const Opts = (props) => {
   }
 
   return <Loop content={content} />;
+};
+
+
+Loop.propTypes = {
+  block: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+  }).isRequired,
+  content: PropTypes.shape({}).isRequired,
+};
+
+Opts.propTypes = {
+  'is-three-column': PropTypes.bool.isRequired,
+  body: PropTypes.shape({}).isRequired,
 };
 
 module.exports = Opts;

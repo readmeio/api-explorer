@@ -1,17 +1,36 @@
 const magicFileHub2 = jade.compileFile('./hub2/views/magic/content.jade', { pretty: '\t' });
 exports.renderMagic = function (req, content, opts, variables) {
   if (!opts) opts = {};
-
+  const fns = {
+    marked: marked.configure(req),
+    statusCodes: shared.statusCodes,
+    codemirror: codemirror.codemirror,
+    codemirrorUppercase: codemirror.uppercase,
+    slugify: shared.slugify,
+    exists: exports.exists,
+    uslug,
+  };
 
   const locals = _.extend({}, fns, {
-    content: ,
+    content: magictext.parseBlocks(content),
     opts,
     json: JSON.stringify,
   });
 
   const magicFile = magicFileHub2;
 
+  if (opts && opts.isThreeColumn) {
+    const section = { left: [], right: [] };
+    locals.content.forEach((elem) => {
+      if (elem.sidebar) {
+        section.right.push(elem);
+      } else {
+        section.left.push(elem);
+      }
+    });
 
+    locals.content = section;
+  }
 
   let out = magicFile(locals);
 

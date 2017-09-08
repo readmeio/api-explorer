@@ -1,12 +1,10 @@
-const _ = require('lodash');
 
-module.exports = function (str, addTextareas) {
-  if (!str) str = '';
+module.exports = function parseMagicBlocks(str = ''/* , addTextareas */) {
   let block = false;
   const blocks = [];
-  let previous = false;
-  let sectionCount = 0;
-  _.each(str.split(/\n?(\[block:[-a-z]+\]|\[\/block\])\n?/), (v) => {
+  // let previous = false;
+  // let sectionCount = 0;
+  str.split(/\n?(\[block:[-a-z]+\]|\[\/block\])\n?/).forEach((v) => {
     const check = v.match(/^(\[block:([-a-z]+)\]|\[\/block\])$/);
 
     if (check) {
@@ -30,15 +28,15 @@ module.exports = function (str, addTextareas) {
           sidebar: j.sidebar,
         });
       } else {
-        if (addTextareas) {
-            // Everything should have a textarea between it!
-          if (previous && previous !== 'textarea' && block !== 'textarea') {
-            blocks.push({
-              type: 'textarea',
-              text: '',
-            });
-          }
-        }
+        // if (addTextareas) {
+        //     // Everything should have a textarea between it!
+        //   if (previous && previous !== 'textarea' && block !== 'textarea') {
+        //     blocks.push({
+        //       type: 'textarea',
+        //       text: '',
+        //     });
+        //   }
+        // }
 
         const j = JSON.parse(v);
         blocks.push({
@@ -47,19 +45,19 @@ module.exports = function (str, addTextareas) {
           sidebar: j.sidebar,
         });
       }
-      previous = block;
-      sectionCount += 1;
+      // previous = block;
+      // sectionCount += 1;
     }
   });
 
-  if (addTextareas) {
-    if ((previous && previous !== 'textarea') || !sectionCount) {
-      blocks.push({
-        type: 'textarea',
-        text: '',
-      });
-    }
-  }
+  // if (addTextareas) {
+  //   if ((previous && previous !== 'textarea') || !sectionCount) {
+  //     blocks.push({
+  //       type: 'textarea',
+  //       text: '',
+  //     });
+  //   }
+  // }
 
   return blocks;
 };

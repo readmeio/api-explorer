@@ -1,7 +1,8 @@
 const React = require('react');
-import Marked from '../lib/marked';
+const PropTypes = require('prop-types');
+// import Marked from '../lib/marked';
 
-const CallOut = ({block}) => {
+const CallOut = ({ block }) => {
   const c = block.data.title ? '' : 'no-title';
 
   return (
@@ -13,25 +14,25 @@ const CallOut = ({block}) => {
             <h3>
               {
                 (block.data.type === 'info') && (
-                  <i className="fa fa-info-circle" title="Info"/>
+                  <i className="fa fa-info-circle" title="Info" />
                 )
               }
 
               {
-                (block.data.type ==='warning') && (
-                  <i className="fa fa-exclamation-circle" title="Warning"/>
+                (block.data.type === 'warning') && (
+                  <i className="fa fa-exclamation-circle" title="Warning" />
                 )
               }
 
               {
-                (block.data.type ==='danger') && (
-                  <i className="fa fa-exclamation-triangle" title="Danger"/>
+                (block.data.type === 'danger') && (
+                  <i className="fa fa-exclamation-triangle" title="Danger" />
                 )
               }
 
               {
-                (block.data.type ==='success') && (
-                  <i className="fa fa-check-square" title="Success"/>
+                (block.data.type === 'success') && (
+                  <i className="fa fa-check-square" title="Success" />
                 )
               }
               {block.data.title}
@@ -39,30 +40,30 @@ const CallOut = ({block}) => {
 
             {(!block.data.title) && (
             <span className="noTitleIcon">
-            {
-              (block.data.type ==='info') && (
-                <i className="fa fa-info-circle" title="Info"/>
+              {
+              (block.data.type === 'info') && (
+                <i className="fa fa-info-circle" title="Info" />
               )
             }
 
               {
-                (block.data.type ==='warning') && (
-                  <i className="fa fa-exclamation-circle" title="Warning"/>
+                (block.data.type === 'warning') && (
+                  <i className="fa fa-exclamation-circle" title="Warning" />
                 )
               }
 
               {
-                (block.data.type ==='danger') && (
-                  <i className="fa fa-exclamation-triangle" title="Danger"/>
+                (block.data.type === 'danger') && (
+                  <i className="fa fa-exclamation-triangle" title="Danger" />
                 )
               }
 
               {
-                (block.data.type ==='success') && (
-                  <i className="fa fa-check-square" title="Success"/>
+                (block.data.type === 'success') && (
+                  <i className="fa fa-check-square" title="Success" />
                 )
               }
-          </span>
+            </span>
           )}
             {(block.data && block.data.body) && (
             <div className="callout-body"> {block.data.body}</div>
@@ -71,13 +72,27 @@ const CallOut = ({block}) => {
         )}
     </div>
   );
+};
 
-}
-
-const CallOutBlock = ({block}) => {
+const CallOutBlock = ({ block }) => {
   return (
-    <CallOut block={block}/>
+    <CallOut block={block} />
   );
+};
+
+CallOut.propTypes = {
+  block: PropTypes.shape({
+    data: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      body: PropTypes.array.isRequired,
+    }),
+  }).isRequired,
+};
+
+CallOutBlock.propTypes = {
+  block: PropTypes.shape({
+  }).isRequired,
 };
 
 module.exports = CallOutBlock;
