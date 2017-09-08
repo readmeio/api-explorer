@@ -7,7 +7,7 @@ describe('oauth2', () => {
 
   test('should display authenticate button if no api key and has an oauth url', () => {
     const oauthUrl = 'http://example.com/auth';
-    const securityInput = shallow(<SecurityInput {...props} oauthUrl={oauthUrl} />);
+    const securityInput = mount(<SecurityInput {...props} oauthUrl={oauthUrl} />);
 
     expect(securityInput.find('a.btn.btn-primary').text()).toBe('Authenticate via OAuth2');
     expect(securityInput.find('a.btn.btn-primary').prop('href')).toBe(oauthUrl);
@@ -25,9 +25,10 @@ describe('oauth2', () => {
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = shallow(<SecurityInput {...props} onChange={onChange} />);
+    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
 
-    securityInput.find('input[type="text"]').simulate('change', { currentTarget: { value: '1234' } });
+    securityInput.find('input[type="text"]').node.value = '1234';
+    securityInput.find('input[type="text"]').simulate('change');
 
     expect(onChange.mock.calls[0][0]).toEqual({ auth: { 'test-auth': '1234' } });
   });

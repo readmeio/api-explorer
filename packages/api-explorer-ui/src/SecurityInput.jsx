@@ -36,12 +36,13 @@ function Oauth2({ apiKey, oauthUrl, change }) {
 
 Oauth2.propTypes = {
   apiKey: PropTypes.string,
-  oauthUrl: PropTypes.string.isRequired,
+  oauthUrl: PropTypes.string,
   change: PropTypes.func.isRequired,
 };
 
 Oauth2.defaultProps = {
   apiKey: '',
+  oauthUrl: '',
 };
 
 class Basic extends React.Component {
