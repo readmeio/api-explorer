@@ -91,9 +91,9 @@ function SecurityInput(props) {
   }
   switch (props.scheme.type) {
     case 'oauth2':
-      return Oauth2(Object.assign({}, props, { change }));
+      return <Oauth2 {...props} change={change} />;
     case 'basic':
-      return React.createElement(Basic, Object.assign({}, props, { change }));
+      return <Basic {...props} change={change} />;
     default: return <span />;
   }
 }
