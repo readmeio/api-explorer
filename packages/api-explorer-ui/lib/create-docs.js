@@ -86,7 +86,12 @@ module.exports = (oas, apiSetting) => {
           [block:parameters]
           {
             "data": {
-              "h-0": "Table"
+              "0-0": "arbitrary",
+              "0-1": "info",
+              "0-2": "test",
+              "h-0": "test",
+              "h-1": "1",
+              "h-2": "2"
             },
             "cols": 3,
             "rows": 1

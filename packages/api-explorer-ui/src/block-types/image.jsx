@@ -29,7 +29,7 @@ const ImagesBlock = ({block}) => {
   const myImages =  block.data.images.map((image) => {
     return <ImageBlock image={image}/>;
   });
-  
+
   return (
     <div> { myImages } </div>
   );

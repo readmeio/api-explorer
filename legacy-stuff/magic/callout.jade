@@ -26,3 +26,31 @@
   if block.data && block.data.body
     div.callout-body
       != marked(block.data.body)
+
+(!block.data.title) && (
+  <span className="noTitleIcon">
+{
+(block.data.type ==='info') && (
+<i className="fa fa-info-circle" title="Info"/>
+)
+}
+
+{
+(block.data.type ==='warning') && (
+<i className="fa fa-exclamation-circle" title="Warning"/>
+)
+}
+
+{
+(block.data.type ==='danger') && (
+<i className="fa fa-exclamation-triangle" title="Danger"/>
+)
+}
+
+{
+(block.data.type ==='success') && (
+<i className="fa fa-check-square" title="Success"/>
+)
+}
+</span>
+)

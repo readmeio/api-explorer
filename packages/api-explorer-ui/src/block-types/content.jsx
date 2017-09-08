@@ -24,10 +24,10 @@ const Loop = ({ content }) => {
       case 'code' :
         return
           <BlockCode dark={column === 'right'} />
-      // case  'callout':
-      //   return <Callout block={block} />;
-      // case 'parameters' :
-      //   return <Parameters block={block}/>;
+      case  'callout':
+        return <Callout block={block} />;
+      case 'parameters' :
+        return <Parameters block={block}/>;
       case 'image' :
         return <ImageBlock block={block} />;
 
@@ -46,7 +46,7 @@ const Opts = (props) => {
   const isThreeColumn = props['is-three-column'];
 
   const content = parseBlocks(body);
-  console.log(content);
+  // console.log(content);
 
 
   if (isThreeColumn) {
