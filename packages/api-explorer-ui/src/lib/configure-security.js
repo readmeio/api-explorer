@@ -14,7 +14,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
 
   if (security.type === 'basic') {
     // Return with no header if user and password are blank
-    if (!(values.auth[key].user && values.auth[key].password)) return false;
+    if (!values.auth[key].user && !values.auth[key].password) return false;
 
     return harValue('headers', {
       name: 'Authorization',
