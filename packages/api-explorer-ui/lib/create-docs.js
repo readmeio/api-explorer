@@ -35,10 +35,10 @@ module.exports = (oas, apiSetting) => {
             "text": "This is text area"
           }
           [/block]
-           [block:html]
+          [block:html]
           {
             "html": "<p>This is an html</p>"
-            
+
           }
           [/block]
           [block:api-header]
@@ -47,14 +47,14 @@ module.exports = (oas, apiSetting) => {
             "sidebar": true
           }
           [/block]
-          
+
           [block:callout]
           {
             "type": "info",
             "title": "Callout"
           }
           [/block]
-          
+
           [block:image]
           {
              "images": [
@@ -70,7 +70,7 @@ module.exports = (oas, apiSetting) => {
             ]
           }
           [/block]
-          
+
           [block:code]
           {
             "codes": [
@@ -87,7 +87,7 @@ module.exports = (oas, apiSetting) => {
             ]
           }
           [/block]
-          
+
           [block:parameters]
           {
             "data": {
@@ -102,7 +102,7 @@ module.exports = (oas, apiSetting) => {
             "rows": 1
           }
           [/block]
-          
+
         [block:embed]
         {
           "html": "<iframe class=\\"embedly-embed\\" src=\\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FjYjDqzZ4gjY%3Ffeature%3Doembed&url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DjYjDqzZ4gjY&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FjYjDqzZ4gjY%2Fhqdefault.jpg&key=f2aa6fc3595946d0afc3d76cbbd25dc3&type=text%2Fhtml&schema=youtube\\" width=\\"640\\" height=\\"480\\" scrolling=\\"no\\" frameborder=\\"0\\" allowfullscreen></iframe>",

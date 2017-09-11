@@ -22,7 +22,13 @@ const ImageBlock = ({ block }) => {
                   <img src={image.image[0]} alt={image.caption} />
                 </a>
               </figure>
-              { image.caption && <figcaption> { image.caption } </figcaption>}
+              { image.caption &&
+                <figcaption>
+                  {
+                    // TODO add marked
+                    image.caption
+                  }
+                </figcaption>}
 
             </div>
           )
@@ -32,7 +38,7 @@ const ImageBlock = ({ block }) => {
   });
 
   return (
-    <div> { myImage } </div>
+    <div className="image"> { myImage } </div>
   );
 };
 

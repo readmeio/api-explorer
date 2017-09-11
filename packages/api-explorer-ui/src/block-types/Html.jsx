@@ -11,6 +11,6 @@ Html.propTypes = {
     data: PropTypes.shape({
       html: PropTypes.string.isRequired,
     }),
-  }).isRequired,
+  }),
 };
 module.exports = Html;

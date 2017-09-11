@@ -9,7 +9,7 @@ const CodeSample = require('./CodeSample');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
-const Content = require('./block-types/content');
+const Content = require('./block-types/Content');
 
 class Doc extends React.Component {
   constructor(props) {

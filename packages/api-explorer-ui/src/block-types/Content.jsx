@@ -1,11 +1,11 @@
-import Callout from './callout';
-import Html from './html';
-import Textarea from './textarea';
-import BlockCode from './code';
-import ImageBlock from './image';
-import Embed from './embed';
-import Parameters from './parameters';
-import ApiHeader from './api-header';
+import CallOut from './CallOut';
+import Html from './Html';
+import TextArea from './TextArea';
+import BlockCode from './Code';
+import ImageBlock from './Image';
+import Embed from './Embed';
+import Parameters from './Parameters';
+import ApiHeader from './ApiHeader';
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -13,10 +13,12 @@ const PropTypes = require('prop-types');
 const parseBlocks = require('../lib/parse-magic-blocks');
 
 const Loop = ({ content, column }) => {
+  // console.log(content, 'column', column);
   const elements = content.map((block) => {
+    // (console.log(block.type));
     switch (block.type) {
       case 'textarea':
-        return <Textarea block={block} />;
+        return <TextArea block={block} />;
       case 'html' :
         return <Html block={block} />;
       case 'embed' :
@@ -26,7 +28,7 @@ const Loop = ({ content, column }) => {
       case 'code' :
         return <BlockCode dark={column === 'right'} />;
       case 'callout':
-        return <Callout block={block} />;
+        return <CallOut block={block} />;
       case 'parameters' :
         return <Parameters block={block} />;
       case 'image' :
@@ -47,8 +49,6 @@ const Opts = (props) => {
   const isThreeColumn = props['is-three-column'];
 
   const content = parseBlocks(body);
-  // console.log(content);
-
 
   if (isThreeColumn) {
     content.left = [];

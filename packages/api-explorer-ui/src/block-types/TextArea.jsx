@@ -5,7 +5,10 @@ const PropTypes = require('prop-types');
 const Textarea = ({ block }) => {
   return (
     <div className="magic-block-textarea">
-      {block.text}
+      {
+        // TODO add marked
+        block.text
+      }
     </div>
   );
 };

@@ -22,7 +22,10 @@ const Parameters = ({ block }) => {
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
         <div className="td" >
-          {block.data.data[`${r}-${c}`] || ''}
+          {
+            // TODO add marked
+            block.data.data[`${r}-${c}`] || ''
+          }
         </div>,
       );
     }

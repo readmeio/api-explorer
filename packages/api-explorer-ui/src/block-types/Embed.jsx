@@ -25,7 +25,8 @@ const Embed = ({ block }) => {
 Embed.propTypes = {
   block: PropTypes.shape({
     data: PropTypes.shape({
-      html: PropTypes.string.isRequired,
+      html: PropTypes.boolean,
+      iframe: PropTypes.boolean,
       url: PropTypes.string.isRequired,
       favicon: PropTypes.string.isRequired,
       width: PropTypes.string,
