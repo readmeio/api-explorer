@@ -20,8 +20,8 @@ const BlockCode = ({ data, opts = {} }) => {
           <ul className="block-code-header">
             {
               data.codes.map((code, i) => (
-                <li>
-                  <a href="" onClick={`showCode${i}`} style={`active: ${i === 'tab'} `}>
+                <li key={i}>
+                  <a href="" onClick={() => console.log(`showCode${i}`)} style={{ active: `${i === 'tab'}` }}>
                     {
                       //eslint-disable-next-line
                       code.status ? (
@@ -41,8 +41,8 @@ const BlockCode = ({ data, opts = {} }) => {
 
         <div className="block-code-code">
           {
-            data.codes.map(code => (
-              <pre>
+            data.codes.map((code, i) => (
+              <pre key={i}>
                 <code>{syntaxHighlighter(code.code, code.language, opts.dark)}</code>
               </pre>
             ))

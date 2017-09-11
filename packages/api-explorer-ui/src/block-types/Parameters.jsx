@@ -9,7 +9,7 @@ const Parameters = ({ block }) => {
   function th() {
     const thCells = [];
     for (let c = 0; c < columns; c += 1) {
-      thCells.push(<div className="th">
+      thCells.push(<div className="th" key={c}>
         {block.data.data[`h-${c}`]}
       </div>);
     }
@@ -21,7 +21,7 @@ const Parameters = ({ block }) => {
 
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
-        <div className="td" >
+        <div className="td" key={c}>
           {
             // TODO add marked
             block.data.data[`${r}-${c}`] || ''
@@ -37,7 +37,7 @@ const Parameters = ({ block }) => {
 
     for (let r = 0; r < rows; r += 1) {
       trCells.push(
-        <div className="tr">
+        <div className="tr" key={r}>
           {td(r)}
         </div>,
       );

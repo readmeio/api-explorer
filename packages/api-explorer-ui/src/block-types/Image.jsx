@@ -4,13 +4,13 @@ const PropTypes = require('prop-types');
 // import Marked from '../lib/marked';
 
 const ImageBlock = ({ block }) => {
-  const myImage = block.data.images.map((image) => {
+  const myImage = block.data.images.map((image, i) => {
     const imageClass = image.sizing ? image.sizing : 'smart';
     const border = image.border ? image.border : '';
 
 
     return (
-      <div className="magic-block-image">
+      <div className="magic-block-image" key={i}>
         {
           (image && image.image && image.image.length) && (
             <div>

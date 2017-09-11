@@ -38,7 +38,7 @@ const CallOut = ({ block }) => {
       }
       {
         (block.data && block.data.body) && (
-          <div className="callout-body"> {block.data.body}</div>
+          <div className="callout-body">{block.data.body}</div>
         )
       }
     </div>

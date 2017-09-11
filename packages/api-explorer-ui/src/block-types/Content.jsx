@@ -13,26 +13,24 @@ const PropTypes = require('prop-types');
 const parseBlocks = require('../lib/parse-magic-blocks');
 
 const Loop = ({ content, column }) => {
-  // console.log(content, 'column', column);
-  const elements = content.map((block) => {
-    // (console.log(block.type));
+  const elements = content.map((block, i) => {
     switch (block.type) {
       case 'textarea':
-        return <TextArea block={block} />;
+        return <TextArea key={i} block={block} />;
       case 'html' :
-        return <Html block={block} />;
+        return <Html key={i} block={block} />;
       case 'embed' :
-        return <Embed block={block} />;
+        return <Embed key={i} block={block} />;
       case 'api-header' :
-        return <ApiHeader block={block} />;
+        return <ApiHeader key={i} block={block} />;
       case 'code' :
-        return <BlockCode dark={column === 'right'} />;
+        return <BlockCode key={i} dark={column === 'right'} />;
       case 'callout':
-        return <CallOut block={block} />;
+        return <CallOut key={i} block={block} />;
       case 'parameters' :
-        return <Parameters block={block} />;
+        return <Parameters key={i} block={block} />;
       case 'image' :
-        return <ImageBlock block={block} />;
+        return <ImageBlock key={i} block={block} />;
       default :
         return null;
     }
@@ -87,12 +85,12 @@ Loop.propTypes = {
   content: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
   })).isRequired,
-  column: PropTypes.string.isRequired,
+  column: PropTypes.string,
 };
 
 Opts.propTypes = {
-  'is-three-column': PropTypes.bool.isRequired,
-  body: PropTypes.string.isRequired,
+  'is-three-column': PropTypes.bool,
+  body: PropTypes.string,
 };
 
 module.exports = Opts;

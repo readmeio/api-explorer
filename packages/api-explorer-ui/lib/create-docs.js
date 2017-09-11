@@ -71,6 +71,23 @@ module.exports = (oas, apiSetting) => {
           }
           [/block]
 
+          [block:image]
+          {
+            "images": [
+              {
+                "image": [
+                  "https://files.readme.io/dce21f0-IMG_0418.JPG",
+                  "IMG_0418.JPG",
+                  640,
+                  1136,
+                  "#9e918d"
+                ],
+                "caption": "doggo"
+              }
+            ]
+          }
+          [/block]
+
           [block:code]
           {
             "codes": [

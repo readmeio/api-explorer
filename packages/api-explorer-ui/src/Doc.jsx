@@ -93,10 +93,10 @@ class Doc extends React.Component {
                   formData={this.state.formData}
                   onChange={this.onChange}
                 />
-                <Content body={doc.body} is-three-column />
               </div>
               <div className="hub-reference-right switcher" />
             </div>
+            <Content body={doc.body} is-three-column />
           </div>
           )
         }
