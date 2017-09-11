@@ -16,20 +16,28 @@ const Loop = ({ content, column }) => {
   const elements = content.map((block, i) => {
     switch (block.type) {
       case 'textarea':
+        // eslint-disable-next-line react/no-array-index-key
         return <TextArea key={i} block={block} />;
       case 'html' :
+        // eslint-disable-next-line react/no-array-index-key
         return <Html key={i} block={block} />;
       case 'embed' :
+        // eslint-disable-next-line react/no-array-index-key
         return <Embed key={i} block={block} />;
       case 'api-header' :
+        // eslint-disable-next-line react/no-array-index-key
         return <ApiHeader key={i} block={block} />;
       case 'code' :
+        // eslint-disable-next-line react/no-array-index-key
         return <BlockCode key={i} dark={column === 'right'} />;
       case 'callout':
+        // eslint-disable-next-line react/no-array-index-key
         return <CallOut key={i} block={block} />;
       case 'parameters' :
+        // eslint-disable-next-line react/no-array-index-key
         return <Parameters key={i} block={block} />;
       case 'image' :
+        // eslint-disable-next-line react/no-array-index-key
         return <ImageBlock key={i} block={block} />;
       default :
         return null;
@@ -88,9 +96,18 @@ Loop.propTypes = {
   column: PropTypes.string,
 };
 
+Loop.defaultProps = {
+  column: 'left',
+};
+
 Opts.propTypes = {
   'is-three-column': PropTypes.bool,
   body: PropTypes.string,
+};
+
+Opts.defaultProps = {
+  'is-three-column': false,
+  body: '',
 };
 
 module.exports = Opts;
