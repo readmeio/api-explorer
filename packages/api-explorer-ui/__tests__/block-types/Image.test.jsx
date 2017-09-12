@@ -2,9 +2,6 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const Image = require('../../src/block-types/Image');
 
-const a = { b: 1 };
-
-
 describe('Image', () => {
   test('Image has a tag with property href set to url', () => {
     const block = {

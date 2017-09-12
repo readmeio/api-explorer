@@ -31,7 +31,7 @@ class BlockCode extends React.Component {
                   // eslint-disable-next-line react/no-array-index-key
                   <li key={i}>
                     <a
-                      href="#"
+                      href=""
                       onClick={(e) => {
                         // eslint-disable-next-line
                         e.preventDefault()
@@ -62,7 +62,10 @@ class BlockCode extends React.Component {
               codes.map((code, i) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
-                  <code dangerouslySetInnerHTML={{ __html: syntaxHighlighter(code.code, code.language, opts.dark) }} />
+                  {
+                    // eslint-disable-next-line
+                    <code dangerouslySetInnerHTML={{ __html: syntaxHighlighter(code.code, code.language, opts.dark) }} />
+                  }
                 </pre>
               ))
             }

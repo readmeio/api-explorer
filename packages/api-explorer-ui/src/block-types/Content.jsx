@@ -18,7 +18,7 @@ const Loop = ({ content, column }) => {
       case 'textarea':
         // eslint-disable-next-line react/no-array-index-key
         return <TextArea key={i} block={block} />;
-      case 'html' :
+      case 'html':
         // eslint-disable-next-line react/no-array-index-key
         return <Html key={i} block={block} />;
       case 'embed':
