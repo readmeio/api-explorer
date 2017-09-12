@@ -1,4 +1,3 @@
-
 module.exports = function parseMagicBlocks(str = ''/* , addTextareas */) {
   let block = false;
   const blocks = [];

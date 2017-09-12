@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+// const Marked = require('../lib/marked');
 
-// import Marked from '../lib/marked';
 
 const ImageBlock = ({ block }) => {
   const myImage = block.data.images.map((image, i) => {
@@ -27,11 +27,12 @@ const ImageBlock = ({ block }) => {
                 <figcaption>
                   <p>
                     {
-                    // TODO add marked
-                    image.caption
+                      // TODO add marked
+                      image.caption
                     }
                   </p>
-                </figcaption>}
+                </figcaption>
+              }
 
             </div>
           )
@@ -40,9 +41,7 @@ const ImageBlock = ({ block }) => {
     );
   });
 
-  return (
-    <div className="image"> { myImage } </div>
-  );
+  return <div className="image"> { myImage } </div>;
 };
 
 

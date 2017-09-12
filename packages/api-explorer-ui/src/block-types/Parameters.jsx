@@ -9,9 +9,11 @@ const Parameters = ({ block }) => {
   function th() {
     const thCells = [];
     for (let c = 0; c < columns; c += 1) {
-      thCells.push(<div className="th" key={c}>
-        {block.data.data[`h-${c}`]}
-      </div>);
+      thCells.push(
+        <div className="th" key={c}>
+          {block.data.data[`h-${c}`]}
+        </div>,
+      );
     }
     return thCells;
   }

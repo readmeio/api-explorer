@@ -4,3 +4,4 @@ coverage
 .yo-rc.json
 .idea/*
 lerna-debug.log
+.DS_Store

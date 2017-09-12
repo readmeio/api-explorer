@@ -1,11 +1,11 @@
-import CallOut from './CallOut';
-import Html from './Html';
-import TextArea from './TextArea';
-import BlockCode from './Code';
-import ImageBlock from './Image';
-import Embed from './Embed';
-import Parameters from './Parameters';
-import ApiHeader from './ApiHeader';
+const CallOut = require('./CallOut');
+const Html = require('./Html');
+const TextArea = require('./TextArea');
+const BlockCode = require('./Code');
+const ImageBlock = require('./Image');
+const Embed = require('./Embed');
+const Parameters = require('./Parameters');
+const ApiHeader = require('./ApiHeader');
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -21,25 +21,25 @@ const Loop = ({ content, column }) => {
       case 'html' :
         // eslint-disable-next-line react/no-array-index-key
         return <Html key={i} block={block} />;
-      case 'embed' :
+      case 'embed':
         // eslint-disable-next-line react/no-array-index-key
         return <Embed key={i} block={block} />;
-      case 'api-header' :
+      case 'api-header':
         // eslint-disable-next-line react/no-array-index-key
         return <ApiHeader key={i} block={block} />;
-      case 'code' :
+      case 'code':
         // eslint-disable-next-line react/no-array-index-key
-        return <BlockCode key={i} dark={column === 'right'} />;
+        return <BlockCode key={i} block={block} dark={column === 'right'} />;
       case 'callout':
         // eslint-disable-next-line react/no-array-index-key
         return <CallOut key={i} block={block} />;
-      case 'parameters' :
+      case 'parameters':
         // eslint-disable-next-line react/no-array-index-key
         return <Parameters key={i} block={block} />;
-      case 'image' :
+      case 'image':
         // eslint-disable-next-line react/no-array-index-key
         return <ImageBlock key={i} block={block} />;
-      default :
+      default:
         return null;
     }
   });
@@ -50,35 +50,32 @@ const Loop = ({ content, column }) => {
   );
 };
 
-const Opts = (props) => {
+const Content = (props) => {
   const { body } = props;
   const isThreeColumn = props['is-three-column'];
 
   const content = parseBlocks(body);
 
   if (isThreeColumn) {
-    content.left = [];
-    content.right = [];
+    const left = [];
+    const right = [];
     content.forEach((elem) => {
       if (elem.sidebar) {
-        content.right.push(elem);
+        right.push(elem);
       } else {
-        content.left.push(elem);
+        left.push(elem);
       }
     });
-  }
-
-  if (isThreeColumn) {
     return (
       <div className="hub-reference-section">
         <div className="hub-reference-left">
           <div className="content-body">
-            <Loop content={content.left} column="left" />
+            <Loop content={left} column="left" />
           </div>
         </div>
         <div className="hub-reference-right">
           <div className="content-body">
-            <Loop content={content.right} column="right" />
+            <Loop content={right} column="right" />
           </div>
         </div>
       </div>
@@ -100,14 +97,14 @@ Loop.defaultProps = {
   column: 'left',
 };
 
-Opts.propTypes = {
+Content.propTypes = {
   'is-three-column': PropTypes.bool,
   body: PropTypes.string,
 };
 
-Opts.defaultProps = {
-  'is-three-column': false,
+Content.defaultProps = {
+  'is-three-column': true,
   body: '',
 };
 
-module.exports = Opts;
+module.exports = Content;
