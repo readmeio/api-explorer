@@ -14,8 +14,7 @@ function Params({ oas, operation, formData, onChange }) {
 
   return (
     <div className="api-manager">
-      {
-        jsonSchema && (
+      {jsonSchema && (
         <Form
           id={`form-${operation.operationId}`}
           schema={jsonSchema}
@@ -24,9 +23,10 @@ function Params({ oas, operation, formData, onChange }) {
           onSubmit={form => console.log('submit', form.formData)}
           formData={formData}
           onChange={form => onChange(form.formData)}
-        ><button type="submit" style={{ display: 'none' }} /></Form>
-        )
-      }
+        >
+          <button type="submit" style={{ display: 'none' }} />
+        </Form>
+      )}
     </div>
   );
 }

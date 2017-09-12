@@ -21,19 +21,25 @@ describe('operation()', () => {
 describe('operation.hasAuth()', () => {
   test('should return true if there is a top level security object', () => {
     expect(new Oas({ security: [{ 'security-scheme': [] }] }).operation().hasAuth()).toBe(true);
-    expect(new Oas({ security: [{ 'security-scheme': ['scope'] }] }).operation().hasAuth()).toBe(true);
+    expect(new Oas({ security: [{ 'security-scheme': ['scope'] }] }).operation().hasAuth()).toBe(
+      true,
+    );
   });
 
   test('should return true if a path has security', () => {
-    expect(new Oas({
-      paths: {
-        '/path': {
-          get: {
-            security: [{ 'security-scheme': [] }],
+    expect(
+      new Oas({
+        paths: {
+          '/path': {
+            get: {
+              security: [{ 'security-scheme': [] }],
+            },
           },
         },
-      },
-    }).operation('/path', 'get').hasAuth()).toBe(true);
+      })
+        .operation('/path', 'get')
+        .hasAuth(),
+    ).toBe(true);
   });
 
   test('should return false if there is no top level security object', () => {
@@ -42,20 +48,26 @@ describe('operation.hasAuth()', () => {
   });
 
   test('should return false if the path has no security', () => {
-    expect(new Oas({
-      paths: {
-        '/path': {
-          get: {},
+    expect(
+      new Oas({
+        paths: {
+          '/path': {
+            get: {},
+          },
         },
-      },
-    }).operation('/path', 'get').hasAuth()).toBe(false);
+      })
+        .operation('/path', 'get')
+        .hasAuth(),
+    ).toBe(false);
   });
 });
 
 test('should be able to access properties on oas', () => {
-  expect(new Oas({
-    info: { version: '1.0' },
-  }).info.version).toBe('1.0');
+  expect(
+    new Oas({
+      info: { version: '1.0' },
+    }).info.version,
+  ).toBe('1.0');
 });
 
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
@@ -65,7 +77,7 @@ describe('operation.prepareSecurity()', () => {
 
   function createSecurityOas(schemes) {
     // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securityRequirementObject
-    const security = Object.keys(schemes).map((scheme) => {
+    const security = Object.keys(schemes).map(scheme => {
       return { [scheme]: [] };
     });
 

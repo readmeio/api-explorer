@@ -10,7 +10,9 @@ const oas = new Oas(petstore);
 const props = { operation: oas.operation('/things', 'post'), onChange: () => {} };
 
 test('should not display if no auth', () => {
-  expect(shallow(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBe(null);
+  expect(shallow(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBe(
+    null,
+  );
 });
 
 test('should display a single heading heading for single auth type', () => {
@@ -29,7 +31,10 @@ test.skip('should display a dropdown for when multiple oauths are present', () =
   const authBox = shallow(<AuthBox {...props} path="/multiple-oauths" />);
 
   expect(authBox.find('select option').length).toBe(2);
-  expect(authBox.find('select option').map(option => option.text())).toEqual(['oauth', 'oauthDiff']);
+  expect(authBox.find('select option').map(option => option.text())).toEqual([
+    'oauth',
+    'oauthDiff',
+  ]);
 });
 
 test('should have an open class when state is open', () => {

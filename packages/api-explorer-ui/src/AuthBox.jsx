@@ -6,7 +6,7 @@ const { Operation } = require('./lib/Oas');
 
 function renderSecurities(operation, onChange) {
   const securityTypes = operation.prepareSecurity();
-  return Object.keys(securityTypes).map((type) => {
+  return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
     return (
       <span key={type}>
@@ -25,16 +25,9 @@ function renderSecurities(operation, onChange) {
               //   </select>
               // )
             }
-            {
-              securities.map(security => (
-                <SecurityInput
-                  key={security._key}
-                  scheme={security}
-                  apiKey=""
-                  onChange={onChange}
-                />),
-              )
-            }
+            {securities.map(security => (
+              <SecurityInput key={security._key} scheme={security} apiKey="" onChange={onChange} />
+            ))}
           </section>
         </div>
       </span>
@@ -61,14 +54,16 @@ class AuthBox extends React.Component {
     if (!operation.hasAuth()) return null;
 
     return (
-      <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.state.open })}>
+      <div
+        className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.state.open })}
+      >
         {
           // eslint-disable-next-line jsx-a11y/anchor-has-content
           <a href="" className="icon icon-user-lock" onClick={this.toggle} />
         }
         <div className="nopad">
           <div className="triangle" />
-          <div>{ renderSecurities(operation, this.props.onChange) }</div>
+          <div>{renderSecurities(operation, this.props.onChange)}</div>
         </div>
       </div>
     );

@@ -21,13 +21,13 @@ describe('tabs', () => {
     const codeSample = shallow(
       <CodeSample
         {...props}
-        oas={new Oas({
-          [extensions.SAMPLES_ENABLED]: true,
-          [extensions.SAMPLES_LANGUAGES]: languages,
-          servers: [
-            { url: 'http://example.com' },
-          ],
-        })}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: languages,
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
       />,
     );
 
@@ -39,10 +39,12 @@ describe('tabs', () => {
     const codeSample = shallow(
       <CodeSample
         {...props}
-        oas={new Oas({
-          [extensions.SAMPLES_ENABLED]: false,
-          [extensions.SAMPLES_LANGUAGES]: ['node'],
-        })}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: false,
+            [extensions.SAMPLES_LANGUAGES]: ['node'],
+          })
+        }
       />,
     );
 
@@ -56,13 +58,13 @@ describe('code examples', () => {
     const codeSample = shallow(
       <CodeSample
         {...props}
-        oas={new Oas({
-          [extensions.SAMPLES_ENABLED]: true,
-          [extensions.SAMPLES_LANGUAGES]: languages,
-          servers: [
-            { url: 'http://example.com' },
-          ],
-        })}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: languages,
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
       />,
     );
 
@@ -79,13 +81,13 @@ describe('updating language', () => {
     const codeSample = shallow(
       <CodeSample
         {...props}
-        oas={new Oas({
-          [extensions.SAMPLES_ENABLED]: true,
-          [extensions.SAMPLES_LANGUAGES]: ['node'],
-          servers: [
-            { url: 'http://example.com' },
-          ],
-        })}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: ['node'],
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
         setLanguage={setLanguage}
       />,
     );
