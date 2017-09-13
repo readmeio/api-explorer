@@ -10,9 +10,12 @@ const { Operation } = Oas;
 const extensions = require('../../readme-oas-extensions');
 
 function splitPath(path) {
-  return path.split(/({\w.+})/).filter(Boolean).map((part) => {
-    return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
-  });
+  return path
+    .split(/({\w.+})/)
+    .filter(Boolean)
+    .map(part => {
+      return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
+    });
 }
 
 function PathUrl({ oas, operation, loading, dirty, onChange }) {
@@ -20,42 +23,41 @@ function PathUrl({ oas, operation, loading, dirty, onChange }) {
     <div className="api-definition-parent">
       <div className="api-definition">
         <div className="api-definition-container">
-          { oas[extensions.EXPLORER_ENABLED] &&
-
+          {oas[extensions.EXPLORER_ENABLED] && (
             <div className="api-definition-actions">
               <AuthBox operation={operation} onChange={onChange} />
 
-              <button form={`form-${operation.operationId}`} className={classNames('api-try-it-out', { active: dirty })} type="submit" disabled={loading}>
-                {
-                  !loading && (
-                    <span className="try-it-now-btn">
-                      <span className="fa fa-compass" />&nbsp;
-                      <span>Try It</span>
-                    </span>
-                  )
-                }
+              <button
+                form={`form-${operation.operationId}`}
+                className={classNames('api-try-it-out', { active: dirty })}
+                type="submit"
+                disabled={loading}
+              >
+                {!loading && (
+                  <span className="try-it-now-btn">
+                    <span className="fa fa-compass" />&nbsp;
+                    <span>Try It</span>
+                  </span>
+                )}
 
-                {
-                  loading && <i className="fa fa-circle-o-notch fa-spin" />
-                }
+                {loading && <i className="fa fa-circle-o-notch fa-spin" />}
               </button>
             </div>
-          }
+          )}
 
           <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
 
-          {
-            (oas.servers && oas.servers.length > 0) &&
-
+          {oas.servers &&
+          oas.servers.length > 0 && (
             <span className="definition-url">
               <span className="url">{oas.servers[0].url}</span>
-              {
-                splitPath(operation.path).map(part =>
-                  <span key={part.value} className={`api-${part.type}`}>{part.value}</span>,
-                )
-              }
+              {splitPath(operation.path).map(part => (
+                <span key={part.value} className={`api-${part.type}`}>
+                  {part.value}
+                </span>
+              ))}
             </span>
-          }
+          )}
         </div>
       </div>
     </div>

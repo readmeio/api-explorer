@@ -10,18 +10,14 @@ const createDocs = require('../lib/create-docs');
 const docs = createDocs(oas, 'api-setting');
 
 test('ApiExplorer renders a doc for each', () => {
-  const explorer = shallow(
-    <ApiExplorer docs={docs} oasFiles={{ 'api-setting': oas }} />,
-  );
+  const explorer = shallow(<ApiExplorer docs={docs} oasFiles={{ 'api-setting': oas }} />);
 
   expect(explorer.find('Doc').length).toBe(docs.length);
 });
 
 describe('selected language', () => {
   test('should default to curl', () => {
-    const explorer = shallow(
-      <ApiExplorer docs={docs} oasFiles={{ 'api-setting': oas }} />,
-    );
+    const explorer = shallow(<ApiExplorer docs={docs} oasFiles={{ 'api-setting': oas }} />);
 
     expect(explorer.state('language')).toBe('curl');
   });

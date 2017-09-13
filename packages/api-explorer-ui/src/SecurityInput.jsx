@@ -6,7 +6,9 @@ function Oauth2({ apiKey, oauthUrl, change }) {
     return (
       <section>
         <div className="text-center">
-          <a className="btn btn-primary" href={oauthUrl} target="_self">Authenticate via OAuth2</a>
+          <a className="btn btn-primary" href={oauthUrl} target="_self">
+            Authenticate via OAuth2
+          </a>
         </div>
       </section>
     );
@@ -15,16 +17,25 @@ function Oauth2({ apiKey, oauthUrl, change }) {
   return (
     <section>
       {
-      // TODO
-      //   if security.description
-      //     != marked(security.description)
+        // TODO
+        //   if security.description
+        //     != marked(security.description)
       }
       <div className="row">
         <div className="col-xs-4">
           <label htmlFor="apiKey">Authorization</label>
         </div>
         <div className="col-xs-2">
-          <div style={{ display: 'inline-block', marginRight: '10px', marginTop: '5px', fontSize: '13px' }}>Bearer</div>
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: '10px',
+              marginTop: '5px',
+              fontSize: '13px',
+            }}
+          >
+            Bearer
+          </div>
         </div>
         <div className="col-xs-6">
           <input type="text" onChange={e => change(e.currentTarget.value)} name="apiKey" />
@@ -52,11 +63,14 @@ class Basic extends React.Component {
     this.inputChange = this.inputChange.bind(this);
   }
   inputChange(name, value) {
-    this.setState((previousState) => {
-      return Object.assign({}, previousState, { [name]: value });
-    }, () => {
-      this.props.change(this.state);
-    });
+    this.setState(
+      previousState => {
+        return Object.assign({}, previousState, { [name]: value });
+      },
+      () => {
+        this.props.change(this.state);
+      },
+    );
   }
   render() {
     return (
@@ -95,7 +109,8 @@ function SecurityInput(props) {
       return <Oauth2 {...props} change={change} />;
     case 'basic':
       return <Basic {...props} change={change} />;
-    default: return <span />;
+    default:
+      return <span />;
   }
 }
 

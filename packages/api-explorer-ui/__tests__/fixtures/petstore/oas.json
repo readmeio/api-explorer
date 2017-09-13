@@ -1,10 +1,13 @@
 {
   "openapi": "3.0.0-rc2",
-  "servers": [{
-    "url": "http://petstore.swagger.io/v2"
-  }],
+  "servers": [
+    {
+      "url": "http://petstore.swagger.io/v2"
+    }
+  ],
   "info": {
-    "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+    "description":
+      "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
     "version": "1.0.0",
     "title": "Swagger Petstore",
     "termsOfService": "http://swagger.io/terms/",
@@ -16,24 +19,28 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "tags": [{
-    "name": "pet",
-    "description": "Everything about your Pets",
-    "externalDocs": {
-      "description": "Find out more",
-      "url": "http://swagger.io"
+  "tags": [
+    {
+      "name": "pet",
+      "description": "Everything about your Pets",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "store",
+      "description": "Access to Petstore orders"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
     }
-  }, {
-    "name": "store",
-    "description": "Access to Petstore orders"
-  }, {
-    "name": "user",
-    "description": "Operations about user",
-    "externalDocs": {
-      "description": "Find out more about our store",
-      "url": "http://swagger.io"
-    }
-  }],
+  ],
   "paths": {
     "/pet": {
       "post": {
@@ -47,9 +54,11 @@
             "description": "Invalid input"
           }
         },
-        "security": [{
-          "petstore_auth": ["write:pets", "read:pets"]
-        }],
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ],
         "requestBody": {
           "$ref": "#/components/requestBodies/Pet"
         }
@@ -71,9 +80,11 @@
             "description": "Validation exception"
           }
         },
-        "security": [{
-          "petstore_auth": ["write:pets", "read:pets"]
-        }],
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ],
         "requestBody": {
           "$ref": "#/components/requestBodies/Pet"
         }
@@ -85,21 +96,23 @@
         "summary": "Finds Pets by status",
         "description": "Multiple status values can be provided with comma separated strings",
         "operationId": "findPetsByStatus",
-        "parameters": [{
-          "name": "status",
-          "in": "query",
-          "description": "Status values that need to be considered for filter",
-          "required": true,
-          "explode": true,
-          "schema": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": ["available", "pending", "sold"],
-              "default": "available"
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status values that need to be considered for filter",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["available", "pending", "sold"],
+                "default": "available"
+              }
             }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -126,30 +139,35 @@
             "description": "Invalid status value"
           }
         },
-        "security": [{
-          "petstore_auth": ["write:pets", "read:pets"]
-        }]
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ]
       }
     },
     "/pet/findByTags": {
       "get": {
         "tags": ["pet"],
         "summary": "Finds Pets by tags",
-        "description": "Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+        "description":
+          "Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         "operationId": "findPetsByTags",
-        "parameters": [{
-          "name": "tags",
-          "in": "query",
-          "description": "Tags to filter by",
-          "required": true,
-          "explode": true,
-          "schema": {
-            "type": "array",
-            "items": {
-              "type": "string"
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Tags to filter by",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -176,9 +194,11 @@
             "description": "Invalid tag value"
           }
         },
-        "security": [{
-          "petstore_auth": ["write:pets", "read:pets"]
-        }],
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ],
         "deprecated": true
       }
     },
@@ -188,16 +208,18 @@
         "summary": "Find pet by ID",
         "description": "Returns a single pet",
         "operationId": "getPetById",
-        "parameters": [{
-          "name": "petId",
-          "in": "path",
-          "description": "ID of pet to return",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64"
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of pet to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -221,33 +243,39 @@
             "description": "Pet not found"
           }
         },
-        "security": [{
-          "api_key": []
-        }]
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       },
       "post": {
         "tags": ["pet"],
         "summary": "Updates a pet in the store with form data",
         "description": "",
         "operationId": "updatePetWithForm",
-        "parameters": [{
-          "name": "petId",
-          "in": "path",
-          "description": "ID of pet that needs to be updated",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64"
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of pet that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
-        }],
+        ],
         "responses": {
           "405": {
             "description": "Invalid input"
           }
         },
-        "security": [{
-          "petstore_auth": ["write:pets", "read:pets"]
-        }],
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ],
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -273,23 +301,26 @@
         "summary": "Deletes a pet",
         "description": "",
         "operationId": "deletePet",
-        "parameters": [{
-          "name": "api_key",
-          "in": "header",
-          "required": false,
-          "schema": {
-            "type": "string"
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "Pet id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
-        }, {
-          "name": "petId",
-          "in": "path",
-          "description": "Pet id to delete",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }],
+        ],
         "responses": {
           "400": {
             "description": "Invalid ID supplied"
@@ -298,9 +329,11 @@
             "description": "Pet not found"
           }
         },
-        "security": [{
-          "petstore_auth": ["write:pets", "read:pets"]
-        }]
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ]
       }
     },
     "/pet/{petId}/uploadImage": {
@@ -309,16 +342,18 @@
         "summary": "uploads an image",
         "description": "",
         "operationId": "uploadFile",
-        "parameters": [{
-          "name": "petId",
-          "in": "path",
-          "description": "ID of pet to update",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64"
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "ID of pet to update",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -331,9 +366,11 @@
             }
           }
         },
-        "security": [{
-          "petstore_auth": ["write:pets", "read:pets"]
-        }],
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ],
         "requestBody": {
           "content": {
             "application/octet-stream": {
@@ -369,9 +406,11 @@
             }
           }
         },
-        "security": [{
-          "api_key": []
-        }]
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/store/order": {
@@ -418,20 +457,23 @@
       "get": {
         "tags": ["store"],
         "summary": "Find purchase order by ID",
-        "description": "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
+        "description":
+          "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
         "operationId": "getOrderById",
-        "parameters": [{
-          "name": "orderId",
-          "in": "path",
-          "description": "ID of pet that needs to be fetched",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1,
-            "maximum": 10
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of pet that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1,
+              "maximum": 10
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -459,19 +501,22 @@
       "delete": {
         "tags": ["store"],
         "summary": "Delete purchase order by ID",
-        "description": "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
+        "description":
+          "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
         "operationId": "deleteOrder",
-        "parameters": [{
-          "name": "orderId",
-          "in": "path",
-          "description": "ID of the order that needs to be deleted",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 1
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of the order that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
           }
-        }],
+        ],
         "responses": {
           "400": {
             "description": "Invalid ID supplied"
@@ -547,23 +592,26 @@
         "summary": "Logs user into the system",
         "description": "",
         "operationId": "loginUser",
-        "parameters": [{
-          "name": "username",
-          "in": "query",
-          "description": "The user name for login",
-          "required": true,
-          "schema": {
-            "type": "string"
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user name for login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
-        }, {
-          "name": "password",
-          "in": "query",
-          "description": "The password for login in clear text",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -622,15 +670,17 @@
         "summary": "Get user by user name",
         "description": "",
         "operationId": "getUserByName",
-        "parameters": [{
-          "name": "username",
-          "in": "path",
-          "description": "The name that needs to be fetched. Use user1 for testing. ",
-          "required": true,
-          "schema": {
-            "type": "string"
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -660,15 +710,17 @@
         "summary": "Updated user",
         "description": "This can only be done by the logged in user.",
         "operationId": "updateUser",
-        "parameters": [{
-          "name": "username",
-          "in": "path",
-          "description": "name that need to be updated",
-          "required": true,
-          "schema": {
-            "type": "string"
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
-        }],
+        ],
         "responses": {
           "400": {
             "description": "Invalid user supplied"
@@ -694,15 +746,17 @@
         "summary": "Delete user",
         "description": "This can only be done by the logged in user.",
         "operationId": "deleteUser",
-        "parameters": [{
-          "name": "username",
-          "in": "path",
-          "description": "The name that needs to be deleted",
-          "required": true,
-          "schema": {
-            "type": "string"
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
-        }],
+        ],
         "responses": {
           "400": {
             "description": "Invalid username supplied"

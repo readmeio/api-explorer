@@ -1,8 +1,8 @@
 module.exports = (oas, apiSetting) => {
   const docs = [];
 
-  Object.keys(oas.paths).map((path) => {
-    return Object.keys(oas.paths[path]).forEach((method) => {
+  Object.keys(oas.paths).map(path => {
+    return Object.keys(oas.paths[path]).forEach(method => {
       const operation = oas.paths[path][method];
       let isCategory;
 
