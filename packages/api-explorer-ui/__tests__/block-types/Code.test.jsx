@@ -2,7 +2,6 @@ const React = require('react');
 const { mount } = require('enzyme');
 const Code = require('../../src/block-types/Code');
 
-
 describe('Code', () => {
   test('Code will render name if provided within em tag', () => {
     const block = {

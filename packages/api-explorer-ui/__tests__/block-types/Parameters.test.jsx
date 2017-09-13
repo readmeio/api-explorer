@@ -2,7 +2,6 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const Parameters = require('../../src/block-types/Parameters');
 
-
 describe('Parameters', () => {
   test('Parameters will render text in table header cells', () => {
     const block = {

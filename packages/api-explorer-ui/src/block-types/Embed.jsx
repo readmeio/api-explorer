@@ -9,12 +9,22 @@ const Embed = ({ block }) => {
           // eslint-disable-next-line react/no-danger
           return <span dangerouslySetInnerHTML={{ __html: block.data.html }} />;
         } else if (block.data.iframe) {
-          return <iframe className="media-iframe" title={block.data.title} src={block.data.url} width={block.data.width || '100%'} height={block.data.height || '300px'} />;
+          return (
+            <iframe
+              className="media-iframe"
+              title={block.data.title}
+              src={block.data.url}
+              width={block.data.width || '100%'}
+              height={block.data.height || '300px'}
+            />
+          );
         }
         return (
           <strong>
-            { (block.data.favicon) && <img src={block.data.favicon} className="favicon" alt="" /> }
-            <a href={block.data.url} target="_new">{block.data.title || block.data.url}</a>
+            {block.data.favicon && <img src={block.data.favicon} className="favicon" alt="" />}
+            <a href={block.data.url} target="_new">
+              {block.data.title || block.data.url}
+            </a>
           </strong>
         );
       })()}

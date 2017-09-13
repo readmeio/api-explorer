@@ -37,7 +37,7 @@ module.exports = function statusCodes(code) {
     415: [415, 'Unsupported Media Type', 'error'],
     416: [416, 'Requested Range Not Satisfiable', 'error'],
     417: [417, 'Expectation Failed', 'error'],
-    418: [418, 'I\'m a teapot', 'error'],
+    418: [418, "I'm a teapot", 'error'],
     420: [420, 'Enhance Your Calm', 'error'],
     422: [422, 'Unprocessable Entity', 'error'],
     423: [423, 'Locked', 'error'],

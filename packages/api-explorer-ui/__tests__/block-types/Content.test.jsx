@@ -17,7 +17,7 @@ describe('Content', () => {
       'callout',
       'parameters',
       'image',
-    ].forEach((type) => {
+    ].forEach(type => {
       expect(content.find(`.magic-block-${type}`).length).toBe(1);
     });
   });

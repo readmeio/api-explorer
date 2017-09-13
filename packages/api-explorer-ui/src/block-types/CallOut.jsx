@@ -10,7 +10,7 @@ function Icon({ type }) {
       return <i className="fa fa-exclamation-circle" title="Warning" />;
     case 'danger':
       return <i className="fa fa-exclamation-triangle" title="Danger" />;
-    case 'success' :
+    case 'success':
       return <i className="fa fa-check-square" title="Success" />;
     default:
       return null;
@@ -19,32 +19,27 @@ function Icon({ type }) {
 
 const CallOut = ({ block }) => {
   return (
-    <div className={`magic-block-callout type-${block.data.type} ${block.data.title ? '' : 'no-title'} `}>
-      {
-        (block.data.title) && (
-          <h3>
-            <Icon type={block.data.type} />
-            {block.data.title}
-          </h3>
-        )
-      }
+    <div
+      className={`magic-block-callout type-${block.data.type} ${block.data.title
+        ? ''
+        : 'no-title'} `}
+    >
+      {block.data.title && (
+        <h3>
+          <Icon type={block.data.type} />
+          {block.data.title}
+        </h3>
+      )}
 
-      {
-        (!block.data.title) && (
-          <span className="noTitleIcon">
-            <Icon type={block.data.type} />
-          </span>
-        )
-      }
-      {
-        (block.data && block.data.body) && (
-          <div className="callout-body">{block.data.body}</div>
-        )
-      }
+      {!block.data.title && (
+        <span className="noTitleIcon">
+          <Icon type={block.data.type} />
+        </span>
+      )}
+      {block.data && block.data.body && <div className="callout-body">{block.data.body}</div>}
     </div>
   );
 };
-
 
 CallOut.propTypes = {
   block: PropTypes.shape({
@@ -59,6 +54,5 @@ CallOut.propTypes = {
 Icon.propTypes = {
   type: PropTypes.string.isRequired,
 };
-
 
 module.exports = CallOut;

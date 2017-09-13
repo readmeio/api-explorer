@@ -24,10 +24,8 @@ const Parameters = ({ block }) => {
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
         <div className="td" key={c}>
-          {
-            // TODO add marked
-            block.data.data[`${r}-${c}`] || ''
-          }
+          {// TODO add marked
+          block.data.data[`${r}-${c}`] || ''}
         </div>,
       );
     }
@@ -51,15 +49,8 @@ const Parameters = ({ block }) => {
     <div className="magic-block-parameters">
       <div className="block-parameters-table">
         <div className="table">
-          {
-            (block.data.data['h-0'] || block.data.data['h-1']) && (
-              <div className="tr">
-                {th()}
-              </div>
-            )
-          }
+          {(block.data.data['h-0'] || block.data.data['h-1']) && <div className="tr">{th()}</div>}
           {tr()}
-
         </div>
       </div>
     </div>
@@ -75,6 +66,5 @@ Parameters.propTypes = {
     }),
   }).isRequired,
 };
-
 
 module.exports = Parameters;

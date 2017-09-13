@@ -1,15 +1,14 @@
 const marked = require('marked');
 const Emoji = require('./emojis.js').emoji;
-const syntaxHighlighter = require('../../../readme-syntax-highlighter')
-;
+const syntaxHighlighter = require('../../../readme-syntax-highlighter');
 // Configure marked
-exports.configure = function (req) {
+exports.configure = function(req) {
   const renderer = new marked.Renderer();
 
-  renderer.image = function (href, title, text) {
+  renderer.image = function(href, title, text) {
     let out = `<img src="${href}" alt="${text}"`;
     if (title && title.substr(0, 6) === 'style|') {
-      out += ` style="${title.substr(6).replace(/"/g, '\'')}"`;
+      out += ` style="${title.substr(6).replace(/"/g, "'")}"`;
     } else if (title && title.substr(0, 5) === 'right') {
       out += ' style="float: right; margin 0 0 15px 15px;"';
     } else if (title && title.substr(0, 4) === 'left') {
@@ -22,7 +21,7 @@ exports.configure = function (req) {
     return out;
   };
 
-  renderer.listitem = function (text, val) {
+  renderer.listitem = function(text, val) {
     const valAttr = val ? ` value="${val}"` : '';
     if (/^\s*\[[x ]\]\s*/.test(text)) {
       text = text
@@ -34,33 +33,30 @@ exports.configure = function (req) {
     return `<li ${valAttr}>${text}</li>`;
   };
 
-  renderer.table = function (header, body) {
-    return `${'<div class="marked-table"><table>\n<thead>\n'}${header}</thead>\n`
-     + `<tbody>\n${body}</tbody>\n</table></div>\n`;
+  renderer.table = function(header, body) {
+    return (
+      `${'<div class="marked-table"><table>\n<thead>\n'}${header}</thead>\n` +
+      `<tbody>\n${body}</tbody>\n</table></div>\n`
+    );
   };
 
-  renderer.heading = function (text, level, raw) {
+  renderer.heading = function(text, level, raw) {
     const id = this.options.headerPrefix + raw.toLowerCase().replace(/[^\w]+/g, '-');
 
-    return `<h${
-    level
-    } class="header-scroll">` +
-    `<div class="anchor waypoint" id="section-${
-    id
-    }"></div>${
-    text
-    }<a class="fa fa-anchor" href="#section-${id}"></a>` +
-    `</h${
-    level
-    }>\n`;
+    return (
+      `<h${level} class="header-scroll">` +
+      `<div class="anchor waypoint" id="section-${id}"></div>${text}<a class="fa fa-anchor" href="#section-${id}"></a>` +
+      `</h${level}>\n`
+    );
   };
 
-  renderer.link = function (href, title, text) {
+  renderer.link = function(href, title, text) {
     const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
     let isDoc = false;
     let uiSref = false;
 
-    if (href.match(/^(data|javascript)[^a-zA-Z0-9\/_-]/i)) { // Avoid XSS
+    if (href.match(/^(data|javascript)[^a-zA-Z0-9\/_-]/i)) {
+      // Avoid XSS
       href = '';
     }
 
@@ -94,12 +90,13 @@ exports.configure = function (req) {
       let prot;
       try {
         prot = decodeURIComponent(unescape(href))
-        .replace(/[^\w:]/g, '')
-        .toLowerCase();
+          .replace(/[^\w:]/g, '')
+          .toLowerCase();
       } catch (e) {
         return '';
       }
-      if (prot.indexOf('javascript:') === 0) { // eslint-disable-line no-script-url
+      if (prot.indexOf('javascript:') === 0) {
+        // eslint-disable-line no-script-url
         return '';
       }
     }
@@ -130,7 +127,7 @@ exports.configure = function (req) {
 
   marked.setOptions({
     sanitize: true,
-    breaks: (req && req.project) ? !req.project.flags.correctnewlines : true,
+    breaks: req && req.project ? !req.project.flags.correctnewlines : true,
     preserveNumbering: true,
     renderer,
     emoji(emoji) {
@@ -150,23 +147,67 @@ exports.configure = function (req) {
     gfm: true,
   });
 
-  const sanitizer = function (tag) {
+  const sanitizer = function(tag) {
     // TODO: This is probably not secure enough; use html-sanatize when we move to the backend in hub2.
     const tagName = tag.match(/<\/?([^>\s]+)/);
 
     const allowedTags = [
-      'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span',
-      'blockquote', 'p', 'a', 'ul', 'ol', 'nl', 'li',
-      'b', 'i', 'strong', 'em', 'strike', 'code', 'hr',
-      'br', 'div', 'table', 'thead', 'caption', 'tbody',
-      'tr', 'th', 'td', 'pre', 'dl', 'dd', 'dt', 'sub', 'sup', 'section',
+      'img',
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
+      'span',
+      'blockquote',
+      'p',
+      'a',
+      'ul',
+      'ol',
+      'nl',
+      'li',
+      'b',
+      'i',
+      'strong',
+      'em',
+      'strike',
+      'code',
+      'hr',
+      'br',
+      'div',
+      'table',
+      'thead',
+      'caption',
+      'tbody',
+      'tr',
+      'th',
+      'td',
+      'pre',
+      'dl',
+      'dd',
+      'dt',
+      'sub',
+      'sup',
+      'section',
     ];
 
     const allowedAttrs = [
-      'class', 'id', 'style', 'cellpadding',
-      'cellspacing', 'width', 'align', 'height',
-      'colspan', 'href', 'name', 'target', 'src',
-      'title', 'alt',
+      'class',
+      'id',
+      'style',
+      'cellpadding',
+      'cellspacing',
+      'width',
+      'align',
+      'height',
+      'colspan',
+      'href',
+      'name',
+      'target',
+      'src',
+      'title',
+      'alt',
     ];
 
     if (allowedTags.indexOf(tagName[1]) <= -1) {
@@ -184,7 +225,7 @@ exports.configure = function (req) {
     return `${tagClean}>`;
   };
 
-  return function (text, stripHTML) {
+  return function(text, stripHTML) {
     if (!text) return '';
     marked.setOptions({
       sanitizer: stripHTML ? undefined : sanitizer,

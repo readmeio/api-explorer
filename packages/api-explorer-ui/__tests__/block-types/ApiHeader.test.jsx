@@ -2,7 +2,6 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const ApiHeader = require('../../src/block-types/ApiHeader');
 
-
 describe('ApiHeader', () => {
   test('Api Header will render text in table header cells', () => {
     const block = {

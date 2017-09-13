@@ -1,9 +1,9 @@
-module.exports = function parseMagicBlocks(str = ''/* , addTextareas */) {
+module.exports = function parseMagicBlocks(str = '' /* , addTextareas */) {
   let block = false;
   const blocks = [];
   // let previous = false;
   // let sectionCount = 0;
-  str.split(/\n?(\[block:[-a-z]+\]|\[\/block\])\n?/).forEach((v) => {
+  str.split(/\n?(\[block:[-a-z]+\]|\[\/block\])\n?/).forEach(v => {
     const check = v.match(/^(\[block:([-a-z]+)\]|\[\/block\])$/);
 
     if (check) {
