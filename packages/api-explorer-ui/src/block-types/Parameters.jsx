@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-// import Marked from '../lib/marked';
+const markdown = require('../lib/markdown');
 
 const Parameters = ({ block }) => {
   const columns = block.data.cols;
@@ -23,12 +23,12 @@ const Parameters = ({ block }) => {
 
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
-        <div className="td" key={c}>
-          {
-            // TODO add marked
-            block.data.data[`${r}-${c}`] || ''
-          }
-        </div>,
+        <div
+          className="td"
+          key={c}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: markdown(block.data.data[`${r}-${c}`] || '') }}
+        />,
       );
     }
     return tdCells;
@@ -51,15 +51,8 @@ const Parameters = ({ block }) => {
     <div className="magic-block-parameters">
       <div className="block-parameters-table">
         <div className="table">
-          {
-            (block.data.data['h-0'] || block.data.data['h-1']) && (
-              <div className="tr">
-                {th()}
-              </div>
-            )
-          }
+          {(block.data.data['h-0'] || block.data.data['h-1']) && <div className="tr">{th()}</div>}
           {tr()}
-
         </div>
       </div>
     </div>
@@ -75,6 +68,5 @@ Parameters.propTypes = {
     }),
   }).isRequired,
 };
-
 
 module.exports = Parameters;

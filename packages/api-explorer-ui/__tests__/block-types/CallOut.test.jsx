@@ -2,7 +2,6 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const CallOut = require('../../src/block-types/CallOut');
 
-
 describe('CallOut', () => {
   test('Call out will render title and icon info if given in props', () => {
     const block = {
@@ -11,7 +10,8 @@ describe('CallOut', () => {
         type: 'info',
         title: 'Callout',
       },
-      sidebar: undefined };
+      sidebar: undefined,
+    };
     const callOutInput = mount(<CallOut block={block} />);
     expect(callOutInput.find('h3').text()).toBe('Callout');
   });
@@ -56,7 +56,8 @@ describe('CallOut', () => {
       data: {
         type: '',
       },
-      sidebar: undefined };
+      sidebar: undefined,
+    };
     const callOutInput = mount(<CallOut block={block} />);
     expect(callOutInput.find('span').text()).toBe('');
   });
@@ -68,7 +69,8 @@ describe('CallOut', () => {
         type: 'info',
         body: 'you are incorrect',
       },
-      sidebar: undefined };
+      sidebar: undefined,
+    };
 
     const callOutInput = shallow(<CallOut block={block} />);
     expect(callOutInput.find('div.callout-body').text()).toBe('you are incorrect');

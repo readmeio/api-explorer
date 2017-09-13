@@ -1,4 +1,4 @@
-module.exports = (pathOperation) => {
+module.exports = pathOperation => {
   let schema;
 
   try {

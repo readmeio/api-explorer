@@ -15,8 +15,9 @@
   "scripts": {
     "lint": "eslint -f unix . --ext js --ext jsx",
     "inspect": "jsinspect",
-    "pretest": "npm run lint && npm run inspect",
-    "test": "jest"
+    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "test": "jest --coverage"
   },
   "jest": {
     "coverageThreshold": {
@@ -48,6 +49,7 @@
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-config-prettier": "^2.4.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
@@ -55,6 +57,7 @@
     "jsinspect": "^0.12.6",
     "mocha": "^3.4.2",
     "nyc": "^11.0.3",
+    "prettier": "^1.6.1",
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
     "watchify": "^3.9.0",

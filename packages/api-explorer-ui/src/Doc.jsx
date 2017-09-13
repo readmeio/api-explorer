@@ -20,7 +20,7 @@ class Doc extends React.Component {
   }
 
   onChange(formData) {
-    this.setState((previousState) => {
+    this.setState(previousState => {
       return {
         formData: Object.assign({}, previousState.formData, formData),
         dirty: true,
@@ -44,22 +44,19 @@ class Doc extends React.Component {
           <div className="hub-reference-left">
             <header>
               {
-              // TODO suggested edits
+                // TODO suggested edits
               }
               <h2>{doc.title}</h2>
-              {
-                doc.excerpt && (
-                  // eslint-disable-next-line react/no-danger
-                  <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
-                )
-              }
+              {doc.excerpt && (
+                // eslint-disable-next-line react/no-danger
+                <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
+              )}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        {
-          doc.type === 'endpoint' && (
+        {doc.type === 'endpoint' && (
           <div className="hub-api">
             <PathUrl
               oas={oas}
@@ -69,21 +66,19 @@ class Doc extends React.Component {
               onChange={this.onChange}
             />
 
-            {
-              showCode(oas, operation) && (
-                <div className="hub-reference-section hub-reference-section-code">
-                  <div className="hub-reference-left">
-                    <CodeSample
-                      oas={oas}
-                      setLanguage={setLanguage}
-                      operation={operation}
-                      formData={this.state.formData}
-                    />
-                  </div>
-                  <div className="hub-reference-right" />
+            {showCode(oas, operation) && (
+              <div className="hub-reference-section hub-reference-section-code">
+                <div className="hub-reference-left">
+                  <CodeSample
+                    oas={oas}
+                    setLanguage={setLanguage}
+                    operation={operation}
+                    formData={this.state.formData}
+                  />
                 </div>
-              )
-            }
+                <div className="hub-reference-right" />
+              </div>
+            )}
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
@@ -98,14 +93,17 @@ class Doc extends React.Component {
             </div>
             <Content body={doc.body} is-three-column />
           </div>
-          )
-        }
+        )}
 
         {
-        // TODO maybe we dont need to do this with a hidden input now
-        // cos we can just pass it around?
+          // TODO maybe we dont need to do this with a hidden input now
+          // cos we can just pass it around?
         }
-        <input type="hidden" id={`swagger-${extensions.SEND_DEFAULTS}`} value={oas[extensions.SEND_DEFAULTS]} />
+        <input
+          type="hidden"
+          id={`swagger-${extensions.SEND_DEFAULTS}`}
+          value={oas[extensions.SEND_DEFAULTS]}
+        />
       </div>
     );
   }

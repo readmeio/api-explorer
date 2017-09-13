@@ -43,14 +43,10 @@ const Loop = ({ content, column }) => {
         return null;
     }
   });
-  return (
-    <div>
-      { elements }
-    </div>
-  );
+  return <div>{elements}</div>;
 };
 
-const Content = (props) => {
+const Content = props => {
   const { body } = props;
   const isThreeColumn = props['is-three-column'];
 
@@ -59,7 +55,7 @@ const Content = (props) => {
   if (isThreeColumn) {
     const left = [];
     const right = [];
-    content.forEach((elem) => {
+    content.forEach(elem => {
       if (elem.sidebar) {
         right.push(elem);
       } else {
@@ -85,11 +81,12 @@ const Content = (props) => {
   return <Loop content={content} />;
 };
 
-
 Loop.propTypes = {
-  content: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-  })).isRequired,
+  content: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   column: PropTypes.string,
 };
 

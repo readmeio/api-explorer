@@ -23,17 +23,14 @@ class ApiExplorer extends React.Component {
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div id="hub-reference">
-          {
-            this.props.docs.map(doc => (
-              <Doc
-                key={doc._id}
-                doc={doc}
-                oas={doc.category.apiSetting ? this.props.oasFiles[doc.category.apiSetting] : {}}
-                setLanguage={this.setLanguage}
-              />
-              ),
-            )
-          }
+          {this.props.docs.map(doc => (
+            <Doc
+              key={doc._id}
+              doc={doc}
+              oas={doc.category.apiSetting ? this.props.oasFiles[doc.category.apiSetting] : {}}
+              setLanguage={this.setLanguage}
+            />
+          ))}
         </div>
       </div>
     );

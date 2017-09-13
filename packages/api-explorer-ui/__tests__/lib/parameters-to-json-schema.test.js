@@ -6,14 +6,19 @@ test('it should return with null if there are no parameters', async () => {
 });
 
 test('it should return with a json schema for each parameter type', () => {
-  expect(parametersToJsonSchema({
-    parameters: [
-      { in: 'path', name: 'path parameter' },
-      { in: 'query', name: 'query parameter' },
-      { in: 'header', name: 'header parameter' },
-      { in: 'cookie', name: 'cookie parameter' },
-    ],
-  }, {})).toEqual({
+  expect(
+    parametersToJsonSchema(
+      {
+        parameters: [
+          { in: 'path', name: 'path parameter' },
+          { in: 'query', name: 'query parameter' },
+          { in: 'header', name: 'header parameter' },
+          { in: 'cookie', name: 'cookie parameter' },
+        ],
+      },
+      {},
+    ),
+  ).toEqual({
     type: 'object',
     definitions: {},
     properties: {
@@ -66,19 +71,24 @@ test('it should return with a json schema for each parameter type', () => {
 });
 
 test('it should work for request body inline', () => {
-  expect(parametersToJsonSchema({
-    requestBody: {
-      description: 'Body description',
-      content: {
-        'application/json': {
-          schema: {
-            type: 'object',
-            properties: { a: { type: 'string' } },
+  expect(
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          description: 'Body description',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: { a: { type: 'string' } },
+              },
+            },
           },
         },
       },
-    },
-  }, {})).toEqual({
+      {},
+    ),
+  ).toEqual({
     type: 'object',
     definitions: {},
     properties: {
@@ -94,19 +104,24 @@ test('it should work for request body inline', () => {
 });
 
 test.skip('it should work for top-level request body $ref', () => {
-  expect(parametersToJsonSchema({
-    requestBody: {
-      $ref: '#/components/schemas/Pet',
-    },
-  }, {
-    components: {
-      schemas: {
-        Pet: {
-          type: 'string',
+  expect(
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          $ref: '#/components/schemas/Pet',
         },
       },
-    },
-  })).toEqual({
+      {
+        components: {
+          schemas: {
+            Pet: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    ),
+  ).toEqual({
     type: 'object',
     definitions: {
       components: {
@@ -128,27 +143,31 @@ test.skip('it should work for top-level request body $ref', () => {
   });
 });
 
-
 test.skip('it should work for nested in content-type request body $ref', () => {
-  expect(parametersToJsonSchema({
-    requestBody: {
-      content: {
-        'application/json': {
-          schema: {
-            $ref: '#/components/schemas/Pet',
+  expect(
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Pet',
+              },
+            },
           },
         },
       },
-    },
-  }, {
-    components: {
-      schemas: {
-        Pet: {
-          type: 'string',
+      {
+        components: {
+          schemas: {
+            Pet: {
+              type: 'string',
+            },
+          },
         },
       },
-    },
-  })).toEqual({
+    ),
+  ).toEqual({
     type: 'object',
     definitions: {
       components: {
@@ -171,25 +190,30 @@ test.skip('it should work for nested in content-type request body $ref', () => {
 });
 
 test.skip('it should work for schemas not in components/schemas', () => {
-  expect(parametersToJsonSchema({
-    requestBody: {
-      content: {
-        'application/json': {
-          schema: {
-            $ref: '#/components/requestBodies/Pet',
+  expect(
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/requestBodies/Pet',
+              },
+            },
           },
         },
       },
-    },
-  }, {
-    components: {
-      requestBodies: {
-        Pet: {
-          type: 'string',
+      {
+        components: {
+          requestBodies: {
+            Pet: {
+              type: 'string',
+            },
+          },
         },
       },
-    },
-  })).toEqual({
+    ),
+  ).toEqual({
     type: 'object',
     definitions: {
       components: {

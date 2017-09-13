@@ -1,8 +1,8 @@
 module.exports = (oas, apiSetting) => {
   const docs = [];
 
-  Object.keys(oas.paths).map((path) => {
-    return Object.keys(oas.paths[path]).forEach((method) => {
+  Object.keys(oas.paths).map(path => {
+    return Object.keys(oas.paths[path]).forEach(method => {
       const operation = oas.paths[path][method];
       let isCategory;
 
@@ -32,7 +32,7 @@ module.exports = (oas, apiSetting) => {
           body: `
           [block:textarea]
           {
-            "text": "This is text area"
+            "text": "# This is text area"
           }
           [/block]
           [block:html]
@@ -82,7 +82,7 @@ module.exports = (oas, apiSetting) => {
                   1136,
                   "#9e918d"
                 ],
-                "caption": "doggo"
+                "caption": "*doggo*"
               }
             ]
           }
@@ -108,7 +108,7 @@ module.exports = (oas, apiSetting) => {
           [block:parameters]
           {
             "data": {
-              "0-0": "arbitrary",
+              "0-0": "*arbitrary*",
               "0-1": "info",
               "0-2": "test",
               "h-0": "test",

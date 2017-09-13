@@ -22,7 +22,6 @@ const block = {
 };
 
 const block2 = {
-
   type: 'code',
   sidebar: undefined,
   data: {
@@ -41,10 +40,13 @@ describe('Code', () => {
     expect(codeInput.find('em').text()).toBe('test');
   });
 
-  xtest('Code will render language if name or status is not provided within a tag if codes has a status', () => {
-    const codeInput = mount(<Code block={block2} />);
-    expect(codeInput.find('a').text()).toBe('JavaScript');
-  });
+  xtest(
+    'Code will render language if name or status is not provided within a tag if codes has a status',
+    () => {
+      const codeInput = mount(<Code block={block2} />);
+      expect(codeInput.find('a').text()).toBe('JavaScript');
+    },
+  );
 
   test('Code will render label if provided within opts', () => {
     const codeInput = mount(<Code block={block} opts={{ label: 'label' }} />);

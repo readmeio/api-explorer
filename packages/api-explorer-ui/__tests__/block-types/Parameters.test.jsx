@@ -2,7 +2,6 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const Parameters = require('../../src/block-types/Parameters');
 
-
 describe('Parameters', () => {
   test('Parameters will render text in table header cells', () => {
     const block = {
@@ -35,6 +34,11 @@ describe('Parameters', () => {
       },
     };
     const parametersInput = shallow(<Parameters block={block} />);
-    expect(parametersInput.find('div.td').text()).toBe('arbitrary');
+    expect(
+      parametersInput
+        .find('div.td')
+        .render()
+        .text(),
+    ).toBe('arbitrary\n');
   });
 });

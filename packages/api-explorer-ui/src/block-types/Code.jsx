@@ -19,62 +19,62 @@ class BlockCode extends React.Component {
 
     return (
       <span>
-        {
-          // eslint-disable-next-line jsx-a11y/label-has-for
-          opts.label && <label>{opts.label}</label>
-        }
+        {// eslint-disable-next-line jsx-a11y/label-has-for
+        opts.label && <label>{opts.label}</label>}
         <div className="magic-block-code">
           {(!opts.hideHeaderOnOne || codes.length > 1) && (
             <ul className="block-code-header">
-              {
-                codes.map((code, i) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <li key={i}>
-                    <a
-                      href=""
-                      onClick={(e) => {
-                        // eslint-disable-next-line
-                        e.preventDefault()
-                        this.showCode(i);
-                      }}
-                      className={classNames({ active: i === this.state.activeTab })}
-                    >
-
-                      {
-                      //eslint-disable-next-line
-                      code.status ? (
-                        <span>
-                          <span className={`status-icon status-icon-${statusCodes(code.status)[2]}`} />
-                          { !statusCodes(code.status)[3] && statusCodes(code.status)[0] }
-                          <em>{code.name ? code.name : statusCodes(code.status)[1]}</em>
-                        </span>
-                      ) : (code.name ? code.name : getLangName(code.language))
-                      }
-                    </a>
-                  </li>
-                ))
-              }
+              {codes.map((code, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <li key={i}>
+                  <a
+                    href=""
+                    onClick={e => {
+                      // eslint-disable-next-line
+                      e.preventDefault();
+                      this.showCode(i);
+                    }}
+                    className={classNames({ active: i === this.state.activeTab })}
+                  >
+                    {//eslint-disable-next-line
+                    code.status ? (
+                      <span>
+                        <span
+                          className={`status-icon status-icon-${statusCodes(code.status)[2]}`}
+                        />
+                        {!statusCodes(code.status)[3] && statusCodes(code.status)[0]}
+                        <em>{code.name ? code.name : statusCodes(code.status)[1]}</em>
+                      </span>
+                    ) : code.name ? (
+                      code.name
+                    ) : (
+                      getLangName(code.language)
+                    )}
+                  </a>
+                </li>
+              ))}
             </ul>
           )}
 
           <div className="block-code-code">
-            {
-              codes.map((code, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
-                  {
+            {codes.map((code, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
+                {
+                  <code
                     // eslint-disable-next-line
-                    <code dangerouslySetInnerHTML={{ __html: syntaxHighlighter(code.code, code.language, opts.dark) }} />
-                  }
-                </pre>
-              ))
-            }
+                    dangerouslySetInnerHTML={{
+                      __html: syntaxHighlighter(code.code, code.language, opts.dark),
+                    }}
+                  />
+                }
+              </pre>
+            ))}
           </div>
         </div>
       </span>
     );
   }
-
 }
 
 BlockCode.propTypes = {

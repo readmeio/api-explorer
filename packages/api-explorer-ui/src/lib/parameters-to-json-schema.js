@@ -58,8 +58,10 @@ module.exports = (pathOperation, oas) => {
   return {
     type: 'object',
     definitions: oas.components ? { components: oas.components } : {},
-    properties: Object.assign(getBodyParam(), (pathOperation.parameters || [])
-      .reduce(combineParameters, {})),
+    properties: Object.assign(
+      getBodyParam(),
+      (pathOperation.parameters || []).reduce(combineParameters, {}),
+    ),
   };
 };
 

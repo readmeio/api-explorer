@@ -8,11 +8,10 @@ const ApiHeader = ({ block }) => {
       <h1 className="header-scroll is-api-header">
         <span id={uslug(block.data.title)} />
         <div className="anchor waypoint" id={`section-${uslug(block.data.title)}`} />
-        {
-          (block.data.type && block.data.type !== 'basic') && (
-            <span className={`pg-type-big pg-type type-${uslug(block.data.type)}`} />
-          )
-        }
+        {block.data.type &&
+        block.data.type !== 'basic' && (
+          <span className={`pg-type-big pg-type type-${uslug(block.data.type)}`} />
+        )}
         {block.data.title}
         {
           // eslint-disable-next-line jsx-a11y/anchor-has-content

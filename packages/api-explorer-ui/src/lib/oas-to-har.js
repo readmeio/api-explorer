@@ -26,7 +26,9 @@ function formatter(values, param, type, onlyIfExists) {
   return format.key(param.name);
 }
 
-const defaultValues = Object.keys(require('./parameters-to-json-schema').types).reduce((prev, curr) => {
+const defaultValues = Object.keys(
+  require('./parameters-to-json-schema').types,
+).reduce((prev, curr) => {
   return Object.assign(prev, { [curr]: {} });
 }, {});
 
@@ -48,10 +50,13 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     return encodeURIComponent(formatter(formData, parameter, 'path'));
   });
 
-  const queryStrings = pathOperation && pathOperation.parameters && pathOperation.parameters.filter(param => param.in === 'query');
+  const queryStrings =
+    pathOperation &&
+    pathOperation.parameters &&
+    pathOperation.parameters.filter(param => param.in === 'query');
 
   if (queryStrings && queryStrings.length) {
-    queryStrings.forEach((queryString) => {
+    queryStrings.forEach(queryString => {
       const value = formatter(formData, queryString, 'query', true);
       if (!value) return;
       har.queryString.push({
@@ -61,10 +66,13 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     });
   }
 
-  const headers = pathOperation && pathOperation.parameters && pathOperation.parameters.filter(param => param.in === 'header');
+  const headers =
+    pathOperation &&
+    pathOperation.parameters &&
+    pathOperation.parameters.filter(param => param.in === 'header');
 
   if (headers && headers.length) {
-    headers.forEach((header) => {
+    headers.forEach(header => {
       const value = formatter(formData, header, 'header', true);
       if (!value) return;
       har.headers.push({
@@ -84,7 +92,7 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
 
   if (securityRequirements && securityRequirements.length) {
     // TODO pass these values through the formatter?
-    securityRequirements.forEach((security) => {
+    securityRequirements.forEach(security => {
       const securityValue = configureSecurity(oas, formData, security);
 
       if (!securityValue) return;
