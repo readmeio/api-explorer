@@ -31,4 +31,3 @@ module.exports = function markdown(text, opts = {}) {
   });
   return marked(text);
 };
-

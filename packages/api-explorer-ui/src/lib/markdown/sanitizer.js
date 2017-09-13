@@ -74,6 +74,6 @@ function sanitizer(tag) {
   });
 
   return `${tagClean}>`;
-};
+}
 
 module.exports = sanitizer;
