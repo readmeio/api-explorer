@@ -14,13 +14,12 @@ describe('Embed', () => {
         favicon: 'http://static.jsbin.com/images/favicon.png',
         image: 'http://static.jsbin.com/images/logo.png',
         iframe: true,
-        width: '100%',
-        height: '300px',
       },
       sidebar: undefined,
     };
     const embedInput = shallow(<Embed block={block} />);
     expect(embedInput.find('iframe').prop('src')).toBe('http://jsbin.com/fewilipowi/edit?js,output');
+    // expect(embedInput.find('iframe').text()).toBe('');
   });
 
   test('Embed will have no text property if iframe is false', () => {
@@ -40,5 +39,25 @@ describe('Embed', () => {
     const embedInput = shallow(<Embed block={block} />);
 
     expect(embedInput.find('span').text()).toBe('');
+  });
+
+  test('Embed will have a and img tag if favicon is provided but iframe and html condition is false', () => {
+    const block = {
+      type: 'embed',
+      data: {
+        html: false,
+        url: 'http://jsbin.com/fewilipowi/edit?js,output',
+        title: 'JS Bin',
+        favicon: 'http://static.jsbin.com/images/favicon.png',
+        image: 'http://static.jsbin.com/images/logo.png',
+        iframe: false,
+        width: '100%',
+        height: '300px',
+      },
+      sidebar: undefined,
+    };
+    const embedInput = shallow(<Embed block={block} />);
+    // expect(embedInput.find('strong').html()).toBe('<strong><img src="http://static.jsbin.com/images/favicon.png" class="favicon" alt=""/><a href="http://jsbin.com/fewilipowi/edit?js,output" target="_new">JS Bin</a></strong>');
+    expect(embedInput.find());
   });
 });
