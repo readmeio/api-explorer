@@ -27,6 +27,9 @@ module.exports = function markdown(text, opts = {}) {
     },
     gfm: true,
     breaks: !opts.correctnewlines,
+    // By default we don't wanna strip any tags
+    // so we use our sanitizer and not the built in
+    // which just calls `escape()`
     sanitizer: opts.stripHtml ? undefined : sanitizer,
   });
   return marked(text);
