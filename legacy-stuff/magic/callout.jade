@@ -21,8 +21,7 @@
         i.fa.fa-exclamation-triangle(title="Danger")
       if block.data.type == 'success'
         i.fa.fa-check-square(title="Success")
-  
-  
+
   if block.data && block.data.body
     div.callout-body
       != marked(block.data.body)

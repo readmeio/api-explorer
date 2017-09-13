@@ -3,3 +3,5 @@ coverage
 .nyc_output
 .yo-rc.json
 .idea/*
+lerna-debug.log
+.DS_Store

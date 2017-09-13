@@ -1,2 +1,5 @@
 **/node_modules
 coverage
+index.js
+emojis.js
+marked.js

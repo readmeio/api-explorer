@@ -9,6 +9,7 @@ const CodeSample = require('./CodeSample');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
+const Content = require('./block-types/Content');
 
 class Doc extends React.Component {
   constructor(props) {
@@ -87,10 +88,10 @@ class Doc extends React.Component {
                   formData={this.state.formData}
                   onChange={this.onChange}
                 />
-                {doc.body}
               </div>
               <div className="hub-reference-right switcher" />
             </div>
+            <Content body={doc.body} is-three-column />
           </div>
         )}
 

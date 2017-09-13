@@ -1,0 +1,29 @@
+![Image](http://example.com/image.png)
+
+- listitem1
+- [ ] checklistitem1
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
+# h1
+## h2
+### h3
+
+[link](http://example.com)
+[xss](javascript:alert)
+[doc](doc:slug)
+[ref](ref:slug)
+[blog](blog:slug)
+[page](page:slug)
+
+:joy:
+:fa-lock:
+:unknown-emoji:
+
+```js
+var a = 1;
+```
