@@ -23,7 +23,8 @@ describe('CallOut', () => {
         type: 'success',
         title: 'Callout',
       },
-      sidebar: undefined };
+      sidebar: undefined,
+    };
     const callOutInput = mount(<CallOut block={block} />);
     expect(callOutInput.find('h3').text()).toBe('Callout');
   });
@@ -34,9 +35,12 @@ describe('CallOut', () => {
       data: {
         type: 'danger',
       },
-      sidebar: undefined };
+      sidebar: undefined,
+    };
     const callOutInput = mount(<CallOut block={block} />);
-    expect(callOutInput.find('span').html()).toBe('<span class="noTitleIcon"><i class="fa fa-exclamation-triangle" title="Danger"></i></span>');
+    expect(callOutInput.find('span').html()).toBe(
+      '<span class="noTitleIcon"><i class="fa fa-exclamation-triangle" title="Danger"></i></span>',
+    );
   });
 
   test('Call out will render Icon if no title is given in props', () => {
@@ -45,9 +49,12 @@ describe('CallOut', () => {
       data: {
         type: 'warning',
       },
-      sidebar: undefined };
+      sidebar: undefined,
+    };
     const callOutInput = mount(<CallOut block={block} />);
-    expect(callOutInput.find('span').html()).toBe('<span class="noTitleIcon"><i class="fa fa-exclamation-circle" title="Warning"></i></span>');
+    expect(callOutInput.find('span').html()).toBe(
+      '<span class="noTitleIcon"><i class="fa fa-exclamation-circle" title="Warning"></i></span>',
+    );
   });
 
   test('Call out will render nothing if no title and icon type isn not given is given in props', () => {
