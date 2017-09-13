@@ -23,10 +23,10 @@ const Parameters = ({ block }) => {
 
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
-        // eslint-disable-next-line react/no-danger
         <div
           className="td"
           key={c}
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: markdown(block.data.data[`${r}-${c}`] || '') }}
         />,
       );

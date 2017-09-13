@@ -34,6 +34,11 @@ describe('Parameters', () => {
       },
     };
     const parametersInput = shallow(<Parameters block={block} />);
-    expect(parametersInput.find('div.td').text()).toBe('arbitrary');
+    expect(
+      parametersInput
+        .find('div.td')
+        .render()
+        .text(),
+    ).toBe('arbitrary\n');
   });
 });
