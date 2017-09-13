@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-// const Marked = require('../lib/marked');
+const markdown = require('../lib/markdown');
 
 const ImageBlock = ({ block }) => {
   const myImage = block.data.images.map((image, i) => {
@@ -23,14 +23,8 @@ const ImageBlock = ({ block }) => {
               </a>
             </figure>
             {image.caption && (
-              <figcaption>
-                <p>
-                  {
-                    // TODO add marked
-                    image.caption
-                  }
-                </p>
-              </figcaption>
+              // eslint-disable-next-line react/no-danger
+              <figcaption dangerouslySetInnerHTML={{ __html: markdown(image.caption) }} />
             )}
           </div>
         )}

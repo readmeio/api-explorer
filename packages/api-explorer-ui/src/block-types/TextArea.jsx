@@ -1,15 +1,11 @@
-// import Marked from '../lib/marked';
 const React = require('react');
 const PropTypes = require('prop-types');
+const markdown = require('../lib/markdown');
 
 const Textarea = ({ block }) => {
   return (
-    <div className="magic-block-textarea">
-      {
-        // TODO add marked
-        block.text
-      }
-    </div>
+    // eslint-disable-next-line react/no-danger
+    <div className="magic-block-textarea" dangerouslySetInnerHTML={{ __html: markdown(block.text) }} />
   );
 };
 

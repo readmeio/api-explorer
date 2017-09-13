@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-// import Marked from '../lib/marked';
+const markdown = require('../lib/markdown');
 
 const Parameters = ({ block }) => {
   const columns = block.data.cols;
@@ -23,10 +23,8 @@ const Parameters = ({ block }) => {
 
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
-        <div className="td" key={c}>
-          {// TODO add marked
-          block.data.data[`${r}-${c}`] || ''}
-        </div>,
+        // eslint-disable-next-line react/no-danger
+        <div className="td" key={c} dangerouslySetInnerHTML={{ __html: markdown(block.data.data[`${r}-${c}`] || '') }} />
       );
     }
     return tdCells;
