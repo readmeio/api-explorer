@@ -6,12 +6,24 @@ describe('ApiHeader', () => {
   test('Api Header will render text in table header cells', () => {
     const block = {
       type: 'api-header',
-      sidebar: undefined,
       data: {
         title: 'This is header',
       },
     };
-    const apiHeaderInput = shallow(<ApiHeader block={block} />);
-    expect(apiHeaderInput.find('h1').text()).toBe('This is header');
+    const apiHeader = shallow(<ApiHeader block={block} />);
+    expect(apiHeader.find('h1').text()).toBe('This is header');
+  });
+
+  test('should render with the type in a span', () => {
+    const type = 'post';
+    const block = {
+      type: 'api-header',
+      data: {
+        title: 'This is header',
+        type,
+      },
+    };
+    const apiHeader = shallow(<ApiHeader block={block} />);
+    expect(apiHeader.find(`span.type-${type}`).length).toBe(1);
   });
 });
