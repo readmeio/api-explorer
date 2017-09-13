@@ -838,6 +838,4 @@ function Emoji() {
     return this.emojis.indexOf(emoji) >= 0;
   };
 }
-if (typeof exports !== 'undefined') {
-  exports.emoji = Emoji;
-}
+exports.emoji = Emoji;

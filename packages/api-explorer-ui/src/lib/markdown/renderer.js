@@ -2,6 +2,7 @@ const marked = require('marked');
 
 const renderer = new marked.Renderer();
 
+/* istanbul ignore next */
 renderer.image = function image(href, title, text) {
   let out = `<img src="${href}" alt="${text}"`;
   if (title && title.substr(0, 6) === 'style|') {
@@ -19,6 +20,7 @@ renderer.image = function image(href, title, text) {
 };
 
 renderer.listitem = function listitem(text, val) {
+  /* istanbul ignore next */
   const valAttr = val ? ` value="${val}"` : '';
   if (/^\s*\[[x ]\]\s*/.test(text)) {
     text = text
@@ -85,6 +87,7 @@ renderer.link = function link(href, title, text) {
     uiSref = `custompages.show({'custompage': '${custompage[1]}'})`;
   }
 
+  /* istanbul ignore else */
   if (this.options.sanitize) {
     let prot;
     try {
@@ -92,8 +95,11 @@ renderer.link = function link(href, title, text) {
         .replace(/[^\w:]/g, '')
         .toLowerCase();
     } catch (e) {
+      /* istanbul ignore next */
       return '';
     }
+
+    /* istanbul ignore next */
     // eslint-disable-next-line no-script-url
     if (prot.indexOf('javascript:') === 0) {
       return '';
@@ -112,6 +118,7 @@ renderer.link = function link(href, title, text) {
     out += ' target="_self"';
   }
 
+  /* istanbul ignore next */
   if (title) {
     out += ` title="${title}"`;
   }
