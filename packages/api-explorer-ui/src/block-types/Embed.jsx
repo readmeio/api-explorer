@@ -41,9 +41,17 @@ Embed.propTypes = {
       favicon: PropTypes.string.isRequired,
       width: PropTypes.string,
       height: PropTypes.string,
-      title: PropTypes.string.isRequired,
+      title: PropTypes.string,
     }),
   }).isRequired,
+};
+
+Embed.defaultProps = {
+  block: {
+    data: {
+      title: '',
+    },
+  },
 };
 
 module.exports = Embed;

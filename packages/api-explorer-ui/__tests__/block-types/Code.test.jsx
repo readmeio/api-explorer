@@ -17,6 +17,11 @@ const block = {
         code: 'var a = 1',
         language: 'javascript',
       },
+      {
+        code: 'whjdwhjwejhkwhjk',
+        language: 'text',
+        name: 'test',
+      },
     ],
   },
 };
@@ -40,13 +45,10 @@ describe('Code', () => {
     expect(codeInput.find('em').text()).toBe('test');
   });
 
-  xtest(
-    'Code will render language if name or status is not provided within a tag if codes has a status',
-    () => {
-      const codeInput = mount(<Code block={block2} />);
-      expect(codeInput.find('a').text()).toBe('JavaScript');
-    },
-  );
+  test('Code will render language if name or status is not provided within a tag if codes has a status', () => {
+    const codeInput = mount(<Code block={block2} />);
+    expect(codeInput.find('a').text()).toBe('JavaScript');
+  });
 
   test('Code will render label if provided within opts', () => {
     const codeInput = mount(<Code block={block} opts={{ label: 'label' }} />);

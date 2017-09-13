@@ -17,7 +17,9 @@ describe('Embed', () => {
       sidebar: undefined,
     };
     const embedInput = shallow(<Embed block={block} />);
-    expect(embedInput.find('iframe').prop('src')).toBe('http://jsbin.com/fewilipowi/edit?js,output');
+    expect(embedInput.find('iframe').prop('src')).toBe(
+      'http://jsbin.com/fewilipowi/edit?js,output',
+    );
     // expect(embedInput.find('iframe').text()).toBe('');
   });
 
@@ -47,7 +49,6 @@ describe('Embed', () => {
       data: {
         html: false,
         url: 'http://jsbin.com/fewilipowi/edit?js,output',
-        title: 'JS Bin',
         favicon: 'http://static.jsbin.com/images/favicon.png',
         image: 'http://static.jsbin.com/images/logo.png',
         iframe: false,
@@ -57,7 +58,8 @@ describe('Embed', () => {
       sidebar: undefined,
     };
     const embedInput = shallow(<Embed block={block} />);
-    // expect(embedInput.find('strong').html()).toBe('<strong><img src="http://static.jsbin.com/images/favicon.png" class="favicon" alt=""/><a href="http://jsbin.com/fewilipowi/edit?js,output" target="_new">JS Bin</a></strong>');
-    expect(embedInput.find());
+    expect(embedInput.find('strong').html()).toBe(
+      '<strong><img src="http://static.jsbin.com/images/favicon.png" class="favicon" alt=""/><a href="http://jsbin.com/fewilipowi/edit?js,output" target="_new">http://jsbin.com/fewilipowi/edit?js,output</a></strong>',
+    );
   });
 });
