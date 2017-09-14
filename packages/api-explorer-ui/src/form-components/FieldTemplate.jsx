@@ -18,19 +18,26 @@ function CustomFieldTemplate(props) {
   //   );
   // }
 
+  const isObject = children.type.name === 'CustomObjectField';
+
   return (
-    <span>
-      <div className="param-item-name">
-        <strong htmlFor={id}>{label}</strong>
-        <div className="param-type">type</div>
+    <div>
+      <div className="param-item">
+        <div className="param-item-name">
+          <strong htmlFor={id}>{label}</strong>
+          <div className="param-type">type</div>
+        </div>
+        <div className="param-item-info">
+          <div className="param-item-table">
+            <div className="param-item-desc">{description}</div>
+            <div className="param-item-input">{isObject ? String.fromCharCode(160) : children}</div>
+            {errors}
+            {help}
+          </div>
+        </div>
       </div>
-      <div className="param-item-info">
-        {description}
-        {children}
-        {errors}
-        {help}
-      </div>
-    </span>
+      { isObject && children }
+    </div>
   );
 }
 

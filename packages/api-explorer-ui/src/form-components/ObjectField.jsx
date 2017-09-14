@@ -43,7 +43,7 @@ class CustomObjectField extends ObjectField {
       );
     }
     return (
-      <div className="param-item">
+      <div>
         {(uiSchema['ui:title'] || title) && (
           <TitleField
             id={`${idSchema.$id}__title`}
