@@ -55,6 +55,12 @@ describe('apiKey', () => {
       },
     ]);
   });
+  test('should display name inside label', () => {
+    const onChange = jest.fn();
+    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+
+    expect(securityInput.find('label').text()).toBe('api_key');
+  });
 });
 
 describe('basic', () => {
