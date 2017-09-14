@@ -4,8 +4,8 @@ const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 
-// const TitleField = require('./form-components/TitleField');
-// const ObjectField = require('./form-components/ObjectField');
+const TitleField = require('./form-components/TitleField');
+const ObjectField = require('./form-components/ObjectField');
 
 const Oas = require('./lib/Oas');
 
@@ -81,7 +81,7 @@ function Params({ oas, operation, formData, onChange }) {
                     return onChange({ [schema.type]: form.formData })
                   }}
                   // FieldTemplate={CustomFieldTemplate}
-                  // fields={{ObjectField, TitleField}}
+                  fields={{ObjectField, TitleField}}
                   className="param-table"
                 >
                   <button type="submit" style={{ display: 'none' }} />
