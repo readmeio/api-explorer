@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-
+const Cookies = require('js-cookie');
 const extensions = require('../../readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');
@@ -29,9 +29,13 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, setLanguage } = this.props;
+    const { doc, setLanguage, language } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
+
+    console.log(language);
+
+    Cookies.set('readme_language', language);
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
@@ -74,6 +78,7 @@ class Doc extends React.Component {
                     setLanguage={setLanguage}
                     operation={operation}
                     formData={this.state.formData}
+                    language={language}
                   />
                 </div>
                 <div className="hub-reference-right" />
@@ -126,4 +131,5 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}).isRequired,
   setLanguage: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
 };
