@@ -3,9 +3,18 @@ const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
-
+const SelectWidget = require('react-jsonschema-form/lib/components/widgets/SelectWidget').default;
+const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
+  .default;
+// const BaseInput = require('react-jsonschema-form/lib/components/widgets/BaseInput').default;
+const rangeSpec = require('react-jsonschema-form/lib/utils').rangeSpec;
 const TitleField = require('./form-components/TitleField');
 const ObjectField = require('./form-components/ObjectField');
+const FieldTemplate = require('./form-components/FieldTemplate');
+const ArrayField = require('./form-components/FieldTemplate');
+const BaseInput = require('./form-components/BaseInput');
+const SelectInput = require('./form-components/SelectInput');
+const CustomDateTime = require('./form-components/DateTimeWidget');
 
 const Oas = require('./lib/Oas');
 
@@ -55,6 +64,12 @@ const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 //   );
 // }
 
+const CustomTextWidget = props => <BaseInput {...props} />;
+
+const CustomUpDownWidget = props => (
+  <BaseInput type="number" {...props} {...rangeSpec(props.schema)} />
+);
+
 function Params({ oas, operation, formData, onChange }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
 
@@ -69,20 +84,24 @@ function Params({ oas, operation, formData, onChange }) {
                   <h3>{schema.label}</h3>
                   <div className="param-header-border" />
                 </div>
+                <div className="param-item-info" />
                 <Form
                   id={`form-${operation.operationId}`}
                   schema={schema.schema}
-                  widgets={{ int64: UpDownWidget, int32: UpDownWidget, uuid: TextWidget }}
+                  widgets={{
+                    int64: CustomUpDownWidget,
+                    int32: CustomUpDownWidget,
+                    TextWidget: CustomTextWidget,
+                  }}
                   // eslint-disable-next-line no-console
                   onSubmit={form => console.log('submit', form.formData)}
                   formData={formData[schema.type]}
                   onChange={form => {
                     // return onChange({ [schema.type]: { $set: form.formData } })
-                    return onChange({ [schema.type]: form.formData })
+                    return onChange({ [schema.type]: form.formData });
                   }}
-                  // FieldTemplate={CustomFieldTemplate}
-                  fields={{ObjectField, TitleField}}
-                  className="param-table"
+                  FieldTemplate={FieldTemplate}
+                  fields={{ ObjectField, TitleField }}
                 >
                   <button type="submit" style={{ display: 'none' }} />
                 </Form>
@@ -99,6 +118,10 @@ Params.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
+};
+
+CustomUpDownWidget.propTypes = {
+  schema: PropTypes.shape({}).isRequired,
 };
 
 module.exports = Params;

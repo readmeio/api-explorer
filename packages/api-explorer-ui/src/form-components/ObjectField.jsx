@@ -30,12 +30,12 @@ class CustomObjectField extends ObjectField {
     let orderedProperties;
     try {
       const properties = Object.keys(schema.properties);
-      orderedProperties = orderProperties(properties, uiSchema["ui:order"]);
+      orderedProperties = orderProperties(properties, uiSchema['ui:order']);
     } catch (err) {
       return (
         <div>
-          <p className="config-error" style={{ color: "red" }}>
-            Invalid {name || "root"} object field configuration:
+          <p className="config-error" style={{ color: 'red' }}>
+            Invalid {name || 'root'} object field configuration:
             <em>{err.message}</em>.
           </p>
           <pre>{JSON.stringify(schema)}</pre>
@@ -44,18 +44,18 @@ class CustomObjectField extends ObjectField {
     }
     return (
       <div className="param-item">
-        {(uiSchema["ui:title"] || title) && (
+        {(uiSchema['ui:title'] || title) && (
           <TitleField
             id={`${idSchema.$id}__title`}
-            title={uiSchema["ui:title"] || title}
+            title={uiSchema['ui:title'] || title}
             required={required}
             formContext={formContext}
           />
         )}
-        {(uiSchema["ui:description"] || schema.description) && (
+        {(uiSchema['ui:description'] || schema.description) && (
           <DescriptionField
             id={`${idSchema.$id}__description`}
-            description={uiSchema["ui:description"] || schema.description}
+            description={uiSchema['ui:description'] || schema.description}
             formContext={formContext}
           />
         )}
