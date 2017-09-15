@@ -1,6 +1,6 @@
 import 'angular-cookies';
-import getParamEndpointValue from '../lib/get-param-endpoint-value';
-import configureSecurity from '../lib/configure-security';
+// import getParamEndpointValue from '../lib/get-param-endpoint-value';
+// import configureSecurity from '../lib/configure-security';
 import extensions from 'readme-oas-extensions';
 
 /*

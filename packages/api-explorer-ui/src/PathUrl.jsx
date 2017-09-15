@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-
+const needsAuth = require('../../../legacy-stuff/endpoint');
 const AuthBox = require('./AuthBox');
 const Oas = require('./lib/Oas');
 
@@ -32,6 +32,13 @@ function PathUrl({ oas, operation, loading, dirty, onChange }) {
                 className={classNames('api-try-it-out', { active: dirty })}
                 type="submit"
                 disabled={loading}
+                onClick={e => {
+                  // eslint-disable-next-line
+                  e.preventDefault();
+                  if (needsAuth()) {
+                    <AuthBox operation={operation} onChange={onChange} wait={600} />;
+                  }
+                }}
               >
                 {!loading && (
                   <span className="try-it-now-btn">
