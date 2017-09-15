@@ -3,6 +3,7 @@ const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
+const needsAuth = require('../../../legacy-stuff/endpoint');
 
 function renderSecurities(operation, onChange) {
   const securityTypes = operation.prepareSecurity();
@@ -64,6 +65,17 @@ class AuthBox extends React.Component {
         <div className="nopad">
           <div className="triangle" />
           <div>{renderSecurities(operation, this.props.onChange)}</div>
+          <div
+            className="hub-authrequired"
+            style={{
+              active: needsAuth(),
+            }}
+          >
+            <div className="hub-authrequired-slider">
+              <i className="icon icon-notification" />
+              Authentication is required for this endpoint
+            </div>
+          </div>
         </div>
       </div>
     );

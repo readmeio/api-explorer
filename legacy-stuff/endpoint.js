@@ -401,7 +401,7 @@ app.controller('Endpoint', ($scope, $rootScope, $timeout, $http, user, version, 
   }
 });
 
-app.factory('apiAuth', () => {
+export default app.factory('apiAuth', () => {
   const auth = {
     auth: {},
     ready(swagger, apiKey) {
