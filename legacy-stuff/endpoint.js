@@ -1,7 +1,7 @@
-import 'angular-cookies';
-// import getParamEndpointValue from '../lib/get-param-endpoint-value';
-// import configureSecurity from '../lib/configure-security';
-import extensions from 'readme-oas-extensions';
+import 'js-cookies';
+import getParamEndpointValue from '../lib/get-param-endpoint-value';
+import configureSecurity from '../lib/configure-security';
+import extensions from '../packages/readme-oas-extensions';
 
 /*
  * This takes care of try it now, code snippets, etc
@@ -66,6 +66,7 @@ app.controller('Endpoint', ($scope, $rootScope, $timeout, $http, user, version, 
     path: {},
     header: {},
   };
+
 
   $scope.results = {};
   $('.hub-reference-results', $el).removeClass('on');
@@ -401,7 +402,7 @@ app.controller('Endpoint', ($scope, $rootScope, $timeout, $http, user, version, 
   }
 });
 
-export default app.factory('apiAuth', () => {
+app.factory('apiAuth', () => {
   const auth = {
     auth: {},
     ready(swagger, apiKey) {

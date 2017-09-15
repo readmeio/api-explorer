@@ -970,7 +970,7 @@
     },
     "securitySchemes": {
       "petstore_auth": {
-        "type": "oauth2",
+        "type": "basic",
         "flows": {
           "implicit": {
             "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",

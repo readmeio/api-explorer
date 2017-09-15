@@ -1,9 +1,8 @@
-const { React, componentWillMount } = require('react');
+const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
-const needsAuth = require('../../../legacy-stuff/endpoint');
 
 function renderSecurities(operation, onChange) {
   const securityTypes = operation.prepareSecurity();
@@ -40,21 +39,22 @@ class AuthBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { open: false };
-
     this.toggle = this.toggle.bind(this);
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.open) {
+      setTimeout(e => {
+        this.setState({ open: true });
+      }, 600);
+    }
+  }
+
   toggle(e) {
     e.preventDefault();
     this.setState({ open: !this.state.open });
     // this.props.onChange({ header: { 'test': '111' } });
   }
-  componentWillMount() {
-    const that = this;
-    setTimeout(() => {
-      that.show();
-    }, that.props.wait);
-  }
-
   render() {
     const { operation } = this.props;
 
@@ -71,7 +71,7 @@ class AuthBox extends React.Component {
         <div className="nopad">
           <div className="triangle" />
           <div>{renderSecurities(operation, this.props.onChange)}</div>
-          <div className={classNames('hub-authrequired', { active: needsAuth })}>
+          <div className={classNames('hub-authrequired', { active: this.props.needsAuth })}>
             <div className="hub-authrequired-slider">
               <i className="icon icon-notification" />
               Authentication is required for this endpoint
@@ -86,6 +86,11 @@ class AuthBox extends React.Component {
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   onChange: PropTypes.func.isRequired,
+  open: PropTypes.bool,
+};
+
+AuthBox.defaultProps = {
+  open: false,
 };
 
 module.exports = AuthBox;

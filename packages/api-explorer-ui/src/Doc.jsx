@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-
+const authRequired = require('./lib/endpoint');
 const extensions = require('../../readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');
@@ -14,9 +14,10 @@ const Content = require('./block-types/Content');
 class Doc extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { formData: {}, dirty: false, loading: false };
+    this.state = { formData: {}, dirty: false, loading: false, showAuthBox: false };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onChange(formData) {
@@ -26,6 +27,18 @@ class Doc extends React.Component {
         dirty: true,
       };
     });
+  }
+  onSubmit() {
+    if (
+      (!authRequired(
+        this.props.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
+      ),
+      this.props.formData.auth)
+    ) {
+      this.setState({ showAuthBox: true, needsAuth: true });
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -64,6 +77,9 @@ class Doc extends React.Component {
               dirty={this.state.dirty}
               loading={this.state.loading}
               onChange={this.onChange}
+              authData={this.state.formData.auth}
+              onSubmit={this.onSubmit}
+              showAuthBox={this.state.showAuthBox}
             />
 
             {showCode(oas, operation) && (
@@ -124,6 +140,11 @@ Doc.propTypes = {
       path: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  oas: PropTypes.shape({}).isRequired,
+  oas: PropTypes.shape({
+    operation: PropTypes.func,
+  }).isRequired,
   setLanguage: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    auth: PropTypes.shape({}),
+  }).isRequired,
 };
