@@ -87,10 +87,12 @@ AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   onChange: PropTypes.func.isRequired,
   open: PropTypes.bool,
+  needsAuth: PropTypes.bool,
 };
 
 AuthBox.defaultProps = {
   open: false,
+  needsAuth: false,
 };
 
 module.exports = AuthBox;

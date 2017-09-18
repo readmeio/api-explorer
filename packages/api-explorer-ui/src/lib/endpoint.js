@@ -9,7 +9,6 @@ function authRequired(operation, authData = {}) {
     if (!operation.oas.components.securitySchemes[key]) return;
     const security = operation.oas.components.securitySchemes[key];
     const auth = authData[key];
-    console.log(auth);
 
     if (security.type === 'basic') {
       if (!auth || !auth.user) {

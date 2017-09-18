@@ -30,10 +30,8 @@ class Doc extends React.Component {
   }
   onSubmit() {
     if (
-      (!authRequired(
-        this.props.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-      ),
-      this.props.formData.auth)
+      (!authRequired(this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method)),
+      this.state.formData.auth)
     ) {
       this.setState({ showAuthBox: true, needsAuth: true });
       return false;
@@ -78,7 +76,6 @@ class Doc extends React.Component {
               loading={this.state.loading}
               onChange={this.onChange}
               authData={this.state.formData.auth}
-              onSubmit={this.onSubmit}
               showAuthBox={this.state.showAuthBox}
             />
 
@@ -103,6 +100,7 @@ class Doc extends React.Component {
                   operation={operation}
                   formData={this.state.formData}
                   onChange={this.onChange}
+                  onSubmit={this.onSubmit}
                 />
               </div>
               <div className="hub-reference-right switcher" />
