@@ -126,5 +126,9 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}).isRequired,
   setLanguage: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
+  language: PropTypes.string,
+};
+
+Doc.defaultProps = {
+  language: 'curl',
 };

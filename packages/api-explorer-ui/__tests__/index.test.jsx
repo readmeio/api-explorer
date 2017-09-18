@@ -1,5 +1,6 @@
 const React = require('react');
 const { shallow } = require('enzyme');
+const Cookie = require('js-cookie');
 const extensions = require('../../readme-oas-extensions');
 const ApiExplorer = require('../src');
 
@@ -40,6 +41,25 @@ describe('selected language', () => {
 
   describe('#setLanguage()', () => {
     test('should update the language state', () => {
+      const languages = ['node', 'curl'];
+      const explorer = shallow(
+        <ApiExplorer
+          docs={docs}
+          oasFiles={{
+            'api-setting': Object.assign({}, oas, {
+              [extensions.SAMPLES_LANGUAGES]: languages,
+            }),
+          }}
+        />,
+      );
+
+      explorer.instance().setLanguage('language');
+      expect(explorer.state('language')).toBe('language');
+    });
+  });
+
+  describe('Cookie', () => {
+    test('the state of language should be set to Cookie value if provided', () => {
       const languages = ['node', 'curl'];
       const explorer = shallow(
         <ApiExplorer
