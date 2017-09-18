@@ -35,7 +35,7 @@ class ApiExplorer extends React.Component {
             <Doc
               key={doc._id}
               doc={doc}
-              oas={doc.category.apiSetting ? this.props.oasFiles[doc.category.apiSetting] : {}}
+              oas={doc.category.apiSetting && this.props.oasFiles[doc.category.apiSetting]}
               setLanguage={this.setLanguage}
             />
           ))}

@@ -27,10 +27,53 @@ class Doc extends React.Component {
     });
   }
 
-  render() {
-    const { doc, setLanguage, language } = this.props;
+  renderEndpoint() {
+    const { doc, setLanguage } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
+
+    return (
+      <div className="hub-api">
+        <PathUrl
+          oas={oas}
+          operation={operation}
+          dirty={this.state.dirty}
+          loading={this.state.loading}
+          onChange={this.onChange}
+        />
+
+        {showCode(oas, operation) && (
+          <div className="hub-reference-section hub-reference-section-code">
+            <div className="hub-reference-left">
+              <CodeSample
+                oas={oas}
+                setLanguage={setLanguage}
+                operation={operation}
+                formData={this.state.formData}
+              />
+            </div>
+            <div className="hub-reference-right" />
+          </div>
+        )}
+
+        <div className="hub-reference-section">
+          <div className="hub-reference-left">
+            <Params
+              oas={oas}
+              operation={operation}
+              formData={this.state.formData}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="hub-reference-right switcher" />
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { doc } = this.props;
+    const oas = this.oas;
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
@@ -47,54 +90,21 @@ class Doc extends React.Component {
               }
               <h2>{doc.title}</h2>
               {doc.excerpt && (
-                // eslint-disable-next-line react/no-danger
-                <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
+                <div className="excerpt">
+                  {
+                    // eslint-disable-next-line react/no-danger
+                    <p dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
+                  }
+                </div>
               )}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        {doc.type === 'endpoint' && (
-          <div className="hub-api">
-            <PathUrl
-              oas={oas}
-              operation={operation}
-              dirty={this.state.dirty}
-              loading={this.state.loading}
-              onChange={this.onChange}
-            />
+        {doc.type === 'endpoint' && this.renderEndpoint()}
 
-            {showCode(oas, operation) && (
-              <div className="hub-reference-section hub-reference-section-code">
-                <div className="hub-reference-left">
-                  <CodeSample
-                    oas={oas}
-                    setLanguage={setLanguage}
-                    operation={operation}
-                    formData={this.state.formData}
-                    language={language}
-                  />
-                </div>
-                <div className="hub-reference-right" />
-              </div>
-            )}
-
-            <div className="hub-reference-section">
-              <div className="hub-reference-left">
-                <Params
-                  oas={oas}
-                  operation={operation}
-                  formData={this.state.formData}
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="hub-reference-right switcher" />
-            </div>
-            <Content body={doc.body} is-three-column />
-          </div>
-        )}
-
+        <Content body={doc.body} is-three-column />
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -119,16 +129,20 @@ Doc.propTypes = {
     type: PropTypes.string.isRequired,
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     swagger: PropTypes.shape({
       path: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
   }).isRequired,
-  oas: PropTypes.shape({}).isRequired,
+  oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
   language: PropTypes.string,
 };
 
 Doc.defaultProps = {
   language: 'curl',
+};
+
+Doc.defaultProps = {
+  oas: {},
 };

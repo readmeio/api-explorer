@@ -56,6 +56,25 @@ Oauth2.defaultProps = {
   oauthUrl: '',
 };
 
+function ApiKey(apiKey) {
+  return (
+    <div className="row">
+      <div className="col-xs-5">
+        <label htmlFor="apiKey">{apiKey.scheme.name}</label>
+      </div>
+      <div className="col-xs-7">
+        <input type="text" onChange={e => apiKey.change(e.currentTarget.value)} />
+      </div>
+    </div>
+  );
+}
+
+ApiKey.propTypes = {
+  scheme: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 class Basic extends React.Component {
   constructor(props) {
     super(props);
@@ -109,6 +128,8 @@ function SecurityInput(props) {
       return <Oauth2 {...props} change={change} />;
     case 'basic':
       return <Basic {...props} change={change} />;
+    case 'apiKey':
+      return <ApiKey {...props} change={change} />;
     default:
       return <span />;
   }
