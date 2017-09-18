@@ -1,10 +1,11 @@
 extends ../partial
+include mixins
 
 block content
   - var theme = project.flags.stripe ? 'stripe' : ''
 
-  #hub-reference.content-body.hub-reference-sticky(class="hub-reference-theme-"+theme, ng-non-bindable)
-    //- if isPreview
+  #hub-reference.content-body.hub-reference-sticky(class="hub-reference-theme-"+theme)
+    if isPreview
       .hub-reference
         .hub-reference-section
           .hub-reference-left
@@ -15,7 +16,7 @@ block content
               a.btn.btn-primary.btn-lg(href="https://dash.readme.io/signup") Sign Up for ReadMe
           .hub-reference-right &nbsp;
 
-    //- for doc in docs
+    for doc in docs
       if doc.type != 'link'
         .hub-reference(id='page-'+doc.slug)
           a.anchor-page-title(id=doc.slug)
@@ -32,37 +33,55 @@ block content
             .hub-reference-right &nbsp;
 
           if doc.isApi
-            - swagger = doc.getMiniSwagger(version.version)
+            - var swagger = doc.getMiniSwagger(version.version)
             if isPreview
               .mini-swagger-inline(style="display:none;")= swaggerUtils.prepareMiniSwaggerInline(swagger)
 
             if swagger[extensions.SEND_DEFAULTS]
               input(type='hidden', id='swagger-' + extensions.SEND_DEFAULTS, value="#{swagger[extensions.SEND_DEFAULTS]}")
 
-          if doc.isApi
-              form.hub-api(ng-submit="tryItOut()" ng-controller="Endpoint" ng-init="setSlug('"+doc.slug+"')" name="endpointForm")
-                //- +full_url(swagger)
-
-                if swaggerUtils.showCode(swagger)
-                  .hub-reference-section.hub-reference-section-code
-                    .hub-reference-left
-                      //- +code_sample(doc, swagger, variables)
-                    .hub-reference-right.hub-reference-results.tabber-parent
-                      //- +results(doc, swagger, variables)
-
-                .hub-reference-section
-                  .hub-reference-left
-                    //- +params(swagger)
-                  .hub-reference-right.switcher
-                    if !swagger._endpoint.responses
-                      | &nbsp;
-                    else
-                      //- +responseSchema(swagger)
-
-            != renderMagic(doc.body, {'isThreeColumn': true}, variables)
+          if theme == 'stripe'
+            +themeStripe(doc, swagger)
+          else
+            +themeMain(doc, swagger)
 
     .hub-reference-end
 
-  script#docs !{JSON.stringify(docs.filter(doc => doc.type !== 'link'))}
-  script#swaggerFiles !{JSON.stringify(swaggerFiles)}
-  script(src=asset_url('js/bundle-reference.js'))
+mixin themeStripe(doc, swagger)
+  form.hub-api(ng-submit="tryItOut()" ng-controller="Endpoint" ng-init="setSlug('"+doc.slug+"')" name="endpointForm")
+    .hub-reference-section
+      .hub-reference-left
+        if doc.isApi
+          +full_url(swagger)
+          +params(swagger)
+        != renderMagic(doc.body, {'isThreeColumn': 'left'}, variables)
+      .hub-reference-right
+        if doc.isApi
+          .hub-reference-section-code
+            +code_sample(doc, swagger, variables)
+            .hub-reference-results.tabber-parent
+              +results(doc, swagger, variables)
+        != renderMagic(doc.body, {'isThreeColumn': 'right'}, variables)
+
+mixin themeMain(doc, swagger)
+  if doc.isApi
+    form.hub-api(ng-submit="tryItOut()" ng-controller="Endpoint" ng-init="setSlug('"+doc.slug+"')" name="endpointForm")
+      +full_url(swagger)
+
+      if swaggerUtils.showCode(swagger)
+        .hub-reference-section.hub-reference-section-code
+          .hub-reference-left
+            +code_sample(doc, swagger, variables)
+          .hub-reference-right.hub-reference-results.tabber-parent
+            +results(doc, swagger, variables)
+
+      .hub-reference-section
+        .hub-reference-left
+          +params(swagger)
+        .hub-reference-right.switcher
+          if !swagger._endpoint.responses
+            | &nbsp;
+          else
+            +responseSchema(swagger)
+
+  != renderMagic(doc.body, {'isThreeColumn': true}, variables)
