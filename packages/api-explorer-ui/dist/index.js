@@ -27016,9 +27016,13 @@ var Doc = function (_React$Component) {
                 null,
                 doc.title
               ),
-              doc.excerpt &&
-              // eslint-disable-next-line react/no-danger
-              React.createElement('div', { className: 'excerpt', dangerouslySetInnerHTML: { __html: doc.excerpt } })
+              doc.excerpt && React.createElement(
+                'div',
+                { className: 'excerpt' },
+
+                // eslint-disable-next-line react/no-danger
+                React.createElement('p', { dangerouslySetInnerHTML: { __html: doc.excerpt } })
+              )
             )
           ),
           React.createElement(

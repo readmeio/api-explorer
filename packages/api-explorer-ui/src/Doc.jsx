@@ -91,8 +91,12 @@ class Doc extends React.Component {
               }
               <h2>{doc.title}</h2>
               {doc.excerpt && (
-                // eslint-disable-next-line react/no-danger
-                <div className="excerpt" dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
+                <div className="excerpt">
+                  {
+                    // eslint-disable-next-line react/no-danger
+                    <p dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
+                  }
+                </div>
               )}
             </header>
           </div>
