@@ -70,6 +70,7 @@ describe('selected language', () => {
               [extensions.SAMPLES_LANGUAGES]: languages,
             }),
           }}
+          cookie={languageCookie}
         />,
       );
 
@@ -88,6 +89,7 @@ describe('selected language', () => {
             [extensions.SAMPLES_LANGUAGES]: languages,
           }),
         }}
+        cookie={languageCookie}
       />,
     );
 
@@ -102,6 +104,7 @@ describe('selected language', () => {
         oasFiles={{
           'api-setting': Object.assign({}, oas),
         }}
+        cookie={languageCookie}
       />,
     );
 
