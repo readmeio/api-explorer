@@ -34,10 +34,10 @@ test('should output a div', () => {
 });
 
 test('should work without a doc.swagger/doc.path/oas', () => {
-  const doc = { title: 'title', slug: 'slug', type: 'basic' }
+  const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(<Doc doc={doc} setLanguage={() => {}} />);
 
-  assertDocElements(docComponent, doc)
+  assertDocElements(docComponent, doc);
   expect(docComponent.find('.hub-api').length).toBe(0);
   expect(docComponent.find('Content').length).toBe(1);
 });

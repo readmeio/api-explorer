@@ -27752,7 +27752,6 @@ var Loop = function Loop(_ref) {
 var Content = function Content(props) {
   var body = props.body;
 
-  console.log(body);
   var isThreeColumn = props['is-three-column'];
 
   var content = parseBlocks(body);
