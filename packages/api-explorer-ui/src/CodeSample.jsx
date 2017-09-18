@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const Cookies = require('js-cookie');
 const extensions = require('../../readme-oas-extensions');
 const Oas = require('./lib/Oas');
 

@@ -1,6 +1,5 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Cookies = require('js-cookie');
 const extensions = require('../../readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');
@@ -32,10 +31,6 @@ class Doc extends React.Component {
     const { doc, setLanguage, language } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
-
-    console.log(language);
-
-    Cookies.set('readme_language', language);
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>

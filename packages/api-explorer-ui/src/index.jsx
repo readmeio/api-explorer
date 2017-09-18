@@ -8,19 +8,25 @@ const Doc = require('./Doc');
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { language: Cookies.get('readme_language') };
+    this.state = {
+      language: 'curl',
+    };
 
     try {
-      const firstOas = Object.keys(this.props.oasFiles)[0];
+      const firstOas = Object.keys(this.props.oasFiles)[0]; // apisetting
+      // console.log(this.props.oasFiles[firstOas]);
       this.state.language = this.props.oasFiles[firstOas][extensions.SAMPLES_LANGUAGES][0];
     } catch (e) {} // eslint-disable-line no-empty
 
     this.setLanguage = this.setLanguage.bind(this);
-  }
-  setLanguage(language) {
-    this.setState({ language });
+    // console.log('this is state', this.state.language);
   }
 
+  setLanguage(language) {
+    this.setState({ language }, () => {
+      Cookies.set('readme_language', language);
+    });
+  }
   render() {
     return (
       <div className={`is-lang-${this.state.language}`}>
