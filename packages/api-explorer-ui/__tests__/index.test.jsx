@@ -60,7 +60,7 @@ describe('selected language', () => {
 
   describe('Cookie', () => {
     test('the state of language should be set to Cookie value if provided', () => {
-      const languageCookie = Cookie.set('readme_language', 'javascript');
+      Cookie.set('readme_language', 'javascript');
       const languages = ['node', 'curl'];
       const explorer = shallow(
         <ApiExplorer
@@ -70,7 +70,6 @@ describe('selected language', () => {
               [extensions.SAMPLES_LANGUAGES]: languages,
             }),
           }}
-          cookie={languageCookie}
         />,
       );
 
@@ -79,7 +78,7 @@ describe('selected language', () => {
   });
 
   test('the state of language should be the first language defined if cookie has not been set', () => {
-    const languageCookie = Cookie.remove('readme_language');
+    Cookie.remove('readme_language');
     const languages = ['node', 'curl'];
     const explorer = shallow(
       <ApiExplorer
@@ -89,7 +88,6 @@ describe('selected language', () => {
             [extensions.SAMPLES_LANGUAGES]: languages,
           }),
         }}
-        cookie={languageCookie}
       />,
     );
 
@@ -97,14 +95,13 @@ describe('selected language', () => {
   });
 
   test('the state of language should be defaulted to curl if no cookie is present and languages have not been defined', () => {
-    const languageCookie = Cookie.remove('readme_language');
+    Cookie.remove('readme_language');
     const explorer = shallow(
       <ApiExplorer
         docs={docs}
         oasFiles={{
           'api-setting': Object.assign({}, oas),
         }}
-        cookie={languageCookie}
       />,
     );
 
