@@ -55,6 +55,7 @@ describe('selected language', () => {
 
       explorer.instance().setLanguage('language');
       expect(explorer.state('language')).toBe('language');
+      expect(explorer.state('language')).toBe(Cookie.get('readme_language'));
     });
   });
 
