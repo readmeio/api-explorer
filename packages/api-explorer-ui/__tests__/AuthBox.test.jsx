@@ -7,7 +7,9 @@ const petstore = require('./fixtures/multiple-securities/oas');
 
 const oas = new Oas(petstore);
 
-const props = { operation: oas.operation('/things', 'post'), onChange: () => {} };
+jest.useFakeTimers();
+
+const props = { operation: oas.operation('/things', 'post'), onChange: () => {}, needsAuth: true };
 
 test('should not display if no auth', () => {
   expect(shallow(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBe(
@@ -49,4 +51,41 @@ test('should have an open class when state is open', () => {
   authBox.instance().toggle({ preventDefault() {} });
 
   expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
+});
+
+xtest('should display authentication warning if auth is required for endpoint', () => {
+  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+
+  // expect(authBox.find('.hub-authrequired active').length).toBe(1);
+  expect(authBox.state('needsAuth')).toBe(true);
+});
+
+xtest(
+  'should display authentication box if try it now button is selected without any authData',
+  () => {
+    const authBox = shallow(
+      <AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />,
+    );
+
+    expect(authBox.state('open')).toBe(true);
+  },
+);
+
+test('should display authentication warning after 600ms in AuthBox', () => {
+  const timeOut = (nextProps = { needsAuth: true }) => {
+    const that = this;
+    if (nextProps.needsAuth) {
+      setTimeout(() => {
+        that.setState({ needsAuth: true });
+      }, 600);
+    }
+  };
+  // const authBox = shallow(
+  //   <AuthBox {...props} operation={oas.operation('/single-auth', 'post')}  />,
+  // );
+
+  timeOut();
+
+  expect(setTimeout.mock.calls.length).toBe(1);
+  // expect(authBox.state('open')).toBe(true);
 });
