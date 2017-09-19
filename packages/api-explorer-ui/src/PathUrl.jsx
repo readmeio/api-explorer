@@ -73,7 +73,12 @@ PathUrl.propTypes = {
   dirty: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  showAuthBox: PropTypes.bool.isRequired,
+  showAuthBox: PropTypes.bool,
+  needsAuth: PropTypes.bool,
 };
 
+PathUrl.defaultProps = {
+  showAuthBox: false,
+  needsAuth: false,
+};
 module.exports = PathUrl;

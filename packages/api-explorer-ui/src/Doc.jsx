@@ -151,7 +151,4 @@ Doc.propTypes = {
     operation: PropTypes.func,
   }).isRequired,
   setLanguage: PropTypes.func.isRequired,
-  formData: PropTypes.shape({
-    auth: PropTypes.shape({}),
-  }).isRequired,
 };
