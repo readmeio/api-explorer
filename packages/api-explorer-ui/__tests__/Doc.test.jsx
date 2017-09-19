@@ -11,6 +11,7 @@ const props = {
     type: 'endpoint',
     swagger: { path: '/pet/{petId}' },
     api: { method: 'get' },
+    formData: { auth: { api_key: 'hello' } },
   },
   oas,
   setLanguage: () => {},
@@ -34,6 +35,15 @@ describe('state.dirty', () => {
     doc.instance().onChange({ a: 1 });
 
     expect(doc.state('dirty')).toBe(true);
+  });
+});
+
+describe('onSubmit', () => {
+  test('should switch to true if auth is required and correct security isn not passed', () => {
+    const doc = shallow(<Doc {...props} />);
+    doc.instance().onSubmit();
+
+    expect(doc.state('showAuthBox')).toBe(true);
   });
 });
 
