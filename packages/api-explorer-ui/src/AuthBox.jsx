@@ -56,7 +56,7 @@ class AuthBox extends React.Component {
     // this.props.onChange({ header: { 'test': '111' } });
   }
   render() {
-    const { operation } = this.props;
+    const { operation, needsAuth } = this.props;
 
     if (!operation.hasAuth()) return null;
 
@@ -71,7 +71,7 @@ class AuthBox extends React.Component {
         <div className="nopad">
           <div className="triangle" />
           <div>{renderSecurities(operation, this.props.onChange)}</div>
-          <div className={classNames('hub-authrequired', { active: this.props.needsAuth })}>
+          <div className={classNames('hub-authrequired', { active: needsAuth })}>
             <div className="hub-authrequired-slider">
               <i className="icon icon-notification" />
               Authentication is required for this endpoint

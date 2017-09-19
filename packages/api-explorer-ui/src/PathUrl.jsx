@@ -16,14 +16,19 @@ function splitPath(path) {
       return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
     });
 }
-function PathUrl({ oas, operation, loading, dirty, onChange, showAuthBox }) {
+function PathUrl({ oas, operation, loading, dirty, onChange, showAuthBox, needsAuth }) {
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
         <div className="api-definition-container">
           {oas[extensions.EXPLORER_ENABLED] && (
             <div className="api-definition-actions">
-              <AuthBox operation={operation} onChange={onChange} open={showAuthBox} />
+              <AuthBox
+                operation={operation}
+                onChange={onChange}
+                open={showAuthBox}
+                needsAuth={needsAuth}
+              />
 
               <button
                 form={`form-${operation.operationId}`}

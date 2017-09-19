@@ -14,7 +14,13 @@ const Content = require('./block-types/Content');
 class Doc extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { formData: {}, dirty: false, loading: false, showAuthBox: false };
+    this.state = {
+      formData: {},
+      dirty: false,
+      loading: false,
+      showAuthBox: false,
+      needsAuth: false,
+    };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
@@ -30,8 +36,10 @@ class Doc extends React.Component {
   }
   onSubmit() {
     if (
-      (!authRequired(this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method)),
-      this.state.formData.auth)
+      !authRequired(
+        this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
+        this.state.formData.auth,
+      )
     ) {
       this.setState({ showAuthBox: true, needsAuth: true });
       return false;
@@ -43,7 +51,7 @@ class Doc extends React.Component {
     const { doc, setLanguage } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
-
+    // console.log('reset?', this.state.formData.auth);
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
         {
@@ -77,6 +85,7 @@ class Doc extends React.Component {
               onChange={this.onChange}
               authData={this.state.formData.auth}
               showAuthBox={this.state.showAuthBox}
+              needsAuth={this.state.needsAuth}
             />
 
             {showCode(oas, operation) && (
