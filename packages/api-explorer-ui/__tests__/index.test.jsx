@@ -1,5 +1,6 @@
 const React = require('react');
 const { shallow } = require('enzyme');
+const Cookie = require('js-cookie');
 const extensions = require('../../readme-oas-extensions');
 const ApiExplorer = require('../src');
 
@@ -54,6 +55,57 @@ describe('selected language', () => {
 
       explorer.instance().setLanguage('language');
       expect(explorer.state('language')).toBe('language');
+      expect(Cookie.get('readme_language')).toBe('language');
     });
+  });
+
+  describe('Cookie', () => {
+    test('the state of language should be set to Cookie value if provided', () => {
+      Cookie.set('readme_language', 'javascript');
+      const languages = ['node', 'curl'];
+      const explorer = shallow(
+        <ApiExplorer
+          docs={docs}
+          oasFiles={{
+            'api-setting': Object.assign({}, oas, {
+              [extensions.SAMPLES_LANGUAGES]: languages,
+            }),
+          }}
+        />,
+      );
+
+      expect(explorer.state('language')).toBe('javascript');
+    });
+  });
+
+  test('the state of language should be the first language defined if cookie has not been set', () => {
+    Cookie.remove('readme_language');
+    const languages = ['node', 'curl'];
+    const explorer = shallow(
+      <ApiExplorer
+        docs={docs}
+        oasFiles={{
+          'api-setting': Object.assign({}, oas, {
+            [extensions.SAMPLES_LANGUAGES]: languages,
+          }),
+        }}
+      />,
+    );
+
+    expect(explorer.state('language')).toBe('node');
+  });
+
+  test('the state of language should be defaulted to curl if no cookie is present and languages have not been defined', () => {
+    Cookie.remove('readme_language');
+    const explorer = shallow(
+      <ApiExplorer
+        docs={docs}
+        oasFiles={{
+          'api-setting': Object.assign({}, oas),
+        }}
+      />,
+    );
+
+    expect(explorer.state('language')).toBe('curl');
   });
 });
