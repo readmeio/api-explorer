@@ -30,6 +30,7 @@ module.exports = (oas, apiSetting) => {
           api: { method },
           swagger: { path },
           body: '',
+          excerpt: operation.description,
         });
       }
     });
