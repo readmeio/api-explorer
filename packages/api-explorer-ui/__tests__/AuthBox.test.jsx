@@ -53,42 +53,21 @@ test('should have an open class when state is open', () => {
   expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
 });
 
-xtest('should display authentication warning if auth is required for endpoint', () => {
+test('should display authentication warning if auth is required for endpoint', () => {
   const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 
-  const nextProps = { needsAuth: true };
+  authBox.setProps({ needsAuth: true });
 
-  authBox.instance().componentWillReceiveProps(nextProps);
+  jest.runAllTimers();
 
-  // expect(authBox.find('.hub-authrequired active').length).toBe(1);
   expect(authBox.state('needsAuth')).toBe(true);
+  expect(authBox.find('.hub-authrequired.active').length).toBe(1);
 });
 
 test('should display authentication box if try it now button is selected without any authData', () => {
   const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 
-  const nextProps = { needsAuth: true };
-
-  authBox.instance().componentWillReceiveProps(nextProps);
+  authBox.setProps({ needsAuth: true });
 
   expect(authBox.state('open')).toBe(true);
-});
-
-test('should display authentication warning after 600ms in AuthBox', () => {
-  const timeOut = (nextProps = { needsAuth: true }) => {
-    const that = this;
-    if (nextProps.needsAuth) {
-      setTimeout(() => {
-        that.setState({ needsAuth: true });
-      }, 600);
-    }
-  };
-  // const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
-  // const nextProps = { needsAuth: true };
-
-  timeOut();
-
-  expect(setTimeout.mock.calls.length).toBe(2);
-  // authBox.instance().componentWillReceiveProps(nextProps);
-  // expect(authBox.state('needsAuth')).toBe(true);
 });
