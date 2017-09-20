@@ -29,6 +29,7 @@ class ApiExplorer extends React.Component {
               doc={doc}
               oas={doc.category.apiSetting ? this.props.oasFiles[doc.category.apiSetting] : {}}
               setLanguage={this.setLanguage}
+              flags={this.props.flags}
             />
           ))}
         </div>
@@ -40,6 +41,7 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
+  flags: PropTypes.shape({}).isRequired,
 };
 
 module.exports = ApiExplorer;

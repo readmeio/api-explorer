@@ -11,5 +11,5 @@ const ApiExplorer = require('../packages/api-explorer-ui/src/index.jsx');
   const docs = createDocs(oas, 'api-setting');
   const oasFiles = { 'api-setting': await refParser.dereference(oas) };
 
-  ReactDOM.render(<ApiExplorer docs={docs} oasFiles={oasFiles} />, document.getElementById('hub-reference'));
+  ReactDOM.render(<ApiExplorer docs={docs} oasFiles={oasFiles} flags={{ correctnewlines: true }} />, document.getElementById('hub-reference'));
 }());

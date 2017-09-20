@@ -29,7 +29,45 @@ module.exports = (oas, apiSetting) => {
           category: { apiSetting },
           api: { method },
           swagger: { path },
-          body: '',
+          body: `
+          [block:textarea]
+           {
+             "text": "This is text area."
+           }
+          [/block]
+          [block:image]
+          {
+            "images": [
+              {
+                "image": [
+                  "https://files.readme.io/dce21f0-IMG_0418.JPG",
+                  "IMG_0418.JPG",
+                  640,
+                  1136,
+                  "#9e918d"
+                ],
+                "caption": "doggo"
+              }
+            ]
+          }
+          [/block]
+
+         [block:parameters]
+         {
+          "data": {
+            "0-0": "arbitrary",
+            "0-1": "info",
+            "0-2": "test",
+            "h-0": "test",
+            "h-1": "1",
+            "h-2": "2"
+          },
+          "cols": 3,
+          "rows": 1
+        }
+        [/block]
+
+          `,
           excerpt: operation.description,
         });
       }

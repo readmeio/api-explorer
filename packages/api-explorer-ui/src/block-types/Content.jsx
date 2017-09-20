@@ -12,12 +12,12 @@ const PropTypes = require('prop-types');
 
 const parseBlocks = require('../lib/parse-magic-blocks');
 
-const Loop = ({ content, column }) => {
+const Loop = ({ content, column, flags }) => {
   const elements = content.map((block, i) => {
     switch (block.type) {
       case 'textarea':
         // eslint-disable-next-line react/no-array-index-key
-        return <TextArea key={i} block={block} />;
+        return <TextArea key={i} block={block} flags={flags} />;
       case 'html':
         // eslint-disable-next-line react/no-array-index-key
         return <Html key={i} block={block} />;
@@ -35,10 +35,10 @@ const Loop = ({ content, column }) => {
         return <CallOut key={i} block={block} />;
       case 'parameters':
         // eslint-disable-next-line react/no-array-index-key
-        return <Parameters key={i} block={block} />;
+        return <Parameters key={i} block={block} flags={flags} />;
       case 'image':
         // eslint-disable-next-line react/no-array-index-key
-        return <ImageBlock key={i} block={block} />;
+        return <ImageBlock key={i} block={block} flags={flags} />;
       default:
         return null;
     }
@@ -78,7 +78,7 @@ const Content = props => {
     );
   }
 
-  return <Loop content={content} />;
+  return <Loop content={content} flags={this.props.flags} />;
 };
 
 Loop.propTypes = {
@@ -88,6 +88,7 @@ Loop.propTypes = {
     }),
   ).isRequired,
   column: PropTypes.string,
+  flags: PropTypes.shape({}).isRequired,
 };
 
 Loop.defaultProps = {

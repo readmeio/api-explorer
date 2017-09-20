@@ -29,7 +29,7 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc, setLanguage } = this.props;
+    const { doc, setLanguage, flags } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
 
@@ -105,7 +105,7 @@ class Doc extends React.Component {
 
         {doc.type === 'endpoint' && this.renderEndpoint()}
 
-        <Content body={doc.body} is-three-column />
+        <Content body={doc.body} flags={this.props.flags} is-three-column />
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -137,6 +137,7 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
+  flags: PropTypes.shape({}).isRequired,
 };
 
 Doc.defaultProps = {

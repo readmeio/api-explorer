@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const markdown = require('../lib/markdown');
 
-const ImageBlock = ({ block }) => {
+const ImageBlock = ({ block, flags }) => {
   const myImage = block.data.images.map((image, i) => {
     const imageClass = image.sizing ? image.sizing : 'smart';
     const border = image.border ? image.border : '';
@@ -24,7 +24,7 @@ const ImageBlock = ({ block }) => {
             </figure>
             {image.caption && (
               // eslint-disable-next-line react/no-danger
-              <figcaption dangerouslySetInnerHTML={{ __html: markdown(image.caption) }} />
+              <figcaption dangerouslySetInnerHTML={{ __html: markdown(image.caption, flags) }} />
             )}
           </div>
         )}
@@ -41,6 +41,7 @@ ImageBlock.propTypes = {
       images: PropTypes.array.isRequired,
     }),
   }).isRequired,
+  flags: PropTypes.shape({}).isRequired,
 };
 
 module.exports = ImageBlock;
