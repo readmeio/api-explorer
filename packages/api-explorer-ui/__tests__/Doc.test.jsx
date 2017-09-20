@@ -17,10 +17,30 @@ const props = {
   setLanguage: () => {},
 };
 
+function assertDocElements(component, doc) {
+  expect(component.find(`#page-${doc.slug}`).length).toBe(1);
+  expect(component.find('a.anchor-page-title').length).toBe(1);
+  expect(component.find('h2').text()).toBe(doc.title);
+}
+
 test('should output a div', () => {
   const doc = shallow(<Doc {...props} />);
 
-  expect(doc.find('.hub-reference').length).toBe(1);
+  assertDocElements(doc, props.doc);
+  expect(doc.find('.hub-api').length).toBe(1);
+  expect(doc.find('PathUrl').length).toBe(1);
+  expect(doc.find('CodeSample').length).toBe(1);
+  expect(doc.find('Params').length).toBe(1);
+  expect(doc.find('Content').length).toBe(1);
+});
+
+test('should work without a doc.swagger/doc.path/oas', () => {
+  const doc = { title: 'title', slug: 'slug', type: 'basic' };
+  const docComponent = shallow(<Doc doc={doc} setLanguage={() => {}} />);
+
+  assertDocElements(docComponent, doc);
+  expect(docComponent.find('.hub-api').length).toBe(0);
+  expect(docComponent.find('Content').length).toBe(1);
 });
 
 describe('state.dirty', () => {
