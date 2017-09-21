@@ -13,6 +13,7 @@ const props = {
   operation,
   formData: {},
   onChange: () => {},
+  onSubmit: () => {},
 };
 
 describe('form id attribute', () => {

@@ -985,6 +985,9 @@
         "type": "apiKey",
         "name": "api_key",
         "in": "header"
+      },
+      "basic": {
+        "type": "basic"
       }
     },
     "headers": {}

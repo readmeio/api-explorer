@@ -1,18 +1,17 @@
 function authRequired(operation, authData) {
   let ready = true;
+
   const authInputData = authData === undefined ? {} : authData;
   const securitySettings = operation.getSecurity();
   if (!securitySettings) return ready;
-  // console.log(securitySettings);
   securitySettings.forEach(sec => {
     const key = Object.keys(sec)[0];
 
     if (!operation.oas.components.securitySchemes[key]) return;
     const security = operation.oas.components.securitySchemes[key];
     const auth = authInputData[key];
-
     if (security.type === 'basic') {
-      if (!auth || !auth.user) {
+      if (!auth || !auth.usern) {
         ready = false;
       }
     }

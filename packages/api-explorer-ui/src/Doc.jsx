@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const authRequired = require('./lib/endpoint');
+const authRequired = require('./lib/authRequired');
 const extensions = require('../../readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');
@@ -24,6 +24,7 @@ class Doc extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
+    // console.log('auth', this.state.formData.auth);
   }
 
   onChange(formData) {

@@ -59,11 +59,30 @@ describe('state.dirty', () => {
 });
 
 describe('onSubmit', () => {
-  test('should switch to true if auth is required and correct security isn not passed', () => {
+  test('should switch to true if auth is required and correct security is not passed', () => {
     const doc = shallow(<Doc {...props} />);
     doc.instance().onSubmit();
 
     expect(doc.state('showAuthBox')).toBe(true);
+  });
+
+  xtest('should return true if auth is not required', () => {
+    const props2 = {
+      doc: {
+        title: 'Title',
+        slug: 'slug',
+        type: 'endpoint',
+        swagger: { path: '/store/order' },
+        api: { method: 'post' },
+      },
+      oas,
+      setLanguage: () => {},
+    };
+    const doc = shallow(<Doc {...props2} />);
+
+    doc.instance().onSubmit();
+
+    expect(doc).toBe(true);
   });
 });
 
