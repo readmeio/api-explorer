@@ -7,7 +7,7 @@ const oas = new Oas(petstore);
 const oas2 = new Oas(auth);
 
 describe('AuthRequired', () => {
-  it('should return false if auth data is passed in correctly for api key condition', () => {
+  it('should return true if auth data is passed in correctly for api key condition', () => {
     const operation = oas.operation('/pet/{petId}', 'get');
 
     expect(AuthRequired(operation, { api_key: 'test' })).toBe(true);
