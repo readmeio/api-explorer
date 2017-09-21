@@ -61,6 +61,27 @@ describe('state.dirty', () => {
 
 describe('onSubmit', () => {
   test.only('should switch to true if auth is required and correct security is not passed', () => {
+    // TODO use simulate instead of instance of example commented out:
+    //   const props2 = {
+    //     doc: {
+    //       title: 'Title',
+    //       slug: 'slug',
+    //       type: 'endpoint',
+    //       swagger: { path: '/api-key' },
+    //       api: { method: 'post' },
+    //       formData: { auth: { api_key: '' } },
+    //       onSubmit: () => {},
+    //     },
+    //     oas2,
+    //     setLanguage: () => {},
+    //   };
+    //   const doc = mount(<Doc {...props2} />);
+    //   // doc.instance().onSubmit();
+    //   doc.find('form').simulate('change', { path: '/api-key' });
+    //   console.log(doc.find('form').html());
+    //   doc.find('form').simulate('submit');
+    //   expect(doc.state('showAuthBox')).toBe(true);
+    // });
     const doc = mount(<Doc {...props} />);
     doc.instance().onSubmit();
 
