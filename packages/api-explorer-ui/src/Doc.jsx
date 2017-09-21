@@ -29,7 +29,7 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc, setLanguage, flags } = this.props;
+    const { doc, setLanguage } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
 
@@ -137,9 +137,10 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
-  flags: PropTypes.shape({}).isRequired,
+  flags: PropTypes.shape({}),
 };
 
 Doc.defaultProps = {
   oas: {},
+  flags: {},
 };

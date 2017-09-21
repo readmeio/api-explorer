@@ -49,6 +49,8 @@ const Loop = ({ content, column, flags }) => {
 const Content = props => {
   const { body } = props;
   const isThreeColumn = props['is-three-column'];
+  const projectFlags = props.flags;
+  // console.log(projectFlags);
 
   const content = parseBlocks(body);
 
@@ -66,7 +68,7 @@ const Content = props => {
       <div className="hub-reference-section">
         <div className="hub-reference-left">
           <div className="content-body">
-            <Loop content={left} column="left" />
+            <Loop content={left} column="left" flags={projectFlags} />
           </div>
         </div>
         <div className="hub-reference-right">
@@ -77,8 +79,7 @@ const Content = props => {
       </div>
     );
   }
-
-  return <Loop content={content} flags={this.props.flags} />;
+  return <Loop content={content} flags={projectFlags} />;
 };
 
 Loop.propTypes = {
@@ -88,21 +89,24 @@ Loop.propTypes = {
     }),
   ).isRequired,
   column: PropTypes.string,
-  flags: PropTypes.shape({}).isRequired,
+  flags: PropTypes.shape({}),
 };
 
 Loop.defaultProps = {
   column: 'left',
+  flags: {},
 };
 
 Content.propTypes = {
   'is-three-column': PropTypes.bool,
   body: PropTypes.string,
+  flags: PropTypes.shape({}),
 };
 
 Content.defaultProps = {
   'is-three-column': true,
   body: '',
+  flags: {},
 };
 
 module.exports = Content;

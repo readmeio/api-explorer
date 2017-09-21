@@ -41,7 +41,9 @@ ImageBlock.propTypes = {
       images: PropTypes.array.isRequired,
     }),
   }).isRequired,
-  flags: PropTypes.shape({}).isRequired,
+  flags: PropTypes.shape({}),
 };
-
+ImageBlock.defaultProps = {
+  flags: {},
+};
 module.exports = ImageBlock;

@@ -18,4 +18,8 @@ Textarea.propTypes = {
   }).isRequired,
   flags: PropTypes.shape({}),
 };
+
+Textarea.defaultProps = {
+  flags: {},
+};
 module.exports = Textarea;

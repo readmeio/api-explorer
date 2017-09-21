@@ -67,7 +67,10 @@ Parameters.propTypes = {
       data: PropTypes.shape({}).isRequired,
     }),
   }).isRequired,
-  flags: PropTypes.shape({}).isRequired,
+  flags: PropTypes.shape({}),
+};
+Parameters.defaultProps = {
+  flags: {},
 };
 
 module.exports = Parameters;

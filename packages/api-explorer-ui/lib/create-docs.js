@@ -32,7 +32,7 @@ module.exports = (oas, apiSetting) => {
           body: `
           [block:textarea]
            {
-             "text": "This is text area."
+             "text": "test\\ntest\\ntest"
            }
           [/block]
           [block:image]
@@ -46,7 +46,7 @@ module.exports = (oas, apiSetting) => {
                   1136,
                   "#9e918d"
                 ],
-                "caption": "doggo"
+                "caption": "doggo\\nin\\nthe\\npark"
               }
             ]
           }
@@ -55,9 +55,9 @@ module.exports = (oas, apiSetting) => {
          [block:parameters]
          {
           "data": {
-            "0-0": "arbitrary",
-            "0-1": "info",
-            "0-2": "test",
+            "0-0": "arbitrary\\ntest",
+            "0-1": "info\\ntest",
+            "0-2": "test\\ntest",
             "h-0": "test",
             "h-1": "1",
             "h-2": "2"
