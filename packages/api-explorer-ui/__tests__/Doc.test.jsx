@@ -3,7 +3,6 @@ const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
 
 const oas = require('./fixtures/petstore/oas');
-const oas2 = require('./fixtures/auth-types/oas');
 
 const props = {
   doc: {
