@@ -24,7 +24,6 @@ class Doc extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
-    // console.log('auth', this.state.formData.auth);
   }
 
   onChange(formData) {
@@ -52,7 +51,6 @@ class Doc extends React.Component {
     const { doc, setLanguage } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
-    // console.log('reset?', this.state.formData.auth);
     return (
       <div className="hub-api">
         <PathUrl
@@ -159,9 +157,7 @@ Doc.propTypes = {
       path: PropTypes.string.isRequired,
     }),
   }).isRequired,
-  oas: PropTypes.shape({
-    operation: PropTypes.func,
-  }).isRequired,
+  oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
 };
 

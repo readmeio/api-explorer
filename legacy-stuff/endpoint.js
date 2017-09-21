@@ -1,4 +1,4 @@
-import 'js-cookies';
+import 'angular-cookies';
 import getParamEndpointValue from '../lib/get-param-endpoint-value';
 import configureSecurity from '../lib/configure-security';
 import extensions from '../packages/readme-oas-extensions';

@@ -7,8 +7,6 @@ const petstore = require('./fixtures/multiple-securities/oas');
 
 const oas = new Oas(petstore);
 
-jest.useFakeTimers();
-
 const props = { operation: oas.operation('/things', 'post'), onChange: () => {} };
 
 test('should not display if no auth', () => {
@@ -54,6 +52,8 @@ test('should have an open class when state is open', () => {
 });
 
 test('should display authentication warning if auth is required for endpoint', () => {
+  jest.useFakeTimers();
+
   const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 
   authBox.setProps({ needsAuth: true });
