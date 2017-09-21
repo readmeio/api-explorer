@@ -43,7 +43,7 @@ class AuthBox extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    /* when  auth is needed we want to open the authBox and show warning 600ms later*/
+    // when  auth is needed we want to open the authBox and show warning 600ms later
     if (nextProps.needsAuth) {
       this.setState({ open: true });
       setTimeout(() => {

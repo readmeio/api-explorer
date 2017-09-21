@@ -1,4 +1,4 @@
-function authRequired(operation, authData) {
+function isAuthReady(operation, authData) {
   let ready = true;
 
   const authInputData = authData === undefined ? {} : authData;
@@ -28,8 +28,7 @@ function authRequired(operation, authData) {
       }
     }
   });
-  // console.log(ready);
   return ready;
 }
 
-module.exports = authRequired;
+module.exports = isAuthReady;

@@ -5,14 +5,11 @@
     "title": "Multiple Securities"
   },
   "paths": {
-    "/things": {
+    "/oauth": {
       "post": {
         "security": [
           {
-            "oauth": ["write:things"]
-          },
-          {
-            "apiKey": []
+            "oauth2": ["write:things"]
           }
         ]
       }

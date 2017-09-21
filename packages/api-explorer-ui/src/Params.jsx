@@ -11,7 +11,6 @@ const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
 function Params({ oas, operation, formData, onChange, onSubmit }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
-
   return (
     <div className="api-manager">
       {jsonSchema && (

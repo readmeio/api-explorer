@@ -58,18 +58,12 @@ test('should display authentication warning if auth is required for endpoint', (
 
   authBox.setProps({ needsAuth: true });
 
+  expect(authBox.state('open')).toBe(true);
+
   jest.runAllTimers();
 
   expect(authBox.state('needsAuth')).toBe(true);
   expect(authBox.find('.hub-authrequired.active').length).toBe(1);
-});
-
-test('should display authentication box if try it now button is selected without any authData', () => {
-  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
-
-  authBox.setProps({ needsAuth: true });
-
-  expect(authBox.state('open')).toBe(true);
 });
 
 test('should not display authentication warning if authData is passed', () => {

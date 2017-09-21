@@ -1,8 +1,9 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
 
 const oas = require('./fixtures/petstore/oas');
+const oas2 = require('./fixtures/auth-types/oas');
 
 const props = {
   doc: {
@@ -11,7 +12,8 @@ const props = {
     type: 'endpoint',
     swagger: { path: '/pet/{petId}' },
     api: { method: 'get' },
-    formData: { auth: { api_key: 'hello' } },
+    formData: { path: { petId: '1' }, auth: { api_key: '' } },
+    onSubmit: () => {},
   },
   oas,
   setLanguage: () => {},
@@ -59,30 +61,11 @@ describe('state.dirty', () => {
 });
 
 describe('onSubmit', () => {
-  test('should switch to true if auth is required and correct security is not passed', () => {
-    const doc = shallow(<Doc {...props} />);
+  test.only('should switch to true if auth is required and correct security is not passed', () => {
+    const doc = mount(<Doc {...props} />);
     doc.instance().onSubmit();
 
     expect(doc.state('showAuthBox')).toBe(true);
-  });
-
-  xtest('should return true if auth is not required', () => {
-    const props2 = {
-      doc: {
-        title: 'Title',
-        slug: 'slug',
-        type: 'endpoint',
-        swagger: { path: '/store/order' },
-        api: { method: 'post' },
-      },
-      oas,
-      setLanguage: () => {},
-    };
-    const doc = shallow(<Doc {...props2} />);
-
-    doc.instance().onSubmit();
-
-    expect(doc).toBe(true);
   });
 });
 

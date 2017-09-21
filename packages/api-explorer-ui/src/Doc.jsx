@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const authRequired = require('./lib/authRequired');
+const isAuthReady = require('./lib/auth-required');
 const extensions = require('../../readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');
@@ -36,7 +36,7 @@ class Doc extends React.Component {
   }
   onSubmit() {
     if (
-      !authRequired(
+      !isAuthReady(
         this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
         this.state.formData.auth,
       )
