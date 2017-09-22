@@ -127,7 +127,7 @@ class Doc extends React.Component {
 
         {doc.type === 'endpoint' && this.renderEndpoint()}
 
-        <Content body={doc.body} is-three-column />
+        <Content body={doc.body} flags={this.props.flags} is-three-column />
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -159,8 +159,10 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
+  flags: PropTypes.shape({}),
 };
 
 Doc.defaultProps = {
   oas: {},
+  flags: {},
 };
