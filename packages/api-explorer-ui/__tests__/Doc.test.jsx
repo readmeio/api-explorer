@@ -60,7 +60,7 @@ describe('state.dirty', () => {
 });
 
 describe('onSubmit', () => {
-  test.only('should switch to true if auth is required and correct security is not passed', () => {
+  test('should switch to true if auth is required and correct security is not passed', () => {
     // TODO use simulate instead of instance of example commented out:
     //   const props2 = {
     //     doc: {

@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const isAuthReady = require('./lib/auth-required');
+const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('../../readme-oas-extensions');
 
 const PathUrl = require('./PathUrl');

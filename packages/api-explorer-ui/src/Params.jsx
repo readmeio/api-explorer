@@ -35,10 +35,7 @@ Params.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
 };
 
-Params.defaultProps = {
-  onSubmit: true,
-};
 module.exports = Params;

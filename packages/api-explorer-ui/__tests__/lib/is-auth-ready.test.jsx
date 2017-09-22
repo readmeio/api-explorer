@@ -1,4 +1,4 @@
-const isAuthReady = require('../../src/lib/auth-required');
+const isAuthReady = require('../../src/lib/is-auth-ready');
 const Oas = require('../../src/lib/Oas.js');
 const petstore = require('../fixtures/petstore/oas');
 const auth = require('../fixtures/auth-types/oas');
