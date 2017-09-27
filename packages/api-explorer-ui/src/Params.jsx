@@ -1,10 +1,12 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
+const fetchHar = require('fetch-har');
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 
 const Oas = require('./lib/Oas');
+const oasToHar = require('./lib/oas-to-har');
 
 const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
@@ -19,7 +21,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
           schema={jsonSchema}
           widgets={{ int64: UpDownWidget, int32: UpDownWidget, uuid: TextWidget }}
           // eslint-disable-next-line no-console
-          onSubmit={form => onSubmit() && console.log('submit', form.formData)}
+          onSubmit={form => onSubmit() && fetchHar(oasToHar())}
           formData={formData}
           onChange={form => onChange(form.formData)}
         >
