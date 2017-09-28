@@ -2,7 +2,7 @@ const oasToHar = require('../../src/lib/oas-to-har');
 
 test('should output a har format', () => {
   expect(oasToHar({})).toEqual({
-    headers: [],
+    headers: [{ name: 'Content-Type', value: 'application/json' }],
     queryString: [],
     postData: {},
     method: '',
@@ -204,7 +204,7 @@ describe('header values', () => {
           ],
         },
       ).headers,
-    ).toEqual([]);
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should set defaults if no value provided but is required', () => {
@@ -224,7 +224,7 @@ describe('header values', () => {
           ],
         },
       ).headers,
-    ).toEqual([{ name: 'a', value: 'value' }]);
+    ).toEqual([{ name: 'a', value: 'value' }, { name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
@@ -245,7 +245,7 @@ describe('header values', () => {
         },
         { header: { a: 'test' } },
       ).headers,
-    ).toEqual([{ name: 'a', value: 'test' }]);
+    ).toEqual([{ name: 'a', value: 'test' }, { name: 'Content-Type', value: 'application/json' }]);
   });
 });
 
@@ -365,6 +365,10 @@ describe('auth', () => {
       ).headers,
     ).toEqual([
       {
+        name: 'Content-Type',
+        value: 'application/json',
+      },
+      {
         name: 'x-auth-header',
         value: 'value',
       },
@@ -427,6 +431,6 @@ describe('auth', () => {
         },
         { auth: {} },
       ).headers,
-    ).toEqual([]);
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });

@@ -32,6 +32,29 @@ const defaultValues = Object.keys(
   return Object.assign(prev, { [curr]: {} });
 }, {});
 
+// If you pass in types, it either uses a default, or favors
+// anything JSON.
+function getContentType(pathOperation) {
+  const types =
+    (pathOperation &&
+      pathOperation.requestBody &&
+      Object.keys(pathOperation.requestBody.content)) ||
+    [];
+
+  let type = 'application/json';
+  if (types && types.length) {
+    type = types[0];
+  }
+
+  // Favor JSON if it exists
+  types.forEach(t => {
+    if (t.match(/json/)) {
+      type = t;
+    }
+  });
+  return type;
+}
+
 module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) => {
   const formData = Object.assign({}, defaultValues, values);
   const har = {
@@ -73,6 +96,7 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
 
   if (headers && headers.length) {
     headers.forEach(header => {
+      // console.log('keys', Object.keys(pathOperation));
       const value = formatter(formData, header, 'header', true);
       if (!value) return;
       har.headers.push({
@@ -81,6 +105,11 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
       });
     });
   }
+
+  har.headers.push({
+    name: 'Content-Type',
+    value: getContentType(pathOperation),
+  });
 
   const body = getSchema(pathOperation) || {};
 
@@ -99,6 +128,5 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
       har[securityValue.type].push(securityValue.value);
     });
   }
-
   return har;
 };
