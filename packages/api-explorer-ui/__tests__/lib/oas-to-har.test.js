@@ -2,22 +2,28 @@ const oasToHar = require('../../src/lib/oas-to-har');
 
 test('should output a har format', () => {
   expect(oasToHar({})).toEqual({
-    headers: [{ name: 'Content-Type', value: 'application/json' }],
-    queryString: [],
-    postData: {},
-    method: '',
-    url: '',
+    entries: [
+      {
+        request: {
+          headers: [{ name: 'Content-Type', value: 'application/json' }],
+          method: '',
+          postData: {},
+          queryString: [],
+          url: '',
+        },
+      },
+    ],
   });
 });
 
 test('should uppercase the method', () => {
-  expect(oasToHar({}, { path: '/', method: 'get' }).method).toBe('GET');
+  expect(oasToHar({}, { path: '/', method: 'get' }).entries[0].request.method).toBe('GET');
 });
 
 describe('url', () => {
   test('should default to ""', () => {
-    expect(oasToHar({}, { path: '', method: '' }).url).toBe('');
-    expect(oasToHar({}, { path: '/path', method: '' }).url).toBe('/path');
+    expect(oasToHar({}, { path: '', method: '' }).entries[0].request.url).toBe('');
+    expect(oasToHar({}, { path: '/path', method: '' }).entries[0].request.url).toBe('/path');
   });
 
   test('should be constructed from servers[0]', () => {
@@ -27,7 +33,7 @@ describe('url', () => {
           servers: [{ url: 'http://example.com' }],
         },
         { path: '/path', method: 'get' },
-      ).url,
+      ).entries[0].request.url,
     ).toBe('http://example.com/path');
   });
 
@@ -38,7 +44,7 @@ describe('url', () => {
           servers: [{ url: 'http://example.com' }],
         },
         { path: '/path with spaces', method: '' },
-      ).url,
+      ).entries[0].request.url,
     ).toBe('http://example.com/path%20with%20spaces');
   });
 
@@ -47,7 +53,9 @@ describe('url', () => {
 
 describe('path values', () => {
   test('should pass through unknown path params', () => {
-    expect(oasToHar({}, { path: '/param-path/{id}', method: '' }).url).toBe('/param-path/id');
+    expect(oasToHar({}, { path: '/param-path/{id}', method: '' }).entries[0].request.url).toBe(
+      '/param-path/id',
+    );
     expect(
       oasToHar(
         {},
@@ -62,7 +70,7 @@ describe('path values', () => {
             },
           ],
         },
-      ).url,
+      ).entries[0].request.url,
     ).toBe('/param-path/id');
   });
 
@@ -82,7 +90,7 @@ describe('path values', () => {
           ],
         },
         {},
-      ).url,
+      ).entries[0].request.url,
     ).toBe('/param-path/id');
   });
 
@@ -102,7 +110,7 @@ describe('path values', () => {
             },
           ],
         },
-      ).url,
+      ).entries[0].request.url,
     ).toBe('/param-path/123');
   });
 
@@ -122,7 +130,7 @@ describe('path values', () => {
           ],
         },
         { path: { id: '456' } },
-      ).url,
+      ).entries[0].request.url,
     ).toBe('/param-path/456');
   });
 });
@@ -142,7 +150,7 @@ describe('query values', () => {
             },
           ],
         },
-      ).queryString,
+      ).entries[0].request.queryString,
     ).toEqual([]);
   });
 
@@ -162,7 +170,7 @@ describe('query values', () => {
             },
           ],
         },
-      ).queryString,
+      ).entries[0].request.queryString,
     ).toEqual([{ name: 'a', value: 'value' }]);
   });
 
@@ -183,7 +191,7 @@ describe('query values', () => {
           ],
         },
         { query: { a: 'test' } },
-      ).queryString,
+      ).entries[0].request.queryString,
     ).toEqual([{ name: 'a', value: 'test' }]);
   });
 });
@@ -203,7 +211,7 @@ describe('header values', () => {
             },
           ],
         },
-      ).headers,
+      ).entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
@@ -223,7 +231,7 @@ describe('header values', () => {
             },
           ],
         },
-      ).headers,
+      ).entries[0].request.headers,
     ).toEqual([{ name: 'a', value: 'value' }, { name: 'Content-Type', value: 'application/json' }]);
   });
 
@@ -244,7 +252,7 @@ describe('header values', () => {
           ],
         },
         { header: { a: 'test' } },
-      ).headers,
+      ).entries[0].request.headers,
     ).toEqual([{ name: 'a', value: 'test' }, { name: 'Content-Type', value: 'application/json' }]);
   });
 });
@@ -272,7 +280,7 @@ describe('body values', () => {
             },
           },
         },
-      ).postData.text,
+      ).entries[0].request.postData.text,
     ).toEqual(undefined);
   });
 
@@ -301,7 +309,7 @@ describe('body values', () => {
             },
           },
         },
-      ).postData.text,
+      ).entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 'value' }));
   });
 
@@ -330,7 +338,7 @@ describe('body values', () => {
           },
         },
         { body: { a: 'test' } },
-      ).postData.text,
+      ).entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 'test' }));
   });
 });
@@ -362,7 +370,7 @@ describe('auth', () => {
             'auth-header': 'value',
           },
         },
-      ).headers,
+      ).entries[0].request.headers,
     ).toEqual([
       {
         name: 'Content-Type',
@@ -399,7 +407,7 @@ describe('auth', () => {
             'auth-query': 'value',
           },
         },
-      ).queryString,
+      ).entries[0].request.queryString,
     ).toEqual([
       {
         name: 'authQuery',
@@ -430,7 +438,7 @@ describe('auth', () => {
           security: [{ 'auth-header': [] }],
         },
         { auth: {} },
-      ).headers,
+      ).entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });

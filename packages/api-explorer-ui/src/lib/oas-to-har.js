@@ -128,5 +128,5 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
       har[securityValue.type].push(securityValue.value);
     });
   }
-  return har;
+  return { entries: [{ request: har }] };
 };
