@@ -6,6 +6,7 @@ const extensions = require('../../readme-oas-extensions');
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
+const Response = require('./Response');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
@@ -88,7 +89,9 @@ class Doc extends React.Component {
               onSubmit={this.onSubmit}
             />
           </div>
-          <div className="hub-reference-right switcher" />
+          <div className="hub-reference-right switcher">
+            <Response operation={operation} />
+          </div>
         </div>
       </div>
     );
