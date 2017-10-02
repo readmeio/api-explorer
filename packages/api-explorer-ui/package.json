@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "dependencies": {
     "classnames": "^2.2.5",
-    "fetch-har": "^1.0.0",
+    "fetch-har": "^2.0.0",
     "httpsnippet": "^1.16.5",
     "js-cookie": "^2.1.4",
     "marked": "github:readmeio/marked",
