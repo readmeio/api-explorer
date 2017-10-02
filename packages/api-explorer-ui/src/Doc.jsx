@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+// const classNames = require('classnames');
 const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('../../readme-oas-extensions');
 
@@ -74,7 +75,15 @@ class Doc extends React.Component {
                 formData={this.state.formData}
               />
             </div>
-            <div className="hub-reference-right" />
+            {/* TODO  add ClassNames*/}
+            <div className="hub-reference-right hub-reference-results tabber-parent">
+              <div className="hub-reference-results-slider">
+                <div className="hub-reference-results-explorer code-sample" />
+                <div className="hub-reference-results-examples code-sample">
+                  <div className="hub-no-code">Try the API to see results</div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
