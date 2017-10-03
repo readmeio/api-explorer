@@ -88,6 +88,16 @@ describe('onSubmit', () => {
     expect(doc.state('showAuthBox')).toBe(true);
     expect(doc.state('needsAuth')).toBe(true);
   });
+
+  it('should hide authBox on successful submit', () => {
+    const doc = mount(<Doc {...props} />);
+    doc.instance().onSubmit();
+    doc.instance().onChange({ auth: { api_key: 'api-key' } });
+    doc.instance().onSubmit();
+
+    expect(doc.state('showAuthBox')).toBe(false);
+    expect(doc.state('needsAuth')).toBe(false);
+  });
 });
 
 describe('state.loading', () => {
