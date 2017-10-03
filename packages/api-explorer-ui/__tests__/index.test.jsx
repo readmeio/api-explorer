@@ -4,54 +4,52 @@ const Cookie = require('js-cookie');
 const extensions = require('../../readme-oas-extensions');
 const ApiExplorer = require('../src');
 
-const oas = require('./fixtures/petstore/swagger');
+const oas = require('./fixtures/petstore/oas');
 
 const createDocs = require('../lib/create-docs');
 
 const docs = createDocs(oas, 'api-setting');
 
+const languages = ['node', 'curl'];
+const props = {
+  docs,
+  oasFiles: {
+    'api-setting': Object.assign({}, oas, {
+      [extensions.SAMPLES_LANGUAGES]: languages,
+    }),
+  },
+  flags: {},
+};
+
 test('ApiExplorer renders a doc for each', () => {
-  const explorer = shallow(<ApiExplorer docs={docs} oasFiles={{ 'api-setting': oas }} />);
+  const explorer = shallow(<ApiExplorer {...props} />);
 
   expect(explorer.find('Doc').length).toBe(docs.length);
 });
 
 describe('selected language', () => {
   test('should default to curl', () => {
-    const explorer = shallow(<ApiExplorer docs={docs} oasFiles={{ 'api-setting': oas }} />);
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        oasFiles={{
+          'api-setting': oas,
+        }}
+      />,
+    );
 
     expect(explorer.state('language')).toBe('curl');
   });
 
   test('should auto-select to the first language of the first oas file', () => {
-    const languages = ['node', 'curl'];
-    const explorer = shallow(
-      <ApiExplorer
-        docs={docs}
-        oasFiles={{
-          'api-setting': Object.assign({}, oas, {
-            [extensions.SAMPLES_LANGUAGES]: languages,
-          }),
-        }}
-      />,
-    );
+    const explorer = shallow(<ApiExplorer {...props} />);
 
     expect(explorer.state('language')).toBe(languages[0]);
   });
 
   describe('#setLanguage()', () => {
     test('should update the language state', () => {
-      const languages = ['node', 'curl'];
-      const explorer = shallow(
-        <ApiExplorer
-          docs={docs}
-          oasFiles={{
-            'api-setting': Object.assign({}, oas, {
-              [extensions.SAMPLES_LANGUAGES]: languages,
-            }),
-          }}
-        />,
-      );
+      const explorer = shallow(<ApiExplorer {...props} />);
 
       explorer.instance().setLanguage('language');
       expect(explorer.state('language')).toBe('language');
@@ -62,17 +60,7 @@ describe('selected language', () => {
   describe('Cookie', () => {
     test('the state of language should be set to Cookie value if provided', () => {
       Cookie.set('readme_language', 'javascript');
-      const languages = ['node', 'curl'];
-      const explorer = shallow(
-        <ApiExplorer
-          docs={docs}
-          oasFiles={{
-            'api-setting': Object.assign({}, oas, {
-              [extensions.SAMPLES_LANGUAGES]: languages,
-            }),
-          }}
-        />,
-      );
+      const explorer = shallow(<ApiExplorer {...props} />);
 
       expect(explorer.state('language')).toBe('javascript');
     });
@@ -80,17 +68,7 @@ describe('selected language', () => {
 
   test('the state of language should be the first language defined if cookie has not been set', () => {
     Cookie.remove('readme_language');
-    const languages = ['node', 'curl'];
-    const explorer = shallow(
-      <ApiExplorer
-        docs={docs}
-        oasFiles={{
-          'api-setting': Object.assign({}, oas, {
-            [extensions.SAMPLES_LANGUAGES]: languages,
-          }),
-        }}
-      />,
-    );
+    const explorer = shallow(<ApiExplorer {...props} />);
 
     expect(explorer.state('language')).toBe('node');
   });
@@ -99,9 +77,9 @@ describe('selected language', () => {
     Cookie.remove('readme_language');
     const explorer = shallow(
       <ApiExplorer
-        docs={docs}
+        {...props}
         oasFiles={{
-          'api-setting': Object.assign({}, oas),
+          'api-setting': oas,
         }}
       />,
     );
