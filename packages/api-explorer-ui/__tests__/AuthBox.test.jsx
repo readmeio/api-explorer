@@ -73,3 +73,12 @@ test('should not display authentication warning if authData is passed', () => {
 
   expect(authBox.state('open')).toBe(false);
 });
+
+test('should hide authbox if open=false', () => {
+  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+
+  authBox.setProps({ needsAuth: true });
+  authBox.setProps({ needsAuth: false });
+
+  expect(authBox.state('open')).toBe(false);
+});
