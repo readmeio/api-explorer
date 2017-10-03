@@ -8,6 +8,7 @@ const extensions = require('../../readme-oas-extensions');
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
+const CodeSampleResponseTabs = require('./CodeSampleResponseTabs');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
@@ -61,7 +62,10 @@ class Doc extends React.Component {
         this.state.formData,
       ),
     ).then(() => {
-      this.setState({ loading: false });
+      this.setState({
+        loading: false,
+        responseTabClass: 'hub-reference-right hub-reference-results tabber-parent on',
+      });
     });
 
     return true;
@@ -104,6 +108,7 @@ class Doc extends React.Component {
             <div className={this.state.responseTabClass}>
               <div className="hub-reference-results-slider">
                 <div className="hub-reference-results-explorer code-sample" />
+                <CodeSampleResponseTabs results={this.state.responseTabClass} />
                 <div className="hub-reference-results-examples code-sample">
                   <div className="hub-no-code">Try the API to see results</div>
                 </div>
