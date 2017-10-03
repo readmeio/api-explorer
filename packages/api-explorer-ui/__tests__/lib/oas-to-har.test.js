@@ -6,7 +6,7 @@ test('should output a har format', () => {
       entries: [
         {
           request: {
-            headers: [{ name: 'Content-Type', value: 'application/json' }],
+            headers: [],
             method: '',
             postData: {},
             queryString: [],
@@ -214,7 +214,7 @@ describe('header values', () => {
           ],
         },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    ).toEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
