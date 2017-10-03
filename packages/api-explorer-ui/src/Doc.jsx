@@ -44,6 +44,8 @@ class Doc extends React.Component {
       this.setState({ showAuthBox: true, needsAuth: true });
       return false;
     }
+
+    this.setState({ loading: true });
     return true;
   }
 

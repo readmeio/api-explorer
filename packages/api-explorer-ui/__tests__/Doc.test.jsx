@@ -86,6 +86,7 @@ describe('onSubmit', () => {
     doc.instance().onSubmit();
 
     expect(doc.state('showAuthBox')).toBe(true);
+    expect(doc.state('needsAuth')).toBe(true);
   });
 });
 
@@ -96,9 +97,10 @@ describe('state.loading', () => {
     expect(doc.state('loading')).toBe(false);
   });
 
-  test.skip('should switch to true on form submit', () => {
+  test('should switch to true on form submit', () => {
     const doc = shallow(<Doc {...props} />);
-    doc.instance().onSubmit({ a: 1 });
+    doc.instance().onChange({ auth: { api_key: 'api-key' } });
+    doc.instance().onSubmit();
 
     expect(doc.state('loading')).toBe(true);
   });
