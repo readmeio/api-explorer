@@ -126,7 +126,8 @@ function SecurityInput(props) {
   switch (props.scheme.type) {
     case 'oauth2':
       return <Oauth2 {...props} change={change} />;
-    case 'basic':
+    case 'http':
+      // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
       return <Basic {...props} change={change} />;
     case 'apiKey':
       return <ApiKey {...props} change={change} />;

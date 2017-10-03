@@ -64,7 +64,10 @@ describe('apiKey', () => {
 });
 
 describe('basic', () => {
-  const props = { scheme: { type: 'basic', _key: 'test-basic' }, onChange: () => {} };
+  const props = {
+    scheme: { type: 'http', scheme: 'basic', _key: 'test-basic' },
+    onChange: () => {},
+  };
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();

@@ -78,7 +78,8 @@
         "in": "header"
       },
       "basic": {
-        "type": "basic"
+        "type": "http",
+        "scheme": "basic"
       }
     }
   }
