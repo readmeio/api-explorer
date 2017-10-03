@@ -26,6 +26,34 @@ const block = {
   },
 };
 
+const block3 = {
+  type: 'code',
+  sidebar: undefined,
+  data: {
+    codes: [
+      {
+        code: 'whjdwhjwejhkwhjk',
+        language: 'text',
+        status: 400,
+      },
+    ],
+  },
+};
+
+const badBlock = {
+  type: 'code',
+  sidebar: undefined,
+  data: {
+    codes: {
+      code: {
+        code: 'whjdwhjwejhkwhjk',
+        language: 'text',
+        status: 400,
+      },
+    },
+  },
+};
+
 const block2 = {
   type: 'code',
   sidebar: undefined,
@@ -43,6 +71,17 @@ describe('Code', () => {
   test('Code will render name if provided within em tag if codes has a status', () => {
     const codeInput = mount(<Code block={block} />);
     expect(codeInput.find('em').text()).toBe('test');
+  });
+
+  test('Code will render status code  within em tag', () => {
+    const codeInput = mount(<Code block={block3} />);
+    expect(codeInput.find('em').text()).toBe('Bad Request');
+  });
+
+  test('If codes array is not passed as an array expect empty array', () => {
+    const codeInput = mount(<Code block={badBlock} />);
+
+    expect(codeInput.find('span').text()).toBe('');
   });
 
   test('Code will render language if name or status is not provided within a tag if codes has a status', () => {

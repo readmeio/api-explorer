@@ -1,4 +1,5 @@
 const React = require('react');
+const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const extensions = require('../../readme-oas-extensions');
 
@@ -7,17 +8,24 @@ const Doc = require('./Doc');
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { language: 'curl' };
-
-    try {
-      const firstOas = Object.keys(this.props.oasFiles)[0];
-      this.state.language = this.props.oasFiles[firstOas][extensions.SAMPLES_LANGUAGES][0];
-    } catch (e) {} // eslint-disable-line no-empty
+    this.state = { language: Cookie.get('readme_language') || this.getDefaultLanguage() };
 
     this.setLanguage = this.setLanguage.bind(this);
+    this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
   }
   setLanguage(language) {
-    this.setState({ language });
+    this.setState({ language }, () => {
+      Cookie.set('readme_language', language);
+    });
+  }
+
+  getDefaultLanguage() {
+    try {
+      const firstOas = Object.keys(this.props.oasFiles)[0];
+      return this.props.oasFiles[firstOas][extensions.SAMPLES_LANGUAGES][0];
+    } catch (e) {
+      return 'curl';
+    }
   }
   render() {
     return (
@@ -27,8 +35,9 @@ class ApiExplorer extends React.Component {
             <Doc
               key={doc._id}
               doc={doc}
-              oas={doc.category.apiSetting ? this.props.oasFiles[doc.category.apiSetting] : {}}
+              oas={doc.category.apiSetting && this.props.oasFiles[doc.category.apiSetting]}
               setLanguage={this.setLanguage}
+              flags={this.props.flags}
             />
           ))}
         </div>
@@ -40,6 +49,7 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
+  flags: PropTypes.shape({}).isRequired,
 };
 
 module.exports = ApiExplorer;

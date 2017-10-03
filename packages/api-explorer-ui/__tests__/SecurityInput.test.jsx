@@ -34,8 +34,40 @@ describe('oauth2', () => {
   });
 });
 
+describe('apiKey', () => {
+  const props = {
+    scheme: { type: 'apiKey', name: 'api_key', _key: 'api_key' },
+    onChange: () => {},
+  };
+
+  test('should send auth apiKey into onChange()', () => {
+    const onChange = jest.fn();
+    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+
+    securityInput.find('input').node.value = 'user';
+    securityInput.find('input').simulate('change');
+
+    expect(onChange.mock.calls[0]).toEqual([
+      {
+        auth: {
+          api_key: 'user',
+        },
+      },
+    ]);
+  });
+  test('should display name inside label', () => {
+    const onChange = jest.fn();
+    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+
+    expect(securityInput.find('label').text()).toBe('api_key');
+  });
+});
+
 describe('basic', () => {
-  const props = { scheme: { type: 'basic', _key: 'test-basic' }, onChange: () => {} };
+  const props = {
+    scheme: { type: 'http', scheme: 'basic', _key: 'test-basic' },
+    onChange: () => {},
+  };
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();

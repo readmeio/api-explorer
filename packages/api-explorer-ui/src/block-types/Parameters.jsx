@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const markdown = require('../lib/markdown');
 
-const Parameters = ({ block }) => {
+const Parameters = ({ block, flags }) => {
   const columns = block.data.cols;
   const rows = block.data.rows;
 
@@ -27,7 +27,7 @@ const Parameters = ({ block }) => {
           className="td"
           key={c}
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: markdown(block.data.data[`${r}-${c}`] || '') }}
+          dangerouslySetInnerHTML={{ __html: markdown(block.data.data[`${r}-${c}`] || '', flags) }}
         />,
       );
     }
@@ -67,6 +67,10 @@ Parameters.propTypes = {
       data: PropTypes.shape({}).isRequired,
     }),
   }).isRequired,
+  flags: PropTypes.shape({}),
+};
+Parameters.defaultProps = {
+  flags: {},
 };
 
 module.exports = Parameters;

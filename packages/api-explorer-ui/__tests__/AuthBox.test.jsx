@@ -50,3 +50,26 @@ test('should have an open class when state is open', () => {
 
   expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
 });
+
+test('should display authentication warning if auth is required for endpoint', () => {
+  jest.useFakeTimers();
+
+  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+
+  authBox.setProps({ needsAuth: true });
+
+  expect(authBox.state('open')).toBe(true);
+
+  jest.runAllTimers();
+
+  expect(authBox.state('needsAuth')).toBe(true);
+  expect(authBox.find('.hub-authrequired.active').length).toBe(1);
+});
+
+test('should not display authentication warning if authData is passed', () => {
+  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+
+  authBox.setProps({ needsAuth: false });
+
+  expect(authBox.state('open')).toBe(false);
+});

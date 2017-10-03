@@ -39,15 +39,24 @@ class AuthBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { open: false };
-
     this.toggle = this.toggle.bind(this);
   }
+
+  componentWillReceiveProps(nextProps) {
+    // when  auth is needed we want to open the authBox and show warning 600ms later
+    if (nextProps.needsAuth) {
+      this.setState({ open: true });
+      setTimeout(() => {
+        this.setState({ needsAuth: true });
+      }, 600);
+    }
+  }
+
   toggle(e) {
     e.preventDefault();
     this.setState({ open: !this.state.open });
     // this.props.onChange({ header: { 'test': '111' } });
   }
-
   render() {
     const { operation } = this.props;
 
@@ -64,6 +73,12 @@ class AuthBox extends React.Component {
         <div className="nopad">
           <div className="triangle" />
           <div>{renderSecurities(operation, this.props.onChange)}</div>
+          <div className={classNames('hub-authrequired', { active: this.state.needsAuth })}>
+            <div className="hub-authrequired-slider">
+              <i className="icon icon-notification" />
+              Authentication is required for this endpoint
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -73,6 +88,11 @@ class AuthBox extends React.Component {
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   onChange: PropTypes.func.isRequired,
+  needsAuth: PropTypes.bool,
+};
+
+AuthBox.defaultProps = {
+  needsAuth: false,
 };
 
 module.exports = AuthBox;

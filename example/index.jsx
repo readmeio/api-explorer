@@ -1,15 +1,16 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const refParser = require('json-schema-ref-parser');
+const fs = require('fs');
+const path = require('path');
+const CircularJSON = require('circular-json');
 
-const oas = require('../packages/api-explorer-ui/__tests__/fixtures/petstore/oas');
+const oas = fs.readFileSync(path.join(__dirname, '/../packages/api-explorer-ui/__tests__/fixtures/petstore/circular-oas.json'), 'utf8');
 const createDocs = require('../packages/api-explorer-ui/lib/create-docs');
 
 const ApiExplorer = require('../packages/api-explorer-ui/src/index.jsx');
 
-(async function main() {
-  const docs = createDocs(oas, 'api-setting');
-  const oasFiles = { 'api-setting': await refParser.dereference(oas) };
+const parsed = CircularJSON.parse(oas);
+const docs = createDocs(parsed, 'api-setting');
+const oasFiles = { 'api-setting': parsed };
 
-  ReactDOM.render(<ApiExplorer docs={docs} oasFiles={oasFiles} />, document.getElementById('hub-reference'));
-}());
+ReactDOM.render(<ApiExplorer docs={docs} oasFiles={oasFiles} flags={{ correctnewlines: false }} />, document.getElementById('hub-reference'));

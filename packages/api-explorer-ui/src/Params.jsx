@@ -69,9 +69,8 @@ const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 //   <BaseInput type="number" {...props} {...rangeSpec(props.schema)} />
 // );
 
-function Params({ oas, operation, formData, onChange }) {
+function Params({ oas, operation, formData, onChange, onSubmit }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
-
   return (
     <div className="api-manager">
       <div className="param-table">
@@ -92,7 +91,7 @@ function Params({ oas, operation, formData, onChange }) {
                     TextWidget: TextWidget,
                   }}
                   // eslint-disable-next-line no-console
-                  onSubmit={form => console.log('submit', form.formData)}
+                  onSubmit={form => onSubmit() && console.log('submit', form.formData)}
                   formData={formData[schema.type]}
                   onChange={form => {
                     // return onChange({ [schema.type]: { $set: form.formData } })
@@ -119,6 +118,7 @@ Params.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 // CustomUpDownWidget.propTypes = {

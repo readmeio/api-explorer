@@ -1,0 +1,86 @@
+{
+  "openapi": "3.0.0-rc2",
+  "info": {
+    "version": "1.0.0",
+    "title": "Multiple Securities"
+  },
+  "paths": {
+    "/oauth": {
+      "post": {
+        "security": [
+          {
+            "oauth2": ["write:things"]
+          }
+        ]
+      }
+    },
+    "/api-key": {
+      "post": {
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/basic": {
+      "post": {
+        "security": [
+          {
+            "basic": []
+          }
+        ]
+      }
+    },
+    "/no-auth": {
+      "post": {}
+    },
+    "/multiple-oauths": {
+      "post": {
+        "security": [
+          {
+            "oauth": ["write:things", "read:things"]
+          },
+          {
+            "oauthDiff": ["write:things", "read:things"]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "oauth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "http://example.com/oauth/dialog",
+            "scopes": {
+              "write:things": "Add things to your account"
+            }
+          }
+        }
+      },
+      "oauthDiff": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "http://example.com/oauth/dialog",
+            "scopes": {
+              "write:things": "Add things to your account"
+            }
+          }
+        }
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "name": "apiKey",
+        "in": "header"
+      },
+      "basic": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

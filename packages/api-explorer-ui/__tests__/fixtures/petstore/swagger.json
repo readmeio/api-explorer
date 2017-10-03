@@ -820,5 +820,8 @@
   "externalDocs": {
     "description": "Find out more about Swagger",
     "url": "http://swagger.io"
-  }
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
 }

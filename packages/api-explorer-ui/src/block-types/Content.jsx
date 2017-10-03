@@ -12,33 +12,34 @@ const PropTypes = require('prop-types');
 
 const parseBlocks = require('../lib/parse-magic-blocks');
 
-const Loop = ({ content, column }) => {
-  const elements = content.map((block, i) => {
+const Loop = ({ content, column, flags }) => {
+  const elements = content.map((block, key) => {
+    const props = { key, block, flags };
     switch (block.type) {
       case 'textarea':
         // eslint-disable-next-line react/no-array-index-key
-        return <TextArea key={i} block={block} />;
+        return <TextArea {...props} />;
       case 'html':
         // eslint-disable-next-line react/no-array-index-key
-        return <Html key={i} block={block} />;
+        return <Html {...props} />;
       case 'embed':
         // eslint-disable-next-line react/no-array-index-key
-        return <Embed key={i} block={block} />;
+        return <Embed {...props} />;
       case 'api-header':
         // eslint-disable-next-line react/no-array-index-key
-        return <ApiHeader key={i} block={block} />;
+        return <ApiHeader {...props} />;
       case 'code':
         // eslint-disable-next-line react/no-array-index-key
-        return <BlockCode key={i} block={block} dark={column === 'right'} />;
+        return <BlockCode {...props} dark={column === 'right'} />;
       case 'callout':
         // eslint-disable-next-line react/no-array-index-key
-        return <CallOut key={i} block={block} />;
+        return <CallOut {...props} />;
       case 'parameters':
         // eslint-disable-next-line react/no-array-index-key
-        return <Parameters key={i} block={block} />;
+        return <Parameters {...props} />;
       case 'image':
         // eslint-disable-next-line react/no-array-index-key
-        return <ImageBlock key={i} block={block} />;
+        return <ImageBlock {...props} />;
       default:
         return null;
     }
@@ -49,7 +50,6 @@ const Loop = ({ content, column }) => {
 const Content = props => {
   const { body } = props;
   const isThreeColumn = props['is-three-column'];
-
   const content = parseBlocks(body);
 
   if (isThreeColumn) {
@@ -66,7 +66,7 @@ const Content = props => {
       <div className="hub-reference-section">
         <div className="hub-reference-left">
           <div className="content-body">
-            <Loop content={left} column="left" />
+            <Loop content={left} column="left" flags={props.flags} />
           </div>
         </div>
         <div className="hub-reference-right">
@@ -77,8 +77,7 @@ const Content = props => {
       </div>
     );
   }
-
-  return <Loop content={content} />;
+  return <Loop content={content} flags={props.flags} />;
 };
 
 Loop.propTypes = {
@@ -88,20 +87,24 @@ Loop.propTypes = {
     }),
   ).isRequired,
   column: PropTypes.string,
+  flags: PropTypes.shape({}),
 };
 
 Loop.defaultProps = {
   column: 'left',
+  flags: {},
 };
 
 Content.propTypes = {
   'is-three-column': PropTypes.bool,
   body: PropTypes.string,
+  flags: PropTypes.shape({}),
 };
 
 Content.defaultProps = {
   'is-three-column': true,
   body: '',
+  flags: {},
 };
 
 module.exports = Content;
