@@ -1,8 +1,12 @@
+global.fetch = require('node-fetch');
+
+global.Request = fetch.Request;
+
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
-
 const oas = require('./fixtures/petstore/oas');
+// const oas2 = require('./fixtures/auth-types/oas');
 
 const props = {
   doc: {
@@ -60,36 +64,20 @@ describe('state.dirty', () => {
 });
 
 describe('onSubmit', () => {
-  test('should switch to true if auth is required and correct security is not passed', () => {
-    // TODO use simulate instead of instance of example commented out:
-    //   const props2 = {
-    //     doc: {
-    //       title: 'Title',
-    //       slug: 'slug',
-    //       type: 'endpoint',
-    //       swagger: { path: '/api-key' },
-    //       api: { method: 'post' },
-    //       formData: { auth: { api_key: '' } },
-    //       onSubmit: () => {},
-    //     },
-    //     oas2,
-    //     setLanguage: () => {},
-    //   };
-    //   const doc = mount(<Doc {...props2} />);
-    //   // doc.instance().onSubmit();
-    //   doc.find('form').simulate('change', { path: '/api-key' });
-    //   console.log(doc.find('form').html());
-    //   doc.find('form').simulate('submit');
-    //   expect(doc.state('showAuthBox')).toBe(true);
-    // });
-    const doc = mount(<Doc {...props} />);
-    doc.instance().onSubmit();
+  test('should display authentication warning if auth is required for endpoint', () => {
+    jest.useFakeTimers();
 
+    const doc = shallow(<Doc {...props} />);
+
+    doc.instance().onSubmit();
     expect(doc.state('showAuthBox')).toBe(true);
+
+    jest.runAllTimers();
+
     expect(doc.state('needsAuth')).toBe(true);
   });
 
-  it('should hide authBox on successful submit', () => {
+  test('should hide authBox on successful submit', () => {
     const doc = mount(<Doc {...props} />);
     doc.instance().onSubmit();
     doc.instance().onChange({ auth: { api_key: 'api-key' } });
@@ -97,6 +85,22 @@ describe('onSubmit', () => {
 
     expect(doc.state('showAuthBox')).toBe(false);
     expect(doc.state('needsAuth')).toBe(false);
+  });
+});
+
+describe('toggleAuth', () => {
+  test('toggleAuth should change state of showAuthBox', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    expect(doc.state('showAuthBox')).toBe(false);
+
+    doc.instance().toggleAuth({ preventDefault() {} });
+
+    expect(doc.state('showAuthBox')).toBe(true);
+
+    doc.instance().toggleAuth({ preventDefault() {} });
+
+    expect(doc.state('showAuthBox')).toBe(false);
   });
 });
 

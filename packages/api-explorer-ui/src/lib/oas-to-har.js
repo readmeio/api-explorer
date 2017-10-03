@@ -115,7 +115,6 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     });
   }
 
-
   const body = getSchema(pathOperation) || {};
 
   if (body && Object.keys(body).length && Object.keys(formData.body).length) {

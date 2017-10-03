@@ -14,6 +14,8 @@ const props = {
   dirty: false,
   loading: false,
   onChange: () => {},
+  toggleAuth: () => {},
+  onSubmit: () => {},
 };
 
 test('should display the path', () => {

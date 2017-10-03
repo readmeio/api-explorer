@@ -9,6 +9,7 @@
     "httpsnippet": "^1.16.5",
     "js-cookie": "^2.1.4",
     "marked": "github:readmeio/marked",
+    "node-fetch": "^1.7.3",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-jsonschema-form": "^0.49.0",

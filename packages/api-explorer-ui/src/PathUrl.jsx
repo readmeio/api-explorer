@@ -16,7 +16,17 @@ function splitPath(path) {
       return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
     });
 }
-function PathUrl({ oas, operation, loading, dirty, onChange, showAuthBox, needsAuth }) {
+function PathUrl({
+  oas,
+  operation,
+  loading,
+  dirty,
+  onChange,
+  showAuthBox,
+  needsAuth,
+  toggleAuth,
+  onSubmit,
+}) {
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
@@ -26,8 +36,10 @@ function PathUrl({ oas, operation, loading, dirty, onChange, showAuthBox, needsA
               <AuthBox
                 operation={operation}
                 onChange={onChange}
+                onSubmit={onSubmit}
                 open={showAuthBox}
                 needsAuth={needsAuth}
+                toggle={toggleAuth}
               />
 
               <button
@@ -73,6 +85,8 @@ PathUrl.propTypes = {
   dirty: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  toggleAuth: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   showAuthBox: PropTypes.bool,
   needsAuth: PropTypes.bool,
 };
