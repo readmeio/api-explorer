@@ -21,6 +21,7 @@ class Doc extends React.Component {
       loading: false,
       showAuthBox: false,
       needsAuth: false,
+      responseTabClass: 'hub-reference-right hub-reference-results tabber-parent',
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
@@ -75,8 +76,7 @@ class Doc extends React.Component {
                 formData={this.state.formData}
               />
             </div>
-            {/* TODO  add ClassNames*/}
-            <div className="hub-reference-right hub-reference-results tabber-parent">
+            <div className={this.state.responseTabClass}>
               <div className="hub-reference-results-slider">
                 <div className="hub-reference-results-explorer code-sample" />
                 <div className="hub-reference-results-examples code-sample">
