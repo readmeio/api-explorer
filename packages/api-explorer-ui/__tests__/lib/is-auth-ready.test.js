@@ -1,50 +1,48 @@
 const isAuthReady = require('../../src/lib/is-auth-ready');
 const Oas = require('../../src/lib/Oas.js');
-const petstore = require('../fixtures/petstore/oas');
-const auth = require('../fixtures/auth-types/oas');
+const authTypesOas = require('../fixtures/auth-types/oas');
 
-const oas = new Oas(petstore);
-const oas2 = new Oas(auth);
+const oas = new Oas(authTypesOas);
 
 describe('isAuthReady', () => {
   it('should return true if auth data is passed in correctly for api key condition', () => {
-    const operation = oas.operation('/pet/{petId}', 'get');
+    const operation = oas.operation('/api-key', 'post');
 
-    expect(isAuthReady(operation, { api_key: 'test' })).toBe(true);
+    expect(isAuthReady(operation, { apiKey: 'test' })).toBe(true);
   });
 
   it('should return false if auth data is not passed in for api key condition', () => {
-    const operation = oas.operation('/pet/{petId}', 'get');
+    const operation = oas.operation('/api-key', 'post');
 
-    expect(isAuthReady(operation, { api_key: '' })).toBe(false);
+    expect(isAuthReady(operation, { apiKey: '' })).toBe(false);
   });
 
   it('should return false if auth data is not passed in correctly for oauth condition', () => {
-    const operation = oas.operation('/pet/{petId}', 'delete');
+    const operation = oas.operation('/oauth', 'post');
 
-    expect(isAuthReady(operation, { petstore_auth: '' })).toBe(false);
+    expect(isAuthReady(operation, { oauth: '' })).toBe(false);
   });
 
   it('should return true if auth data is passed in correctly for oauth condition', () => {
-    const operation = oas.operation('/pet/{petId}', 'delete');
+    const operation = oas.operation('/oauth', 'post');
 
-    expect(isAuthReady(operation, { petstore_auth: 'ouath' })).toBe(true);
+    expect(isAuthReady(operation, { oauth: 'bearer' })).toBe(true);
   });
 
   it('should return true if auth data is passed in for basic condition', () => {
-    const operation = oas2.operation('/basic', 'post');
+    const operation = oas.operation('/basic', 'post');
 
     expect(isAuthReady(operation, { basic: { username: 'test', password: 'pass' } })).toBe(true);
   });
 
   it('should return false if auth data is not passed in for basic condition', () => {
-    const operation = oas2.operation('/basic', 'post');
+    const operation = oas.operation('/basic', 'post');
 
     expect(isAuthReady(operation, { basic: { username: '', password: '' } })).toBe(false);
   });
 
   it('should return true if endpoint does not need auth or passed in auth is correct', () => {
-    const operation = oas.operation('/store/order/{orderId}', 'get');
+    const operation = oas.operation('/no-auth', 'post');
 
     expect(isAuthReady(operation)).toBe(true);
   });
