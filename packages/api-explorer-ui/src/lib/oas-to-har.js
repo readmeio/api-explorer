@@ -106,10 +106,14 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     });
   }
 
-  har.headers.push({
-    name: 'Content-Type',
-    value: getContentType(pathOperation),
-  });
+  // Add content-type header if there are any values, or any headers
+  // have been set already
+  if (Object.keys(values).length > 0 || har.headers.length) {
+    har.headers.push({
+      name: 'Content-Type',
+      value: getContentType(pathOperation),
+    });
+  }
 
   const body = getSchema(pathOperation) || {};
 
@@ -128,5 +132,5 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
       har[securityValue.type].push(securityValue.value);
     });
   }
-  return { entries: [{ request: har }] };
+  return { log: { entries: [{ request: har }] } };
 };

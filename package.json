@@ -4,8 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "test": "eslint -f unix example && lerna run test",
-    "example": "budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx",
-    "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer"
+    "example": "budo example/index.jsx --dir example -- -t babelify -t brfs -p livereactload --extension .jsx",
+    "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer",
+    "convert-swagger": "swagger2openapi $1",
+    "create-circular-json": "./scripts/create-circular-json.js"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
@@ -30,7 +32,9 @@
     "lerna": "^2.0.0"
   },
   "dependencies": {
-    "body-parser": "^1.17.2",
+    "brfs": "^1.4.3",
+    "circular-json": "^0.3.3",
+    "get-stdin": "^5.0.1",
     "json-schema-ref-parser": "^3.2.0",
     "livereactload": "^4.0.0-beta.2",
     "react": "^15.6.1",

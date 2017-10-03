@@ -4,12 +4,12 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(operation, onChange) {
+function renderSecurities(operation, onChange, onSubmit) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
     return (
-      <span key={type}>
+      <form key={type} onSubmit={onSubmit}>
         <h3>{type} Auth</h3>
         <div className="pad">
           <section>
@@ -30,33 +30,13 @@ function renderSecurities(operation, onChange) {
             ))}
           </section>
         </div>
-      </span>
+      </form>
     );
   });
 }
 
+// eslint-disable-next-line react/prefer-stateless-function
 class AuthBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { open: false };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // when  auth is needed we want to open the authBox and show warning 600ms later
-    if (nextProps.needsAuth) {
-      this.setState({ open: true });
-      setTimeout(() => {
-        this.setState({ needsAuth: true });
-      }, 600);
-    }
-  }
-
-  toggle(e) {
-    e.preventDefault();
-    this.setState({ open: !this.state.open });
-    // this.props.onChange({ header: { 'test': '111' } });
-  }
   render() {
     const { operation } = this.props;
 
@@ -64,16 +44,21 @@ class AuthBox extends React.Component {
 
     return (
       <div
-        className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.state.open })}
+        className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.props.open })}
       >
         {
           // eslint-disable-next-line jsx-a11y/anchor-has-content
-          <a href="" className="icon icon-user-lock" onClick={this.toggle} />
+          <a href="" className="icon icon-user-lock" onClick={this.props.toggle} />
         }
         <div className="nopad">
           <div className="triangle" />
-          <div>{renderSecurities(operation, this.props.onChange)}</div>
-          <div className={classNames('hub-authrequired', { active: this.state.needsAuth })}>
+          <div>
+            {renderSecurities(operation, this.props.onChange, e => {
+              e.preventDefault();
+              this.props.onSubmit();
+            })}
+          </div>
+          <div className={classNames('hub-authrequired', { active: this.props.needsAuth })}>
             <div className="hub-authrequired-slider">
               <i className="icon icon-notification" />
               Authentication is required for this endpoint
@@ -88,11 +73,15 @@ class AuthBox extends React.Component {
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired,
   needsAuth: PropTypes.bool,
+  open: PropTypes.bool,
 };
 
 AuthBox.defaultProps = {
   needsAuth: false,
+  open: false,
 };
 
 module.exports = AuthBox;

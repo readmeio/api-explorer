@@ -9,7 +9,7 @@
       "post": {
         "security": [
           {
-            "oauth2": ["write:things"]
+            "oauth": ["write:things"]
           }
         ]
       }

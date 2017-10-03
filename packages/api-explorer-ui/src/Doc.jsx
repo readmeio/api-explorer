@@ -1,6 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-// const classNames = require('classnames');
+const fetchHar = require('fetch-har');
+const oasToHar = require('./lib/oas-to-har');
 const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('../../readme-oas-extensions');
 
@@ -26,6 +27,7 @@ class Doc extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
+    this.toggleAuth = this.toggleAuth.bind(this);
   }
 
   onChange(formData) {
@@ -43,10 +45,31 @@ class Doc extends React.Component {
         this.state.formData.auth,
       )
     ) {
-      this.setState({ showAuthBox: true, needsAuth: true });
+      this.setState({ showAuthBox: true });
+      setTimeout(() => {
+        this.setState({ needsAuth: true });
+      }, 600);
       return false;
     }
+
+    this.setState({ loading: true, showAuthBox: false, needsAuth: false });
+
+    fetchHar(
+      oasToHar(
+        this.oas,
+        this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
+        this.state.formData,
+      ),
+    ).then(() => {
+      this.setState({ loading: false });
+    });
+
     return true;
+  }
+
+  toggleAuth(e) {
+    e.preventDefault();
+    this.setState({ showAuthBox: !this.state.showAuthBox });
   }
 
   renderEndpoint() {
@@ -64,6 +87,8 @@ class Doc extends React.Component {
           authData={this.state.formData.auth}
           showAuthBox={this.state.showAuthBox}
           needsAuth={this.state.needsAuth}
+          toggleAuth={this.toggleAuth}
+          onSubmit={this.onSubmit}
         />
 
         {showCode(oas, operation) && (

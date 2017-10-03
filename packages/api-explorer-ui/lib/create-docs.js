@@ -6,13 +6,13 @@ module.exports = (oas, apiSetting) => {
       const operation = oas.paths[path][method];
       let isCategory;
 
-      const tag = operation.tags ? operation.tags[0] : path;
+      const tag = operation.tags && operation.tags.length ? operation.tags[0] : path;
       if (!docs.find(category => category.slug === tag && category.type === 'basic')) {
         docs.push({
           _id: Math.random().toString(16),
           title: tag,
           slug: tag,
-          type: 'basic',
+          type: 'endpoint',
           category: { apiSetting },
           api: { method },
           swagger: { path },
@@ -29,7 +29,7 @@ module.exports = (oas, apiSetting) => {
           category: { apiSetting },
           api: { method },
           swagger: { path },
-          body: ``,
+          body: '',
           excerpt: operation.description,
         });
       }

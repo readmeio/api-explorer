@@ -64,7 +64,91 @@
           }
         ],
         "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "photoUrls"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "category": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    },
+                    "xml": {
+                      "name": "Category"
+                    }
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "doggie"
+                  },
+                  "photoUrls": {
+                    "type": "array",
+                    "xml": {
+                      "name": "photoUrl",
+                      "wrapped": true
+                    },
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "tags": {
+                    "type": "array",
+                    "xml": {
+                      "name": "tag",
+                      "wrapped": true
+                    },
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "xml": {
+                        "name": "Tag"
+                      }
+                    }
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "pet status in the store",
+                    "enum": [
+                      "available",
+                      "pending",
+                      "sold"
+                    ]
+                  }
+                },
+                "xml": {
+                  "name": "Pet"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": "~paths~/pet~post~requestBody~content~application/json~schema"
+            }
+          },
+          "description": "Pet object that needs to be added to the store",
+          "required": true
         }
       },
       "put": {
@@ -94,9 +178,7 @@
             ]
           }
         ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
-        }
+        "requestBody": "~paths~/pet~post~requestBody"
       }
     },
     "/pet/findByStatus": {
@@ -135,17 +217,13 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
+                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
+                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
                 }
               }
             }
@@ -194,17 +272,13 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
+                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
+                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
                 }
               }
             }
@@ -249,14 +323,10 @@
             "description": "successful operation",
             "content": {
               "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
+                "schema": "~paths~/pet~post~requestBody~content~application/json~schema"
               },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
+                "schema": "~paths~/pet~post~requestBody~content~application/json~schema"
               }
             }
           },
@@ -396,7 +466,19 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -469,13 +551,45 @@
             "content": {
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Order"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "petId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "shipDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Order Status",
+                      "enum": [
+                        "placed",
+                        "approved",
+                        "delivered"
+                      ]
+                    },
+                    "complete": {
+                      "type": "boolean",
+                      "default": false
+                    }
+                  },
+                  "xml": {
+                    "name": "Order"
+                  }
                 }
               },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
+                "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
               }
             }
           },
@@ -486,9 +600,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
+              "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
             }
           },
           "description": "order placed for purchasing the pet",
@@ -523,14 +635,10 @@
             "description": "successful operation",
             "content": {
               "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
+                "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
               },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
+                "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
               }
             }
           },
@@ -590,7 +698,39 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "userStatus": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "User Status"
+                  }
+                },
+                "xml": {
+                  "name": "User"
+                }
               }
             }
           },
@@ -614,7 +754,16 @@
           }
         },
         "requestBody": {
-          "$ref": "#/components/requestBodies/UserArray"
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": "~paths~/user~post~requestBody~content~application/json~schema"
+              }
+            }
+          },
+          "description": "List of user object",
+          "required": true
         }
       }
     },
@@ -632,9 +781,7 @@
             "description": "successful operation"
           }
         },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/UserArray"
-        }
+        "requestBody": "~paths~/user/createWithArray~post~requestBody"
       }
     },
     "/user/login": {
@@ -743,14 +890,10 @@
             "description": "successful operation",
             "content": {
               "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
+                "schema": "~paths~/user~post~requestBody~content~application/json~schema"
               },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
+                "schema": "~paths~/user~post~requestBody~content~application/json~schema"
               }
             }
           },
@@ -791,9 +934,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
+              "schema": "~paths~/user~post~requestBody~content~application/json~schema"
             }
           },
           "description": "Updated user object",
@@ -844,210 +985,19 @@
   ],
   "components": {
     "schemas": {
-      "Order": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "petId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "shipDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "type": "string",
-            "description": "Order Status",
-            "enum": [
-              "placed",
-              "approved",
-              "delivered"
-            ]
-          },
-          "complete": {
-            "type": "boolean",
-            "default": false
-          }
-        },
-        "xml": {
-          "name": "Order"
-        }
-      },
-      "Category": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "xml": {
-          "name": "Category"
-        }
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "username": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "userStatus": {
-            "type": "integer",
-            "format": "int32",
-            "description": "User Status"
-          }
-        },
-        "xml": {
-          "name": "User"
-        }
-      },
-      "Tag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "xml": {
-          "name": "Tag"
-        }
-      },
-      "Pet": {
-        "type": "object",
-        "required": [
-          "name",
-          "photoUrls"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          },
-          "name": {
-            "type": "string",
-            "example": "doggie"
-          },
-          "photoUrls": {
-            "type": "array",
-            "xml": {
-              "name": "photoUrl",
-              "wrapped": true
-            },
-            "items": {
-              "type": "string"
-            }
-          },
-          "tags": {
-            "type": "array",
-            "xml": {
-              "name": "tag",
-              "wrapped": true
-            },
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
-          },
-          "status": {
-            "type": "string",
-            "description": "pet status in the store",
-            "enum": [
-              "available",
-              "pending",
-              "sold"
-            ]
-          }
-        },
-        "xml": {
-          "name": "Pet"
-        }
-      },
-      "ApiResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "type": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      }
+      "Order": "~paths~/store/order~post~responses~200~content~application/xml~schema",
+      "Category": "~paths~/pet~post~requestBody~content~application/json~schema~properties~category",
+      "User": "~paths~/user~post~requestBody~content~application/json~schema",
+      "Tag": "~paths~/pet~post~requestBody~content~application/json~schema~properties~tags~items",
+      "Pet": "~paths~/pet~post~requestBody~content~application/json~schema",
+      "ApiResponse": "~paths~/pet/{petId}/uploadImage~post~responses~200~content~application/json~schema"
     },
     "responses": {},
     "parameters": {},
     "examples": {},
     "requestBodies": {
-      "Pet": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
-          },
-          "application/xml": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
-          }
-        },
-        "description": "Pet object that needs to be added to the store",
-        "required": true
-      },
-      "UserArray": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "description": "List of user object",
-        "required": true
-      }
+      "Pet": "~paths~/pet~post~requestBody",
+      "UserArray": "~paths~/user/createWithArray~post~requestBody"
     },
     "securitySchemes": {
       "petstore_auth": {

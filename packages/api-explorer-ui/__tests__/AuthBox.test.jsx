@@ -7,7 +7,13 @@ const petstore = require('./fixtures/multiple-securities/oas');
 
 const oas = new Oas(petstore);
 
-const props = { operation: oas.operation('/things', 'post'), onChange: () => {} };
+const props = {
+  operation: oas.operation('/things', 'post'),
+  onChange: () => {},
+  onSubmit: () => {},
+  toggle: () => {},
+  open: false,
+};
 
 test('should not display if no auth', () => {
   expect(shallow(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBe(
@@ -37,39 +43,19 @@ test.skip('should display a dropdown for when multiple oauths are present', () =
   ]);
 });
 
-test('should have an open class when state is open', () => {
-  const authBox = shallow(<AuthBox {...props} />);
-
-  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
-
-  authBox.instance().toggle({ preventDefault() {} });
-
-  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(true);
-
-  authBox.instance().toggle({ preventDefault() {} });
-
-  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
-});
-
-test('should display authentication warning if auth is required for endpoint', () => {
-  jest.useFakeTimers();
-
-  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
-
-  authBox.setProps({ needsAuth: true });
-
-  expect(authBox.state('open')).toBe(true);
-
-  jest.runAllTimers();
-
-  expect(authBox.state('needsAuth')).toBe(true);
-  expect(authBox.find('.hub-authrequired.active').length).toBe(1);
-});
-
 test('should not display authentication warning if authData is passed', () => {
   const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 
   authBox.setProps({ needsAuth: false });
 
-  expect(authBox.state('open')).toBe(false);
+  expect(authBox.instance().props.open).toBe(false);
+});
+
+test('should hide authbox if open=false', () => {
+  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+
+  authBox.setProps({ needsAuth: true });
+  authBox.setProps({ needsAuth: false });
+
+  expect(authBox.instance().props.open).toBe(false);
 });
