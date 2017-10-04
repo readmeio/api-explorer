@@ -106,13 +106,7 @@ class Doc extends React.Component {
               />
             </div>
             <div className={this.state.responseTabClass}>
-              <div className="hub-reference-results-slider">
-                <div className="hub-reference-results-explorer code-sample" />
-                <CodeSampleResponseTabs results={this.state.responseTabClass} />
-                <div className="hub-reference-results-examples code-sample">
-                  <div className="hub-no-code">Try the API to see results</div>
-                </div>
-              </div>
+              <CodeSampleResponseTabs styleClass={this.state.responseTabClass} />
             </div>
           </div>
         )}
