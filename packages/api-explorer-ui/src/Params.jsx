@@ -49,7 +49,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                 }}
               >
                 <button type="submit" style={{ display: 'none' }} />
-              </Form>
+              </Form>,
             ];
           })}
       </div>

@@ -10,7 +10,7 @@ const types = {
   header: 'Headers',
 };
 
-module.exports = (pathOperation) => {
+module.exports = pathOperation => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
 
@@ -65,7 +65,7 @@ module.exports = (pathOperation) => {
           required,
         },
       };
-    })
+    });
   }
 
   return [getBodyParam()].concat(...getOtherParams()).filter(Boolean);

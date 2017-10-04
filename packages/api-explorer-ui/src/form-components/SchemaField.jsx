@@ -4,7 +4,8 @@
 const React = require('react');
 
 const SchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
-const UnsupportedField = require('react-jsonschema-form/lib/components/fields/UnsupportedField').default;
+const UnsupportedField = require('react-jsonschema-form/lib/components/fields/UnsupportedField')
+  .default;
 
 const {
   retrieveSchema,
@@ -15,12 +16,12 @@ const {
 } = require('react-jsonschema-form/lib/utils');
 
 const COMPONENT_TYPES = {
-  array: "ArrayField",
-  boolean: "BooleanField",
-  integer: "NumberField",
-  number: "NumberField",
-  object: "ObjectField",
-  string: "StringField",
+  array: 'ArrayField',
+  boolean: 'BooleanField',
+  integer: 'NumberField',
+  number: 'NumberField',
+  object: 'ObjectField',
+  string: 'StringField',
 };
 
 function Help(props) {
@@ -29,7 +30,7 @@ function Help(props) {
     // See #312: Ensure compatibility with old versions of React.
     return <div />;
   }
-  if (typeof help === "string") {
+  if (typeof help === 'string') {
     return <p className="help-block">{help}</p>;
   }
   return <div className="help-block">{help}</div>;
@@ -57,11 +58,11 @@ function ErrorList(props) {
 }
 
 function getFieldComponent(schema, uiSchema, idSchema, fields) {
-  const field = uiSchema["ui:field"];
-  if (typeof field === "function") {
+  const field = uiSchema['ui:field'];
+  if (typeof field === 'function') {
     return field;
   }
-  if (typeof field === "string" && field in fields) {
+  if (typeof field === 'string' && field in fields) {
     return fields[field];
   }
   const componentName = COMPONENT_TYPES[schema.type];
@@ -87,18 +88,13 @@ function SchemaFieldRender(props) {
     required,
     registry = getDefaultRegistry(),
   } = props;
-  const {
-    definitions,
-    fields,
-    formContext,
-    FieldTemplate = DefaultTemplate,
-  } = registry;
+  const { definitions, fields, formContext, FieldTemplate = DefaultTemplate } = registry;
   const schema = retrieveSchema(props.schema, definitions);
   const FieldComponent = getFieldComponent(schema, uiSchema, idSchema, fields);
   const { DescriptionField } = fields;
-  const disabled = Boolean(props.disabled || uiSchema["ui:disabled"]);
-  const readonly = Boolean(props.readonly || uiSchema["ui:readonly"]);
-  const autofocus = Boolean(props.autofocus || uiSchema["ui:autofocus"]);
+  const disabled = Boolean(props.disabled || uiSchema['ui:disabled']);
+  const readonly = Boolean(props.readonly || uiSchema['ui:readonly']);
+  const autofocus = Boolean(props.autofocus || uiSchema['ui:autofocus']);
 
   if (Object.keys(schema).length === 0) {
     // See #312: Ensure compatibility with old versions of React.
@@ -107,18 +103,17 @@ function SchemaFieldRender(props) {
 
   const uiOptions = getUiOptions(uiSchema);
   let { label: displayLabel = true } = uiOptions;
-  if (schema.type === "array") {
+  if (schema.type === 'array') {
     displayLabel =
-      isMultiSelect(schema, definitions) ||
-      isFilesArray(schema, uiSchema, definitions);
+      isMultiSelect(schema, definitions) || isFilesArray(schema, uiSchema, definitions);
   }
-  if (schema.type === "object") {
+  if (schema.type === 'object') {
     displayLabel = false;
   }
-  if (schema.type === "boolean" && !uiSchema["ui:widget"]) {
+  if (schema.type === 'boolean' && !uiSchema['ui:widget']) {
     displayLabel = false;
   }
-  if (uiSchema["ui:field"]) {
+  if (uiSchema['ui:field']) {
     displayLabel = false;
   }
 
@@ -140,36 +135,32 @@ function SchemaFieldRender(props) {
 
   const { type } = schema;
   const id = idSchema.$id;
-  const label =
-    uiSchema["ui:title"] || props.schema.title || schema.title || name;
-  const description =
-    uiSchema["ui:description"] ||
-    props.schema.description ||
-    schema.description;
+  const label = uiSchema['ui:title'] || props.schema.title || schema.title || name;
+  const description = uiSchema['ui:description'] || props.schema.description || schema.description;
   const errors = __errors;
-  const help = uiSchema["ui:help"];
-  const hidden = uiSchema["ui:widget"] === "hidden";
+  const help = uiSchema['ui:help'];
+  const hidden = uiSchema['ui:widget'] === 'hidden';
   const classNames = [
-    "form-group",
-    "field",
+    'form-group',
+    'field',
     `field-${type}`,
-    errors && errors.length > 0 ? "field-error has-error has-danger" : "",
+    errors && errors.length > 0 ? 'field-error has-error has-danger' : '',
     uiSchema.classNames,
   ]
-    .join(" ")
+    .join(' ')
     .trim();
 
   const fieldProps = {
     description: (
       <DescriptionField
-        id={id + "__description"}
+        id={id + '__description'}
         description={description}
         formContext={formContext}
       />
     ),
     rawDescription: description,
     help: <Help help={help} />,
-    rawHelp: typeof help === "string" ? help : undefined,
+    rawHelp: typeof help === 'string' ? help : undefined,
     errors: <ErrorList errors={errors} />,
     rawErrors: errors,
     id,
