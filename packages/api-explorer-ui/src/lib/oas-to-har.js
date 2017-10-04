@@ -96,7 +96,6 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
 
   if (headers && headers.length) {
     headers.forEach(header => {
-      // console.log('keys', Object.keys(pathOperation));
       const value = formatter(formData, header, 'header', true);
       if (!value) return;
       har.headers.push({

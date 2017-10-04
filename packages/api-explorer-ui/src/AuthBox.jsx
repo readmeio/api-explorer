@@ -35,39 +35,32 @@ function renderSecurities(operation, onChange, onSubmit) {
   });
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
-class AuthBox extends React.Component {
-  render() {
-    const { operation } = this.props;
+function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
+  if (!operation.hasAuth()) return null;
 
-    if (!operation.hasAuth()) return null;
-
-    return (
-      <div
-        className={classNames('hub-auth-dropdown', 'simple-dropdown', { open: this.props.open })}
-      >
-        {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content
-          <a href="" className="icon icon-user-lock" onClick={this.props.toggle} />
-        }
-        <div className="nopad">
-          <div className="triangle" />
-          <div>
-            {renderSecurities(operation, this.props.onChange, e => {
-              e.preventDefault();
-              this.props.onSubmit();
-            })}
-          </div>
-          <div className={classNames('hub-authrequired', { active: this.props.needsAuth })}>
-            <div className="hub-authrequired-slider">
-              <i className="icon icon-notification" />
-              Authentication is required for this endpoint
-            </div>
+  return (
+    <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
+      {
+        // eslint-disable-next-line jsx-a11y/anchor-has-content
+        <a href="" className="icon icon-user-lock" onClick={toggle} />
+      }
+      <div className="nopad">
+        <div className="triangle" />
+        <div>
+          {renderSecurities(operation, onChange, e => {
+            e.preventDefault();
+            onSubmit();
+          })}
+        </div>
+        <div className={classNames('hub-authrequired', { active: needsAuth })}>
+          <div className="hub-authrequired-slider">
+            <i className="icon icon-notification" />
+            Authentication is required for this endpoint
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 AuthBox.propTypes = {
