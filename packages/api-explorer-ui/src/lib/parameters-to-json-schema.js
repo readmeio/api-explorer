@@ -10,38 +10,7 @@ const types = {
   header: 'Headers',
 };
 
-function combineParameters(prev, current) {
-  prev[current.in] = prev[current.in] || {
-    type: 'object',
-    description: types[current.in],
-    properties: {},
-    required: [],
-  };
-
-  const schema = {
-    type: 'string',
-    description: current.description || null,
-  };
-
-  if (current.schema) {
-    if (current.schema.type === 'array') {
-      schema.type = 'array';
-      schema.items = current.schema.items;
-    }
-  }
-
-  prev[current.in].properties = {
-    [current.name]: schema,
-  };
-
-  if (current.required) {
-    prev[current.in].required.push(current.name);
-  }
-
-  return prev;
-}
-
-module.exports = (pathOperation, oas) => {
+module.exports = (pathOperation) => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
 
@@ -62,7 +31,7 @@ module.exports = (pathOperation, oas) => {
   function getOtherParams() {
     return Object.keys(types).map(type => {
       const required = [];
-      const parameters = pathOperation.parameters.filter(param => param.in === type);
+      const parameters = (pathOperation.parameters || []).filter(param => param.in === type);
       if (parameters.length === 0) return null;
 
       const properties = parameters.reduce((prev, current) => {
