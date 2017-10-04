@@ -30,7 +30,6 @@ class BlockCode extends React.Component {
                   <a
                     href=""
                     onClick={e => {
-                      // eslint-disable-next-line
                       e.preventDefault();
                       this.showCode(i);
                     }}
