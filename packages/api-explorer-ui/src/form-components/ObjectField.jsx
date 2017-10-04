@@ -1,3 +1,6 @@
+// Changes made to this file:
+// - removed wrapping <fieldset>
+// - pass through labelPrefix prop
 // https://github.com/mozilla-services/react-jsonschema-form/blob/03b54d086036167d5e1aa970c9d4d103dd766617/src/components/fields/ObjectField.js
 const React = require('react');
 const ObjectField = require('react-jsonschema-form/lib/components/fields/ObjectField').default;
@@ -76,6 +79,8 @@ class CustomObjectField extends ObjectField {
               registry={registry}
               disabled={disabled}
               readonly={readonly}
+              // Custom
+              labelPrefix={this.props.labelPrefix}
             />
           );
         })}

@@ -1,31 +1,21 @@
 const React = require('react');
 
 function CustomFieldTemplate(props) {
-  const { id, classNames, label, help, required, description, errors, children } = props;
+  const { id, classNames, label, help, required, description, errors, children, schema, parent } = props;
 
   if (id === 'root') {
     return children;
   }
 
-  // if (classNames === 'form-group field field-array') {
-  //   return (
-  //     <div className="param-item-info">
-  //       {description}
-  //       {children}
-  //       {errors}
-  //       {help}
-  //     </div>
-  //   );
-  // }
-
   const isObject = children.type.name === 'CustomObjectField';
+  const combinedLabel = [props.labelPrefix, label].filter(Boolean).join('.');
 
   return (
     <div>
       <div className="param-item">
         <div className="param-item-name">
-          <strong htmlFor={id}>{label}</strong>
-          <div className="param-type">type</div>
+          <strong htmlFor={id}>{combinedLabel}</strong>
+          <div className="param-type">{schema.type}</div>
         </div>
         <div className="param-item-info">
           <div className="param-item-table">
@@ -36,7 +26,9 @@ function CustomFieldTemplate(props) {
           </div>
         </div>
       </div>
-      { isObject && children }
+      {
+        isObject && React.Children.map(children, child => React.cloneElement(child, { labelPrefix: combinedLabel }))
+      }
     </div>
   );
 }
