@@ -25,6 +25,7 @@
       "raf/polyfill",
       "./lib/enzyme"
     ],
+    "coveragePathIgnorePatterns": ["<rootDir>/src/form-components"],
     "coverageThreshold": {
       "global": {
         "branches": 90,

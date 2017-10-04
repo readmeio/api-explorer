@@ -62,18 +62,19 @@ class CustomObjectField extends ObjectField {
             formContext={formContext}
           />
         )}
-        {orderedProperties.map((name, index) => {
+        {orderedProperties.map((propName, index) => {
+          /* eslint-disable react/no-array-index-key */
           return (
             <SchemaField
               key={index}
-              name={name}
-              required={this.isRequired(name)}
-              schema={schema.properties[name]}
-              uiSchema={uiSchema[name]}
-              errorSchema={errorSchema[name]}
-              idSchema={idSchema[name]}
-              formData={formData[name]}
-              onChange={this.onPropertyChange(name)}
+              name={propName}
+              required={this.isRequired(propName)}
+              schema={schema.properties[propName]}
+              uiSchema={uiSchema[propName]}
+              errorSchema={errorSchema[propName]}
+              idSchema={idSchema[propName]}
+              formData={formData[propName]}
+              onChange={this.onPropertyChange(propName)}
               onBlur={onBlur}
               onFocus={onFocus}
               registry={registry}

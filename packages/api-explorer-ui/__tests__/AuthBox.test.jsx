@@ -40,15 +40,32 @@ test.skip('should display a dropdown for when multiple oauths are present', () =
 test('should have an open class when state is open', () => {
   const authBox = shallow(<AuthBox {...props} />);
 
-  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
+  expect(
+    authBox
+      .find('.hub-auth-dropdown')
+      .render()
+      .hasClass('open'),
+  ).toBe(false);
 
   authBox.instance().toggle({ preventDefault() {} });
+  authBox.update();
 
-  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(true);
+  expect(
+    authBox
+      .find('.hub-auth-dropdown')
+      .render()
+      .hasClass('open'),
+  ).toBe(true);
 
   authBox.instance().toggle({ preventDefault() {} });
+  authBox.update();
 
-  expect(authBox.find('.hub-auth-dropdown').hasClass('open')).toBe(false);
+  expect(
+    authBox
+      .find('.hub-auth-dropdown')
+      .render()
+      .hasClass('open'),
+  ).toBe(false);
 });
 
 test('should display authentication warning if auth is required for endpoint', () => {
@@ -63,6 +80,7 @@ test('should display authentication warning if auth is required for endpoint', (
   jest.runAllTimers();
 
   expect(authBox.state('needsAuth')).toBe(true);
+  authBox.update();
   expect(authBox.find('.hub-authrequired.active').length).toBe(1);
 });
 

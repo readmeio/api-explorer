@@ -1,25 +1,15 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 
 function CustomFieldTemplate(props) {
-  const {
-    id,
-    classNames,
-    label,
-    help,
-    required,
-    description,
-    errors,
-    children,
-    schema,
-    parent,
-  } = props;
+  const { id, label, help, required, description, errors, children, schema, labelPrefix } = props;
 
   if (id === 'root') {
     return children;
   }
 
   const isObject = children.type.name === 'CustomObjectField';
-  const combinedLabel = [props.labelPrefix, label].filter(Boolean).join('.');
+  const combinedLabel = [labelPrefix, label].filter(Boolean).join('.');
 
   return (
     <div>
@@ -47,5 +37,23 @@ function CustomFieldTemplate(props) {
     </div>
   );
 }
+
+CustomFieldTemplate.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  errors: PropTypes.element.isRequired,
+  help: PropTypes.element.isRequired,
+  description: PropTypes.element.isRequired,
+  required: PropTypes.bool.isRequired,
+  schema: PropTypes.shape({ type: PropTypes.string }).isRequired,
+  labelPrefix: PropTypes.string.isRequired,
+};
+
+CustomFieldTemplate.defaultProps = {
+  label: '',
+  labelPrefix: '',
+  required: false,
+};
 
 module.exports = CustomFieldTemplate;

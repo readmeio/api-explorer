@@ -1,6 +1,7 @@
 // Changes made to this file:
 // - pass through labelPrefix prop
 // https://github.com/mozilla-services/react-jsonschema-form/blob/e092296314d05ef4cb89fc1cd0de81c4912e0b40/src/components/fields/SchemaField.js
+/* eslint-disable react/prop-types */
 const React = require('react');
 
 const SchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
@@ -46,6 +47,7 @@ function ErrorList(props) {
       <p />
       <ul className="error-detail bs-callout bs-callout-info">
         {errors.map((error, index) => {
+          /* eslint-disable react/no-array-index-key */
           return (
             <li className="text-danger" key={index}>
               {error}
@@ -88,7 +90,7 @@ function SchemaFieldRender(props) {
     required,
     registry = getDefaultRegistry(),
   } = props;
-  const { definitions, fields, formContext, FieldTemplate = DefaultTemplate } = registry;
+  const { definitions, fields, formContext, FieldTemplate } = registry;
   const schema = retrieveSchema(props.schema, definitions);
   const FieldComponent = getFieldComponent(schema, uiSchema, idSchema, fields);
   const { DescriptionField } = fields;
@@ -153,7 +155,7 @@ function SchemaFieldRender(props) {
   const fieldProps = {
     description: (
       <DescriptionField
-        id={id + '__description'}
+        id={`${id}__description`}
         description={description}
         formContext={formContext}
       />
