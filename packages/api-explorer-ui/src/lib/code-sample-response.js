@@ -35,3 +35,5 @@ function result(res) {
 
   setTab('[data-tab=result]');
 }
+
+module.exports = result;

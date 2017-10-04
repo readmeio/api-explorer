@@ -123,16 +123,33 @@ function CodeSampleResponseTabs(styleClass, doc, swagger, variables) {
                     )
                   }
                   else {
-                    return
+                    return (
+                      <span>
+                        {{result.name? result.name : shared.code_type(result.language)}}
+                      </span>
+                    )
                   }
                 }
                 </a>
-
               })}
             </ul>
+            <div className="code-sample-body">
+              {swaggerUtils.showCodeResults(swagger).forEach((result, index) => {
+                <pre className="tomorrow night tabber-body" style={{index === 0 ? "dislay: block" : "" className=`tabber-body-${index}`}}>
+                  {replaceVars(codemirror(result.code, result.language, true), variables)}
+                </pre>
+              })}
+            </div>
           )
-        }}
-        <div className="hub-no-code">Try the API to see results</div>
+        }
+        else {
+          return (
+            <div className="hub-no-code">
+              {(swagger[extensions.EXPLORER_ENABLED] ? 'Try the API to see Results' : 'No response examples available')}
+            </div>
+          )
+        }
+      }
       </div>
     </div>;
   )

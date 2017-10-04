@@ -121,7 +121,9 @@ class Doc extends React.Component {
               onSubmit={this.onSubmit}
             />
           </div>
-          <div className="hub-reference-right switcher" />
+          <div className="hub-reference-right switcher">
+            {/* <Response operation={operation} /> */}
+          </div>
         </div>
       </div>
     );
