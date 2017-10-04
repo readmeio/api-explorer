@@ -18,34 +18,11 @@ test('it should return with a json schema for each parameter type', () => {
       },
       {},
     ),
-  ).toEqual({
-    type: 'object',
-    definitions: {},
-    properties: {
-      cookie: {
-        description: 'Cookie Params',
-        type: 'object',
-        properties: {
-          'cookie parameter': {
-            description: null,
-            type: 'string',
-          },
-        },
-        required: [],
-      },
-      header: {
-        description: 'Headers',
-        type: 'object',
-        properties: {
-          'header parameter': {
-            description: null,
-            type: 'string',
-          },
-        },
-        required: [],
-      },
-      path: {
-        description: 'Path Params',
+  ).toEqual([
+    {
+      label: 'Path Params',
+      type: 'path',
+      schema: {
         type: 'object',
         properties: {
           'path parameter': {
@@ -55,8 +32,11 @@ test('it should return with a json schema for each parameter type', () => {
         },
         required: [],
       },
-      query: {
-        description: 'Query Params',
+    },
+    {
+      label: 'Query Params',
+      type: 'query',
+      schema: {
         type: 'object',
         properties: {
           'query parameter': {
@@ -67,40 +47,64 @@ test('it should return with a json schema for each parameter type', () => {
         required: [],
       },
     },
-  });
+    {
+      label: 'Cookie Params',
+      type: 'cookie',
+      schema: {
+        type: 'object',
+        properties: {
+          'cookie parameter': {
+            description: null,
+            type: 'string',
+          },
+        },
+        required: [],
+      },
+    },
+    {
+      label: 'Headers',
+      type: 'header',
+      schema: {
+        type: 'object',
+        properties: {
+          'header parameter': {
+            description: null,
+            type: 'string',
+          },
+        },
+        required: [],
+      },
+    },
+  ]);
 });
 
 test('it should work for request body inline', () => {
   expect(
-    parametersToJsonSchema(
-      {
-        requestBody: {
-          description: 'Body description',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: { a: { type: 'string' } },
-              },
+    parametersToJsonSchema({
+      requestBody: {
+        description: 'Body description',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: { a: { type: 'string' } },
             },
           },
         },
       },
-      {},
-    ),
-  ).toEqual({
-    type: 'object',
-    definitions: {},
-    properties: {
-      body: {
-        description: 'Body Params',
+    }),
+  ).toEqual([
+    {
+      label: 'Body Params',
+      type: 'body',
+      schema: {
         type: 'object',
         properties: {
           a: { type: 'string' },
         },
       },
     },
-  });
+  ]);
 });
 
 test.skip('it should work for top-level request body $ref', () => {

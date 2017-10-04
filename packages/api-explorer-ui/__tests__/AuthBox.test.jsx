@@ -48,7 +48,9 @@ test('should not display authentication warning if authData is passed', () => {
 
   authBox.setProps({ needsAuth: false });
 
-  expect(authBox.instance().props.open).toBe(false);
+  expect(authBox.state('needsAuth')).toBe(true);
+  authBox.update();
+  expect(authBox.find('.hub-authrequired.active').length).toBe(1);
 });
 
 test('should hide authbox if open=false', () => {

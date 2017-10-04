@@ -97,8 +97,7 @@ describe('Code', () => {
   test('Code should switch tabs', () => {
     const codeInput = mount(<Code block={block} opts={{}} />);
     const anchor = codeInput.find('li a').at(1);
-
-    anchor.simulate('click', { preventDefault: () => {} });
-    expect(anchor.hasClass('active')).toBe(true);
+    anchor.simulate('click');
+    expect(anchor.render().hasClass('active')).toBe(true);
   });
 });

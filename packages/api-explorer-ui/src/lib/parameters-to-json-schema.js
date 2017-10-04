@@ -10,38 +10,7 @@ const types = {
   header: 'Headers',
 };
 
-function combineParameters(prev, current) {
-  prev[current.in] = prev[current.in] || {
-    type: 'object',
-    description: types[current.in],
-    properties: {},
-    required: [],
-  };
-
-  const schema = {
-    type: 'string',
-    description: current.description || null,
-  };
-
-  if (current.schema) {
-    if (current.schema.type === 'array') {
-      schema.type = 'array';
-      schema.items = current.schema.items;
-    }
-  }
-
-  prev[current.in].properties = {
-    [current.name]: schema,
-  };
-
-  if (current.required) {
-    prev[current.in].required.push(current.name);
-  }
-
-  return prev;
-}
-
-module.exports = (pathOperation, oas) => {
+module.exports = pathOperation => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
 
@@ -50,19 +19,56 @@ module.exports = (pathOperation, oas) => {
   function getBodyParam() {
     const schema = getSchema(pathOperation);
 
-    if (!schema) return {};
+    if (!schema) return null;
 
-    return { body: Object.assign({ description: types.body }, schema) };
+    return {
+      type: 'body',
+      label: types.body,
+      schema,
+    };
   }
 
-  return {
-    type: 'object',
-    definitions: oas.components ? { components: oas.components } : {},
-    properties: Object.assign(
-      getBodyParam(),
-      (pathOperation.parameters || []).reduce(combineParameters, {}),
-    ),
-  };
+  function getOtherParams() {
+    return Object.keys(types).map(type => {
+      const required = [];
+      const parameters = (pathOperation.parameters || []).filter(param => param.in === type);
+      if (parameters.length === 0) return null;
+
+      const properties = parameters.reduce((prev, current) => {
+        const schema = {
+          type: 'string',
+          description: current.description || null,
+        };
+
+        if (current.schema) {
+          if (current.schema.type === 'array') {
+            schema.type = 'array';
+            schema.items = current.schema.items;
+          }
+        }
+
+        prev[current.name] = schema;
+
+        if (current.required) {
+          required.push(current.name);
+        }
+
+        return prev;
+      }, {});
+
+      return {
+        type,
+        label: types[type],
+        schema: {
+          type: 'object',
+          properties,
+          required,
+        },
+      };
+    });
+  }
+
+  return [getBodyParam()].concat(...getOtherParams()).filter(Boolean);
 };
 
 // Exported for use in oas-to-har for default values object
