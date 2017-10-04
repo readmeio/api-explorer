@@ -21,11 +21,12 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
         {jsonSchema &&
           jsonSchema.map(schema => {
             return [
-              <div className="param-header">
+              <div className="param-header" key={`${schema.type}-header`}>
                 <h3>{schema.label}</h3>
                 <div className="param-header-border" />
               </div>,
               <Form
+                key={`${schema.type}-form`}
                 id={`form-${operation.operationId}`}
                 schema={schema.schema}
                 widgets={{
