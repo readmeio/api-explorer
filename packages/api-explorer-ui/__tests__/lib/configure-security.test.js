@@ -46,7 +46,7 @@ describe('configure-security', () => {
       expect(
         configureSecurity(
           {
-            components: { securitySchemes: { test: { type: 'basic' } } },
+            components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           values,
           { test: {} },
@@ -68,7 +68,7 @@ describe('configure-security', () => {
       expect(
         configureSecurity(
           {
-            components: { securitySchemes: { test: { type: 'basic' } } },
+            components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           values,
           { test: {} },
@@ -85,7 +85,7 @@ describe('configure-security', () => {
       expect(
         configureSecurity(
           {
-            components: { securitySchemes: { test: { type: 'basic' } } },
+            components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           values,
           { test: {} },

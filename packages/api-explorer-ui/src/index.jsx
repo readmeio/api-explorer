@@ -14,9 +14,8 @@ class ApiExplorer extends React.Component {
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
   }
   setLanguage(language) {
-    this.setState({ language }, () => {
-      Cookie.set('readme_language', language);
-    });
+    this.setState({ language });
+    Cookie.set('readme_language', language);
   }
 
   getDefaultLanguage() {

@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 const AuthBox = require('../src/AuthBox');
 
 const Oas = require('../src/lib/Oas.js');
@@ -44,18 +44,18 @@ test.skip('should display a dropdown for when multiple oauths are present', () =
 });
 
 test('should not display authentication warning if authData is passed', () => {
-  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+  const authBox = mount(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 
   authBox.setProps({ needsAuth: false });
 
-  expect(authBox.instance().props.open).toBe(false);
+  expect(authBox.props().open).toBe(false);
 });
 
 test('should hide authbox if open=false', () => {
-  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+  const authBox = mount(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 
   authBox.setProps({ needsAuth: true });
   authBox.setProps({ needsAuth: false });
 
-  expect(authBox.instance().props.open).toBe(false);
+  expect(authBox.props().open).toBe(false);
 });

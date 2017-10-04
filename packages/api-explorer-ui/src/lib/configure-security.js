@@ -12,7 +12,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
   if (!oas.components.securitySchemes[key]) return undefined;
   const security = oas.components.securitySchemes[key];
 
-  if (security.type === 'basic') {
+  if (security.type === 'http' && security.scheme === 'basic') {
     // Return with no header if user and password are blank
     if (!values.auth[key].user && !values.auth[key].password) return false;
 

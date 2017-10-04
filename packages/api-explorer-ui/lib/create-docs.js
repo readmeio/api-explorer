@@ -10,7 +10,7 @@ module.exports = (oas, apiSetting) => {
       if (!docs.find(category => category.slug === tag && category.type === 'basic')) {
         docs.push({
           _id: Math.random().toString(16),
-          title: tag,
+          title: operation.summary || tag,
           slug: tag,
           type: 'endpoint',
           category: { apiSetting },

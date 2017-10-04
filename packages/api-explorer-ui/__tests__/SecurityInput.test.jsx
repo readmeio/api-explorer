@@ -27,7 +27,7 @@ describe('oauth2', () => {
     const onChange = jest.fn();
     const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
 
-    securityInput.find('input[type="text"]').node.value = '1234';
+    securityInput.find('input[type="text"]').instance().value = '1234';
     securityInput.find('input[type="text"]').simulate('change');
 
     expect(onChange.mock.calls[0][0]).toEqual({ auth: { 'test-auth': '1234' } });
@@ -44,7 +44,7 @@ describe('apiKey', () => {
     const onChange = jest.fn();
     const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
 
-    securityInput.find('input').node.value = 'user';
+    securityInput.find('input').instance().value = 'user';
     securityInput.find('input').simulate('change');
 
     expect(onChange.mock.calls[0]).toEqual([
@@ -64,15 +64,18 @@ describe('apiKey', () => {
 });
 
 describe('basic', () => {
-  const props = { scheme: { type: 'basic', _key: 'test-basic' }, onChange: () => {} };
+  const props = {
+    scheme: { type: 'http', scheme: 'basic', _key: 'test-basic' },
+    onChange: () => {},
+  };
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
     const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
 
-    securityInput.find('input[name="user"]').node.value = 'user';
+    securityInput.find('input[name="user"]').instance().value = 'user';
     securityInput.find('input[name="user"]').simulate('change');
-    securityInput.find('input[name="password"]').node.value = 'pass';
+    securityInput.find('input[name="password"]').instance().value = 'pass';
     securityInput.find('input[name="password"]').simulate('change');
 
     expect(onChange.mock.calls[1][0]).toEqual({
