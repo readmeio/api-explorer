@@ -19,7 +19,10 @@ function CustomFieldTemplate(props) {
         </div>
         <div className="param-item-info">
           <div className="param-item-table">
-            <div className="param-item-desc">{description}</div>
+            <div className="param-item-desc">
+              { required && <div className="param-item-required">required</div> }
+              {description}
+            </div>
             <div className="param-item-input">{isObject ? String.fromCharCode(160) : children}</div>
             {errors}
             {help}
