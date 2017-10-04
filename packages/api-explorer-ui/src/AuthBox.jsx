@@ -42,7 +42,7 @@ function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
     <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
       {
         // eslint-disable-next-line jsx-a11y/anchor-has-content
-        <a href="" className="icon icon-user-lock" onClick={toggle()} />
+        <a href="" className="icon icon-user-lock" onClick={toggle} />
       }
       <div className="nopad">
         <div className="triangle" />
