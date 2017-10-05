@@ -34,8 +34,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                   int32: UpDownWidget,
                   TextWidget,
                 }}
-                // eslint-disable-next-line no-console
-                onSubmit={form => onSubmit() && console.log('submit', form.formData)}
+                onSubmit={onSubmit}
                 formData={formData[schema.type]}
                 onChange={form => {
                   // return onChange({ [schema.type]: { $set: form.formData } })
