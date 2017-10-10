@@ -1,158 +1,268 @@
 const React = require('react');
+const classNames = require('classnames');
+const PropTypes = require('prop-types');
+const showCodeResults = require('./lib/show-code-results');
+// const statusCodes = require('./lib/statuscodes');
+// const extensions = require('../../readme-oas-extensions');
+// const generateCodeSnippets = require('./lib/generate-code-snippets');
+const syntaxHighlighter = require('../../readme-syntax-highlighter');
 
-function CodeSampleResponseTabs(styleClass, doc, swagger, variables) {
-  const allSecurities = swaggerUtils.prepareSecurity(swagger);
-  return(
-    <div className="hub-reference-results-slider">
-      <div className="hub-reference-results-explorer code-sample">
-        {(styleClass === 'hub-reference-right hub-reference-results tabber-parent on') && null
+const Oas = require('./lib/Oas');
 
-        (
-          <div>
-            <ul className="code-sample-tabs hub-reference-results-header">
-              <a
-                href
-                data-tab="result"
-                className="hub-reference-results-header-item tabber-tab"
-                onClick={e => e.preventDefault()}
-              >
-                <span>
-                  <i className="fa fa-circle" />
-                  <em>
-                    {{results.statusCode[1]}}
-                  </em>
-                </span>
-              </a>
-              <a
-                href
-                data-tab="metadata"
-                className="hub-reference-results-header-item tabber-tab"
-                onClick={e => e.preventDefault()}
-              >
-                Metadata
-              </a>
-              {(swaggerUtils.showCodeResults(swagger).length) && (
-                <a className="hub-reference-results-back pull-right" href="" onClick={hideResults}>
-                  <span className="fa fa-chevron-circle-left"></span>
-                  to examples
-                </a>
-              )}
-            </ul>
-            <div className="tabber-body tabber-body-result">
-              <pre className="tomorrow-night">
-                {/* TODO add results.isBinary logic */}
-                <div>
-                  <div className="cm-s-tomorrow-night codemirror-highlight">
-                  </div>
-                </div>
-              </pre>
-              <div>
-                <div className="text-center hub-expired-token">
-                  {if(allSecurities['OAuth2']){
-                    if(project.oauth_url) {
-                      return (
-                        <p>Your OAuth2 token has expired</p>
-                        {/* TODO add onClick to preventDefault? */}
-                        <a className="btn btn-primary" href="/oauth" target="_self">Reauthenticate via OAuth2</a>
+const { Operation } = Oas;
+
+class CodeSampleResponseTabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'result',
+    };
+    this.setTab = this.setTab.bind(this);
+  }
+
+  setTab(selected) {
+    this.setState({ selectedTab: selected });
+  }
+
+  render() {
+    const { styleClass, result, oas, operation, hideResults } = this.props;
+    // const allSecurities = operation.prepareSecurity();
+
+    return (
+      <div className={styleClass}>
+        <div className="hub-reference-result-slider">
+          <div className="hub-reference-results-explorer code-sample">
+            {result === null ? (
+              <span />
+            ) : (
+              <span>
+                <ul className="code-sample-tabs hub-reference-results-header">
+                  <a
+                    href="#"
+                    data-tab="result"
+                    className={
+                      this.state.selectedTab === 'result' ? (
+                        'hub-reference-results-header-item tabber-tab selected'
+                      ) : (
+                        'hub-reference-results-header-item tabber-tab'
                       )
                     }
-                    else {
-                      return(<p> Your OAuth2 token is incorrect or has expired</p>)
+                    onClick={e => {
+                      e.preventDefault();
+                      this.setTab('result');
+                    }}
+                  >
+                    <span
+                      className={classNames({
+                        httpsuccess: result.statusCode[2] === 'success',
+                        httperror: result.statusCode[2] !== 'success',
+                      })}
+                    >
+                      <i className="fa fa-circle" />
+                      <em>
+                        &nbsp;{result.statusCode[0]}&nbsp;
+                        {result.statusCode[1]}
+                      </em>
+                    </span>
+                  </a>
+                  <a
+                    href="#"
+                    data-tab="metadata"
+                    className={
+                      this.state.selectedTab === 'metadata' ? (
+                        'hub-reference-results-header-item tabber-tab selected'
+                      ) : (
+                        'hub-reference-results-header-item tabber-tab'
+                      )
                     }
+                    onClick={e => {
+                      e.preventDefault();
+                      this.setTab('metadata');
+                    }}
+                  >
+                    Metadata
+                  </a>
+                  {/* {showCodeResults(oas, operation).length && (
+                    <a
+                      className="hub-reference-results-back pull-right"
+                      href="#"
+                      onClick={hideResults()}
+                    >
+                      <span className="fa fa-chevron-circle-left"> to examples </span>
+                    </a>
+                  )} */}
+                </ul>
+                <div
+                  className="tabber-body tabber-body-result"
+                  style={
+                    this.state.selectedTab === 'result' ? { display: 'block' } : { display: 'none' }
                   }
-                  else {
-                    return ( <p>You couldn't be authenticated</p>)
+                >
+                  {result.statusCode[0] !== 401 && (
+                    <pre className="tomorrow-night">
+                      {result.isBinary && <div> A binary file was returned</div>}
+                      {!result.isBinary && (
+                        <div
+                          className="cm-s-tomorrow-night codemirror-highlight"
+                          dangerouslySetInnerHTML={{
+                            __html: syntaxHighlighter(
+                              JSON.stringify(result.responseBody),
+                              'javascript',
+                            ),
+                          }}
+                        />
+                      )}
+                    </pre>
+                  )}
+
+                  {result.statusCode[0] === 401 && (
+                    <div className="text-center hub-expired-token">
+                      {/* {allSecurities.OAuth2 &&
+                          project.oauth_url &&
+                            <div>
+                              <p>Your OAuth2 token has expired</p>
+                              <a className="btn btn-primary" href="/oauth" target="_self">
+                              Reauthenticate via OAuth2
+                            </a>
+                            </div>(<p> Your OAuth2 token is incorrect or has expired</p>)(
+                              <p>You couldn't be authenticated</p>,
+                          )} */}
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  className="hub-reference-results-meta tabber-body-metadata tabber-body"
+                  style={
+                    this.state.selectedTab === 'metadata' ? (
+                      { display: 'block' }
+                    ) : (
+                      { display: 'none' }
+                    )
                   }
-                }
-                </div>
-              </div>
-              <div
-                className="hub-reference-results-meta tabber-body-metadata tabber-body"
-              >
-                <div className="meta">
-                  <label>Method</label>
-                  <div>{{results.method}}</div>
-                </div>
+                >
+                  <div className="meta">
+                    <label htmlFor="method">Method</label>
+                    <div>{result.method.toString()}</div>
+                  </div>
 
-                <div className="meta">
-                  <label>URL</label>
-                  <div>{{results.url}}</div>
-                </div>
+                  <div className="meta">
+                    <label htmlFor="url">URL</label>
+                    <div>{result.url}</div>
+                  </div>
 
-                <div className="meta">
-                  <label>Request Headers</label>
-                  <pre>{{results.requestHeaders}}</pre>
-                </div>
+                  <div className="meta">
+                    <label htmlFor="request headers">Request Headers</label>
+                    <pre>{result.requestHeaders.toString()}</pre>
+                  </div>
 
-                <div className="meta">
-                  <label>Request Data</label>
-                  <pre>{{results.data}}</pre>
-                </div>
+                  <div className="meta">
+                    <label htmlFor="request data">Request Data</label>
+                    <pre>{JSON.stringify(result.responseBody)}</pre>
+                  </div>
 
-                <div className="meta">
-                  <label>Status</label>
-                  <span className="httpstatus">{{results.method}}</span>
-                </div>
+                  <div className="meta">
+                    <label htmlFor="status">Status</label>
+                    <span className="httpstatus">
+                      <span
+                        className={classNames({
+                          httpsuccess: result.statusCode[2] === 'success',
+                          httperror: result.statusCode[2] !== 'success',
+                        })}
+                      >
+                        <i className="fa fa-circle" />
+                        <em>
+                          &nbsp;{result.statusCode[0]}&nbsp;
+                          {result.statusCode[1]}
+                        </em>
+                      </span>
+                    </span>
+                  </div>
 
-                <div className="meta">
-                  <label>Response Headers</label>
-                  <pre>{{results.responseHeaders}}</pre>
+                  <div className="meta">
+                    <label htmlFor="response headers">Response Headers</label>
+                    <pre>{result.responseHeaders.toString()}</pre>
+                  </div>
                 </div>
-
-              </div>
-            </div>
+              </span>
+            )}
           </div>
-        );}
-      </div>
 
-      <div className="hub-reference-results-examples code-sample">
-        {if( swaggerUtils.showCodeResults(swagger).length) {
-          return (
-            <ul className="code-samples-tabs hub-reference-results-header">
-              {swaggerUtils.showCodeResults(swagger).forEach((result, index) => {
-                const status = statusCodes(result.status);
-                const title = result.name ? result.name : status[1];
+          <div className="hub-reference-results-examples code-sample">
+            {showCodeResults(oas, operation).length ? (
+              <span>
+                {/* <ul className="code-samples-tabs hub-reference-results-header">
+                  {showCodeResults(oas, operation).forEach((ele, index) => {
+                    const status = statusCodes(result.status);
+                    const title = result.name ? result.name : status[1];
 
-                <a className="hub-reference-results-header-item tabber-tab" href="" data-tab={index} className={{index === 0 ? "selected" : ""}}>
-                  {if(result.status) {
-                    return (
-                      <span className={{status[2] === "success" ? "httpsuccess" : "httperror" }}>
-                        <i className="fa fa-circle"></i>
-                        <em>`${title}`</em>
-                      </span>
-                    )
-                  }
-                  else {
-                    return (
-                      <span>
-                        {{result.name? result.name : shared.code_type(result.language)}}
-                      </span>
-                    )
-                  }
-                }
-                </a>
-              })}
-            </ul>
-            <div className="code-sample-body">
-              {swaggerUtils.showCodeResults(swagger).forEach((result, index) => {
-                <pre className="tomorrow night tabber-body" style={{index === 0 ? "dislay: block" : "" className=`tabber-body-${index}`}}>
-                  {replaceVars(codemirror(result.code, result.language, true), variables)}
-                </pre>
-              })}
-            </div>
-          )
-        }
-        else {
-          return (
-            <div className="hub-no-code">
-              {(swagger[extensions.EXPLORER_ENABLED] ? 'Try the API to see Results' : 'No response examples available')}
-            </div>
-          )
-        }
-      }
+                      <a
+                        className={
+                        index === 0 ? (
+                          'hub-reference-result-header-item tabber-tab selected'
+                        ) : (
+                          'hub-reference-result-header-item tabber-tab '
+                        )
+                      }
+                        href="#"
+                        data-tab={index}
+                      >
+                        {result.status ? (
+                          <span className={status[2] === 'success' ? 'httpsuccess' : 'httperror'}>
+                            <i className="fa fa-circle" />
+                            <em>
+                            &nbsp;`${status[0]}`&nbsp;`${title}`
+                          </em>
+                          </span>
+                      ) : (
+                        <span>{generateCodeSnippets.getLangName(result.language)}</span>
+                      )}
+                      </a>;
+                  })}
+                </ul> */}
+                <div className="code-sample-body">
+                  {showCodeResults(oas, operation).forEach((ele, index) => {
+                    // <pre
+                    //   className={
+                    //     index === 0 ? (
+                    //       `tomorrow night tabber-body-${index}`
+                    //     ) : (
+                    //       'tomorrow night tabber-body'
+                    //     )
+                    //   }
+                    //   style={index === 0 ? 'dislay: block' : ''}
+                    // >
+                    //   {/* {replaceVars(codemirror(result.code, result.language, true), variables)} */}
+                    // </pre>;
+                  })}
+                </div>
+              </span>
+            ) : (
+              <div className="hub-no-code">
+                {/* {oas[extensions.EXPLORER_ENABLED] ? (
+                  'Try the API to see Results'
+                ) : (
+                  'No response examples available'
+                )} */}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>;
-  )
+    );
+  }
 }
 
 module.exports = CodeSampleResponseTabs;
+
+CodeSampleResponseTabs.propTypes = {
+  styleClass: PropTypes.string.isRequired,
+  result: PropTypes.shape({}),
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  hideResults: PropTypes.func.isRequired,
+};
+
+CodeSampleResponseTabs.defaultProps = {
+  result: {},
+};

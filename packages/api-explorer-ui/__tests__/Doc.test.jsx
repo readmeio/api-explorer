@@ -84,6 +84,17 @@ describe('onSubmit', () => {
 
     expect(doc.state('showAuthBox')).toBe(false);
     expect(doc.state('needsAuth')).toBe(false);
+    expect(doc.state('loading')).toBe(true);
+  });
+
+  xtest('should make request on Submit', () => {
+    const doc = mount(<Doc {...props} />);
+    doc.instance().onSubmit();
+    doc.instance().onChange({ auth: { api_key: 'api-key' } });
+    doc.instance().onSubmit();
+
+    expect(doc.state('result')).toBe(false);
+    expect(doc.state('needsAuth')).toBe(false);
   });
 });
 
@@ -100,6 +111,26 @@ describe('toggleAuth', () => {
     doc.instance().toggleAuth({ preventDefault() {} });
 
     expect(doc.state('showAuthBox')).toBe(false);
+  });
+});
+
+describe('hideResults', () => {
+  test('responseTabClass should change state of responseTabClass', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    doc.setState({
+      responseTabClass: 'hub-reference-right hub-reference-results tabber-parent on',
+    });
+
+    expect(doc.state('responseTabClass')).toBe(
+      'hub-reference-right hub-reference-results tabber-parent on',
+    );
+
+    doc.instance().hideResults();
+
+    expect(doc.state('responseTabClass')).toBe(
+      'hub-reference-right hub-reference-results tabber-parent',
+    );
   });
 });
 

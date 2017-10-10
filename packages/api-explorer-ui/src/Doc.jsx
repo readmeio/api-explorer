@@ -12,6 +12,7 @@ const CodeSampleResponseTabs = require('./CodeSampleResponseTabs');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
+const result = require('./lib/code-sample-response');
 const Content = require('./block-types/Content');
 
 class Doc extends React.Component {
@@ -24,11 +25,13 @@ class Doc extends React.Component {
       showAuthBox: false,
       needsAuth: false,
       responseTabClass: 'hub-reference-right hub-reference-results tabber-parent',
+      result: null,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
+    this.hideResults = this.hideResults.bind(this);
   }
 
   onChange(formData) {
@@ -40,6 +43,11 @@ class Doc extends React.Component {
     });
   }
   onSubmit() {
+    const req = oasToHar(
+      this.oas,
+      this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
+      this.state.formData,
+    );
     if (
       !isAuthReady(
         this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
@@ -55,18 +63,22 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    fetchHar(
-      oasToHar(
-        this.oas,
-        this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-        this.state.formData,
-      ),
-    ).then(() => {
-      this.setState({
-        loading: false,
-        responseTabClass: 'hub-reference-right hub-reference-results tabber-parent on',
+    fetchHar(req)
+      .then(res => {
+        const contentType = res.headers.get('content-type');
+        const isJson = contentType && contentType.includes('application/json');
+
+        return res[isJson ? 'json' : 'text']().then(responseBody => {
+          return { responseBody, res };
+        });
+      })
+      .then(({ responseBody, res }) => {
+        this.setState({
+          loading: false,
+          result: result(res, responseBody, req),
+          responseTabClass: 'hub-reference-right hub-reference-results tabber-parent on',
+        });
       });
-    });
 
     return true;
   }
@@ -74,6 +86,13 @@ class Doc extends React.Component {
   toggleAuth(e) {
     e.preventDefault();
     this.setState({ showAuthBox: !this.state.showAuthBox });
+  }
+
+  hideResults() {
+    this.setState({
+      responseTabClass: 'hub-reference-right hub-reference-results tabber-parent',
+    });
+    // TODO setTab to a tag with to examples
   }
 
   renderEndpoint() {
@@ -105,9 +124,13 @@ class Doc extends React.Component {
                 formData={this.state.formData}
               />
             </div>
-            <div className={this.state.responseTabClass}>
-              <CodeSampleResponseTabs styleClass={this.state.responseTabClass} />
-            </div>
+            <CodeSampleResponseTabs
+              styleClass={this.state.responseTabClass}
+              result={this.state.result}
+              oas={oas}
+              operation={operation}
+              hideResults={this.hideResults}
+            />
           </div>
         )}
 
