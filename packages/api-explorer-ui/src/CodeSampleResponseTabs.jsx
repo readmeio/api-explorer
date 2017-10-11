@@ -26,7 +26,7 @@ class CodeSampleResponseTabs extends React.Component {
 
   render() {
     const { styleClass, result, oas, operation, hideResults } = this.props;
-    // const allSecurities = operation.prepareSecurity();
+    const allSecurities = operation.prepareSecurity();
 
     return (
       <div className={styleClass}>
@@ -117,16 +117,16 @@ class CodeSampleResponseTabs extends React.Component {
 
                   {result.statusCode[0] === 401 && (
                     <div className="text-center hub-expired-token">
-                      {/* {allSecurities.OAuth2 &&
-                          project.oauth_url &&
-                            <div>
-                              <p>Your OAuth2 token has expired</p>
-                              <a className="btn btn-primary" href="/oauth" target="_self">
-                              Reauthenticate via OAuth2
-                            </a>
-                            </div>(<p> Your OAuth2 token is incorrect or has expired</p>)(
-                              <p>You couldn't be authenticated</p>,
-                          )} */}
+                      {allSecurities.OAuth2 &&
+                        project.oauth_url &&
+                          <div>
+                            <p>Your OAuth2 token has expired</p>
+                            <a className="btn btn-primary" href="/oauth" target="_self">
+                            Reauthenticate via OAuth2
+                          </a>
+                          </div>(<p> Your OAuth2 token is incorrect or has expired</p>)(
+                            <p>You couldn't be authenticated</p>,
+                        )}
                     </div>
                   )}
                 </div>
