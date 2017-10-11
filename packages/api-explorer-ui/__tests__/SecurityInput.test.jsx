@@ -2,6 +2,9 @@ const React = require('react');
 const { mount, shallow } = require('enzyme');
 const SecurityInput = require('../src/SecurityInput');
 
+window.HTMLElement.prototype.scrollIntoView = () => {};
+const scrollIntoView = window.HTMLElement.prototype.scrollIntoView;
+
 describe('oauth2', () => {
   const props = { scheme: { type: 'oauth2', _key: 'test-auth' }, onChange: () => {} };
 
@@ -71,7 +74,9 @@ describe('basic', () => {
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+    const securityInput = mount(
+      <SecurityInput {...props} onChange={onChange} scrollIntoView={scrollIntoView} />,
+    );
 
     securityInput.find('input[name="user"]').instance().value = 'user';
     securityInput.find('input[name="user"]').simulate('change');

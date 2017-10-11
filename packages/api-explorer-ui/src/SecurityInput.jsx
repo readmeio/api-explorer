@@ -39,7 +39,12 @@ function Oauth2({ apiKey, oauthUrl, change }) {
           </div>
         </div>
         <div className="col-xs-6">
-          <input type="text" onChange={e => change(e.currentTarget.value)} name="apiKey" />
+          <input
+            ref={input => input && input.focus()}
+            type="text"
+            onChange={e => change(e.currentTarget.value)}
+            name="apiKey"
+          />
         </div>
       </div>
     </section>
@@ -67,6 +72,7 @@ function ApiKey(apiKey) {
       </div>
       <div className="col-xs-7">
         <input
+          ref={input => input && input.focus()}
           type="text"
           onChange={e => apiKey.change(e.currentTarget.value)}
           value={apiKeyCookie}
@@ -88,6 +94,11 @@ class Basic extends React.Component {
     this.state = { user: '', password: '' };
     this.inputChange = this.inputChange.bind(this);
   }
+
+  componentDidMount() {
+    this.input.scrollIntoView();
+  }
+
   inputChange(name, value) {
     this.setState(
       previousState => {
@@ -100,10 +111,11 @@ class Basic extends React.Component {
   }
   render() {
     return (
-      <div className="row">
+      <div className="row" ref={input => (this.input = input)}>
         <div className="col-xs-6">
           <label htmlFor="user">username</label>
           <input
+            ref={input => input && input.focus()}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="user"
