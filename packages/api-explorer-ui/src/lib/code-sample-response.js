@@ -8,13 +8,13 @@ function result(res, responseBody, req) {
   const headersFormatted = [];
 
   req.log.entries[0].request.headers.forEach(ele => {
-    headersFormatted.push(`${ele.name} : ${ele.value}`);
+    headersFormatted.push(`${ele.name}: ${ele.value}`);
   });
 
-  let responseHeaders = [];
-  for (const header of res.headers.entries()) responseHeaders.push(header);
-
-  responseHeaders = responseHeaders.filter(v => !v[0].match(/x-final-url:/i)).join('\n');
+  const responseHeaders = [];
+  for (const header of res.headers.entries()) {
+    responseHeaders.push(header.join(': '));
+  }
 
   const results = {
     init: true,
@@ -23,7 +23,6 @@ function result(res, responseBody, req) {
     responseHeaders,
     isBinary,
     url: req.log.entries[0].request.url,
-    // data: res.responseText,
     statusCode: statusCodes(res.status || 404),
     responseBody,
   };

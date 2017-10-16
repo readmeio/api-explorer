@@ -9,6 +9,7 @@ const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
 const CodeSampleResponseTabs = require('./CodeSampleResponseTabs');
+const ResponseSchema = require('./Response');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
@@ -145,7 +146,7 @@ class Doc extends React.Component {
             />
           </div>
           <div className="hub-reference-right switcher">
-            {/* <Response operation={operation} /> */}
+            <ResponseSchema operation={operation} />
           </div>
         </div>
       </div>
