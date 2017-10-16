@@ -2,7 +2,7 @@ const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 
-function Oauth2({ apiKey, oauthUrl, change }) {
+function Oauth2({ apiKey, auth, oauthUrl, change }) {
   if (!apiKey && oauthUrl) {
     return (
       <section>
@@ -40,7 +40,7 @@ function Oauth2({ apiKey, oauthUrl, change }) {
         </div>
         <div className="col-xs-6">
           <input
-            ref={input => input && input.focus()}
+            ref={input => input && auth && input.focus()}
             type="text"
             onChange={e => change(e.currentTarget.value)}
             name="apiKey"
@@ -55,6 +55,7 @@ Oauth2.propTypes = {
   apiKey: PropTypes.string,
   oauthUrl: PropTypes.string,
   change: PropTypes.func.isRequired,
+  auth: PropTypes.bool.isRequired,
 };
 
 Oauth2.defaultProps = {
@@ -62,7 +63,7 @@ Oauth2.defaultProps = {
   oauthUrl: '',
 };
 
-function ApiKey(apiKey) {
+function ApiKey(apiKey, auth) {
   const apiKeyCookie = Cookie.get('api_key');
   // apiKeyCookie = apiKeyCookie || {e => apiKey.change(e.currentTarget.value)};
   return (
@@ -72,7 +73,7 @@ function ApiKey(apiKey) {
       </div>
       <div className="col-xs-7">
         <input
-          ref={input => input && input.focus()}
+          ref={input => input && auth && input.focus()}
           type="text"
           onChange={e => apiKey.change(e.currentTarget.value)}
           value={apiKeyCookie}
@@ -96,7 +97,9 @@ class Basic extends React.Component {
   }
 
   componentDidMount() {
-    this.input.scrollIntoView();
+    if (this.props.auth) {
+      this.input.scrollIntoView();
+    }
   }
 
   inputChange(name, value) {
@@ -110,12 +113,13 @@ class Basic extends React.Component {
     );
   }
   render() {
+    const { auth } = this.props;
     return (
       <div className="row" ref={input => (this.input = input)}>
         <div className="col-xs-6">
           <label htmlFor="user">username</label>
           <input
-            ref={input => input && input.focus()}
+            ref={input => input && auth && input.focus()}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="user"
@@ -136,6 +140,7 @@ class Basic extends React.Component {
 
 Basic.propTypes = {
   change: PropTypes.func.isRequired,
+  auth: PropTypes.bool.isRequired,
 };
 
 function SecurityInput(props) {
@@ -144,12 +149,12 @@ function SecurityInput(props) {
   }
   switch (props.scheme.type) {
     case 'oauth2':
-      return <Oauth2 {...props} change={change} />;
+      return <Oauth2 {...props} change={change} auth={props.auth} />;
     case 'http':
       // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
-      return <Basic {...props} change={change} />;
+      return <Basic {...props} change={change} auth={props.auth} />;
     case 'apiKey':
-      return <ApiKey {...props} change={change} />;
+      return <ApiKey {...props} change={change} auth={props.auth} />;
     default:
       return <span />;
   }
@@ -161,6 +166,7 @@ SecurityInput.propTypes = {
     _key: PropTypes.string.isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
+  auth: PropTypes.bool.isRequired,
 };
 
 module.exports = SecurityInput;

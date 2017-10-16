@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(operation, onChange, onSubmit) {
+function renderSecurities(operation, needsAuth, onChange, onSubmit) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -26,7 +26,13 @@ function renderSecurities(operation, onChange, onSubmit) {
               // )
             }
             {securities.map(security => (
-              <SecurityInput key={security._key} scheme={security} apiKey="" onChange={onChange} />
+              <SecurityInput
+                key={security._key}
+                scheme={security}
+                apiKey=""
+                onChange={onChange}
+                auth={needsAuth}
+              />
             ))}
           </section>
         </div>
@@ -47,7 +53,7 @@ function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
       <div className="nopad">
         <div className="triangle" />
         <div>
-          {renderSecurities(operation, onChange, e => {
+          {renderSecurities(operation, needsAuth, onChange, e => {
             e.preventDefault();
             onSubmit();
           })}
