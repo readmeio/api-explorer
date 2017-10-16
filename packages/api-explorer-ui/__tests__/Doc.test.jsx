@@ -5,7 +5,7 @@ global.Request = fetch.Request;
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
-const oas = require('./fixtures/petstore/oas');
+const oas = require('./fixtures/petstore/circular-oas.json');
 
 const props = {
   doc: {
@@ -88,29 +88,6 @@ describe('onSubmit', () => {
   });
 
   test.only('should make request on Submit', () => {
-    // const req = {
-    //   log: {
-    //     entries: [
-    //       {
-    //         request: {
-    //           headers: [
-    //             {
-    //               name: 'Authorization',
-    //               value: 'Bearer api-key',
-    //             },
-    //           ],
-    //           queryString: [],
-    //           postData: {
-    //             text: '{"category":{},"name":1,"photoUrls":[1]}',
-    //           },
-    //           method: 'POST',
-    //           url: 'http://petstore.swagger.io/v2/pet',
-    //         },
-    //       },
-    //     ],
-    //   },
-    // };
-
     const props2 = {
       doc: {
         title: 'Title',
@@ -120,14 +97,10 @@ describe('onSubmit', () => {
         api: { method: 'post' },
         formData: {
           body: {
-            category: { id: undefined, name: undefined },
             name: '1',
             photoUrls: ['1'],
-            status: undefined,
-            tags: undefined,
           },
         },
-        // requestBody: { type: 'object', properties: { a: { type: 'string' } } },
         onSubmit: () => {},
       },
       oas,
@@ -135,7 +108,7 @@ describe('onSubmit', () => {
     };
     const doc = mount(<Doc {...props2} />);
     doc.instance().onSubmit();
-    doc.instance().onChange({ auth: { api_key: 'api-key' } });
+    doc.instance().onChange({ auth: { petstore_auth: 'api-key' } });
     doc.instance().onSubmit();
 
     expect(doc.state('result')).toEqual({
