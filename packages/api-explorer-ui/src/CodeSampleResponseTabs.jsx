@@ -26,7 +26,7 @@ class CodeSampleResponseTabs extends React.Component {
 
   render() {
     const { styleClass, result, oas, operation, hideResults } = this.props;
-    const allSecurities = operation.prepareSecurity();
+    // const allSecurities = operation.prepareSecurity();
 
     return (
       <div className={styleClass}>
@@ -82,7 +82,7 @@ class CodeSampleResponseTabs extends React.Component {
                   >
                     Metadata
                   </a>
-                  {/* {showCodeResults(oas, operation).length && (
+                  {showCodeResults(oas, operation).length > 0 && (
                     <a
                       className="hub-reference-results-back pull-right"
                       href="#"
@@ -90,7 +90,7 @@ class CodeSampleResponseTabs extends React.Component {
                     >
                       <span className="fa fa-chevron-circle-left"> to examples </span>
                     </a>
-                  )} */}
+                  )}
                 </ul>
                 <div
                   className="tabber-body tabber-body-result"

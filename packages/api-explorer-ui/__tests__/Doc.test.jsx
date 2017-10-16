@@ -87,14 +87,77 @@ describe('onSubmit', () => {
     expect(doc.state('loading')).toBe(true);
   });
 
-  xtest('should make request on Submit', () => {
-    const doc = mount(<Doc {...props} />);
+  test.only('should make request on Submit', () => {
+    // const req = {
+    //   log: {
+    //     entries: [
+    //       {
+    //         request: {
+    //           headers: [
+    //             {
+    //               name: 'Authorization',
+    //               value: 'Bearer api-key',
+    //             },
+    //           ],
+    //           queryString: [],
+    //           postData: {
+    //             text: '{"category":{},"name":1,"photoUrls":[1]}',
+    //           },
+    //           method: 'POST',
+    //           url: 'http://petstore.swagger.io/v2/pet',
+    //         },
+    //       },
+    //     ],
+    //   },
+    // };
+
+    const props2 = {
+      doc: {
+        title: 'Title',
+        slug: 'slug',
+        type: 'endpoint',
+        swagger: { path: '/pet' },
+        api: { method: 'post' },
+        formData: {
+          body: {
+            category: { id: undefined, name: undefined },
+            name: '1',
+            photoUrls: ['1'],
+            status: undefined,
+            tags: undefined,
+          },
+        },
+        // requestBody: { type: 'object', properties: { a: { type: 'string' } } },
+        onSubmit: () => {},
+      },
+      oas,
+      setLanguage: () => {},
+    };
+    const doc = mount(<Doc {...props2} />);
     doc.instance().onSubmit();
     doc.instance().onChange({ auth: { api_key: 'api-key' } });
     doc.instance().onSubmit();
 
-    expect(doc.state('result')).toBe(false);
-    expect(doc.state('needsAuth')).toBe(false);
+    expect(doc.state('result')).toEqual({
+      init: true,
+      isBinary: false,
+      method: 'POST',
+      requestHeaders: 'Authorization : Bearer api-key',
+      responseHeaders: 'content-disposition,application/json',
+      statusCode: [200, 'OK', 'success'],
+      responseBody: {
+        id: 9205436248879918000,
+        category: { id: 0 },
+        name: '1',
+        photoUrls: ['1'],
+        tags: [],
+      },
+      url: 'http://petstore.swagger.io/v2/pet',
+    });
+    expect(doc.state('loading')).toBe(false);
+    expect(doc.state('responseTabClass')).toBe(
+      'hub-reference-right hub-reference-results tabber-parent on',
+    );
   });
 });
 
