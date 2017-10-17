@@ -40,6 +40,7 @@ describe('oauth2', () => {
 describe('apiKey', () => {
   const props = {
     scheme: { type: 'apiKey', name: 'api_key', _key: 'api_key' },
+    focus: true,
     onChange: () => {},
   };
 
@@ -64,6 +65,21 @@ describe('apiKey', () => {
 
     expect(securityInput.find('label').text()).toBe('api_key');
   });
+
+  test('should focus on input if auth is not provided', () => {
+    const securityInput = mount(<SecurityInput {...props} />);
+    const input = securityInput.find('input');
+    const focusedElement = document.activeElement;
+
+    expect(input.matchesElement(focusedElement)).toEqual(true);
+
+    // expect(securityInput.find('input').node === document.activeElement);
+
+    // const onChange = jest.fn();
+    // securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+    //
+    // expect(securityInput.find('input').node !== document.activeElement);
+  });
 });
 
 describe('basic', () => {
@@ -74,9 +90,7 @@ describe('basic', () => {
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = mount(
-      <SecurityInput {...props} onChange={onChange} scrollIntoView={scrollIntoView} />,
-    );
+    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
 
     securityInput.find('input[name="user"]').instance().value = 'user';
     securityInput.find('input[name="user"]').simulate('change');

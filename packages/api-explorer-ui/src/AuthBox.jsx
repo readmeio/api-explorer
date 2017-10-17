@@ -31,7 +31,7 @@ function renderSecurities(operation, needsAuth, onChange, onSubmit) {
                 scheme={security}
                 apiKey=""
                 onChange={onChange}
-                auth={needsAuth}
+                focus={needsAuth}
               />
             ))}
           </section>

@@ -2,7 +2,7 @@ const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 
-function Oauth2({ apiKey, auth, oauthUrl, change }) {
+function Oauth2({ apiKey, focus, oauthUrl, change }) {
   if (!apiKey && oauthUrl) {
     return (
       <section>
@@ -40,7 +40,7 @@ function Oauth2({ apiKey, auth, oauthUrl, change }) {
         </div>
         <div className="col-xs-6">
           <input
-            ref={input => input && auth && input.focus()}
+            ref={input => input && focus && input.focus()}
             type="text"
             onChange={e => change(e.currentTarget.value)}
             name="apiKey"
@@ -55,7 +55,7 @@ Oauth2.propTypes = {
   apiKey: PropTypes.string,
   oauthUrl: PropTypes.string,
   change: PropTypes.func.isRequired,
-  auth: PropTypes.bool.isRequired,
+  focus: PropTypes.bool.isRequired,
 };
 
 Oauth2.defaultProps = {
@@ -63,7 +63,7 @@ Oauth2.defaultProps = {
   oauthUrl: '',
 };
 
-function ApiKey(apiKey, auth) {
+function ApiKey(apiKey, focus) {
   const apiKeyCookie = Cookie.get('api_key');
   // apiKeyCookie = apiKeyCookie || {e => apiKey.change(e.currentTarget.value)};
   return (
@@ -73,7 +73,7 @@ function ApiKey(apiKey, auth) {
       </div>
       <div className="col-xs-7">
         <input
-          ref={input => input && auth && input.focus()}
+          ref={input => input && focus && input.focus()}
           type="text"
           onChange={e => apiKey.change(e.currentTarget.value)}
           value={apiKeyCookie}
@@ -87,6 +87,7 @@ ApiKey.propTypes = {
   scheme: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  focus: PropTypes.bool.isRequired,
 };
 
 class Basic extends React.Component {
@@ -97,7 +98,7 @@ class Basic extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.auth) {
+    if (this.props.focus) {
       this.input.scrollIntoView();
     }
   }
@@ -113,13 +114,13 @@ class Basic extends React.Component {
     );
   }
   render() {
-    const { auth } = this.props;
+    const { focus } = this.props;
     return (
-      <div className="row" ref={input => (this.input = input)}>
+      <div className="row">
         <div className="col-xs-6">
           <label htmlFor="user">username</label>
           <input
-            ref={input => input && auth && input.focus()}
+            ref={input => input && focus && input.focus()}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="user"
@@ -128,6 +129,7 @@ class Basic extends React.Component {
         <div className="col-xs-6">
           <label htmlFor="password">password</label>
           <input
+            ref={input => (this.input = input)}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="password"
@@ -140,7 +142,7 @@ class Basic extends React.Component {
 
 Basic.propTypes = {
   change: PropTypes.func.isRequired,
-  auth: PropTypes.bool.isRequired,
+  focus: PropTypes.bool.isRequired,
 };
 
 function SecurityInput(props) {
@@ -149,12 +151,12 @@ function SecurityInput(props) {
   }
   switch (props.scheme.type) {
     case 'oauth2':
-      return <Oauth2 {...props} change={change} auth={props.auth} />;
+      return <Oauth2 {...props} change={change} />;
     case 'http':
       // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
-      return <Basic {...props} change={change} auth={props.auth} />;
+      return <Basic {...props} change={change} />;
     case 'apiKey':
-      return <ApiKey {...props} change={change} auth={props.auth} />;
+      return <ApiKey {...props} change={change} />;
     default:
       return <span />;
   }
@@ -166,7 +168,6 @@ SecurityInput.propTypes = {
     _key: PropTypes.string.isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
-  auth: PropTypes.bool.isRequired,
 };
 
 module.exports = SecurityInput;
