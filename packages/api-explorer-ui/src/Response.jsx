@@ -26,7 +26,7 @@ class ResponseSchema extends React.Component {
   render() {
     const { operation } = this.props;
     const keys = Object.keys(operation.responses);
-    console.log(operation.responses);
+
     return (
       <div className="hub-reference-response-definitions">
         <h3>

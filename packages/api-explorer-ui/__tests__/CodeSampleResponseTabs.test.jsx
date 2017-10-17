@@ -54,7 +54,7 @@ describe('no result', () => {
     };
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...noResult} oas={oas} />);
 
-    expect(codeSampleResponseTabs.find('span').length).toBe(1);
+    expect(codeSampleResponseTabs.find('span').length).toBe(0);
   });
 });
 
@@ -72,22 +72,14 @@ describe('tabs', () => {
     const metadataTab = codeSampleResponseTabs.find('a').last();
 
     expect(codeSampleResponseTabs.state('selectedTab')).toBe('result');
-    expect(
-      codeSampleResponseTabs
-        .find('a')
-        .first()
-        .hasClass('hub-reference-results-header-item tabber-tab selected'),
-    ).toEqual(true);
+    expect(resultTab.hasClass('hub-reference-results-header-item tabber-tab selected')).toEqual(
+      true,
+    );
 
     metadataTab.simulate('click', { preventDefault() {} });
 
     expect(codeSampleResponseTabs.state('selectedTab')).toBe('metadata');
-    expect(
-      codeSampleResponseTabs
-        .find('a')
-        .first()
-        .hasClass('hub-reference-results-header-item tabber-tab'),
-    ).toEqual(true);
+    expect(resultTab.hasClass('hub-reference-results-header-item tabber-tab')).toEqual(true);
 
     resultTab.simulate('click', { preventDefault() {} });
     expect(codeSampleResponseTabs.state('selectedTab')).toBe('result');
@@ -118,13 +110,6 @@ describe('Results body', () => {
         requestHeaders: 'Authorization : Bearer api-key',
         responseHeaders: 'content-disposition,application/json',
         statusCode: [200, 'OK', 'success'],
-        responseBody: {
-          id: 9205436248879918000,
-          category: { id: 0 },
-          name: '1',
-          photoUrls: ['1'],
-          tags: [],
-        },
         url: 'http://petstore.swagger.io/v2/pet',
       },
       operation: new Operation({}, '/pet', 'post'),
@@ -165,15 +150,5 @@ describe('Results body', () => {
         <div className="text-center hub-expired-token" />,
       ),
     ).toEqual(true);
-  });
-});
-
-describe('Metadata body', () => {
-  test('should display meta data body if selected', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
-
-    codeSampleResponseTabs.setState({ selectedTab: 'metadata' });
-
-    expect(codeSampleResponseTabs.find('div.meta').length).toBe(6);
   });
 });

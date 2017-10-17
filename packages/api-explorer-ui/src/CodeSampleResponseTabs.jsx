@@ -3,7 +3,7 @@ const classNames = require('classnames');
 const PropTypes = require('prop-types');
 const showCodeResults = require('./lib/show-code-results');
 // const statusCodes = require('./lib/statuscodes');
-// const extensions = require('../../readme-oas-extensions');
+const extensions = require('../../readme-oas-extensions');
 // const generateCodeSnippets = require('./lib/generate-code-snippets');
 const syntaxHighlighter = require('../../readme-syntax-highlighter');
 
@@ -32,21 +32,15 @@ class CodeSampleResponseTabs extends React.Component {
       <div className={styleClass}>
         <div className="hub-reference-result-slider">
           <div className="hub-reference-results-explorer code-sample">
-            {result === null ? (
-              <span />
-            ) : (
+            {result === null ? null : (
               <span>
                 <ul className="code-sample-tabs hub-reference-results-header">
                   <a
                     href="#"
                     data-tab="result"
-                    className={
-                      this.state.selectedTab === 'result' ? (
-                        'hub-reference-results-header-item tabber-tab selected'
-                      ) : (
-                        'hub-reference-results-header-item tabber-tab'
-                      )
-                    }
+                    className={classNames('hub-reference-results-header-item tabber-tab', {
+                      selected: this.state.selectedTab === 'result',
+                    })}
                     onClick={e => {
                       e.preventDefault();
                       this.setTab('result');
@@ -68,13 +62,9 @@ class CodeSampleResponseTabs extends React.Component {
                   <a
                     href="#"
                     data-tab="metadata"
-                    className={
-                      this.state.selectedTab === 'metadata' ? (
-                        'hub-reference-results-header-item tabber-tab selected'
-                      ) : (
-                        'hub-reference-results-header-item tabber-tab'
-                      )
-                    }
+                    className={classNames('hub-reference-results-header-item tabber-tab', {
+                      selected: this.state.selectedTab === 'metadata',
+                    })}
                     onClick={e => {
                       e.preventDefault();
                       this.setTab('metadata');
@@ -94,9 +84,9 @@ class CodeSampleResponseTabs extends React.Component {
                 </ul>
                 <div
                   className="tabber-body tabber-body-result"
-                  style={
-                    this.state.selectedTab === 'result' ? { display: 'block' } : { display: 'none' }
-                  }
+                  style={{
+                    display: this.state.selectedTab === 'result' ? 'block' : 'none',
+                  }}
                 >
                   {result.statusCode[0] !== 401 && (
                     <pre className="tomorrow-night">
@@ -133,36 +123,30 @@ class CodeSampleResponseTabs extends React.Component {
 
                 <div
                   className="hub-reference-results-meta tabber-body-metadata tabber-body"
-                  style={
-                    this.state.selectedTab === 'metadata' ? (
-                      { display: 'block' }
-                    ) : (
-                      { display: 'none' }
-                    )
-                  }
+                  style={{ display: this.state.selectedTab === 'metadata' ? 'block' : 'none' }}
                 >
                   <div className="meta">
-                    <label htmlFor="method">Method</label>
+                    <label>Method</label>
                     <div>{result.method.toString()}</div>
                   </div>
 
                   <div className="meta">
-                    <label htmlFor="url">URL</label>
+                    <label>URL</label>
                     <div>{result.url}</div>
                   </div>
 
                   <div className="meta">
-                    <label htmlFor="request headers">Request Headers</label>
+                    <label>Request Headers</label>
                     <pre>{result.requestHeaders.toString()}</pre>
                   </div>
 
                   <div className="meta">
-                    <label htmlFor="request data">Request Data</label>
+                    <label>Request Data</label>
                     <pre>{JSON.stringify(result.responseBody)}</pre>
                   </div>
 
                   <div className="meta">
-                    <label htmlFor="status">Status</label>
+                    <label>Status</label>
                     <span className="httpstatus">
                       <span
                         className={classNames({
@@ -239,11 +223,11 @@ class CodeSampleResponseTabs extends React.Component {
               </span>
             ) : (
               <div className="hub-no-code">
-                {/* {oas[extensions.EXPLORER_ENABLED] ? (
+                {oas[extensions.EXPLORER_ENABLED] ? (
                   'Try the API to see Results'
                 ) : (
                   'No response examples available'
-                )} */}
+                )}
               </div>
             )}
           </div>

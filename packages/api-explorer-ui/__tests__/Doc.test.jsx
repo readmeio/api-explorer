@@ -84,10 +84,9 @@ describe('onSubmit', () => {
 
     expect(doc.state('showAuthBox')).toBe(false);
     expect(doc.state('needsAuth')).toBe(false);
-    expect(doc.state('loading')).toBe(true);
   });
 
-  test.only('should make request on Submit', () => {
+  test('should make request on Submit', () => {
     const props2 = {
       doc: {
         title: 'Title',

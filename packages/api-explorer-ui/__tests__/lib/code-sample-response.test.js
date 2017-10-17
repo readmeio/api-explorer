@@ -35,7 +35,7 @@ const headers = new Headers();
 headers.set('Content-Disposition', 'application/json');
 
 describe('codeSampleResponse', () => {
-  it('should result object', () => {
+  it('should return result object', () => {
     const res = {
       type: 'cors',
       url: 'http://petstore.swagger.io/v2/pet',
@@ -60,7 +60,7 @@ describe('codeSampleResponse', () => {
 });
 
 describe('codeSampleResponse', () => {
-  it('should result object', () => {
+  it('should return result object and default to 404 if status is not in response', () => {
     const res = {
       type: 'cors',
       url: 'http://petstore.swagger.io/v2/pet',
