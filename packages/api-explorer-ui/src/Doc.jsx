@@ -25,14 +25,13 @@ class Doc extends React.Component {
       loading: false,
       showAuthBox: false,
       needsAuth: false,
-      responseTabClass: 'hub-reference-right hub-reference-results tabber-parent',
       result: null,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
-    this.hideResults = this.hideResults.bind(this);
+    // this.hideResults = this.hideResults.bind(this);
   }
 
   onChange(formData) {
@@ -89,12 +88,12 @@ class Doc extends React.Component {
     this.setState({ showAuthBox: !this.state.showAuthBox });
   }
 
-  hideResults() {
-    this.setState({
-      responseTabClass: 'hub-reference-right hub-reference-results tabber-parent',
-    });
-    // TODO setTab to a tag with to examples
-  }
+  // hideResults() {
+  //   this.setState({
+  //     responseTabClass: 'hub-reference-right hub-reference-results tabber-parent',
+  //   });
+  //   // TODO setTab to a tag with to examples
+  // }
 
   renderEndpoint() {
     const { doc, setLanguage } = this.props;
@@ -126,7 +125,6 @@ class Doc extends React.Component {
               />
             </div>
             <CodeSampleResponseTabs
-              styleClass={this.state.responseTabClass}
               result={this.state.result}
               oas={oas}
               operation={operation}

@@ -59,12 +59,6 @@ describe('no result', () => {
 });
 
 describe('tabs', () => {
-  test('should display tabs if there is a result', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
-
-    expect(codeSampleResponseTabs.find('ul').length).toBe(1);
-  });
-
   test('should switch tabs', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
@@ -90,15 +84,7 @@ describe('Results body', () => {
   test('should display result body by default', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
-    // expect(
-    //   codeSampleResponseTabs.find('div.tabber-body tabber-body-result').prop('style')
-    // ).toEqual({
-    //   display: 'block',
-    // });
     expect(codeSampleResponseTabs.find('pre.tomorrow-night').length).toBe(1);
-    // expect(codeSampleResponseTabs.find('div.cm-s-tomorrow-night codemirror-highlight').length).toBe(
-    //   1,
-    // );
   });
 
   test('should not display responseBody if isBinary is true', () => {

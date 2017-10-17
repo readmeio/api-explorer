@@ -25,11 +25,15 @@ class CodeSampleResponseTabs extends React.Component {
   }
 
   render() {
-    const { styleClass, result, oas, operation, hideResults } = this.props;
+    const { result, oas, operation, hideResults } = this.props;
     // const allSecurities = operation.prepareSecurity();
 
     return (
-      <div className={styleClass}>
+      <div
+        className={classNames('hub-reference-right hub-reference-results tabber-parent', {
+          on: this.state.result !== null,
+        })}
+      >
         <div className="hub-reference-result-slider">
           <div className="hub-reference-results-explorer code-sample">
             {result === null ? null : (
