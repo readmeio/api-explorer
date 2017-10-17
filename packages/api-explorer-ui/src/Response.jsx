@@ -26,6 +26,7 @@ class ResponseSchema extends React.Component {
   render() {
     const { operation } = this.props;
     const keys = Object.keys(operation.responses);
+    console.log(operation.responses);
     return (
       <div className="hub-reference-response-definitions">
         <h3>
@@ -44,66 +45,30 @@ class ResponseSchema extends React.Component {
           </div>
           Response
         </h3>
-        <div switcher={status}>
+        <div>
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
           )}
+          {/* {operation.responses[this.state.selectedStatus].content.schema &&
+          operation.responses.schema.type === 'object' &&
+          operation.responses.schema.properties && (
+            <table>
+              {swaggerUtils.convertToParams([response], 'response').forEach(param => {
+                <tr>
+                  <th>param.name</th>
+                  <td>
+                    param.type
+                    {param.description && marked(param.description)}
+                  </td>
+                </tr>;
+              })}
+            </table>
+          )} */}
         </div>
       </div>
     );
   }
 }
-
-// function ResponseSchema(operation) {
-//   const responseArray = [];
-//   const obj = {};
-//   const keys = Object.keys(operation.operation.responses);
-//   keys.forEach(key => {
-//     obj[key] = operation.operation.responses[key];
-//   });
-//   responseArray.push(obj);
-//
-//   console.log(responseArray);
-//   return (
-//     <div className="hub-reference-response-definitions">
-//       <h3>
-//         <div className="pull-right">
-//           <select className="switcher-switch">
-//             {keys.map((status, i) => (
-//               // eslint-disable-next-line react/no-array-index-key
-//               <option value={status} key={i}>
-//                 {status}
-//               </option>
-//             ))}
-//           </select>
-//         </div>
-//         Response
-//       </h3>
-//       {responseArray.map((resObj, i) => (
-//         <div switcher={status}>
-//           {resObj &&
-//             <p className="desc">{resObj[status]}</p>
-//         //     (
-//         //     response.schema && response.schema.type === 'object' && response.schema.properties,
-//         //   ) && (
-//         //     <table>
-//         //       {swaggerUtils.convertToParams([response], 'response').forEach(param => {
-//         //         <tr>
-//         //           <th>param.name</th>
-//         //           <td>
-//         //             param.type
-//         //             {param.description && marked(param.description)}
-//         //           </td>
-//         //         </tr>;
-//         //       })}
-//         //     </table>
-//         //   )
-//         }
-//         </div>
-//       ))}
-//     </div>
-//   );
-// }
 
 ResponseSchema.PropTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
