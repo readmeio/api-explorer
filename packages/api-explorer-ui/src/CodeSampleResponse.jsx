@@ -11,7 +11,7 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-class CodeSampleResponseTabs extends React.Component {
+class CodeSampleResponse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,12 +26,17 @@ class CodeSampleResponseTabs extends React.Component {
 
   render() {
     const { result, oas, operation, hideResults } = this.props;
-    // const allSecurities = operation.prepareSecurity();
+    let allSecurities;
+    try {
+      allSecurities = operation.prepareSecurity();
+    } catch (e) {
+      console.log('No security endpoint here');
+    }
 
     return (
       <div
         className={classNames('hub-reference-right hub-reference-results tabber-parent', {
-          on: this.state.result !== null,
+          on: result !== null,
         })}
       >
         <div className="hub-reference-result-slider">
@@ -80,7 +85,7 @@ class CodeSampleResponseTabs extends React.Component {
                     <a
                       className="hub-reference-results-back pull-right"
                       href="#"
-                      onClick={hideResults()}
+                      // onClick={(result = null)}
                     >
                       <span className="fa fa-chevron-circle-left"> to examples </span>
                     </a>
@@ -111,14 +116,14 @@ class CodeSampleResponseTabs extends React.Component {
 
                   {result.statusCode[0] === 401 && (
                     <div className="text-center hub-expired-token">
-                      {allSecurities.OAuth2 &&
-                        project.oauth_url &&
+                      {allSecurities.OAuth2[0] &&
+                        (allSecurities.OAuth2[0].flows.implicit.authorizationUrl &&
                           <div>
                             <p>Your OAuth2 token has expired</p>
                             <a className="btn btn-primary" href="/oauth" target="_self">
-                            Reauthenticate via OAuth2
-                          </a>
-                          </div>(<p> Your OAuth2 token is incorrect or has expired</p>)(
+                              Reauthenticate via OAuth2
+                            </a>
+                          </div>(<p> Your OAuth2 token is incorrect or has expired</p>))(
                             <p>You couldn't be authenticated</p>,
                         )}
                     </div>
@@ -241,16 +246,15 @@ class CodeSampleResponseTabs extends React.Component {
   }
 }
 
-module.exports = CodeSampleResponseTabs;
+module.exports = CodeSampleResponse;
 
-CodeSampleResponseTabs.propTypes = {
-  styleClass: PropTypes.string.isRequired,
+CodeSampleResponse.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
-  hideResults: PropTypes.func.isRequired,
+  // hideResults: PropTypes.func.isRequired,
 };
 
-CodeSampleResponseTabs.defaultProps = {
+CodeSampleResponse.defaultProps = {
   result: {},
 };

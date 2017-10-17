@@ -3,7 +3,7 @@ const { shallow } = require('enzyme');
 // const extensions = require('../../readme-oas-extensions');
 const petstore = require('./fixtures/petstore/oas');
 
-const CodeSampleResponseTabs = require('../src/CodeSampleResponseTabs');
+const CodeSampleResponseTabs = require('../src/CodeSampleResponse');
 const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;

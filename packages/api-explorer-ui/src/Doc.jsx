@@ -8,7 +8,7 @@ const extensions = require('../../readme-oas-extensions');
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
-const CodeSampleResponseTabs = require('./CodeSampleResponseTabs');
+const CodeSampleResponse = require('./CodeSampleResponse');
 const ResponseSchema = require('./Response');
 
 const Oas = require('./lib/Oas');
@@ -73,10 +73,10 @@ class Doc extends React.Component {
         });
       })
       .then(({ responseBody, res }) => {
+        console.log(res);
         this.setState({
           loading: false,
           result: result(res, responseBody, req),
-          responseTabClass: 'hub-reference-right hub-reference-results tabber-parent on',
         });
       });
 
@@ -124,7 +124,7 @@ class Doc extends React.Component {
                 formData={this.state.formData}
               />
             </div>
-            <CodeSampleResponseTabs
+            <CodeSampleResponse
               result={this.state.result}
               oas={oas}
               operation={operation}
