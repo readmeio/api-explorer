@@ -29,9 +29,7 @@ class CodeSampleResponse extends React.Component {
     let allSecurities;
     try {
       allSecurities = operation.prepareSecurity();
-    } catch (e) {
-      console.log('No security endpoint here');
-    }
+    } catch (e) {} // eslint-disable-line no-empty
 
     return (
       <div
@@ -116,7 +114,7 @@ class CodeSampleResponse extends React.Component {
 
                   {result.statusCode[0] === 401 && (
                     <div className="text-center hub-expired-token">
-                      {allSecurities.OAuth2[0] &&
+                      {allSecurities &&
                         (allSecurities.OAuth2[0].flows.implicit.authorizationUrl &&
                           <div>
                             <p>Your OAuth2 token has expired</p>

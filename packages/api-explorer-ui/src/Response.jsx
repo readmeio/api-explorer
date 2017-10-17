@@ -27,6 +27,31 @@ class ResponseSchema extends React.Component {
     const { operation } = this.props;
     const keys = Object.keys(operation.responses);
 
+    let schema;
+
+    try {
+      if (operation.responses[this.state.selectedStatus].content) {
+        if (
+          operation.responses[this.state.selectedStatus].content['application/json'].schema.type ===
+            'object' &&
+          operation.responses[this.state.selectedStatus].content['application/json'].schema
+            .properties
+        ) {
+          schema =
+            operation.responses[this.state.selectedStatus].content['application/json'].schema
+              .properties;
+        }
+      } else if (
+        operation.responses[this.state.selectedStatus].content['application/xml'].schema.type ===
+          'object' &&
+        operation.responses[this.state.selectedStatus].content['application/xml'].schema.properties
+      ) {
+        schema =
+          operation.responses[this.state.selectedStatus].content['application/xml'].schema
+            .properties;
+      }
+    } catch (e) {} // eslint-disable-line no-empty
+
     return (
       <div className="hub-reference-response-definitions">
         <h3>
@@ -49,11 +74,9 @@ class ResponseSchema extends React.Component {
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
           )}
-          {/* {operation.responses[this.state.selectedStatus].content.schema &&
-          operation.responses.schema.type === 'object' &&
-          operation.responses.schema.properties && (
+          {schema && (
             <table>
-              {swaggerUtils.convertToParams([response], 'response').forEach(param => {
+              {/* {swaggerUtils.convertToParams([response], 'response').forEach(param => {
                 <tr>
                   <th>param.name</th>
                   <td>
@@ -61,9 +84,9 @@ class ResponseSchema extends React.Component {
                     {param.description && marked(param.description)}
                   </td>
                 </tr>;
-              })}
+              })} */}
             </table>
-          )} */}
+          )}
         </div>
       </div>
     );

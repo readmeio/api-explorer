@@ -73,7 +73,6 @@ class Doc extends React.Component {
         });
       })
       .then(({ responseBody, res }) => {
-        console.log(res);
         this.setState({
           loading: false,
           result: result(res, responseBody, req),
