@@ -70,6 +70,8 @@ describe('apiKey', () => {
     const securityInput = mount(<SecurityInput {...props} />);
     const input = securityInput.find('input');
     const focusedElement = document.activeElement;
+    // const focusedElement = input.simulate('focus');
+    // expect(securityInput.ref('input')).toHaveBeenCalledTimes(1);
 
     expect(input.matchesElement(focusedElement)).toEqual(true);
 
