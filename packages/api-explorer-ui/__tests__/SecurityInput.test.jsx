@@ -67,20 +67,23 @@ describe('apiKey', () => {
   });
 
   test('should focus on input if auth is not provided', () => {
-    const securityInput = mount(<SecurityInput {...props} />);
+    let securityInput = mount(<SecurityInput {...props} />);
     const input = securityInput.find('input');
-    const focusedElement = document.activeElement;
-    // const focusedElement = input.simulate('focus');
+    // const focusedElement = document.activeElement;
+    const focusedElement = input.simulate('focus');
+    console.log(focusedElement.html());
     // expect(securityInput.ref('input')).toHaveBeenCalledTimes(1);
 
-    expect(input.matchesElement(focusedElement)).toEqual(true);
+    // expect(input.matchesElement(focusedElement)).toBe(true);
 
-    // expect(securityInput.find('input').node === document.activeElement);
+    expect(input === focusedElement).toBe(true);
 
-    // const onChange = jest.fn();
-    // securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
-    //
-    // expect(securityInput.find('input').node !== document.activeElement);
+    const onChange = jest.fn();
+    securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+    input.simulate('change');
+    console.log('unfocused', input.html());
+
+    expect(input !== focusedElement).toBe(true);
   });
 });
 
