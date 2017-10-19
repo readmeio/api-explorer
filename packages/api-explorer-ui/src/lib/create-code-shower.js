@@ -9,15 +9,15 @@ module.exports = type => {
       // Only examples so far...
       Object.keys(pathOperation.responses || {}).forEach(status => {
         const response = pathOperation.responses[status];
+        const lang = Object.keys(response.content)[0];
+        const example = response.content[lang].examples.response.value;
 
-        if (response.examples) {
-          // const lang = Object.keys(response.examples)[0];
-          // const example = response.examples[lang];
-          // codes.push({
-          //   code: _.isObject(example) ? JSON.stringify(example, undefined, 2) : example,
-          //   language: lang,
-          //   status,
-          // });
+        if (example) {
+          codes.push({
+            code: lang === 'application/json' ? JSON.stringify(example, undefined, 2) : example,
+            language: lang,
+            status,
+          });
         }
       });
     }
