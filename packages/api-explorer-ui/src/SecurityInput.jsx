@@ -63,19 +63,19 @@ Oauth2.defaultProps = {
   oauthUrl: '',
 };
 
-function ApiKey(apiKey, focus) {
+function ApiKey({ scheme, focus, change }) {
   const apiKeyCookie = Cookie.get('api_key');
   // apiKeyCookie = apiKeyCookie || {e => apiKey.change(e.currentTarget.value)};
   return (
     <div className="row">
       <div className="col-xs-5">
-        <label htmlFor="apiKey">{apiKey.scheme.name}</label>
+        <label htmlFor="apiKey">{scheme.name}</label>
       </div>
       <div className="col-xs-7">
         <input
           ref={input => input && focus && input.focus()}
           type="text"
-          onChange={e => apiKey.change(e.currentTarget.value)}
+          onChange={e => change(e.currentTarget.value)}
           value={apiKeyCookie}
         />
       </div>
@@ -88,6 +88,7 @@ ApiKey.propTypes = {
     name: PropTypes.string.isRequired,
   }).isRequired,
   focus: PropTypes.bool.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 class Basic extends React.Component {

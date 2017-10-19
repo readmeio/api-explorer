@@ -66,24 +66,12 @@ describe('apiKey', () => {
     expect(securityInput.find('label').text()).toBe('api_key');
   });
 
-  test('should focus on input if auth is not provided', () => {
-    let securityInput = mount(<SecurityInput {...props} />);
-    const input = securityInput.find('input');
-    // const focusedElement = document.activeElement;
-    const focusedElement = input.simulate('focus');
-    console.log(focusedElement.html());
-    // expect(securityInput.ref('input')).toHaveBeenCalledTimes(1);
+  test('should focus if focus is passed through', () => {
+    const securityInput = mount(<SecurityInput {...props} focus />);
+    securityInput.find('input').instance().value = 'api-key';
+    securityInput.find('input').simulate('change');
 
-    // expect(input.matchesElement(focusedElement)).toBe(true);
-
-    expect(input === focusedElement).toBe(true);
-
-    const onChange = jest.fn();
-    securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
-    input.simulate('change');
-    console.log('unfocused', input.html());
-
-    expect(input !== focusedElement).toBe(true);
+    expect(document.activeElement.value).toBe(securityInput.find('input').instance().value)
   });
 });
 
