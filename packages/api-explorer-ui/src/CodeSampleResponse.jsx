@@ -31,6 +31,8 @@ class CodeSampleResponse extends React.Component {
       allSecurities = operation.prepareSecurity();
     } catch (e) {} // eslint-disable-line no-empty
 
+    console.log(showCodeResults(operation));
+
     return (
       <div
         className={classNames('hub-reference-right hub-reference-results tabber-parent', {
@@ -180,37 +182,39 @@ class CodeSampleResponse extends React.Component {
           </div>
 
           <div className="hub-reference-results-examples code-sample">
-            {showCodeResults(oas, operation).length ? (
+            {showCodeResults(operation).length ? (
               <span>
-                {/* <ul className="code-samples-tabs hub-reference-results-header">
-                  {showCodeResults(oas, operation).forEach((ele, index) => {
-                    const status = statusCodes(result.status);
-                    const title = result.name ? result.name : status[1];
+                <ul className="code-samples-tabs hub-reference-results-header">
+                  {showCodeResults(operation).map((result) => {
+                    console.log(result);
+                    return <span dangerouslySetInnerHTML={{__html: result.code}}></span>
+                    // const status = statusCodes(result.status);
+                    // const title = result.name ? result.name : status[1];
 
-                      <a
-                        className={
-                        index === 0 ? (
-                          'hub-reference-result-header-item tabber-tab selected'
-                        ) : (
-                          'hub-reference-result-header-item tabber-tab '
-                        )
-                      }
-                        href="#"
-                        data-tab={index}
-                      >
-                        {result.status ? (
-                          <span className={status[2] === 'success' ? 'httpsuccess' : 'httperror'}>
-                            <i className="fa fa-circle" />
-                            <em>
-                            &nbsp;`${status[0]}`&nbsp;`${title}`
-                          </em>
-                          </span>
-                      ) : (
-                        <span>{generateCodeSnippets.getLangName(result.language)}</span>
-                      )}
-                      </a>;
+                      // <a
+                      //   className={
+                      //   index === 0 ? (
+                      //     'hub-reference-result-header-item tabber-tab selected'
+                      //   ) : (
+                      //     'hub-reference-result-header-item tabber-tab '
+                      //   )
+                      // }
+                      //   href="#"
+                      //   data-tab={index}
+                      // >
+                      //   {result.status ? (
+                      //     <span className={status[2] === 'success' ? 'httpsuccess' : 'httperror'}>
+                      //       <i className="fa fa-circle" />
+                      //       <em>
+                      //       &nbsp;`${status[0]}`&nbsp;`${title}`
+                      //     </em>
+                      //     </span>
+                      // ) : (
+                      //   <span>{generateCodeSnippets.getLangName(result.language)}</span>
+                      // )}
+                      // </a>;
                   })}
-                </ul> */}
+                </ul>
                 <div className="code-sample-body">
                   {showCodeResults(oas, operation).forEach((ele, index) => {
                     // <pre

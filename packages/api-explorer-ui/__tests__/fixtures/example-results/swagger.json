@@ -1,0 +1,38 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "example results",
+    "version": "1.0"
+  },
+  "host": "example.com",
+  "paths": {
+    "/results": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "user": {
+                  "email": "test@example.com",
+                  "name": "Test user name"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed",
+            "examples": {
+              "application/json": {
+                "email": "invalid email",
+                "name": "name already taken"
+              }
+            }
+          }
+        },
+        "summary": "Update Password",
+      }
+    }
+  }
+}
