@@ -16,16 +16,22 @@ class CodeSampleResponse extends React.Component {
     super(props);
     this.state = {
       selectedTab: 'result',
+      result: props.result,
     };
     this.setTab = this.setTab.bind(this);
+    this.hideResults = this.hideResults;
   }
 
   setTab(selected) {
     this.setState({ selectedTab: selected });
   }
 
+  hideResults() {
+    this.setState({ result: null });
+  }
+
   render() {
-    const { result, oas, operation, hideResults } = this.props;
+    const { result, oas, operation } = this.props;
     let allSecurities;
     try {
       allSecurities = operation.prepareSecurity();
@@ -83,7 +89,10 @@ class CodeSampleResponse extends React.Component {
                     <a
                       className="hub-reference-results-back pull-right"
                       href="#"
-                      // onClick={(result = null)}
+                      onClick={e => {
+                        e.preventDefault();
+                        this.hideResults();
+                      }}
                     >
                       <span className="fa fa-chevron-circle-left"> to examples </span>
                     </a>
@@ -250,7 +259,6 @@ CodeSampleResponse.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
-  // hideResults: PropTypes.func.isRequired,
 };
 
 CodeSampleResponse.defaultProps = {
