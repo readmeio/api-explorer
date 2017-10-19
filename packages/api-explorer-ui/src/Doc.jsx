@@ -46,6 +46,8 @@ class Doc extends React.Component {
     ) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
+        this.inputElement.focus();
+        this.inputElement.scrollIntoView();
         this.setState({ needsAuth: true });
       }, 600);
       return false;
@@ -88,6 +90,7 @@ class Doc extends React.Component {
           needsAuth={this.state.needsAuth}
           toggleAuth={this.toggleAuth}
           onSubmit={this.onSubmit}
+          inputRef={el => (this.inputElement = el)}
         />
 
         {showCode(oas, operation) && (

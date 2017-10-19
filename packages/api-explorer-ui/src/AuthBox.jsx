@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(operation, needsAuth, onChange, onSubmit) {
+function renderSecurities(inputRef, operation, needsAuth, onChange, onSubmit) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -31,7 +31,7 @@ function renderSecurities(operation, needsAuth, onChange, onSubmit) {
                 scheme={security}
                 apiKey=""
                 onChange={onChange}
-                focus={needsAuth}
+                inputRef={inputRef}
               />
             ))}
           </section>
@@ -41,7 +41,7 @@ function renderSecurities(operation, needsAuth, onChange, onSubmit) {
   });
 }
 
-function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
+function AuthBox({ inputRef, operation, onChange, onSubmit, open, needsAuth, toggle }) {
   if (!operation.hasAuth()) return null;
 
   return (
@@ -53,7 +53,7 @@ function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
       <div className="nopad">
         <div className="triangle" />
         <div>
-          {renderSecurities(operation, needsAuth, onChange, e => {
+          {renderSecurities(inputRef, operation, needsAuth, onChange, e => {
             e.preventDefault();
             onSubmit();
           })}
@@ -71,6 +71,7 @@ function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
 
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
+  inputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   toggle: PropTypes.func.isRequired,
@@ -81,6 +82,7 @@ AuthBox.propTypes = {
 AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
+  inputRef: () => {},
 };
 
 module.exports = AuthBox;

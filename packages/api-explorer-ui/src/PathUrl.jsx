@@ -19,6 +19,7 @@ function splitPath(path) {
 function PathUrl({
   oas,
   operation,
+  inputRef,
   loading,
   dirty,
   onChange,
@@ -40,6 +41,7 @@ function PathUrl({
                 open={showAuthBox}
                 needsAuth={needsAuth}
                 toggle={toggleAuth}
+                inputRef={inputRef}
               />
 
               <button
@@ -82,6 +84,7 @@ function PathUrl({
 PathUrl.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  inputRef: PropTypes.func,
   dirty: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -94,5 +97,6 @@ PathUrl.propTypes = {
 PathUrl.defaultProps = {
   showAuthBox: false,
   needsAuth: false,
+  inputRef: () => {},
 };
 module.exports = PathUrl;

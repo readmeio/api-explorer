@@ -2,7 +2,7 @@ const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 
-function Oauth2({ apiKey, focus, oauthUrl, change }) {
+function Oauth2({ apiKey, inputRef, oauthUrl, change }) {
   if (!apiKey && oauthUrl) {
     return (
       <section>
@@ -40,7 +40,7 @@ function Oauth2({ apiKey, focus, oauthUrl, change }) {
         </div>
         <div className="col-xs-6">
           <input
-            ref={input => input && focus && input.focus()}
+            ref={inputRef}
             type="text"
             onChange={e => change(e.currentTarget.value)}
             name="apiKey"
@@ -55,15 +55,16 @@ Oauth2.propTypes = {
   apiKey: PropTypes.string,
   oauthUrl: PropTypes.string,
   change: PropTypes.func.isRequired,
-  focus: PropTypes.bool.isRequired,
+  inputRef: PropTypes.func,
 };
 
 Oauth2.defaultProps = {
   apiKey: '',
   oauthUrl: '',
+  inputRef: () => {},
 };
 
-function ApiKey({ scheme, focus, change }) {
+function ApiKey({ scheme, inputRef, change }) {
   const apiKeyCookie = Cookie.get('api_key');
   // apiKeyCookie = apiKeyCookie || {e => apiKey.change(e.currentTarget.value)};
   return (
@@ -73,7 +74,7 @@ function ApiKey({ scheme, focus, change }) {
       </div>
       <div className="col-xs-7">
         <input
-          ref={input => input && focus && input.focus()}
+          ref={inputRef}
           type="text"
           onChange={e => change(e.currentTarget.value)}
           value={apiKeyCookie}
@@ -87,8 +88,12 @@ ApiKey.propTypes = {
   scheme: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
-  focus: PropTypes.bool.isRequired,
+  inputRef: PropTypes.func,
   change: PropTypes.func.isRequired,
+};
+
+ApiKey.defaultProps = {
+  inputRef: () => {},
 };
 
 class Basic extends React.Component {
@@ -96,12 +101,6 @@ class Basic extends React.Component {
     super(props);
     this.state = { user: '', password: '' };
     this.inputChange = this.inputChange.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.props.focus) {
-      this.input.scrollIntoView();
-    }
   }
 
   inputChange(name, value) {
@@ -115,13 +114,13 @@ class Basic extends React.Component {
     );
   }
   render() {
-    const { focus } = this.props;
+    const { inputRef } = this.props;
     return (
       <div className="row">
         <div className="col-xs-6">
           <label htmlFor="user">username</label>
           <input
-            ref={input => input && focus && input.focus()}
+            ref={inputRef}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="user"
@@ -130,7 +129,6 @@ class Basic extends React.Component {
         <div className="col-xs-6">
           <label htmlFor="password">password</label>
           <input
-            ref={input => (this.input = input)}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="password"
@@ -143,7 +141,11 @@ class Basic extends React.Component {
 
 Basic.propTypes = {
   change: PropTypes.func.isRequired,
-  focus: PropTypes.bool.isRequired,
+  inputRef: PropTypes.func,
+};
+
+Basic.defaultProps = {
+  inputRef: () => {},
 };
 
 function SecurityInput(props) {

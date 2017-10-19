@@ -2,6 +2,9 @@ global.fetch = require('node-fetch');
 
 global.Request = fetch.Request;
 
+window.HTMLElement.prototype.scrollIntoView = () => {};
+// const scrollIntoView = window.HTMLElement.prototype.scrollIntoView;
+
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
@@ -66,7 +69,7 @@ describe('onSubmit', () => {
   test('should display authentication warning if auth is required for endpoint', () => {
     jest.useFakeTimers();
 
-    const doc = shallow(<Doc {...props} />);
+    const doc = mount(<Doc {...props} />);
 
     doc.instance().onSubmit();
     expect(doc.state('showAuthBox')).toBe(true);

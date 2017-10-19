@@ -2,9 +2,6 @@ const React = require('react');
 const { mount, shallow } = require('enzyme');
 const SecurityInput = require('../src/SecurityInput');
 
-window.HTMLElement.prototype.scrollIntoView = () => {};
-const scrollIntoView = window.HTMLElement.prototype.scrollIntoView;
-
 describe('oauth2', () => {
   const props = { scheme: { type: 'oauth2', _key: 'test-auth' }, onChange: () => {} };
 
@@ -64,14 +61,6 @@ describe('apiKey', () => {
     const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
 
     expect(securityInput.find('label').text()).toBe('api_key');
-  });
-
-  test('should focus if focus is passed through', () => {
-    const securityInput = mount(<SecurityInput {...props} focus />);
-    securityInput.find('input').instance().value = 'api-key';
-    securityInput.find('input').simulate('change');
-
-    expect(document.activeElement.value).toBe(securityInput.find('input').instance().value)
   });
 });
 
