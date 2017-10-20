@@ -2,6 +2,7 @@ const React = require('react');
 const { shallow } = require('enzyme');
 // const extensions = require('../../readme-oas-extensions');
 const petstore = require('./fixtures/petstore/oas');
+const example = require('./fixtures/example-results/oas');
 
 const CodeSampleResponseTabs = require('../src/CodeSampleResponse');
 const Oas = require('../src/lib/Oas');
@@ -26,7 +27,11 @@ const props = {
     url: 'http://petstore.swagger.io/v2/pet',
   },
   operation: new Operation({}, '/pet', 'post'),
-  styleClass: 'hub-reference-right hub-reference-results tabber-parent on',
+};
+
+const noResult = {
+  result: null,
+  operation: new Operation({}, '/pet', 'post'),
 };
 
 describe('setTab', () => {
@@ -45,13 +50,47 @@ describe('setTab', () => {
   });
 });
 
+describe('exampleTab', () => {
+  test('exampleTab should change state of exampleTab', () => {
+    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
+
+    expect(codeSampleResponseTabs.state('exampleTab')).toBe(0);
+
+    codeSampleResponseTabs.instance().exampleTab(1);
+
+    expect(codeSampleResponseTabs.state('exampleTab')).toBe(1);
+  });
+});
+
+describe('hideResults', () => {
+  test('hideResults should render null', () => {
+    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
+
+    expect(codeSampleResponseTabs.state('result')).toEqual({
+      init: true,
+      isBinary: false,
+      method: 'POST',
+      requestHeaders: 'Authorization : Bearer api-key',
+      responseHeaders: 'content-disposition,application/json',
+      statusCode: [200, 'OK', 'success'],
+      responseBody: {
+        id: 9205436248879918000,
+        category: { id: 0 },
+        name: '1',
+        photoUrls: ['1'],
+        tags: [],
+      },
+      url: 'http://petstore.swagger.io/v2/pet',
+    });
+
+    codeSampleResponseTabs.instance().hideResults();
+
+    expect(codeSampleResponseTabs.state('result')).toBe(null);
+  });
+});
+
 describe('no result', () => {
   test('empty span should render', () => {
-    const noResult = {
-      result: null,
-      operation: new Operation({}, '/pet', 'post'),
-      styleClass: 'hub-reference-right hub-reference-results tabber-parent on',
-    };
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...noResult} oas={oas} />);
 
     expect(codeSampleResponseTabs.find('span').length).toBe(0);
@@ -84,7 +123,11 @@ describe('Results body', () => {
   test('should display result body by default', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
-    expect(codeSampleResponseTabs.find('pre.tomorrow-night').length).toBe(1);
+    expect(
+      codeSampleResponseTabs.containsMatchingElement(
+        <div className="cm-s-tomorrow-night codemirror-highlight" />,
+      ),
+    ).toEqual(true);
   });
 
   test('should not display responseBody if isBinary is true', () => {
@@ -99,7 +142,6 @@ describe('Results body', () => {
         url: 'http://petstore.swagger.io/v2/pet',
       },
       operation: new Operation({}, '/pet', 'post'),
-      styleClass: 'hub-reference-right hub-reference-results tabber-parent on',
     };
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props2} oas={oas} />);
 
@@ -127,7 +169,6 @@ describe('Results body', () => {
         url: 'http://petstore.swagger.io/v2/pet',
       },
       operation: new Operation({}, '/pet', 'post'),
-      styleClass: 'hub-reference-right hub-reference-results tabber-parent on',
     };
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props3} oas={oas} />);
 
@@ -135,6 +176,30 @@ describe('Results body', () => {
       codeSampleResponseTabs.containsMatchingElement(
         <div className="text-center hub-expired-token" />,
       ),
+    ).toEqual(true);
+  });
+});
+
+describe('examples', () => {
+  test('if endpoint has an example it is shown', () => {
+    const oas2 = new Oas(example);
+    const props4 = {
+      result: null,
+      // url: 'http://example.com',
+      operation: new Operation({}, '/results', 'get'),
+    };
+    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props4} oas={oas2} />);
+
+    expect(
+      codeSampleResponseTabs.containsMatchingElement(<div className="code-sample-body" />),
+    ).toEqual(true);
+  });
+
+  test('if endpoint does not have example ', () => {
+    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...noResult} oas={oas} />);
+
+    expect(
+      codeSampleResponseTabs.containsMatchingElement(<div>Try the API to see Results</div>),
     ).toEqual(true);
   });
 });

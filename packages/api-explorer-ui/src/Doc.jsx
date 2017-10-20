@@ -31,7 +31,6 @@ class Doc extends React.Component {
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
-    // this.hideResults = this.hideResults.bind(this);
   }
 
   onChange(formData) {
@@ -86,13 +85,6 @@ class Doc extends React.Component {
     e.preventDefault();
     this.setState({ showAuthBox: !this.state.showAuthBox });
   }
-
-  // hideResults() {
-  //   this.setState({
-  //     responseTabClass: 'hub-reference-right hub-reference-results tabber-parent',
-  //   });
-  //   // TODO setTab to a tag with to examples
-  // }
 
   renderEndpoint() {
     const { doc, setLanguage } = this.props;
