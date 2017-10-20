@@ -9,8 +9,20 @@ module.exports = type => {
       // Only examples so far...
       Object.keys(pathOperation.responses || {}).forEach(status => {
         const response = pathOperation.responses[status];
-        const lang = Object.keys(response.content)[0];
-        const example = response.content[lang].examples.response.value;
+        let lang;
+        if (response.content) {
+          lang = Object.keys(response.content)[0];
+        } else if (!response.content) {
+          return;
+        }
+
+        let example;
+
+        if (response.content[lang].examples) {
+          example = response.content[lang].examples.response.value;
+        } else if (!response.content[lang].examples) {
+          return;
+        }
 
         if (example) {
           codes.push({

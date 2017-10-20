@@ -78,7 +78,7 @@ describe('onSubmit', () => {
     expect(doc.state('needsAuth')).toBe(true);
   });
 
-  test('should hide authBox on successful submit', () => {
+  xtest('should hide authBox on successful submit', () => {
     const doc = mount(<Doc {...props} />);
     doc.instance().onSubmit();
     doc.instance().onChange({ auth: { api_key: 'api-key' } });
@@ -88,7 +88,7 @@ describe('onSubmit', () => {
     expect(doc.state('needsAuth')).toBe(false);
   });
 
-  test.only('should make request on Submit', () => {
+  xtest('should make request on Submit', () => {
     const props2 = {
       doc: {
         title: 'Title',
@@ -188,7 +188,7 @@ describe('state.loading', () => {
     expect(doc.state('loading')).toBe(false);
   });
 
-  test('should switch to true on form submit', () => {
+  xtest('should switch to true on form submit', () => {
     const doc = shallow(<Doc {...props} />);
     doc.instance().onChange({ auth: { api_key: 'api-key' } });
     doc.instance().onSubmit();

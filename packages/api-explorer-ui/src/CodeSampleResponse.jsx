@@ -2,10 +2,12 @@ const React = require('react');
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
 const showCodeResults = require('./lib/show-code-results');
-// const statusCodes = require('./lib/statuscodes');
+const statusCodes = require('./lib/statuscodes');
+const { replaceVars } = require('./lib/replaceVars');
 const extensions = require('../../readme-oas-extensions');
-// const generateCodeSnippets = require('./lib/generate-code-snippets');
+const generateCodeSnippets = require('./lib/generate-code-snippets');
 const syntaxHighlighter = require('../../readme-syntax-highlighter');
+const codemirror = require('../../readme-syntax-highlighter/codemirror');
 
 const Oas = require('./lib/Oas');
 
@@ -16,14 +18,20 @@ class CodeSampleResponse extends React.Component {
     super(props);
     this.state = {
       selectedTab: 'result',
+      exampleTab: 0,
       result: props.result,
     };
     this.setTab = this.setTab.bind(this);
+    this.exampleTab = this.exampleTab.bind(this);
     this.hideResults = this.hideResults;
   }
 
   setTab(selected) {
     this.setState({ selectedTab: selected });
+  }
+
+  exampleTab(index) {
+    this.setState({ exampleTab: index });
   }
 
   hideResults() {
@@ -36,8 +44,6 @@ class CodeSampleResponse extends React.Component {
     try {
       allSecurities = operation.prepareSecurity();
     } catch (e) {} // eslint-disable-line no-empty
-
-    console.log(showCodeResults(operation));
 
     return (
       <div
@@ -191,57 +197,58 @@ class CodeSampleResponse extends React.Component {
           </div>
 
           <div className="hub-reference-results-examples code-sample">
-            {showCodeResults(operation).length ? (
+            {showCodeResults(operation).length && (
               <span>
-                <ul className="code-samples-tabs hub-reference-results-header">
-                  {showCodeResults(operation).map((result) => {
-                    console.log(result);
-                    return <span dangerouslySetInnerHTML={{__html: result.code}}></span>
-                    // const status = statusCodes(result.status);
-                    // const title = result.name ? result.name : status[1];
-
-                      // <a
-                      //   className={
-                      //   index === 0 ? (
-                      //     'hub-reference-result-header-item tabber-tab selected'
-                      //   ) : (
-                      //     'hub-reference-result-header-item tabber-tab '
-                      //   )
-                      // }
-                      //   href="#"
-                      //   data-tab={index}
-                      // >
-                      //   {result.status ? (
-                      //     <span className={status[2] === 'success' ? 'httpsuccess' : 'httperror'}>
-                      //       <i className="fa fa-circle" />
-                      //       <em>
-                      //       &nbsp;`${status[0]}`&nbsp;`${title}`
-                      //     </em>
-                      //     </span>
-                      // ) : (
-                      //   <span>{generateCodeSnippets.getLangName(result.language)}</span>
-                      // )}
-                      // </a>;
+                <ul className="code-sample-tabs hub-reference-results-header">
+                  {showCodeResults(operation).map((example, index) => {
+                    const status = statusCodes(example.status);
+                    const title = example.name ? example.name : status[1];
+                    return (
+                      <a
+                        className={
+                          index === this.state.exampleTab ? (
+                            'hub-reference-results-header-item tabber-tab selected'
+                          ) : (
+                            'hub-reference-results-header-item tabber-tab '
+                          )
+                        }
+                        href="#"
+                        data-tab={index}
+                        key={index}
+                        onClick={e => {
+                          e.preventDefault();
+                          this.exampleTab(index);
+                        }}
+                      >
+                        {example.status ? (
+                          <span className={status[2] === 'success' ? 'httpsuccess' : 'httperror'}>
+                            <i className="fa fa-circle" />
+                            <em>
+                              &nbsp;{status[0]}&nbsp;{title}
+                            </em>
+                          </span>
+                        ) : (
+                          <span>{generateCodeSnippets.getLangName(example.language)}</span>
+                        )}
+                      </a>
+                    );
                   })}
                 </ul>
                 <div className="code-sample-body">
-                  {showCodeResults(oas, operation).forEach((ele, index) => {
-                    // <pre
-                    //   className={
-                    //     index === 0 ? (
-                    //       `tomorrow night tabber-body-${index}`
-                    //     ) : (
-                    //       'tomorrow night tabber-body'
-                    //     )
-                    //   }
-                    //   style={index === 0 ? 'dislay: block' : ''}
-                    // >
-                    //   {/* {replaceVars(codemirror(result.code, result.language, true), variables)} */}
-                    // </pre>;
+                  {showCodeResults(operation).map((example, index) => {
+                    return (
+                      <pre
+                        className={`tomorrow night tabber-body tabber-body-${index}`}
+                        style={{ display: index === this.state.exampleTab ? 'block' : '' }}
+                      >
+                        {replaceVars(codemirror(example.code, example.language, true))}
+                      </pre>
+                    );
                   })}
                 </div>
               </span>
-            ) : (
+            )}
+            {showCodeResults(operation).length === 0 && (
               <div className="hub-no-code">
                 {oas[extensions.EXPLORER_ENABLED] ? (
                   'Try the API to see Results'

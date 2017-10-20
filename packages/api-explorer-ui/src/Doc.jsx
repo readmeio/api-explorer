@@ -63,10 +63,8 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    console.log(req);
     fetchHar(req)
       .then(res => {
-        console.log(res);
         const contentType = res.headers.get('content-type');
         const isJson = contentType && contentType.includes('application/json');
 
