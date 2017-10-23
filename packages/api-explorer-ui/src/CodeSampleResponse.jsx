@@ -3,7 +3,7 @@ const classNames = require('classnames');
 const PropTypes = require('prop-types');
 const showCodeResults = require('./lib/show-code-results');
 const statusCodes = require('./lib/statuscodes');
-const { replaceVars } = require('./lib/replace-vars');
+// const { replaceVars } = require('./lib/replace-vars');
 const extensions = require('../../readme-oas-extensions');
 const generateCodeSnippets = require('./lib/generate-code-snippets');
 const syntaxHighlighter = require('../../readme-syntax-highlighter');
@@ -203,7 +203,7 @@ class CodeSampleResponse extends React.Component {
                   {showCodeResults(operation).map((example, index) => {
                     const status = statusCodes(example.status);
                     const title = example.name ? example.name : status[1];
-                    console.log(codemirror(example.code, example.language, true));
+
                     return (
                       <a
                         className={
@@ -242,7 +242,7 @@ class CodeSampleResponse extends React.Component {
                         className={`tomorrow night tabber-body tabber-body-${index}`}
                         style={{ display: index === this.state.exampleTab ? 'block' : '' }}
                       >
-                        {replaceVars(codemirror(example.code, example.language, true))}
+                        {codemirror(example.code, example.language, true)}
                       </pre>
                     );
                   })}

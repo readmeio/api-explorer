@@ -47,6 +47,7 @@ class Doc extends React.Component {
       this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
       this.state.formData,
     );
+
     if (
       !isAuthReady(
         this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),

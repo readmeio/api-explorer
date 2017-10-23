@@ -181,18 +181,31 @@ describe('Results body', () => {
 });
 
 describe('examples', () => {
-  test('if endpoint has an example it is shown', () => {
+  test('if endpoint has an example tabs and body should show', () => {
     const oas2 = new Oas(example);
     const props4 = {
       result: null,
-      // url: 'http://example.com',
-      operation: new Operation({}, '/results', 'get'),
+      operation: oas2.operation('/results', 'get'),
     };
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props4} oas={oas2} />);
 
-    expect(
-      codeSampleResponseTabs.containsMatchingElement(<div className="code-sample-body" />),
-    ).toEqual(true);
+    const firstTab = codeSampleResponseTabs.find('a').first();
+    const secondTab = codeSampleResponseTabs.find('a').last();
+
+    expect(codeSampleResponseTabs.state('exampleTab')).toBe(0);
+    expect(firstTab.hasClass('hub-reference-results-header-item tabber-tab selected')).toEqual(
+      true,
+    );
+
+    secondTab.simulate('click', { preventDefault() {} });
+
+    expect(codeSampleResponseTabs.state('exampleTab')).toBe(1);
+    expect(firstTab.hasClass('hub-reference-results-header-item tabber-tab')).toEqual(true);
+
+    expect(firstTab.find('span.httpsuccess').length).toBe(1);
+    expect(secondTab.find('span.httperror').length).toBe(1);
+
+    expect(codeSampleResponseTabs.find('pre').length).toBe(2);
   });
 
   test('if endpoint does not have example ', () => {

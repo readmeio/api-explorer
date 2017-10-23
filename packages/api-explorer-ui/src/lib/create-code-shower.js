@@ -1,5 +1,5 @@
 module.exports = type => {
-  return pathOperation => {
+  return function results(pathOperation) {
     pathOperation._cache = pathOperation._cache || {};
 
     if (pathOperation._cache[type]) return pathOperation._cache[type];
@@ -26,7 +26,7 @@ module.exports = type => {
 
         if (example) {
           codes.push({
-            code: lang === 'application/json' ? JSON.stringify(example, undefined, 2) : example,
+            code: typeof example === 'object' ? JSON.stringify(example, undefined, 2) : example,
             language: lang,
             status,
           });

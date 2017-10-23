@@ -34,13 +34,11 @@
           "400": {
             "description": "Validation failed",
             "content": {
-              "application/json": {
+              "application/xml": {
                 "examples": {
                   "response": {
-                    "value": {
-                      "email": "invalid email",
-                      "name": "name already taken"
-                    }
+                    "value":
+                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
                   }
                 }
               }
@@ -48,6 +46,11 @@
           }
         },
         "summary": "Update Password"
+      }
+    },
+    "/nolang": {
+      "get": {
+        "description": ""
       }
     }
   },
