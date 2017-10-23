@@ -1,4 +1,5 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 
 class ApiList extends React.Component {
   constructor(props) {
@@ -55,5 +56,9 @@ class ApiList extends React.Component {
     );
   }
 }
+
+ApiList.propTypes = {
+  fetchSwagger: PropTypes.func.isRequired,
+};
 
 module.exports = ApiList;
