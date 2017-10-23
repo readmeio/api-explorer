@@ -5,3 +5,4 @@ coverage
 .idea/*
 lerna-debug.log
 .DS_Store
+example/swagger-files/directory.json

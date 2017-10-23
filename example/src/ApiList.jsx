@@ -1,21 +1,14 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const localDirectory = require('../swagger-files/directory.json');
+
 class ApiList extends React.Component {
   constructor(props) {
     super(props);
     const petStore = '/swagger-files/petstore.json';
     this.state = {
-      apis: {
-        petstore: {
-          preferred: '1.0.0',
-          versions: {
-            '1.0.0': {
-              swaggerUrl: petStore,
-            },
-          },
-        },
-      },
+      apis: localDirectory,
       selected: petStore,
     };
 
