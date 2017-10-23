@@ -5,9 +5,7 @@
   "scripts": {
     "test": "eslint -f unix example && lerna run test",
     "example": "budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx",
-    "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer",
-    "convert-swagger": "swagger2openapi $1",
-    "create-circular-json": "./scripts/create-circular-json.js"
+    "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
