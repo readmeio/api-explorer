@@ -40,6 +40,6 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-hot-loader": "^3.0.0-beta.7",
-    "swagger2openapi": "^2.5.0"
+    "swagger2openapi": "^2.9.2"
   }
 }
