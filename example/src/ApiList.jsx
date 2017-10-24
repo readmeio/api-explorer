@@ -7,15 +7,10 @@ const localDirectory = require('../swagger-files/directory.json');
 class ApiList extends React.Component {
   constructor(props) {
     super(props);
-    const petStore = '/swagger-files/petstore.json';
-    let selected = petStore;
-    try {
-      selected = parse(document.location.search.replace('?', '')).selected;
-    } catch (e) {} // eslint-disable-line no-empty
 
     this.state = {
       apis: localDirectory,
-      selected,
+      selected: parse(document.location.search.replace('?', '')).selected || '/swagger-files/petstore.json',
     };
 
     this.changeApi = this.changeApi.bind(this);
