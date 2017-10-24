@@ -60,16 +60,12 @@ const supportedLanguages = {
   },
 };
 
-module.exports = (oas, operation, values, languages) => {
+module.exports = (oas, operation, values, lang) => {
   const har = generateHar(oas, operation, values);
   const snippet = new HTTPSnippet(har);
 
-  return languages.reduce((snippets, lang) => {
-    const language = supportedLanguages[lang];
-    return Object.assign(snippets, {
-      [lang]: syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight),
-    });
-  }, {});
+  const language = supportedLanguages[lang];
+  return syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight);
 };
 
 module.exports.getLangName = lang => supportedLanguages[lang].name;

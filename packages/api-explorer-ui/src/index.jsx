@@ -37,6 +37,7 @@ class ApiExplorer extends React.Component {
               oas={doc.category.apiSetting && this.props.oasFiles[doc.category.apiSetting]}
               setLanguage={this.setLanguage}
               flags={this.props.flags}
+              language={this.state.language}
             />
           ))}
         </div>

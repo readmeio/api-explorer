@@ -101,6 +101,7 @@ class Doc extends React.Component {
                 setLanguage={setLanguage}
                 operation={operation}
                 formData={this.state.formData}
+                language={this.props.language}
               />
             </div>
             <div className="hub-reference-right" />
@@ -189,6 +190,7 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({}),
+  language: PropTypes.string.isRequired,
 };
 
 Doc.defaultProps = {

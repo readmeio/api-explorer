@@ -8,3 +8,12 @@ module.exports = {
   HEADERS: 'x-headers',
   SEND_DEFAULTS: 'x-send-defaults',
 };
+
+module.exports.defaults = {
+  [module.exports.EXPLORER_ENABLED]: true,
+  [module.exports.SAMPLES_ENABLED]: true,
+  [module.exports.SAMPLES_LANGUAGES]: ['curl', 'node', 'ruby', 'javascript', 'python'],
+  [module.exports.PROXY_ENABLED]: true,
+  [module.exports.HEADERS]: undefined,
+  [module.exports.SEND_DEFAULTS]: false,
+};

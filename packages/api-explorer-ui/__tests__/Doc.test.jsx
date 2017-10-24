@@ -22,6 +22,7 @@ const props = {
   },
   oas,
   setLanguage: () => {},
+  language: 'node',
 };
 
 function assertDocElements(component, doc) {
@@ -43,7 +44,7 @@ test('should output a div', () => {
 
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
-  const docComponent = shallow(<Doc doc={doc} setLanguage={() => {}} />);
+  const docComponent = shallow(<Doc doc={doc} setLanguage={() => {}} language="node" />);
 
   assertDocElements(docComponent, doc);
   expect(docComponent.find('.hub-api').length).toBe(0);
