@@ -1,3 +1,4 @@
+const { stringify, parse } = require('querystring');
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -7,9 +8,14 @@ class ApiList extends React.Component {
   constructor(props) {
     super(props);
     const petStore = '/swagger-files/petstore.json';
+    let selected = petStore;
+    try {
+      selected = parse(document.location.search.replace('?', '')).selected;
+    } catch (e) {} // eslint-disable-line no-empty
+
     this.state = {
       apis: localDirectory,
-      selected: petStore,
+      selected,
     };
 
     this.changeApi = this.changeApi.bind(this);
@@ -26,6 +32,7 @@ class ApiList extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.selected !== this.state.selected) {
       this.props.fetchSwagger(this.state.selected);
+      history.pushState('', '', `?${stringify({ selected: this.state.selected })}`);
     }
   }
 
@@ -35,14 +42,15 @@ class ApiList extends React.Component {
   render() {
     return (
       <h3>
-        Select an API from the OpenAPI Directory:&nbsp;
+        Select an API:&nbsp;
         <select onChange={this.changeApi} value={this.state.selected}>
           { Object.keys(this.state.apis).map((name) => {
             const api = this.state.apis[name];
             return (
               <option value={api.versions[api.preferred].swaggerUrl} key={name}>
                 {name.substring(0, 30)}
-              </option>);
+              </option>
+            );
           }) }
         </select>
       </h3>
