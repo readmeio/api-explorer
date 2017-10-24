@@ -18,7 +18,7 @@ function SecurityInput(props) {
     case 'apiKey':
       return <ApiKey {...props} change={change} />;
     default:
-      return <span />;
+      return null;
   }
 }
 
