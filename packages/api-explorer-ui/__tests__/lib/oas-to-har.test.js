@@ -418,7 +418,99 @@ describe('auth', () => {
     ]);
   });
 
-  test('should work for multiple');
+  test('should work for multiple (||)', () => {
+    expect(
+      oasToHar(
+        {
+          components: {
+            securitySchemes: {
+              'auth-header': {
+                type: 'apiKey',
+                name: 'x-auth-header',
+                in: 'header',
+              },
+              'auth-header2': {
+                type: 'apiKey',
+                name: 'x-auth-header2',
+                in: 'header',
+              },
+            },
+          },
+        },
+        {
+          path: '/security',
+          method: 'get',
+          security: [{ 'auth-header': [] }, { 'auth-header2': [] }],
+        },
+        {
+          auth: {
+            'auth-header': 'value',
+            'auth-header2': 'value',
+          },
+        },
+      ).log.entries[0].request.headers,
+    ).toEqual([
+      {
+        name: 'Content-Type',
+        value: 'application/json',
+      },
+      {
+        name: 'x-auth-header',
+        value: 'value',
+      },
+      {
+        name: 'x-auth-header2',
+        value: 'value',
+      },
+    ]);
+  });
+
+  test('should work for multiple (&&)', () => {
+    expect(
+      oasToHar(
+        {
+          components: {
+            securitySchemes: {
+              'auth-header': {
+                type: 'apiKey',
+                name: 'x-auth-header',
+                in: 'header',
+              },
+              'auth-header2': {
+                type: 'apiKey',
+                name: 'x-auth-header2',
+                in: 'header',
+              },
+            },
+          },
+        },
+        {
+          path: '/security',
+          method: 'get',
+          security: [{ 'auth-header': [], 'auth-header2': [] }],
+        },
+        {
+          auth: {
+            'auth-header': 'value',
+            'auth-header2': 'value',
+          },
+        },
+      ).log.entries[0].request.headers,
+    ).toEqual([
+      {
+        name: 'Content-Type',
+        value: 'application/json',
+      },
+      {
+        name: 'x-auth-header',
+        value: 'value',
+      },
+      {
+        name: 'x-auth-header2',
+        value: 'value',
+      },
+    ]);
+  });
 
   test('should not set non-existent values', () => {
     expect(

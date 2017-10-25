@@ -2,11 +2,10 @@ const configureSecurity = require('../../src/lib/configure-security');
 
 describe('configure-security', () => {
   test('should return {} if there is no security keys', () => {
-    expect(configureSecurity({}, {}, {})).toEqual({});
+    expect(configureSecurity({}, {}, '')).toEqual({});
   });
 
   test('should return undefined if no values', () => {
-    const values = {};
     const security = { type: 'apiKey', in: 'header', name: 'key' };
 
     expect(
@@ -14,8 +13,8 @@ describe('configure-security', () => {
         {
           components: { securitySchemes: { test: security } },
         },
-        values,
-        { test: {} },
+        {},
+        'test',
       ),
     ).toEqual(undefined);
   });
@@ -30,7 +29,7 @@ describe('configure-security', () => {
           components: { securitySchemes: { test: security } },
         },
         values,
-        { test: {} },
+        'test',
       ),
     ).toEqual(undefined);
   });
@@ -49,7 +48,7 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           values,
-          { test: {} },
+          'test',
         ),
       ).toEqual({
         type: 'headers',
@@ -71,7 +70,7 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           values,
-          { test: {} },
+          'test',
         ),
       ).toEqual(false);
     });
@@ -88,7 +87,7 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           values,
-          { test: {} },
+          'test',
         ),
       ).toEqual({
         type: 'headers',
@@ -113,7 +112,7 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'oauth2' } } },
           },
           values,
-          { test: {} },
+          'test',
         ),
       ).toEqual({
         type: 'headers',
@@ -135,7 +134,7 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'oauth2' } } },
           },
           values,
-          { test: {} },
+          'test',
         ),
       ).toEqual(false);
     });
@@ -153,7 +152,7 @@ describe('configure-security', () => {
               components: { securitySchemes: { test: security } },
             },
             values,
-            { test: {} },
+            'test',
           ),
         ).toEqual({
           type: 'queryString',
@@ -176,7 +175,7 @@ describe('configure-security', () => {
               components: { securitySchemes: { test: security } },
             },
             values,
-            { test: {} },
+            'test',
           ),
         ).toEqual({
           type: 'headers',
@@ -203,7 +202,7 @@ describe('configure-security', () => {
                 components: { securitySchemes: { test: security } },
               },
               values,
-              { test: {} },
+              'test',
             ),
           ).toEqual({
             type: 'headers',
@@ -229,7 +228,7 @@ describe('configure-security', () => {
                 components: { securitySchemes: { test: security } },
               },
               values,
-              { test: {} },
+              'test',
             ),
           ).toEqual({
             type: 'headers',
@@ -255,7 +254,7 @@ describe('configure-security', () => {
                 components: { securitySchemes: { test: security } },
               },
               values,
-              { test: {} },
+              'test',
             ),
           ).toEqual({
             type: 'headers',

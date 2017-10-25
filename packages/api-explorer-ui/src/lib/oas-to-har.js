@@ -124,11 +124,13 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
 
   if (securityRequirements && securityRequirements.length) {
     // TODO pass these values through the formatter?
-    securityRequirements.forEach(security => {
-      const securityValue = configureSecurity(oas, formData, security);
+    securityRequirements.forEach(schemes => {
+      Object.keys(schemes).forEach(security => {
+        const securityValue = configureSecurity(oas, formData, security);
 
-      if (!securityValue) return;
-      har[securityValue.type].push(securityValue.value);
+        if (!securityValue) return;
+        har[securityValue.type].push(securityValue.value);
+      });
     });
   }
   return { log: { entries: [{ request: har }] } };
