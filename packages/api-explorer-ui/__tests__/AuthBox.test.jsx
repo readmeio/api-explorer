@@ -59,3 +59,20 @@ test('should hide authbox if open=false', () => {
 
   expect(authBox.props().open).toBe(false);
 });
+
+test('should display multiple securities', () => {
+  const authBox = shallow(<AuthBox {...props} />);
+
+  expect(authBox.find('SecurityInput').length).toBe(2);
+});
+
+test('should merge securities auth changes', () => {
+  const onChange = jest.fn();
+  const authBox = mount(<AuthBox {...props} onChange={onChange} />);
+
+  authBox.find('ApiKey').props().change('auth')
+  authBox.find('Oauth2').props().change('auth')
+
+  expect(onChange.mock.calls[0][0]).toEqual({ auth: { apiKey: 'auth' } })
+  expect(onChange.mock.calls[1][0]).toEqual({ auth: { apiKey: 'auth', oauth: 'auth' } })
+});
