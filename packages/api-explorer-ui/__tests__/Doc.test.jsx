@@ -67,7 +67,7 @@ describe('onSubmit', () => {
   test('should display authentication warning if auth is required for endpoint', () => {
     jest.useFakeTimers();
 
-    const doc = shallow(<Doc {...props} />);
+    const doc = mount(<Doc {...props} />);
 
     doc.instance().onSubmit();
     expect(doc.state('showAuthBox')).toBe(true);

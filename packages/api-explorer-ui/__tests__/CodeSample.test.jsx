@@ -70,7 +70,7 @@ describe('code examples', () => {
     );
 
     expect(codeSample.find('.hub-code-auto').length).toBe(1);
-     // We only render one language at a time
+    // We only render one language at a time
     expect(codeSample.find('.hub-code-auto pre').length).toBe(1);
     expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });

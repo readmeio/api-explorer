@@ -15,12 +15,7 @@ function CodeSample({ oas, setLanguage, operation, formData, language }) {
           return <div className="hub-no-code">No code samples available</div>;
         }
 
-        const snippet = generateCodeSnippet(
-          oas,
-          operation,
-          formData,
-          language,
-        );
+        const snippet = generateCodeSnippet(oas, operation, formData, language);
 
         return (
           <div>
