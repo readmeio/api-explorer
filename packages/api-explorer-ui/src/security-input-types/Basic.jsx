@@ -19,13 +19,12 @@ class Basic extends React.Component {
     );
   }
   render() {
-    const { authInputRef } = this.props;
     return (
       <div className="row">
         <div className="col-xs-6">
           <label htmlFor="user">username</label>
           <input
-            ref={authInputRef}
+            ref={this.props.authInputRef}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="user"
