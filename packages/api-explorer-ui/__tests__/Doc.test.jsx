@@ -2,9 +2,6 @@ global.fetch = require('node-fetch');
 
 global.Request = fetch.Request;
 
-window.HTMLElement.prototype.scrollIntoView = () => {};
-// const scrollIntoView = window.HTMLElement.prototype.scrollIntoView;
-
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
