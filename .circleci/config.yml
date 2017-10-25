@@ -35,4 +35,5 @@ jobs:
       - run: chmod +x ./cc-test-reporter
       - run: ./cc-test-reporter before-build
       - run: npm test
-      - run: ./cc-test-reporter after-build -t lcov --exit-code $?
+      - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer-ui/coverage/lcov.info
+      - run: ./cc-test-reporter upload-coverage
