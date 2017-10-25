@@ -5,28 +5,40 @@ function isAuthReady(operation, authData) {
   const securitySettings = operation.getSecurity();
   if (!securitySettings) return ready;
   securitySettings.forEach(sec => {
-    const key = Object.keys(sec)[0];
+    const keys = Object.keys(sec);
+    // const key = Object.keys(sec)[0];
 
-    if (!operation.oas.components.securitySchemes[key]) return;
-    const security = operation.oas.components.securitySchemes[key];
-    const auth = authInputData[key];
-    if (security.type === 'http' && security.scheme === 'basic') {
-      if (!auth || !auth.username) {
-        ready = false;
+    const securities = [];
+    keys.map(key => {
+      if (!operation.oas.components.securitySchemes[key]) {
+        return;
       }
-    }
+      securities.push([operation.oas.components.securitySchemes[key], authInputData[key]]);
+    });
 
-    if (security.type === 'apiKey') {
-      if (!auth) {
-        ready = false;
+    securities.map(schemes => {
+      // console.log({ security });
+      const security = schemes[0];
+      const auth = schemes[1];
+      // console.log({ auth });
+      if (security.type === 'http' && security.scheme === 'basic') {
+        if (!auth || !auth.username) {
+          ready = false;
+        }
       }
-    }
 
-    if (security.type === 'oauth2') {
-      if (!auth) {
-        ready = false;
+      if (security.type === 'apiKey') {
+        if (!auth) {
+          ready = false;
+        }
       }
-    }
+
+      if (security.type === 'oauth2') {
+        if (!auth) {
+          ready = false;
+        }
+      }
+    });
   });
   return ready;
 }

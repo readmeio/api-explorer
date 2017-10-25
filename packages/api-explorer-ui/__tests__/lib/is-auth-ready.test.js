@@ -13,7 +13,7 @@ describe('isAuthReady', () => {
     expect(
       isAuthReady(operation, {
         oauth: 'bearer',
-        oauthDiff: 'bearer',
+        apiKey: 'bearer',
       }),
     ).toBe(true);
   });
@@ -23,8 +23,8 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: 'bearer',
-        oauthDiff: '',
+        oauth: '',
+        apiKey: 'bearer',
       }),
     ).toBe(false);
   });
@@ -35,7 +35,7 @@ describe('isAuthReady', () => {
     expect(
       isAuthReady(operation, {
         oauth: '',
-        oauthDiff: '',
+        apiKey: '',
       }),
     ).toBe(false);
   });

@@ -7,37 +7,58 @@
   "paths": {
     "/things": {
       "post": {
-        "security": [{
-          "oauth": ["write:things"]
-        }, {
-          "apiKey": []
-        }]
+        "security": [
+          {
+            "oauth": ["write:things"]
+          },
+          {
+            "apiKey": []
+          }
+        ]
       }
     },
     "/and-security": {
       "post": {
-        "security": [{
-          "oauth": ["write:things"],
-          "apiKey": []
-        }]
+        "security": [
+          {
+            "oauth": ["write:things"],
+            "apiKey": []
+          }
+        ]
       }
     },
     "/and-or-security": {
       "post": {
-        "security": [{
-          "oauth": ["write:things"],
-          "apiKey": []
-        },
-        {
-          "oauthDiff": ["write:things"]
-        }]
+        "security": [
+          {
+            "oauth": ["write:things"],
+            "apiKey": []
+          },
+          {
+            "oauthDiff": ["write:things"]
+          }
+        ]
+      }
+    },
+    "/or-security": {
+      "post": {
+        "security": [
+          {
+            "oauth": ["write:things"]
+          },
+          {
+            "oauthDiff": ["write:things"]
+          }
+        ]
       }
     },
     "/single-auth": {
       "post": {
-        "security": [{
-          "apiKey": []
-        }]
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
       }
     },
     "/no-auth": {
@@ -45,11 +66,14 @@
     },
     "/multiple-oauths": {
       "post": {
-        "security": [{
-          "oauth": ["write:things", "read:things"]
-        }, {
-          "oauthDiff": ["write:things", "read:things"]
-        }]
+        "security": [
+          {
+            "oauth": ["write:things", "read:things"]
+          },
+          {
+            "oauthDiff": ["write:things", "read:things"]
+          }
+        ]
       }
     }
   },
@@ -82,6 +106,6 @@
         "name": "apiKey",
         "in": "header"
       }
-    }    
+    }
   }
 }
