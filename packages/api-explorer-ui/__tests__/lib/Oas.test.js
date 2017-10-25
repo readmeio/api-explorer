@@ -139,10 +139,23 @@ describe('operation.prepareSecurity()', () => {
     expect(operation.prepareSecurity()).toMatchSnapshot();
   });
 
-  test('should work for multiple securities', () => {
+  test('should work for multiple securities (||)', () => {
     const operation = new Oas(multipleSecurities).operation('/things', 'post');
 
     expect(Object.keys(operation.prepareSecurity()).length).toBe(2);
+  });
+
+  test('should work for multiple securities (&&)', () => {
+    const operation = new Oas(multipleSecurities).operation('/and-security', 'post');
+
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(2);
+  });
+
+  test('should work for multiple securities (&& and ||)', () => {
+    const operation = new Oas(multipleSecurities).operation('/and-or-security', 'post');
+
+    expect(operation.prepareSecurity().OAuth2.length).toBe(2);
+    expect(operation.prepareSecurity().Header.length).toBe(1);
   });
 
   test('should set a `key` property');
