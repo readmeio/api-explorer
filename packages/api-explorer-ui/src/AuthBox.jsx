@@ -48,14 +48,14 @@ class AuthBox extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.auth !== this.state.auth) this.props.onChange({ auth: this.state.auth })
+    if (prevState.auth !== this.state.auth) this.props.onChange({ auth: this.state.auth });
   }
   onChange(auth) {
     this.setState(previousState => {
       return {
         auth: Object.assign({}, previousState.auth, auth),
       };
-    })
+    });
   }
   render() {
     const { authInputRef, operation, onSubmit, open, needsAuth, toggle } = this.props;

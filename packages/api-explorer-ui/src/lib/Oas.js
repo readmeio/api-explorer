@@ -29,7 +29,7 @@ class Operation {
           return false;
         }
 
-        return keys.map((key) => {
+        return keys.map(key => {
           let security;
           try {
             security = this.oas.components.securitySchemes[key];
@@ -56,7 +56,7 @@ class Operation {
       })
       .filter(Boolean)
       .reduce((prev, securities) => {
-        securities.forEach((security) => {
+        securities.forEach(security => {
           if (!prev[security.type]) prev[security.type] = [];
           prev[security.type].push(security.security);
         });

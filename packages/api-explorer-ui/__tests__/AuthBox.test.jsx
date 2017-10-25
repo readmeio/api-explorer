@@ -70,9 +70,15 @@ test('should merge securities auth changes', () => {
   const onChange = jest.fn();
   const authBox = mount(<AuthBox {...props} onChange={onChange} />);
 
-  authBox.find('ApiKey').props().change('auth')
-  authBox.find('Oauth2').props().change('auth')
+  authBox
+    .find('ApiKey')
+    .props()
+    .change('auth');
+  authBox
+    .find('Oauth2')
+    .props()
+    .change('auth');
 
-  expect(onChange.mock.calls[0][0]).toEqual({ auth: { apiKey: 'auth' } })
-  expect(onChange.mock.calls[1][0]).toEqual({ auth: { apiKey: 'auth', oauth: 'auth' } })
+  expect(onChange.mock.calls[0][0]).toEqual({ auth: { apiKey: 'auth' } });
+  expect(onChange.mock.calls[1][0]).toEqual({ auth: { apiKey: 'auth', oauth: 'auth' } });
 });
