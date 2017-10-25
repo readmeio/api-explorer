@@ -47,7 +47,6 @@ class Doc extends React.Component {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.inputElement.focus();
-        this.inputElement.scrollIntoView();
         this.setState({ needsAuth: true });
       }, 600);
       return false;
