@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(operation, onChange, onSubmit) {
+function renderSecurities(authInputRef, operation, onChange, onSubmit) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -26,7 +26,13 @@ function renderSecurities(operation, onChange, onSubmit) {
               // )
             }
             {securities.map(security => (
-              <SecurityInput key={security._key} scheme={security} apiKey="" onChange={onChange} />
+              <SecurityInput
+                key={security._key}
+                scheme={security}
+                apiKey=""
+                onChange={onChange}
+                authInputRef={authInputRef}
+              />
             ))}
           </section>
         </div>
@@ -35,7 +41,7 @@ function renderSecurities(operation, onChange, onSubmit) {
   });
 }
 
-function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
+function AuthBox({ authInputRef, operation, onChange, onSubmit, open, needsAuth, toggle }) {
   if (!operation.hasAuth()) return null;
 
   return (
@@ -47,7 +53,7 @@ function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
       <div className="nopad">
         <div className="triangle" />
         <div>
-          {renderSecurities(operation, onChange, e => {
+          {renderSecurities(authInputRef, operation, onChange, e => {
             e.preventDefault();
             onSubmit();
           })}
@@ -65,6 +71,7 @@ function AuthBox({ operation, onChange, onSubmit, open, needsAuth, toggle }) {
 
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
+  authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   toggle: PropTypes.func.isRequired,
@@ -75,6 +82,7 @@ AuthBox.propTypes = {
 AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
+  authInputRef: () => {},
 };
 
 module.exports = AuthBox;

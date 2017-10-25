@@ -5,9 +5,9 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-const generateCodeSnippets = require('./lib/generate-code-snippets');
+const generateCodeSnippet = require('./lib/generate-code-snippet');
 
-function CodeSample({ oas, setLanguage, operation, formData }) {
+function CodeSample({ oas, setLanguage, operation, formData, language }) {
   return (
     <div className="code-sample tabber-parent">
       {(() => {
@@ -15,12 +15,7 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
           return <div className="hub-no-code">No code samples available</div>;
         }
 
-        const snippets = generateCodeSnippets(
-          oas,
-          operation,
-          formData,
-          oas[extensions.SAMPLES_LANGUAGES],
-        );
+        const snippet = generateCodeSnippet(oas, operation, formData, language);
 
         return (
           <div>
@@ -38,7 +33,7 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
                         setLanguage(lang);
                       }}
                     >
-                      {generateCodeSnippets.getLangName(lang)}
+                      {generateCodeSnippet.getLangName(lang)}
                     </a>
                   }
                 </li>
@@ -46,14 +41,11 @@ function CodeSample({ oas, setLanguage, operation, formData }) {
             </ul>
 
             <div className="hub-code-auto">
-              {Object.keys(snippets).map(lang => (
-                <pre
-                  key={lang}
-                  className={`tomorrow-night hub-lang hub-lang-${lang}`}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: snippets[lang] }}
-                />
-              ))}
+              <pre
+                className={`tomorrow-night hub-lang hub-lang-${language}`}
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: snippet }}
+              />
             </div>
           </div>
         );
@@ -67,6 +59,7 @@ CodeSample.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 module.exports = CodeSample;

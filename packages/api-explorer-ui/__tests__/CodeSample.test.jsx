@@ -10,6 +10,7 @@ const props = {
   setLanguage: () => {},
   operation: new Operation({}, '/pet/{id}', 'get'),
   formData: {},
+  language: 'node',
 };
 
 describe('tabs', () => {
@@ -17,7 +18,7 @@ describe('tabs', () => {
   test('should display tabs if there are examples in the oas file');
 
   test('should display tabs if SAMPLES_ENABLED is true', () => {
-    const languages = ['node'];
+    const languages = ['node', 'curl'];
     const codeSample = shallow(
       <CodeSample
         {...props}
@@ -31,7 +32,7 @@ describe('tabs', () => {
       />,
     );
 
-    expect(codeSample.find('ul.code-sample-tabs').length).toBe(1);
+    expect(codeSample.find('ul.code-sample-tabs li').length).toBe(2);
     expect(codeSample.find('li').length).toBe(languages.length);
   });
 
@@ -54,7 +55,7 @@ describe('tabs', () => {
 
 describe('code examples', () => {
   test('should display examples if SAMPLES_ENABLED is true', () => {
-    const languages = ['node'];
+    const languages = ['node', 'curl'];
     const codeSample = shallow(
       <CodeSample
         {...props}
@@ -69,7 +70,8 @@ describe('code examples', () => {
     );
 
     expect(codeSample.find('.hub-code-auto').length).toBe(1);
-    expect(codeSample.find('.hub-code-auto pre').length).toBe(languages.length);
+    // We only render one language at a time
+    expect(codeSample.find('.hub-code-auto pre').length).toBe(1);
     expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 });

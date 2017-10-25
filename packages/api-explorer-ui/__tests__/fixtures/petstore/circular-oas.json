@@ -1013,8 +1013,9 @@
         }
       },
       "api_key": {
-        "type": "http",
-        "scheme": "basic"
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
       }
     },
     "headers": {}

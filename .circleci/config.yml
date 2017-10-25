@@ -8,6 +8,8 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.4.0
+        environment:
+          CC_TEST_REPORTER_ID: 3597ab16382afb6495a5f38a3a11efd30cbe10084edfa4f1c512e9b77267de3b
 
     working_directory: ~/repo
 
@@ -29,4 +31,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
+      - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      - run: chmod +x ./cc-test-reporter
+      - run: ./cc-test-reporter before-build
       - run: npm test
+      - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer-ui/coverage/lcov.info
+      - run: ./cc-test-reporter upload-coverage
