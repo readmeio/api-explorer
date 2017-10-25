@@ -19,13 +19,13 @@ class Basic extends React.Component {
     );
   }
   render() {
-    const { inputRef } = this.props;
+    const { authInputRef } = this.props;
     return (
       <div className="row">
         <div className="col-xs-6">
           <label htmlFor="user">username</label>
           <input
-            ref={inputRef}
+            ref={authInputRef}
             type="text"
             onChange={e => this.inputChange(e.currentTarget.name, e.currentTarget.value)}
             name="user"
@@ -46,11 +46,11 @@ class Basic extends React.Component {
 
 Basic.propTypes = {
   change: PropTypes.func.isRequired,
-  inputRef: PropTypes.func,
+  authInputRef: PropTypes.func,
 };
 
 Basic.defaultProps = {
-  inputRef: () => {},
+  authInputRef: () => {},
 };
 
 module.exports = Basic;

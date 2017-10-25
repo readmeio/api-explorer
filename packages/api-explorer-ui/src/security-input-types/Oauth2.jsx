@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function Oauth2({ apiKey, inputRef, oauthUrl, change }) {
+function Oauth2({ apiKey, authInputRef, oauthUrl, change }) {
   if (!apiKey && oauthUrl) {
     return (
       <section>
@@ -39,7 +39,7 @@ function Oauth2({ apiKey, inputRef, oauthUrl, change }) {
         </div>
         <div className="col-xs-6">
           <input
-            ref={inputRef}
+            ref={authInputRef}
             type="text"
             onChange={e => change(e.currentTarget.value)}
             name="apiKey"
@@ -54,13 +54,13 @@ Oauth2.propTypes = {
   apiKey: PropTypes.string,
   oauthUrl: PropTypes.string,
   change: PropTypes.func.isRequired,
-  inputRef: PropTypes.func,
+  authInputRef: PropTypes.func,
 };
 
 Oauth2.defaultProps = {
   apiKey: '',
   oauthUrl: '',
-  inputRef: () => {},
+  authInputRef: () => {},
 };
 
 module.exports = Oauth2;

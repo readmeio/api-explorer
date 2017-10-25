@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const Cookie = require('js-cookie');
 
-function ApiKey({ scheme, inputRef, change }) {
+function ApiKey({ scheme, authInputRef, change }) {
   const apiKeyCookie = Cookie.get('api_key');
   // apiKeyCookie = apiKeyCookie || {e => apiKey.change(e.currentTarget.value)};
   return (
@@ -12,7 +12,7 @@ function ApiKey({ scheme, inputRef, change }) {
       </div>
       <div className="col-xs-7">
         <input
-          ref={inputRef}
+          ref={authInputRef}
           type="text"
           onChange={e => change(e.currentTarget.value)}
           value={apiKeyCookie}
@@ -26,12 +26,12 @@ ApiKey.propTypes = {
   scheme: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
-  inputRef: PropTypes.func,
+  authInputRef: PropTypes.func,
   change: PropTypes.func.isRequired,
 };
 
 ApiKey.defaultProps = {
-  inputRef: () => {},
+  authInputRef: () => {},
 };
 
 module.exports = ApiKey;

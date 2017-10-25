@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(inputRef, operation, needsAuth, onChange, onSubmit) {
+function renderSecurities(authInputRef, operation, onChange, onSubmit) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -31,7 +31,7 @@ function renderSecurities(inputRef, operation, needsAuth, onChange, onSubmit) {
                 scheme={security}
                 apiKey=""
                 onChange={onChange}
-                inputRef={inputRef}
+                authInputRef={authInputRef}
               />
             ))}
           </section>
@@ -41,7 +41,7 @@ function renderSecurities(inputRef, operation, needsAuth, onChange, onSubmit) {
   });
 }
 
-function AuthBox({ inputRef, operation, onChange, onSubmit, open, needsAuth, toggle }) {
+function AuthBox({ authInputRef, operation, onChange, onSubmit, open, needsAuth, toggle }) {
   if (!operation.hasAuth()) return null;
 
   return (
@@ -53,7 +53,7 @@ function AuthBox({ inputRef, operation, onChange, onSubmit, open, needsAuth, tog
       <div className="nopad">
         <div className="triangle" />
         <div>
-          {renderSecurities(inputRef, operation, needsAuth, onChange, e => {
+          {renderSecurities(authInputRef, operation, onChange, e => {
             e.preventDefault();
             onSubmit();
           })}
@@ -71,7 +71,7 @@ function AuthBox({ inputRef, operation, onChange, onSubmit, open, needsAuth, tog
 
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
-  inputRef: PropTypes.func,
+  authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   toggle: PropTypes.func.isRequired,
@@ -82,7 +82,7 @@ AuthBox.propTypes = {
 AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
-  inputRef: () => {},
+  authInputRef: () => {},
 };
 
 module.exports = AuthBox;
