@@ -7,7 +7,7 @@ const Basic = require('./security-input-types/Basic');
 
 function SecurityInput(props) {
   function change(value) {
-    return props.onChange({ auth: { [props.scheme._key]: value } });
+    return props.onChange({ [props.scheme._key]: value });
   }
   switch (props.scheme.type) {
     case 'oauth2':
