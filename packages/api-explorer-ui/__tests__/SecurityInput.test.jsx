@@ -55,7 +55,6 @@ describe('oauth2', () => {
 describe('apiKey', () => {
   const props = {
     scheme: { type: 'apiKey', name: 'api_key', _key: 'api_key' },
-    focus: true,
     onChange: () => {},
   };
 
