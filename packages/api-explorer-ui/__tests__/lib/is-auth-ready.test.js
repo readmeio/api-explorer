@@ -69,13 +69,21 @@ describe('isAuthReady', () => {
     ).toBe(false);
   });
 
-  it.only('should return false if both security types required are missing (&& ||)', () => {
+  it('should return false if both security types required are missing (&& ||)', () => {
     const operation = oas2.operation('/and-or-security', 'post');
 
     expect(
       isAuthReady(operation, {
         oauth: 'bearer',
         apiKey: '',
+        oauthDiff: '',
+      }),
+    ).toBe(false);
+
+    expect(
+      isAuthReady(operation, {
+        oauth: '',
+        apiKey: 'key',
         oauthDiff: '',
       }),
     ).toBe(false);

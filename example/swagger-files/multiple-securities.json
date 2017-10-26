@@ -23,9 +23,6 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
         }
       }
     },
@@ -45,9 +42,6 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
         }
       }
     },
@@ -70,9 +64,6 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
         }
       }
     },
@@ -94,9 +85,6 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
         }
       }
     },
@@ -115,9 +103,6 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
         }
       }
     },
@@ -131,9 +116,6 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
         }
       }
     },
@@ -155,67 +137,38 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/Pet"
         }
       }
     }
   },
-  "x-explorer-enabled": true,
   "x-samples-enabled": true,
-  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
-  "components": {
-    "securitySchemes": {
-      "oauth": {
-        "type": "oauth2",
-        "flows": {
-          "implicit": {
-            "authorizationUrl": "http://example.com/oauth/dialog",
-            "scopes": {
-              "write:things": "Add things to your account"
-            }
+  "securityDefinitions": {
+    "oauth": {
+      "type": "oauth2",
+      "flows": {
+        "implicit": {
+          "authorizationUrl": "http://example.com/oauth/dialog",
+          "scopes": {
+            "write:things": "Add things to your account"
           }
         }
-      },
-      "oauthDiff": {
-        "type": "oauth2",
-        "flows": {
-          "implicit": {
-            "authorizationUrl": "http://example.com/oauth/dialog",
-            "scopes": {
-              "write:things": "Add things to your account"
-            }
+      }
+    },
+    "oauthDiff": {
+      "type": "oauth2",
+      "flows": {
+        "implicit": {
+          "authorizationUrl": "http://example.com/oauth/dialog",
+          "scopes": {
+            "write:things": "Add things to your account"
           }
         }
-      },
-      "apiKey": {
-        "type": "apiKey",
-        "name": "apiKey",
-        "in": "header"
       }
     },
-    "responses": {},
-    "parameters": {},
-    "examples": {},
-    "requestBodies": {
-      "Pet": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
-          },
-          "application/xml": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
-          }
-        },
-        "description": "Pet object that needs to be added to the store",
-        "required": true
-      }
-    },
-    "headers": {}
+    "apiKey": {
+      "type": "apiKey",
+      "name": "apiKey",
+      "in": "header"
+    }
   }
 }

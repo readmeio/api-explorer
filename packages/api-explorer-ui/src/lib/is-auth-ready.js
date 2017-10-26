@@ -10,23 +10,15 @@ function isAuthReady(operation, authData) {
   const securities = [];
   const multipleSecurities = [];
   if (!securitySettings) return ready;
-  // console.log(securitySettings);
 
+  // handle or cases
   if (securitySettings.length > 1) {
     const multipleObjectKeys = [];
     securitySettings.forEach(securitySetting => {
       multipleObjectKeys.push(Object.keys(securitySetting));
     });
-    // console.log(...multipleObjectKeys);
-    // const flattened = [].concat(...multipleObjectKeys);
-    // flattened.map(key => {
-    //   if (!operation.oas.components.securitySchemes[key]) {
-    //     return;
-    //   }
-    //   securities.push([operation.oas.components.securitySchemes[key], authInputData[key]]);
-    // });
     multipleObjectKeys.forEach(arr => {
-      // console.log(arr);
+      // groups and cases together
       if (arr.length > 1) {
         arr.forEach(key => {
           if (!operation.oas.components.securitySchemes[key]) {
@@ -37,7 +29,6 @@ function isAuthReady(operation, authData) {
             authInputData[key],
           ]);
         });
-        console.log(multipleSecurities);
         securities.push(multipleSecurities);
       } else {
         arr.forEach(key => {
@@ -48,33 +39,58 @@ function isAuthReady(operation, authData) {
         });
       }
     });
-    console.log(securities);
+
     securities.forEach(schemes => {
-      const security = schemes[0];
-      const auth = schemes[1];
-      // console.log({ auth });
-      if (security.type === 'http' && security.scheme === 'basic') {
-        if (!auth || !auth.username) {
-          obj.security.push(false);
-        }
-      }
+      // handle and cases within an or case
+      if (Array.isArray(schemes[0]) && Array.isArray(schemes[1])) {
+        schemes.forEach(security => {
+          const securityObj = security[0];
+          const authVal = security[1];
 
-      if (security.type === 'apiKey') {
-        if (!auth) {
-          obj.security.push(false);
-        }
-      }
+          if (securityObj.type === 'http' && securityObj.scheme === 'basic') {
+            if (!authVal || !authVal.username) {
+              obj.securities.push(false);
+            }
+          }
 
-      if (security.type === 'oauth2') {
-        if (!auth) {
-          obj.security.push(false);
+          if (securityObj.type === 'apiKey') {
+            if (!authVal) {
+              obj.securities.push(false);
+            }
+          }
+
+          if (securityObj.type === 'oauth2') {
+            if (!authVal) {
+              obj.securities.push(false);
+            }
+          }
+        });
+      } else {
+        const security = schemes[0];
+        const auth = schemes[1];
+        if (security.type === 'http' && security.scheme === 'basic') {
+          if (!auth || !auth.username) {
+            obj.security.push(false);
+          }
+        }
+
+        if (security.type === 'apiKey') {
+          if (!auth) {
+            obj.security.push(false);
+          }
+        }
+
+        if (security.type === 'oauth2') {
+          if (!auth) {
+            obj.security.push(false);
+          }
         }
       }
     });
-    // console.log(obj);
+
     if (obj.securities.length === 0 && obj.security.length === 2) {
       ready = false;
-    } else if (obj.securities.indexOf(false) !== -1 && obj[index] === false) {
+    } else if (obj.securities.indexOf(false) !== -1 && obj.security.indexOf(false) !== -1) {
       ready = false;
     }
   } else {
@@ -87,51 +103,11 @@ function isAuthReady(operation, authData) {
         }
         securities.push([operation.oas.components.securitySchemes[key], authInputData[key]]);
       });
-      // console.log(securities);
-      //    if (securities.length > 1) {
-      //     // at least one  securities need to be !auth to be false
-      //     securities.map(schemes => {
-      //       const security = schemes[0];
-      //       const auth = schemes[1];
-      //       if (security.type === 'http' && security.scheme === 'basic') {
-      //         if (!auth || !auth.username) {
-      //           // ready = false;
-      //           obj.securities.push(false);
-      //         }
-      //         obj.securities.push(true);
-      //       }
-      //
-      //       if (security.type === 'apiKey') {
-      //         if (!auth) {
-      //           // ready = false;
-      //           obj.securities.push(false);
-      //         }
-      //         obj.securities.push(true);
-      //       }
-      //
-      //       if (security.type === 'oauth2') {
-      //         if (!auth) {
-      //           // ready = false;
-      //           obj.securities.push(false);
-      //         }
-      //         obj.securities.push(true);
-      //       }
-      //     });
-      //   }
-      //   // console.log(JSON.stringify(obj));
-      //   const index = Object.keys(obj)[0];
-      //   if (obj.securities.length === 0) {
-      //     if (obj[index] === false) {
-      //       ready = false;
-      //     }
-      //   } else if (obj.securities.indexOf(false) !== -1 && obj[index] === false) {
-      //     ready = false;
-      //   }
-      // }
+
       securities.map(schemes => {
         const security = schemes[0];
         const auth = schemes[1];
-        // console.log({ auth });
+
         if (security.type === 'http' && security.scheme === 'basic') {
           if (!auth || !auth.username) {
             ready = false;
