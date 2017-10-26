@@ -5,7 +5,7 @@ const showCodeResults = require('./lib/show-code-results');
 const statusCodes = require('./lib/statuscodes');
 // const { replaceVars } = require('./lib/replace-vars');
 const extensions = require('../../readme-oas-extensions');
-const generateCodeSnippets = require('./lib/generate-code-snippets');
+const { getLangName } = require('./lib/generate-code-snippet');
 const syntaxHighlighter = require('../../readme-syntax-highlighter');
 const codemirror = require('../../readme-syntax-highlighter/codemirror');
 
@@ -229,7 +229,7 @@ class CodeSampleResponse extends React.Component {
                             </em>
                           </span>
                         ) : (
-                          <span>{generateCodeSnippets.getLangName(example.language)}</span>
+                          <span>{getLangName(example.language)}</span>
                         )}
                       </a>
                     );

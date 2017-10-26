@@ -1,7 +1,7 @@
 // const { replaceVars } = require('../../src/lib/replace-vars');
 //
-// describe('replaceVars', () => {
-//   it('should return true if auth data is passed in correctly for api key condition', () => {
+describe('replaceVars', () => {
+  it.skip('should return true if auth data is passed in correctly for api key condition', () => {
 //     // const operation = oas.operation('/api-key', 'post');
 //     //
 //     expect(
@@ -17,5 +17,5 @@
 //         name: 'Test user name',
 //       },
 //     });
-//   });
-// });
+  });
+});

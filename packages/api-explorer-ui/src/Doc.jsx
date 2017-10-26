@@ -64,7 +64,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    fetchHar(req)
+    return fetchHar(req)
       .then(res => {
         const contentType = res.headers.get('content-type');
         const isJson = contentType && contentType.includes('application/json');
@@ -79,8 +79,6 @@ class Doc extends React.Component {
           result: result(res, responseBody, req),
         });
       });
-
-    return true;
   }
 
   toggleAuth(e) {

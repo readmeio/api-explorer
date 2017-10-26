@@ -1,13 +1,11 @@
-global.fetch = require('node-fetch');
+const { Request, Response } = require('node-fetch');
 
-global.Request = fetch.Request;
+global.Request = Request;
 
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
 const oas = require('./fixtures/petstore/circular-oas.json');
-
-Doc.prototype.onSubmit = jest.fn(Doc.prototype.onSubmit);
 
 const props = {
   doc: {
@@ -97,38 +95,34 @@ describe('onSubmit', () => {
       },
       oas,
       setLanguage: () => {},
+      language: 'node'
     };
-    // Doc.prototype.onSubmit = jest.fn(Doc.prototype.onSubmit);
-    //
 
-    window.fetch = jest.fn(req => Promise.resolve({ test: 1 }));
+    const fetch = window.fetch;
+
+    window.fetch = (request) => {
+      expect(request.url).toContain(oas.servers[0].url)
+      return Promise.resolve(new Response(JSON.stringify({ id: 1 }), { headers: {'content-type': 'application/json' }}))
+    }
 
     const doc = mount(<Doc {...props2} />);
-    // doc.instance().onSubmit();
-    // doc.instance().onChange({ auth: { api_key: 'api-key' } });
-    // doc.instance().onSubmit();
+    doc.instance().onChange({ auth: { petstore_auth: 'api-key' } });
 
-    // expect(doc.state('loading')).toBe(true);
-    expect(doc.state('showAuthBox')).toBe(false);
-    expect(doc.state('needsAuth')).toBe(false);
+    doc.instance().onSubmit().then(() => {
+      expect(doc.state('loading')).toBe(false);
+      expect(doc.state('result')).toEqual({
+        init: true,
+        isBinary: false,
+        method: 'POST',
+        requestHeaders: ['Content-Type: application/json', 'Authorization: Bearer api-key'].join('\n'),
+        responseHeaders: ['content-type: application/json'],
+        statusCode: [200, 'OK', 'success'],
+        responseBody: { id: 1 },
+        url: 'http://petstore.swagger.io/v2/pet',
+      });
 
-    expect(Doc.prototype.onSubmit).toBeCalled();
-    // expect(doc.state('result')).toEqual({
-    //   init: true,
-    //   isBinary: false,
-    //   method: 'POST',
-    //   requestHeaders: 'Authorization : Bearer api-key',
-    //   responseHeaders: 'content-disposition,application/json',
-    //   statusCode: [200, 'OK', 'success'],
-    //   responseBody: {
-    //     id: 9205436248879918000,
-    //     category: { id: 0 },
-    //     name: '1',
-    //     photoUrls: ['1'],
-    //     tags: [],
-    //   },
-    //   url: 'http://petstore.swagger.io/v2/pet',
-    // });
+      window.fetch = fetch;
+    });
   });
 });
 
