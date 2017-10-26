@@ -3,9 +3,10 @@ const { shallow, mount } = require('enzyme');
 const AuthBox = require('../src/AuthBox');
 
 const Oas = require('../src/lib/Oas.js');
-const petstore = require('./fixtures/multiple-securities/oas');
+const multipleSecurities = require('./fixtures/multiple-securities/oas');
+const authTypes = require('./fixtures/auth-types/oas');
 
-const oas = new Oas(petstore);
+const oas = new Oas(multipleSecurities);
 
 const props = {
   operation: oas.operation('/things', 'post'),
@@ -81,4 +82,21 @@ test('should merge securities auth changes', () => {
 
   expect(onChange.mock.calls[0][0]).toEqual({ auth: { apiKey: 'auth' } });
   expect(onChange.mock.calls[1][0]).toEqual({ auth: { apiKey: 'auth', oauth: 'auth' } });
+});
+
+test("should work for Basic (Basic has it's own state)", () => {
+  const authTypesOas = new Oas(authTypes);
+  const onChange = jest.fn();
+  const authBox = mount(
+    <AuthBox {...props} operation={authTypesOas.operation('/basic', 'post')} onChange={onChange} />,
+  );
+  const basic = authBox.find('Basic').instance();
+
+  basic.inputChange('user', 'user');
+  basic.inputChange('password', 'password');
+
+  expect(onChange.mock.calls[0][0]).toEqual({ auth: { basic: { user: 'user', password: '' } } });
+  expect(onChange.mock.calls[1][0]).toEqual({
+    auth: { basic: { user: 'user', password: 'password' } },
+  });
 });

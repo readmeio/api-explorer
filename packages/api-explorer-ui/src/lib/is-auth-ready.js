@@ -11,7 +11,7 @@ function isAuthReady(operation, authData) {
     const security = operation.oas.components.securitySchemes[key];
     const auth = authInputData[key];
     if (security.type === 'http' && security.scheme === 'basic') {
-      if (!auth || !auth.username) {
+      if (!auth || !auth.user) {
         ready = false;
       }
     }

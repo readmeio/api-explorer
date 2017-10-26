@@ -1,3 +1,4 @@
+const extensions = require('../../../readme-oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
 
@@ -55,7 +56,12 @@ function getContentType(pathOperation) {
   return type;
 }
 
-module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) => {
+module.exports = (
+  oas,
+  pathOperation = { path: '', method: '' },
+  values = {},
+  opts = { proxyUrl: false },
+) => {
   const formData = Object.assign({}, defaultValues, values);
   const har = {
     headers: [],
@@ -64,6 +70,10 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     method: pathOperation.method.toUpperCase(),
     url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
+
+  if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
+    har.url = `https://try.readme.io/${har.url}`;
+  }
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
     if (!pathOperation || !pathOperation.parameters) return key; // No path params at all

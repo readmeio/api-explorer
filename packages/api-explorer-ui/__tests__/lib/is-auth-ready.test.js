@@ -32,13 +32,13 @@ describe('isAuthReady', () => {
   it('should return true if auth data is passed in for basic condition', () => {
     const operation = oas.operation('/basic', 'post');
 
-    expect(isAuthReady(operation, { basic: { username: 'test', password: 'pass' } })).toBe(true);
+    expect(isAuthReady(operation, { basic: { user: 'test', password: 'pass' } })).toBe(true);
   });
 
   it('should return false if auth data is not passed in for basic condition', () => {
     const operation = oas.operation('/basic', 'post');
 
-    expect(isAuthReady(operation, { basic: { username: '', password: '' } })).toBe(false);
+    expect(isAuthReady(operation, { basic: { user: '', password: '' } })).toBe(false);
   });
 
   it('should return true if endpoint does not need auth or passed in auth is correct', () => {
