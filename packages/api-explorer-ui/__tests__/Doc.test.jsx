@@ -1,3 +1,4 @@
+const extensions = require('../../readme-oas-extensions/');
 const { Request, Response } = require('node-fetch');
 
 global.Request = Request;
@@ -95,34 +96,74 @@ describe('onSubmit', () => {
       },
       oas,
       setLanguage: () => {},
-      language: 'node'
+      language: 'node',
     };
 
     const fetch = window.fetch;
 
-    window.fetch = (request) => {
-      expect(request.url).toContain(oas.servers[0].url)
-      return Promise.resolve(new Response(JSON.stringify({ id: 1 }), { headers: {'content-type': 'application/json' }}))
-    }
+    window.fetch = request => {
+      expect(request.url).toContain(oas.servers[0].url);
+      return Promise.resolve(
+        new Response(JSON.stringify({ id: 1 }), {
+          headers: { 'content-type': 'application/json' },
+        }),
+      );
+    };
 
     const doc = mount(<Doc {...props2} />);
     doc.instance().onChange({ auth: { petstore_auth: 'api-key' } });
 
-    doc.instance().onSubmit().then(() => {
-      expect(doc.state('loading')).toBe(false);
-      expect(doc.state('result')).toEqual({
-        init: true,
-        isBinary: false,
-        method: 'POST',
-        requestHeaders: ['Content-Type: application/json', 'Authorization: Bearer api-key'].join('\n'),
-        responseHeaders: ['content-type: application/json'],
-        statusCode: [200, 'OK', 'success'],
-        responseBody: { id: 1 },
-        url: 'http://petstore.swagger.io/v2/pet',
-      });
+    doc
+      .instance()
+      .onSubmit()
+      .then(() => {
+        expect(doc.state('loading')).toBe(false);
+        expect(doc.state('result')).toEqual({
+          init: true,
+          isBinary: false,
+          method: 'POST',
+          requestHeaders: ['Content-Type: application/json', 'Authorization: Bearer api-key'].join(
+            '\n',
+          ),
+          responseHeaders: ['content-type: application/json'],
+          statusCode: [200, 'OK', 'success'],
+          responseBody: { id: 1 },
+          url: 'http://petstore.swagger.io/v2/pet',
+        });
 
-      window.fetch = fetch;
-    });
+        window.fetch = fetch;
+      });
+  });
+
+  test('should make request to the proxy url if necessary', () => {
+    const proxyOas = {
+      servers: [{ url: 'http://example.com' }],
+      [extensions.PROXY_ENABLED]: true,
+      paths: {
+        '/pet/{petId}': {
+          get: {
+            responses: {
+              default: {
+                description: 'desc',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const doc = mount(<Doc {...props} oas={proxyOas} />);
+
+    const fetch = window.fetch;
+
+    window.fetch = request => {
+      expect(request.url).toContain(`https://try.readme.io/${proxyOas.servers[0].url}`);
+      return Promise.resolve(new Response());
+    };
+
+    doc.instance().onSubmit();
+
+    window.fetch = fetch;
   });
 });
 

@@ -46,6 +46,7 @@ class Doc extends React.Component {
       this.oas,
       this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
       this.state.formData,
+      { proxyUrl: true },
     );
 
     if (
