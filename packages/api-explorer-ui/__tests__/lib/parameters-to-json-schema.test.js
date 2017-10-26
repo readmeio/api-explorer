@@ -139,6 +139,39 @@ test('should pass through enum', () => {
     },
   ]);
 });
+
+test('should pass through defaults', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'header',
+          name: 'Accept',
+          schema: {
+            type: 'string',
+            default: 'application/json',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Headers',
+      type: 'header',
+      schema: {
+        type: 'object',
+        properties: {
+          Accept: {
+            default: 'application/json',
+            type: 'string',
+          }
+        },
+        required: [],
+      },
+    },
+  ]);
+});
+
 test.skip('it should work for top-level request body $ref', () => {
   expect(
     parametersToJsonSchema(

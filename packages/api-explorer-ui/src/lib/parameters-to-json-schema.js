@@ -45,6 +45,8 @@ module.exports = pathOperation => {
             schema.type = 'array';
             schema.items = current.schema.items;
           }
+
+          if (current.schema.default) schema.default = current.schema.default;
           if (current.schema.enum) schema.enum = current.schema.enum;
         }
 
