@@ -114,7 +114,7 @@ test('should pass through enum', () => {
           schema: {
             type: 'string',
             enum: ['application/json', 'application/xml'],
-          }
+          },
         },
       ],
     }),
@@ -128,7 +128,7 @@ test('should pass through enum', () => {
           Accept: {
             type: 'string',
             enum: ['application/json', 'application/xml'],
-          }
+          },
         },
         required: [],
       },
@@ -160,7 +160,7 @@ test('should pass through defaults', () => {
           Accept: {
             default: 'application/json',
             type: 'string',
-          }
+          },
         },
         required: [],
       },
@@ -192,14 +192,13 @@ test('it should pass through description', () => {
           Accept: {
             description: 'Expected response format.',
             type: 'string',
-          }
+          },
         },
         required: [],
       },
     },
   ]);
 });
-
 
 test.skip('it should work for top-level request body $ref', () => {
   expect(
