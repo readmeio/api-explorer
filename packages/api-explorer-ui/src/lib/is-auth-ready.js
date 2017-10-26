@@ -48,7 +48,7 @@ function isAuthReady(operation, authData) {
           const authVal = security[1];
 
           if (securityObj.type === 'http' && securityObj.scheme === 'basic') {
-            if (!authVal || !authVal.username) {
+            if (!authVal || !authVal.user) {
               obj.securities.push(false);
             }
           }
@@ -68,8 +68,9 @@ function isAuthReady(operation, authData) {
       } else {
         const security = schemes[0];
         const auth = schemes[1];
+
         if (security.type === 'http' && security.scheme === 'basic') {
-          if (!auth || !auth.username) {
+          if (!auth || !auth.user) {
             obj.security.push(false);
           }
         }
@@ -87,7 +88,6 @@ function isAuthReady(operation, authData) {
         }
       }
     });
-
     if (obj.securities.length === 0 && obj.security.length === 2) {
       ready = false;
     } else if (obj.securities.indexOf(false) !== -1 && obj.security.indexOf(false) !== -1) {
@@ -109,7 +109,7 @@ function isAuthReady(operation, authData) {
         const auth = schemes[1];
 
         if (security.type === 'http' && security.scheme === 'basic') {
-          if (!auth || !auth.username) {
+          if (!auth || !auth.user) {
             ready = false;
           }
         }
@@ -128,7 +128,7 @@ function isAuthReady(operation, authData) {
       });
     });
   }
-
+  console.log(ready);
   return ready;
 }
 
