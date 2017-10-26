@@ -197,7 +197,7 @@ class CodeSampleResponse extends React.Component {
           </div>
 
           <div className="hub-reference-results-examples code-sample">
-            {showCodeResults(operation).length && (
+            {showCodeResults(operation).length > 0 && (
               <span>
                 <ul className="code-sample-tabs hub-reference-results-header">
                   {showCodeResults(operation).map((example, index) => {
