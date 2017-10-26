@@ -139,7 +139,7 @@ class CodeSampleResponse extends React.Component {
                               Reauthenticate via OAuth2
                             </a>
                           </div>(<p> Your OAuth2 token is incorrect or has expired</p>))(
-                            <p>You couldn't be authenticated</p>,
+                          <p>You couldn't be authenticated</p>,
                         )}
                     </div>
                   )}
