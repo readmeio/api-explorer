@@ -8,7 +8,8 @@ class Basic extends React.Component {
     this.inputChange = this.inputChange.bind(this);
   }
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.user !== this.state.user || prevState.password !== this.state.password) this.props.change(this.state);
+    if (prevState.user !== this.state.user || prevState.password !== this.state.password)
+      this.props.change(this.state);
   }
   inputChange(name, value) {
     this.setState(previousState => {

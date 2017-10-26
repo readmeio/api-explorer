@@ -84,15 +84,19 @@ test('should merge securities auth changes', () => {
   expect(onChange.mock.calls[1][0]).toEqual({ auth: { apiKey: 'auth', oauth: 'auth' } });
 });
 
-test('should work for Basic (Basic has it\'s own state)', () => {
+test("should work for Basic (Basic has it's own state)", () => {
   const authTypesOas = new Oas(authTypes);
   const onChange = jest.fn();
-  const authBox = mount(<AuthBox {...props} operation={authTypesOas.operation('/basic', 'post')} onChange={onChange} />);
+  const authBox = mount(
+    <AuthBox {...props} operation={authTypesOas.operation('/basic', 'post')} onChange={onChange} />,
+  );
   const basic = authBox.find('Basic').instance();
 
   basic.inputChange('user', 'user');
   basic.inputChange('password', 'password');
 
   expect(onChange.mock.calls[0][0]).toEqual({ auth: { basic: { user: 'user', password: '' } } });
-  expect(onChange.mock.calls[1][0]).toEqual({ auth: { basic: { user: 'user', password: 'password' } } });
+  expect(onChange.mock.calls[1][0]).toEqual({
+    auth: { basic: { user: 'user', password: 'password' } },
+  });
 });
