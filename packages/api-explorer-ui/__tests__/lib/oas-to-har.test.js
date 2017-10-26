@@ -1,3 +1,4 @@
+const extensions = require('../../../readme-oas-extensions');
 const oasToHar = require('../../src/lib/oas-to-har');
 
 test('should output a har format', () => {
@@ -50,7 +51,33 @@ describe('url', () => {
     ).toBe('http://example.com/path%20with%20spaces');
   });
 
-  test('should replace path params with values');
+  describe('proxy url', () => {
+    test('should not be prefixed with without option', () => {
+      expect(
+        oasToHar(
+          {
+            servers: [{ url: 'http://example.com' }],
+            [extensions.PROXY_ENABLED]: true,
+          },
+          { path: '/path', method: 'get' },
+        ).log.entries[0].request.url,
+      ).toBe('http://example.com/path');
+    });
+
+    test('should be prefixed with try.readme.io with option', () => {
+      expect(
+        oasToHar(
+          {
+            servers: [{ url: 'http://example.com' }],
+            [extensions.PROXY_ENABLED]: true,
+          },
+          { path: '/path', method: 'get' },
+          {},
+          { proxyUrl: true },
+        ).log.entries[0].request.url,
+      ).toBe('https://try.readme.io/http://example.com/path');
+    });
+  });
 });
 
 describe('path values', () => {
