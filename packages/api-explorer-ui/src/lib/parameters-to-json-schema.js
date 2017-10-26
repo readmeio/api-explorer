@@ -35,10 +35,9 @@ module.exports = pathOperation => {
       if (parameters.length === 0) return null;
 
       const properties = parameters.reduce((prev, current) => {
-        const schema = {
-          type: 'string',
-          description: current.description || null,
-        };
+        const schema = { type: 'string' };
+
+        if (current.description) schema.description = current.description;
 
         if (current.schema) {
           if (current.schema.type === 'array') {

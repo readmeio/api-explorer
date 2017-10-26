@@ -26,7 +26,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'path parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -40,7 +39,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'query parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -54,7 +52,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'cookie parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -68,7 +65,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'header parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -171,6 +167,39 @@ test('should pass through defaults', () => {
     },
   ]);
 });
+
+test('it should pass through description', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'header',
+          name: 'Accept',
+          description: 'Expected response format.',
+          schema: {
+            type: 'string',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Headers',
+      type: 'header',
+      schema: {
+        type: 'object',
+        properties: {
+          Accept: {
+            description: 'Expected response format.',
+            type: 'string',
+          }
+        },
+        required: [],
+      },
+    },
+  ]);
+});
+
 
 test.skip('it should work for top-level request body $ref', () => {
   expect(
@@ -305,4 +334,3 @@ test.skip('it should work for schemas not in components/schemas', () => {
 });
 
 test('it should make things required correctly');
-test('it should pass through description');
