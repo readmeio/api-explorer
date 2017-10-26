@@ -48,7 +48,7 @@ describe('oauth2', () => {
     securityInput.find('input[type="text"]').instance().value = '1234';
     securityInput.find('input[type="text"]').simulate('change');
 
-    expect(onChange.mock.calls[0][0]).toEqual({ auth: { 'test-auth': '1234' } });
+    expect(onChange.mock.calls[0][0]).toEqual({ 'test-auth': '1234' });
   });
 });
 
@@ -65,13 +65,7 @@ describe('apiKey', () => {
     securityInput.find('input').instance().value = 'user';
     securityInput.find('input').simulate('change');
 
-    expect(onChange.mock.calls[0]).toEqual([
-      {
-        auth: {
-          api_key: 'user',
-        },
-      },
-    ]);
+    expect(onChange.mock.calls[0][0]).toEqual({ api_key: 'user' });
   });
   test('should display name inside label', () => {
     const onChange = jest.fn();
@@ -97,11 +91,9 @@ describe('basic', () => {
     securityInput.find('input[name="password"]').simulate('change');
 
     expect(onChange.mock.calls[1][0]).toEqual({
-      auth: {
-        'test-basic': {
-          user: 'user',
-          password: 'pass',
-        },
+      'test-basic': {
+        user: 'user',
+        password: 'pass',
       },
     });
   });

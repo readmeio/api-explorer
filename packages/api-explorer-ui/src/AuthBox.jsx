@@ -41,32 +41,50 @@ function renderSecurities(authInputRef, operation, onChange, onSubmit) {
   });
 }
 
-function AuthBox({ authInputRef, operation, onChange, onSubmit, open, needsAuth, toggle }) {
-  if (!operation.hasAuth()) return null;
+class AuthBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.onChange = this.onChange.bind(this);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.auth !== this.state.auth) this.props.onChange({ auth: this.state.auth });
+  }
+  onChange(auth) {
+    this.setState(previousState => {
+      return {
+        auth: Object.assign({}, previousState.auth, auth),
+      };
+    });
+  }
+  render() {
+    const { authInputRef, operation, onSubmit, open, needsAuth, toggle } = this.props;
+    if (!operation.hasAuth()) return null;
 
-  return (
-    <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
-      {
-        // eslint-disable-next-line jsx-a11y/anchor-has-content
-        <a href="" className="icon icon-user-lock" onClick={toggle} />
-      }
-      <div className="nopad">
-        <div className="triangle" />
-        <div>
-          {renderSecurities(authInputRef, operation, onChange, e => {
-            e.preventDefault();
-            onSubmit();
-          })}
-        </div>
-        <div className={classNames('hub-authrequired', { active: needsAuth })}>
-          <div className="hub-authrequired-slider">
-            <i className="icon icon-notification" />
-            Authentication is required for this endpoint
+    return (
+      <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
+        {
+          // eslint-disable-next-line jsx-a11y/anchor-has-content
+          <a href="" className="icon icon-user-lock" onClick={toggle} />
+        }
+        <div className="nopad">
+          <div className="triangle" />
+          <div>
+            {renderSecurities(authInputRef, operation, this.onChange, e => {
+              e.preventDefault();
+              onSubmit();
+            })}
+          </div>
+          <div className={classNames('hub-authrequired', { active: needsAuth })}>
+            <div className="hub-authrequired-slider">
+              <i className="icon icon-notification" />
+              Authentication is required for this endpoint
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 AuthBox.propTypes = {

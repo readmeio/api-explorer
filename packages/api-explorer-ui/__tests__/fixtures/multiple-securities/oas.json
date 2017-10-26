@@ -14,6 +14,25 @@
         }]
       }
     },
+    "/and-security": {
+      "post": {
+        "security": [{
+          "oauth": ["write:things"],
+          "apiKey": []
+        }]
+      }
+    },
+    "/and-or-security": {
+      "post": {
+        "security": [{
+          "oauth": ["write:things"],
+          "apiKey": []
+        },
+        {
+          "oauthDiff": ["write:things"]
+        }]
+      }
+    },
     "/single-auth": {
       "post": {
         "security": [{
