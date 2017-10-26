@@ -47,7 +47,7 @@
             "oauth": ["write:things"]
           },
           {
-            "oauthDiff": ["write:things"]
+            "apiKey": []
           }
         ]
       }

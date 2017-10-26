@@ -46,45 +46,68 @@ describe('isAuthReady', () => {
     expect(
       isAuthReady(operation, {
         oauth: 'bearer',
-        oauthDiff: '',
+        apiKey: '',
       }),
     ).toBe(true);
+
     expect(
       isAuthReady(operation, {
         oauth: '',
-        oauthDiff: 'bearer',
+        apiKey: 'bearer',
       }),
     ).toBe(true);
   });
 
-  xit(
-    'should return false if auth data is not passed in correctly for one of the required options',
-    () => {
-      const operation = oas2.operation('/pet', 'put');
+  it('should return false if both of multiple security types required is missing (||)', () => {
+    const operation = oas2.operation('/or-security', 'post');
 
-      expect(isAuthReady(operation, { petstore_auth: '' })).toBe(false);
-      expect(
-        isAuthReady(operation, {
-          api_key: { username: 'test', password: 'pass' },
-          petstore_auth: '',
-        }),
-      ).toBe(false);
-    },
-  );
+    expect(
+      isAuthReady(operation, {
+        oauth: '',
+        oauthDiff: '',
+      }),
+    ).toBe(false);
+  });
 
-  xit(
-    'should return true if auth data is passed in correctly for one of the required options',
-    () => {
-      const operation = oas2.operation('/pet/findByStatus', 'get');
+  it.only('should return false if both security types required are missing (&& ||)', () => {
+    const operation = oas2.operation('/and-or-security', 'post');
 
-      expect(isAuthReady(operation, { petstore_auth: 'bearer' })).toBe(true);
-      expect(
-        isAuthReady(operation, {
-          api_key: { username: 'test', password: 'pass' },
-        }),
-      ).toBe(true);
-    },
-  );
+    expect(
+      isAuthReady(operation, {
+        oauth: 'bearer',
+        apiKey: '',
+        oauthDiff: '',
+      }),
+    ).toBe(false);
+  });
+
+  it('should return true if one security types required (&& ||)', () => {
+    const operation = oas2.operation('/and-or-security', 'post');
+
+    expect(
+      isAuthReady(operation, {
+        oauth: 'bearer',
+        apiKey: '',
+        oauthDiff: 'test',
+      }),
+    ).toBe(true);
+
+    expect(
+      isAuthReady(operation, {
+        oauth: '',
+        apiKey: '',
+        oauthDiff: 'test',
+      }),
+    ).toBe(true);
+
+    expect(
+      isAuthReady(operation, {
+        oauth: 'bearer',
+        apiKey: 'key',
+        oauthDiff: '',
+      }),
+    ).toBe(true);
+  });
 
   it('should return true if auth data is passed in correctly for api key condition', () => {
     const operation = oas.operation('/api-key', 'post');
