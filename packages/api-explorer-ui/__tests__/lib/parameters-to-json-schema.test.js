@@ -107,6 +107,38 @@ test('it should work for request body inline', () => {
   ]);
 });
 
+test('should pass through enum', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'header',
+          name: 'Accept',
+          required: false,
+          schema: {
+            type: 'string',
+            enum: ['application/json', 'application/xml'],
+          }
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Headers',
+      type: 'header',
+      schema: {
+        type: 'object',
+        properties: {
+          Accept: {
+            type: 'string',
+            enum: ['application/json', 'application/xml'],
+          }
+        },
+        required: [],
+      },
+    },
+  ]);
+});
 test.skip('it should work for top-level request body $ref', () => {
   expect(
     parametersToJsonSchema(
