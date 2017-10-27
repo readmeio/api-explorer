@@ -3,6 +3,8 @@ const { shallow } = require('enzyme');
 // const extensions = require('../../readme-oas-extensions');
 const petstore = require('./fixtures/petstore/oas');
 const example = require('./fixtures/example-results/oas');
+const parseResponse = require('../src/lib/parse-response');
+const { Response } = require('node-fetch');
 
 const CodeSampleResponseTabs = require('../src/CodeSampleResponse');
 const Oas = require('../src/lib/Oas');
@@ -10,21 +12,6 @@ const Oas = require('../src/lib/Oas');
 const { Operation } = Oas;
 const oas = new Oas(petstore);
 const props = {
-  result: {
-    isBinary: false,
-    method: 'POST',
-    requestHeaders: 'Authorization : Bearer api-key',
-    responseHeaders: 'content-disposition,application/json',
-    statusCode: [200, 'OK', 'success'],
-    responseBody: {
-      id: 9205436248879918000,
-      category: { id: 0 },
-      name: '1',
-      photoUrls: ['1'],
-      tags: [],
-    },
-    url: 'http://petstore.swagger.io/v2/pet',
-  },
   operation: new Operation({}, '/pet', 'post'),
 };
 
@@ -32,6 +19,21 @@ const noResult = {
   result: null,
   operation: new Operation({}, '/pet', 'post'),
 };
+
+beforeEach(async () => {
+  props.result = await parseResponse(
+    {
+      log: {
+        entries: [
+          { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
+        ],
+      },
+    },
+    new Response('{}', {
+      headers: {},
+    }),
+  );
+});
 
 describe('setTab', () => {
   test('setTab should change state of selectedTab', () => {
@@ -65,20 +67,7 @@ describe('hideResults', () => {
   test('hideResults should render null', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
-    expect(codeSampleResponseTabs.state('result')).toEqual({
-      method: 'POST',
-      requestHeaders: 'Authorization : Bearer api-key',
-      responseHeaders: 'content-disposition,application/json',
-      statusCode: [200, 'OK', 'success'],
-      responseBody: {
-        id: 9205436248879918000,
-        category: { id: 0 },
-        name: '1',
-        photoUrls: ['1'],
-        tags: [],
-      },
-      url: 'http://petstore.swagger.io/v2/pet',
-    });
+    expect(codeSampleResponseTabs.state('result')).toEqual(props.result);
 
     codeSampleResponseTabs.instance().hideResults();
 
@@ -127,16 +116,22 @@ describe('Results body', () => {
     ).toEqual(true);
   });
 
-  test('should not display responseBody if isBinary is true', () => {
+  test('should not display responseBody if isBinary is true', async () => {
     const props2 = {
-      result: {
-        isBinary: true,
-        method: 'POST',
-        requestHeaders: 'Authorization : Bearer api-key',
-        responseHeaders: 'content-disposition,application/json',
-        statusCode: [200, 'OK', 'success'],
-        url: 'http://petstore.swagger.io/v2/pet',
-      },
+      result: await parseResponse(
+        {
+          log: {
+            entries: [
+              {
+                request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] },
+              },
+            ],
+          },
+        },
+        new Response('{}', {
+          headers: { 'content-disposition': 'attachment' },
+        }),
+      ),
       operation: new Operation({}, '/pet', 'post'),
     };
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props2} oas={oas} />);
