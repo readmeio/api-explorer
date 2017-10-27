@@ -65,21 +65,12 @@ class Doc extends React.Component {
       { proxyUrl: true },
     );
 
-    return fetchHar(har)
-      .then(res => {
-        const contentType = res.headers.get('content-type');
-        const isJson = contentType && contentType.includes('application/json');
-
-        return res[isJson ? 'json' : 'text']().then(responseBody => {
-          return { responseBody, res };
-        });
-      })
-      .then(({ responseBody, res }) => {
-        this.setState({
-          loading: false,
-          result: parseResponse(res, responseBody, har),
-        });
+    return fetchHar(har).then(async res => {
+      this.setState({
+        loading: false,
+        result: await parseResponse(har, res),
       });
+    });
   }
 
   toggleAuth(e) {

@@ -1,6 +1,6 @@
 const codeSampleResponse = require('../../src/lib/parse-response');
 const statuscodes = require('../../src/lib/statuscodes');
-const { Headers } = require('node-fetch');
+const { Headers, Response } = require('node-fetch');
 
 function createHar(har) {
   return {
@@ -9,6 +9,9 @@ function createHar(har) {
     },
   };
 }
+
+const url = 'http://petstore.swagger.io/v2/pet';
+const method = 'POST';
 
 const har = createHar({
   headers: [
@@ -21,49 +24,40 @@ const har = createHar({
   postData: {
     text: '{"category":{},"name":1,"photoUrls":[1]}',
   },
-  method: 'POST',
-  url: 'http://petstore.swagger.io/v2/pet',
+  method,
+  url,
 });
 
-const responseBody = {
+const responseBody = JSON.stringify({
   id: 9205436248879918000,
   category: { id: 0 },
   name: '1',
   photoUrls: ['1'],
   tags: [],
-};
+});
 
-const headers = new Headers();
-headers.set('Content-Type', 'application/json');
-headers.set('x-custom-header', 'application/json');
+let response;
 
-test('should return result object', () => {
-  const res = {
-    type: 'cors',
-    url: 'http://petstore.swagger.io/v2/pet',
-    redirected: false,
-    status: 200,
-    ok: true,
-    statusText: 'OK',
-    headers,
-  };
-
-  expect(codeSampleResponse(res, responseBody, har)).toEqual({
-    isBinary: false,
-    method: 'POST',
-    requestHeaders: ['Authorization: Bearer api-key'],
-    responseHeaders: ['content-type: application/json', 'x-custom-header: application/json'],
-    statusCode: [200, 'OK', 'success'],
-    responseBody,
-    url: 'http://petstore.swagger.io/v2/pet',
+beforeEach(() => {
+  response = new Response(responseBody, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-custom-header': 'application/json',
+    },
   });
 });
 
-test('should return array for request headers', () => {
+test('should pass through method', async () => {
+  expect((await codeSampleResponse(har, response)).url).toBe(url);
+});
+
+test('should pass through URL', async () => {
+  expect((await codeSampleResponse(har, response)).method).toBe(method);
+});
+
+test('should return array for request headers', async () => {
   expect(
-    codeSampleResponse(
-      { headers },
-      responseBody,
+    (await codeSampleResponse(
       createHar({
         headers: [
           {
@@ -76,31 +70,46 @@ test('should return array for request headers', () => {
           },
         ],
       }),
-    ).requestHeaders,
+      response,
+    )).requestHeaders,
   ).toEqual(['Authorization: Bearer api-key', 'Authorization1: Bearer api-key1']);
 });
 
-test('should return array for response headers', () => {
-  expect(codeSampleResponse({ headers }, responseBody, har).responseHeaders).toEqual([
+test('should return array for response headers', async () => {
+  expect((await codeSampleResponse(har, response)).responseHeaders).toEqual([
     'content-type: application/json',
     'x-custom-header: application/json',
   ]);
 });
 
-test('should default status to 404', () => {
-  expect(
-    codeSampleResponse(
-      {
-        headers,
-      },
-      responseBody,
-      har,
-    ).statusCode,
-  ).toEqual(statuscodes(404));
+test('should pass through status', async () => {
+  const status = 200;
+  expect((await codeSampleResponse(har, new Response('', { status }))).statusCode).toEqual(
+    statuscodes(status),
+  );
 });
 
-test('isBinary should be true if there is a content-disposition response header', () => {
+test('isBinary should be true if there is a content-disposition response header', async () => {
   const binaryHeaders = new Headers();
   binaryHeaders.set('Content-Disposition', 'attachment; filename="example.txt"');
-  expect(codeSampleResponse({ headers: binaryHeaders }, responseBody, har).isBinary).toEqual(true);
+  expect(
+    (await codeSampleResponse(har, new Response('', { headers: binaryHeaders }))).isBinary,
+  ).toEqual(true);
+});
+
+test('should parse json response', async () => {
+  expect((await codeSampleResponse(har, response)).responseBody).toEqual(JSON.parse(responseBody));
+});
+
+test('should parse non-json response as text', async () => {
+  const nonJsonResponseBody = '<xml-string />';
+  const nonJsonResponse = new Response('<xml-string />', {
+    headers: {
+      'Content-Type': 'application/xml',
+    },
+  });
+
+  expect((await codeSampleResponse(har, nonJsonResponse)).responseBody).toEqual(
+    nonJsonResponseBody,
+  );
 });
