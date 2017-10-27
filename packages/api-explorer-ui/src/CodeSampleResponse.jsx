@@ -51,9 +51,9 @@ class CodeSampleResponse extends React.Component {
           on: result !== null,
         })}
       >
-        <div className="hub-reference-result-slider">
+        <div className="hub-reference-results-slider">
           <div className="hub-reference-results-explorer code-sample">
-            {result === null ? null : (
+            {result !== null && (
               <span>
                 <ul className="code-sample-tabs hub-reference-results-header">
                   <a
@@ -256,7 +256,8 @@ class CodeSampleResponse extends React.Component {
                 </div>
               </span>
             )}
-            {showCodeResults(operation).length === 0 && (
+            {showCodeResults(operation).length === 0 &&
+            result === null && (
               <div className="hub-no-code">
                 {oas[extensions.EXPLORER_ENABLED] ? (
                   'Try the API to see Results'

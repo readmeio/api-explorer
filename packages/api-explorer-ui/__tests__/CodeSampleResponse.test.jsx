@@ -66,7 +66,6 @@ describe('hideResults', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
     expect(codeSampleResponseTabs.state('result')).toEqual({
-      isBinary: false,
       method: 'POST',
       requestHeaders: 'Authorization : Bearer api-key',
       responseHeaders: 'content-disposition,application/json',
@@ -131,7 +130,6 @@ describe('Results body', () => {
   test('should not display responseBody if isBinary is true', () => {
     const props2 = {
       result: {
-        init: true,
         isBinary: true,
         method: 'POST',
         requestHeaders: 'Authorization : Bearer api-key',
@@ -151,8 +149,6 @@ describe('Results body', () => {
   test('should display message if OAuth is incorrect or expired ', () => {
     const props3 = {
       result: {
-        init: true,
-        isBinary: true,
         method: 'POST',
         requestHeaders: 'Authorization : Bearer api-key',
         responseHeaders: 'content-disposition,application/json',
