@@ -117,7 +117,7 @@ describe('Results body', () => {
   });
 
   test('should not display responseBody if isBinary is true', async () => {
-    const props2 = {
+    const binaryResponse = {
       result: await parseResponse(
         {
           log: {
@@ -134,38 +134,39 @@ describe('Results body', () => {
       ),
       operation: new Operation({}, '/pet', 'post'),
     };
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props2} oas={oas} />);
+    const codeSampleResponseTabs = shallow(
+      <CodeSampleResponseTabs {...binaryResponse} oas={oas} />,
+    );
 
     expect(
-      codeSampleResponseTabs.containsMatchingElement(<div> A binary file was returned</div>),
+      codeSampleResponseTabs.containsMatchingElement(<div>A binary file was returned</div>),
     ).toEqual(true);
   });
 
-  test('should display message if OAuth is incorrect or expired ', () => {
-    const props3 = {
-      result: {
-        method: 'POST',
-        requestHeaders: 'Authorization : Bearer api-key',
-        responseHeaders: 'content-disposition,application/json',
-        statusCode: [401, 'Unauthorized', 'error'],
-        responseBody: {
-          id: 9205436248879918000,
-          category: { id: 0 },
-          name: '1',
-          photoUrls: ['1'],
-          tags: [],
+  test('should display message if OAuth is incorrect or expired', async () => {
+    const oauthInvalidResponse = {
+      result: await parseResponse(
+        {
+          log: {
+            entries: [
+              {
+                request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] },
+              },
+            ],
+          },
         },
-        url: 'http://petstore.swagger.io/v2/pet',
-      },
-      operation: new Operation({}, '/pet', 'post'),
-    };
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props3} oas={oas} />);
-
-    expect(
-      codeSampleResponseTabs.containsMatchingElement(
-        <div className="text-center hub-expired-token" />,
+        new Response('{}', {
+          headers: { 'content-disposition': 'attachment' },
+          status: 401,
+        }),
       ),
-    ).toEqual(true);
+      operation: oas.operation('/pet', 'post'),
+    };
+    const codeSampleResponseTabs = shallow(
+      <CodeSampleResponseTabs {...oauthInvalidResponse} oas={oas} />,
+    );
+
+    expect(codeSampleResponseTabs.find('.hub-expired-token').length).toEqual(1);
   });
 });
 

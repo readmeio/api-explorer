@@ -40,10 +40,7 @@ class CodeSampleResponse extends React.Component {
 
   render() {
     const { result, oas, operation } = this.props;
-    let allSecurities;
-    try {
-      allSecurities = operation.prepareSecurity();
-    } catch (e) {} // eslint-disable-line no-empty
+    let securities = operation.prepareSecurity();
 
     return (
       <div
@@ -131,9 +128,9 @@ class CodeSampleResponse extends React.Component {
 
                   {result.statusCode[0] === 401 && (
                     <div className="text-center hub-expired-token">
-                      {allSecurities.OAuth2 ? (
+                      {securities.OAuth2 ? (
                         () => {
-                          if (allSecurities.OAuth2[0].flows.implicit.authorizationUrl) {
+                          if (securities.OAuth2[0].flows.implicit.authorizationUrl) {
                             return (
                               <div>
                                 <p>Your OAuth2 token has expired</p>
