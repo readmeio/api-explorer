@@ -114,7 +114,7 @@ class CodeSampleResponse extends React.Component {
                 >
                   {result.statusCode[0] !== 401 && (
                     <pre className="tomorrow-night">
-                      {result.isBinary && <div> A binary file was returned</div>}
+                      {result.isBinary && <div>A binary file was returned</div>}
                       {!result.isBinary && (
                         <div
                           className="cm-s-tomorrow-night codemirror-highlight"
@@ -143,10 +143,10 @@ class CodeSampleResponse extends React.Component {
                               </div>
                             );
                           }
-                          return <p> Your OAuth2 token is incorrect or has expired</p>;
+                          return <p>Your OAuth2 token is incorrect or has expired</p>;
                         }
                       ) : (
-                        <p> You couldn&apos;t be authenticated</p>
+                        <p>You couldn&apos;t be authenticated</p>
                       )}
                     </div>
                   )}
