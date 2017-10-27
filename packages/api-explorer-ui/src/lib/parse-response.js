@@ -10,7 +10,9 @@ async function parseResponse(har, response) {
     requestHeaders: har.log.entries[0].request.headers.map(
       header => `${header.name}: ${header.value}`,
     ),
-    responseHeaders: Array.from(response.headers.entries()).map(header => header.join(': ')),
+    responseHeaders: Array.from(response.headers.entries())
+      .map(header => header.join(': '))
+      .filter(header => !header.match(/x-final-url/i)),
     isBinary: !!(contentDisposition && contentDisposition.match(/attachment/)),
     url: har.log.entries[0].request.url,
     statusCode: statusCodes(response.status),

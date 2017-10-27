@@ -82,6 +82,17 @@ test('should return array for response headers', async () => {
   ]);
 });
 
+test('should remove x-final-url header set by the proxy', async () => {
+  expect(
+    (await codeSampleResponse(
+      har,
+      new Response('', {
+        headers: { 'x-final-url': 'http://example.com' },
+      }),
+    )).responseHeaders,
+  ).toEqual([]);
+});
+
 test('should pass through status', async () => {
   const status = 200;
   expect((await codeSampleResponse(har, new Response('', { status }))).statusCode).toEqual(
