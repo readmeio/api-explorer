@@ -47,7 +47,6 @@ describe('codeSampleResponse', () => {
     };
 
     expect(codeSampleResponse(res, responseBody, req)).toEqual({
-      init: true,
       isBinary: false,
       method: 'POST',
       requestHeaders: 'Authorization: Bearer api-key',
@@ -71,7 +70,6 @@ describe('codeSampleResponse', () => {
     };
 
     expect(codeSampleResponse(res, responseBody, req)).toEqual({
-      init: true,
       isBinary: false,
       method: 'POST',
       requestHeaders: 'Authorization: Bearer api-key',

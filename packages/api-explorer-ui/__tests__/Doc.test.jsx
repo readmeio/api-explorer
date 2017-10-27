@@ -119,7 +119,6 @@ describe('onSubmit', () => {
       .then(() => {
         expect(doc.state('loading')).toBe(false);
         expect(doc.state('result')).toEqual({
-          init: true,
           isBinary: false,
           method: 'POST',
           requestHeaders: ['Content-Type: application/json', 'Authorization: Bearer api-key'].join(

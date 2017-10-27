@@ -11,7 +11,6 @@ const { Operation } = Oas;
 const oas = new Oas(petstore);
 const props = {
   result: {
-    init: true,
     isBinary: false,
     method: 'POST',
     requestHeaders: 'Authorization : Bearer api-key',
@@ -67,7 +66,6 @@ describe('hideResults', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
     expect(codeSampleResponseTabs.state('result')).toEqual({
-      init: true,
       isBinary: false,
       method: 'POST',
       requestHeaders: 'Authorization : Bearer api-key',

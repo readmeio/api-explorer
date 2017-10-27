@@ -17,7 +17,6 @@ function result(res, responseBody, req) {
   }
 
   const results = {
-    init: true,
     method: req.log.entries[0].request.method,
     requestHeaders: headersFormatted.join('\n'),
     responseHeaders,
