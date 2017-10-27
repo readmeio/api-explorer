@@ -9,6 +9,7 @@
   "paths": {
     "/things": {
       "post": {
+        "operationId": "things",
         "security": [
           {
             "oauth": ["write:things"]
@@ -31,6 +32,7 @@
     },
     "/and-security": {
       "post": {
+        "operationId": "and-security",
         "security": [
           {
             "oauth": ["write:things"],
@@ -51,6 +53,7 @@
     },
     "/and-or-security": {
       "post": {
+        "operationId": "and-or-security",
         "security": [
           {
             "oauth": ["write:things"],
@@ -74,6 +77,7 @@
     },
     "/or-security": {
       "post": {
+        "operationId": "or-security",
         "security": [
           {
             "oauth": ["write:things"]
@@ -96,6 +100,7 @@
     },
     "/single-auth": {
       "post": {
+        "operationId": "single-auth",
         "security": [
           {
             "apiKey": []
@@ -115,6 +120,7 @@
     },
     "/no-auth": {
       "post": {
+        "operationId": "no-auth",
         "summary": "no security needed",
         "parameters": [],
         "responses": {
@@ -126,6 +132,7 @@
     },
     "/multiple-oauths": {
       "post": {
+        "operationId": "multiple-oauths",
         "security": [
           {
             "oauth": ["write:things", "read:things"]
