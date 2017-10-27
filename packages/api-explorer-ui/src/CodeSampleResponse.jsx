@@ -131,16 +131,23 @@ class CodeSampleResponse extends React.Component {
 
                   {result.statusCode[0] === 401 && (
                     <div className="text-center hub-expired-token">
-                      {allSecurities &&
-                        (allSecurities.OAuth2[0].flows.implicit.authorizationUrl &&
-                          <div>
-                            <p>Your OAuth2 token has expired</p>
-                            <a className="btn btn-primary" href="/oauth" target="_self">
-                              Reauthenticate via OAuth2
-                            </a>
-                          </div>(<p> Your OAuth2 token is incorrect or has expired</p>))(
-                          <p>You couldn't be authenticated</p>,
-                        )}
+                      {allSecurities.OAuth2 ? (
+                        () => {
+                          if (allSecurities.OAuth2[0].flows.implicit.authorizationUrl) {
+                            return (
+                              <div>
+                                <p>Your OAuth2 token has expired</p>
+                                <a className="btn btn-primary" href="/oauth" target="_self">
+                                  Reauthenticate via OAuth2
+                                </a>
+                              </div>
+                            );
+                          }
+                          return <p> Your OAuth2 token is incorrect or has expired</p>;
+                        }
+                      ) : (
+                        <p> You couldn&apos;t be authenticated</p>
+                      )}
                     </div>
                   )}
                 </div>
