@@ -58,14 +58,14 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const req = oasToHar(
+    const har = oasToHar(
       this.oas,
       this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
       this.state.formData,
       { proxyUrl: true },
     );
 
-    return fetchHar(req)
+    return fetchHar(har)
       .then(res => {
         const contentType = res.headers.get('content-type');
         const isJson = contentType && contentType.includes('application/json');
@@ -77,7 +77,7 @@ class Doc extends React.Component {
       .then(({ responseBody, res }) => {
         this.setState({
           loading: false,
-          result: parseResponse(res, responseBody, req),
+          result: parseResponse(res, responseBody, har),
         });
       });
   }

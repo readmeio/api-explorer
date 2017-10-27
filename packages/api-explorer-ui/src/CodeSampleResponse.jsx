@@ -161,7 +161,7 @@ class CodeSampleResponse extends React.Component {
 
                   <div className="meta">
                     <label>Request Headers</label>
-                    <pre>{result.requestHeaders.toString()}</pre>
+                    <pre>{result.requestHeaders.join('\n')}</pre>
                   </div>
 
                   <div className="meta">
@@ -189,7 +189,7 @@ class CodeSampleResponse extends React.Component {
 
                   <div className="meta">
                     <label htmlFor="response headers">Response Headers</label>
-                    <pre>{result.responseHeaders.toString()}</pre>
+                    <pre>{result.responseHeaders.join('\n')}</pre>
                   </div>
                 </div>
               </span>
