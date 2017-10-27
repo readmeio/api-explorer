@@ -14,7 +14,7 @@ class Operation {
   }
 
   getSecurity() {
-    return this.security || this.oas.security;
+    return this.security || this.oas.security || [];
   }
 
   prepareSecurity() {

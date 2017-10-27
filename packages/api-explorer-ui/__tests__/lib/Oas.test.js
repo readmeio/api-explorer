@@ -70,6 +70,52 @@ test('should be able to access properties on oas', () => {
   ).toBe('1.0');
 });
 
+describe('operation.getSecurity()', () => {
+  const security = [{ 'auth': [] }];
+
+  test('should return the security on this endpoint', () => {
+    expect(
+      new Oas({
+        info: { version: '1.0' },
+        paths: {
+          '/things': {
+            'post': {
+              security,
+            }
+          },
+        }
+      }).operation('/things', 'post').getSecurity(),
+    ).toBe(security);
+  });
+
+  test('should fallback to global security', () => {
+    expect(
+      new Oas({
+        info: { version: '1.0' },
+        paths: {
+          '/things': {
+            'post': {}
+          },
+        },
+        security,
+      }).operation('/things', 'post').getSecurity(),
+    ).toBe(security);
+  });
+
+  test('should default to empty array', () => {
+    expect(
+      new Oas({
+        info: { version: '1.0' },
+        paths: {
+          '/things': {
+            'post': {}
+          },
+        },
+      }).operation('/things', 'post').getSecurity(),
+    ).toEqual([]);
+  });
+});
+
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
 describe('operation.prepareSecurity()', () => {
   const path = '/auth';
@@ -164,4 +210,9 @@ describe('operation.prepareSecurity()', () => {
   test('apiKey/cookie: should return with a type of Cookie');
 
   test('should throw if attempting to use a non-existent scheme');
+
+  test('should return with an empty object if no security', () => {
+    const operation = new Oas(multipleSecurities).operation('/no-auth', 'post');
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
+  });
 });
