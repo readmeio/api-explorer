@@ -1,4 +1,4 @@
-const codeSampleResponse = require('../../src/lib/code-sample-response');
+const codeSampleResponse = require('../../src/lib/parse-response');
 const { Headers } = require('node-fetch');
 
 const req = {
