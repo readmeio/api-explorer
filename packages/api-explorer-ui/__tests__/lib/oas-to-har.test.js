@@ -1,3 +1,5 @@
+const querystring = require('querystring');
+
 const extensions = require('../../../readme-oas-extensions');
 const oasToHar = require('../../src/lib/oas-to-har');
 
@@ -372,7 +374,91 @@ describe('body values', () => {
   });
 });
 
-describe('form data values', () => {});
+describe('formData values', () => {
+  it('should not add on empty unrequired values', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/x-www-form-urlencoded': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(undefined);
+  });
+
+  // TODO extensions[SEND_DEFAULTS]
+  it.skip('should set defaults if no value provided but is required', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/x-www-form-urlencoded': {
+                schema: {
+                  type: 'object',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(querystring.stringify({ a: 'value' }));
+  });
+
+  it('should pass in value if one is set and prioritise provided values', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/x-www-form-urlencoded': {
+                schema: {
+                  type: 'object',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+            },
+          },
+        },
+        { body: { a: 'test' } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(querystring.stringify({ a: 'test' }));
+  });
+});
 
 describe('auth', () => {
   test('should work for header', () => {
