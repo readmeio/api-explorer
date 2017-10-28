@@ -3,7 +3,8 @@ module.exports = pathOperation => {
 
   try {
     if (pathOperation.requestBody.content) {
-      schema = pathOperation.requestBody.content['application/json'].schema;
+      const firstType = Object.keys(pathOperation.requestBody.content)[0]
+      schema = pathOperation.requestBody.content[firstType].schema;
     } else {
       schema = pathOperation.requestBody;
     }
