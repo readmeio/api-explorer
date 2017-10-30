@@ -28,7 +28,6 @@ function PathUrl({
   toggleAuth,
   onSubmit,
 }) {
-  console.log(authInputRef);
   return (
     <div className="api-definition-parent">
       <div className="api-definition">

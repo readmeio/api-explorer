@@ -76,7 +76,7 @@ class Doc extends React.Component {
     const { doc, setLanguage } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
-    console.log(this.authInput);
+
     return (
       <div className="hub-api">
         <PathUrl

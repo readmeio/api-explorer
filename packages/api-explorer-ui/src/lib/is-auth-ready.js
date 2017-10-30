@@ -128,7 +128,7 @@ function isAuthReady(operation, authData) {
       });
     });
   }
-  console.log(ready);
+
   return ready;
 }
 
