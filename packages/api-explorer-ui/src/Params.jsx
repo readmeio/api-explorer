@@ -3,6 +3,7 @@ const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
+const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWidget').default;
 
 const ObjectField = require('./form-components/ObjectField');
 const SchemaField = require('./form-components/SchemaField');
@@ -33,6 +34,8 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                   int64: UpDownWidget,
                   int32: UpDownWidget,
                   double: UpDownWidget,
+                  float: UpDownWidget,
+                  binary: FileWidget,
                   TextWidget,
                 }}
                 onSubmit={onSubmit}

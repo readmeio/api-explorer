@@ -26,7 +26,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'path parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -40,7 +39,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'query parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -54,7 +52,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'cookie parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -68,7 +65,6 @@ test('it should return with a json schema for each parameter type', () => {
         type: 'object',
         properties: {
           'header parameter': {
-            description: null,
             type: 'string',
           },
         },
@@ -78,7 +74,7 @@ test('it should return with a json schema for each parameter type', () => {
   ]);
 });
 
-test('it should work for request body inline', () => {
+test('it should work for request body inline (json)', () => {
   expect(
     parametersToJsonSchema({
       requestBody: {
@@ -102,6 +98,132 @@ test('it should work for request body inline', () => {
         properties: {
           a: { type: 'string' },
         },
+      },
+    },
+  ]);
+});
+
+test('it should work for request body inline (formData)', () => {
+  expect(
+    parametersToJsonSchema({
+      requestBody: {
+        description: 'Form data description',
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: { a: { type: 'string' } },
+            },
+          },
+        },
+      },
+    }),
+  ).toEqual([
+    {
+      label: 'Form Data',
+      type: 'formData',
+      schema: {
+        type: 'object',
+        properties: {
+          a: { type: 'string' },
+        },
+      },
+    },
+  ]);
+});
+
+test('should pass through enum', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'header',
+          name: 'Accept',
+          required: false,
+          schema: {
+            type: 'string',
+            enum: ['application/json', 'application/xml'],
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Headers',
+      type: 'header',
+      schema: {
+        type: 'object',
+        properties: {
+          Accept: {
+            type: 'string',
+            enum: ['application/json', 'application/xml'],
+          },
+        },
+        required: [],
+      },
+    },
+  ]);
+});
+
+test('should pass through defaults', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'header',
+          name: 'Accept',
+          schema: {
+            type: 'string',
+            default: 'application/json',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Headers',
+      type: 'header',
+      schema: {
+        type: 'object',
+        properties: {
+          Accept: {
+            default: 'application/json',
+            type: 'string',
+          },
+        },
+        required: [],
+      },
+    },
+  ]);
+});
+
+test('it should pass through description', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'header',
+          name: 'Accept',
+          description: 'Expected response format.',
+          schema: {
+            type: 'string',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Headers',
+      type: 'header',
+      schema: {
+        type: 'object',
+        properties: {
+          Accept: {
+            description: 'Expected response format.',
+            type: 'string',
+          },
+        },
+        required: [],
       },
     },
   ]);
@@ -240,4 +362,3 @@ test.skip('it should work for schemas not in components/schemas', () => {
 });
 
 test('it should make things required correctly');
-test('it should pass through description');
