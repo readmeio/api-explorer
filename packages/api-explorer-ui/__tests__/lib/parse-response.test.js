@@ -20,10 +20,6 @@ const har = createHar({
       value: 'Bearer api-key',
     },
   ],
-  queryString: [],
-  postData: {
-    text: '{"category":{},"name":1,"photoUrls":[1]}',
-  },
   method,
   url,
 });
