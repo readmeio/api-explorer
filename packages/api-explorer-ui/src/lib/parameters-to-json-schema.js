@@ -21,7 +21,7 @@ module.exports = pathOperation => {
 
     if (!schema) return null;
 
-    const type = schema.type === 'application/x-www-form-urlencoded' ? 'formData' : 'body'
+    const type = schema.type === 'application/x-www-form-urlencoded' ? 'formData' : 'body';
 
     return {
       type,

@@ -123,8 +123,9 @@ module.exports = (
   if (schema.schema && Object.keys(schema.schema).length) {
     // If there is formData, then the type is application/x-www-form-urlencoded
     if (Object.keys(formData.formData).length) {
-      har.postData.text = querystring.stringify(formData.formData)
-    } else if (Object.keys(formData.body).length) { // Default to JSON.stringify
+      har.postData.text = querystring.stringify(formData.formData);
+    } else if (Object.keys(formData.body).length) {
+      // Default to JSON.stringify
       har.postData.text = JSON.stringify(formData.body);
     }
   }
