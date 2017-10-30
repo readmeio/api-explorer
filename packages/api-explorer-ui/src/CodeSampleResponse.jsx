@@ -39,7 +39,7 @@ class CodeSampleResponse extends React.Component {
   }
 
   render() {
-    const { result, oas, operation } = this.props;
+    const { result, oas, operation, oauthUrl } = this.props;
     let allSecurities;
     try {
       allSecurities = operation.prepareSecurity();
@@ -133,7 +133,7 @@ class CodeSampleResponse extends React.Component {
                     <div className="text-center hub-expired-token">
                       {allSecurities.OAuth2 ? (
                         () => {
-                          if (allSecurities.OAuth2[0].flows.implicit.authorizationUrl) {
+                          if (oauthUrl) {
                             return (
                               <div>
                                 <p>Your OAuth2 token has expired</p>
@@ -279,8 +279,10 @@ CodeSampleResponse.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  oauthUrl: PropTypes.string,
 };
 
 CodeSampleResponse.defaultProps = {
   result: {},
+  oauthUrl: '',
 };

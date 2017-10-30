@@ -1,6 +1,7 @@
 const React = require('react');
 const swagger2openapi = require('swagger2openapi');
 const refParser = require('json-schema-ref-parser');
+const PropTypes = require('prop-types');
 const extensions = require('../../packages/readme-oas-extensions/');
 
 const createDocs = require('../../packages/api-explorer-ui/lib/create-docs');
@@ -62,6 +63,7 @@ class Demo extends React.Component {
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
               flags={{ correctnewlines: false }}
+              oauthUrl={this.props.oauthUrl}
             />
           )
         }
@@ -70,4 +72,11 @@ class Demo extends React.Component {
   }
 }
 
+Demo.propTypes = {
+  oauthUrl: PropTypes.string,
+};
+
+Demo.defaultProps = {
+  oauthUrl: '',
+};
 module.exports = Demo;

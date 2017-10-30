@@ -38,6 +38,7 @@ class ApiExplorer extends React.Component {
               setLanguage={this.setLanguage}
               flags={this.props.flags}
               language={this.state.language}
+              oauthUrl={this.props.oauthUrl}
             />
           ))}
         </div>
@@ -50,6 +51,11 @@ ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
   flags: PropTypes.shape({}).isRequired,
+  oauthUrl: PropTypes.string,
+};
+
+ApiExplorer.defaultProps = {
+  oauthUrl: '',
 };
 
 module.exports = ApiExplorer;

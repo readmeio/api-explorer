@@ -112,7 +112,7 @@ class Doc extends React.Component {
               result={this.state.result}
               oas={oas}
               operation={operation}
-              hideResults={this.hideResults}
+              oauthUrl={this.props.oauthUrl}
             />
           </div>
         )}
@@ -202,9 +202,11 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({}),
   language: PropTypes.string.isRequired,
+  oauthUrl: PropTypes.string,
 };
 
 Doc.defaultProps = {
   oas: {},
   flags: {},
+  oauthUrl: '',
 };
