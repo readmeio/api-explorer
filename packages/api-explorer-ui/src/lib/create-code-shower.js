@@ -1,5 +1,5 @@
 module.exports = type => {
-  return function results(pathOperation) {
+  return pathOperation => {
     pathOperation._cache = pathOperation._cache || {};
 
     if (pathOperation._cache[type]) return pathOperation._cache[type];
