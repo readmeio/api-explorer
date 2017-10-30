@@ -166,7 +166,76 @@ describe('Results body', () => {
       <CodeSampleResponseTabs {...oauthInvalidResponse} oas={oas} />,
     );
 
+    console.log(codeSampleResponseTabs.find('.hub-expired-token').html());
+
     expect(codeSampleResponseTabs.find('.hub-expired-token').length).toEqual(1);
+    expect(
+      codeSampleResponseTabs.containsMatchingElement(
+        <p>Your OAuth2 token is incorrect or has expired</p>,
+      ),
+    ).toEqual(true);
+  });
+
+  test('should display message if OAuth is expired', async () => {
+    const oauthInvalidResponse = {
+      result: await parseResponse(
+        {
+          log: {
+            entries: [
+              {
+                request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] },
+              },
+            ],
+          },
+        },
+        new Response('{}', {
+          headers: { 'content-disposition': 'attachment' },
+          status: 401,
+        }),
+      ),
+      operation: oas.operation('/pet', 'post'),
+    };
+    const codeSampleResponseTabs = shallow(
+      <CodeSampleResponseTabs
+        {...oauthInvalidResponse}
+        oas={oas}
+        oauthUrl="https://github.com/readmeio/api-explorer"
+      />,
+    );
+
+    expect(codeSampleResponseTabs.find('a.btn btn-primary').length).toEqual(1);
+  });
+
+  test('should display message authentication message if endpoint does not use oAuth', async () => {
+    const nonOAuthInvalidResponse = {
+      result: await parseResponse(
+        {
+          log: {
+            entries: [
+              {
+                request: {
+                  url: 'http://petstore.swagger.io/v2/pet/petId',
+                  method: 'GET',
+                  headers: [],
+                },
+              },
+            ],
+          },
+        },
+        new Response('{}', {
+          headers: { 'content-disposition': 'attachment' },
+          status: 401,
+        }),
+      ),
+      operation: oas.operation('/pet/{petId}', 'get'),
+    };
+    const codeSampleResponseTabs = shallow(
+      <CodeSampleResponseTabs {...nonOAuthInvalidResponse} oas={oas} />,
+    );
+
+    expect(
+      codeSampleResponseTabs.containsMatchingElement(<p>You couldn&apos;t be authenticated</p>),
+    ).toEqual(true);
   });
 });
 

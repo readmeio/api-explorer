@@ -40,10 +40,7 @@ class CodeSampleResponse extends React.Component {
 
   render() {
     const { result, oas, operation, oauthUrl } = this.props;
-    let allSecurities;
-    try {
-      allSecurities = operation.prepareSecurity();
-    } catch (e) {} // eslint-disable-line no-empty
+    const securities = operation.prepareSecurity();
 
     return (
       <div
