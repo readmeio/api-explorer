@@ -1,3 +1,5 @@
+const querystring = require('querystring');
+
 const extensions = require('../../../readme-oas-extensions');
 const oasToHar = require('../../src/lib/oas-to-har');
 
@@ -372,7 +374,90 @@ describe('body values', () => {
   });
 });
 
-describe('form data values', () => {});
+describe('formData values', () => {
+  it('should not add on empty unrequired values', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/x-www-form-urlencoded': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(undefined);
+  });
+
+  // TODO extensions[SEND_DEFAULTS]
+  it.skip('should set defaults if no value provided but is required', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/x-www-form-urlencoded': {
+                schema: {
+                  type: 'object',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(querystring.stringify({ a: 'value' }));
+  });
+
+  it('should pass in value if one is set and prioritise provided values', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/x-www-form-urlencoded': {
+                schema: {
+                  type: 'object',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { formData: { a: 'test', b: [1, 2, 3] } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
+  });
+});
 
 describe('auth', () => {
   test('should work for header', () => {
@@ -616,6 +701,48 @@ describe('content-type header', () => {
         { body: { a: 'test' } },
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'text/xml' }]);
+  });
+
+  // Whether this is right or wrong, i'm not sure but this is what readme currently does
+  it('should prioritise json if it exists', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'text/xml': {
+                schema: {
+                  type: 'string',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+            },
+          },
+        },
+        { body: { a: 'test' } },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should default to application/json if no `requestBody.content`', () => {

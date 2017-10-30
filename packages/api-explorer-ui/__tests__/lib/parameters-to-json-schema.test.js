@@ -74,7 +74,7 @@ test('it should return with a json schema for each parameter type', () => {
   ]);
 });
 
-test('it should work for request body inline', () => {
+test('it should work for request body inline (json)', () => {
   expect(
     parametersToJsonSchema({
       requestBody: {
@@ -93,6 +93,35 @@ test('it should work for request body inline', () => {
     {
       label: 'Body Params',
       type: 'body',
+      schema: {
+        type: 'object',
+        properties: {
+          a: { type: 'string' },
+        },
+      },
+    },
+  ]);
+});
+
+test('it should work for request body inline (formData)', () => {
+  expect(
+    parametersToJsonSchema({
+      requestBody: {
+        description: 'Form data description',
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: { a: { type: 'string' } },
+            },
+          },
+        },
+      },
+    }),
+  ).toEqual([
+    {
+      label: 'Form Data',
+      type: 'formData',
       schema: {
         type: 'object',
         properties: {
