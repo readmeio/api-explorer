@@ -1,3 +1,6 @@
+const querystring = require('querystring');
+
+const extensions = require('../../../readme-oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
 
@@ -38,6 +41,7 @@ function getContentType(pathOperation) {
   const types =
     (pathOperation &&
       pathOperation.requestBody &&
+      pathOperation.requestBody.content &&
       Object.keys(pathOperation.requestBody.content)) ||
     [];
 
@@ -55,7 +59,12 @@ function getContentType(pathOperation) {
   return type;
 }
 
-module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) => {
+module.exports = (
+  oas,
+  pathOperation = { path: '', method: '' },
+  values = {},
+  opts = { proxyUrl: false },
+) => {
   const formData = Object.assign({}, defaultValues, values);
   const har = {
     headers: [],
@@ -64,6 +73,10 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     method: pathOperation.method.toUpperCase(),
     url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
+
+  if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
+    har.url = `https://try.readme.io/${har.url}`;
+  }
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
     if (!pathOperation || !pathOperation.parameters) return key; // No path params at all
@@ -105,19 +118,24 @@ module.exports = (oas, pathOperation = { path: '', method: '' }, values = {}) =>
     });
   }
 
-  // Add content-type header if there are any values, or any headers
-  // have been set already
-  if (Object.keys(values).length > 0 || har.headers.length) {
+  const schema = getSchema(pathOperation) || { schema: {} };
+
+  if (schema.schema && Object.keys(schema.schema).length) {
+    // If there is formData, then the type is application/x-www-form-urlencoded
+    if (Object.keys(formData.formData).length) {
+      har.postData.text = querystring.stringify(formData.formData);
+    } else if (Object.keys(formData.body).length) {
+      // Default to JSON.stringify
+      har.postData.text = JSON.stringify(formData.body);
+    }
+  }
+
+  // Add content-type header if there are any body values or if there is a `requestBody`
+  if (Object.keys(formData.body).length || Object.keys(schema.schema).length) {
     har.headers.push({
       name: 'Content-Type',
       value: getContentType(pathOperation),
     });
-  }
-
-  const body = getSchema(pathOperation) || {};
-
-  if (body && Object.keys(body).length && Object.keys(formData.body).length) {
-    har.postData.text = JSON.stringify(formData.body);
   }
 
   const securityRequirements = pathOperation.security || oas.security;

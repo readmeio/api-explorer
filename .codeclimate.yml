@@ -1,2 +1,3 @@
 exclude_paths:
 - "legacy-stuff/"
+- "packages/api-explorer-ui/__tests__"
