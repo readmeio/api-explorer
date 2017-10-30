@@ -16,7 +16,7 @@ test('should return the first type if there is content', () => {
         },
       },
     }),
-  ).toBe(schema);
+  ).toEqual({ type: 'application/json', schema });
 
   expect(
     getSchema({
@@ -31,9 +31,9 @@ test('should return the first type if there is content', () => {
         },
       },
     }),
-  ).toBe(schema);
+  ).toEqual({ type: 'text/xml', schema });
 });
 
-test('should return the requestBody', () => {
-  expect(getSchema({ requestBody: schema })).toBe(schema);
+test('should return undefined', () => {
+  expect(getSchema({})).toBe(undefined);
 });

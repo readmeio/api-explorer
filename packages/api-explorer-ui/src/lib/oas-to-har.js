@@ -1,3 +1,5 @@
+const querystring = require('querystring');
+
 const extensions = require('../../../readme-oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
@@ -116,14 +118,19 @@ module.exports = (
     });
   }
 
-  const body = getSchema(pathOperation) || {};
+  const schema = getSchema(pathOperation) || { schema: {} };
 
-  if (body && Object.keys(body).length && Object.keys(formData.body).length) {
-    har.postData.text = JSON.stringify(formData.body);
+  if (schema.schema && Object.keys(schema.schema).length) {
+    // If there is formData, then the type is application/x-www-form-urlencoded
+    if (Object.keys(formData.formData).length) {
+      har.postData.text = querystring.stringify(formData.formData)
+    } else if (Object.keys(formData.body).length) { // Default to JSON.stringify
+      har.postData.text = JSON.stringify(formData.body);
+    }
   }
 
   // Add content-type header if there are any body values or if there is a `requestBody`
-  if (Object.keys(formData.body).length || Object.keys(body).length) {
+  if (Object.keys(formData.body).length || Object.keys(schema.schema).length) {
     har.headers.push({
       name: 'Content-Type',
       value: getContentType(pathOperation),

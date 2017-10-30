@@ -449,14 +449,13 @@ describe('formData values', () => {
                     },
                   },
                 },
-                example: { a: 'value' },
               },
             },
           },
         },
-        { body: { a: 'test' } },
+        { formData: { a: 'test', b: [1, 2, 3] } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(querystring.stringify({ a: 'test' }));
+    ).toEqual(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
   });
 });
 
@@ -702,6 +701,48 @@ describe('content-type header', () => {
         { body: { a: 'test' } },
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'text/xml' }]);
+  });
+
+  // Whether this is right or wrong, i'm not sure but this is what readme currently does
+  it('should prioritise json if it exists', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'text/xml': {
+                schema: {
+                  type: 'string',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+            },
+          },
+        },
+        { body: { a: 'test' } },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should default to application/json if no `requestBody.content`', () => {
