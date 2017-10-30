@@ -261,7 +261,7 @@ describe('header values', () => {
           ],
         },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'a', value: 'value' }, { name: 'Content-Type', value: 'application/json' }]);
+    ).toEqual([{ name: 'a', value: 'value' }]);
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
@@ -282,7 +282,7 @@ describe('header values', () => {
         },
         { header: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'a', value: 'test' }, { name: 'Content-Type', value: 'application/json' }]);
+    ).toEqual([{ name: 'a', value: 'test' }]);
   });
 });
 
@@ -402,10 +402,6 @@ describe('auth', () => {
       ).log.entries[0].request.headers,
     ).toEqual([
       {
-        name: 'Content-Type',
-        value: 'application/json',
-      },
-      {
         name: 'x-auth-header',
         value: 'value',
       },
@@ -478,10 +474,6 @@ describe('auth', () => {
       ).log.entries[0].request.headers,
     ).toEqual([
       {
-        name: 'Content-Type',
-        value: 'application/json',
-      },
-      {
         name: 'x-auth-header',
         value: 'value',
       },
@@ -525,10 +517,6 @@ describe('auth', () => {
       ).log.entries[0].request.headers,
     ).toEqual([
       {
-        name: 'Content-Type',
-        value: 'application/json',
-      },
-      {
         name: 'x-auth-header',
         value: 'value',
       },
@@ -560,6 +548,85 @@ describe('auth', () => {
         },
         { auth: {} },
       ).log.entries[0].request.headers,
+    ).toEqual([]);
+  });
+});
+
+describe('content-type header', () => {
+  const operation = {
+    path: '/body',
+    method: 'get',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            required: ['a'],
+            properties: {
+              a: {
+                type: 'string',
+              },
+            },
+          },
+          example: { a: 'value' },
+        },
+      },
+    },
+  };
+
+  it('should be sent through if there are no body values but there is a requestBody', () => {
+    expect(oasToHar({}, operation, {}).log.entries[0].request.headers).toEqual([
+      { name: 'Content-Type', value: 'application/json' },
+    ]);
+    expect(oasToHar({}, operation, { query: { a: 1 } }).log.entries[0].request.headers).toEqual([
+      { name: 'Content-Type', value: 'application/json' },
+    ]);
+  });
+
+  it('should be sent through if there are any body values', () => {
+    expect(
+      oasToHar({}, operation, { body: { a: 'test' } }).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+  });
+
+  it('should fetch the type from the first `requestBody.content` object', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'text/xml': {
+                schema: {
+                  type: 'object',
+                  required: ['a'],
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: { a: 'value' },
+              },
+            },
+          },
+        },
+        { body: { a: 'test' } },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Content-Type', value: 'text/xml' }]);
+  });
+
+  it('should default to application/json if no `requestBody.content`', () => {
+    expect(
+      oasToHar({}, Object.assign({}, operation, { requestBody: {} }), { body: { a: 'test' } }).log
+        .entries[0].request.headers,
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    expect(
+      oasToHar({}, Object.assign({}, operation, { requestBody: undefined }), {
+        body: { a: 'test' },
+      }).log.entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });
