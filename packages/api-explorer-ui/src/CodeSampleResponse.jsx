@@ -129,7 +129,7 @@ class CodeSampleResponse extends React.Component {
                   {result.statusCode[0] === 401 && (
                     <div className="text-center hub-expired-token">
                       {securities.OAuth2 ? (
-                        () => {
+                        (() => {
                           if (oauthUrl) {
                             return (
                               <div>
@@ -141,7 +141,7 @@ class CodeSampleResponse extends React.Component {
                             );
                           }
                           return <p>Your OAuth2 token is incorrect or has expired</p>;
-                        }
+                        })()
                       ) : (
                         <p>You couldn&apos;t be authenticated</p>
                       )}

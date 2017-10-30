@@ -166,8 +166,6 @@ describe('Results body', () => {
       <CodeSampleResponseTabs {...oauthInvalidResponse} oas={oas} />,
     );
 
-    console.log(codeSampleResponseTabs.find('.hub-expired-token').html());
-
     expect(codeSampleResponseTabs.find('.hub-expired-token').length).toEqual(1);
     expect(
       codeSampleResponseTabs.containsMatchingElement(
@@ -203,7 +201,14 @@ describe('Results body', () => {
       />,
     );
 
-    expect(codeSampleResponseTabs.find('a.btn btn-primary').length).toEqual(1);
+    expect(
+      codeSampleResponseTabs.containsAllMatchingElements([
+        <div>
+          <p>Your OAuth2 token has expired</p>
+          <a>Reauthenticate via OAuth2</a>
+        </div>,
+      ]),
+    ).toEqual(true);
   });
 
   test('should display message authentication message if endpoint does not use oAuth', async () => {
