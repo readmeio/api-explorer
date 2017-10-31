@@ -54,9 +54,10 @@ class Operation {
           return { type, security };
         });
       })
-      .filter(Boolean)
       .reduce((prev, securities) => {
         securities.forEach(security => {
+          // Remove non-existent schemes
+          if (!security) return;
           if (!prev[security.type]) prev[security.type] = [];
           prev[security.type].push(security.security);
         });

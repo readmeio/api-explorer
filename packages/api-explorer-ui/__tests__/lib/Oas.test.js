@@ -215,4 +215,9 @@ describe('operation.prepareSecurity()', () => {
     const operation = new Oas(multipleSecurities).operation('/no-auth', 'post');
     expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
   });
+
+  test('should return with an empty object if security scheme doesnt exist', () => {
+    const operation = new Oas(multipleSecurities).operation('/unknown-scheme', 'post');
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
+  });
 });
