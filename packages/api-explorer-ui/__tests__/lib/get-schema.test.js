@@ -1,24 +1,39 @@
 const getSchema = require('../../src/lib/get-schema');
-const Oas = require('../../src/lib/Oas.js');
 
-const petstore = require('../fixtures/petstore/oas');
+const schema = { type: 'string' };
 
-const oas = new Oas(petstore);
+test('should return the first type if there is content', () => {
+  expect(
+    getSchema({
+      requestBody: {
+        content: {
+          'application/json': {
+            schema,
+          },
+          'text/xml': {
+            schema: { type: 'number' },
+          },
+        },
+      },
+    }),
+  ).toEqual({ type: 'application/json', schema });
 
-describe('getSchema', () => {
-  it('should return schema if requestBody content is application json', () => {
-    const operation = oas.operation('/user/{username}', 'put');
+  expect(
+    getSchema({
+      requestBody: {
+        content: {
+          'text/xml': {
+            schema,
+          },
+          'application/json': {
+            schema: { type: 'number' },
+          },
+        },
+      },
+    }),
+  ).toEqual({ type: 'text/xml', schema });
+});
 
-    expect(getSchema(operation)).toEqual({
-      $ref: '#/components/schemas/User',
-    });
-  });
-
-  it('should return requestBody if content is not application json', () => {
-    const operation = oas.operation('/user/createWithList', 'post');
-
-    expect(getSchema(operation)).toEqual({
-      $ref: '#/components/requestBodies/UserArray',
-    });
-  });
+test('should return undefined', () => {
+  expect(getSchema({})).toBe(undefined);
 });
