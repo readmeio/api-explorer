@@ -45,10 +45,10 @@ function PathUrl({
               />
 
               <button
-                form={`form-${operation.operationId}`}
                 className={classNames('api-try-it-out', { active: dirty })}
                 type="submit"
                 disabled={loading}
+                onClick={onSubmit}
               >
                 {!loading && (
                   <span className="try-it-now-btn">
