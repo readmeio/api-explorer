@@ -71,7 +71,7 @@ test('should be able to access properties on oas', () => {
 });
 
 describe('operation.getSecurity()', () => {
-  const security = [{ 'auth': [] }];
+  const security = [{ auth: [] }];
 
   test('should return the security on this endpoint', () => {
     expect(
@@ -79,12 +79,14 @@ describe('operation.getSecurity()', () => {
         info: { version: '1.0' },
         paths: {
           '/things': {
-            'post': {
+            post: {
               security,
-            }
+            },
           },
-        }
-      }).operation('/things', 'post').getSecurity(),
+        },
+      })
+        .operation('/things', 'post')
+        .getSecurity(),
     ).toBe(security);
   });
 
@@ -94,11 +96,13 @@ describe('operation.getSecurity()', () => {
         info: { version: '1.0' },
         paths: {
           '/things': {
-            'post': {}
+            post: {},
           },
         },
         security,
-      }).operation('/things', 'post').getSecurity(),
+      })
+        .operation('/things', 'post')
+        .getSecurity(),
     ).toBe(security);
   });
 
@@ -108,10 +112,12 @@ describe('operation.getSecurity()', () => {
         info: { version: '1.0' },
         paths: {
           '/things': {
-            'post': {}
+            post: {},
           },
         },
-      }).operation('/things', 'post').getSecurity(),
+      })
+        .operation('/things', 'post')
+        .getSecurity(),
     ).toEqual([]);
   });
 });

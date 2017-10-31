@@ -68,7 +68,9 @@ test('button click should call onSubmit', () => {
       operation={new Operation({}, '/path', 'get', { operationId: '123' })}
       onSubmit={onSubmit}
     />,
-  ).find('button[type="submit"]').simulate('click');
+  )
+    .find('button[type="submit"]')
+    .simulate('click');
 
   expect(called).toBe(true);
 });
