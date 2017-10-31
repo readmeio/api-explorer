@@ -33,6 +33,8 @@ class Demo extends React.Component {
           const oas = result.openapi;
           this.createDocs(oas);
 
+          console.log(oas);
+
           this.updateStatus('Dereferencing swagger file', async () => {
             this.setState({ oas: await refParser.dereference(oas) });
             this.updateStatus('Done!', () => {

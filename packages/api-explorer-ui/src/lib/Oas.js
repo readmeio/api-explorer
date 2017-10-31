@@ -67,6 +67,14 @@ class Operation {
 
 class Oas {
   constructor(oas) {
+    if (oas.servers) {
+      let url = oas.servers[0].url;
+
+      if (url[url.length - 1] === '/') {
+        url = url.slice(0, -1);
+      }
+      oas.servers[0].url = url;
+    }
     Object.assign(this, oas);
   }
 
