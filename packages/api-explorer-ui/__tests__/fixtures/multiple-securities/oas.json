@@ -160,6 +160,32 @@
           "$ref": "#/components/requestBodies/Pet"
         }
       }
+    },
+    "/unknown-auth-type": {
+      "post": {
+        "security": [
+          {
+            "specialMagicAuth": []
+          }
+        ],
+        "summary": "unknown auth type",
+        "description": "",
+        "operationId": "unknownAuthType",
+        "parameters": []
+      }
+    },
+    "/unknown-scheme": {
+      "post": {
+        "security": [
+          {
+            "nonExistentScheme": []
+          }
+        ],
+        "summary": "this scheme doesnt exist",
+        "description": "",
+        "operationId": "unknownScheme",
+        "parameters": []
+      }
     }
   },
   "x-explorer-enabled": true,
@@ -192,6 +218,11 @@
       "apiKey": {
         "type": "apiKey",
         "name": "apiKey",
+        "in": "header"
+      },
+      "specialMagicAuth": {
+        "type": "demigorgon",
+        "name": "eleven",
         "in": "header"
       }
     },

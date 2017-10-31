@@ -166,4 +166,16 @@ describe('isAuthReady', () => {
 
     expect(isAuthReady(operation)).toBe(true);
   });
+
+  it('should return false if scheme type is unknown', () => {
+    const operation = oas2.operation('/unknown-auth-type', 'post');
+
+    expect(isAuthReady(operation)).toBe(false);
+  });
+
+  it('should return false if auth scheme does not exist', () => {
+    const operation = oas2.operation('/unknown-scheme', 'post');
+
+    expect(isAuthReady(operation)).toBe(false);
+  });
 });
