@@ -18,6 +18,12 @@ describe('operation()', () => {
   });
 });
 
+test('should remove end slash from the server URL', () => {
+  expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).servers[0].url).toBe(
+    'http://example.com',
+  );
+});
+
 describe('operation.hasAuth()', () => {
   test('should return true if there is a top level security object', () => {
     expect(new Oas({ security: [{ 'security-scheme': [] }] }).operation().hasAuth()).toBe(true);
