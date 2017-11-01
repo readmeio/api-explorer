@@ -18,7 +18,6 @@ describe('operation()', () => {
   });
 });
 
-
 test('should remove end slash from the server URL', () => {
   expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).servers[0].url).toBe(
     'http://example.com',
