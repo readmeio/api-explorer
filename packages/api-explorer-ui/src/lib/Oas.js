@@ -8,17 +8,16 @@ class Operation {
     this.method = method;
   }
 
-  hasAuth() {
-    const security = this.getSecurity();
-    return !!(security && security.length);
-  }
-
   getSecurity() {
     return this.security || this.oas.security || [];
   }
 
   prepareSecurity() {
     const securityRequirements = this.getSecurity();
+
+    if (!securityRequirements.length) {
+      return null;
+    }
 
     return securityRequirements
       .map(requirement => {
@@ -47,6 +46,8 @@ class Operation {
             type = 'Query';
           } else if (security.type === 'apiKey' && security.in === 'header') {
             type = 'Header';
+          } else {
+            return false;
           }
 
           security._key = key;
@@ -61,6 +62,9 @@ class Operation {
           if (!prev[security.type]) prev[security.type] = [];
           prev[security.type].push(security.security);
         });
+        if (Object.keys(prev).length === 0) {
+          return null;
+        }
         return prev;
       }, {});
   }

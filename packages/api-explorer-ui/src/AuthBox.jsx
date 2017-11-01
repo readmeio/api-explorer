@@ -2,7 +2,9 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
-const { Operation } = require('./lib/Oas');
+const Oas = require('./lib/Oas');
+
+const { Operation } = Oas;
 
 function renderSecurities(authInputRef, operation, onChange, onSubmit) {
   const securityTypes = operation.prepareSecurity();
@@ -58,8 +60,9 @@ class AuthBox extends React.Component {
     });
   }
   render() {
-    const { authInputRef, operation, onSubmit, open, needsAuth, toggle } = this.props;
-    if (!operation.hasAuth()) return null;
+    const { authInputRef, operation, onSubmit, open, needsAuth, toggle, oas } = this.props;
+    // if (!operation.hasAuth()) return null;
+    if (!operation.prepareSecurity()) return null;
 
     return (
       <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
@@ -88,6 +91,7 @@ class AuthBox extends React.Component {
 }
 
 AuthBox.propTypes = {
+  oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
