@@ -42,7 +42,6 @@ function PathUrl({
                 needsAuth={needsAuth}
                 toggle={toggleAuth}
                 authInputRef={authInputRef}
-                oas={oas}
               />
 
               <button

@@ -60,7 +60,7 @@ class AuthBox extends React.Component {
     });
   }
   render() {
-    const { authInputRef, operation, onSubmit, open, needsAuth, toggle, oas } = this.props;
+    const { authInputRef, operation, onSubmit, open, needsAuth, toggle } = this.props;
 
     if (!operation.prepareSecurity()) return null;
 
@@ -91,7 +91,6 @@ class AuthBox extends React.Component {
 }
 
 AuthBox.propTypes = {
-  oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
