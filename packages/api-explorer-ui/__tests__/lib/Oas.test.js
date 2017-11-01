@@ -18,50 +18,6 @@ describe('operation()', () => {
   });
 });
 
-describe('operation.hasAuth()', () => {
-  test('should return true if there is a top level security object', () => {
-    expect(new Oas({ security: [{ 'security-scheme': [] }] }).operation().hasAuth()).toBe(true);
-    expect(new Oas({ security: [{ 'security-scheme': ['scope'] }] }).operation().hasAuth()).toBe(
-      true,
-    );
-  });
-
-  test('should return true if a path has security', () => {
-    expect(
-      new Oas({
-        paths: {
-          '/path': {
-            get: {
-              security: [{ 'security-scheme': [] }],
-            },
-          },
-        },
-      })
-        .operation('/path', 'get')
-        .hasAuth(),
-    ).toBe(true);
-  });
-
-  test('should return false if there is no top level security object', () => {
-    expect(new Oas({}).operation().hasAuth()).toBe(false);
-    expect(new Oas({ security: [] }).operation().hasAuth()).toBe(false);
-  });
-
-  test('should return false if the path has no security', () => {
-    expect(
-      new Oas({
-        paths: {
-          '/path': {
-            get: {},
-          },
-        },
-      })
-        .operation('/path', 'get')
-        .hasAuth(),
-    ).toBe(false);
-  });
-});
-
 test('should be able to access properties on oas', () => {
   expect(
     new Oas({
@@ -217,13 +173,18 @@ describe('operation.prepareSecurity()', () => {
 
   test('should throw if attempting to use a non-existent scheme');
 
-  test('should return with an empty object if no security', () => {
+  test('should return null if no security', () => {
     const operation = new Oas(multipleSecurities).operation('/no-auth', 'post');
-    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
+    expect(operation.prepareSecurity()).toBe(null);
   });
 
-  test('should return with an empty object if security scheme doesnt exist', () => {
+  test('should return null if security scheme doesnt exist', () => {
     const operation = new Oas(multipleSecurities).operation('/unknown-scheme', 'post');
-    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
+    expect(operation.prepareSecurity()).toBe(null);
+  });
+
+  test('should return null if security scheme type doesnt exist', () => {
+    const operation = new Oas(multipleSecurities).operation('/unknown-auth-type', 'post');
+    expect(operation.prepareSecurity()).toBe(null);
   });
 });

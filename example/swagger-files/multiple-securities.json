@@ -152,6 +152,52 @@
         }
       }
     },
+    "/multiple-combo-auths": {
+      "post": {
+        "operationId": "unsupported scheme in the and",
+        "security": [
+          {
+            "oauth": ["write:things", "read:things"],
+            "specialMagicAuth": []
+          },
+          {
+            "oauthDiff": ["write:things", "read:things"]
+          }
+        ],
+        "summary": "second and does not show security",
+        "description": "",
+        "operationId": "addMultipleOAuths",
+        "parameters": [],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/multiple-combo-auths-schemes": {
+      "post": {
+        "operationId": "nonexistent scheme in the or",
+        "security": [
+          {
+            "oauth": ["write:things", "read:things"],
+            "specialMagicAuth": []
+          },
+          {
+            "nonExistentScheme": []
+          }
+        ],
+        "summary": " one or security",
+        "description": "",
+        "operationId": "addMultipleOAuths",
+        "parameters": [],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/unknown-auth-type": {
       "post": {
         "operationId": "unknownAuthType",
