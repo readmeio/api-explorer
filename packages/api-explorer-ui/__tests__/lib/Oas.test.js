@@ -18,12 +18,11 @@ describe('operation()', () => {
   });
 });
 
-test('should be able to access properties on oas', () => {
-  expect(
-    new Oas({
-      info: { version: '1.0' },
-    }).info.version,
-  ).toBe('1.0');
+
+test('should remove end slash from the server URL', () => {
+  expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).servers[0].url).toBe(
+    'http://example.com',
+  );
 });
 
 describe('operation.getSecurity()', () => {
