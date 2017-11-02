@@ -2,9 +2,9 @@ const CodeMirror = require('codemirror');
 require('codemirror/addon/runmode/runmode');
 require('codemirror/mode/meta.js');
 
-require('codemirror/mode/ruby/ruby');
-require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/shell/shell');
+require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/python/python');
 
 function esc(str) {
