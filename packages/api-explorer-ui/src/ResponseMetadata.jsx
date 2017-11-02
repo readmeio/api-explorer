@@ -4,9 +4,10 @@ const PropTypes = require('prop-types');
 
 function ResponseMetadata({ result }) {
   return (
-    <div className="hub-reference-results-meta tabber-body-metadata tabber-body"
+    <div
+      className="hub-reference-results-meta tabber-body-metadata tabber-body"
       style={{ display: 'block' }}
-      >
+    >
       <div className="meta">
         {
           // eslint-disable-next-line jsx-a11y/label-has-for

@@ -148,7 +148,7 @@ class CodeSampleResponse extends React.Component {
                   )}
                 </div>
 
-                { this.state.selectedTab === 'metadata' && <ResponseMetadata result={result} /> }
+                {this.state.selectedTab === 'metadata' && <ResponseMetadata result={result} />}
               </span>
             )}
           </div>
