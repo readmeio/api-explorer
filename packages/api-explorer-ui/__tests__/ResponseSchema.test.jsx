@@ -11,22 +11,25 @@ const props = {
   operation: oas.operation('/pet/{petId}', 'get'),
 };
 
-describe('selectedStatus', () => {
-  test('selectedStatus should change state of selectedStatus', () => {
-    const responseSchema = shallow(<ResponseSchema {...props} />);
+test('should display a header with a dropdown', () => {
+  const responseSchema = shallow(<ResponseSchema {...props} />);
 
-    expect(responseSchema.state('selectedStatus')).toBe('200');
+  expect(responseSchema.find('h3').text()).toContain('Response');
+  expect(responseSchema.find('select option').map(el => el.text())).toEqual(['200', '400', '404']);
+})
 
-    responseSchema.instance().selectedStatus('400');
+test('selectedStatus should change state of selectedStatus', () => {
+  const responseSchema = shallow(<ResponseSchema {...props} />);
 
-    expect(responseSchema.state('selectedStatus')).toBe('400');
-  });
+  expect(responseSchema.state('selectedStatus')).toBe('200');
+
+  responseSchema.instance().selectedStatus('400');
+
+  expect(responseSchema.state('selectedStatus')).toBe('400');
 });
 
-describe('ResponseSchema', () => {
-  test('should display response schema', () => {
-    const responseSchema = shallow(<ResponseSchema {...props} />);
+test('should display response schema description', () => {
+  const responseSchema = shallow(<ResponseSchema {...props} />);
 
-    expect(responseSchema.find('p.desc').text()).toBe(props.operation.responses['200'].description);
-  });
+  expect(responseSchema.find('p.desc').text()).toBe(props.operation.responses['200'].description);
 });

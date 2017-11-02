@@ -65,28 +65,35 @@ class ResponseSchema extends React.Component {
     )} */
   // }
 
+  renderHeader() {
+    const keys = Object.keys(this.props.operation.responses);
+
+    return (
+      <h3>
+        <div className="pull-right">
+          <select
+            className="switcher-switch"
+            value={this.state.selectedStatus}
+            onChange={this.changeHandler}
+          >
+            {keys.map(status => (
+              <option value={status} key={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+        </div>
+        Response
+      </h3>
+    );
+  }
+
   render() {
     const { operation } = this.props;
-    const keys = Object.keys(operation.responses);
 
     return (
       <div className="hub-reference-response-definitions">
-        <h3>
-          <div className="pull-right">
-            <select
-              className="switcher-switch"
-              value={this.state.selectedStatus}
-              onChange={this.changeHandler}
-            >
-              {keys.map(status => (
-                <option value={status} key={status}>
-                  {status}
-                </option>
-              ))}
-            </select>
-          </div>
-          Response
-        </h3>
+        { this.renderHeader() }
         <div>
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
