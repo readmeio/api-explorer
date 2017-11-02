@@ -10,7 +10,7 @@ class ResponseSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedStatus: Object.keys(this.props.operation.responses)[0],
+      selectedStatus: Object.keys(props.operation.responses)[0],
     };
     this.selectedStatus = this.selectedStatus.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
@@ -93,7 +93,7 @@ class ResponseSchema extends React.Component {
   }
 }
 
-ResponseSchema.PropTypes = {
+ResponseSchema.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
 };
 

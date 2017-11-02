@@ -53,44 +53,51 @@ class CodeSampleResponse extends React.Component {
             {result !== null && (
               <span>
                 <ul className="code-sample-tabs hub-reference-results-header">
-                  <a
-                    href="#"
-                    data-tab="result"
-                    className={classNames('hub-reference-results-header-item tabber-tab', {
-                      selected: this.state.selectedTab === 'result',
-                    })}
-                    onClick={e => {
-                      e.preventDefault();
-                      this.setTab('result');
-                    }}
-                  >
-                    <span
-                      className={classNames({
-                        httpsuccess: result.statusCode[2] === 'success',
-                        httperror: result.statusCode[2] !== 'success',
+                  {
+                    // eslint-disable-next-line jsx-a11y/href-no-hash
+                    <a
+                      href="#" // eslint eslint-disable-line jsx-a11y/href-no-hash
+                      data-tab="result"
+                      className={classNames('hub-reference-results-header-item tabber-tab', {
+                        selected: this.state.selectedTab === 'result',
                       })}
+                      onClick={e => {
+                        e.preventDefault();
+                        this.setTab('result');
+                      }}
                     >
-                      <i className="fa fa-circle" />
-                      <em>
-                        &nbsp;{result.statusCode[0]}&nbsp;
-                        {result.statusCode[1]}
-                      </em>
-                    </span>
-                  </a>
-                  <a
-                    href="#"
-                    data-tab="metadata"
-                    className={classNames('hub-reference-results-header-item tabber-tab', {
-                      selected: this.state.selectedTab === 'metadata',
-                    })}
-                    onClick={e => {
-                      e.preventDefault();
-                      this.setTab('metadata');
-                    }}
-                  >
-                    Metadata
-                  </a>
+                      <span
+                        className={classNames({
+                          httpsuccess: result.statusCode[2] === 'success',
+                          httperror: result.statusCode[2] !== 'success',
+                        })}
+                      >
+                        <i className="fa fa-circle" />
+                        <em>
+                          &nbsp;{result.statusCode[0]}&nbsp;
+                          {result.statusCode[1]}
+                        </em>
+                      </span>
+                    </a>
+                  }
+                  {
+                    // eslint-disable-next-line jsx-a11y/href-no-hash
+                    <a
+                      href="#"
+                      data-tab="metadata"
+                      className={classNames('hub-reference-results-header-item tabber-tab', {
+                        selected: this.state.selectedTab === 'metadata',
+                      })}
+                      onClick={e => {
+                        e.preventDefault();
+                        this.setTab('metadata');
+                      }}
+                    >
+                      Metadata
+                    </a>
+                  }
                   {showCodeResults(oas, operation).length > 0 && (
+                    // eslint-disable-next-line jsx-a11y/href-no-hash
                     <a
                       className="hub-reference-results-back pull-right"
                       href="#"
@@ -115,6 +122,7 @@ class CodeSampleResponse extends React.Component {
                       {!result.isBinary && (
                         <div
                           className="cm-s-tomorrow-night codemirror-highlight"
+                          // eslint-disable-next-line react/no-danger
                           dangerouslySetInnerHTML={{
                             __html: syntaxHighlighter(
                               JSON.stringify(result.responseBody),
@@ -154,27 +162,42 @@ class CodeSampleResponse extends React.Component {
                   style={{ display: this.state.selectedTab === 'metadata' ? 'block' : 'none' }}
                 >
                   <div className="meta">
-                    <label>Method</label>
+                    {
+                      // eslint-disable-next-line jsx-a11y/label-has-for
+                      <label>Method</label>
+                    }
                     <div>{result.method.toString()}</div>
                   </div>
 
                   <div className="meta">
-                    <label>URL</label>
+                    {
+                      // eslint-disable-next-line jsx-a11y/label-has-for
+                      <label>URL</label>
+                    }
                     <div>{result.url}</div>
                   </div>
 
                   <div className="meta">
-                    <label>Request Headers</label>
+                    {
+                      // eslint-disable-next-line jsx-a11y/label-has-for
+                      <label>Request Headers</label>
+                    }
                     <pre>{result.requestHeaders.join('\n')}</pre>
                   </div>
 
                   <div className="meta">
-                    <label>Request Data</label>
+                    {
+                      // eslint-disable-next-line jsx-a11y/label-has-for
+                      <label>Request Data</label>
+                    }
                     <pre>{JSON.stringify(result.responseBody)}</pre>
                   </div>
 
                   <div className="meta">
-                    <label>Status</label>
+                    {
+                      // eslint-disable-next-line jsx-a11y/label-has-for
+                      <label> Status</label>
+                    }
                     <span className="httpstatus">
                       <span
                         className={classNames({
@@ -192,7 +215,10 @@ class CodeSampleResponse extends React.Component {
                   </div>
 
                   <div className="meta">
-                    <label htmlFor="response headers">Response Headers</label>
+                    {
+                      // eslint-disable-next-line jsx-a11y/label-has-for
+                      <label>Response Headers</label>
+                    }
                     <pre>{result.responseHeaders.join('\n')}</pre>
                   </div>
                 </div>
@@ -209,6 +235,7 @@ class CodeSampleResponse extends React.Component {
                     const title = example.name ? example.name : status[1];
 
                     return (
+                      // eslint-disable-next-line jsx-a11y/href-no-hash
                       <a
                         className={
                           index === this.state.exampleTab ? (
@@ -219,7 +246,7 @@ class CodeSampleResponse extends React.Component {
                         }
                         href="#"
                         data-tab={index}
-                        key={index}
+                        key={index} // eslint-disable-line react/no-array-index-key
                         onClick={e => {
                           e.preventDefault();
                           this.exampleTab(index);

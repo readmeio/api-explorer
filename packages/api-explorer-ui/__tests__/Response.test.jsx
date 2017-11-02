@@ -2,9 +2,9 @@ const React = require('react');
 const { shallow } = require('enzyme');
 
 const Response = require('../src/Response');
-const Oas = require('../src/lib/Oas');
-
-const { Operation } = Oas;
+// const Oas = require('../src/lib/Oas');
+//
+// const { Operation } = Oas;
 
 const props = {
   operation: {
