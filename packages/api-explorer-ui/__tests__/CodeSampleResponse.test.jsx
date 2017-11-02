@@ -76,7 +76,7 @@ describe('hideResults', () => {
 });
 
 describe('no result', () => {
-  test('empty span should render', () => {
+  test('nothing should render', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...noResult} oas={oas} />);
 
     expect(codeSampleResponseTabs.find('span').length).toBe(0);
@@ -87,18 +87,16 @@ describe('tabs', () => {
   test('should switch tabs', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
-    const resultTab = codeSampleResponseTabs.find('a').first();
-    const metadataTab = codeSampleResponseTabs.find('a').last();
+    const resultTab = codeSampleResponseTabs.find('a[data-tab="result"]');
+    const metadataTab = codeSampleResponseTabs.find('a[data-tab="metadata"]');
 
     expect(codeSampleResponseTabs.state('selectedTab')).toBe('result');
-    expect(resultTab.hasClass('hub-reference-results-header-item tabber-tab selected')).toEqual(
-      true,
-    );
+    expect(resultTab.hasClass('selected')).toEqual(true);
 
     metadataTab.simulate('click', { preventDefault() {} });
 
     expect(codeSampleResponseTabs.state('selectedTab')).toBe('metadata');
-    expect(resultTab.hasClass('hub-reference-results-header-item tabber-tab')).toEqual(true);
+    expect(codeSampleResponseTabs.find('a[data-tab="result"]').hasClass('selected')).toEqual(false);
 
     resultTab.simulate('click', { preventDefault() {} });
     expect(codeSampleResponseTabs.state('selectedTab')).toBe('result');
@@ -109,11 +107,7 @@ describe('Results body', () => {
   test('should display result body by default', () => {
     const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
 
-    expect(
-      codeSampleResponseTabs.containsMatchingElement(
-        <div className="cm-s-tomorrow-night codemirror-highlight" />,
-      ),
-    ).toEqual(true);
+    expect(codeSampleResponseTabs.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
   });
 
   test('should not display responseBody if isBinary is true', async () => {
@@ -143,8 +137,10 @@ describe('Results body', () => {
     ).toEqual(true);
   });
 
-  test('should display message if OAuth is incorrect or expired', async () => {
-    const oauthInvalidResponse = {
+  let oauthInvalidResponse;
+
+  beforeEach(async () => {
+    oauthInvalidResponse = {
       result: await parseResponse(
         {
           log: {
@@ -156,12 +152,15 @@ describe('Results body', () => {
           },
         },
         new Response('{}', {
-          headers: { 'content-disposition': 'attachment' },
+          headers: {},
           status: 401,
         }),
       ),
       operation: oas.operation('/pet', 'post'),
     };
+  });
+
+  test('should display message if OAuth is incorrect or expired without oauthUrl', async () => {
     const codeSampleResponseTabs = shallow(
       <CodeSampleResponseTabs {...oauthInvalidResponse} oas={oas} />,
     );
@@ -174,25 +173,7 @@ describe('Results body', () => {
     ).toEqual(true);
   });
 
-  test('should display message if OAuth is expired', async () => {
-    const oauthInvalidResponse = {
-      result: await parseResponse(
-        {
-          log: {
-            entries: [
-              {
-                request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] },
-              },
-            ],
-          },
-        },
-        new Response('{}', {
-          headers: { 'content-disposition': 'attachment' },
-          status: 401,
-        }),
-      ),
-      operation: oas.operation('/pet', 'post'),
-    };
+  test('should display message if OAuth is expired with oauthUrl', async () => {
     const codeSampleResponseTabs = shallow(
       <CodeSampleResponseTabs
         {...oauthInvalidResponse}
@@ -228,7 +209,7 @@ describe('Results body', () => {
           },
         },
         new Response('{}', {
-          headers: { 'content-disposition': 'attachment' },
+          headers: {},
           status: 401,
         }),
       ),
@@ -245,7 +226,7 @@ describe('Results body', () => {
 });
 
 describe('examples', () => {
-  test('if endpoint has an example tabs and body should show', () => {
+  test('if endpoint has an example, tabs and body should show', () => {
     const oas2 = new Oas(example);
     const props4 = {
       result: null,
@@ -257,14 +238,12 @@ describe('examples', () => {
     const secondTab = codeSampleResponseTabs.find('a').last();
 
     expect(codeSampleResponseTabs.state('exampleTab')).toBe(0);
-    expect(firstTab.hasClass('hub-reference-results-header-item tabber-tab selected')).toEqual(
-      true,
-    );
+    expect(firstTab.hasClass('selected')).toEqual(true);
 
     secondTab.simulate('click', { preventDefault() {} });
 
     expect(codeSampleResponseTabs.state('exampleTab')).toBe(1);
-    expect(firstTab.hasClass('hub-reference-results-header-item tabber-tab')).toEqual(true);
+    expect(codeSampleResponseTabs.find('a').first().hasClass('selected')).toEqual(false);
 
     expect(firstTab.find('span.httpsuccess').length).toBe(1);
     expect(secondTab.find('span.httperror').length).toBe(1);
