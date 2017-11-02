@@ -69,7 +69,9 @@ module.exports = (
   const har = {
     headers: [],
     queryString: [],
-    postData: {},
+    postData: {
+      mimeType: getContentType();
+    },
     method: pathOperation.method.toUpperCase(),
     url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
