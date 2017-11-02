@@ -8,7 +8,7 @@ const extensions = require('../../readme-oas-extensions');
 const { getLangName } = require('./lib/generate-code-snippet');
 const syntaxHighlighter = require('../../readme-syntax-highlighter');
 const codemirror = require('../../readme-syntax-highlighter/codemirror');
-const IconStatus = require('./sub-components/status-with-icon');
+const IconStatus = require('./IconStatus');
 
 const Oas = require('./lib/Oas');
 
