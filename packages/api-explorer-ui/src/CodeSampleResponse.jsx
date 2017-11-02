@@ -9,6 +9,7 @@ const { getLangName } = require('./lib/generate-code-snippet');
 const syntaxHighlighter = require('../../readme-syntax-highlighter');
 const codemirror = require('../../readme-syntax-highlighter/codemirror');
 const IconStatus = require('./IconStatus');
+const ResponseMetadata = require('./ResponseMetadata');
 
 const Oas = require('./lib/Oas');
 
@@ -147,60 +148,7 @@ class CodeSampleResponse extends React.Component {
                   )}
                 </div>
 
-                <div
-                  className="hub-reference-results-meta tabber-body-metadata tabber-body"
-                  style={{ display: this.state.selectedTab === 'metadata' ? 'block' : 'none' }}
-                >
-                  <div className="meta">
-                    {
-                      // eslint-disable-next-line jsx-a11y/label-has-for
-                      <label>Method</label>
-                    }
-                    <div>{result.method.toString()}</div>
-                  </div>
-
-                  <div className="meta">
-                    {
-                      // eslint-disable-next-line jsx-a11y/label-has-for
-                      <label>URL</label>
-                    }
-                    <div>{result.url}</div>
-                  </div>
-
-                  <div className="meta">
-                    {
-                      // eslint-disable-next-line jsx-a11y/label-has-for
-                      <label>Request Headers</label>
-                    }
-                    <pre>{result.requestHeaders.join('\n')}</pre>
-                  </div>
-
-                  <div className="meta">
-                    {
-                      // eslint-disable-next-line jsx-a11y/label-has-for
-                      <label>Request Data</label>
-                    }
-                    <pre>{JSON.stringify(result.responseBody)}</pre>
-                  </div>
-
-                  <div className="meta">
-                    {
-                      // eslint-disable-next-line jsx-a11y/label-has-for
-                      <label> Status</label>
-                    }
-                    <span className="httpstatus">
-                      <IconStatus result={result} />
-                    </span>
-                  </div>
-
-                  <div className="meta">
-                    {
-                      // eslint-disable-next-line jsx-a11y/label-has-for
-                      <label>Response Headers</label>
-                    }
-                    <pre>{result.responseHeaders.join('\n')}</pre>
-                  </div>
-                </div>
+                { this.state.selectedTab === 'metadata' && <ResponseMetadata result={result} /> }
               </span>
             )}
           </div>
