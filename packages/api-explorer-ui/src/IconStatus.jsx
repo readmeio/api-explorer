@@ -2,25 +2,29 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 
-function IconStatus({ result }) {
+const statusCodes = require('./lib/statuscodes');
+
+function IconStatus({ status }) {
+  const statusCode = statusCodes(status);
+
   return (
     <span
       className={classNames({
-        httpsuccess: result.statusCode[2] === 'success',
-        httperror: result.statusCode[2] !== 'success',
+        httpsuccess: statusCode[2] === 'success',
+        httperror: statusCode[2] !== 'success',
       })}
     >
       <i className="fa fa-circle" />
       <em>
-        &nbsp;{result.statusCode[0]}&nbsp;
-        {result.statusCode[1]}
+        &nbsp;{statusCode[0]}&nbsp;
+        {statusCode[1]}
       </em>
     </span>
   );
 }
 
 IconStatus.propTypes = {
-  result: PropTypes.shape({}).isRequired,
+  status: PropTypes.number.isRequired,
 };
 
 module.exports = IconStatus;

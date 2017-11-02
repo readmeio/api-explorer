@@ -91,9 +91,7 @@ test('should remove x-final-url header set by the proxy', async () => {
 
 test('should pass through status', async () => {
   const status = 200;
-  expect((await codeSampleResponse(har, new Response('', { status }))).statusCode).toEqual(
-    statuscodes(status),
-  );
+  expect((await codeSampleResponse(har, new Response('', { status }))).status).toEqual(status);
 });
 
 test('isBinary should be true if there is a content-disposition response header', async () => {

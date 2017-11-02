@@ -2,61 +2,54 @@ const React = require('react');
 const IconStatus = require('./IconStatus');
 const PropTypes = require('prop-types');
 
+function Meta({ label, children }) {
+  return (
+    <div className="meta">
+      {
+        // eslint-disable-next-line jsx-a11y/label-has-for
+        <label>{label}</label>
+      }
+      {children}
+    </div>
+  );
+}
+
+Meta.propTypes = {
+  label: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+};
+
 function ResponseMetadata({ result }) {
   return (
     <div
       className="hub-reference-results-meta tabber-body-metadata tabber-body"
       style={{ display: 'block' }}
     >
-      <div className="meta">
-        {
-          // eslint-disable-next-line jsx-a11y/label-has-for
-          <label>Method</label>
-        }
+      <Meta label="Method">
         <div>{result.method.toString()}</div>
-      </div>
+      </Meta>
 
-      <div className="meta">
-        {
-          // eslint-disable-next-line jsx-a11y/label-has-for
-          <label>URL</label>
-        }
+      <Meta label="URL">
         <div>{result.url}</div>
-      </div>
+      </Meta>
 
-      <div className="meta">
-        {
-          // eslint-disable-next-line jsx-a11y/label-has-for
-          <label>Request Headers</label>
-        }
+      <Meta label="Request Headers">
         <pre>{result.requestHeaders.join('\n')}</pre>
-      </div>
+      </Meta>
 
-      <div className="meta">
-        {
-          // eslint-disable-next-line jsx-a11y/label-has-for
-          <label>Request Data</label>
-        }
+      <Meta label="Request Data">
         <pre>{JSON.stringify(result.responseBody)}</pre>
-      </div>
+      </Meta>
 
-      <div className="meta">
-        {
-          // eslint-disable-next-line jsx-a11y/label-has-for
-          <label> Status</label>
-        }
+      <Meta label="Status">
         <span className="httpstatus">
-          <IconStatus result={result} />
+          <IconStatus status={result.status} />
         </span>
-      </div>
+      </Meta>
 
-      <div className="meta">
-        {
-          // eslint-disable-next-line jsx-a11y/label-has-for
-          <label>Response Headers</label>
-        }
+      <Meta label="Response Headers">
         <pre>{result.responseHeaders.join('\n')}</pre>
-      </div>
+      </Meta>
     </div>
   );
 }

@@ -1,5 +1,3 @@
-const statusCodes = require('./statuscodes');
-
 async function parseResponse(har, response) {
   const contentDisposition = response.headers.get('Content-Disposition');
   const contentType = response.headers.get('Content-Type');
@@ -15,7 +13,7 @@ async function parseResponse(har, response) {
       .filter(header => !header.match(/x-final-url/i)),
     isBinary: !!(contentDisposition && contentDisposition.match(/attachment/)),
     url: har.log.entries[0].request.url,
-    statusCode: statusCodes(response.status),
+    status: response.status,
     responseBody: await response[isJson ? 'json' : 'text'](),
   };
 }

@@ -68,7 +68,7 @@ class CodeSampleResponse extends React.Component {
                         this.setTab('result');
                       }}
                     >
-                      <IconStatus result={result} />
+                      <IconStatus status={result.status} />
                     </a>
                   }
                   {
@@ -107,7 +107,7 @@ class CodeSampleResponse extends React.Component {
                     display: this.state.selectedTab === 'result' ? 'block' : 'none',
                   }}
                 >
-                  {result.statusCode[0] !== 401 && (
+                  {result.status !== 401 && (
                     <pre className="tomorrow-night">
                       {result.isBinary && <div>A binary file was returned</div>}
                       {!result.isBinary && (
@@ -125,7 +125,7 @@ class CodeSampleResponse extends React.Component {
                     </pre>
                   )}
 
-                  {result.statusCode[0] === 401 && (
+                  {result.status === 401 && (
                     <div className="text-center hub-expired-token">
                       {securities.OAuth2 ? (
                         (() => {
