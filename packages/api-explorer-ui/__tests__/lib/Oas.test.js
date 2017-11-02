@@ -171,18 +171,18 @@ describe('operation.prepareSecurity()', () => {
 
   test('should throw if attempting to use a non-existent scheme');
 
-  test('should return null if no security', () => {
+  test('should return empty object if no security', () => {
     const operation = new Oas(multipleSecurities).operation('/no-auth', 'post');
-    expect(operation.prepareSecurity()).toBe(null);
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
   });
 
-  test('should return null if security scheme doesnt exist', () => {
+  test('should return empty object if security scheme doesnt exist', () => {
     const operation = new Oas(multipleSecurities).operation('/unknown-scheme', 'post');
-    expect(operation.prepareSecurity()).toBe(null);
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
   });
 
-  test('should return null if security scheme type doesnt exist', () => {
+  test('should return empty if security scheme type doesnt exist', () => {
     const operation = new Oas(multipleSecurities).operation('/unknown-auth-type', 'post');
-    expect(operation.prepareSecurity()).toBe(null);
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
   });
 });

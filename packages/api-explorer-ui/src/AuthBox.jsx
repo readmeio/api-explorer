@@ -62,7 +62,7 @@ class AuthBox extends React.Component {
   render() {
     const { authInputRef, operation, onSubmit, open, needsAuth, toggle } = this.props;
 
-    if (!operation.prepareSecurity()) return null;
+    if (Object.keys(operation.prepareSecurity()).length === 0) return null;
 
     return (
       <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>

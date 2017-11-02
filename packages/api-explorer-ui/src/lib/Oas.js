@@ -15,10 +15,6 @@ class Operation {
   prepareSecurity() {
     const securityRequirements = this.getSecurity();
 
-    if (!securityRequirements.length) {
-      return null;
-    }
-
     return securityRequirements
       .map(requirement => {
         let keys;
@@ -62,9 +58,6 @@ class Operation {
           if (!prev[security.type]) prev[security.type] = [];
           prev[security.type].push(security.security);
         });
-        if (Object.keys(prev).length === 0) {
-          return null;
-        }
         return prev;
       }, {});
   }
