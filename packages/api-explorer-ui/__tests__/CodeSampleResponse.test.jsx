@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 // const extensions = require('../../readme-oas-extensions');
 const petstore = require('./fixtures/petstore/oas');
 const example = require('./fixtures/example-results/oas');
@@ -105,7 +105,7 @@ describe('tabs', () => {
 
 describe('Results body', () => {
   test('should display result body by default', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
+    const codeSampleResponseTabs = mount(<CodeSampleResponseTabs {...props} oas={oas} />);
 
     expect(codeSampleResponseTabs.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
   });
@@ -128,9 +128,7 @@ describe('Results body', () => {
       ),
       operation: new Operation({}, '/pet', 'post'),
     };
-    const codeSampleResponseTabs = shallow(
-      <CodeSampleResponseTabs {...binaryResponse} oas={oas} />,
-    );
+    const codeSampleResponseTabs = mount(<CodeSampleResponseTabs {...binaryResponse} oas={oas} />);
 
     expect(
       codeSampleResponseTabs.containsMatchingElement(<div>A binary file was returned</div>),
@@ -161,7 +159,7 @@ describe('Results body', () => {
   });
 
   test('should display message if OAuth is incorrect or expired without oauthUrl', async () => {
-    const codeSampleResponseTabs = shallow(
+    const codeSampleResponseTabs = mount(
       <CodeSampleResponseTabs {...oauthInvalidResponse} oas={oas} />,
     );
 
@@ -174,7 +172,7 @@ describe('Results body', () => {
   });
 
   test('should display message if OAuth is expired with oauthUrl', async () => {
-    const codeSampleResponseTabs = shallow(
+    const codeSampleResponseTabs = mount(
       <CodeSampleResponseTabs
         {...oauthInvalidResponse}
         oas={oas}
@@ -215,7 +213,7 @@ describe('Results body', () => {
       ),
       operation: oas.operation('/pet/{petId}', 'get'),
     };
-    const codeSampleResponseTabs = shallow(
+    const codeSampleResponseTabs = mount(
       <CodeSampleResponseTabs {...nonOAuthInvalidResponse} oas={oas} />,
     );
 

@@ -6,10 +6,10 @@ const statusCodes = require('./lib/statuscodes');
 // const { replaceVars } = require('./lib/replace-vars');
 const extensions = require('../../readme-oas-extensions');
 const { getLangName } = require('./lib/generate-code-snippet');
-const syntaxHighlighter = require('../../readme-syntax-highlighter');
 const codemirror = require('../../readme-syntax-highlighter/codemirror');
 const IconStatus = require('./IconStatus');
 const ResponseMetadata = require('./ResponseMetadata');
+const ResponseBody = require('./ResponseBody');
 
 const Oas = require('./lib/Oas');
 
@@ -101,53 +101,10 @@ class CodeSampleResponse extends React.Component {
                     </a>
                   )}
                 </ul>
-                <div
-                  className="tabber-body tabber-body-result"
-                  style={{
-                    display: this.state.selectedTab === 'result' ? 'block' : 'none',
-                  }}
-                >
-                  {result.status !== 401 && (
-                    <pre className="tomorrow-night">
-                      {result.isBinary && <div>A binary file was returned</div>}
-                      {!result.isBinary && (
-                        <div
-                          className="cm-s-tomorrow-night codemirror-highlight"
-                          // eslint-disable-next-line react/no-danger
-                          dangerouslySetInnerHTML={{
-                            __html: syntaxHighlighter(
-                              JSON.stringify(result.responseBody),
-                              'javascript',
-                            ),
-                          }}
-                        />
-                      )}
-                    </pre>
-                  )}
 
-                  {result.status === 401 && (
-                    <div className="text-center hub-expired-token">
-                      {securities.OAuth2 ? (
-                        (() => {
-                          if (oauthUrl) {
-                            return (
-                              <div>
-                                <p>Your OAuth2 token has expired</p>
-                                <a className="btn btn-primary" href="/oauth" target="_self">
-                                  Reauthenticate via OAuth2
-                                </a>
-                              </div>
-                            );
-                          }
-                          return <p>Your OAuth2 token is incorrect or has expired</p>;
-                        })()
-                      ) : (
-                        <p>You couldn&apos;t be authenticated</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-
+                {this.state.selectedTab === 'result' && (
+                  <ResponseBody result={result} oauthUrl={oauthUrl} isOauth={!!securities.OAuth2} />
+                )}
                 {this.state.selectedTab === 'metadata' && <ResponseMetadata result={result} />}
               </span>
             )}
