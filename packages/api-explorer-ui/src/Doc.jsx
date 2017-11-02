@@ -8,7 +8,7 @@ const extensions = require('../../readme-oas-extensions');
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
-const CodeSampleResponse = require('./CodeSampleResponse');
+const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 
 const Oas = require('./lib/Oas');
@@ -100,7 +100,7 @@ class Doc extends React.Component {
                 language={this.props.language}
               />
             </div>
-            <CodeSampleResponse
+            <Response
               result={this.state.result}
               oas={oas}
               operation={operation}

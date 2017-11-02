@@ -15,7 +15,7 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-class CodeSampleResponse extends React.Component {
+class Response extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -181,16 +181,16 @@ class CodeSampleResponse extends React.Component {
   }
 }
 
-module.exports = CodeSampleResponse;
+module.exports = Response;
 
-CodeSampleResponse.propTypes = {
+Response.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   oauthUrl: PropTypes.string,
 };
 
-CodeSampleResponse.defaultProps = {
+Response.defaultProps = {
   result: {},
   oauthUrl: '',
 };

@@ -4,9 +4,9 @@ const { shallow, mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
 const example = require('./fixtures/example-results/oas');
 const parseResponse = require('../src/lib/parse-response');
-const { Response } = require('node-fetch');
+const FetchResponse = require('node-fetch').Response;
 
-const CodeSampleResponseTabs = require('../src/CodeSampleResponse');
+const Response = require('../src/Response');
 const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
@@ -29,7 +29,7 @@ beforeEach(async () => {
         ],
       },
     },
-    new Response('{}', {
+    new FetchResponse('{}', {
       headers: {},
     }),
   );
@@ -37,7 +37,7 @@ beforeEach(async () => {
 
 describe('setTab', () => {
   test('setTab should change state of selectedTab', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
+    const codeSampleResponseTabs = shallow(<Response {...props} oas={oas} />);
 
     expect(codeSampleResponseTabs.state('selectedTab')).toBe('result');
 
@@ -53,7 +53,7 @@ describe('setTab', () => {
 
 describe('exampleTab', () => {
   test('exampleTab should change state of exampleTab', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
+    const codeSampleResponseTabs = shallow(<Response {...props} oas={oas} />);
 
     expect(codeSampleResponseTabs.state('exampleTab')).toBe(0);
 
@@ -65,7 +65,7 @@ describe('exampleTab', () => {
 
 describe('hideResults', () => {
   test('hideResults should render null', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
+    const codeSampleResponseTabs = shallow(<Response {...props} oas={oas} />);
 
     expect(codeSampleResponseTabs.state('result')).toEqual(props.result);
 
@@ -77,7 +77,7 @@ describe('hideResults', () => {
 
 describe('no result', () => {
   test('nothing should render', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...noResult} oas={oas} />);
+    const codeSampleResponseTabs = shallow(<Response {...noResult} oas={oas} />);
 
     expect(codeSampleResponseTabs.find('span').length).toBe(0);
   });
@@ -85,7 +85,7 @@ describe('no result', () => {
 
 describe('tabs', () => {
   test('should switch tabs', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props} oas={oas} />);
+    const codeSampleResponseTabs = shallow(<Response {...props} oas={oas} />);
 
     const resultTab = codeSampleResponseTabs.find('a[data-tab="result"]');
     const metadataTab = codeSampleResponseTabs.find('a[data-tab="metadata"]');
@@ -105,7 +105,7 @@ describe('tabs', () => {
 
 describe('Results body', () => {
   test('should display result body by default', () => {
-    const codeSampleResponseTabs = mount(<CodeSampleResponseTabs {...props} oas={oas} />);
+    const codeSampleResponseTabs = mount(<Response {...props} oas={oas} />);
 
     expect(codeSampleResponseTabs.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
   });
@@ -122,13 +122,13 @@ describe('Results body', () => {
             ],
           },
         },
-        new Response('{}', {
+        new FetchResponse('{}', {
           headers: { 'content-disposition': 'attachment' },
         }),
       ),
       operation: new Operation({}, '/pet', 'post'),
     };
-    const codeSampleResponseTabs = mount(<CodeSampleResponseTabs {...binaryResponse} oas={oas} />);
+    const codeSampleResponseTabs = mount(<Response {...binaryResponse} oas={oas} />);
 
     expect(
       codeSampleResponseTabs.containsMatchingElement(<div>A binary file was returned</div>),
@@ -149,7 +149,7 @@ describe('Results body', () => {
             ],
           },
         },
-        new Response('{}', {
+        new FetchResponse('{}', {
           headers: {},
           status: 401,
         }),
@@ -160,7 +160,7 @@ describe('Results body', () => {
 
   test('should display message if OAuth is incorrect or expired without oauthUrl', async () => {
     const codeSampleResponseTabs = mount(
-      <CodeSampleResponseTabs {...oauthInvalidResponse} oas={oas} />,
+      <Response {...oauthInvalidResponse} oas={oas} />,
     );
 
     expect(codeSampleResponseTabs.find('.hub-expired-token').length).toEqual(1);
@@ -173,7 +173,7 @@ describe('Results body', () => {
 
   test('should display message if OAuth is expired with oauthUrl', async () => {
     const codeSampleResponseTabs = mount(
-      <CodeSampleResponseTabs
+      <Response
         {...oauthInvalidResponse}
         oas={oas}
         oauthUrl="https://github.com/readmeio/api-explorer"
@@ -206,7 +206,7 @@ describe('Results body', () => {
             ],
           },
         },
-        new Response('{}', {
+        new FetchResponse('{}', {
           headers: {},
           status: 401,
         }),
@@ -214,7 +214,7 @@ describe('Results body', () => {
       operation: oas.operation('/pet/{petId}', 'get'),
     };
     const codeSampleResponseTabs = mount(
-      <CodeSampleResponseTabs {...nonOAuthInvalidResponse} oas={oas} />,
+      <Response {...nonOAuthInvalidResponse} oas={oas} />,
     );
 
     expect(
@@ -230,7 +230,7 @@ describe('examples', () => {
       result: null,
       operation: oas2.operation('/results', 'get'),
     };
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...props4} oas={oas2} />);
+    const codeSampleResponseTabs = shallow(<Response {...props4} oas={oas2} />);
 
     const firstTab = codeSampleResponseTabs.find('a').first();
     const secondTab = codeSampleResponseTabs.find('a').last();
@@ -255,7 +255,7 @@ describe('examples', () => {
   });
 
   test('if endpoint does not have example ', () => {
-    const codeSampleResponseTabs = shallow(<CodeSampleResponseTabs {...noResult} oas={oas} />);
+    const codeSampleResponseTabs = shallow(<Response {...noResult} oas={oas} />);
 
     expect(
       codeSampleResponseTabs.containsMatchingElement(<div>Try the API to see Results</div>),
