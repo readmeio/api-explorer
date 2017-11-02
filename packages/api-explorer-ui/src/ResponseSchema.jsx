@@ -93,7 +93,7 @@ class ResponseSchema extends React.Component {
 
     return (
       <div className="hub-reference-response-definitions">
-        { this.renderHeader() }
+        {this.renderHeader()}
         <div>
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
