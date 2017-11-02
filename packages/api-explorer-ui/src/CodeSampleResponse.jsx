@@ -8,6 +8,7 @@ const extensions = require('../../readme-oas-extensions');
 const { getLangName } = require('./lib/generate-code-snippet');
 const syntaxHighlighter = require('../../readme-syntax-highlighter');
 const codemirror = require('../../readme-syntax-highlighter/codemirror');
+const IconStatus = require('./sub-components/status-with-icon');
 
 const Oas = require('./lib/Oas');
 
@@ -66,18 +67,7 @@ class CodeSampleResponse extends React.Component {
                         this.setTab('result');
                       }}
                     >
-                      <span
-                        className={classNames({
-                          httpsuccess: result.statusCode[2] === 'success',
-                          httperror: result.statusCode[2] !== 'success',
-                        })}
-                      >
-                        <i className="fa fa-circle" />
-                        <em>
-                          &nbsp;{result.statusCode[0]}&nbsp;
-                          {result.statusCode[1]}
-                        </em>
-                      </span>
+                      <IconStatus result={result} />
                     </a>
                   }
                   {
@@ -199,18 +189,7 @@ class CodeSampleResponse extends React.Component {
                       <label> Status</label>
                     }
                     <span className="httpstatus">
-                      <span
-                        className={classNames({
-                          httpsuccess: result.statusCode[2] === 'success',
-                          httperror: result.statusCode[2] !== 'success',
-                        })}
-                      >
-                        <i className="fa fa-circle" />
-                        <em>
-                          &nbsp;{result.statusCode[0]}&nbsp;
-                          {result.statusCode[1]}
-                        </em>
-                      </span>
+                      <IconStatus result={result} />
                     </span>
                   </div>
 
