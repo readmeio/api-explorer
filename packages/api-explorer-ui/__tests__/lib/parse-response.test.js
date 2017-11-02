@@ -1,5 +1,4 @@
 const codeSampleResponse = require('../../src/lib/parse-response');
-const statuscodes = require('../../src/lib/statuscodes');
 const { Headers, Response } = require('node-fetch');
 
 function createHar(har) {
