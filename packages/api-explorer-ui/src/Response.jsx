@@ -23,34 +23,51 @@ class ResponseSchema extends React.Component {
     this.selectedStatus(e.target.value);
   }
 
+  // TODO https://github.com/readmeio/api-explorer/issues/43
+  // renderSchema() {
+  // let schema;
+  //
+  // try {
+  //   if (operation.responses[this.state.selectedStatus].content) {
+  //     if (
+  //       operation.responses[this.state.selectedStatus].content['application/json'].schema.type ===
+  //         'object' &&
+  //       operation.responses[this.state.selectedStatus].content['application/json'].schema
+  //         .properties
+  //     ) {
+  //       schema =
+  //         operation.responses[this.state.selectedStatus].content['application/json'].schema
+  //           .properties;
+  //     }
+  //   } else if (
+  //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.type ===
+  //       'object' &&
+  //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.properties
+  //   ) {
+  //     schema =
+  //       operation.responses[this.state.selectedStatus].content['application/xml'].schema
+  //         .properties;
+  //   }
+  // } catch (e) {} // eslint-disable-line no-empty
+
+  /* {schema && (
+      <table>
+        {swaggerUtils.convertToParams([response], 'response').forEach(param => {
+          <tr>
+            <th>param.name</th>
+            <td>
+              param.type
+              {param.description && marked(param.description)}
+            </td>
+          </tr>;
+        })}
+      </table>
+    )} */
+  // }
+
   render() {
     const { operation } = this.props;
     const keys = Object.keys(operation.responses);
-
-    // let schema;
-    //
-    // try {
-    //   if (operation.responses[this.state.selectedStatus].content) {
-    //     if (
-    //       operation.responses[this.state.selectedStatus].content['application/json'].schema.type ===
-    //         'object' &&
-    //       operation.responses[this.state.selectedStatus].content['application/json'].schema
-    //         .properties
-    //     ) {
-    //       schema =
-    //         operation.responses[this.state.selectedStatus].content['application/json'].schema
-    //           .properties;
-    //     }
-    //   } else if (
-    //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.type ===
-    //       'object' &&
-    //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.properties
-    //   ) {
-    //     schema =
-    //       operation.responses[this.state.selectedStatus].content['application/xml'].schema
-    //         .properties;
-    //   }
-    // } catch (e) {} // eslint-disable-line no-empty
 
     return (
       <div className="hub-reference-response-definitions">
@@ -74,19 +91,7 @@ class ResponseSchema extends React.Component {
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
           )}
-          {/* {schema && (
-            <table>
-              {swaggerUtils.convertToParams([response], 'response').forEach(param => {
-                <tr>
-                  <th>param.name</th>
-                  <td>
-                    param.type
-                    {param.description && marked(param.description)}
-                  </td>
-                </tr>;
-              })}
-            </table>
-          )} */}
+          {/* this.renderSchema() */}
         </div>
       </div>
     );

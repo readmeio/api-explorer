@@ -42,12 +42,9 @@ class Doc extends React.Component {
     });
   }
   onSubmit() {
-    if (
-      !isAuthReady(
-        this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-        this.state.formData.auth,
-      )
-    ) {
+    const operation = this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method);
+
+    if (!isAuthReady(operation, this.state.formData.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.authInput.focus();
@@ -58,12 +55,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(
-      this.oas,
-      this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-      this.state.formData,
-      { proxyUrl: true },
-    );
+    const har = oasToHar(this.oas, operation, this.state.formData, { proxyUrl: true });
 
     return fetchHar(har).then(async res => {
       this.setState({

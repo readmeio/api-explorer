@@ -8,7 +8,7 @@ const petstore = require('./fixtures/petstore/oas.json');
 const oas = new Oas(petstore);
 
 const props = {
-  operation: oas.operation('/pet/{petId}', 'get')
+  operation: oas.operation('/pet/{petId}', 'get'),
 };
 
 describe('selectedStatus', () => {

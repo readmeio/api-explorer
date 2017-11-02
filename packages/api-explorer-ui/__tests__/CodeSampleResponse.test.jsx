@@ -243,7 +243,12 @@ describe('examples', () => {
     secondTab.simulate('click', { preventDefault() {} });
 
     expect(codeSampleResponseTabs.state('exampleTab')).toBe(1);
-    expect(codeSampleResponseTabs.find('a').first().hasClass('selected')).toEqual(false);
+    expect(
+      codeSampleResponseTabs
+        .find('a')
+        .first()
+        .hasClass('selected'),
+    ).toEqual(false);
 
     expect(firstTab.find('span.httpsuccess').length).toBe(1);
     expect(secondTab.find('span.httperror').length).toBe(1);
