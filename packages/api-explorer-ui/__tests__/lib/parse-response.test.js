@@ -10,7 +10,7 @@ function createHar(har) {
   };
 }
 
-const url = 'http://petstore.swagger.io/v2/pet';
+const url = 'https://try.readme.io/http://petstore.swagger.io/v2/pet';
 const method = 'POST';
 
 const har = createHar({
@@ -44,7 +44,7 @@ beforeEach(() => {
 });
 
 test('should pass through method', async () => {
-  expect((await codeSampleResponse(har, response)).url).toBe(url);
+  expect((await codeSampleResponse(har, response)).url).toBe('http://petstore.swagger.io/v2/pet');
 });
 
 test('should pass through URL', async () => {
@@ -65,6 +65,7 @@ test('should return array for request headers', async () => {
             value: 'Bearer api-key1',
           },
         ],
+        url,
       }),
       response,
     )).requestHeaders,
