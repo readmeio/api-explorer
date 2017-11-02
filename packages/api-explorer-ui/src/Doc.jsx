@@ -9,7 +9,7 @@ const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
 const CodeSampleResponse = require('./CodeSampleResponse');
-const ResponseSchema = require('./Response');
+const ResponseSchema = require('./ResponseSchema');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
