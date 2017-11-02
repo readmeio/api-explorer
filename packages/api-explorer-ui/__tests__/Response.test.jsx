@@ -159,9 +159,7 @@ describe('Results body', () => {
   });
 
   test('should display message if OAuth is incorrect or expired without oauthUrl', async () => {
-    const codeSampleResponseTabs = mount(
-      <Response {...oauthInvalidResponse} oas={oas} />,
-    );
+    const codeSampleResponseTabs = mount(<Response {...oauthInvalidResponse} oas={oas} />);
 
     expect(codeSampleResponseTabs.find('.hub-expired-token').length).toEqual(1);
     expect(
@@ -213,9 +211,7 @@ describe('Results body', () => {
       ),
       operation: oas.operation('/pet/{petId}', 'get'),
     };
-    const codeSampleResponseTabs = mount(
-      <Response {...nonOAuthInvalidResponse} oas={oas} />,
-    );
+    const codeSampleResponseTabs = mount(<Response {...nonOAuthInvalidResponse} oas={oas} />);
 
     expect(
       codeSampleResponseTabs.containsMatchingElement(<p>You couldn&apos;t be authenticated</p>),
