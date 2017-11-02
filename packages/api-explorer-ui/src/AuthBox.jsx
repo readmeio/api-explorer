@@ -2,9 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
-const Oas = require('./lib/Oas');
-
-const { Operation } = Oas;
+const { Operation } = require('./lib/Oas');
 
 function renderSecurities(authInputRef, operation, onChange, onSubmit) {
   const securityTypes = operation.prepareSecurity();
