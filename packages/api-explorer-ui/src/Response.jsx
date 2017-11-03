@@ -11,7 +11,17 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function Response({ result, oas, operation, oauthUrl }) {
+function Response({
+  result,
+  oas,
+  operation,
+  oauthUrl,
+  responseTab,
+  exampleTab,
+  setExampleTab,
+  setTab,
+  hideResults,
+}) {
   const securities = operation.prepareSecurity();
 
   return (
@@ -24,16 +34,29 @@ function Response({ result, oas, operation, oauthUrl }) {
         <div className="hub-reference-results-explorer code-sample">
           {result !== null && (
             <span>
-              <ResponseTabs result={result} oas={oas} operation={operation} />
+              <ResponseTabs
+                result={result}
+                oas={oas}
+                operation={operation}
+                responseTab={responseTab}
+                setTab={setTab}
+                hideResults={hideResults}
+              />
 
-              {this.state.selectedTab === 'result' && (
+              {responseTab === 'result' && (
                 <ResponseBody result={result} oauthUrl={oauthUrl} isOauth={!!securities.OAuth2} />
               )}
-              {this.state.selectedTab === 'metadata' && <ResponseMetadata result={result} />}
+              {responseTab === 'metadata' && <ResponseMetadata result={result} />}
             </span>
           )}
         </div>
-        <Example operation={operation} result={result} oas={oas} />
+        <Example
+          operation={operation}
+          result={result}
+          oas={oas}
+          exampleTab={exampleTab}
+          setExampleTab={setExampleTab}
+        />
       </div>
     </div>
   );
@@ -46,6 +69,11 @@ Response.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   oauthUrl: PropTypes.string,
+  responseTab: PropTypes.string.isRequired,
+  exampleTab: PropTypes.string.isRequired,
+  setExampleTab: PropTypes.func.isRequired,
+  setTab: PropTypes.func.isRequired,
+  hideResults: PropTypes.func.isRequired,
 };
 
 Response.defaultProps = {

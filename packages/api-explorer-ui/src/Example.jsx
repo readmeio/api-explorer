@@ -12,12 +12,16 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function Example({ operation, result, oas }) {
+function Example({ operation, result, oas, exampleTab, setExampleTab }) {
   return (
     <div className="hub-reference-results-examples code-sample">
       {showCodeResults(operation).length > 0 && (
         <span>
-          <ExampleTabs operation={operation} />
+          <ExampleTabs
+            operation={operation}
+            exampleTab={exampleTab}
+            setExampleTab={setExampleTab}
+          />
           <div className="code-sample-body">
             {showCodeResults(operation).map((example, index) => {
               return (
@@ -52,6 +56,8 @@ Example.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  exampleTab: PropTypes.string.isRequired,
+  setExampleTab: PropTypes.func.isRequired,
 };
 
 Example.defaultProps = {
