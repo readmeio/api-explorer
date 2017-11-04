@@ -8,11 +8,6 @@ class Operation {
     this.method = method;
   }
 
-  hasAuth() {
-    const security = this.getSecurity();
-    return !!(security && security.length);
-  }
-
   getSecurity() {
     return this.security || this.oas.security || [];
   }
@@ -47,6 +42,8 @@ class Operation {
             type = 'Query';
           } else if (security.type === 'apiKey' && security.in === 'header') {
             type = 'Header';
+          } else {
+            return false;
           }
 
           security._key = key;
@@ -54,9 +51,10 @@ class Operation {
           return { type, security };
         });
       })
-      .filter(Boolean)
       .reduce((prev, securities) => {
         securities.forEach(security => {
+          // Remove non-existent schemes
+          if (!security) return;
           if (!prev[security.type]) prev[security.type] = [];
           prev[security.type].push(security.security);
         });
@@ -67,6 +65,14 @@ class Operation {
 
 class Oas {
   constructor(oas) {
+    if (oas.servers) {
+      let url = oas.servers[0].url;
+
+      if (url[url.length - 1] === '/') {
+        url = url.slice(0, -1);
+      }
+      oas.servers[0].url = url;
+    }
     Object.assign(this, oas);
   }
 

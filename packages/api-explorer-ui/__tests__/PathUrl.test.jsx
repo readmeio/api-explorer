@@ -56,15 +56,21 @@ describe('dirty prop', () => {
   });
 });
 
-describe('button form attribute', () => {
-  test('should be set to the operationId', () => {
-    expect(
-      shallow(
-        <PathUrl
-          {...props}
-          operation={new Operation({}, '/path', 'get', { operationId: '123' })}
-        />,
-      ).find('button[form="form-123"]').length,
-    ).toBe(1);
-  });
+test('button click should call onSubmit', () => {
+  let called = false;
+  function onSubmit() {
+    called = true;
+  }
+
+  shallow(
+    <PathUrl
+      {...props}
+      operation={new Operation({}, '/path', 'get', { operationId: '123' })}
+      onSubmit={onSubmit}
+    />,
+  )
+    .find('button[type="submit"]')
+    .simulate('click');
+
+  expect(called).toBe(true);
 });

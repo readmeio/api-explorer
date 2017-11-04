@@ -155,6 +155,46 @@ describe('onSubmit', () => {
     window.fetch = fetch;
   });
 });
+describe('setTab', () => {
+  test('setTab should change state of selectedTab', () => {
+    const doc = shallow(<Doc {...props} oas={oas} />);
+
+    expect(doc.state('responseTab')).toBe('result');
+
+    doc.instance().setTab('metadata');
+
+    expect(doc.state('responseTab')).toBe('metadata');
+
+    doc.instance().setTab('result');
+
+    expect(doc.state('responseTab')).toBe('result');
+  });
+});
+
+describe('exampleTab', () => {
+  test('exampleTab should change state of exampleTab', () => {
+    const doc = shallow(<Doc {...props} oas={oas} />);
+
+    expect(doc.state('exampleTab')).toBe(0);
+
+    doc.instance().setExampleTab(1);
+
+    expect(doc.state('exampleTab')).toBe(1);
+  });
+});
+
+describe('hideResults', () => {
+  xtest('hideResults should render null', () => {
+    const doc = shallow(<Doc {...props} oas={oas} />);
+
+    // move into onSubmit?
+    // expect(doc.state('result')).toEqual(props.result);
+
+    doc.instance().hideResults();
+
+    expect(doc.state('result')).toBe(null);
+  });
+});
 
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {

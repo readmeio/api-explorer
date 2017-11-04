@@ -27,7 +27,7 @@ function Example({ operation, result, oas, exampleTab, setExampleTab }) {
               return (
                 <pre
                   className={`tomorrow night tabber-body tabber-body-${index}`}
-                  style={{ display: index === this.state.exampleTab ? 'block' : '' }}
+                  style={{ display: index === exampleTab ? 'block' : '' }}
                 >
                   {codemirror(example.code, example.language, true)}
                 </pre>

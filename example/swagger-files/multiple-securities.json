@@ -187,7 +187,7 @@
             "nonExistentScheme": []
           }
         ],
-        "summary": "one or security",
+        "summary": " one or security",
         "description": "",
         "operationId": "addMultipleOAuths",
         "parameters": [],

@@ -91,6 +91,7 @@ class Doc extends React.Component {
     const { doc, setLanguage } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
+
     return (
       <div className="hub-api">
         <PathUrl
