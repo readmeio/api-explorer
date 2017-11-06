@@ -155,33 +155,6 @@ describe('onSubmit', () => {
     window.fetch = fetch;
   });
 });
-describe('setTab', () => {
-  test('setTab should change state of selectedTab', () => {
-    const doc = shallow(<Doc {...props} oas={oas} />);
-
-    expect(doc.state('responseTab')).toBe('result');
-
-    doc.instance().setTab('metadata');
-
-    expect(doc.state('responseTab')).toBe('metadata');
-
-    doc.instance().setTab('result');
-
-    expect(doc.state('responseTab')).toBe('result');
-  });
-});
-
-describe('exampleTab', () => {
-  test('exampleTab should change state of exampleTab', () => {
-    const doc = shallow(<Doc {...props} oas={oas} />);
-
-    expect(doc.state('exampleTab')).toBe(0);
-
-    doc.instance().setExampleTab(1);
-
-    expect(doc.state('exampleTab')).toBe(1);
-  });
-});
 
 describe('hideResults', () => {
   xtest('hideResults should render null', () => {

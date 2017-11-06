@@ -1,38 +1,47 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 const example = require('./fixtures/example-results/oas');
 
 const ExampleTabs = require('../src/ExampleTabs');
 const Oas = require('../src/lib/Oas');
 
-describe('examples', () => {
-  test('if endpoint has an example, tabs and body should show', () => {
-    const oas2 = new Oas(example);
-    const props4 = {
-      result: null,
-      operation: oas2.operation('/results', 'get'),
-    };
-    const exampleTabs = shallow(<ExampleTabs {...props4} oas={oas2} />);
+const oas = new Oas(example);
+const props = {
+  operation: oas.operation('/results', 'get'),
+  selected: 0,
+  setExampleTab: () => {},
+};
 
-    const firstTab = exampleTabs.find('a').first();
-    const secondTab = exampleTabs.find('a').last();
+test('if endpoint has an example, tabs should show', () => {
+  const exampleTabs = mount(<ExampleTabs {...props} />);
 
-    expect(exampleTabs.prop('exampleTab')).toBe(0);
-    expect(firstTab.hasClass('selected')).toEqual(true);
+  expect(exampleTabs.find('a.tabber-tab').length).toBe(2);
+});
 
-    secondTab.simulate('click', { preventDefault() {} });
+test('should select matching tab by index', () => {
+  const exampleTabs = mount(<ExampleTabs {...props} />);
 
-    expect(exampleTabs.prop('exampleTab')).toBe(1);
-    expect(
-      exampleTabs
-        .find('a')
-        .first()
-        .hasClass('selected'),
-    ).toEqual(false);
+  expect(
+    exampleTabs
+      .find('a')
+      .first()
+      .hasClass('selected'),
+  ).toEqual(true);
+});
 
-    expect(firstTab.find('span.httpsuccess').length).toBe(1);
-    expect(secondTab.find('span.httperror').length).toBe(1);
+test('should call setExampleTab on click', () => {
+  const setExampleTab = jest.fn();
+  const exampleTabs = mount(<ExampleTabs {...props} setExampleTab={setExampleTab} />);
 
-    expect(exampleTabs.find('pre').length).toBe(2);
-  });
+  const secondTab = exampleTabs.find('a').last();
+
+  secondTab.simulate('click', { preventDefault() {} });
+
+  expect(setExampleTab.mock.calls[0][0]).toEqual(1);
+});
+
+test('should display status codes', () => {
+  const exampleTabs = shallow(<ExampleTabs {...props} />);
+
+  expect(exampleTabs.find('IconStatus').length).toBe(2);
 });

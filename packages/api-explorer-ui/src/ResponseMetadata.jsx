@@ -16,7 +16,7 @@ function Meta({ label, children }) {
 
 Meta.propTypes = {
   label: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 function ResponseMetadata({ result }) {

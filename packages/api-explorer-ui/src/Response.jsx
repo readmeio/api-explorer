@@ -11,55 +11,69 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function Response({
-  result,
-  oas,
-  operation,
-  oauthUrl,
-  responseTab,
-  exampleTab,
-  setExampleTab,
-  setTab,
-  hideResults,
-}) {
-  const securities = operation.prepareSecurity();
+class Response extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      responseTab: 'result',
+      exampleTab: 0,
+    };
+    this.setTab = this.setTab.bind(this);
+    this.setExampleTab = this.setExampleTab.bind(this);
+  }
 
-  return (
-    <div
-      className={classNames('hub-reference-right hub-reference-results tabber-parent', {
-        on: result !== null,
-      })}
-    >
-      <div className="hub-reference-results-slider">
-        <div className="hub-reference-results-explorer code-sample">
-          {result !== null && (
-            <span>
-              <ResponseTabs
-                result={result}
-                oas={oas}
-                operation={operation}
-                responseTab={responseTab}
-                setTab={setTab}
-                hideResults={hideResults}
-              />
+  setTab(selected) {
+    this.setState({ responseTab: selected });
+  }
 
-              {responseTab === 'result' && (
-                <ResponseBody result={result} oauthUrl={oauthUrl} isOauth={!!securities.OAuth2} />
-              )}
-              {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-            </span>
-          )}
+  setExampleTab(index) {
+    this.setState({ exampleTab: index });
+  }
+
+  render() {
+    const { result, oas, operation, oauthUrl, hideResults } = this.props;
+
+    const { responseTab, exampleTab } = this.state;
+
+    const securities = operation.prepareSecurity();
+
+    return (
+      <div
+        className={classNames('hub-reference-right hub-reference-results tabber-parent', {
+          on: result !== null,
+        })}
+      >
+        <div className="hub-reference-results-slider">
+          <div className="hub-reference-results-explorer code-sample">
+            {result !== null && (
+              <span>
+                <ResponseTabs
+                  result={result}
+                  oas={oas}
+                  operation={operation}
+                  responseTab={responseTab}
+                  setTab={this.setTab}
+                  hideResults={hideResults}
+                />
+
+                {responseTab === 'result' && (
+                  <ResponseBody result={result} oauthUrl={oauthUrl} isOauth={!!securities.OAuth2} />
+                )}
+                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+              </span>
+            )}
+          </div>
+          <Example
+            operation={operation}
+            result={result}
+            oas={oas}
+            selected={exampleTab}
+            setExampleTab={this.setExampleTab}
+          />
         </div>
-        <Example
-          operation={operation}
-          result={result}
-          oas={oas}
-          exampleTab={exampleTab}
-          setExampleTab={setExampleTab}
-        />
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 module.exports = Response;

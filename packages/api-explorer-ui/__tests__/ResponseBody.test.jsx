@@ -1,6 +1,5 @@
 const React = require('react');
 const { mount } = require('enzyme');
-// const extensions = require('../../readme-oas-extensions');
 const petstore = require('./fixtures/petstore/oas');
 
 const parseResponse = require('../src/lib/parse-response');
@@ -82,10 +81,11 @@ describe('Response body', () => {
         }),
       ),
       operation: oas.operation('/pet', 'post'),
+      isOauth: true,
     };
   });
 
-  xtest('should display message if OAuth is incorrect or expired without oauthUrl', async () => {
+  test('should display message if OAuth is incorrect or expired without oauthUrl', async () => {
     const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} />);
 
     expect(responseBody.find('.hub-expired-token').length).toEqual(1);
@@ -113,36 +113,33 @@ describe('Response body', () => {
     ).toEqual(true);
   });
 
-  xtest(
-    'should display message authentication message if endpoint does not use oAuth',
-    async () => {
-      const nonOAuthInvalidResponse = {
-        result: await parseResponse(
-          {
-            log: {
-              entries: [
-                {
-                  request: {
-                    url: 'http://petstore.swagger.io/v2/pet/petId',
-                    method: 'GET',
-                    headers: [],
-                  },
+  test('should display message authentication message if endpoint does not use oAuth', async () => {
+    const nonOAuthInvalidResponse = {
+      result: await parseResponse(
+        {
+          log: {
+            entries: [
+              {
+                request: {
+                  url: 'http://petstore.swagger.io/v2/pet/petId',
+                  method: 'GET',
+                  headers: [],
                 },
-              ],
-            },
+              },
+            ],
           },
-          new FetchResponse('{}', {
-            headers: {},
-            status: 401,
-          }),
-        ),
-        operation: oas.operation('/pet/{petId}', 'get'),
-      };
-      const responseBody = mount(<ResponseBody {...nonOAuthInvalidResponse} oas={oas} />);
+        },
+        new FetchResponse('{}', {
+          headers: {},
+          status: 401,
+        }),
+      ),
+      operation: oas.operation('/pet/{petId}', 'get'),
+    };
+    const responseBody = mount(<ResponseBody {...nonOAuthInvalidResponse} oas={oas} />);
 
-      expect(
-        responseBody.containsMatchingElement(<p>You couldn&apos;t be authenticated</p>),
-      ).toEqual(true);
-    },
-  );
+    expect(responseBody.containsMatchingElement(<p>You couldn&apos;t be authenticated</p>)).toEqual(
+      true,
+    );
+  });
 });

@@ -12,22 +12,19 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function Example({ operation, result, oas, exampleTab, setExampleTab }) {
+function Example({ operation, result, oas, selected, setExampleTab }) {
   return (
     <div className="hub-reference-results-examples code-sample">
       {showCodeResults(operation).length > 0 && (
         <span>
-          <ExampleTabs
-            operation={operation}
-            exampleTab={exampleTab}
-            setExampleTab={setExampleTab}
-          />
+          <ExampleTabs operation={operation} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
             {showCodeResults(operation).map((example, index) => {
               return (
                 <pre
                   className={`tomorrow night tabber-body tabber-body-${index}`}
-                  style={{ display: index === exampleTab ? 'block' : '' }}
+                  style={{ display: index === selected ? 'block' : '' }}
+                  key={index} // eslint-disable-line react/no-array-index-key
                 >
                   {codemirror(example.code, example.language, true)}
                 </pre>
@@ -56,7 +53,7 @@ Example.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
-  exampleTab: PropTypes.number.isRequired,
+  selected: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
 };
 

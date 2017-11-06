@@ -23,3 +23,8 @@ test('should have httperror class if unsuccessful', () => {
   expect(icon.hasClass('httpsuccess')).toBe(false);
   expect(icon.hasClass('httperror')).toBe(true);
 });
+
+test('should allow a string', () => {
+  const icon = shallow(<IconStatus status="200" />);
+  expect(icon.find('em').text()).toContain('200');
+});

@@ -26,16 +26,12 @@ class Doc extends React.Component {
       showAuthBox: false,
       needsAuth: false,
       result: null,
-      responseTab: 'result',
-      exampleTab: 0,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
-    this.setTab = this.setTab.bind(this);
     this.hideResults = this.hideResults.bind(this);
-    this.setExampleTab = this.setExampleTab.bind(this);
   }
 
   onChange(formData) {
@@ -68,14 +64,6 @@ class Doc extends React.Component {
         result: await parseResponse(har, res),
       });
     });
-  }
-
-  setTab(selected) {
-    this.setState({ responseTab: selected });
-  }
-
-  setExampleTab(index) {
-    this.setState({ exampleTab: index });
   }
 
   toggleAuth(e) {
@@ -123,10 +111,6 @@ class Doc extends React.Component {
               oas={oas}
               operation={operation}
               oauthUrl={this.props.oauthUrl}
-              responseTab={this.state.responseTab}
-              exampleTab={this.state.exampleTab}
-              setExampleTab={this.setExampleTab}
-              setTab={this.setTab}
               hideResults={this.hideResults}
             />
           </div>

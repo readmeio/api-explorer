@@ -24,7 +24,7 @@ function IconStatus({ status }) {
 }
 
 IconStatus.propTypes = {
-  status: PropTypes.number.isRequired,
+  status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
 module.exports = IconStatus;

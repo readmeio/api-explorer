@@ -12,6 +12,7 @@ const oas = new Oas(petstore);
 const noResult = {
   result: null,
   operation: new Operation({}, '/pet', 'post'),
+  hideResults: () => {},
 };
 
 describe('no result', () => {
@@ -19,5 +20,33 @@ describe('no result', () => {
     const codeSampleResponseTabs = shallow(<Response {...noResult} oas={oas} />);
 
     expect(codeSampleResponseTabs.find('span').length).toBe(0);
+  });
+});
+
+describe('setTab', () => {
+  test('setTab should change state of selectedTab', () => {
+    const doc = shallow(<Response {...noResult} oas={oas} />);
+
+    expect(doc.state('responseTab')).toBe('result');
+
+    doc.instance().setTab('metadata');
+
+    expect(doc.state('responseTab')).toBe('metadata');
+
+    doc.instance().setTab('result');
+
+    expect(doc.state('responseTab')).toBe('result');
+  });
+});
+
+describe('exampleTab', () => {
+  test('exampleTab should change state of exampleTab', () => {
+    const doc = shallow(<Response {...noResult} oas={oas} />);
+
+    expect(doc.state('exampleTab')).toBe(0);
+
+    doc.instance().setExampleTab(1);
+
+    expect(doc.state('exampleTab')).toBe(1);
   });
 });

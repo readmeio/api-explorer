@@ -67,4 +67,4 @@ module.exports = ResponseBody;
 
 ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Authorized.propTypes);
 
-ResponseBody.defaultProps = Unauthorized.propTypes;
+ResponseBody.defaultProps = Unauthorized.defaultProps;
