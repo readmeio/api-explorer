@@ -70,7 +70,7 @@ module.exports = (
     headers: [],
     queryString: [],
     postData: {
-      mimeType: getContentType();
+      mimeType: getContentType(),
     },
     method: pathOperation.method.toUpperCase(),
     url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),

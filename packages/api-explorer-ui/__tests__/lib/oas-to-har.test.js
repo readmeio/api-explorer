@@ -11,7 +11,9 @@ test('should output a har format', () => {
           request: {
             headers: [],
             method: '',
-            postData: {},
+            postData: {
+              mimeType: 'application/json',
+            },
             queryString: [],
             url: '',
           },
@@ -289,30 +291,31 @@ describe('header values', () => {
 });
 
 describe('body values', () => {
-  it('should not add on empty unrequired values', () => {
-    expect(
-      oasToHar(
-        {},
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
-                  },
-                },
+  const pathOperation = {
+    path: '/body',
+    method: 'get',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              a: {
+                type: 'string',
               },
             },
           },
         },
-      ).log.entries[0].request.postData.text,
-    ).toEqual(undefined);
+      },
+    },
+  };
+  it('should not add on empty unrequired values', () => {
+    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
+  });
+  it('should pass in mimeType', () => {
+    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.mimeType).toEqual(
+      'application/json',
+    );
   });
 
   // TODO extensions[SEND_DEFAULTS]
