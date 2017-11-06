@@ -70,7 +70,7 @@ Response.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   oauthUrl: PropTypes.string,
   responseTab: PropTypes.string.isRequired,
-  exampleTab: PropTypes.string.isRequired,
+  exampleTab: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
   setTab: PropTypes.func.isRequired,
   hideResults: PropTypes.func.isRequired,

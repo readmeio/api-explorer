@@ -47,11 +47,6 @@
         },
         "summary": "Update Password"
       }
-    },
-    "/nolang": {
-      "get": {
-        "description": ""
-      }
     }
   },
   "components": {

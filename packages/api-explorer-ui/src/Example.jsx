@@ -56,7 +56,7 @@ Example.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
-  exampleTab: PropTypes.string.isRequired,
+  exampleTab: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
 };
 

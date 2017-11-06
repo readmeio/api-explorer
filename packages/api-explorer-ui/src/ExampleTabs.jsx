@@ -53,6 +53,6 @@ module.exports = ExampleTabs;
 
 ExampleTabs.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
-  exampleTab: PropTypes.string.isRequired,
+  exampleTab: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
 };
