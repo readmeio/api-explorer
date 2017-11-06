@@ -32,9 +32,7 @@ class Response extends React.Component {
 
   render() {
     const { result, oas, operation, oauthUrl, hideResults } = this.props;
-
-    const { responseTab, exampleTab } = this.state;
-
+    const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
 
     return (
@@ -67,7 +65,7 @@ class Response extends React.Component {
             operation={operation}
             result={result}
             oas={oas}
-            selected={exampleTab}
+            selected={this.state.exampleTab}
             setExampleTab={this.setExampleTab}
           />
         </div>

@@ -1,6 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
-// const extensions = require('../../readme-oas-extensions');
+const { shallow, mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
 
 const Response = require('../src/Response');
@@ -9,15 +8,16 @@ const Oas = require('../src/lib/Oas');
 const { Operation } = Oas;
 const oas = new Oas(petstore);
 
-const noResult = {
+const props = {
   result: null,
   operation: new Operation({}, '/pet', 'post'),
   hideResults: () => {},
+  oas,
 };
 
 describe('no result', () => {
   test('nothing should render', () => {
-    const codeSampleResponseTabs = shallow(<Response {...noResult} oas={oas} />);
+    const codeSampleResponseTabs = shallow(<Response {...props} />);
 
     expect(codeSampleResponseTabs.find('span').length).toBe(0);
   });
@@ -25,7 +25,7 @@ describe('no result', () => {
 
 describe('setTab', () => {
   test('setTab should change state of selectedTab', () => {
-    const doc = shallow(<Response {...noResult} oas={oas} />);
+    const doc = shallow(<Response {...props} />);
 
     expect(doc.state('responseTab')).toBe('result');
 
@@ -41,7 +41,7 @@ describe('setTab', () => {
 
 describe('exampleTab', () => {
   test('exampleTab should change state of exampleTab', () => {
-    const doc = shallow(<Response {...noResult} oas={oas} />);
+    const doc = shallow(<Response {...props} />);
 
     expect(doc.state('exampleTab')).toBe(0);
 
@@ -49,4 +49,25 @@ describe('exampleTab', () => {
 
     expect(doc.state('exampleTab')).toBe(1);
   });
+});
+
+test('should show different component tabs based on state', () => {
+  const doc = mount(
+    <Response
+      {...props}
+      result={{
+        status: 200,
+        responseBody: JSON.stringify({ a: 1 }),
+        requestHeaders: [],
+        method: 'post',
+        responseHeaders: [],
+      }}
+    />,
+  );
+  expect(doc.find('ResponseBody').length).toBe(1);
+  doc.instance().setTab('metadata');
+
+  // I want to do the below assertion instead, but it's not working
+  // expect(doc.find('ResponseMetadata').length).toBe(1);
+  expect(doc.html().includes('Response Headers')).toBe(true);
 });
