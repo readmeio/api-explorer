@@ -3,7 +3,7 @@ const { shallow } = require('enzyme');
 
 const ResponseSchema = require('../src/ResponseSchema');
 const Oas = require('../src/lib/Oas');
-const petstore = require('./fixtures/petstore/oas.json');
+const petstore = require('./fixtures/petstore/oas');
 
 const oas = new Oas(petstore);
 
