@@ -13,7 +13,7 @@ const props = {
 
 const operation = { ...props };
 
-console.log(operation.operation.responses['200'].content['application/json']);
+console.log(operation.operation.responses['200'].content['application/json'].schema.properties);
 
 test('should display response schema description', () => {
   const responseSchemaBody = shallow(<ResponseSchemaBody {...props} />);
