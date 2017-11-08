@@ -1,11 +1,12 @@
-global.fetch = require('node-fetch');
+const extensions = require('../../readme-oas-extensions/');
+const { Request, Response } = require('node-fetch');
 
-global.Request = fetch.Request;
+global.Request = Request;
 
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
-const oas = require('./fixtures/petstore/oas');
+const oas = require('./fixtures/petstore/circular-oas.json');
 
 const props = {
   doc: {
@@ -77,14 +78,94 @@ describe('onSubmit', () => {
     expect(doc.state('needsAuth')).toBe(true);
   });
 
-  test('should hide authBox on successful submit', () => {
-    const doc = mount(<Doc {...props} />);
-    doc.instance().onSubmit();
-    doc.instance().onChange({ auth: { api_key: 'api-key' } });
+  test('should make request on Submit', () => {
+    const props2 = {
+      doc: {
+        title: 'Title',
+        slug: 'slug',
+        type: 'endpoint',
+        swagger: { path: '/pet' },
+        api: { method: 'post' },
+        formData: {
+          body: {
+            name: '1',
+            photoUrls: ['1'],
+          },
+        },
+        onSubmit: () => {},
+      },
+      oas,
+      setLanguage: () => {},
+      language: 'node',
+    };
+
+    const fetch = window.fetch;
+
+    window.fetch = request => {
+      expect(request.url).toContain(oas.servers[0].url);
+      return Promise.resolve(
+        new Response(JSON.stringify({ id: 1 }), {
+          headers: { 'content-type': 'application/json' },
+        }),
+      );
+    };
+
+    const doc = mount(<Doc {...props2} />);
+    doc.instance().onChange({ auth: { petstore_auth: 'api-key' } });
+
+    doc
+      .instance()
+      .onSubmit()
+      .then(() => {
+        expect(doc.state('loading')).toBe(false);
+        expect(doc.state('result')).not.toEqual(null);
+
+        window.fetch = fetch;
+      });
+  });
+
+  test('should make request to the proxy url if necessary', () => {
+    const proxyOas = {
+      servers: [{ url: 'http://example.com' }],
+      [extensions.PROXY_ENABLED]: true,
+      paths: {
+        '/pet/{petId}': {
+          get: {
+            responses: {
+              default: {
+                description: 'desc',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const doc = mount(<Doc {...props} oas={proxyOas} />);
+
+    const fetch = window.fetch;
+
+    window.fetch = request => {
+      expect(request.url).toContain(`https://try.readme.io/${proxyOas.servers[0].url}`);
+      return Promise.resolve(new Response());
+    };
+
     doc.instance().onSubmit();
 
-    expect(doc.state('showAuthBox')).toBe(false);
-    expect(doc.state('needsAuth')).toBe(false);
+    window.fetch = fetch;
+  });
+});
+
+describe('hideResults', () => {
+  xtest('hideResults should render null', () => {
+    const doc = shallow(<Doc {...props} oas={oas} />);
+
+    // move into onSubmit?
+    // expect(doc.state('result')).toEqual(props.result);
+
+    doc.instance().hideResults();
+
+    expect(doc.state('result')).toBe(null);
   });
 });
 
@@ -109,13 +190,5 @@ describe('state.loading', () => {
     const doc = shallow(<Doc {...props} />);
 
     expect(doc.state('loading')).toBe(false);
-  });
-
-  test('should switch to true on form submit', () => {
-    const doc = shallow(<Doc {...props} />);
-    doc.instance().onChange({ auth: { api_key: 'api-key' } });
-    doc.instance().onSubmit();
-
-    expect(doc.state('loading')).toBe(true);
   });
 });

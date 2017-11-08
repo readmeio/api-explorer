@@ -8,9 +8,12 @@ const extensions = require('../../readme-oas-extensions');
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
+const Response = require('./Response');
+const ResponseSchema = require('./ResponseSchema');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
+const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
 class Doc extends React.Component {
@@ -22,11 +25,13 @@ class Doc extends React.Component {
       loading: false,
       showAuthBox: false,
       needsAuth: false,
+      result: null,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
+    this.hideResults = this.hideResults.bind(this);
   }
 
   onChange(formData) {
@@ -38,12 +43,9 @@ class Doc extends React.Component {
     });
   }
   onSubmit() {
-    if (
-      !isAuthReady(
-        this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-        this.state.formData.auth,
-      )
-    ) {
+    const operation = this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method);
+
+    if (!isAuthReady(operation, this.state.formData.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.authInput.focus();
@@ -54,22 +56,23 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    fetchHar(
-      oasToHar(
-        this.oas,
-        this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-        this.state.formData,
-      ),
-    ).then(() => {
-      this.setState({ loading: false });
-    });
+    const har = oasToHar(this.oas, operation, this.state.formData, { proxyUrl: true });
 
-    return true;
+    return fetchHar(har).then(async res => {
+      this.setState({
+        loading: false,
+        result: await parseResponse(har, res),
+      });
+    });
   }
 
   toggleAuth(e) {
     e.preventDefault();
     this.setState({ showAuthBox: !this.state.showAuthBox });
+  }
+
+  hideResults() {
+    this.setState({ result: null });
   }
 
   renderEndpoint() {
@@ -103,7 +106,13 @@ class Doc extends React.Component {
                 language={this.props.language}
               />
             </div>
-            <div className="hub-reference-right" />
+            <Response
+              result={this.state.result}
+              oas={oas}
+              operation={operation}
+              oauthUrl={this.props.oauthUrl}
+              hideResults={this.hideResults}
+            />
           </div>
         )}
 
@@ -117,7 +126,9 @@ class Doc extends React.Component {
               onSubmit={this.onSubmit}
             />
           </div>
-          <div className="hub-reference-right switcher" />
+          <div className="hub-reference-right switcher">
+            <ResponseSchema operation={operation} />
+          </div>
         </div>
       </div>
     );
@@ -190,9 +201,11 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({}),
   language: PropTypes.string.isRequired,
+  oauthUrl: PropTypes.string,
 };
 
 Doc.defaultProps = {
   oas: {},
   flags: {},
+  oauthUrl: '',
 };

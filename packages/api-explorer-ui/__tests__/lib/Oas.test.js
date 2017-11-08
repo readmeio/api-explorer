@@ -76,6 +76,66 @@ describe('operation.getSecurity()', () => {
   });
 });
 
+test('should be able to access properties on oas', () => {
+  expect(
+    new Oas({
+      info: { version: '1.0' },
+    }).info.version,
+  ).toBe('1.0');
+});
+
+describe('operation.getSecurity()', () => {
+  const security = [{ auth: [] }];
+
+  test('should return the security on this endpoint', () => {
+    expect(
+      new Oas({
+        info: { version: '1.0' },
+        paths: {
+          '/things': {
+            post: {
+              security,
+            },
+          },
+        },
+      })
+        .operation('/things', 'post')
+        .getSecurity(),
+    ).toBe(security);
+  });
+
+  test('should fallback to global security', () => {
+    expect(
+      new Oas({
+        info: { version: '1.0' },
+        paths: {
+          '/things': {
+            post: {},
+          },
+        },
+        security,
+      })
+        .operation('/things', 'post')
+        .getSecurity(),
+    ).toBe(security);
+  });
+
+  test('should default to empty array', () => {
+    expect(
+      new Oas({
+        info: { version: '1.0' },
+        paths: {
+          '/things': {
+            post: {},
+          },
+        },
+      })
+        .operation('/things', 'post')
+        .getSecurity(),
+    ).toEqual([]);
+  });
+});
+
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
 describe('operation.prepareSecurity()', () => {
   const path = '/auth';
