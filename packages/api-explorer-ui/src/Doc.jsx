@@ -8,8 +8,8 @@ const extensions = require('../../readme-oas-extensions');
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
-const CodeSampleResponse = require('./CodeSampleResponse');
-const ResponseSchema = require('./Response');
+const Response = require('./Response');
+const ResponseSchema = require('./ResponseSchema');
 
 const Oas = require('./lib/Oas');
 const showCode = require('./lib/show-code');
@@ -31,6 +31,7 @@ class Doc extends React.Component {
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
+    this.hideResults = this.hideResults.bind(this);
   }
 
   onChange(formData) {
@@ -42,12 +43,9 @@ class Doc extends React.Component {
     });
   }
   onSubmit() {
-    if (
-      !isAuthReady(
-        this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-        this.state.formData.auth,
-      )
-    ) {
+    const operation = this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method);
+
+    if (!isAuthReady(operation, this.state.formData.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.authInput.focus();
@@ -58,12 +56,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(
-      this.oas,
-      this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method),
-      this.state.formData,
-      { proxyUrl: true },
-    );
+    const har = oasToHar(this.oas, operation, this.state.formData, { proxyUrl: true });
 
     return fetchHar(har).then(async res => {
       this.setState({
@@ -78,10 +71,15 @@ class Doc extends React.Component {
     this.setState({ showAuthBox: !this.state.showAuthBox });
   }
 
+  hideResults() {
+    this.setState({ result: null });
+  }
+
   renderEndpoint() {
     const { doc, setLanguage } = this.props;
     const oas = this.oas;
     const operation = oas.operation(doc.swagger.path, doc.api.method);
+
     return (
       <div className="hub-api">
         <PathUrl
@@ -108,11 +106,12 @@ class Doc extends React.Component {
                 language={this.props.language}
               />
             </div>
-            <CodeSampleResponse
+            <Response
               result={this.state.result}
               oas={oas}
               operation={operation}
               oauthUrl={this.props.oauthUrl}
+              hideResults={this.hideResults}
             />
           </div>
         )}

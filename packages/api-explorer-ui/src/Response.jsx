@@ -1,100 +1,90 @@
 const React = require('react');
+const classNames = require('classnames');
 const PropTypes = require('prop-types');
+
+const ResponseTabs = require('./ResponseTabs');
+const ResponseMetadata = require('./ResponseMetadata');
+const ResponseBody = require('./ResponseBody');
+const Example = require('./Example');
+
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
-// const marked = require('./lib/markdown/index');
-// const convertToParams = require('../../../legacy-stuff/swagger');
 
-class ResponseSchema extends React.Component {
+class Response extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedStatus: Object.keys(props.operation.responses)[0],
+      responseTab: 'result',
+      exampleTab: 0,
     };
-    this.selectedStatus = this.selectedStatus.bind(this);
-    this.changeHandler = this.changeHandler.bind(this);
-  }
-  selectedStatus(selected) {
-    this.setState({ selectedStatus: selected });
+    this.setTab = this.setTab.bind(this);
+    this.setExampleTab = this.setExampleTab.bind(this);
   }
 
-  changeHandler(e) {
-    this.selectedStatus(e.target.value);
+  setTab(selected) {
+    this.setState({ responseTab: selected });
+  }
+
+  setExampleTab(index) {
+    this.setState({ exampleTab: index });
   }
 
   render() {
-    const { operation } = this.props;
-    const keys = Object.keys(operation.responses);
-
-    // let schema;
-    //
-    // try {
-    //   if (operation.responses[this.state.selectedStatus].content) {
-    //     if (
-    //       operation.responses[this.state.selectedStatus].content['application/json'].schema.type ===
-    //         'object' &&
-    //       operation.responses[this.state.selectedStatus].content['application/json'].schema
-    //         .properties
-    //     ) {
-    //       schema =
-    //         operation.responses[this.state.selectedStatus].content['application/json'].schema
-    //           .properties;
-    //     }
-    //   } else if (
-    //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.type ===
-    //       'object' &&
-    //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.properties
-    //   ) {
-    //     schema =
-    //       operation.responses[this.state.selectedStatus].content['application/xml'].schema
-    //         .properties;
-    //   }
-    // } catch (e) {} // eslint-disable-line no-empty
+    const { result, oas, operation, oauthUrl, hideResults } = this.props;
+    const { responseTab } = this.state;
+    const securities = operation.prepareSecurity();
 
     return (
-      <div className="hub-reference-response-definitions">
-        <h3>
-          <div className="pull-right">
-            <select
-              className="switcher-switch"
-              value={this.state.selectedStatus}
-              onChange={this.changeHandler}
-            >
-              {keys.map(status => (
-                <option value={status} key={status}>
-                  {status}
-                </option>
-              ))}
-            </select>
+      <div
+        className={classNames('hub-reference-right hub-reference-results tabber-parent', {
+          on: result !== null,
+        })}
+      >
+        <div className="hub-reference-results-slider">
+          <div className="hub-reference-results-explorer code-sample">
+            {result !== null && (
+              <span>
+                <ResponseTabs
+                  result={result}
+                  oas={oas}
+                  operation={operation}
+                  responseTab={responseTab}
+                  setTab={this.setTab}
+                  hideResults={hideResults}
+                />
+
+                {responseTab === 'result' && (
+                  <ResponseBody result={result} oauthUrl={oauthUrl} isOauth={!!securities.OAuth2} />
+                )}
+                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+              </span>
+            )}
           </div>
-          Response
-        </h3>
-        <div>
-          {operation.responses[this.state.selectedStatus].description && (
-            <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
-          )}
-          {/* {schema && (
-            <table>
-              {swaggerUtils.convertToParams([response], 'response').forEach(param => {
-                <tr>
-                  <th>param.name</th>
-                  <td>
-                    param.type
-                    {param.description && marked(param.description)}
-                  </td>
-                </tr>;
-              })}
-            </table>
-          )} */}
+          <Example
+            operation={operation}
+            result={result}
+            oas={oas}
+            selected={this.state.exampleTab}
+            setExampleTab={this.setExampleTab}
+          />
         </div>
       </div>
     );
   }
 }
 
-ResponseSchema.propTypes = {
+module.exports = Response;
+
+Response.propTypes = {
+  result: PropTypes.shape({}),
+  oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  oauthUrl: PropTypes.string,
+  hideResults: PropTypes.func.isRequired,
 };
 
-module.exports = ResponseSchema;
+Response.defaultProps = {
+  result: {},
+  oauthUrl: '',
+};

@@ -18,47 +18,61 @@ describe('operation()', () => {
   });
 });
 
-describe('operation.hasAuth()', () => {
-  test('should return true if there is a top level security object', () => {
-    expect(new Oas({ security: [{ 'security-scheme': [] }] }).operation().hasAuth()).toBe(true);
-    expect(new Oas({ security: [{ 'security-scheme': ['scope'] }] }).operation().hasAuth()).toBe(
-      true,
-    );
-  });
+test('should remove end slash from the server URL', () => {
+  expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).servers[0].url).toBe(
+    'http://example.com',
+  );
+});
 
-  test('should return true if a path has security', () => {
+describe('operation.getSecurity()', () => {
+  const security = [{ auth: [] }];
+
+  test('should return the security on this endpoint', () => {
     expect(
       new Oas({
+        info: { version: '1.0' },
         paths: {
-          '/path': {
-            get: {
-              security: [{ 'security-scheme': [] }],
+          '/things': {
+            post: {
+              security,
             },
           },
         },
       })
-        .operation('/path', 'get')
-        .hasAuth(),
-    ).toBe(true);
+        .operation('/things', 'post')
+        .getSecurity(),
+    ).toBe(security);
   });
 
-  test('should return false if there is no top level security object', () => {
-    expect(new Oas({}).operation().hasAuth()).toBe(false);
-    expect(new Oas({ security: [] }).operation().hasAuth()).toBe(false);
-  });
-
-  test('should return false if the path has no security', () => {
+  test('should fallback to global security', () => {
     expect(
       new Oas({
+        info: { version: '1.0' },
         paths: {
-          '/path': {
-            get: {},
+          '/things': {
+            post: {},
+          },
+        },
+        security,
+      })
+        .operation('/things', 'post')
+        .getSecurity(),
+    ).toBe(security);
+  });
+
+  test('should default to empty array', () => {
+    expect(
+      new Oas({
+        info: { version: '1.0' },
+        paths: {
+          '/things': {
+            post: {},
           },
         },
       })
-        .operation('/path', 'get')
-        .hasAuth(),
-    ).toBe(false);
+        .operation('/things', 'post')
+        .getSecurity(),
+    ).toEqual([]);
   });
 });
 
@@ -217,8 +231,18 @@ describe('operation.prepareSecurity()', () => {
 
   test('should throw if attempting to use a non-existent scheme');
 
-  test('should return with an empty object if no security', () => {
+  test('should return empty object if no security', () => {
     const operation = new Oas(multipleSecurities).operation('/no-auth', 'post');
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
+  });
+
+  test('should return empty object if security scheme doesnt exist', () => {
+    const operation = new Oas(multipleSecurities).operation('/unknown-scheme', 'post');
+    expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
+  });
+
+  test('should return empty if security scheme type doesnt exist', () => {
+    const operation = new Oas(multipleSecurities).operation('/unknown-auth-type', 'post');
     expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
   });
 });

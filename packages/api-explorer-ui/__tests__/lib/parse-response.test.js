@@ -1,5 +1,4 @@
 const codeSampleResponse = require('../../src/lib/parse-response');
-const statuscodes = require('../../src/lib/statuscodes');
 const { Headers, Response } = require('node-fetch');
 
 function createHar(har) {
@@ -43,11 +42,11 @@ beforeEach(() => {
   });
 });
 
-test('should pass through method', async () => {
+test('should pass through URL with proxy removed', async () => {
   expect((await codeSampleResponse(har, response)).url).toBe('http://petstore.swagger.io/v2/pet');
 });
 
-test('should pass through URL', async () => {
+test('should pass through method', async () => {
   expect((await codeSampleResponse(har, response)).method).toBe(method);
 });
 
@@ -92,9 +91,7 @@ test('should remove x-final-url header set by the proxy', async () => {
 
 test('should pass through status', async () => {
   const status = 200;
-  expect((await codeSampleResponse(har, new Response('', { status }))).statusCode).toEqual(
-    statuscodes(status),
-  );
+  expect((await codeSampleResponse(har, new Response('', { status }))).status).toEqual(status);
 });
 
 test('isBinary should be true if there is a content-disposition response header', async () => {

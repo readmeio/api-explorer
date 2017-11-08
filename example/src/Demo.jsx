@@ -24,25 +24,28 @@ class Demo extends React.Component {
     this.updateStatus('Fetching swagger file', () => {
       fetch(url)
         .then(res => res.json())
-        .then(this.convertSwagger);
+        .then((json) => {
+          if (json.swagger) return this.convertSwagger(json);
+
+          return this.dereference(json);
+        });
+    });
+  }
+  dereference(oas) {
+    this.createDocs(oas);
+    this.updateStatus('Dereferencing swagger file', async () => {
+      this.setState({ oas: await refParser.dereference(oas) });
+      this.updateStatus('Done!', () => {
+        setTimeout(() => {
+          this.setState({ status: [] });
+        }, 1000);
+      });
     });
   }
   convertSwagger(swagger) {
     this.updateStatus('Converting swagger file to OAS 3', () => {
       swagger2openapi.convertObj(swagger, {})
-        .then((result) => {
-          const oas = result.openapi;
-          this.createDocs(oas);
-
-          this.updateStatus('Dereferencing swagger file', async () => {
-            this.setState({ oas: await refParser.dereference(oas) });
-            this.updateStatus('Done!', () => {
-              setTimeout(() => {
-                this.setState({ status: [] });
-              }, 1000);
-            });
-          });
-        });
+        .then(({ openapi }) => this.dereference(openapi));
     });
   }
   createDocs(oas) {

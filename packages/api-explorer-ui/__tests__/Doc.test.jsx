@@ -156,6 +156,19 @@ describe('onSubmit', () => {
   });
 });
 
+describe('hideResults', () => {
+  xtest('hideResults should render null', () => {
+    const doc = shallow(<Doc {...props} oas={oas} />);
+
+    // move into onSubmit?
+    // expect(doc.state('result')).toEqual(props.result);
+
+    doc.instance().hideResults();
+
+    expect(doc.state('result')).toBe(null);
+  });
+});
+
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {
     const doc = shallow(<Doc {...props} />);

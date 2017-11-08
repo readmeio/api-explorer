@@ -1,126 +1,73 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
+const petstore = require('./fixtures/petstore/oas');
 
 const Response = require('../src/Response');
-// const Oas = require('../src/lib/Oas');
-//
-// const { Operation } = Oas;
+const Oas = require('../src/lib/Oas');
+
+const { Operation } = Oas;
+const oas = new Oas(petstore);
 
 const props = {
-  operation: {
-    responses: {
-      '200': {
-        content: {
-          'application/json': {
-            schema: {
-              type: 'array',
-              items: {
-                properties: {
-                  category: {
-                    properties: {
-                      id: { type: 'integer', format: 'int64' },
-                      name: { type: 'string' },
-                    },
-                    type: 'object',
-                    xml: { name: 'Pet' },
-                  },
-
-                  id: { type: 'integer', format: 'int64' },
-                  name: { type: 'string', example: 'doggie' },
-                  photoUrls: {
-                    type: ' array',
-                    items: { type: 'string' },
-                    xml: { name: 'photoUrl', wrapped: true },
-                  },
-                  status: {
-                    type: 'string',
-                    description: 'pet status in the store',
-                    enum: ['available', 'pending', 'sold'],
-                  },
-                  tags: {
-                    items: {
-                      type: 'object',
-                      properties: {
-                        id: { type: 'integer', format: 'int64' },
-                        name: { type: 'string' },
-                      },
-                      xml: { name: 'Tag' },
-                    },
-                    type: 'array',
-                    xml: { name: 'tag', wrapped: true },
-                  },
-                },
-                required: ['name', 'photoUrls'],
-              },
-            },
-          },
-          'application/xml': {
-            schema: {
-              items: {
-                properties: {
-                  category: {
-                    properties: {
-                      id: { type: 'integer', format: 'int64' },
-                      name: { type: 'string' },
-                    },
-                    type: 'object',
-                    xml: { name: 'Category' },
-                  },
-
-                  id: { type: 'integer', format: 'int64' },
-                  name: { type: 'string', example: 'doggie' },
-                  photoUrls: {
-                    type: ' array',
-                    items: { type: 'string' },
-                    xml: { name: 'photoUrl', wrapped: true },
-                  },
-                  status: {
-                    type: 'string',
-                    description: 'pet status in the store',
-                    enum: ['available', 'pending', 'sold'],
-                  },
-                  tags: {
-                    items: {
-                      type: 'object',
-                      properties: {
-                        id: { type: 'integer', format: 'int64' },
-                        name: { type: 'string' },
-                      },
-                      xml: { name: 'Tag' },
-                    },
-                    type: 'array',
-                    xml: { name: 'tag', wrapped: true },
-                  },
-                },
-                required: ['name', 'photoUrls'],
-              },
-            },
-          },
-        },
-        description: 'successful operation',
-      },
-      '400': { description: 'Invalid status value' },
-    },
-  },
-  // new Operation({}, '/pet/findByStatus', 'get'),
+  result: null,
+  operation: new Operation({}, '/pet', 'post'),
+  hideResults: () => {},
+  oas,
 };
 
-describe('selectedStatus', () => {
-  test('selectedStatus should change state of selectedStatus', () => {
-    const response = shallow(<Response {...props} />);
+describe('no result', () => {
+  test('nothing should render', () => {
+    const codeSampleResponseTabs = shallow(<Response {...props} />);
 
-    expect(response.state('selectedStatus')).toBe('200');
-
-    response.instance().selectedStatus('400');
-
-    expect(response.state('selectedStatus')).toBe('400');
+    expect(codeSampleResponseTabs.find('span').length).toBe(0);
   });
 });
 
-describe('Response', () => {
-  test('should display Response schema', () => {
-    const response = shallow(<Response {...props} />);
+describe('setTab', () => {
+  test('setTab should change state of selectedTab', () => {
+    const doc = shallow(<Response {...props} />);
 
-    expect(response.find('p.desc').length).toBe(1);
+    expect(doc.state('responseTab')).toBe('result');
+
+    doc.instance().setTab('metadata');
+
+    expect(doc.state('responseTab')).toBe('metadata');
+
+    doc.instance().setTab('result');
+
+    expect(doc.state('responseTab')).toBe('result');
   });
+});
+
+describe('exampleTab', () => {
+  test('exampleTab should change state of exampleTab', () => {
+    const doc = shallow(<Response {...props} />);
+
+    expect(doc.state('exampleTab')).toBe(0);
+
+    doc.instance().setExampleTab(1);
+
+    expect(doc.state('exampleTab')).toBe(1);
+  });
+});
+
+test('should show different component tabs based on state', () => {
+  const doc = mount(
+    <Response
+      {...props}
+      result={{
+        status: 200,
+        responseBody: JSON.stringify({ a: 1 }),
+        requestHeaders: [],
+        method: 'post',
+        responseHeaders: [],
+      }}
+    />,
+  );
+  expect(doc.find('ResponseBody').length).toBe(1);
+  doc.instance().setTab('metadata');
+
+  // I want to do the below assertion instead, but it's not working
+  // expect(doc.find('ResponseMetadata').length).toBe(1);
+  expect(doc.html().includes('Response Headers')).toBe(true);
 });
