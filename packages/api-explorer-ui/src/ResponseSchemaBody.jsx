@@ -42,7 +42,6 @@ function ResponseSchemaBody(obj) {
 
   const rows = [];
   function recurse(smallerObj, key) {
-    // console.log(obj);
     if (typeof smallerObj[key] !== 'object') {
       if (smallerObj.type && objName !== '') {
         rows.push(
@@ -57,16 +56,14 @@ function ResponseSchemaBody(obj) {
       }
     } else {
       for (const childKey in smallerObj[key]) {
-        // console.log(obj.obj[objName]);
         const path = obj.obj[objName];
-        console.log(path);
         if (notAllowed.indexOf(key) === -1 && path) {
           if (path[key] === undefined) {
             objName = '';
           } else {
             objName = `${objName}.${key}`;
           }
-        } else if (notAllowed.indexOf(key) === -1) {
+        } else {
           objName = key;
         }
         recurse(smallerObj[key], childKey);
