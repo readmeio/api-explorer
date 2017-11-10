@@ -1,35 +1,86 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const marked = require('./lib/markdown/index');
+
 // const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
-function ResponseSchemaBody(schema, { rows = [] }) {
-  let objName;
-  for (const key in schema) {
-    if (typeof schema[key] === 'object') {
-      objName = key;
-      ResponseSchemaBody(schema[key], rows);
+// function ResponseSchemaBody(obj) {
+//   let objName;
+//   console.log(obj);
+//   const rows = [];
+//   function recurse(obj, key) {
+//     if (typeof obj[key] !== 'object') {
+//       if (obj.type) {
+//         rows.push(
+//           <tr>
+//             <th>{objName}</th>
+//             <td>
+//               {obj.type}
+//               {obj.description && marked(obj.description)}
+//             </td>
+//           </tr>,
+//         );
+//       }
+//     } else {
+//       for (const childKey in obj[key]) {
+//         objName = key;
+//         recurse(obj[key], childKey);
+//       }
+//     }
+//   }
+//   for (const key in obj) {
+//     recurse(obj, key);
+//   }
+//   return <table>{rows}</table>;
+// }
+
+function ResponseSchemaBody(obj) {
+  let objName = '';
+  const notAllowed = ['xml', 'obj', 'example', 'format', 'description'];
+
+  console.log(obj);
+
+  const rows = [];
+  function recurse(smallerObj, key) {
+    // console.log(obj);
+    if (typeof smallerObj[key] !== 'object') {
+      if (smallerObj.type && objName !== '') {
+        rows.push(
+          <tr>
+            <th>{objName}</th>
+            <td>
+              {smallerObj.type}
+              {smallerObj.description && marked(smallerObj.description)}
+            </td>
+          </tr>,
+        );
+      }
     } else {
-      rows.push(
-        <tr key={key}>
-          <th>{objName}</th>
-          <td>
-            {schema.type}
-            {schema.description && marked(schema.description)}
-          </td>
-        </tr>,
-      );
+      for (const childKey in smallerObj[key]) {
+        // console.log(obj.obj[objName]);
+        const path = obj.obj[objName];
+        console.log(path);
+        if (notAllowed.indexOf(key) === -1 && path) {
+          if (path[key] === undefined) {
+            objName = '';
+          } else {
+            objName = `${objName}.${key}`;
+          }
+        } else if (notAllowed.indexOf(key) === -1) {
+          objName = key;
+        }
+        recurse(smallerObj[key], childKey);
+      }
     }
   }
-  const tableRow = rows.map(row => row);
-  console.log(tableRow);
-  // console.log(rows);
-  // rows.map(row => <table>{row}</table>);
-  return <table>{tableRow}</table>;
+  for (const key in obj) {
+    recurse(obj, key);
+  }
+  return <table>{rows}</table>;
 }
 
 module.exports = ResponseSchemaBody;
 
-ResponseSchemaBody.propTypes = {
-  schema: PropTypes.shape({}).isRequired,
-};
+// ResponseSchemaBody.propTypes = {
+//   obj: PropTypes.shape({}).isRequired,
+// };

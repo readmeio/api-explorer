@@ -4,6 +4,7 @@ const Oas = require('./lib/Oas');
 const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 const { Operation } = Oas;
+let rows;
 
 class ResponseSchema extends React.Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class ResponseSchema extends React.Component {
         {this.renderHeader()}
         <div style={i === 0 ? {} : { display: 'none' }}>
           {description && <p className="desc">{description}</p>}
-          {schema && <ResponseSchemaBody schema={schema} />}
+          {schema && <ResponseSchemaBody obj={schema} />}
         </div>
       </div>
     );
