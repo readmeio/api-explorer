@@ -677,6 +677,12 @@ describe('content-type header', () => {
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
+  it('should be sent through if there are any formData values', () => {
+    expect(
+      oasToHar({}, operation, { formData: { a: 'test' } }).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+  });
+
   it('should fetch the type from the first `requestBody.content` object', () => {
     expect(
       oasToHar(
