@@ -11,7 +11,7 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-class Response extends React.Component {
+class Response extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
