@@ -12,7 +12,7 @@ async function parseResponse(har, response) {
       .map(header => header.join(': '))
       .filter(header => !header.match(/x-final-url/i)),
     isBinary: !!(contentDisposition && contentDisposition.match(/attachment/)),
-    url: har.log.entries[0].request.url,
+    url: har.log.entries[0].request.url.replace('https://try.readme.io/', ''),
     status: response.status,
     responseBody: await response[isJson ? 'json' : 'text'](),
   };
