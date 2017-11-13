@@ -6,7 +6,7 @@ const { Operation } = Oas;
 // const marked = require('./lib/markdown/index');
 // const convertToParams = require('../../../legacy-stuff/swagger');
 
-class ResponseSchema extends React.PureComponent {
+class ResponseSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
