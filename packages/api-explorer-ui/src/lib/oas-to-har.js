@@ -69,9 +69,7 @@ module.exports = (
   const har = {
     headers: [],
     queryString: [],
-    postData: {
-      mimeType: getContentType(),
-    },
+    postData: {},
     method: pathOperation.method.toUpperCase(),
     url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
@@ -135,6 +133,7 @@ module.exports = (
   // Add content-type header if there are any body values setup above ^^
   // or if there is a schema defined
   if (har.postData.text || schema.schema) {
+    har.postData.mimeType = getContentType();
     har.headers.push({
       name: 'Content-Type',
       value: getContentType(pathOperation),
