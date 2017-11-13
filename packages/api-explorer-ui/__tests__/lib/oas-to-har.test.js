@@ -288,31 +288,49 @@ describe('header values', () => {
   });
 });
 
-describe('body values', () => {
-  it('should not add on empty unrequired values', () => {
-    expect(
-      oasToHar(
-        {},
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
+const pathOperation = {
+  path: '/body',
+  method: 'get',
+  requestBody: {
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            a: {
+              type: 'string',
             },
           },
         },
-      ).log.entries[0].request.postData.text,
-    ).toEqual(undefined);
+      },
+    },
+  },
+};
+
+describe('mimeType', () => {
+  it('should default to application/json', () => {
+    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.mimeType).toEqual(
+      'application/json',
+    );
+  });
+
+  it('should fetch mimeType from the operation', () => {
+    expect(
+      oasToHar(
+        {},
+        Object.assign({}, pathOperation, {
+          requestBody: {
+            content: { 'application/xml': pathOperation.requestBody.content['application/json'] },
+          },
+        }),
+      ).log.entries[0].request.postData.mimeType,
+    ).toEqual('application/xml');
+  });
+});
+
+describe('body values', () => {
+  it('should not add on empty unrequired values', () => {
+    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
   });
 
   // TODO extensions[SEND_DEFAULTS]
@@ -674,6 +692,12 @@ describe('content-type header', () => {
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
+  it('should be sent through if there are any formData values', () => {
+    expect(
+      oasToHar({}, operation, { formData: { a: 'test' } }).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+  });
+
   it('should fetch the type from the first `requestBody.content` object', () => {
     expect(
       oasToHar(
@@ -742,18 +766,6 @@ describe('content-type header', () => {
         },
         { body: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
-  });
-
-  it('should default to application/json if no `requestBody.content`', () => {
-    expect(
-      oasToHar({}, Object.assign({}, operation, { requestBody: {} }), { body: { a: 'test' } }).log
-        .entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
-    expect(
-      oasToHar({}, Object.assign({}, operation, { requestBody: undefined }), {
-        body: { a: 'test' },
-      }).log.entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });
