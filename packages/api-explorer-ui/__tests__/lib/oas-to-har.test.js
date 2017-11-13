@@ -288,32 +288,49 @@ describe('header values', () => {
   });
 });
 
-describe('body values', () => {
-  const pathOperation = {
-    path: '/body',
-    method: 'get',
-    requestBody: {
-      content: {
-        'application/json': {
-          schema: {
-            type: 'object',
-            properties: {
-              a: {
-                type: 'string',
-              },
+const pathOperation = {
+  path: '/body',
+  method: 'get',
+  requestBody: {
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            a: {
+              type: 'string',
             },
           },
         },
       },
     },
-  };
-  it('should not add on empty unrequired values', () => {
-    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
-  });
-  it('should pass in mimeType', () => {
+  },
+};
+
+describe('mimeType', () => {
+  it('should default to application/json', () => {
     expect(oasToHar({}, pathOperation).log.entries[0].request.postData.mimeType).toEqual(
       'application/json',
     );
+  });
+
+  it('should fetch mimeType from the operation', () => {
+    expect(
+      oasToHar(
+        {},
+        Object.assign({}, pathOperation, {
+          requestBody: {
+            content: { 'application/xml': pathOperation.requestBody.content['application/json'] },
+          },
+        }),
+      ).log.entries[0].request.postData.mimeType,
+    ).toEqual('application/xml');
+  });
+});
+
+describe('body values', () => {
+  it('should not add on empty unrequired values', () => {
+    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
   });
 
   // TODO extensions[SEND_DEFAULTS]
