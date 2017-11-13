@@ -9,11 +9,9 @@ test('should output a har format', () => {
       entries: [
         {
           request: {
-            headers: [{ name: 'Content-Type', value: 'application/json' }],
+            headers: [],
             method: '',
-            postData: {
-              mimeType: 'application/json',
-            },
+            postData: {},
             queryString: [],
             url: '',
           },
@@ -245,7 +243,7 @@ describe('header values', () => {
           ],
         },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    ).toEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
@@ -265,7 +263,7 @@ describe('header values', () => {
           ],
         },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'a', value: 'value' }, { name: 'Content-Type', value: 'application/json' }]);
+    ).toEqual([{ name: 'a', value: 'value' }]);
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
@@ -286,7 +284,7 @@ describe('header values', () => {
         },
         { header: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'a', value: 'test' }, { name: 'Content-Type', value: 'application/json' }]);
+    ).toEqual([{ name: 'a', value: 'test' }]);
   });
 });
 
@@ -489,7 +487,6 @@ describe('auth', () => {
         },
       ).log.entries[0].request.headers,
     ).toEqual([
-      { name: 'Content-Type', value: 'application/json' },
       {
         name: 'x-auth-header',
         value: 'value',
@@ -562,7 +559,6 @@ describe('auth', () => {
         },
       ).log.entries[0].request.headers,
     ).toEqual([
-      { name: 'Content-Type', value: 'application/json' },
       {
         name: 'x-auth-header',
         value: 'value',
@@ -606,7 +602,6 @@ describe('auth', () => {
         },
       ).log.entries[0].request.headers,
     ).toEqual([
-      { name: 'Content-Type', value: 'application/json' },
       {
         name: 'x-auth-header',
         value: 'value',
@@ -639,7 +634,7 @@ describe('auth', () => {
         },
         { auth: {} },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    ).toEqual([]);
   });
 });
 
