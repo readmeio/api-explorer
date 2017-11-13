@@ -756,16 +756,4 @@ describe('content-type header', () => {
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
-
-  it('should default to application/json if no `requestBody.content`', () => {
-    expect(
-      oasToHar({}, Object.assign({}, operation, { requestBody: {} }), { body: { a: 'test' } }).log
-        .entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
-    expect(
-      oasToHar({}, Object.assign({}, operation, { requestBody: undefined }), {
-        body: { a: 'test' },
-      }).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
-  });
 });

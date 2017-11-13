@@ -132,7 +132,7 @@ module.exports = (
 
   // Add content-type header if there are any body values setup above ^^
   // or if there is a schema defined
-  if (har.postData.text || schema.schema) {
+  if (har.postData.text || Object.keys(schema.schema).length) {
     har.postData.mimeType = getContentType();
     har.headers.push({
       name: 'Content-Type',
