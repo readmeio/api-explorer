@@ -41,7 +41,7 @@ function renderSecurities(authInputRef, operation, onChange, onSubmit) {
   });
 }
 
-class AuthBox extends React.PureComponent {
+class AuthBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
