@@ -59,6 +59,28 @@ function getContentType(pathOperation) {
   return type;
 }
 
+function getResponseContentType(pathOperation) {
+  const types =
+    (pathOperation &&
+      pathOperation.responses &&
+      pathOperation.responses.content &&
+      Object.keys(pathOperation.responses.content)) ||
+    [];
+
+  let type = 'application/json';
+  if (types && types.length) {
+    type = types[0];
+  }
+
+  // Favor JSON if it exists
+  types.forEach(t => {
+    if (t.match(/json/)) {
+      type = t;
+    }
+  });
+  return type;
+}
+
 module.exports = (
   oas,
   pathOperation = { path: '', method: '' },
@@ -135,10 +157,13 @@ module.exports = (
   if (har.postData.text || Object.keys(schema.schema).length) {
     const type = getContentType(pathOperation);
     har.postData.mimeType = type;
-    har.headers.push({
-      name: 'Content-Type',
-      value: type,
-    });
+    har.headers.push(
+      {
+        name: 'Content-Type',
+        value: type,
+      },
+      { name: 'Accept', value: getResponseContentType(pathOperation) },
+    );
   }
 
   const securityRequirements = pathOperation.security || oas.security;
