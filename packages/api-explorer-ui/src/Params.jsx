@@ -36,6 +36,11 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                   double: UpDownWidget,
                   float: UpDownWidget,
                   binary: FileWidget,
+                  byte: TextWidget,
+                  uuid: TextWidget,
+                  duration: TextWidget,
+                  dateTime: TextWidget,
+                  integer: UpDownWidget,
                   TextWidget,
                 }}
                 onSubmit={onSubmit}
