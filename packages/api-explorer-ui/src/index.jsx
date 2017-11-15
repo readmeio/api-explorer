@@ -29,7 +29,7 @@ class ApiExplorer extends React.Component {
   render() {
     return (
       <div className={`is-lang-${this.state.language}`}>
-        <div id="hub-reference">
+        <div id="hub-reference" className="content-body hub-reference-sticky hub-reference-theme-">
           {this.props.docs.map(doc => (
             <Doc
               key={doc._id}
@@ -39,6 +39,7 @@ class ApiExplorer extends React.Component {
               flags={this.props.flags}
               language={this.state.language}
               oauthUrl={this.props.oauthUrl}
+              suggestedEdits={this.props.suggestedEdits}
             />
           ))}
         </div>
@@ -52,6 +53,7 @@ ApiExplorer.propTypes = {
   oasFiles: PropTypes.shape({}).isRequired,
   flags: PropTypes.shape({}).isRequired,
   oauthUrl: PropTypes.string,
+  suggestedEdits: PropTypes.bool.isRequired,
 };
 
 ApiExplorer.defaultProps = {

@@ -66,6 +66,7 @@ class Demo extends React.Component {
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
               flags={{ correctnewlines: false }}
+              suggestedEdits
               oauthUrl={this.props.oauthUrl}
             />
           )
