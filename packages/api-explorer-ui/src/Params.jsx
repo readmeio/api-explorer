@@ -4,6 +4,8 @@ const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWidget').default;
+const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
+  .default;
 
 const ObjectField = require('./form-components/ObjectField');
 const SchemaField = require('./form-components/SchemaField');
@@ -39,7 +41,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                   byte: TextWidget,
                   uuid: TextWidget,
                   duration: TextWidget,
-                  dateTime: TextWidget,
+                  dateTime: DateTimeWidget,
                   integer: UpDownWidget,
                   TextWidget,
                 }}
