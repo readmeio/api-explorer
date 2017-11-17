@@ -4,7 +4,6 @@ const Oas = require('./lib/Oas');
 const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 const { Operation } = Oas;
-let rows;
 
 class ResponseSchema extends React.Component {
   constructor(props) {
