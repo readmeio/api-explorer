@@ -12,19 +12,19 @@ const props = {
   operation: oas.operation('/pet/{petId}', 'get'),
 };
 
-// const operation = { ...props };
+const operation = { ...props };
 
-// console.log(operation.operation.responses['200'].content['application/json'].schema.properties);
+const schema = operation.operation.responses['200'].content['application/json'].schema;
 
 test('should display response schema description', () => {
-  const responseSchemaBody = shallow(<ResponseSchemaBody {...props} />);
+  const responseSchemaBody = shallow(<ResponseSchemaBody schema={schema} />);
 
   expect(responseSchemaBody.containsAnyMatchingElements([<th>items</th>, <td>string</td>])).toBe(
     true,
   );
 });
 
-test.only('should flatten object', () => {
+test('should flatten object', () => {
   const responseSchema = {
     type: 'object',
     properties: {
@@ -33,46 +33,43 @@ test.only('should flatten object', () => {
       },
     },
   };
-  const parent = '';
-  expect(recurse(responseSchema, parent)).to.equal([
-    <tr>
-      <th>name</th>
-      <td>string</td>
-    </tr>,
+
+  expect(recurse(responseSchema)).toEqual([
+    {
+      objName: 'name',
+      type: 'string',
+      description: undefined,
+    },
   ]);
 });
 
-test.only('should flatten nested object', () => {
+test('should flatten nested object', () => {
   const responseSchema = {
     type: 'object',
     properties: {
       category: {
         type: 'object',
-        tag: {
-          type: 'object',
-          name: { type: 'string' },
+        properties: {
+          tag: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+            },
+          },
         },
       },
     },
   };
-  const parent = '';
-  expect(recurse(responseSchema, parent)).to.equal([
-    <tr>
-      <th>category</th>
-      <td>object</td>
-    </tr>,
-    <tr>
-      <th>category.tag</th>
-      <td>object</td>
-    </tr>,
-    <tr>
-      <th>category.tag.name</th>
-      <td>string</td>
-    </tr>,
+  expect(recurse(responseSchema)).toEqual([
+    {
+      objName: 'tag.name',
+      type: 'string',
+      description: undefined,
+    },
   ]);
 });
 
-test.only('should flatten array ', () => {
+test('should flatten array ', () => {
   const responseSchema = {
     type: 'object',
     properties: {
@@ -80,24 +77,21 @@ test.only('should flatten array ', () => {
         type: 'array',
         items: {
           type: 'string',
+          properties: null,
         },
       },
     },
   };
-  const parent = '';
-  expect(recurse(responseSchema, parent)).to.equal([
-    <tr>
-      <th>category</th>
-      <td>array</td>
-    </tr>,
-    <tr>
-      <th>category.items</th>
-      <td>string</td>
-    </tr>,
+  expect(recurse(responseSchema)).toEqual([
+    {
+      objName: 'category',
+      type: 'array',
+      description: undefined,
+    },
   ]);
 });
 
-test.only('should flatten array of objects ', () => {
+test('should flatten array of objects ', () => {
   const responseSchema = {
     type: 'object',
     properties: {
@@ -105,24 +99,18 @@ test.only('should flatten array of objects ', () => {
         type: 'array',
         items: {
           type: 'object',
-          properties: { type: 'string' },
+          properties: {
+            name: { type: 'string' },
+          },
         },
       },
     },
   };
-  const parent = '';
-  expect(recurse(responseSchema, parent)).to.equal([
-    <tr>
-      <th>category</th>
-      <td>array</td>
-    </tr>,
-    <tr>
-      <th>category.items</th>
-      <td>object</td>
-    </tr>,
-    <tr>
-      <th>category.items.properties</th>
-      <td>string</td>
-    </tr>,
+  expect(recurse(responseSchema)).toEqual([
+    {
+      objName: 'category.name',
+      type: 'string',
+      description: undefined,
+    },
   ]);
 });
