@@ -127,7 +127,7 @@ class Doc extends React.Component {
             />
           </div>
           <div className="hub-reference-right switcher">
-            <ResponseSchema operation={operation} />
+            {operation.responses && <ResponseSchema operation={operation} />}
           </div>
         </div>
       </div>
