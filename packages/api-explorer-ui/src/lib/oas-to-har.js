@@ -156,7 +156,6 @@ module.exports = (
   // or if there is a schema defined
   if (har.postData.text || Object.keys(schema.schema).length) {
     const type = getContentType(pathOperation);
-    har.postData.mimeType = type;
     har.headers.push(
       {
         name: 'Content-Type',
