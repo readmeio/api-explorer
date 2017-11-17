@@ -25505,8 +25505,8 @@ function renderSecurities(authInputRef, operation, onChange, onSubmit) {
   });
 }
 
-var AuthBox = function (_React$PureComponent) {
-  _inherits(AuthBox, _React$PureComponent);
+var AuthBox = function (_React$Component) {
+  _inherits(AuthBox, _React$Component);
 
   function AuthBox(props) {
     _classCallCheck(this, AuthBox);
@@ -25580,7 +25580,7 @@ var AuthBox = function (_React$PureComponent) {
   }]);
 
   return AuthBox;
-}(React.PureComponent);
+}(React.Component);
 
 AuthBox.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
@@ -25715,8 +25715,8 @@ var showCode = require('./lib/show-code');
 var parseResponse = require('./lib/parse-response');
 var Content = require('./block-types/Content');
 
-var Doc = function (_React$PureComponent) {
-  _inherits(Doc, _React$PureComponent);
+var Doc = function (_React$Component) {
+  _inherits(Doc, _React$Component);
 
   function Doc(props) {
     _classCallCheck(this, Doc);
@@ -25914,7 +25914,7 @@ var Doc = function (_React$PureComponent) {
   }]);
 
   return Doc;
-}(React.PureComponent);
+}(React.Component);
 
 module.exports = Doc;
 
@@ -26336,8 +26336,8 @@ var Oas = require('./lib/Oas');
 
 var Operation = Oas.Operation;
 
-var Response = function (_React$PureComponent) {
-  _inherits(Response, _React$PureComponent);
+var Response = function (_React$Component) {
+  _inherits(Response, _React$Component);
 
   function Response(props) {
     _classCallCheck(this, Response);
@@ -26417,7 +26417,7 @@ var Response = function (_React$PureComponent) {
   }]);
 
   return Response;
-}(React.PureComponent);
+}(React.Component);
 
 module.exports = Response;
 
@@ -26654,8 +26654,8 @@ var Operation = Oas.Operation;
 // const marked = require('./lib/markdown/index');
 // const convertToParams = require('../../../legacy-stuff/swagger');
 
-var ResponseSchema = function (_React$PureComponent) {
-  _inherits(ResponseSchema, _React$PureComponent);
+var ResponseSchema = function (_React$Component) {
+  _inherits(ResponseSchema, _React$Component);
 
   function ResponseSchema(props) {
     _classCallCheck(this, ResponseSchema);
@@ -26663,7 +26663,7 @@ var ResponseSchema = function (_React$PureComponent) {
     var _this = _possibleConstructorReturn(this, (ResponseSchema.__proto__ || Object.getPrototypeOf(ResponseSchema)).call(this, props));
 
     _this.state = {
-      selectedStatus: Object.keys(props.operation.responses)[0]
+      selectedStatus: Object.keys(props.operation.responses || {})[0]
     };
     _this.selectedStatus = _this.selectedStatus.bind(_this);
     _this.changeHandler = _this.changeHandler.bind(_this);
@@ -26758,6 +26758,7 @@ var ResponseSchema = function (_React$PureComponent) {
     value: function render() {
       var operation = this.props.operation;
 
+      if (!operation.responses) return null;
 
       return React.createElement(
         'div',
@@ -26777,7 +26778,7 @@ var ResponseSchema = function (_React$PureComponent) {
   }]);
 
   return ResponseSchema;
-}(React.PureComponent);
+}(React.Component);
 
 ResponseSchema.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired
@@ -28063,8 +28064,8 @@ var extensions = require('../../readme-oas-extensions');
 
 var Doc = require('./Doc');
 
-var ApiExplorer = function (_React$PureComponent) {
-  _inherits(ApiExplorer, _React$PureComponent);
+var ApiExplorer = function (_React$Component) {
+  _inherits(ApiExplorer, _React$Component);
 
   function ApiExplorer(props) {
     _classCallCheck(this, ApiExplorer);
@@ -28122,7 +28123,7 @@ var ApiExplorer = function (_React$PureComponent) {
   }]);
 
   return ApiExplorer;
-}(React.PureComponent);
+}(React.Component);
 
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -28849,11 +28850,9 @@ module.exports = function (oas) {
   // Add content-type header if there are any body values setup above ^^
   // or if there is a schema defined
   if (har.postData.text || Object.keys(schema.schema).length) {
-    var type = getContentType(pathOperation);
-    har.postData.mimeType = type;
     har.headers.push({
       name: 'Content-Type',
-      value: type
+      value: getContentType(pathOperation)
     });
   }
 
