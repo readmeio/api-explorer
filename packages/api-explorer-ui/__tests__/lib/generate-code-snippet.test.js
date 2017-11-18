@@ -1,5 +1,6 @@
 const extensions = require('../../../readme-oas-extensions');
 const generateCodeSnippet = require('../../src/lib/generate-code-snippet');
+const { getLangName } = generateCodeSnippet;
 
 const oas = {
   servers: [{ url: 'http://example.com' }],
@@ -41,4 +42,14 @@ test('should not contain proxy url', () => {
   );
 
   expect(snippet).toEqual(expect.stringMatching('http://example.com/path/123'));
+});
+
+describe('#getLangName()', () => {
+  it('should convert name to correct case', () => {
+    expect(getLangName('go')).toBe('Go');
+  });
+
+  it('should pass through unknown values', () => {
+    expect(getLangName('HTTP')).toBe('HTTP');
+  });
 });
