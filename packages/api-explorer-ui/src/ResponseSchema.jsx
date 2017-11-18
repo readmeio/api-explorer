@@ -47,10 +47,8 @@ class ResponseSchema extends React.Component {
 
   render() {
     const { operation } = this.props;
-    const i = 0;
     const description = operation.responses[this.state.selectedStatus].description;
     let schema;
-
     try {
       if (operation.responses[this.state.selectedStatus].content) {
         const jsonSchema =
@@ -64,7 +62,7 @@ class ResponseSchema extends React.Component {
     return (
       <div className="hub-reference-response-definitions">
         {this.renderHeader()}
-        <div style={i === 0 ? {} : { display: 'none' }}>
+        <div>
           {description && <p className="desc">{description}</p>}
           {schema && <ResponseSchemaBody schema={schema} />}
         </div>

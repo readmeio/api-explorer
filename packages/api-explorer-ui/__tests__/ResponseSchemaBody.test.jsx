@@ -2,7 +2,7 @@ const React = require('react');
 const { shallow } = require('enzyme');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
-const { recurse } = require('../src/ResponseSchemaBody');
+const { flattenResponseSchema } = require('../src/ResponseSchemaBody');
 const Oas = require('../src/lib/Oas');
 const petstore = require('./fixtures/petstore/circular-oas');
 
@@ -34,9 +34,9 @@ test('should flatten object', () => {
     },
   };
 
-  expect(recurse(responseSchema)).toEqual([
+  expect(flattenResponseSchema(responseSchema)).toEqual([
     {
-      objName: 'name',
+      name: 'name',
       type: 'string',
       description: undefined,
     },
@@ -60,9 +60,9 @@ test('should flatten nested object', () => {
       },
     },
   };
-  expect(recurse(responseSchema)).toEqual([
+  expect(flattenResponseSchema(responseSchema)).toEqual([
     {
-      objName: 'tag.name',
+      name: 'tag.name',
       type: 'string',
       description: undefined,
     },
@@ -82,9 +82,9 @@ test('should flatten array ', () => {
       },
     },
   };
-  expect(recurse(responseSchema)).toEqual([
+  expect(flattenResponseSchema(responseSchema)).toEqual([
     {
-      objName: 'category',
+      name: 'category',
       type: 'array',
       description: undefined,
     },
@@ -106,9 +106,9 @@ test('should flatten array of objects ', () => {
       },
     },
   };
-  expect(recurse(responseSchema)).toEqual([
+  expect(flattenResponseSchema(responseSchema)).toEqual([
     {
-      objName: 'category.name',
+      name: 'category.name',
       type: 'string',
       description: undefined,
     },
