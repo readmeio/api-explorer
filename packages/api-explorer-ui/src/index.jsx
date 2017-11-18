@@ -5,7 +5,7 @@ const extensions = require('../../readme-oas-extensions');
 
 const Doc = require('./Doc');
 
-class ApiExplorer extends React.PureComponent {
+class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
     this.state = { language: Cookie.get('readme_language') || this.getDefaultLanguage() };

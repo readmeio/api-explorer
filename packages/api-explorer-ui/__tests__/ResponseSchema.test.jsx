@@ -5,6 +5,7 @@ const ResponseSchema = require('../src/ResponseSchema');
 const Oas = require('../src/lib/Oas');
 const petstore = require('./fixtures/petstore/oas.json');
 
+const { Operation } = Oas;
 const oas = new Oas(petstore);
 
 const props = {
@@ -32,4 +33,22 @@ test('should display response schema description', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
 
   expect(responseSchema.find('p.desc').text()).toBe(props.operation.responses['200'].description);
+});
+
+test('should work if there are no responses', () => {
+  // Need to create a new operation without any responses
+  const responseSchema = shallow(
+    <ResponseSchema
+      operation={
+        new Operation(
+          {},
+          '/',
+          'get',
+          Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: undefined }),
+        )
+      }
+    />,
+  );
+
+  expect(responseSchema.html()).toBe(null);
 });
