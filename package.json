@@ -6,7 +6,7 @@
     "test": "eslint -f unix example && lerna run test",
     "example": "npm start",
     "start": "node scripts/update-example-swagger-files && budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx",
-    "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js && cp packages/api-explorer-ui/dist/index.js ~/Sites/readmeio/readme/public/js/api-explorer/dist.js' --extension jsx --standalone ApiExplorer --debug -v"
+    "build": "watchify packages/api-explorer-ui/src/index.jsx -t [ babelify ] -o 'derequire > packages/api-explorer-ui/dist/index.js' --extension jsx --standalone ApiExplorer --debug -v"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
