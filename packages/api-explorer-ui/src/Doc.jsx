@@ -16,7 +16,7 @@ const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
-class Doc extends React.PureComponent {
+class Doc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -127,7 +127,7 @@ class Doc extends React.PureComponent {
             />
           </div>
           <div className="hub-reference-right switcher">
-            <ResponseSchema operation={operation} />
+            {operation.responses && <ResponseSchema operation={operation} />}
           </div>
         </div>
       </div>
