@@ -27,9 +27,13 @@ class ApiExplorer extends React.Component {
     }
   }
   render() {
+    const theme = this.props.flags.stripe ? 'stripe' : '';
     return (
       <div className={`is-lang-${this.state.language}`}>
-        <div id="hub-reference" className="content-body hub-reference-sticky hub-reference-theme-">
+        <div
+          id="hub-reference"
+          className={`content-body hub-reference-sticky hub-reference-theme-${theme}`}
+        >
           {this.props.docs.map(doc => (
             <Doc
               key={doc._id}
@@ -51,13 +55,18 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
-  flags: PropTypes.shape({}).isRequired,
+  flags: PropTypes.shape({
+    stripe: PropTypes.bool,
+  }).isRequired,
   oauthUrl: PropTypes.string,
   suggestedEdits: PropTypes.bool.isRequired,
 };
 
 ApiExplorer.defaultProps = {
   oauthUrl: '',
+  flags: PropTypes.shape({
+    stripe: false,
+  }),
 };
 
 module.exports = ApiExplorer;
