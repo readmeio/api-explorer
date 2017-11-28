@@ -10,7 +10,7 @@ class ResponseSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedStatus: Object.keys(props.operation.responses)[0],
+      selectedStatus: Object.keys(props.operation.responses || {})[0],
     };
     this.selectedStatus = this.selectedStatus.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
@@ -90,6 +90,7 @@ class ResponseSchema extends React.Component {
 
   render() {
     const { operation } = this.props;
+    if (!operation.responses) return null;
 
     return (
       <div className="hub-reference-response-definitions">

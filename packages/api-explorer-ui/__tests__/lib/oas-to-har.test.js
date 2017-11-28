@@ -339,27 +339,6 @@ const pathOperation = {
   },
 };
 
-describe('mimeType', () => {
-  it('should default to application/json', () => {
-    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.mimeType).toEqual(
-      'application/json',
-    );
-  });
-
-  it('should fetch mimeType from the operation', () => {
-    expect(
-      oasToHar(
-        {},
-        Object.assign({}, pathOperation, {
-          requestBody: {
-            content: { 'application/xml': pathOperation.requestBody.content['application/json'] },
-          },
-        }),
-      ).log.entries[0].request.postData.mimeType,
-    ).toEqual('application/xml');
-  });
-});
-
 describe('body values', () => {
   it('should not add on empty unrequired values', () => {
     expect(oasToHar({}, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
