@@ -120,8 +120,11 @@ module.exports = (
 
   if (pathOperation.responses) {
     Object.keys(pathOperation.responses).forEach(response => {
-      if (response.content) {
-        har.headers.push({ name: 'Accept', value: getResponseContentType(response.content) });
+      if (pathOperation.responses[response].content) {
+        har.headers.push({
+          name: 'Accept',
+          value: getResponseContentType(pathOperation.responses[response].content),
+        });
       }
     });
   }
@@ -154,13 +157,10 @@ module.exports = (
   if (har.postData.text || Object.keys(schema.schema).length) {
     const type = getContentType(pathOperation);
     har.postData.mimeType = type;
-    har.headers.push(
-      {
-        name: 'Content-Type',
-        value: type,
-      },
-      { name: 'Accept', value: getResponseContentType(pathOperation) },
-    );
+    har.headers.push({
+      name: 'Content-Type',
+      value: type,
+    });
   }
 
   const securityRequirements = pathOperation.security || oas.security;

@@ -286,6 +286,38 @@ describe('header values', () => {
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'a', value: 'test' }]);
   });
+
+  it.only('should pass accept header if endpoint expects a content back from response', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [
+            {
+              name: 'a',
+              in: 'header',
+              required: true,
+              example: 'value',
+            },
+          ],
+          responses: {
+            200: {
+              content: {
+                'application/xml': {
+                  type: 'array',
+                },
+                'application/json': {
+                  type: 'array',
+                },
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }, { name: 'a', value: 'value' }]);
+  });
 });
 
 const pathOperation = {
@@ -680,30 +712,22 @@ describe('content-type & accept header', () => {
   it('should be sent through if there are no body values but there is a requestBody', () => {
     expect(oasToHar({}, operation, {}).log.entries[0].request.headers).toEqual([
       { name: 'Content-Type', value: 'application/json' },
-      { name: 'Accept', value: 'application/json' },
     ]);
     expect(oasToHar({}, operation, { query: { a: 1 } }).log.entries[0].request.headers).toEqual([
       { name: 'Content-Type', value: 'application/json' },
-      { name: 'Accept', value: 'application/json' },
     ]);
   });
 
   it('should be sent through if there are any body values', () => {
     expect(
       oasToHar({}, operation, { body: { a: 'test' } }).log.entries[0].request.headers,
-    ).toEqual([
-      { name: 'Content-Type', value: 'application/json' },
-      { name: 'Accept', value: 'application/json' },
-    ]);
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should be sent through if there are any formData values', () => {
     expect(
       oasToHar({}, operation, { formData: { a: 'test' } }).log.entries[0].request.headers,
-    ).toEqual([
-      { name: 'Content-Type', value: 'application/json' },
-      { name: 'Accept', value: 'application/json' },
-    ]);
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', () => {
@@ -732,10 +756,7 @@ describe('content-type & accept header', () => {
         },
         { body: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([
-      { name: 'Content-Type', value: 'text/xml' },
-      { name: 'Accept', value: 'application/json' },
-    ]);
+    ).toEqual([{ name: 'Content-Type', value: 'text/xml' }]);
   });
 
   // Whether this is right or wrong, i'm not sure but this is what readme currently does
@@ -777,9 +798,6 @@ describe('content-type & accept header', () => {
         },
         { body: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([
-      { name: 'Content-Type', value: 'application/json' },
-      { name: 'Accept', value: 'application/json' },
-    ]);
+    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });
