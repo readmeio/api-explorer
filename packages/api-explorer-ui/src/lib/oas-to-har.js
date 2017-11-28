@@ -59,25 +59,14 @@ function getContentType(pathOperation) {
   return type;
 }
 
-function getResponseContentType(pathOperation) {
-  const types =
-    (pathOperation &&
-      pathOperation.responses &&
-      pathOperation.responses.content &&
-      Object.keys(pathOperation.responses.content)) ||
-    [];
+function getResponseContentType(content) {
+  const types = Object.keys(content) || [];
 
   let type = 'application/json';
   if (types && types.length) {
     type = types[0];
   }
 
-  // Favor JSON if it exists
-  types.forEach(t => {
-    if (t.match(/json/)) {
-      type = t;
-    }
-  });
   return type;
 }
 
@@ -128,6 +117,14 @@ module.exports = (
     pathOperation &&
     pathOperation.parameters &&
     pathOperation.parameters.filter(param => param.in === 'header');
+
+  if (pathOperation.responses) {
+    Object.keys(pathOperation.responses).forEach(response => {
+      if (response.content) {
+        har.headers.push({ name: 'Accept', value: getResponseContentType(response.content) });
+      }
+    });
+  }
 
   if (headers && headers.length) {
     headers.forEach(header => {
