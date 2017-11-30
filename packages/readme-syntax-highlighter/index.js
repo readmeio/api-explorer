@@ -65,3 +65,6 @@ module.exports = (code, lang/* , dark */) => {
 
   return `<span class="${theme}">${codemirror(code, lang)}</span>`;
 };
+
+
+module.exports.uppercase = require('./uppercase');

@@ -1,9 +1,10 @@
 const syntaxHighlighter = require('../../../readme-syntax-highlighter');
-const { getLangName } = require('../lib/generate-code-snippet');
 const statusCodes = require('../lib/statuscodes');
 const PropTypes = require('prop-types');
 const React = require('react');
 const classNames = require('classnames');
+
+const { uppercase } = syntaxHighlighter;
 
 class BlockCode extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class BlockCode extends React.Component {
                     ) : code.name ? (
                       code.name
                     ) : (
-                      getLangName(code.language)
+                      uppercase(code.language)
                     )}
                   </a>
                 </li>
