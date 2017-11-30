@@ -13,24 +13,31 @@ npm install --save api-explorer-ui
 
 ## Usage
 
-### `<ApiExplorer docs={this.state.docs} oasFiles={{
-    'api-setting': Object.assign(extensions.defaults, this.state.oas),
-  }} flags={{ correctnewlines: false, stripe: true }} oauthUrl={this.props.oauthUrl} /> `
+```
+<ApiExplorer
+  docs={Array}
+  oasFiles={Object}
+  flags={Object}
+  oauthUrl={String}
+/>
+```
 
-- `docs` is an array of objects of each endpoint's path, method, and title.
-- `oasFiles` is an object of swagger extensions(https://readme.readme.io/v2.0/docs/swagger-extensions) that modify the display of components within ApiExplorer or  the AJAX request itself. The object also includes the documentation file of all endpoints.
-- `flags` is  an object of specified settings from readme that affect the display of ApiExplorer. The two main ones are correctnewlines -[docs](#correctnewlines) and stripe -[docs](#stripe).
-- `oauthUrl` is a string utilized for response result body to determine authentication for the response of the endpoint.
+- `docs` - an array of objects from ReadMe containing all of your pages
+- `oasFiles` - an object of oas 3 files with the key being the `_id` of the apiSetting in readme e.g.
 
-### `correctnewlines`
-- `correctnewlines` is an object with a boolean value if false it adds line breaks. This can be seen when an image is embedded with a caption.
+```
+{
+  '5a205ad8c2de471d1c80dd22': <OAS 3 file>
+}
+```
 
-### `stripe`
-- `stripe` is an object with a boolean value it affects that changes the theme of the layout to show a stripe effect.
-
+- `flags` -  an object of project flags from readme. Changing these will modify how the API Explorer works.
+- `oauthUrl` - a URL containing the oauth login endpoint
 
 ## Credits
-[Dom Harrington](https://github.com/readme/)
+[Dom Harrington](https://github.com/domharrington/)
+
+[Sanjeet Uppal](https://github.com/uppal101/)
 
 ## License
 
