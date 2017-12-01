@@ -44,6 +44,7 @@ function getOtherParams(pathOperation) {
         if (current.schema.default) schema.default = current.schema.default;
         if (current.schema.enum) schema.enum = current.schema.enum;
         if (current.schema.type) schema.type = current.schema.type;
+        if (current.schema.format) schema.format = current.schema.format;
       }
 
       prev[current.name] = schema;

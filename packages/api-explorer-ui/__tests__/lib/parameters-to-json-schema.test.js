@@ -209,23 +209,27 @@ test('it should pass through type for non-body parameters', () => {
           },
         },
       ],
-    }),
-  ).toEqual([
-    {
-      label: 'Query Params',
-      type: 'query',
-      schema: {
-        type: 'object',
-        properties: {
-          checkbox: {
-            type: 'boolean',
+    })[0].schema.properties.checkbox.type,
+  ).toEqual('boolean')
+});
+
+test('it should pass through format', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'checkbox',
+          schema: {
+            type: 'integer',
+            format: 'int32'
           },
         },
-        required: [],
-      },
-    },
-  ]);
+      ],
+    })[0].schema.properties.checkbox.format
+  ).toEqual('int32');
 });
+
 
 test('it should pass through description', () => {
   expect(
