@@ -24,37 +24,26 @@ module.exports = (code, lang/* , dark */) => {
   //   theme = 'cm-s-tomorrow-night';
   // }
 
-  // const modes = {
-  //   html: 'htmlmixed',
-  //   json: ['javascript', 'application/ld+json'],
-  //   text: ['null', 'text/plain'],
-  //   markdown: 'gfm',
-  //   stylus: 'scss',
-  //   bash: 'shell',
-  //   mysql: 'sql',
-  //   sql: ['sql', 'text/x-sql'],
-  //   curl: 'shell',
-  //   asp: 'clike',
-  //   csharp: ['clike', 'text/x-csharp'],
-  //   cplusplus: ['clike', 'text/x-c++src'],
-  //   c: 'clike',
-  //   java: ['clike', 'text/x-java'],
-  //   scala: ['clike', 'text/x-scala'],
-  //   objectivec: ['clike', 'text/x-objectivec'],
-  //   liquid: 'htmlmixed',
-  //   scss: 'css',
-  // };
-
-  // let mode = lang;
-
-  // if (mode in modes) {
-  //   mode = modes[mode];
-  //   lang = mode;
-  //   if (_.isArray(mode)) {
-  //     lang = mode[0];
-  //     mode = mode[1];
-  //   }
-  // }
+  const modes = {
+    html: 'htmlmixed',
+    json: 'application/ld+json',
+    text: 'text/plain',
+    markdown: 'gfm',
+    stylus: 'scss',
+    bash: 'shell',
+    mysql: 'sql',
+    sql: 'text/x-sql',
+    curl: 'shell',
+    asp: 'clike',
+    csharp: 'text/x-csharp',
+    cplusplus: 'text/x-c++src',
+    c: 'clike',
+    java: 'text/x-java',
+    scala: 'text/x-scala',
+    objectivec: 'text/x-objectivec',
+    liquid: 'htmlmixed',
+    scss: 'css',
+  };
 
   // let highlighted = ;
 
@@ -63,7 +52,7 @@ module.exports = (code, lang/* , dark */) => {
   // highlighted = highlighted.replace(/{{/g, '&#123;<span></span>&#123;');
   // highlighted = highlighted.replace(/}}/g, '&#125;<span></span>&#125;');
 
-  return `<span class="${theme}">${codemirror(code, lang)}</span>`;
+  return `<span class="${theme}">${codemirror(code, modes[lang] ? modes[lang] : lang)}</span>`;
 };
 
 
