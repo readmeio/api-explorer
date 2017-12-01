@@ -197,6 +197,36 @@ test('should pass through defaults', () => {
   ]);
 });
 
+test('it should pass through type for non-body parameters', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'checkbox',
+          schema: {
+            type: 'boolean',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Query Params',
+      type: 'query',
+      schema: {
+        type: 'object',
+        properties: {
+          checkbox: {
+            type: 'boolean',
+          },
+        },
+        required: [],
+      },
+    },
+  ]);
+});
+
 test('it should pass through description', () => {
   expect(
     parametersToJsonSchema({
