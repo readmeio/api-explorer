@@ -318,6 +318,31 @@ describe('header values', () => {
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'Accept', value: 'application/xml' }, { name: 'a', value: 'value' }]);
   });
+
+  it('should only add one accept header', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [],
+          responses: {
+            200: {
+              content: {
+                'application/xml': {},
+              },
+            },
+            400: {
+              content: {
+                'application/json': {},
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+  });
 });
 
 const pathOperation = {
