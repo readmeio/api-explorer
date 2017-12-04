@@ -64,9 +64,7 @@ ApiExplorer.propTypes = {
 
 ApiExplorer.defaultProps = {
   oauthUrl: '',
-  flags: PropTypes.shape({
-    stripe: false,
-  }),
+  stripe: false,
 };
 
 module.exports = ApiExplorer;
