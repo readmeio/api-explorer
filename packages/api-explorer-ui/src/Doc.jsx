@@ -4,6 +4,7 @@ const fetchHar = require('fetch-har');
 const oasToHar = require('./lib/oas-to-har');
 const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('../../readme-oas-extensions');
+const Waypoint = require('react-waypoint');
 
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
@@ -26,12 +27,14 @@ class Doc extends React.Component {
       showAuthBox: false,
       needsAuth: false,
       result: null,
+      showEndpoint: false,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
+    this.waypointEntered = this.waypointEntered.bind(this);
   }
 
   onChange(formData) {
@@ -73,6 +76,10 @@ class Doc extends React.Component {
 
   hideResults() {
     this.setState({ result: null });
+  }
+
+  waypointEntered() {
+    this.setState({ showEndpoint: true });
   }
 
   renderEndpoint() {
@@ -127,7 +134,7 @@ class Doc extends React.Component {
             />
           </div>
           <div className="hub-reference-right switcher">
-            <ResponseSchema operation={operation} />
+            {operation.responses && <ResponseSchema operation={operation} />}
           </div>
         </div>
       </div>
@@ -165,7 +172,11 @@ class Doc extends React.Component {
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        {doc.type === 'endpoint' && this.renderEndpoint()}
+        {
+          doc.type === 'endpoint' && (
+            <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false}>{this.state.showEndpoint && this.renderEndpoint()}</Waypoint>
+          )
+        }
 
         <Content body={doc.body} flags={this.props.flags} is-three-column />
         {

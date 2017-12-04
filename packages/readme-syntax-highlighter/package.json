@@ -3,7 +3,7 @@
   "description": "Syntax highlighter used on ReadMe.io",
   "version": "0.0.0",
   "dependencies": {
-    "codemirror": "^5.28.0"
+    "codemirror": "^5.31.0"
   },
   "scripts": {
     "lint": "eslint -f unix .",

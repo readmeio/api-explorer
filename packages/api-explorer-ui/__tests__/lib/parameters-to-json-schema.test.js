@@ -197,6 +197,40 @@ test('should pass through defaults', () => {
   ]);
 });
 
+test('it should pass through type for non-body parameters', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'checkbox',
+          schema: {
+            type: 'boolean',
+          },
+        },
+      ],
+    })[0].schema.properties.checkbox.type,
+  ).toEqual('boolean')
+});
+
+test('it should pass through format', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'checkbox',
+          schema: {
+            type: 'integer',
+            format: 'int32'
+          },
+        },
+      ],
+    })[0].schema.properties.checkbox.format
+  ).toEqual('int32');
+});
+
+
 test('it should pass through description', () => {
   expect(
     parametersToJsonSchema({

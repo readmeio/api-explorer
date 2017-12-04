@@ -144,12 +144,7 @@
         "summary": "or security",
         "description": "",
         "operationId": "addMultipleOAuths",
-        "parameters": [],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
+        "parameters": []
       }
     },
     "/multiple-combo-auths": {
