@@ -52,7 +52,6 @@ class Demo extends React.Component {
     this.setState({ docs: createDocs(oas, 'api-setting') });
   }
   render() {
-    console.log(this.state.docs);
     return (
       <div>
         <div className="api-list-header">
@@ -66,7 +65,7 @@ class Demo extends React.Component {
               oasFiles={{
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
-              flags={{ correctnewlines: true }}
+              flags={{ correctnewlines: false }}
               oauthUrl={this.props.oauthUrl}
             />
           )
