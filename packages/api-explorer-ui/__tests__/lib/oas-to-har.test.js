@@ -287,7 +287,7 @@ describe('header values', () => {
     ).toEqual([{ name: 'a', value: 'test' }]);
   });
 
-  it.only('should pass accept header if endpoint expects a content back from response', () => {
+  it('should pass accept header if endpoint expects a content back from response', () => {
     expect(
       oasToHar(
         {},
