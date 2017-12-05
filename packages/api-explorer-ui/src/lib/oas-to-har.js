@@ -119,15 +119,15 @@ module.exports = (
     pathOperation.parameters.filter(param => param.in === 'header');
 
   if (pathOperation.responses) {
-    for (const response in pathOperation.responses) {
-      if (pathOperation.responses[response].content) {
-        har.headers.push({
-          name: 'Accept',
-          value: getResponseContentType(pathOperation.responses[response].content),
-        });
-        break;
-      }
-    }
+    Object.keys(pathOperation.responses).some(response => {
+      if (!pathOperation.responses[response].content) return false;
+
+      har.headers.push({
+        name: 'Accept',
+        value: getResponseContentType(pathOperation.responses[response].content),
+      });
+      return true;
+    });
   }
 
   if (headers && headers.length) {
