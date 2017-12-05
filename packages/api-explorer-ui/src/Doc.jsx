@@ -158,7 +158,8 @@ class Doc extends React.Component {
               {this.props.suggestedEdits && (
                 // eslint-disable-next-line jsx-a11y/href-no-hash
                 <a className="hub-reference-edit pull-right" href={`reference-edit/${doc.slug}`}>
-                  <i className="icon icon-register"> Suggest Edits</i>
+                  <i className="icon icon-register" />
+                  Suggest Edits
                 </a>
               )}
               <h2>{doc.title}</h2>
