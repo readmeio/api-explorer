@@ -19,6 +19,7 @@ npm install --save api-explorer-ui
   oasFiles={Object}
   flags={Object}
   oauthUrl={String}
+  suggestedEdits={Boolean}
 />
 ```
 
@@ -33,6 +34,7 @@ npm install --save api-explorer-ui
 
 - `flags` -  an object of project flags from readme. Changing these will modify how the API Explorer works.
 - `oauthUrl` - a URL containing the oauth login endpoint
+- `suggestedEdits` - whether suggested edits are enabled or not. This just toggles the button.
 
 ## Credits
 [Dom Harrington](https://github.com/domharrington/)
