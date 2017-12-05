@@ -119,14 +119,15 @@ module.exports = (
     pathOperation.parameters.filter(param => param.in === 'header');
 
   if (pathOperation.responses) {
-    Object.keys(pathOperation.responses).forEach(response => {
+    for (const response in pathOperation.responses) {
       if (pathOperation.responses[response].content) {
         har.headers.push({
           name: 'Accept',
           value: getResponseContentType(pathOperation.responses[response].content),
         });
+        break;
       }
-    });
+    }
   }
 
   if (headers && headers.length) {
