@@ -13,8 +13,31 @@ npm install --save api-explorer-ui
 
 ## Usage
 
+```
+<ApiExplorer
+  docs={Array}
+  oasFiles={Object}
+  flags={Object}
+  oauthUrl={String}
+/>
+```
+
+- `docs` - an array of objects from ReadMe containing all of your pages
+- `oasFiles` - an object of oas 3 files with the key being the `_id` of the apiSetting in readme e.g.
+
+```
+{
+  '5a205ad8c2de471d1c80dd22': <OAS 3 file>
+}
+```
+
+- `flags` -  an object of project flags from readme. Changing these will modify how the API Explorer works.
+- `oauthUrl` - a URL containing the oauth login endpoint
+
 ## Credits
-[Dom Harrington](https://github.com/readme/)
+[Dom Harrington](https://github.com/domharrington/)
+
+[Sanjeet Uppal](https://github.com/uppal101/)
 
 ## License
 

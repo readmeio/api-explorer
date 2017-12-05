@@ -28,7 +28,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
-    "lerna": "^2.0.0"
+    "lerna": "^2.5.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
