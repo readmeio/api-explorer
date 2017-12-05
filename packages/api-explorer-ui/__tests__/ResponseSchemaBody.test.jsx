@@ -1,10 +1,14 @@
 const React = require('react');
+const fs = require('fs');
+const path = require('path');
+const CircularJSON = require('circular-json');
 const { shallow } = require('enzyme');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
 const { flattenResponseSchema } = require('../src/ResponseSchemaBody');
 const Oas = require('../src/lib/Oas');
-const petstore = require('./fixtures/petstore/circular-oas');
+
+const petstore = CircularJSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/petstore/circular-oas.json'), 'utf8'));
 
 const oas = new Oas(petstore);
 
