@@ -33,6 +33,8 @@ function assertDocElements(component, doc) {
 test('should output a div', () => {
   const doc = shallow(<Doc {...props} />);
 
+  doc.setState({ showEndpoint: true });
+
   assertDocElements(doc, props.doc);
   expect(doc.find('.hub-api').length).toBe(1);
   expect(doc.find('PathUrl').length).toBe(1);
@@ -157,19 +159,6 @@ describe('onSubmit', () => {
   });
 });
 
-describe('hideResults', () => {
-  xtest('hideResults should render null', () => {
-    const doc = shallow(<Doc {...props} oas={oas} />);
-
-    // move into onSubmit?
-    // expect(doc.state('result')).toEqual(props.result);
-
-    doc.instance().hideResults();
-
-    expect(doc.state('result')).toBe(null);
-  });
-});
-
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {
     const doc = shallow(<Doc {...props} />);
@@ -194,9 +183,26 @@ describe('state.loading', () => {
   });
 });
 
+describe('suggest edits', () => {
+  test('should show icon if suggested edits is true', () => {
+    const props3 = {
+      doc: {
+        slug: 'slug',
+        swagger: { path: '/pet/{petId}' },
+        api: { method: 'get' },
+      },
+      suggestedEdits: true,
+    };
+    const doc = shallow(<Doc {...props3} />);
+
+    expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
+  });
+});
+
 describe('Response Schema', () => {
   test('should render Response Schema if endpoint does have a response', () => {
     const doc = mount(<Doc {...props} />);
+    doc.setState({ showEndpoint: true });
     expect(doc.find('ResponseSchema').length).toBe(1);
   });
   test('should not render Response Schema if endpoint does not have a response', () => {

@@ -101,35 +101,43 @@ test('Code should switch tabs', () => {
 });
 
 test('should uppercase known languages', () => {
-  expect(mount(
-    <Code
-      block={{
-        data: {
-          codes: [
-            {
-              language: 'http',
-              code: '',
-            },
-          ],
-        },
-      }}
-    />,
-  ).find('li a').text()).toBe('HTTP');
+  expect(
+    mount(
+      <Code
+        block={{
+          data: {
+            codes: [
+              {
+                language: 'http',
+                code: '',
+              },
+            ],
+          },
+        }}
+      />,
+    )
+      .find('li a')
+      .text(),
+  ).toBe('HTTP');
 });
 
 test('should pass through unknown languages', () => {
-  expect(mount(
-    <Code
-      block={{
-        data: {
-          codes: [
-            {
-              language: 'unknown-language-somehow',
-              code: '',
-            },
-          ],
-        },
-      }}
-    />,
-  ).find('li a').text()).toBe('unknown-language-somehow');
+  expect(
+    mount(
+      <Code
+        block={{
+          data: {
+            codes: [
+              {
+                language: 'unknown-language-somehow',
+                code: '',
+              },
+            ],
+          },
+        }}
+      />,
+    )
+      .find('li a')
+      .text(),
+  ).toBe('unknown-language-somehow');
 });

@@ -155,9 +155,13 @@ class Doc extends React.Component {
         <div className="hub-reference-section hub-reference-section-top">
           <div className="hub-reference-left">
             <header>
-              {
-                // TODO suggested edits
-              }
+              {this.props.suggestedEdits && (
+                // eslint-disable-next-line jsx-a11y/href-no-hash
+                <a className="hub-reference-edit pull-right" href={`reference-edit/${doc.slug}`}>
+                  <i className="icon icon-register" />
+                  Suggest Edits
+                </a>
+              )}
               <h2>{doc.title}</h2>
               {doc.excerpt && (
                 <div className="excerpt">
@@ -172,11 +176,11 @@ class Doc extends React.Component {
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        {
-          doc.type === 'endpoint' && (
-            <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false}>{this.state.showEndpoint && this.renderEndpoint()}</Waypoint>
-          )
-        }
+        {doc.type === 'endpoint' && (
+          <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false}>
+            {this.state.showEndpoint && this.renderEndpoint()}
+          </Waypoint>
+        )}
 
         <Content body={doc.body} flags={this.props.flags} is-three-column />
         {
@@ -213,6 +217,7 @@ Doc.propTypes = {
   flags: PropTypes.shape({}),
   language: PropTypes.string.isRequired,
   oauthUrl: PropTypes.string,
+  suggestedEdits: PropTypes.bool.isRequired,
 };
 
 Doc.defaultProps = {
