@@ -2,13 +2,15 @@ const React = require('react');
 const fs = require('fs');
 const path = require('path');
 const CircularJSON = require('circular-json');
-const { shallow } = require('enzyme');
+const { mount } = require('enzyme');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
 const { flattenResponseSchema } = require('../src/ResponseSchemaBody');
 const Oas = require('../src/lib/Oas');
 
-const petstore = CircularJSON.parse(fs.readFileSync(path.join(__dirname, '/fixtures/petstore/circular-oas.json'), 'utf8'));
+const petstore = CircularJSON.parse(
+  fs.readFileSync(path.join(__dirname, '/fixtures/petstore/circular-oas.json'), 'utf8'),
+);
 
 const oas = new Oas(petstore);
 
@@ -21,11 +23,12 @@ const operation = { ...props };
 const schema = operation.operation.responses['200'].content['application/json'].schema;
 
 test('should display response schema description', () => {
-  const responseSchemaBody = shallow(<ResponseSchemaBody schema={schema} />);
+  const responseSchemaBody = mount(<ResponseSchemaBody schema={schema} />);
+  const description = responseSchemaBody.find('span').last();
 
-  expect(responseSchemaBody.containsAnyMatchingElements([<th>items</th>, <td>string</td>])).toBe(
-    true,
-  );
+  expect(responseSchemaBody.contains([<th>PhotoUrls.items</th>])).toBe(false);
+  expect(responseSchemaBody.contains([<th>tags.name</th>])).toBe(true);
+  expect(description.text()).toBe('pet status in the store');
 });
 
 test('should flatten object', () => {

@@ -30,7 +30,10 @@ function ResponseSchemaBody({ schema }) {
       <th>{row.name}</th>
       <td>
         {row.type}
-        {row.description}
+        <span
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: row.description }}
+        />
       </td>
     </tr>
   ));
