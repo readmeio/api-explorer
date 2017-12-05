@@ -59,6 +59,17 @@ function getContentType(pathOperation) {
   return type;
 }
 
+function getResponseContentType(content) {
+  const types = Object.keys(content) || [];
+
+  let type = 'application/json';
+  if (types && types.length) {
+    type = types[0];
+  }
+
+  return type;
+}
+
 module.exports = (
   oas,
   pathOperation = { path: '', method: '' },
@@ -107,6 +118,18 @@ module.exports = (
     pathOperation.parameters &&
     pathOperation.parameters.filter(param => param.in === 'header');
 
+  if (pathOperation.responses) {
+    Object.keys(pathOperation.responses).some(response => {
+      if (!pathOperation.responses[response].content) return false;
+
+      har.headers.push({
+        name: 'Accept',
+        value: getResponseContentType(pathOperation.responses[response].content),
+      });
+      return true;
+    });
+  }
+
   if (headers && headers.length) {
     headers.forEach(header => {
       const value = formatter(formData, header, 'header', true);
@@ -133,9 +156,10 @@ module.exports = (
   // Add content-type header if there are any body values setup above ^^
   // or if there is a schema defined
   if (har.postData.text || Object.keys(schema.schema).length) {
+    const type = getContentType(pathOperation);
     har.headers.push({
       name: 'Content-Type',
-      value: getContentType(pathOperation),
+      value: type,
     });
   }
 

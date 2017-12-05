@@ -286,6 +286,63 @@ describe('header values', () => {
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'a', value: 'test' }]);
   });
+
+  it('should pass accept header if endpoint expects a content back from response', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [
+            {
+              name: 'a',
+              in: 'header',
+              required: true,
+              example: 'value',
+            },
+          ],
+          responses: {
+            200: {
+              content: {
+                'application/xml': {
+                  type: 'array',
+                },
+                'application/json': {
+                  type: 'array',
+                },
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }, { name: 'a', value: 'value' }]);
+  });
+
+  it('should only add one accept header', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [],
+          responses: {
+            200: {
+              content: {
+                'application/xml': {},
+              },
+            },
+            400: {
+              content: {
+                'application/json': {},
+              },
+            },
+          },
+        },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+  });
 });
 
 const pathOperation = {
@@ -634,7 +691,7 @@ describe('auth', () => {
   });
 });
 
-describe('content-type header', () => {
+describe('content-type & accept header', () => {
   const operation = {
     path: '/body',
     method: 'get',
@@ -677,7 +734,7 @@ describe('content-type header', () => {
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
-  it('should fetch the type from the first `requestBody.content` object', () => {
+  it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', () => {
     expect(
       oasToHar(
         {},
