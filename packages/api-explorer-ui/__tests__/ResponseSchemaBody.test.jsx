@@ -2,7 +2,7 @@ const React = require('react');
 const fs = require('fs');
 const path = require('path');
 const CircularJSON = require('circular-json');
-const { mount } = require('enzyme');
+const { shallow } = require('enzyme');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
 const { flattenResponseSchema } = require('../src/ResponseSchemaBody');
@@ -23,12 +23,13 @@ const operation = { ...props };
 const schema = operation.operation.responses['200'].content['application/json'].schema;
 
 test('should display response schema description', () => {
-  const responseSchemaBody = mount(<ResponseSchemaBody schema={schema} />);
+  const responseSchemaBody = shallow(<ResponseSchemaBody schema={schema} />);
   const description = responseSchemaBody.find('span').last();
 
   expect(responseSchemaBody.contains([<th>PhotoUrls.items</th>])).toBe(false);
   expect(responseSchemaBody.contains([<th>tags.name</th>])).toBe(true);
-  expect(description.text()).toBe('pet status in the store');
+  // expect(description.text().replace('\n', '')).toBe('pet status in the store');
+  expect(description.html().replace('\n', '')).toBe('<span><p>pet status in the store</p></span>');
 });
 
 test('should flatten object', () => {
