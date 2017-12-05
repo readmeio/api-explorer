@@ -59,7 +59,6 @@ class ResponseSchema extends React.Component {
       }
     } catch (e) {} // eslint-disable-line no-empty
 
-
     return (
       <div className="hub-reference-response-definitions">
         {this.renderHeader()}
