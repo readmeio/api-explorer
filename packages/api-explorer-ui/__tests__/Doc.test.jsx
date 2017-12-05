@@ -194,6 +194,8 @@ describe('suggest edits', () => {
     const doc = shallow(<Doc {...props3} />);
 
     expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
+  });
+});
 
 describe('Response Schema', () => {
   test('should render Response Schema if endpoint does have a response', () => {

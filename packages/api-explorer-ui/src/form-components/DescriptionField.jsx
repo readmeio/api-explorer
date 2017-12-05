@@ -12,15 +12,19 @@ function DescriptionField(props) {
   }
   if (typeof description === 'string') {
     return (
-      <p id={id} className="field-description" dangerouslySetInnerHTML={{__html: markdown(description)}} />
-    );
-  } else {
-    return (
-      <div id={id} className="field-description">
-        {description}
-      </div>
+      <p
+        id={id}
+        className="field-description"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: markdown(description) }}
+      />
     );
   }
+  return (
+    <div id={id} className="field-description">
+      {description}
+    </div>
+  );
 }
 
 DescriptionField.propTypes = {

@@ -175,11 +175,11 @@ class Doc extends React.Component {
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        {
-          doc.type === 'endpoint' && (
-            <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false}>{this.state.showEndpoint && this.renderEndpoint()}</Waypoint>
-          )
-        }
+        {doc.type === 'endpoint' && (
+          <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false}>
+            {this.state.showEndpoint && this.renderEndpoint()}
+          </Waypoint>
+        )}
 
         <Content body={doc.body} flags={this.props.flags} is-three-column />
         {
