@@ -210,7 +210,7 @@ test('it should pass through type for non-body parameters', () => {
         },
       ],
     })[0].schema.properties.checkbox.type,
-  ).toEqual('boolean')
+  ).toEqual('boolean');
 });
 
 test('it should pass through format', () => {
@@ -222,14 +222,13 @@ test('it should pass through format', () => {
           name: 'checkbox',
           schema: {
             type: 'integer',
-            format: 'int32'
+            format: 'int32',
           },
         },
       ],
-    })[0].schema.properties.checkbox.format
+    })[0].schema.properties.checkbox.format,
   ).toEqual('int32');
 });
-
 
 test('it should pass through description', () => {
   expect(

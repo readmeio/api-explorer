@@ -69,4 +69,5 @@ module.exports = (oas, operation, values, lang) => {
   return syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight);
 };
 
-module.exports.getLangName = lang => supportedLanguages[lang] ? supportedLanguages[lang].name : lang;
+module.exports.getLangName = lang =>
+  supportedLanguages[lang] ? supportedLanguages[lang].name : lang;
