@@ -6,7 +6,8 @@ global.Request = Request;
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
-const oas = require('./fixtures/petstore/circular-oas.json');
+const oas = require('./fixtures/petstore/circular-oas');
+const multipleSecurities = require('./fixtures/multiple-securities/oas');
 
 const props = {
   doc: {
@@ -193,5 +194,28 @@ describe('suggest edits', () => {
     const doc = shallow(<Doc {...props3} />);
 
     expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
+
+describe('Response Schema', () => {
+  test('should render Response Schema if endpoint does have a response', () => {
+    const doc = mount(<Doc {...props} />);
+    expect(doc.find('ResponseSchema').length).toBe(1);
+  });
+  test('should not render Response Schema if endpoint does not have a response', () => {
+    const doc = shallow(
+      <Doc
+        doc={{
+          title: 'Title',
+          slug: 'slug',
+          type: 'endpoint',
+          swagger: { path: '/unknown-scheme' },
+          api: { method: 'post' },
+          onSubmit: () => {},
+        }}
+        language="node"
+        setLanguage={() => {}}
+        oas={multipleSecurities}
+      />,
+    );
+    expect(doc.find('ResponseSchema').length).toBe(0);
   });
 });
