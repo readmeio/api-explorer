@@ -6,7 +6,8 @@ global.Request = Request;
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
-const oas = require('./fixtures/petstore/circular-oas.json');
+const oas = require('./fixtures/petstore/circular-oas');
+const multipleSecurities = require('./fixtures/multiple-securities/oas');
 
 const props = {
   doc: {
@@ -31,6 +32,8 @@ function assertDocElements(component, doc) {
 
 test('should output a div', () => {
   const doc = shallow(<Doc {...props} />);
+
+  doc.setState({ showEndpoint: true });
 
   assertDocElements(doc, props.doc);
   expect(doc.find('.hub-api').length).toBe(1);
@@ -190,5 +193,31 @@ describe('state.loading', () => {
     const doc = shallow(<Doc {...props} />);
 
     expect(doc.state('loading')).toBe(false);
+  });
+});
+
+describe('Response Schema', () => {
+  test('should render Response Schema if endpoint does have a response', () => {
+    const doc = mount(<Doc {...props} />);
+    doc.setState({ showEndpoint: true });
+    expect(doc.find('ResponseSchema').length).toBe(1);
+  });
+  test('should not render Response Schema if endpoint does not have a response', () => {
+    const doc = shallow(
+      <Doc
+        doc={{
+          title: 'Title',
+          slug: 'slug',
+          type: 'endpoint',
+          swagger: { path: '/unknown-scheme' },
+          api: { method: 'post' },
+          onSubmit: () => {},
+        }}
+        language="node"
+        setLanguage={() => {}}
+        oas={multipleSecurities}
+      />,
+    );
+    expect(doc.find('ResponseSchema').length).toBe(0);
   });
 });
