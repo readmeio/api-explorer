@@ -20,7 +20,6 @@ function DescriptionField(props) {
       />
     );
   }
-
   return (
     <div id={id} className="field-description">
       {description}
