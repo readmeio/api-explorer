@@ -33,6 +33,8 @@ function assertDocElements(component, doc) {
 test('should output a div', () => {
   const doc = shallow(<Doc {...props} />);
 
+  doc.setState({ showEndpoint: true });
+
   assertDocElements(doc, props.doc);
   expect(doc.find('.hub-api').length).toBe(1);
   expect(doc.find('PathUrl').length).toBe(1);
@@ -197,6 +199,7 @@ describe('state.loading', () => {
 describe('Response Schema', () => {
   test('should render Response Schema if endpoint does have a response', () => {
     const doc = mount(<Doc {...props} />);
+    doc.setState({ showEndpoint: true });
     expect(doc.find('ResponseSchema').length).toBe(1);
   });
   test('should not render Response Schema if endpoint does not have a response', () => {
