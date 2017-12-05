@@ -11,3 +11,7 @@ test('should highlight a block of code', () => {
 test('should sanitize plain text language', () => {
   expect(syntaxHighlighter('& < > " \' /', 'text')).toBe('&amp; &lt; &gt; &quot; &#39; &#x2F;');
 });
+
+test('should work with modes', () => {
+  expect(syntaxHighlighter('{ "a": 1 }', 'json')).toBe('<span class="cm-s-tomorrow-night">{ <span class="cm-property">"a"</span>: <span class="cm-number">1</span> }</span>');
+});

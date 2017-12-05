@@ -8,6 +8,7 @@ const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWid
 const ObjectField = require('./form-components/ObjectField');
 const SchemaField = require('./form-components/SchemaField');
 const FieldTemplate = require('./form-components/FieldTemplate');
+const DescriptionField = require('./form-components/DescriptionField');
 
 const Oas = require('./lib/Oas');
 
@@ -49,6 +50,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                   ObjectField,
                   SchemaField,
                   TitleField: () => null,
+                  DescriptionField,
                 }}
               >
                 <button type="submit" style={{ display: 'none' }} />
