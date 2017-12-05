@@ -41,8 +41,9 @@ class ApiList extends React.Component {
         <select onChange={this.changeApi} value={this.state.selected}>
           { Object.keys(this.state.apis).map((name) => {
             const api = this.state.apis[name];
+            const preferred = api.preferred || Object.keys(api.versions)[0];
             return (
-              <option value={api.versions[api.preferred].swaggerUrl} key={name}>
+              <option value={api.versions[preferred].swaggerUrl} key={name}>
                 {name.substring(0, 30)}
               </option>
             );
