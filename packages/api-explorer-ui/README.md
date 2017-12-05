@@ -33,8 +33,8 @@ npm install --save api-explorer-ui
 ```
 
 - `flags` -  an object of project flags from readme. Changing these will modify how the API Explorer works.
-- `oauthUrl` - a URL containing the oauth login endpoint.
-- `suggestedEdits` - if boolean if present shows an icon on each endpoint that allows users to add additional documentation.
+- `oauthUrl` - a URL containing the oauth login endpoint
+- `suggestedEdits` - whether suggested edits are enabled or not. This just toggles the button.
 
 ## Credits
 [Dom Harrington](https://github.com/domharrington/)
