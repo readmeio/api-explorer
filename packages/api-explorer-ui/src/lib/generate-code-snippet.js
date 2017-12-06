@@ -66,7 +66,7 @@ module.exports = (oas, operation, values, lang) => {
   const snippet = new HTTPSnippet(har);
 
   const language = supportedLanguages[lang];
-  return syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight);
+  return syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight, true);
 };
 
 module.exports.getLangName = lang =>

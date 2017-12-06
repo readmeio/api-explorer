@@ -1,7 +1,7 @@
 const CallOut = require('./CallOut');
 const Html = require('./Html');
 const TextArea = require('./TextArea');
-const BlockCode = require('./Code');
+const Code = require('./Code');
 const ImageBlock = require('./Image');
 const Embed = require('./Embed');
 const Parameters = require('./Parameters');
@@ -30,7 +30,7 @@ const Loop = ({ content, column, flags }) => {
         return <ApiHeader {...props} />;
       case 'code':
         // eslint-disable-next-line react/no-array-index-key
-        return <BlockCode {...props} dark={column === 'right'} />;
+        return <Code {...props} dark={column === 'right'} />;
       case 'callout':
         // eslint-disable-next-line react/no-array-index-key
         return <CallOut {...props} />;
