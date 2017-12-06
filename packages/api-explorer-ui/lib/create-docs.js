@@ -16,6 +16,30 @@ module.exports = (oas, apiSetting) => {
           category: { apiSetting },
           api: { method },
           swagger: { path },
+          // Uncomment this if you want some body content blocks
+          // body: `
+          //   [block:api-header]
+          //   {
+          //     "title": "This is cool header",
+          //     "sidebar": true
+          //   }
+          //   [/block]
+          //   [block:textarea]
+          //   {
+          //     "text": "This is text area"
+          //   }
+          //   [/block]
+          //   [block:code]
+          //   {
+          //     "codes": [
+          //       {
+          //         "code": "var a = 1;",
+          //         "language": "javascript"
+          //       }
+          //     ]
+          //   }
+          //   [/block]
+          // `,
         });
         isCategory = true;
       }
