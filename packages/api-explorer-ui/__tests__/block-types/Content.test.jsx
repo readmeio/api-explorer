@@ -36,13 +36,58 @@ const body = `
 `;
 
 test('should output only left content if `isThreeColumn=left`', () => {
-  const content = mount(<Content body={body} isThreeColumn='left' />);
+  const content = mount(<Content body={body} isThreeColumn="left" />);
 
   expect(content.find('.magic-block-textarea').length).toBe(1);
 });
 
 test('should output only right content if `isThreeColumn=right`', () => {
-  const content = mount(<Content body={body} isThreeColumn='right' />);
+  const content = mount(<Content body={body} isThreeColumn="right" />);
 
   expect(content.find('.magic-block-api-header').length).toBe(1);
+});
+
+test('should make code not-dark if it is in the left column', () => {
+  const content = mount(
+    <Content
+      body={`
+        [block:code]
+        {
+          "codes": [
+            {
+              "code": "var a = 1;",
+              "language": "javascript"
+            }
+          ]
+        }
+        [/block]
+      `}
+      isThreeColumn="left"
+    />,
+  );
+
+  expect(content.html()).toContain('cm-s-neo');
+});
+
+test('should make code `dark` if it is in right column', () => {
+  const content = mount(
+    <Content
+      body={`
+        [block:code]
+        {
+          "codes": [
+            {
+              "code": "var a = 1;",
+              "language": "javascript"
+            }
+          ],
+          "sidebar": true
+        }
+        [/block]
+      `}
+      isThreeColumn="right"
+    />,
+  );
+
+  expect(content.html()).toContain('cm-s-tomorrow-night');
 });

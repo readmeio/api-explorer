@@ -78,7 +78,13 @@ const Content = props => {
     );
   }
 
-  return <Loop content={isThreeColumn === 'left' ? left : right} flags={props.flags} />;
+  return (
+    <Loop
+      content={isThreeColumn === 'left' ? left : right}
+      flags={props.flags}
+      column={isThreeColumn}
+    />
+  );
 };
 
 Loop.propTypes = {
@@ -97,7 +103,7 @@ Loop.defaultProps = {
 };
 
 Content.propTypes = {
-  isThreeColumn: PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ]),
+  isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   body: PropTypes.string,
   flags: PropTypes.shape({}),
 };

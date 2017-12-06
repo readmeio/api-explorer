@@ -15,7 +15,7 @@ class BlockCode extends React.Component {
     this.setState({ activeTab: i });
   }
   render() {
-    const { block, opts = {} } = this.props;
+    const { block, opts = {}, dark } = this.props;
     const codes = Array.isArray(block.data.codes) ? block.data.codes : [];
 
     return (
@@ -64,7 +64,7 @@ class BlockCode extends React.Component {
                   <code
                     // eslint-disable-next-line
                     dangerouslySetInnerHTML={{
-                      __html: syntaxHighlighter(code.code, code.language, opts.dark),
+                      __html: syntaxHighlighter(code.code, code.language, dark),
                     }}
                   />
                 }
