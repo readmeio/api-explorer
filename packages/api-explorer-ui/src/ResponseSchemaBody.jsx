@@ -7,10 +7,31 @@ function flattenResponseSchema(obj, parent = '') {
     .map(prop => {
       // flattenResponseSchemas through if key's value is an object
       if (obj.properties[prop].properties) {
+        // if (obj.properties[prop].type === 'object') {
+        //   return [
+        //     {
+        //       name: prop,
+        //       type: obj.properties[prop].type,
+        //       description:
+        //         obj.properties[prop].description && marked(obj.properties[prop].description),
+        //     },
+        //   ];
+        // }
         return flattenResponseSchema(obj.properties[prop], prop);
-      } else if (obj.properties[prop].type === 'array' && obj.properties[prop].items.properties) {
-        // flattenResponseSchemas through key's value type is an array
-        return flattenResponseSchema(obj.properties[prop].items, prop);
+      } else if (obj.properties[prop].type === 'array') {
+        if (obj.properties[prop].items.properties) {
+          // flattenResponseSchemas through key's value type is an array
+          return flattenResponseSchema(obj.properties[prop].items, prop);
+        }
+        // array of primitive values
+        return [
+          {
+            name: parent ? `${parent}.${prop}` : prop,
+            type: `${obj.properties[prop].type} of ${obj.properties[prop].items.type}`,
+            description:
+              obj.properties[prop].description && marked(obj.properties[prop].description),
+          },
+        ];
       }
       // once flattened grab data
       return [
@@ -25,6 +46,7 @@ function flattenResponseSchema(obj, parent = '') {
 }
 
 function ResponseSchemaBody({ schema }) {
+  console.log(schema);
   const rows = flattenResponseSchema(schema).map(row => (
     <tr key={row.name}>
       <th>{row.name}</th>
