@@ -86,11 +86,13 @@ BlockCode.propTypes = {
   opts: PropTypes.shape({
     label: PropTypes.string,
   }),
+  dark: PropTypes.bool,
 };
 
 BlockCode.defaultProps = {
   block: { data: {} },
   opts: {},
+  dark: false,
 };
 
 module.exports = BlockCode;
