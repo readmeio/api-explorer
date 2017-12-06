@@ -13,16 +13,12 @@ function sanitizeCode(code) {
   return String(code).replace(/[&<>"'/]/g, s => entityMap[s]);
 }
 
-module.exports = (code, lang/* , dark */) => {
+module.exports = (code, lang, dark) => {
   if (lang === 'text') {
     return sanitizeCode(code);
   }
 
-  const theme = 'cm-s-tomorrow-night';
-  // let theme = 'cm-s-neo';
-  // if (dark) {
-  //   theme = 'cm-s-tomorrow-night';
-  // }
+  const theme = dark ? 'cm-s-tomorrow-night' : 'cm-s-neo';
 
   const modes = {
     html: 'htmlmixed',
