@@ -6,6 +6,8 @@ const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('../../readme-oas-extensions');
 const Waypoint = require('react-waypoint');
 
+const { Fragment } = React;
+
 const PathUrl = require('./PathUrl');
 const Params = require('./Params');
 const CodeSample = require('./CodeSample');
@@ -82,13 +84,10 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  renderEndpoint() {
-    const { doc, setLanguage } = this.props;
-    const oas = this.oas;
-    const operation = oas.operation(doc.swagger.path, doc.api.method);
-
+  themeMain(doc, oas, operation, setLanguage) {
     return (
-      <div className="hub-api">
+      // TODO use <> syntax
+      <Fragment>
         <PathUrl
           oas={oas}
           operation={operation}
@@ -137,6 +136,79 @@ class Doc extends React.Component {
             {operation.responses && <ResponseSchema operation={operation} />}
           </div>
         </div>
+
+        <Content body={doc.body} flags={this.props.flags} isThreeColumn />
+      </Fragment>
+    );
+  }
+
+  themeStripe(doc, oas, operation, setLanguage) {
+    return (
+      <div className="hub-reference-section">
+        <Fragment>
+          <div className="hub-reference-left">
+            <PathUrl
+              oas={oas}
+              operation={operation}
+              dirty={this.state.dirty}
+              loading={this.state.loading}
+              onChange={this.onChange}
+              showAuthBox={this.state.showAuthBox}
+              needsAuth={this.state.needsAuth}
+              toggleAuth={this.toggleAuth}
+              onSubmit={this.onSubmit}
+              authInputRef={el => (this.authInput = el)}
+            />
+            <Params
+              oas={oas}
+              operation={operation}
+              formData={this.state.formData}
+              onChange={this.onChange}
+              onSubmit={this.onSubmit}
+            />
+            <Content body={doc.body} flags={this.props.flags} isThreeColumn='left' />
+          </div>
+
+          <div className="hub-reference-right">
+            {showCode(oas, operation) && (
+              <div className="hub-reference-section-code">
+                <CodeSample
+                  oas={oas}
+                  setLanguage={setLanguage}
+                  operation={operation}
+                  formData={this.state.formData}
+                  language={this.props.language}
+                />
+                <div className="hub-reference-results tabber-parent">
+                  <Response
+                    result={this.state.result}
+                    oas={oas}
+                    operation={operation}
+                    oauthUrl={this.props.oauthUrl}
+                    hideResults={this.hideResults}
+                  />
+                </div>
+              </div>
+            )}
+            <Content body={doc.body} flags={this.props.flags} isThreeColumn='right' />
+          </div>
+        </Fragment>
+      </div>
+    );
+  }
+
+  renderEndpoint() {
+    const { doc, setLanguage } = this.props;
+    const oas = this.oas;
+    const operation = oas.operation(doc.swagger.path, doc.api.method);
+
+    return (
+      <div className="hub-api">
+        {this.props.flags.stripe ? (
+          this.themeStripe(doc, oas, operation, setLanguage)
+        ) : (
+          this.themeMain(doc, oas, operation, setLanguage)
+        )}
       </div>
     );
   }
@@ -182,7 +254,6 @@ class Doc extends React.Component {
           </Waypoint>
         )}
 
-        <Content body={doc.body} flags={this.props.flags} is-three-column />
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -214,7 +285,9 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
-  flags: PropTypes.shape({}),
+  flags: PropTypes.shape({
+    stripe: PropTypes.bool
+  }),
   language: PropTypes.string.isRequired,
   oauthUrl: PropTypes.string,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -222,6 +295,8 @@ Doc.propTypes = {
 
 Doc.defaultProps = {
   oas: {},
-  flags: {},
+  flags: {
+    stripe: false,
+  },
   oauthUrl: '',
 };

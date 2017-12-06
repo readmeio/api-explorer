@@ -22,6 +22,7 @@ const props = {
   oas,
   setLanguage: () => {},
   language: 'node',
+  suggestedEdits: false,
 };
 
 function assertDocElements(component, doc) {
@@ -45,7 +46,7 @@ test('should output a div', () => {
 
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
-  const docComponent = shallow(<Doc doc={doc} setLanguage={() => {}} language="node" />);
+  const docComponent = shallow(<Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits />);
 
   assertDocElements(docComponent, doc);
   expect(docComponent.find('.hub-api').length).toBe(0);
@@ -113,7 +114,7 @@ describe('onSubmit', () => {
       );
     };
 
-    const doc = mount(<Doc {...props2} />);
+    const doc = mount(<Doc {...props} {...props2} />);
     doc.instance().onChange({ auth: { petstore_auth: 'api-key' } });
 
     doc
@@ -184,17 +185,13 @@ describe('state.loading', () => {
 });
 
 describe('suggest edits', () => {
-  test('should show icon if suggested edits is true', () => {
-    const props3 = {
-      doc: {
-        slug: 'slug',
-        swagger: { path: '/pet/{petId}' },
-        api: { method: 'get' },
-      },
-      suggestedEdits: true,
-    };
-    const doc = shallow(<Doc {...props3} />);
+  test('should not show if suggestedEdits is false', () => {
+    const doc = shallow(<Doc {...props} suggestedEdits={false} />);
+    expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(0);
+  });
 
+  test('should show icon if suggested edits is true', () => {
+    const doc = shallow(<Doc {...props} suggestedEdits />);
     expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
   });
 });
@@ -208,6 +205,7 @@ describe('Response Schema', () => {
   test('should not render Response Schema if endpoint does not have a response', () => {
     const doc = shallow(
       <Doc
+        {...props}
         doc={{
           title: 'Title',
           slug: 'slug',
@@ -216,11 +214,19 @@ describe('Response Schema', () => {
           api: { method: 'post' },
           onSubmit: () => {},
         }}
-        language="node"
-        setLanguage={() => {}}
         oas={multipleSecurities}
       />,
     );
     expect(doc.find('ResponseSchema').length).toBe(0);
+  });
+});
+
+describe('stripe theme', () => {
+  test('should output code samples and responses in the right column', () => {
+    const doc = mount(<Doc {...props} flags={{ stripe: true }} />);
+    doc.setState({ showEndpoint: true });
+
+    expect(doc.find('.hub-reference-right').find('CodeSample').length).toBe(1);
+    expect(doc.find('.hub-reference-right').find('Response').length).toBe(1);
   });
 });

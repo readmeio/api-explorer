@@ -19,6 +19,7 @@ const props = {
     }),
   },
   flags: {},
+  suggestedEdits: false,
 };
 
 test('ApiExplorer renders a doc for each', () => {

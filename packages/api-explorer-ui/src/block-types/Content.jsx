@@ -48,20 +48,20 @@ const Loop = ({ content, column, flags }) => {
 };
 
 const Content = props => {
-  const { body } = props;
-  const isThreeColumn = props['is-three-column'];
+  const { body, isThreeColumn } = props;
   const content = parseBlocks(body);
 
-  if (isThreeColumn) {
-    const left = [];
-    const right = [];
-    content.forEach(elem => {
-      if (elem.sidebar) {
-        right.push(elem);
-      } else {
-        left.push(elem);
-      }
-    });
+  const left = [];
+  const right = [];
+  content.forEach(elem => {
+    if (elem.sidebar) {
+      right.push(elem);
+    } else {
+      left.push(elem);
+    }
+  });
+
+  if (isThreeColumn === true) {
     return (
       <div className="hub-reference-section">
         <div className="hub-reference-left">
@@ -77,7 +77,8 @@ const Content = props => {
       </div>
     );
   }
-  return <Loop content={content} flags={props.flags} />;
+
+  return <Loop content={isThreeColumn === 'left' ? left : right} flags={props.flags} />;
 };
 
 Loop.propTypes = {
@@ -96,13 +97,13 @@ Loop.defaultProps = {
 };
 
 Content.propTypes = {
-  'is-three-column': PropTypes.bool,
+  isThreeColumn: PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ]),
   body: PropTypes.string,
   flags: PropTypes.shape({}),
 };
 
 Content.defaultProps = {
-  'is-three-column': true,
+  isThreeColumn: true,
   body: '',
   flags: {},
 };

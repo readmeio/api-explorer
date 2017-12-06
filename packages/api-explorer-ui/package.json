@@ -10,7 +10,7 @@
     "js-cookie": "^2.1.4",
     "marked": "github:readmeio/marked",
     "prop-types": "^15.5.10",
-    "react": "^16.0.0",
+    "react": "^16.2.0",
     "react-jsonschema-form": "^1.0.0",
     "react-waypoint": "^7.3.1",
     "uslug": "^1.0.4"
@@ -73,7 +73,7 @@
     "nyc": "^11.0.3",
     "prettier": "^1.6.1",
     "raf": "^3.4.0",
-    "react-dom": "^16.0.0",
+    "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
     "watchify": "^3.9.0",
     "webpack": "^3.3.0"
