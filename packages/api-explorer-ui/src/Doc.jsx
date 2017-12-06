@@ -71,6 +71,15 @@ class Doc extends React.Component {
     });
   }
 
+  getOperation() {
+    if (this.operation) return this.operation;
+
+    const { doc } = this.props;
+    const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    this.operation = operation;
+    return operation;
+  }
+
   toggleAuth(e) {
     e.preventDefault();
     this.setState({ showAuthBox: !this.state.showAuthBox });
@@ -84,132 +93,137 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  themeMain(doc, oas, operation, setLanguage) {
-    return (
-      // TODO use <> syntax
-      <Fragment>
-        <PathUrl
-          oas={oas}
-          operation={operation}
-          dirty={this.state.dirty}
-          loading={this.state.loading}
-          onChange={this.onChange}
-          showAuthBox={this.state.showAuthBox}
-          needsAuth={this.state.needsAuth}
-          toggleAuth={this.toggleAuth}
-          onSubmit={this.onSubmit}
-          authInputRef={el => (this.authInput = el)}
-        />
+  shouldShowCode() {
+    return showCode(this.oas, this.getOperation());
+  }
 
-        {showCode(oas, operation) && (
-          <div className="hub-reference-section hub-reference-section-code">
-            <div className="hub-reference-left">
-              <CodeSample
-                oas={oas}
-                setLanguage={setLanguage}
-                operation={operation}
-                formData={this.state.formData}
-                language={this.props.language}
-              />
+  themeMain(doc) {
+    return (
+      <Fragment>
+        {doc.type === 'endpoint' && (
+          <div className="hub-api">
+            {this.renderPathUrl()}
+
+            {this.shouldShowCode() && (
+              <div className="hub-reference-section hub-reference-section-code">
+                <div className="hub-reference-left">{this.renderCodeSample()}</div>
+                {this.renderResponse()}
+              </div>
+            )}
+
+            <div className="hub-reference-section">
+              <div className="hub-reference-left">{this.renderParams()}</div>
+              <div className="hub-reference-right switcher">
+                {this.renderResponseSchema()}
+              </div>
             </div>
-            <Response
-              result={this.state.result}
-              oas={oas}
-              operation={operation}
-              oauthUrl={this.props.oauthUrl}
-              hideResults={this.hideResults}
-            />
           </div>
         )}
-
-        <div className="hub-reference-section">
-          <div className="hub-reference-left">
-            <Params
-              oas={oas}
-              operation={operation}
-              formData={this.state.formData}
-              onChange={this.onChange}
-              onSubmit={this.onSubmit}
-            />
-          </div>
-          <div className="hub-reference-right switcher">
-            {operation.responses && <ResponseSchema operation={operation} />}
-          </div>
-        </div>
 
         <Content body={doc.body} flags={this.props.flags} isThreeColumn />
       </Fragment>
     );
   }
 
-  themeStripe(doc, oas, operation, setLanguage) {
+  themeStripe(doc) {
     return (
-      <div className="hub-reference-section">
-        <Fragment>
-          <div className="hub-reference-left">
-            <PathUrl
-              oas={oas}
-              operation={operation}
-              dirty={this.state.dirty}
-              loading={this.state.loading}
-              onChange={this.onChange}
-              showAuthBox={this.state.showAuthBox}
-              needsAuth={this.state.needsAuth}
-              toggleAuth={this.toggleAuth}
-              onSubmit={this.onSubmit}
-              authInputRef={el => (this.authInput = el)}
-            />
-            <Params
-              oas={oas}
-              operation={operation}
-              formData={this.state.formData}
-              onChange={this.onChange}
-              onSubmit={this.onSubmit}
-            />
-            <Content body={doc.body} flags={this.props.flags} isThreeColumn='left' />
-          </div>
+      <div className="hub-api">
+        <div className="hub-reference-section">
+          <Fragment>
+            <div className="hub-reference-left">
+              {doc.type === 'endpoint' && (
+                <Fragment>
+                  {this.renderPathUrl()}
+                  {this.renderParams()}
+                </Fragment>
+              )}
+              <Content body={doc.body} flags={this.props.flags} isThreeColumn="left" />
+            </div>
 
-          <div className="hub-reference-right">
-            {showCode(oas, operation) && (
-              <div className="hub-reference-section-code">
-                <CodeSample
-                  oas={oas}
-                  setLanguage={setLanguage}
-                  operation={operation}
-                  formData={this.state.formData}
-                  language={this.props.language}
-                />
-                <div className="hub-reference-results tabber-parent">
-                  <Response
-                    result={this.state.result}
-                    oas={oas}
-                    operation={operation}
-                    oauthUrl={this.props.oauthUrl}
-                    hideResults={this.hideResults}
-                  />
+            <div className="hub-reference-right">
+              {doc.type === 'endpoint' &&
+              this.shouldShowCode() && (
+                <div className="hub-reference-section-code">
+                  {this.renderCodeSample()}
+                  <div className="hub-reference-results tabber-parent">
+                    {this.renderResponse()}
+                  </div>
                 </div>
-              </div>
-            )}
-            <Content body={doc.body} flags={this.props.flags} isThreeColumn='right' />
-          </div>
-        </Fragment>
+              )}
+              <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
+            </div>
+          </Fragment>
+        </div>
       </div>
     );
   }
 
-  renderEndpoint() {
-    const { doc, setLanguage } = this.props;
-    const oas = this.oas;
-    const operation = oas.operation(doc.swagger.path, doc.api.method);
-
+  renderCodeSample() {
     return (
-      <div className="hub-api">
-        {this.props.flags.stripe ? (
-          this.themeStripe(doc, oas, operation, setLanguage)
-        ) : (
-          this.themeMain(doc, oas, operation, setLanguage)
-        )}
-      </div>
+      <CodeSample
+        oas={this.oas}
+        setLanguage={this.props.setLanguage}
+        operation={this.getOperation()}
+        formData={this.state.formData}
+        language={this.props.language}
+      />
+    );
+  }
+
+  renderResponse() {
+    return (
+      <Response
+        result={this.state.result}
+        oas={this.oas}
+        operation={this.getOperation()}
+        oauthUrl={this.props.oauthUrl}
+        hideResults={this.hideResults}
+      />
+    );
+  }
+
+  renderResponseSchema() {
+    const operation = this.getOperation();
+
+    return operation.responses && <ResponseSchema operation={this.getOperation()} />;
+  }
+
+  renderEndpoint() {
+    const { doc } = this.props;
+
+    if (this.props.flags.stripe) {
+      return this.themeStripe(doc);
+    }
+
+    return this.themeMain(doc);
+  }
+
+  renderParams() {
+    return (
+      <Params
+        oas={this.oas}
+        operation={this.getOperation()}
+        formData={this.state.formData}
+        onChange={this.onChange}
+        onSubmit={this.onSubmit}
+      />
+    );
+  }
+
+  renderPathUrl() {
+    return (
+      <PathUrl
+        oas={this.oas}
+        operation={this.getOperation()}
+        dirty={this.state.dirty}
+        loading={this.state.loading}
+        onChange={this.onChange}
+        showAuthBox={this.state.showAuthBox}
+        needsAuth={this.state.needsAuth}
+        toggleAuth={this.toggleAuth}
+        onSubmit={this.onSubmit}
+        authInputRef={el => (this.authInput = el)}
+      />
     );
   }
 
@@ -248,11 +262,9 @@ class Doc extends React.Component {
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        {doc.type === 'endpoint' && (
-          <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false}>
-            {this.state.showEndpoint && this.renderEndpoint()}
-          </Waypoint>
-        )}
+        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false}>
+          {this.state.showEndpoint && this.renderEndpoint()}
+        </Waypoint>
 
         {
           // TODO maybe we dont need to do this with a hidden input now
@@ -286,7 +298,7 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({
-    stripe: PropTypes.bool
+    stripe: PropTypes.bool,
   }),
   language: PropTypes.string.isRequired,
   oauthUrl: PropTypes.string,

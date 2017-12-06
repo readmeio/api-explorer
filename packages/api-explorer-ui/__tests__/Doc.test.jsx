@@ -46,11 +46,32 @@ test('should output a div', () => {
 
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
-  const docComponent = shallow(<Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits />);
+  const docComponent = shallow(
+    <Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits />,
+  );
+  docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
   expect(docComponent.find('.hub-api').length).toBe(0);
   expect(docComponent.find('Content').length).toBe(1);
+});
+
+test('should still display `Content` with stripe layout', () => {
+  const doc = { title: 'title', slug: 'slug', type: 'basic' };
+  const docComponent = shallow(
+    <Doc
+      doc={doc}
+      setLanguage={() => {}}
+      language="node"
+      suggestedEdits
+      flags={{ stripe: true }}
+    />,
+  );
+  docComponent.setState({ showEndpoint: true });
+
+  assertDocElements(docComponent, doc);
+  expect(docComponent.find('.hub-api').length).toBe(1);
+  expect(docComponent.find('Content').length).toBe(2);
 });
 
 describe('state.dirty', () => {
