@@ -113,9 +113,7 @@ class Doc extends React.Component {
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">{this.renderParams()}</div>
-              <div className="hub-reference-right switcher">
-                {this.renderResponseSchema()}
-              </div>
+              <div className="hub-reference-right switcher">{this.renderResponseSchema()}</div>
             </div>
           </div>
         )}
@@ -145,9 +143,7 @@ class Doc extends React.Component {
               this.shouldShowCode() && (
                 <div className="hub-reference-section-code">
                   {this.renderCodeSample()}
-                  <div className="hub-reference-results tabber-parent">
-                    {this.renderResponse()}
-                  </div>
+                  <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
                 </div>
               )}
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />

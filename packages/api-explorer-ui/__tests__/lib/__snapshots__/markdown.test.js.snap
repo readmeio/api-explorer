@@ -35,7 +35,7 @@ exports[`should render markdown 1`] = `
 <h3 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h3\\"></div>h3<a class=\\"fa fa-anchor\\" href=\\"#section-h3\\"></a></h3>
 <p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br><a href=\\"\\" target=\\"_self\\">xss</a><br><a href=\\"\\" ui-sref=\\"docs.show({'doc': 'slug'})\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br><a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br><a href=\\"\\" ui-sref=\\"blog.show({'blog': 'slug'})\\">blog</a><br><a href=\\"page:slug\\" ui-sref=\\"custompages.show({'custompage': 'slug'})\\">page</a></p>
 <p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy+:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"><br><i class=\\"fa fa-lock\\"></i><br>:unknown-emoji:</p>
-<pre><code class=\\"lang-js\\"><span class=\\"cm-s-tomorrow-night\\">var a = 1;</span>
+<pre><code class=\\"lang-js\\"><span class=\\"cm-s-neo\\">var a = 1;</span>
 </code></pre>
 "
 `;
