@@ -20,7 +20,9 @@
     "inspect": "jsinspect",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "watch": "./watch.sh",
+    "build": "./build.sh"
   },
   "jest": {
     "setupFiles": [
@@ -57,6 +59,7 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "derequire": "^2.0.6",
+    "envify": "^4.1.0",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.1",
     "eslint": "^3.19.0",
@@ -75,6 +78,8 @@
     "raf": "^3.4.0",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
+    "uglify-es": "^3.2.1",
+    "uglifyify": "^4.0.5",
     "watchify": "^3.9.0",
     "webpack": "^3.3.0"
   }
