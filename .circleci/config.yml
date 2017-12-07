@@ -35,5 +35,6 @@ jobs:
       - run: chmod +x ./cc-test-reporter
       - run: ./cc-test-reporter before-build
       - run: npm test
-      - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer-ui/coverage/lcov.info
-      - run: ./cc-test-reporter upload-coverage
+      - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer-ui/coverage/lcov.info -o coverage/api-explorer-ui.json
+      - run: ./cc-test-reporter format-coverage -t lcov packages/readme-syntax-highlighter/coverage/lcov.info -o coverage/readme-syntax-highlighter.json
+      - run: ./cc-test-reporter sum-coverage --output - --parts 2 coverage/*.json | ./cc-test-reporter upload-coverage --input -
