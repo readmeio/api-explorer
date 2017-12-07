@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const CustomObjectField = require('./ObjectField');
 
 function CustomFieldTemplate(props) {
   const { id, label, help, required, description, errors, children, schema, labelPrefix } = props;
@@ -8,7 +9,7 @@ function CustomFieldTemplate(props) {
     return children;
   }
 
-  const isObject = children.type.name === 'CustomObjectField';
+  const isObject = children.type.name === CustomObjectField.name;
   const combinedLabel = [labelPrefix, label].filter(Boolean).join('.');
 
   return (
