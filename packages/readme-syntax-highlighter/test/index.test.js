@@ -12,6 +12,17 @@ test('should sanitize plain text language', () => {
   expect(syntaxHighlighter('& < > " \' /', 'text')).toBe('&amp; &lt; &gt; &quot; &#39; &#x2F;');
 });
 
+test('should sanitize mode', () => {
+  expect(syntaxHighlighter('&', 'json')).toContain('&amp;');
+  expect(syntaxHighlighter('<', 'json')).toContain('&lt;');
+});
+
+test('should concat the same style items', () => {
+  // This is testing the `accum += text;` line
+  expect(syntaxHighlighter('====', 'javascript')).toContain('====');
+});
+
+
 test('should work with modes', () => {
   expect(syntaxHighlighter('{ "a": 1 }', 'json')).toBe('<span class="cm-s-neo">{ <span class="cm-property">"a"</span>: <span class="cm-number">1</span> }</span>');
 });

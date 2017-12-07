@@ -9,7 +9,7 @@
     "lint": "eslint -f unix .",
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run inspect",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "jest": {
     "coverageThreshold": {
