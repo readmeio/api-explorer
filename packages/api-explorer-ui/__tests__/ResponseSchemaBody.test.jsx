@@ -27,8 +27,8 @@ test('should display response schema description', () => {
   const description = responseSchemaBody.find('span').last();
 
   expect(responseSchemaBody.contains([<th>PhotoUrls.items</th>])).toBe(false);
+  expect(responseSchemaBody.contains([<th>tags</th>])).toBe(true);
   expect(responseSchemaBody.contains([<th>tags.name</th>])).toBe(true);
-  // expect(description.text().replace('\n', '')).toBe('pet status in the store');
   expect(description.html().replace('\n', '')).toBe('<span><p>pet status in the store</p></span>');
 });
 
@@ -93,7 +93,7 @@ test('should flatten array ', () => {
   expect(flattenResponseSchema(responseSchema)).toEqual([
     {
       name: 'category',
-      type: 'array',
+      type: 'array of string',
       description: undefined,
     },
   ]);

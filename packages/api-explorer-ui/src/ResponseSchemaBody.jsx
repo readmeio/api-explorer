@@ -46,7 +46,6 @@ function flattenResponseSchema(obj, parent = '') {
 }
 
 function ResponseSchemaBody({ schema }) {
-  console.log(schema);
   const rows = flattenResponseSchema(schema).map(row => (
     <tr key={row.name}>
       <th>{row.name}</th>
