@@ -7,7 +7,8 @@
     "example": "npm start",
     "start": "node scripts/update-example-swagger-files && budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx",
     "build": "./build.sh & lerna run build",
-    "watch": "lerna run watch"
+    "watch": "lerna run watch",
+    "deploy": "./build.sh && gh-pages -d example/dist"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
@@ -31,6 +32,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "gh-pages": "^1.1.0",
     "lerna": "^2.5.1",
     "uglify-es": "^3.2.1",
     "uglifyify": "^4.0.5"
