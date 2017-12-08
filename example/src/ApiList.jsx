@@ -10,7 +10,7 @@ class ApiList extends React.Component {
 
     this.state = {
       apis: localDirectory,
-      selected: parse(document.location.search.replace('?', '')).selected || '/swagger-files/petstore.json',
+      selected: parse(document.location.search.replace('?', '')).selected || 'swagger-files/petstore.json',
     };
 
     this.changeApi = this.changeApi.bind(this);
