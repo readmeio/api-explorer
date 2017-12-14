@@ -27,7 +27,7 @@ class CustomObjectField extends ObjectField {
       registry = getDefaultRegistry(),
     } = this.props;
     const { definitions, fields, formContext } = registry;
-    const { SchemaField, TitleField, DescriptionField } = fields;
+    const { SchemaField, TitleField } = fields;
     const schema = retrieveSchema(this.props.schema, definitions);
     const title = schema.title === undefined ? name : schema.title;
     let orderedProperties;
