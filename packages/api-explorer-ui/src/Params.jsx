@@ -11,6 +11,7 @@ const ObjectField = require('./form-components/ObjectField');
 const SchemaField = require('./form-components/SchemaField');
 const FieldTemplate = require('./form-components/FieldTemplate');
 const DescriptionField = require('./form-components/DescriptionField');
+const ArrayField = require('./form-components/ArrayField');
 
 const Oas = require('./lib/Oas');
 
@@ -58,6 +59,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                   SchemaField,
                   TitleField: () => null,
                   DescriptionField,
+                  ArrayField,
                 }}
               >
                 <button type="submit" style={{ display: 'none' }} />
