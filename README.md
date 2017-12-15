@@ -15,7 +15,19 @@ npm install --save api-explorer
 To spin up an example server:
 
 ```
-npm run example
+npm start
+```
+
+To build the packages for production:
+
+```
+npm run build
+```
+
+To deploy the latest example to gh-pages:
+
+```
+npm run deploy
 ```
 
 ## Credits
