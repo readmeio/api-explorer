@@ -9,7 +9,7 @@ function CustomFieldTemplate(props) {
     return children;
   }
 
-  const isObject = children.type.name === CustomObjectField.name;
+  const isObject = children.type === CustomObjectField;
   const combinedLabel = [labelPrefix, label].filter(Boolean).join('.');
 
   return (
