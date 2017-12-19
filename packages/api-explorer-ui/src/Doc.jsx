@@ -258,12 +258,7 @@ class Doc extends React.Component {
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        <Waypoint
-          onEnter={this.waypointEntered}
-          fireOnRapidScroll={false}
-          bottomOffset="-1%"
-          scrollableAncestor={document.body}
-        >
+        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
           {this.state.showEndpoint && this.renderEndpoint()}
         </Waypoint>
 
