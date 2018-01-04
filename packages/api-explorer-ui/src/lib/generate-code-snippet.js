@@ -19,7 +19,7 @@ const supportedLanguages = {
     name: 'Ruby',
   },
   javascript: {
-    httpsnippet: ['javascript', 'jq'],
+    httpsnippet: ['javascript', 'xhr', { cors: false }],
     highlight: 'javascript',
     name: 'JavaScript',
   },

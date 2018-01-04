@@ -45,6 +45,12 @@ test('should not contain proxy url', () => {
   expect(snippet).toEqual(expect.stringMatching('http://example.com/path/123'));
 });
 
+test('javascript should not contain `withCredentials`', () => {
+  const snippet = generateCodeSnippet(oas, operation, {}, 'javascript');
+
+  expect(snippet).not.toMatch(/withCredentials/);
+});
+
 describe('#getLangName()', () => {
   it('should convert name to correct case', () => {
     expect(getLangName('go')).toBe('Go');
