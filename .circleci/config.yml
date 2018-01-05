@@ -11,6 +11,10 @@ jobs:
         environment:
           CC_TEST_REPORTER_ID: 3597ab16382afb6495a5f38a3a11efd30cbe10084edfa4f1c512e9b77267de3b
 
+    branches:
+      ignore:
+        - gh-pages
+
     working_directory: ~/repo
 
     steps:
