@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "test": "eslint -f unix example && lerna run test",
-    "start": "node scripts/update-example-swagger-files && budo example/index.jsx --dir example -- -t babelify -p livereactload --extension .jsx",
+    "start": "node scripts/update-example-swagger-files && webpack",
     "build": "./build.sh & lerna run build",
     "watch": "lerna run watch",
     "deploy": "gh-pages --dotfiles -d example/dist"
@@ -19,13 +19,10 @@
     "url": "git@github.com:readme/api-explorer.git"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "^14.5.0",
-    "budo": "^10.0.3",
-    "derequire": "^2.0.6",
-    "envify": "^4.1.0",
+    "@babel/core": "^7.0.0-beta.37",
+    "@babel/preset-env": "^7.0.0-beta.37",
+    "@babel/preset-react": "^7.0.0-beta.37",
+    "babel-loader": "^8.0.0-beta.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-plugin-import": "^2.7.0",
@@ -34,7 +31,10 @@
     "gh-pages": "^1.1.0",
     "lerna": "^2.5.1",
     "uglify-es": "^3.2.1",
-    "uglifyify": "^4.0.5"
+    "uglifyjs-webpack-plugin": "^1.1.6",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7",
+    "webpack-merge": "^4.1.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -44,7 +44,6 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-hot-loader": "^3.0.0-beta.7",
     "swagger2openapi": "^2.9.2"
   }
 }

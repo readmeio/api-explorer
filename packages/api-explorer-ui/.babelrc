@@ -1,4 +1,11 @@
 {
-  "presets": ["es2015", "react"],
-  "plugins": ["transform-object-rest-spread", "transform-async-to-generator"]
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "browsers": ["last 2 versions"]
+      },
+    }],
+    "@babel/preset-react",
+  ],
+  "plugins": ["@babel/plugin-proposal-object-rest-spread"],
 }
