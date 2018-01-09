@@ -7,5 +7,5 @@
     }],
     "@babel/preset-react",
   ],
-  "plugins": ["@babel/plugin-proposal-object-rest-spread"],
+  "plugins": ["@babel/plugin-proposal-object-rest-spread", "./arrow-function-coverage-fix.js"],
 }

@@ -7,4 +7,5 @@
     }],
     "@babel/preset-react",
   ],
+  "plugins": ["./arrow-function-coverage-fix.js"],
 }
