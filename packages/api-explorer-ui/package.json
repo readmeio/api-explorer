@@ -30,7 +30,8 @@
       "./lib/enzyme"
     ],
     "coveragePathIgnorePatterns": [
-      "<rootDir>/src/form-components"
+      "<rootDir>/src/form-components",
+      "dist/"
     ],
     "coverageThreshold": {
       "global": {
