@@ -13,6 +13,7 @@ module.exports = {
   },
   output: {
     filename: './dist/index.js',
+    libraryTarget: 'commonjs2',
   },
   resolve: {
     extensions: ['.js', '.json', '.jsx'],
