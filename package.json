@@ -29,7 +29,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "gh-pages": "^1.1.0",
-    "lerna": "^2.5.1",
+    "lerna": "^2.6.0",
     "uglify-es": "^3.2.1",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0",
