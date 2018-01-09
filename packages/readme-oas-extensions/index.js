@@ -10,10 +10,10 @@ module.exports = {
 };
 
 module.exports.defaults = {
-  [module.exports.EXPLORER_ENABLED]: true,
-  [module.exports.SAMPLES_ENABLED]: true,
-  [module.exports.SAMPLES_LANGUAGES]: ['curl', 'node', 'ruby', 'javascript', 'python'],
-  [module.exports.PROXY_ENABLED]: true,
-  [module.exports.HEADERS]: undefined,
-  [module.exports.SEND_DEFAULTS]: false,
+  'x-explorer-enabled': true,
+  'x-samples-enabled': true,
+  'x-samples-languages': ['curl', 'node', 'ruby', 'javascript', 'python'],
+  'x-proxy-enabled': true,
+  'x-headers': undefined,
+  'x-send-defaults': false,
 };
