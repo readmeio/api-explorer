@@ -22,7 +22,7 @@
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "test": "jest --coverage",
     "watch": "webpack -w",
-    "build": "webpack.config.js --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js"
   },
   "jest": {
     "setupFiles": [
