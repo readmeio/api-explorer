@@ -6,7 +6,7 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-const extensions = require('../../readme-oas-extensions');
+const extensions = require('@readme/oas-extensions');
 
 function splitPath(path) {
   return path

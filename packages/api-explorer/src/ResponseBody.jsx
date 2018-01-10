@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const syntaxHighlighter = require('../../readme-syntax-highlighter');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 function Authorized({ result }) {
   return (

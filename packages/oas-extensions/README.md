@@ -8,7 +8,7 @@ A list of extensions that ReadMe has added to the OAS spec
 ## Installation
 
 ```
-npm install --save readme-oas-extensions
+npm install --save @readme/oas-extensions
 ```
 
 ## Usage

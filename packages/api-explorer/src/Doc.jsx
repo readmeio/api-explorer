@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const fetchHar = require('fetch-har');
 const oasToHar = require('./lib/oas-to-har');
 const isAuthReady = require('./lib/is-auth-ready');
-const extensions = require('../../readme-oas-extensions');
+const extensions = require('@readme/oas-extensions');
 const Waypoint = require('react-waypoint');
 
 const { Fragment } = React;

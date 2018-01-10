@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const Cookie = require('js-cookie');
-const extensions = require('../../readme-oas-extensions');
+const extensions = require('@readme/oas-extensions');
 const ApiExplorer = require('../src');
 
 const oas = require('./fixtures/petstore/oas');

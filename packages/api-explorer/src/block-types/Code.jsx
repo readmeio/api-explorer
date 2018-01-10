@@ -1,4 +1,4 @@
-const syntaxHighlighter = require('../../../readme-syntax-highlighter');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
 const statusCodes = require('../lib/statuscodes');
 const PropTypes = require('prop-types');
 const React = require('react');

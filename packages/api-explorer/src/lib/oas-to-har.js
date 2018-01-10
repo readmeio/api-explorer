@@ -1,6 +1,6 @@
 const querystring = require('querystring');
 
-const extensions = require('../../../readme-oas-extensions');
+const extensions = require('@readme/oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
 

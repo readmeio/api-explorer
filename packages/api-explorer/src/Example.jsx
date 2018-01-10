@@ -3,8 +3,8 @@ const PropTypes = require('prop-types');
 const showCodeResults = require('./lib/show-code-results');
 
 // const { replaceVars } = require('./lib/replace-vars');
-const codemirror = require('../../readme-syntax-highlighter/codemirror');
-const extensions = require('../../readme-oas-extensions');
+const codemirror = require('@readme/syntax-highlighter/codemirror');
+const extensions = require('@readme/oas-extensions');
 
 const ExampleTabs = require('./ExampleTabs');
 

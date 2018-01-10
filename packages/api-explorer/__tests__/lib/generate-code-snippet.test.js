@@ -1,4 +1,4 @@
-const extensions = require('../../../readme-oas-extensions');
+const extensions = require('@readme/oas-extensions');
 const generateCodeSnippet = require('../../src/lib/generate-code-snippet');
 
 const { getLangName } = generateCodeSnippet;
