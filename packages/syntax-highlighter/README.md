@@ -1,4 +1,4 @@
-# readme-syntax-highlighter
+# @readme/syntax-highlighter
 
 Syntax highlighter used on ReadMe.io
 
@@ -8,13 +8,13 @@ Syntax highlighter used on ReadMe.io
 ## Installation
 
 ```
-npm install --save readme-syntax-highlighter
+npm install --save @readme/syntax-highlighter
 ```
 
 ## Usage
 
 ## Credits
-[Dom Harrington](https://github.com/readme/)
+[Dom Harrington](https://github.com/domharrington/)
 
 ## License
 

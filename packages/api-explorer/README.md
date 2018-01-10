@@ -1,4 +1,4 @@
-# api-explorer-ui
+# @readme/api-explorer
 
 UI components for the API explorer
 
@@ -8,7 +8,7 @@ UI components for the API explorer
 ## Installation
 
 ```
-npm install --save api-explorer-ui
+npm install --save @readme/api-explorer
 ```
 
 ## Usage

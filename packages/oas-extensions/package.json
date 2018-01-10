@@ -1,5 +1,5 @@
 {
-  "name": "readme-oas-extensions",
+  "name": "@readme/oas-extensions",
   "description": "A list of extensions that ReadMe has added to the OAS spec",
   "version": "0.0.0",
   "dependencies": {},
@@ -11,10 +11,7 @@
   },
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:readme/readme-oas-extensions.git"
-  },
+  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/oas-extensions",
   "devDependencies": {
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^11.2.0",

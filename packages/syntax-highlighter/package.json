@@ -1,5 +1,5 @@
 {
-  "name": "readme-syntax-highlighter",
+  "name": "@readme/syntax-highlighter",
   "description": "Syntax highlighter used on ReadMe.io",
   "version": "0.0.0",
   "dependencies": {
@@ -26,10 +26,7 @@
   },
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:readme/readme-syntax-highlighter.git"
-  },
+  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/syntax-highlighter",
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",
     "eslint": "^4.4.1",
