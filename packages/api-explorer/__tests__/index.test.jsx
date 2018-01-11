@@ -88,3 +88,62 @@ describe('selected language', () => {
     expect(explorer.state('language')).toBe('curl');
   });
 });
+
+describe('oas', () => {
+  const baseDoc = {
+    _id: 1,
+    title: 'title',
+    slug: 'slug',
+    type: 'endpoint',
+    category: {},
+    api: { method: 'get' },
+  };
+
+  // Swagger apis and some legacies
+  it('should fetch it from `doc.category.apiSetting`', () => {
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        oasFiles={{
+          'api-setting': oas,
+        }}
+        docs={[Object.assign({}, baseDoc, { category: { apiSetting: 'api-setting' } })]}
+      />,
+    );
+
+    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+  });
+
+  // Some other legacy APIs where Endpoints are created in arbitrary categories
+  it('should fetch it from `doc.api.apiSetting._id`', () => {
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        oasFiles={{
+          'api-setting': oas,
+        }}
+        docs={[
+          Object.assign({}, baseDoc, {
+            api: { method: 'get', apiSetting: { _id: 'api-setting' } },
+          }),
+        ]}
+      />,
+    );
+
+    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+  });
+
+  it('should set it to empty object', () => {
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        oasFiles={{
+          'api-setting': oas,
+        }}
+        docs={[baseDoc]}
+      />,
+    );
+
+    expect(explorer.find('Doc').get(0).props.oas).toEqual({});
+  });
+});

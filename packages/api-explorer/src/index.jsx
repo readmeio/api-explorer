@@ -26,6 +26,13 @@ class ApiExplorer extends React.Component {
       return 'curl';
     }
   }
+  getOas(doc) {
+    // Get the apiSetting id either from the category, or the api if api is set
+    // This will return undefined if apiSetting is not set
+    const apiSetting = doc.category.apiSetting || (doc.api.apiSetting && doc.api.apiSetting._id);
+
+    return this.props.oasFiles[apiSetting];
+  }
   render() {
     const theme = this.props.flags.stripe ? 'stripe' : '';
     return (
@@ -38,7 +45,7 @@ class ApiExplorer extends React.Component {
             <Doc
               key={doc._id}
               doc={doc}
-              oas={doc.category.apiSetting && this.props.oasFiles[doc.category.apiSetting]}
+              oas={this.getOas(doc)}
               setLanguage={this.setLanguage}
               flags={this.props.flags}
               language={this.state.language}
