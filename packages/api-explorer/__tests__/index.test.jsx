@@ -147,3 +147,22 @@ describe('oas', () => {
     expect(explorer.find('Doc').get(0).props.oas).toEqual({});
   });
 });
+
+describe('apiKey', () => {
+  afterEach(() => Cookie.remove('user_data'));
+
+  it('should read apiKey from `user_data.keys.api_key` cookie', () => {
+    const apiKey = '123456';
+    Cookie.set('user_data', JSON.stringify({ keys: { api_key: apiKey } }));
+
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should default to empty string', () => {
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('apiKey')).toBe('');
+  });
+});

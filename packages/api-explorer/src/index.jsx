@@ -6,13 +6,26 @@ const extensions = require('@readme/oas-extensions');
 const Doc = require('./Doc');
 
 class ApiExplorer extends React.Component {
+  static getApiKey() {
+    try {
+      const userData = Cookie.getJSON('user_data');
+      return userData.keys.api_key;
+    } catch (e) {
+      return '';
+    }
+  }
+
   constructor(props) {
     super(props);
-    this.state = { language: Cookie.get('readme_language') || this.getDefaultLanguage() };
+    this.state = {
+      language: Cookie.get('readme_language') || this.getDefaultLanguage(),
+      apiKey: ApiExplorer.getApiKey(),
+    };
 
     this.setLanguage = this.setLanguage.bind(this);
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
   }
+
   setLanguage(language) {
     this.setState({ language });
     Cookie.set('readme_language', language);
