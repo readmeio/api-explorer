@@ -23,8 +23,8 @@ Authorized.propTypes = {
   result: PropTypes.shape({}).isRequired,
 };
 
-function hasOauth(oauthUrl) {
-  if (!oauthUrl) return <p>Your OAuth2 token is incorrect or has expired</p>;
+function hasOauth(oauth) {
+  if (!oauth) return <p>Your OAuth2 token is incorrect or has expired</p>;
 
   return (
     <div>
@@ -36,29 +36,28 @@ function hasOauth(oauthUrl) {
   );
 }
 
-function Unauthorized({ isOauth, oauthUrl }) {
+function Unauthorized({ isOauth, oauth }) {
   return (
     <div className="text-center hub-expired-token">
-      {isOauth ? hasOauth(oauthUrl) : <p>You couldn&apos;t be authenticated</p>}
+      {isOauth ? hasOauth(oauth) : <p>You couldn&apos;t be authenticated</p>}
     </div>
   );
 }
 
 Unauthorized.propTypes = {
   isOauth: PropTypes.bool,
-  oauthUrl: PropTypes.string,
+  oauth: PropTypes.bool.isRequired,
 };
 
 Unauthorized.defaultProps = {
   isOauth: false,
-  oauthUrl: '',
 };
 
-function ResponseBody({ result, isOauth, oauthUrl }) {
+function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div className="tabber-body tabber-body-result" style={{ display: 'block' }}>
       {result.status !== 401 && <Authorized result={result} />}
-      {result.status === 401 && <Unauthorized isOauth={isOauth} oauthUrl={oauthUrl} />}
+      {result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />}
     </div>
   );
 }

@@ -13,6 +13,7 @@ const props = {
   operation: new Operation({}, '/pet', 'post'),
   hideResults: () => {},
   oas,
+  oauth: false,
 };
 
 describe('no result', () => {

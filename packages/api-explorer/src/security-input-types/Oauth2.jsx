@@ -1,12 +1,16 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function Oauth2({ apiKey, authInputRef, oauthUrl, change }) {
-  if (!apiKey && oauthUrl) {
+function Oauth2({ apiKey, authInputRef, oauth, change }) {
+  if (!apiKey && oauth) {
     return (
       <section>
         <div className="text-center">
-          <a className="btn btn-primary" href={oauthUrl} target="_self">
+          <a
+            className="btn btn-primary"
+            href={`/oauth?redirect=${window.location.pathname}`}
+            target="_self"
+          >
             Authenticate via OAuth2
           </a>
         </div>
@@ -40,9 +44,11 @@ function Oauth2({ apiKey, authInputRef, oauthUrl, change }) {
         <div className="col-xs-6">
           <input
             ref={authInputRef}
+            disabled={oauth}
             type="text"
             onChange={e => change(e.currentTarget.value)}
             name="apiKey"
+            value={apiKey}
           />
         </div>
       </div>
@@ -52,14 +58,13 @@ function Oauth2({ apiKey, authInputRef, oauthUrl, change }) {
 
 Oauth2.propTypes = {
   apiKey: PropTypes.string,
-  oauthUrl: PropTypes.string,
+  oauth: PropTypes.bool.isRequired,
   change: PropTypes.func.isRequired,
   authInputRef: PropTypes.func,
 };
 
 Oauth2.defaultProps = {
   apiKey: '',
-  oauthUrl: '',
   authInputRef: () => {},
 };
 

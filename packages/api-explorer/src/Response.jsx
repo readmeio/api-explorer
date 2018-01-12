@@ -31,7 +31,7 @@ class Response extends React.Component {
   }
 
   render() {
-    const { result, oas, operation, oauthUrl, hideResults } = this.props;
+    const { result, oas, operation, oauth, hideResults } = this.props;
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
 
@@ -55,7 +55,7 @@ class Response extends React.Component {
                 />
 
                 {responseTab === 'result' && (
-                  <ResponseBody result={result} oauthUrl={oauthUrl} isOauth={!!securities.OAuth2} />
+                  <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
                 )}
                 {responseTab === 'metadata' && <ResponseMetadata result={result} />}
               </span>
@@ -80,11 +80,10 @@ Response.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
-  oauthUrl: PropTypes.string,
+  oauth: PropTypes.bool.isRequired,
   hideResults: PropTypes.func.isRequired,
 };
 
 Response.defaultProps = {
   result: {},
-  oauthUrl: '',
 };

@@ -2,40 +2,51 @@ const React = require('react');
 const { mount, shallow } = require('enzyme');
 const SecurityInput = require('../src/SecurityInput');
 
+const baseProps = {
+  onChange: () => {},
+  oauth: false,
+};
+
 test('should render an Oauth2 component if type is oauth2', () => {
-  const props = { scheme: { type: 'oauth2', _key: 'auth', name: 'auth' }, onChange: () => {} };
-  const securityInput = shallow(<SecurityInput {...props} />);
+  const props = { scheme: { type: 'oauth2', _key: 'auth', name: 'auth' } };
+  const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
   expect(securityInput.find('Oauth2').length).toBe(1);
 });
 
 test('should render an ApiKey component if type is apiKey', () => {
-  const props = { scheme: { type: 'apiKey', _key: 'auth', name: 'auth' }, onChange: () => {} };
-  const securityInput = shallow(<SecurityInput {...props} />);
+  const props = { scheme: { type: 'apiKey', _key: 'auth', name: 'auth' } };
+  const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
   expect(securityInput.find('ApiKey').length).toBe(1);
 });
 
 test('should render a Basic component if type is http', () => {
-  const props = { scheme: { type: 'http', _key: 'auth', name: 'auth' }, onChange: () => {} };
-  const securityInput = shallow(<SecurityInput {...props} />);
+  const props = { scheme: { type: 'http', _key: 'auth', name: 'auth' } };
+  const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
   expect(securityInput.find('Basic').length).toBe(1);
 });
 
 describe('oauth2', () => {
-  const props = { scheme: { type: 'oauth2', _key: 'test-auth' }, onChange: () => {} };
+  const props = { scheme: { type: 'oauth2', _key: 'test-auth' } };
 
-  test('should display authenticate button if no api key and has an oauth url', () => {
-    const oauthUrl = 'http://example.com/auth';
-    const securityInput = mount(<SecurityInput {...props} oauthUrl={oauthUrl} />);
+  test('should display authenticate button if no api key and has oauth', () => {
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} oauth />);
 
     expect(securityInput.find('a.btn.btn-primary').text()).toBe('Authenticate via OAuth2');
-    expect(securityInput.find('a.btn.btn-primary').prop('href')).toBe(oauthUrl);
+    expect(securityInput.find('a.btn.btn-primary').prop('href')).toBe(
+      `/oauth?redirect=${window.location.pathname}`,
+    );
   });
 
-  test.skip('should display oauth input if api key', () => {
-    const apiKey = '123456';
-    const securityInput = shallow(<SecurityInput {...props} apiKey={apiKey} />);
+  test('should disable the input if `oauth=true`', () => {
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} oauth apiKey="test" />);
+    expect(securityInput.find('input').prop('disabled')).toBe(true);
+  });
 
-    expect(securityInput.find('input[type="text"]').prop('value')).toBe(apiKey);
+  test('should display api key if set', () => {
+    const apiKey = '123456';
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} oauth apiKey={apiKey} />);
+
+    expect(securityInput.find('input').prop('value')).toBe(apiKey);
   });
 
   test('should display markdown description');
@@ -43,7 +54,7 @@ describe('oauth2', () => {
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
 
     securityInput.find('input[type="text"]').instance().value = '1234';
     securityInput.find('input[type="text"]').simulate('change');
@@ -53,14 +64,11 @@ describe('oauth2', () => {
 });
 
 describe('apiKey', () => {
-  const props = {
-    scheme: { type: 'apiKey', name: 'api_key', _key: 'api_key' },
-    onChange: () => {},
-  };
+  const props = { scheme: { type: 'apiKey', name: 'api_key', _key: 'api_key' } };
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
 
     securityInput.find('input').instance().value = 'user';
     securityInput.find('input').simulate('change');
@@ -76,14 +84,11 @@ describe('apiKey', () => {
 });
 
 describe('basic', () => {
-  const props = {
-    scheme: { type: 'http', scheme: 'basic', _key: 'test-basic' },
-    onChange: () => {},
-  };
+  const props = { scheme: { type: 'http', scheme: 'basic', _key: 'test-basic' } };
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
 
     securityInput.find('input[name="user"]').instance().value = 'user';
     securityInput.find('input[name="user"]').simulate('change');

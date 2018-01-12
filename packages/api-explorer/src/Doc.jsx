@@ -172,7 +172,7 @@ class Doc extends React.Component {
         result={this.state.result}
         oas={this.oas}
         operation={this.getOperation()}
-        oauthUrl={this.props.oauthUrl}
+        oauth={this.props.oauth}
         hideResults={this.hideResults}
       />
     );
@@ -216,6 +216,7 @@ class Doc extends React.Component {
         onChange={this.onChange}
         showAuthBox={this.state.showAuthBox}
         needsAuth={this.state.needsAuth}
+        oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
@@ -297,7 +298,7 @@ Doc.propTypes = {
     stripe: PropTypes.bool,
   }),
   language: PropTypes.string.isRequired,
-  oauthUrl: PropTypes.string,
+  oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
 };
 
@@ -306,5 +307,4 @@ Doc.defaultProps = {
   flags: {
     stripe: false,
   },
-  oauthUrl: '',
 };

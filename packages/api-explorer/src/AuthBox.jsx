@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(authInputRef, operation, onChange, onSubmit) {
+function renderSecurities(authInputRef, operation, onChange, oauth, onSubmit) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -32,6 +32,7 @@ function renderSecurities(authInputRef, operation, onChange, onSubmit) {
                 apiKey=""
                 onChange={onChange}
                 authInputRef={authInputRef}
+                oauth={oauth}
               />
             ))}
           </section>
@@ -58,7 +59,7 @@ class AuthBox extends React.Component {
     });
   }
   render() {
-    const { authInputRef, operation, onSubmit, open, needsAuth, toggle } = this.props;
+    const { authInputRef, operation, onSubmit, open, needsAuth, toggle, oauth } = this.props;
 
     if (Object.keys(operation.prepareSecurity()).length === 0) return null;
 
@@ -71,7 +72,7 @@ class AuthBox extends React.Component {
         <div className="nopad">
           <div className="triangle" />
           <div>
-            {renderSecurities(authInputRef, operation, this.onChange, e => {
+            {renderSecurities(authInputRef, operation, this.onChange, oauth, e => {
               e.preventDefault();
               onSubmit();
             })}
@@ -96,6 +97,7 @@ AuthBox.propTypes = {
   toggle: PropTypes.func.isRequired,
   needsAuth: PropTypes.bool,
   open: PropTypes.bool,
+  oauth: PropTypes.bool.isRequired,
 };
 
 AuthBox.defaultProps = {

@@ -14,6 +14,7 @@ const props = {
   onSubmit: () => {},
   toggle: () => {},
   open: false,
+  oauth: false,
 };
 
 test('should not display if no auth', () => {

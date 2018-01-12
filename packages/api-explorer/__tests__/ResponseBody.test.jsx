@@ -12,6 +12,7 @@ const { Operation } = Oas;
 const oas = new Oas(petstore);
 const props = {
   operation: new Operation({}, '/pet', 'post'),
+  oauth: false,
 };
 
 beforeEach(async () => {
@@ -53,6 +54,7 @@ describe('Response body', () => {
         }),
       ),
       operation: new Operation({}, '/pet', 'post'),
+      oauth: false,
     };
     const responseBody = mount(<ResponseBody {...binaryResponse} oas={oas} />);
 
@@ -82,10 +84,11 @@ describe('Response body', () => {
       ),
       operation: oas.operation('/pet', 'post'),
       isOauth: true,
+      oauth: false,
     };
   });
 
-  test('should display message if OAuth is incorrect or expired without oauthUrl', async () => {
+  test('should display message if OAuth is incorrect or expired without oauth', () => {
     const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} />);
 
     expect(responseBody.find('.hub-expired-token').length).toEqual(1);
@@ -94,14 +97,8 @@ describe('Response body', () => {
     ).toEqual(true);
   });
 
-  test('should display message if OAuth is expired with oauthUrl', async () => {
-    const responseBody = mount(
-      <ResponseBody
-        {...oauthInvalidResponse}
-        oas={oas}
-        oauthUrl="https://github.com/readmeio/api-explorer"
-      />,
-    );
+  test('should display message if OAuth is expired with oauth', () => {
+    const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} oauth />);
 
     expect(
       responseBody.containsAllMatchingElements([
@@ -135,6 +132,7 @@ describe('Response body', () => {
         }),
       ),
       operation: oas.operation('/pet/{petId}', 'get'),
+      oauth: false,
     };
     const responseBody = mount(<ResponseBody {...nonOAuthInvalidResponse} oas={oas} />);
 

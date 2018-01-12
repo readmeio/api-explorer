@@ -27,6 +27,7 @@ function PathUrl({
   needsAuth,
   toggleAuth,
   onSubmit,
+  oauth,
 }) {
   return (
     <div className="api-definition-parent">
@@ -42,6 +43,7 @@ function PathUrl({
                 needsAuth={needsAuth}
                 toggle={toggleAuth}
                 authInputRef={authInputRef}
+                oauth={oauth}
               />
 
               <button
@@ -92,6 +94,7 @@ PathUrl.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   showAuthBox: PropTypes.bool,
   needsAuth: PropTypes.bool,
+  oauth: PropTypes.bool.isRequired,
 };
 
 PathUrl.defaultProps = {
