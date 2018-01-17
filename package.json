@@ -6,7 +6,7 @@
     "test": "eslint -f unix example && lerna run test --parallel",
     "start": "node scripts/update-example-swagger-files && webpack-dev-server",
     "build": "./build.sh & lerna run build",
-    "watch": "lerna run watch",
+    "watch": "lerna run watch --stream",
     "deploy": "gh-pages --dotfiles -d example/dist"
   },
   "publishConfig": {
