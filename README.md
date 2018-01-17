@@ -47,6 +47,12 @@ To deploy the latest example to gh-pages:
 npm run deploy
 ```
 
+To publish all modules to npm:
+
+```sh
+npx lerna publish
+```
+
 ## Credits
 [Dom Harrington](https://github.com/domharrington)
 
