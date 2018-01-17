@@ -2,16 +2,13 @@
 
 Syntax highlighter used on ReadMe.io
 
-[![build status](https://secure.travis-ci.org/readme/readme-syntax-highlighter.svg)](http://travis-ci.org/readme/readme-syntax-highlighter)
-[![dependency status](https://david-dm.org/readme/readme-syntax-highlighter.svg)](https://david-dm.org/readme/readme-syntax-highlighter)
+[![](https://d3vv6lp55qjaqc.cloudfront.net/items/1M3C3j0I0s0j3T362344/Untitled-2.png)](https://readme.io)
 
 ## Installation
 
 ```
 npm install --save @readme/syntax-highlighter
 ```
-
-## Usage
 
 ## Credits
 [Dom Harrington](https://github.com/domharrington/)
