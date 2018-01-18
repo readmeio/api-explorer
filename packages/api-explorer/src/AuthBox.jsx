@@ -27,7 +27,7 @@ function Securities({ authInputRef, operation, onChange, oauth, apiKey, onSubmit
             }
             {securities.map(security => (
               <SecurityInput
-                {...{apiKey, onChange, authInputRef, oauth}}
+                {...{ apiKey, onChange, authInputRef, oauth }}
                 key={security._key}
                 scheme={security}
               />
