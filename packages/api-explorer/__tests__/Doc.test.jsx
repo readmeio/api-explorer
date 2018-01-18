@@ -24,6 +24,7 @@ const props = {
   language: 'node',
   suggestedEdits: false,
   oauth: false,
+  apiKey: '',
 };
 
 function assertDocElements(component, doc) {
@@ -48,7 +49,7 @@ test('should output a div', () => {
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
-    <Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits oauth={false} />,
+    <Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits oauth={false} apiKey="" />,
   );
   docComponent.setState({ showEndpoint: true });
 
@@ -67,6 +68,7 @@ test('should still display `Content` with stripe layout', () => {
       suggestedEdits
       flags={{ stripe: true }}
       oauth={false}
+      apiKey=""
     />,
   );
   docComponent.setState({ showEndpoint: true });

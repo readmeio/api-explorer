@@ -15,6 +15,7 @@ const props = {
   toggle: () => {},
   open: false,
   oauth: false,
+  apiKey: '',
 };
 
 test('should not display if no auth', () => {

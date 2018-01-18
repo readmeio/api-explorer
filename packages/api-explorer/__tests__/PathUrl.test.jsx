@@ -17,6 +17,7 @@ const props = {
   toggleAuth: () => {},
   onSubmit: () => {},
   oauth: false,
+  apiKey: '',
 };
 
 test('should display the path', () => {

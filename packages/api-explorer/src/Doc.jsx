@@ -41,22 +41,6 @@ class Doc extends React.Component {
     this.setApiKey();
   }
 
-  setApiKey() {
-    if (!this.props.apiKey) return;
-
-    const operation = this.getOperation();
-
-    if (!operation) return;
-
-    try {
-      const firstSecurity = this.operation.getSecurity()[0];
-
-      this.state.formData.auth = { [Object.keys(firstSecurity)[0]]: this.props.apiKey };
-    } catch(e) {
-      console.error('There was a problem setting the api key', e); // eslint-disable-line no-console
-    }
-  }
-
   onChange(formData) {
     this.setState(previousState => {
       return {
@@ -87,6 +71,22 @@ class Doc extends React.Component {
         result: await parseResponse(har, res),
       });
     });
+  }
+
+  setApiKey() {
+    if (!this.props.apiKey) return;
+
+    const operation = this.getOperation();
+
+    if (!operation) return;
+
+    try {
+      const firstSecurity = this.operation.getSecurity()[0];
+
+      this.state.formData.auth = { [Object.keys(firstSecurity)[0]]: this.props.apiKey };
+    } catch (e) {
+      console.error('There was a problem setting the api key', e); // eslint-disable-line no-console
+    }
   }
 
   getOperation() {
@@ -319,6 +319,7 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
+  apiKey: PropTypes.string.isRequired,
 };
 
 Doc.defaultProps = {

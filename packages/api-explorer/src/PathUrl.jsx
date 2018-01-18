@@ -97,6 +97,7 @@ PathUrl.propTypes = {
   showAuthBox: PropTypes.bool,
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
+  apiKey: PropTypes.string.isRequired,
 };
 
 PathUrl.defaultProps = {
