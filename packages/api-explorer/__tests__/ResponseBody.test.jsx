@@ -100,14 +100,8 @@ describe('Response body', () => {
   test('should display message if OAuth is expired with oauth', () => {
     const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} oauth />);
 
-    expect(
-      responseBody.containsAllMatchingElements([
-        <div>
-          <p>Your OAuth2 token has expired</p>
-          <a>Reauthenticate via OAuth2</a>
-        </div>,
-      ]),
-    ).toEqual(true);
+    expect(responseBody.find('p').text()).toBe('Your OAuth2 token has expired')
+    expect(responseBody.find('a').text()).toBe('Reauthenticate via OAuth2')
   });
 
   test('should display message authentication message if endpoint does not use oAuth', async () => {
