@@ -25,13 +25,13 @@ test('should not display if no auth', () => {
 });
 
 test('should display a single heading heading for single auth type', () => {
-  const authBox = shallow(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
+  const authBox = mount(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
   expect(authBox.find('h3').length).toBe(1);
   expect(authBox.find('h3').text()).toBe('Header Auth');
 });
 
 test('should display a heading for each auth type with dropdown', () => {
-  const authBox = shallow(<AuthBox {...props} />);
+  const authBox = mount(<AuthBox {...props} />);
   expect(authBox.find('h3').length).toBe(2);
   expect(authBox.find('h3').map(h3 => h3.text())).toEqual(['OAuth2 Auth', 'Header Auth']);
 });
@@ -64,7 +64,7 @@ test('should hide authbox if open=false', () => {
 });
 
 test('should display multiple securities', () => {
-  const authBox = shallow(<AuthBox {...props} />);
+  const authBox = mount(<AuthBox {...props} />);
 
   expect(authBox.find('SecurityInput').length).toBe(2);
 });

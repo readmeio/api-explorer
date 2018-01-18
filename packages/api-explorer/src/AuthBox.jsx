@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(authInputRef, operation, onChange, oauth, apiKey, onSubmit) {
+function Securities({ authInputRef, operation, onChange, oauth, apiKey, onSubmit }) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -27,12 +27,9 @@ function renderSecurities(authInputRef, operation, onChange, oauth, apiKey, onSu
             }
             {securities.map(security => (
               <SecurityInput
+                {...{apiKey, onChange, authInputRef, oauth}}
                 key={security._key}
                 scheme={security}
-                apiKey={apiKey}
-                onChange={onChange}
-                authInputRef={authInputRef}
-                oauth={oauth}
               />
             ))}
           </section>
@@ -81,10 +78,14 @@ class AuthBox extends React.Component {
         <div className="nopad">
           <div className="triangle" />
           <div>
-            {renderSecurities(authInputRef, operation, this.onChange, oauth, apiKey, e => {
-              e.preventDefault();
-              onSubmit();
-            })}
+            <Securities
+              {...{ authInputRef, operation, oauth, apiKey }}
+              onChange={this.onChange}
+              onSubmit={e => {
+                e.preventDefault();
+                onSubmit();
+              }}
+            />
           </div>
           <div className={classNames('hub-authrequired', { active: needsAuth })}>
             <div className="hub-authrequired-slider">
