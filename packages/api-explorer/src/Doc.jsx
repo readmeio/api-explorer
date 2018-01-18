@@ -66,7 +66,7 @@ class Doc extends React.Component {
     });
   }
   onSubmit() {
-    const operation = this.oas.operation(this.props.doc.swagger.path, this.props.doc.api.method);
+    const operation = this.getOperation();
 
     if (!isAuthReady(operation, this.state.formData.auth)) {
       this.setState({ showAuthBox: true });
