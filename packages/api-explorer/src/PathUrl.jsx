@@ -28,6 +28,7 @@ function PathUrl({
   toggleAuth,
   onSubmit,
   oauth,
+  apiKey,
 }) {
   return (
     <div className="api-definition-parent">
@@ -44,6 +45,7 @@ function PathUrl({
                 toggle={toggleAuth}
                 authInputRef={authInputRef}
                 oauth={oauth}
+                apiKey={apiKey}
               />
 
               <button

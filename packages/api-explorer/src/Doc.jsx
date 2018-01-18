@@ -37,6 +37,24 @@ class Doc extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
+
+    this.setApiKey();
+  }
+
+  setApiKey() {
+    if (!this.props.apiKey) return;
+
+    const operation = this.getOperation();
+
+    if (!operation) return;
+
+    try {
+      const firstSecurity = this.operation.getSecurity()[0];
+
+      this.state.formData.auth = { [Object.keys(firstSecurity)[0]]: this.props.apiKey };
+    } catch(e) {
+      console.error('There was a problem setting the api key', e); // eslint-disable-line no-console
+    }
   }
 
   onChange(formData) {
@@ -220,6 +238,7 @@ class Doc extends React.Component {
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
+        apiKey={this.props.apiKey}
       />
     );
   }

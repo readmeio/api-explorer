@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function renderSecurities(authInputRef, operation, onChange, oauth, onSubmit) {
+function renderSecurities(authInputRef, operation, onChange, oauth, apiKey, onSubmit) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -29,7 +29,7 @@ function renderSecurities(authInputRef, operation, onChange, oauth, onSubmit) {
               <SecurityInput
                 key={security._key}
                 scheme={security}
-                apiKey=""
+                apiKey={apiKey}
                 onChange={onChange}
                 authInputRef={authInputRef}
                 oauth={oauth}
@@ -59,7 +59,7 @@ class AuthBox extends React.Component {
     });
   }
   render() {
-    const { authInputRef, operation, onSubmit, open, needsAuth, toggle, oauth } = this.props;
+    const { authInputRef, operation, onSubmit, open, needsAuth, toggle, oauth, apiKey } = this.props;
 
     if (Object.keys(operation.prepareSecurity()).length === 0) return null;
 
@@ -72,7 +72,7 @@ class AuthBox extends React.Component {
         <div className="nopad">
           <div className="triangle" />
           <div>
-            {renderSecurities(authInputRef, operation, this.onChange, oauth, e => {
+            {renderSecurities(authInputRef, operation, this.onChange, oauth, apiKey, e => {
               e.preventDefault();
               onSubmit();
             })}

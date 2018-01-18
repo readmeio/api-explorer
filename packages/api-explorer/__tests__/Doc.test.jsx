@@ -254,3 +254,13 @@ describe('stripe theme', () => {
     expect(doc.find('.hub-reference-right').find('Response').length).toBe(1);
   });
 });
+
+describe('`apiKey`', () => {
+  test('should set apiKey in formData if passed in', () => {
+    const apiKey = '123456';
+
+    const doc = mount(<Doc {...props} apiKey={apiKey} />);
+
+    expect(doc.state('formData').auth).toEqual({ api_key: apiKey });
+  });
+});
