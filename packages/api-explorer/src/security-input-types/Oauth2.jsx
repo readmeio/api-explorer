@@ -1,18 +1,14 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const oauthHref = require('../lib/oauth-href')
+const oauthHref = require('../lib/oauth-href');
 
 function Oauth2({ apiKey, authInputRef, oauth, change }) {
   if (!apiKey && oauth) {
     return (
       <section>
         <div className="text-center">
-          <a
-            className="btn btn-primary"
-            href={oauthHref()}
-            target="_self"
-          >
+          <a className="btn btn-primary" href={oauthHref()} target="_self">
             Authenticate via OAuth2
           </a>
         </div>
