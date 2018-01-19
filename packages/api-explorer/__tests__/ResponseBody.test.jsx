@@ -102,6 +102,7 @@ describe('Response body', () => {
 
     expect(responseBody.find('p').text()).toBe('Your OAuth2 token has expired')
     expect(responseBody.find('a').text()).toBe('Reauthenticate via OAuth2')
+    expect(responseBody.find('a').prop('href')).toBe(`/oauth?redirect=${window.location.pathname}`)
   });
 
   test('should display message authentication message if endpoint does not use oAuth', async () => {

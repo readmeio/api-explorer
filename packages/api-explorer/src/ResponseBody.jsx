@@ -2,6 +2,8 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 
+const oauthHref = require('./lib/oauth-href');
+
 function Authorized({ result }) {
   return (
     <pre className="tomorrow-night">
@@ -29,7 +31,7 @@ function hasOauth(oauth) {
   return (
     <div>
       <p>Your OAuth2 token has expired</p>
-      <a className="btn btn-primary" href="/oauth" target="_self">
+      <a className="btn btn-primary" href={oauthHref()} target="_self">
         Reauthenticate via OAuth2
       </a>
     </div>

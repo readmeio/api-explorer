@@ -1,6 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const oauthHref = require('../lib/oauth-href')
+
 function Oauth2({ apiKey, authInputRef, oauth, change }) {
   if (!apiKey && oauth) {
     return (
@@ -8,7 +10,7 @@ function Oauth2({ apiKey, authInputRef, oauth, change }) {
         <div className="text-center">
           <a
             className="btn btn-primary"
-            href={`/oauth?redirect=${window.location.pathname}`}
+            href={oauthHref()}
             target="_self"
           >
             Authenticate via OAuth2
