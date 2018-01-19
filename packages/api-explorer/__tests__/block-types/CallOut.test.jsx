@@ -2,84 +2,69 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const CallOut = require('../../src/block-types/CallOut');
 
-describe('CallOut', () => {
-  test('Call out will render title and icon info if given in props', () => {
-    const block = {
-      type: 'callout',
-      data: {
-        type: 'info',
-        title: 'Callout',
-      },
-      sidebar: undefined,
-    };
-    const callOutInput = mount(<CallOut block={block} />);
-    expect(callOutInput.find('h3').text()).toBe('Callout');
+test('should render title', () => {
+  const block = {
+    data: {
+      type: 'info',
+      title: 'Callout',
+    },
+  };
+  const callout = mount(<CallOut block={block} />);
+  expect(callout.find('h3').text()).toBe('Callout');
+});
+
+describe('icons', () => {
+  const icons = {
+    info: 'info-circle',
+    warning: 'exclamation-circle',
+    danger: 'exclamation-triangle',
+    success: 'check-square',
+  };
+
+  test('should render with title', () => {
+    Object.keys(icons).forEach(type => {
+      const className = icons[type];
+      const block = {
+        data: {
+          type,
+          title: 'Callout',
+        },
+      };
+      expect(mount(<CallOut block={block} />).find(`.fa-${className}`).length).toBe(1);
+    });
   });
 
-  test('Call out will render title and icon success if given in props', () => {
-    const block = {
-      type: 'callout',
-      data: {
-        type: 'success',
-        title: 'Callout',
-      },
-      sidebar: undefined,
-    };
-    const callOutInput = mount(<CallOut block={block} />);
-    expect(callOutInput.find('h3').text()).toBe('Callout');
+  test('should render without title', () => {
+    Object.keys(icons).forEach(type => {
+      const className = icons[type];
+      const block = {
+        data: {
+          type,
+        },
+      };
+      expect(mount(<CallOut block={block} />).find(`.noTitleIcon .fa-${className}`).length).toBe(1);
+    });
   });
+});
 
-  test('Call out will render Icon if no title is given in props', () => {
-    const block = {
-      type: 'callout',
-      data: {
-        type: 'danger',
-      },
-      sidebar: undefined,
-    };
-    const callOutInput = mount(<CallOut block={block} />);
-    expect(callOutInput.find('span').html()).toBe(
-      '<span class="noTitleIcon"><i class="fa fa-exclamation-triangle" title="Danger"></i></span>',
-    );
-  });
+test('should render nothing if no title and icon', () => {
+  const block = {
+    data: {
+      type: '',
+    },
+  };
+  const callout = mount(<CallOut block={block} />);
+  expect(callout.find('span').text()).toBe('');
+});
 
-  test('Call out will render Icon if no title is given in props', () => {
-    const block = {
-      type: 'callout',
-      data: {
-        type: 'warning',
-      },
-      sidebar: undefined,
-    };
-    const callOutInput = mount(<CallOut block={block} />);
-    expect(callOutInput.find('span').html()).toBe(
-      '<span class="noTitleIcon"><i class="fa fa-exclamation-circle" title="Warning"></i></span>',
-    );
-  });
+test('should render body', () => {
+  const block = {
+    data: {
+      type: 'info',
+      body: 'body',
+    },
+  };
 
-  test('Call out will render nothing if no title and icon type isn not given is given in props', () => {
-    const block = {
-      type: 'callout',
-      data: {
-        type: '',
-      },
-      sidebar: undefined,
-    };
-    const callOutInput = mount(<CallOut block={block} />);
-    expect(callOutInput.find('span').text()).toBe('');
-  });
-
-  test('Call out will render body of callout is given in props', () => {
-    const block = {
-      type: 'callout',
-      data: {
-        type: 'info',
-        body: 'you are incorrect',
-      },
-      sidebar: undefined,
-    };
-
-    const callOutInput = shallow(<CallOut block={block} />);
-    expect(callOutInput.find('div.callout-body').text()).toBe('you are incorrect');
-  });
+  const callout = shallow(<CallOut block={block} />);
+  expect(callout.find('div.callout-body').text()).toBe('body');
 });
