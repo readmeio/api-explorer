@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-// import Marked from '../lib/marked';
+const markdown = require('../lib/markdown');
 
 function Icon({ type }) {
   switch (type) {
@@ -17,7 +17,7 @@ function Icon({ type }) {
   }
 }
 
-const CallOut = ({ block }) => {
+const CallOut = ({ block, flags }) => {
   return (
     <div
       className={`magic-block-callout type-${block.data.type} ${block.data.title
@@ -36,7 +36,15 @@ const CallOut = ({ block }) => {
           <Icon type={block.data.type} />
         </span>
       )}
-      {block.data && block.data.body && <div className="callout-body">{block.data.body}</div>}
+      {/* eslint-disable react/no-danger */}
+      {block.data &&
+      block.data.body && (
+        <div
+          className="callout-body"
+          dangerouslySetInnerHTML={{ __html: markdown(block.data.body, flags) }}
+        />
+      )}
+      {/* eslint-enable react/no-danger */}
     </div>
   );
 };
@@ -49,7 +57,10 @@ CallOut.propTypes = {
       body: PropTypes.string,
     }),
   }).isRequired,
+  flags: PropTypes.shape({}),
 };
+
+CallOut.defaultProps = { flags: {} };
 
 Icon.propTypes = {
   type: PropTypes.string.isRequired,
