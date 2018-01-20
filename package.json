@@ -7,7 +7,8 @@
     "start": "node scripts/update-example-swagger-files && webpack-dev-server",
     "build": "./build.sh & lerna run build",
     "watch": "lerna run watch --stream",
-    "deploy": "gh-pages --dotfiles -d example/dist"
+    "deploy": "gh-pages --dotfiles -d example/dist",
+    "publish": "lerna publish"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"

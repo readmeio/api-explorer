@@ -50,7 +50,7 @@ npm run deploy
 To publish all modules to npm:
 
 ```sh
-npx lerna publish
+npm run publish
 ```
 
 ## Credits
