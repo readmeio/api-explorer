@@ -8,3 +8,4 @@ lerna-debug.log
 example/swagger-files/directory.json
 
 example/dist
+example/bundle.js

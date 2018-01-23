@@ -11,6 +11,10 @@ jobs:
         environment:
           CC_TEST_REPORTER_ID: 3597ab16382afb6495a5f38a3a11efd30cbe10084edfa4f1c512e9b77267de3b
 
+    branches:
+      ignore:
+        - gh-pages
+
     working_directory: ~/repo
 
     steps:
@@ -23,6 +27,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
+      - run: npm install
       - run: npx lerna bootstrap
 
       - save_cache:
@@ -35,6 +40,6 @@ jobs:
       - run: chmod +x ./cc-test-reporter
       - run: ./cc-test-reporter before-build
       - run: npm test
-      - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer-ui/coverage/lcov.info -o coverage/api-explorer-ui.json
-      - run: ./cc-test-reporter format-coverage -t lcov packages/readme-syntax-highlighter/coverage/lcov.info -o coverage/readme-syntax-highlighter.json
+      - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer/coverage/lcov.info -o coverage/api-explorer.json
+      - run: ./cc-test-reporter format-coverage -t lcov packages/syntax-highlighter/coverage/lcov.info -o coverage/syntax-highlighter.json
       - run: ./cc-test-reporter sum-coverage --output - --parts 2 coverage/*.json | ./cc-test-reporter upload-coverage --input -
