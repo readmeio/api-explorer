@@ -1,0 +1,39 @@
+{
+  "name": "@readme/syntax-highlighter",
+  "description": "Syntax highlighter used on ReadMe.io",
+  "version": "0.2.1",
+  "dependencies": {
+    "codemirror": "^5.31.0"
+  },
+  "scripts": {
+    "lint": "eslint -f unix .",
+    "inspect": "jsinspect",
+    "pretest": "npm run lint && npm run inspect",
+    "test": "jest --coverage"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org",
+    "access": "public"
+  },
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/syntax-highlighter",
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "eslint": "^4.4.1",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "jest": "^22.0.4",
+    "jsinspect": "^0.12.6"
+  }
+}
