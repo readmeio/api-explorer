@@ -3,3 +3,6 @@ coverage
 index.js
 emojis.js
 marked.js
+
+example/dist
+example/bundle.js

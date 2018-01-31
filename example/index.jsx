@@ -6,4 +6,4 @@ const ReactDOM = require('react-dom');
 
 const Demo = require('./src/Demo');
 
-ReactDOM.render(<Demo />, document.getElementById('hub-reference'));
+ReactDOM.render(<Demo />, document.getElementById('hub-content'));

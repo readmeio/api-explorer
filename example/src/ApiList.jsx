@@ -10,7 +10,7 @@ class ApiList extends React.Component {
 
     this.state = {
       apis: localDirectory,
-      selected: parse(document.location.search.replace('?', '')).selected || '/swagger-files/petstore.json',
+      selected: parse(document.location.search.replace('?', '')).selected || 'swagger-files/petstore.json',
     };
 
     this.changeApi = this.changeApi.bind(this);
@@ -41,8 +41,9 @@ class ApiList extends React.Component {
         <select onChange={this.changeApi} value={this.state.selected}>
           { Object.keys(this.state.apis).map((name) => {
             const api = this.state.apis[name];
+            const preferred = api.preferred || Object.keys(api.versions)[0];
             return (
-              <option value={api.versions[api.preferred].swaggerUrl} key={name}>
+              <option value={api.versions[preferred].swaggerUrl} key={name}>
                 {name.substring(0, 30)}
               </option>
             );

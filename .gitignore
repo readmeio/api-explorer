@@ -6,3 +6,6 @@ coverage
 lerna-debug.log
 .DS_Store
 example/swagger-files/directory.json
+
+example/dist
+example/bundle.js

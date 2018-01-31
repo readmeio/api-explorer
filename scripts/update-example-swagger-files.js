@@ -13,7 +13,7 @@ const directory = files.filter(file => file !== 'directory.json').map((file) => 
       preferred: swagger.info.version,
       versions: {
         [swagger.info.version]: {
-          swaggerUrl: join('/', 'swagger-files', file),
+          swaggerUrl: join('swagger-files', file),
         },
       },
     },
