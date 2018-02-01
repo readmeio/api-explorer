@@ -4,9 +4,11 @@ const ArrayField = require('react-jsonschema-form/lib/components/fields/ArrayFie
 // const TitleField = require('react-jsonschema-form/lib/components/fields/TitleField');
 // const DescriptionField = require('react-jsonschema-form/lib/components/fields/DescriptionField');
 
+// want it to extend playground/samples/customArray.js
+
 class CustomArrayField extends ArrayField {
   render() {
-    const { className, items, canAdd, onAddClick } = this.props;
+    const { className, items, onAddClick } = this.props;
 
     return (
       <div className={className}>
@@ -96,7 +98,13 @@ module.exports = CustomArrayField;
 CustomArrayField.propTypes = {
   className: PropTypes.string,
   canAdd: PropTypes.bool.isRequired,
-  items: PropTypes.shape([]).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      hasRemove: PropTypes.bool.isRequired,
+      index: PropTypes.number.isRequired,
+      onDropIndexClick: PropTypes.func.isRequired,
+    }),
+  ).isRequired,
   onAddClick: PropTypes.func.isRequired,
 };
 
