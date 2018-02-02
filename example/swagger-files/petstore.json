@@ -773,6 +773,7 @@
         },
         "photoUrls": {
           "type": "array",
+          "description": "test",
           "xml": {
             "name": "photoUrl",
             "wrapped": true
