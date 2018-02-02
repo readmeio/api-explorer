@@ -56,7 +56,7 @@ class ResponseSchema extends React.Component {
         const jsonSchema =
           operation.responses[this.state.selectedStatus].content['application/json'].schema;
         if (jsonSchema.type === 'object' && jsonSchema.properties) {
-          schema = jsonSchema.properties;
+          schema = jsonSchema;
         }
       }
     } catch (e) {} // eslint-disable-line no-empty
