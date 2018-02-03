@@ -3,7 +3,6 @@ function isAuthReady(operation, authData) {
   const securitySettings = operation.getSecurity();
 
   if (securitySettings.length === 0) return true;
-
   return securitySettings.some(requirement => {
     return Object.keys(requirement).every(key => {
       if (!operation.oas.components.securitySchemes[key]) return false;
