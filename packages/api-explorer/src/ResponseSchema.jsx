@@ -47,7 +47,6 @@ class ResponseSchema extends React.Component {
 
   render() {
     const { operation } = this.props;
-    const i = 0;
     const description = operation.responses[this.state.selectedStatus].description;
     let schema;
     try {

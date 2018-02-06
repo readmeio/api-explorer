@@ -7,16 +7,17 @@ function flattenResponseSchema(obj, parent = '') {
     .map(prop => {
       // flattenResponseSchemas through if key's value is an object
       if (obj.properties[prop].properties) {
-        // return [
-        //   {
-        //     name: prop,
-        //     type: obj.properties[prop].type,
-        //     description:
-        //       obj.properties[prop].description && marked(obj.properties[prop].description),
-        //   },
-        //   flattenResponseSchema(obj.properties[prop], prop),
-        // ];
-        return flattenResponseSchema(obj.properties[prop], prop);
+        return Object.assign(
+          {},
+          {
+            name: prop,
+            type: obj.properties[prop].type,
+            description:
+              obj.properties[prop].description && marked(obj.properties[prop].description),
+          },
+          flattenResponseSchema(obj.properties[prop], prop),
+        );
+        // return flattenResponseSchema(obj.properties[prop], prop);
       } else if (obj.properties[prop].type === 'array') {
         if (obj.properties[prop].items.properties) {
           // flattenResponseSchemas through key's value type is an array

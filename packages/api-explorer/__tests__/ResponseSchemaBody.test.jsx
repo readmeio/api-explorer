@@ -70,7 +70,17 @@ test('should flatten nested object', () => {
   };
   expect(flattenResponseSchema(responseSchema)).toEqual([
     {
-      name: 'tag.name',
+      name: 'category',
+      type: 'object',
+      description: undefined,
+    },
+    {
+      name: 'category.tag',
+      type: 'object',
+      description: undefined,
+    },
+    {
+      name: 'category.tag.name',
       type: 'string',
       description: undefined,
     },
