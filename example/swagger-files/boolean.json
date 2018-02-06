@@ -63,6 +63,17 @@
                   "status": {
                     "type": "boolean",
                     "description": "pet status in the store"
+                  },
+                  "photoUrls": {
+                    "type": "array",
+                    "description": "photo of pet",
+                    "xml": {
+                      "name": "photoUrl",
+                      "wrapped": true
+                    },
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 },
                 "xml": {
