@@ -4,7 +4,7 @@ module.exports = {
     rules: [
       {
         test: /\.js(x?)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!@readme\/syntax-highlighter)/,
         use: {
           loader: 'babel-loader',
         },
