@@ -59,6 +59,10 @@
                         "type": "integer",
                         "format": "int64",
                         "description": "number of pet"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "name of pet"
                       }
                     },
                     "xml": {
@@ -68,17 +72,6 @@
                   "status": {
                     "type": "boolean",
                     "description": "pet status in the store"
-                  },
-                  "photoUrls": {
-                    "type": "array",
-                    "description": "photo of pet",
-                    "xml": {
-                      "name": "photoUrl",
-                      "wrapped": true
-                    },
-                    "items": {
-                      "type": "string"
-                    }
                   }
                 },
                 "xml": {
@@ -89,7 +82,9 @@
             "application/xml": {
               "schema": "~paths~/pet~post~requestBody~content~application/json~schema"
             }
-          }
+          },
+          "description": "Pet object that needs to be added to the store",
+          "required": true
         }
       }
     }
