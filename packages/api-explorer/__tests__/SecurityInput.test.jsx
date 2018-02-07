@@ -60,6 +60,12 @@ describe('oauth2', () => {
     securityInput.find('input[type="text"]').simulate('change');
 
     expect(onChange.mock.calls[0][0]).toEqual({ 'test-auth': '1234' });
+
+    expect(securityInput.find('input[type="text"]').instance().value).toEqual('1234');
+
+    securityInput.find('input[type="text"]').instance().value += '56';
+    securityInput.find('input[type="text"]').simulate('change');
+    expect(onChange.mock.calls[1][0]).toEqual({ 'test-auth': '123456' });
   });
 });
 

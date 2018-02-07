@@ -160,9 +160,9 @@ describe('apiKey', () => {
     expect(explorer.state('apiKey')).toBe(apiKey);
   });
 
-  it('should default to empty string', () => {
+  it('should default to undefined', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
-    expect(explorer.state('apiKey')).toBe('');
+    expect(explorer.state('apiKey')).toBe(undefined);
   });
 });

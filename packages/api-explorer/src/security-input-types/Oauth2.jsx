@@ -62,7 +62,7 @@ Oauth2.propTypes = {
 };
 
 Oauth2.defaultProps = {
-  apiKey: '',
+  apiKey: undefined,
   authInputRef: () => {},
 };
 

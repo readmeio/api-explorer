@@ -11,7 +11,7 @@ class ApiExplorer extends React.Component {
       const userData = Cookie.getJSON('user_data');
       return userData.keys.api_key;
     } catch (e) {
-      return '';
+      return undefined;
     }
   }
 
