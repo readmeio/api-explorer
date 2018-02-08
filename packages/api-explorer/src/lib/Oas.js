@@ -31,7 +31,6 @@ class Operation {
           } catch (e) {
             return false;
           }
-
           if (!security) return false;
           let type = security.type;
           if (security.type === 'http' && security.scheme === 'basic') {
