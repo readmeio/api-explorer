@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "test": "eslint -f unix example && lerna run test --parallel",
-    "start": "node scripts/update-example-swagger-files && webpack && webpack-dev-server",
+    "start": "node scripts/update-example-swagger-files && webpack-dev-server",
     "build": "./build.sh & lerna run build",
     "watch": "lerna run watch --stream",
     "deploy": "gh-pages --dotfiles -d example/dist",
@@ -45,6 +45,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-hot-loader": "^3.1.3",
     "swagger2openapi": "^2.9.2"
   }
 }
