@@ -17,7 +17,7 @@ function CheckboxWidget(props) {
             disabled={disabled || readonly}
             onChange={event => onChange(event.target.checked)}
           />
-          <span>{label}</span>
+          <span>&nbsp;{label}</span>
         </label>
       }
     </div>
