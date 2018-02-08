@@ -1,6 +1,6 @@
 const React = require('react');
 const { shallow } = require('enzyme');
-const Checkbox = require('../../src/form-components/Checkbox');
+const Checkbox = require('../../src/form-components/CheckboxWidget');
 
 test('should not render description', () => {
   const props = {
