@@ -1,3 +1,4 @@
+// Modified version of https://github.com/mozilla-services/react-jsonschema-form/blob/158fd6465b46ba232864727a05704bf3708d2c5e/src/components/widgets/CheckboxWidget.js without Description
 const React = require('react');
 const PropTypes = require('prop-types');
 
