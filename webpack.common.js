@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './example/index.jsx',
+  entry: ['react-hot-loader/patch', './example/index.jsx'],
   module: {
     rules: [
       {
