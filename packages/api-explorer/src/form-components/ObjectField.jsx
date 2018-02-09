@@ -56,12 +56,12 @@ class CustomObjectField extends ObjectField {
           />
         )}
         {(uiSchema['ui:description'] || schema.description) && (
-           <DescriptionField
-             id={`${idSchema.$id}__description`}
-             description={uiSchema['ui:description'] || schema.description}
-             formContext={formContext}
-           />
-         )}
+          <DescriptionField
+            id={`${idSchema.$id}__description`}
+            description={uiSchema['ui:description'] || schema.description}
+            formContext={formContext}
+          />
+        )}
         {orderedProperties.map((propName, index) => {
           /* eslint-disable react/no-array-index-key */
           return (
