@@ -30,3 +30,15 @@ test('should work with modes', () => {
 test('should have a dark theme', () => {
   expect(syntaxHighlighter('{ "a": 1 }', 'json', true)).toContain('<span class="cm-s-tomorrow-night">');
 });
+
+test('should work for modes with an array like java', () => {
+  expect(syntaxHighlighter('service = client.service().messaging();', 'java')).toBe(
+    '<span class="cm-s-neo"><span class="cm-variable">service</span> <span class="cm-operator">=</span> <span class="cm-variable">client</span>.<span class="cm-variable">service</span>().<span class="cm-variable">messaging</span>();</span>',
+  );
+});
+
+test('should work for html', () => {
+  expect(syntaxHighlighter('<p>test</p>', 'html')).toBe(
+    '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">></span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">></span></span>',
+  );
+});
