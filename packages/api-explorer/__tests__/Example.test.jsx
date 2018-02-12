@@ -50,8 +50,20 @@ test('should correctly highlight syntax', () => {
   );
 
   // Asserting all JSON keys from the example oas.json
-  expect(example.find('pre').at(0).render().find('.cm-property').length).toBe(3);
+  expect(
+    example
+      .find('pre')
+      .at(0)
+      .render()
+      .find('.cm-property').length,
+  ).toBe(3);
 
   // Asserting that there are XML tags
-  expect(example.find('pre').at(1).render().find('.cm-tag').length).toBe(25);
+  expect(
+    example
+      .find('pre')
+      .at(1)
+      .render()
+      .find('.cm-tag').length,
+  ).toBe(25);
 });
