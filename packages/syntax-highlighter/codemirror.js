@@ -45,8 +45,7 @@ const modes = {
   scss: 'css',
 };
 
-module.exports = (code, lang) => {
-  let output = '';
+function getMode(lang) {
   let mode = lang;
 
   if (mode in modes) {
@@ -57,6 +56,13 @@ module.exports = (code, lang) => {
       mode = mode[1];
     }
   }
+
+  return mode;
+}
+
+module.exports = (code, lang) => {
+  let output = '';
+  const mode = getMode(lang);
 
   // TODO https://github.com/readmeio/api-explorer/issues/101
   // CodeMirror.modeInfo.forEach((info) => {
