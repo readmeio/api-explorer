@@ -22,7 +22,7 @@ function Example({ operation, result, oas, selected, setExampleTab }) {
             {showCodeResults(operation).map((example, index) => {
               return (
                 <pre
-                  className={`tomorrow night tabber-body tabber-body-${index}`}
+                  className={`tomorrow-night tabber-body tabber-body-${index}`}
                   style={{ display: index === selected ? 'block' : '' }}
                   key={index} // eslint-disable-line react/no-array-index-key
                 >
