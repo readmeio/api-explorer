@@ -35,6 +35,16 @@ module.exports = (oas, apiSetting) => {
           //       {
           //         "code": "var a = 1;",
           //         "language": "javascript"
+          //       },
+          //       {
+          //         "code": "System.out.println('Hello World!');",
+          //         "language": "java",
+          //         "name": "Java"
+          //       },
+          //       {
+          //         "code": "<h1>HTML</h1>",
+          //         "language": "html",
+          //         "name": "HTML"
           //       }
           //     ]
           //   }

@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const showCodeResults = require('./lib/show-code-results');
 
 // const { replaceVars } = require('./lib/replace-vars');
-const codemirror = require('@readme/syntax-highlighter/codemirror');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
 const extensions = require('@readme/oas-extensions');
 
 const ExampleTabs = require('./ExampleTabs');
@@ -22,12 +22,14 @@ function Example({ operation, result, oas, selected, setExampleTab }) {
             {showCodeResults(operation).map((example, index) => {
               return (
                 <pre
-                  className={`tomorrow night tabber-body tabber-body-${index}`}
+                  className={`tomorrow-night tabber-body tabber-body-${index}`}
                   style={{ display: index === selected ? 'block' : '' }}
                   key={index} // eslint-disable-line react/no-array-index-key
-                >
-                  {codemirror(example.code, example.language, true)}
-                </pre>
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{
+                    __html: syntaxHighlighter(example.code, example.language, true),
+                  }}
+                />
               );
             })}
           </div>

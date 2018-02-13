@@ -67,7 +67,7 @@ class Demo extends React.Component {
               }}
               flags={{ correctnewlines: false }}
               suggestedEdits
-              oauthUrl={this.props.oauthUrl}
+              oauth={this.props.oauth}
             />
           )
         }
@@ -77,10 +77,10 @@ class Demo extends React.Component {
 }
 
 Demo.propTypes = {
-  oauthUrl: PropTypes.string,
+  oauth: PropTypes.bool,
 };
 
 Demo.defaultProps = {
-  oauthUrl: '',
+  oauth: false,
 };
 module.exports = Demo;
