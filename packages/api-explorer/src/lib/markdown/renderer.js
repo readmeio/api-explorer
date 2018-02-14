@@ -53,7 +53,7 @@ renderer.link = function link(href, title, text) {
   /* eslint no-param-reassign: 0 */
   const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
   let isDoc = false;
-  let uiSref = false;
+  const uiSref = false;
 
   if (href.match(/^(data|javascript)[^a-zA-Z0-9/_-]/i)) {
     // Avoid XSS
@@ -61,8 +61,7 @@ renderer.link = function link(href, title, text) {
   }
 
   if (doc) {
-    uiSref = `docs.show({'doc': '${doc[1]}'})`;
-    href = '';
+    href = '/doc/:doc';
     isDoc = doc[1];
   }
 
@@ -78,13 +77,12 @@ renderer.link = function link(href, title, text) {
 
   const blog = href.match(/^blog:([-_a-zA-Z0-9#]*)$/);
   if (blog) {
-    uiSref = `blog.show({'blog': '${blog[1]}'})`;
-    href = '';
+    href = `/blog/${blog[1]}`;
   }
 
   const custompage = href.match(/^page:([-_a-zA-Z0-9#]*)$/);
   if (custompage) {
-    uiSref = `custompages.show({'custompage': '${custompage[1]}'})`;
+    href = '/page/:custompage';
   }
 
   /* istanbul ignore else */
