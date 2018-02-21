@@ -1,8 +1,5 @@
 module.exports = {
-  entry: [
-    'whatwg-fetch',
-    './src/index.jsx',
-  ],
+  entry: ['whatwg-fetch', './src/index.jsx'],
   module: {
     rules: [
       {
