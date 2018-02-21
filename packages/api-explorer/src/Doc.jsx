@@ -319,7 +319,7 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string.isRequired,
+  apiKey: PropTypes.string,
 };
 
 Doc.defaultProps = {
