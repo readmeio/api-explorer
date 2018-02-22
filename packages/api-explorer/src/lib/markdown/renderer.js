@@ -61,7 +61,8 @@ renderer.link = function link(href, title, text) {
   }
 
   if (doc) {
-    href = '/doc/:doc';
+    href = `/doc/${doc[1]}`;
+    console.log(href);
     isDoc = doc[1];
   }
 
@@ -82,7 +83,7 @@ renderer.link = function link(href, title, text) {
 
   const custompage = href.match(/^page:([-_a-zA-Z0-9#]*)$/);
   if (custompage) {
-    href = '/page/:custompage';
+    href = `/page/${custompage[1]}`;
   }
 
   /* istanbul ignore else */
