@@ -62,7 +62,6 @@ renderer.link = function link(href, title, text) {
 
   if (doc) {
     href = `/doc/${doc[1]}`;
-    console.log(href);
     isDoc = doc[1];
   }
 
