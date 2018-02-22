@@ -26,4 +26,20 @@ describe('renderer link', () => {
       '<a href="/v1.0/page/getting-started" target="_self"></a>',
     );
   });
+
+  it('should convert doc:doc to /doc/doc', () => {
+    expect(renderer.link('doc:doc', '', '')).toBe(
+      '<a href="/doc/doc" target="_self" class="doc-link" data-sidebar="doc"></a>',
+    );
+  });
+
+  it('should convert blog:blog to /blog/blog', () => {
+    expect(renderer.link('blog:blog', '', '')).toBe('<a href="/blog/blog" target="_self"></a>');
+  });
+
+  it('should convert page:custompage to /blog/blog', () => {
+    expect(renderer.link('page:custompage', '', '')).toBe(
+      '<a href="/page/custompage" target="_self"></a>',
+    );
+  });
 });

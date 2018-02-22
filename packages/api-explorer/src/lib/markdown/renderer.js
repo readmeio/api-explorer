@@ -53,7 +53,6 @@ renderer.link = function link(href, title, text) {
   /* eslint no-param-reassign: 0 */
   const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
   let isDoc = false;
-  const uiSref = false;
 
   if (href.match(/^(data|javascript)[^a-zA-Z0-9/_-]/i)) {
     // Avoid XSS
@@ -108,13 +107,9 @@ renderer.link = function link(href, title, text) {
 
   out += ` href="${href}"`;
 
-  if (uiSref) {
-    out += ` ui-sref="${uiSref}"`;
-  } else {
-    // This prevents full links from getting
-    // into a weird AJAX state
-    out += ' target="_self"';
-  }
+  // This prevents full links from getting
+  // into a weird AJAX state
+  out += ' target="_self"';
 
   /* istanbul ignore next */
   if (title) {
