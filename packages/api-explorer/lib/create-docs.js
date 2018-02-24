@@ -1,3 +1,39 @@
+// const body = `
+// [Test doc link](doc:doc-slug)
+// [Test blog link](blog:blog-slug)
+// [Test page link](page:page-slug)
+// [block:api-header]
+// {
+//   "title": "This is cool header",
+//   "sidebar": true
+// }
+// [/block]
+// [block:textarea]
+// {
+//   "text": "This is text area"
+// }
+// [/block]
+// [block:code]
+// {
+//   "codes": [
+//     {
+//       "code": "var a = 1;",
+//       "language": "javascript"
+//     },
+//     {
+//       "code": "System.out.println('Hello World!');",
+//       "language": "java",
+//       "name": "Java"
+//     },
+//     {
+//       "code": "<h1>HTML</h1>",
+//       "language": "html",
+//       "name": "HTML"
+//     }
+//   ]
+// }
+// [/block]`;
+
 module.exports = (oas, apiSetting) => {
   const docs = [];
 
@@ -17,39 +53,7 @@ module.exports = (oas, apiSetting) => {
           api: { method },
           swagger: { path },
           // Uncomment this if you want some body content blocks
-          // body: `
-          //   [block:api-header]
-          //   {
-          //     "title": "This is cool header",
-          //     "sidebar": true
-          //   }
-          //   [/block]
-          //   [block:textarea]
-          //   {
-          //     "text": "This is text area"
-          //   }
-          //   [/block]
-          //   [block:code]
-          //   {
-          //     "codes": [
-          //       {
-          //         "code": "var a = 1;",
-          //         "language": "javascript"
-          //       },
-          //       {
-          //         "code": "System.out.println('Hello World!');",
-          //         "language": "java",
-          //         "name": "Java"
-          //       },
-          //       {
-          //         "code": "<h1>HTML</h1>",
-          //         "language": "html",
-          //         "name": "HTML"
-          //       }
-          //     ]
-          //   }
-          //   [/block]
-          // `,
+          // body,
         });
         isCategory = true;
       }
