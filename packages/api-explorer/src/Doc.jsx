@@ -327,4 +327,5 @@ Doc.defaultProps = {
   flags: {
     stripe: false,
   },
+  apiKey: '',
 };
