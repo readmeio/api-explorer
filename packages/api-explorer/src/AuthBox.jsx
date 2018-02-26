@@ -108,13 +108,14 @@ AuthBox.propTypes = {
   needsAuth: PropTypes.bool,
   open: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string.isRequired,
+  apiKey: PropTypes.string,
 };
 
 AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
   authInputRef: () => {},
+  apiKey: '',
 };
 
 module.exports = AuthBox;
