@@ -1,6 +1,3 @@
-// We require the babel polyfill because the swagger2openapi module uses generators
-require('babel-polyfill');
-
 const React = require('react');
 const ReactDOM = require('react-dom');
 const { AppContainer } = require('react-hot-loader');
