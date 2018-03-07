@@ -1,0 +1,22 @@
+span
+  span(ng-show='!dropdown')
+    span(ng-show='!showDropdown')
+      | {{value}}
+    span(ng-show='showDropdown')
+      -var loginDropdownID = Math.floor((Math.random() * 1000))
+      span(class='variable-underline' ns-popover ns-popover-trigger='click' ns-popover-theme='ns-popover-auth-theme' ns-popover-placement='bottom|center' ns-popover-template='login#{loginDropdownID}' ns-popover-timeout="-1" ns-popover-hide-on-inside-click="true") {{value}}
+  span(ng-show='dropdown')
+    -var id = Math.floor((Math.random() * 1000))
+    span(class='variable-underline' ns-popover ns-popover-trigger='click' ns-popover-theme='ns-popover-dropdown-theme' ns-popover-placement='bottom|right' ns-popover-template='variable#{id}' ns-popover-timeout="-1" ns-popover-hide-on-inside-click="true") {{value}}
+
+  // Project Picker Dropdown
+  script(type='text/ng-template' id='variable#{id}')
+    #variableDropdown.ns-popover-tooltip
+      .ns-triangle
+      .triangle
+      ul
+        li(ng-repeat="name in project_names")
+          a(href='' ng-class='{active: $index == selected}' ng-click='select($index)') {{name}}
+
+  // Auth Login Dropdown
+  include auth-template

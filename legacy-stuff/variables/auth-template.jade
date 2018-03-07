@@ -1,0 +1,9 @@
+script(type='text/ng-template' id='login#{loginDropdownID}')
+  #loginDropdown.ns-popover-tooltip
+    .triangle
+    .ns-triangle
+    .pad
+      .text-center
+        // TODO-JWT figure out better title
+        | Authenticate to personalize this page
+        a.btn.btn-primary(href="/oauth" target="_self") Authenticate
