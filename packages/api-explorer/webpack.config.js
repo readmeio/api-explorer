@@ -1,10 +1,10 @@
 module.exports = {
-  entry: './src/index.jsx',
+  entry: ['whatwg-fetch', './src/index.jsx'],
   module: {
     rules: [
       {
         test: /\.js(x?)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!(@readme\/syntax-highlighter|fetch-har))/,
         use: {
           loader: 'babel-loader',
         },

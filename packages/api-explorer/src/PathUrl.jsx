@@ -97,12 +97,13 @@ PathUrl.propTypes = {
   showAuthBox: PropTypes.bool,
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string.isRequired,
+  apiKey: PropTypes.string,
 };
 
 PathUrl.defaultProps = {
   showAuthBox: false,
   needsAuth: false,
   authInputRef: () => {},
+  apiKey: '',
 };
 module.exports = PathUrl;
