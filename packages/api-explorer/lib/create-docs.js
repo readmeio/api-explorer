@@ -50,7 +50,21 @@ module.exports = (oas, apiSetting) => {
           slug: tag,
           type: 'endpoint',
           category: { apiSetting },
-          api: { method },
+          api: {
+            method,
+            examples: {
+              codes: [
+                {
+                  language: 'javascript',
+                  code: 'console.log(1);',
+                },
+                {
+                  language: 'curl',
+                  code: 'curl http://example.com',
+                },
+              ],
+            },
+          },
           swagger: { path },
           // Uncomment this if you want some body content blocks
           // body,

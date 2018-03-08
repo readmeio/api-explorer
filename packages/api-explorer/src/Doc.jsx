@@ -180,6 +180,7 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         formData={this.state.formData}
         language={this.props.language}
+        customCodeSamples={this.props.doc.api.examples.codes}
       />
     );
   }
@@ -306,6 +307,9 @@ Doc.propTypes = {
     type: PropTypes.string.isRequired,
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
+      examples: PropTypes.shape({
+        codes: PropTypes.arrayOf(PropTypes.shape({})),
+      }),
     }),
     swagger: PropTypes.shape({
       path: PropTypes.string.isRequired,
