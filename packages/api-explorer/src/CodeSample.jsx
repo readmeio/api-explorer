@@ -37,7 +37,7 @@ class CodeSample extends React.Component {
             return (
               <div>
                 <ul className="code-sample-tabs">
-                  {customCodeSamples.map(example => (
+                  {customCodeSamples.map((example, index) => (
                     <li key={example.language}>
                       {
                         // eslint-disable-next-line jsx-a11y/href-no-hash
@@ -47,6 +47,7 @@ class CodeSample extends React.Component {
                           onClick={e => {
                             e.preventDefault();
                             setLanguage(example.language);
+                            this.setCustomCodeSampleTab(index);
                           }}
                         >
                           {generateCodeSnippet.getLangName(example.language)}

@@ -173,6 +173,18 @@ class Doc extends React.Component {
   }
 
   renderCodeSample() {
+    if (this.props.doc.api.examples) {
+      return (
+        <CodeSample
+          oas={this.oas}
+          setLanguage={this.props.setLanguage}
+          operation={this.getOperation()}
+          formData={this.state.formData}
+          language={this.props.language}
+          customCodeSamples={this.props.doc.api.examples.codes}
+        />
+      );
+    }
     return (
       <CodeSample
         oas={this.oas}
@@ -180,7 +192,6 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         formData={this.state.formData}
         language={this.props.language}
-        customCodeSamples={this.props.doc.api.examples.codes}
       />
     );
   }

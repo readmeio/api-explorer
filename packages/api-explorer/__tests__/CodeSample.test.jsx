@@ -54,6 +54,39 @@ describe('tabs', () => {
 });
 
 describe('code examples', () => {
+  test('should display custom examples over pre-filled examples', () => {
+    const docProps = {
+      setLanguage: () => {},
+      operation: new Operation({}, '/pet/{id}', 'get'),
+      formData: {},
+      language: 'node',
+      customCodeSamples: [
+        {
+          language: 'javascript',
+          code: 'console.log(1);',
+        },
+      ],
+    };
+    const languages = ['node', 'curl'];
+    const codeSample = shallow(
+      <CodeSample
+        {...docProps}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: languages,
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
+      />,
+    );
+
+    expect(codeSample.find('.code-sample-body').length).toBe(1);
+    expect(codeSample.find('pre.tomorrow-night.tabber-body').length).toBe(1);
+  });
+});
+
+describe('code examples', () => {
   test('should display examples if SAMPLES_ENABLED is true', () => {
     const languages = ['node', 'curl'];
     const codeSample = shallow(
