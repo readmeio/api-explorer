@@ -1,0 +1,11 @@
+i.glyphicon {
+  display: none;
+}
+.btn-add::after {
+  font-family: FontAwesome;
+  content: '\f067';
+}
+.array-item-remove::after {
+  font-family: FontAwesome;
+  content: '\f00d';
+}
