@@ -44,6 +44,17 @@ i.glyphicon {
   content: "\e975";
   color: #028aec;
 }
+.btn.btn-default {
+  border: none;
+}
+.array-item-move-up::after {
+ padding: 0
+}
+.array-item-move-up::after:hover {
+ border:none;
+}
+.array-item-move-down::after { display: none !important }
+.array-item-move-down::after:hover { border: none;}
 .array-item-remove::after {
   font-family: 'ReadMe-Icons';
   content: "\e959";
