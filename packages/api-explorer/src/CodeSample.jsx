@@ -24,6 +24,8 @@ class CodeSample extends React.Component {
   render() {
     const { oas, setLanguage, operation, formData, language, customCodeSamples } = this.props;
 
+    const codeSamplesWithLanguages = customCodeSamples.filter(example => example.language);
+
     return (
       <div className="code-sample tabber-parent">
         {(() => {
@@ -31,13 +33,11 @@ class CodeSample extends React.Component {
             return <div className="hub-no-code">No code samples available</div>;
           }
 
-          const snippet = generateCodeSnippet(oas, operation, formData, language);
-
           if (customCodeSamples.length) {
             return (
               <div>
                 <ul className="code-sample-tabs">
-                  {customCodeSamples.map((example, index) => (
+                  {codeSamplesWithLanguages.map((example, index) => (
                     <li key={example.language}>
                       {
                         // eslint-disable-next-line jsx-a11y/href-no-hash
@@ -57,7 +57,7 @@ class CodeSample extends React.Component {
                   ))}
                 </ul>
                 <div className="code-sample-body">
-                  {customCodeSamples.map((example, index) => {
+                  {codeSamplesWithLanguages.map((example, index) => {
                     return (
                       <pre
                         className="tomorrow-night tabber-body"
@@ -65,7 +65,7 @@ class CodeSample extends React.Component {
                         key={index} // eslint-disable-line react/no-array-index-key
                         // eslint-disable-next-line react/no-danger
                         dangerouslySetInnerHTML={{
-                          __html: syntaxHighlighter(example.code, example.language, true),
+                          __html: syntaxHighlighter(example.code || '', example.language, true),
                         }}
                       />
                     );
@@ -74,6 +74,9 @@ class CodeSample extends React.Component {
               </div>
             );
           }
+
+          const snippet = generateCodeSnippet(oas, operation, formData, language);
+
           return (
             <div>
               <ul className="code-sample-tabs">
@@ -117,7 +120,10 @@ CodeSample.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
-  customCodeSamples: PropTypes.shape([]),
+  customCodeSamples: PropTypes.arrayOf(PropTypes.shape({
+    language: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+  })),
   language: PropTypes.string.isRequired,
 };
 
