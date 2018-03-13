@@ -52,18 +52,19 @@ module.exports = (oas, apiSetting) => {
           category: { apiSetting },
           api: {
             method,
-            examples: {
-              codes: [
-                {
-                  language: 'javascript',
-                  code: 'console.log(1);',
-                },
-                {
-                  language: 'curl',
-                  code: 'curl http://example.com',
-                },
-              ],
-            },
+            // Uncomment this if you want to test custom code samples
+            // examples: {
+            //   codes: [
+            //     {
+            //       language: 'javascript',
+            //       code: 'console.log(1);',
+            //     },
+            //     {
+            //       language: 'curl',
+            //       code: 'curl http://example.com',
+            //     },
+            //   ],
+            // },
           },
           swagger: { path },
           // Uncomment this if you want some body content blocks
