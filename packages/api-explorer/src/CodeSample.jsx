@@ -22,9 +22,9 @@ class CodeSample extends React.Component {
   }
 
   render() {
-    const { oas, setLanguage, operation, formData, language, customCodeSamples } = this.props;
+    const { oas, setLanguage, operation, formData, language, examples } = this.props;
 
-    const codeSamplesWithLanguages = customCodeSamples.filter(example => example.language);
+    const examplesWithLanguages = examples.filter(example => example.language);
 
     return (
       <div className="code-sample tabber-parent">
@@ -33,11 +33,11 @@ class CodeSample extends React.Component {
             return <div className="hub-no-code">No code samples available</div>;
           }
 
-          if (customCodeSamples.length) {
+          if (examples.length) {
             return (
               <div>
                 <ul className="code-sample-tabs">
-                  {codeSamplesWithLanguages.map((example, index) => (
+                  {examplesWithLanguages.map((example, index) => (
                     <li key={example.language}>
                       {
                         // eslint-disable-next-line jsx-a11y/href-no-hash
@@ -57,7 +57,7 @@ class CodeSample extends React.Component {
                   ))}
                 </ul>
                 <div className="code-sample-body">
-                  {codeSamplesWithLanguages.map((example, index) => {
+                  {examplesWithLanguages.map((example, index) => {
                     return (
                       <pre
                         className="tomorrow-night tabber-body"
@@ -120,7 +120,7 @@ CodeSample.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
-  customCodeSamples: PropTypes.arrayOf(PropTypes.shape({
+  examples: PropTypes.arrayOf(PropTypes.shape({
     language: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
   })),
@@ -128,6 +128,6 @@ CodeSample.propTypes = {
 };
 
 CodeSample.defaultProps = {
-  customCodeSamples: [],
+  examples: [],
 };
 module.exports = CodeSample;

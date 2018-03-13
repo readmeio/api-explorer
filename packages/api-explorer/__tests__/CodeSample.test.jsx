@@ -60,7 +60,7 @@ describe('code examples', () => {
       operation: new Operation({}, '/pet/{id}', 'get'),
       formData: {},
       language: 'node',
-      customCodeSamples: [
+      examples: [
         {
           language: 'javascript',
           code: 'console.log(1);',
@@ -90,7 +90,7 @@ describe('code examples', () => {
       operation: new Operation({}, '/pet/{id}', 'get'),
       formData: {},
       language: 'node',
-      customCodeSamples: [
+      examples: [
         {
           language: 'javascript',
         },
@@ -116,7 +116,7 @@ describe('code examples', () => {
       operation: new Operation({}, '/pet/{id}', 'get'),
       formData: {},
       language: 'node',
-      customCodeSamples: [
+      examples: [
         {
           code: 'console.log(1);',
         },

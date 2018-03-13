@@ -187,7 +187,7 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         formData={this.state.formData}
         language={this.props.language}
-        customCodeSamples={examples}
+        examples={examples}
       />
     );
   }
