@@ -175,8 +175,8 @@ class Doc extends React.Component {
   renderCodeSample() {
     let examples;
     try {
-      examples = this.props.doc.api.examples.codes
-    } catch(e) {
+      examples = this.props.doc.api.examples.codes;
+    } catch (e) {
       examples = [];
     }
 
@@ -315,10 +315,12 @@ Doc.propTypes = {
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
       examples: PropTypes.shape({
-        codes: PropTypes.arrayOf(PropTypes.shape({
-          language: PropTypes.string.isRequired,
-          code: PropTypes.string.isRequired,
-        })),
+        codes: PropTypes.arrayOf(
+          PropTypes.shape({
+            language: PropTypes.string.isRequired,
+            code: PropTypes.string.isRequired,
+          }),
+        ),
       }),
     }),
     swagger: PropTypes.shape({

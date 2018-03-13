@@ -96,18 +96,20 @@ describe('code examples', () => {
         },
       ],
     };
-    expect(() => shallow(
-      <CodeSample
-        {...docProps}
-        oas={
-          new Oas({
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
-            servers: [{ url: 'http://example.com' }],
-          })
-        }
-      />,
-    )).not.toThrow(/Cannot read property 'split' of undefined/);
+    expect(() =>
+      shallow(
+        <CodeSample
+          {...docProps}
+          oas={
+            new Oas({
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+              servers: [{ url: 'http://example.com' }],
+            })
+          }
+        />,
+      ),
+    ).not.toThrow(/Cannot read property 'split' of undefined/);
   });
 
   test('should not render sample if language is missing', () => {

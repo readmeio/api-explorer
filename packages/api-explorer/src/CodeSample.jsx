@@ -122,10 +122,12 @@ CodeSample.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
-  examples: PropTypes.arrayOf(PropTypes.shape({
-    language: PropTypes.string.isRequired,
-    code: PropTypes.string.isRequired,
-  })),
+  examples: PropTypes.arrayOf(
+    PropTypes.shape({
+      language: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+    }),
+  ),
   language: PropTypes.string.isRequired,
 };
 
