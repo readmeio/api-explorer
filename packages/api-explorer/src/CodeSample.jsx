@@ -21,10 +21,52 @@ class CodeSample extends React.Component {
     this.setState({ customCodeSampleTab: index });
   }
 
+  renderExamples(examples, setLanguage) {
+    const examplesWithLanguages = examples.filter(example => example.language);
+
+    return (
+      <div>
+        <ul className="code-sample-tabs">
+          {examplesWithLanguages.map((example, index) => (
+            <li key={example.language}>
+              {
+                // eslint-disable-next-line jsx-a11y/href-no-hash
+                <a
+                  href="#"
+                  className={`hub-lang-switch-${example.language}`}
+                  onClick={e => {
+                    e.preventDefault();
+                    setLanguage(example.language);
+                    this.setCustomCodeSampleTab(index);
+                  }}
+                >
+                  {generateCodeSnippet.getLangName(example.language)}
+                </a>
+              }
+            </li>
+          ))}
+        </ul>
+        <div className="code-sample-body">
+          {examplesWithLanguages.map((example, index) => {
+            return (
+              <pre
+                className="tomorrow-night tabber-body"
+                style={{ display: index === this.state.customCodeSampleTab ? 'block' : '' }}
+                key={index} // eslint-disable-line react/no-array-index-key
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: syntaxHighlighter(example.code || '', example.language, true),
+                }}
+              />
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { oas, setLanguage, operation, formData, language, examples } = this.props;
-
-    const examplesWithLanguages = examples.filter(example => example.language);
 
     return (
       <div className="code-sample tabber-parent">
@@ -33,47 +75,7 @@ class CodeSample extends React.Component {
             return <div className="hub-no-code">No code samples available</div>;
           }
 
-          if (examples.length) {
-            return (
-              <div>
-                <ul className="code-sample-tabs">
-                  {examplesWithLanguages.map((example, index) => (
-                    <li key={example.language}>
-                      {
-                        // eslint-disable-next-line jsx-a11y/href-no-hash
-                        <a
-                          href="#"
-                          className={`hub-lang-switch-${example.language}`}
-                          onClick={e => {
-                            e.preventDefault();
-                            setLanguage(example.language);
-                            this.setCustomCodeSampleTab(index);
-                          }}
-                        >
-                          {generateCodeSnippet.getLangName(example.language)}
-                        </a>
-                      }
-                    </li>
-                  ))}
-                </ul>
-                <div className="code-sample-body">
-                  {examplesWithLanguages.map((example, index) => {
-                    return (
-                      <pre
-                        className="tomorrow-night tabber-body"
-                        style={{ display: index === this.state.customCodeSampleTab ? 'block' : '' }}
-                        key={index} // eslint-disable-line react/no-array-index-key
-                        // eslint-disable-next-line react/no-danger
-                        dangerouslySetInnerHTML={{
-                          __html: syntaxHighlighter(example.code || '', example.language, true),
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          }
+          if (examples.length) return this.renderExamples(examples, setLanguage);
 
           const snippet = generateCodeSnippet(oas, operation, formData, language);
 
