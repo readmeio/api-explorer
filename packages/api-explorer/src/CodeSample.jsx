@@ -9,107 +9,91 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
-class CodeSample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      customCodeSampleTab: 0,
-    };
-    this.setCustomCodeSampleTab = this.setCustomCodeSampleTab.bind(this);
-  }
-  setCustomCodeSampleTab(index) {
-    this.setState({ customCodeSampleTab: index });
-  }
+function CodeSample({ oas, setLanguage, operation, formData, language, customCodeSamples }) {
+  return (
+    <div className="code-sample tabber-parent">
+      {(() => {
+        if (!oas[extensions.SAMPLES_ENABLED]) {
+          return <div className="hub-no-code">No code samples available</div>;
+        }
 
-  render() {
-    const { oas, setLanguage, operation, formData, language, customCodeSamples } = this.props;
+        const snippet = generateCodeSnippet(oas, operation, formData, language);
 
-    return (
-      <div className="code-sample tabber-parent">
-        {(() => {
-          if (!oas[extensions.SAMPLES_ENABLED]) {
-            return <div className="hub-no-code">No code samples available</div>;
-          }
-
-          const snippet = generateCodeSnippet(oas, operation, formData, language);
-
-          if (customCodeSamples.length) {
-            return (
-              <div>
-                <ul className="code-sample-tabs">
-                  {customCodeSamples.map((example, index) => (
-                    <li key={example.language}>
-                      {
-                        // eslint-disable-next-line jsx-a11y/href-no-hash
-                        <a
-                          href="#"
-                          className={`hub-lang-switch-${example.language}`}
-                          onClick={e => {
-                            e.preventDefault();
-                            setLanguage(example.language);
-                            this.setCustomCodeSampleTab(index);
-                          }}
-                        >
-                          {generateCodeSnippet.getLangName(example.language)}
-                        </a>
-                      }
-                    </li>
-                  ))}
-                </ul>
-                <div className="code-sample-body">
-                  {customCodeSamples.map((example, index) => {
-                    return (
-                      <pre
-                        className="tomorrow-night tabber-body"
-                        style={{ display: index === this.state.customCodeSampleTab ? 'block' : '' }}
-                        key={index} // eslint-disable-line react/no-array-index-key
-                        // eslint-disable-next-line react/no-danger
-                        dangerouslySetInnerHTML={{
-                          __html: syntaxHighlighter(example.code, example.language, true),
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          }
+        if (customCodeSamples.length) {
           return (
             <div>
               <ul className="code-sample-tabs">
-                {// TODO add `is-lang-${lang}` class, to body?
-                oas[extensions.SAMPLES_LANGUAGES].map(lang => (
-                  <li key={lang}>
+                {customCodeSamples.map(example => (
+                  <li key={example.language}>
                     {
                       // eslint-disable-next-line jsx-a11y/href-no-hash
                       <a
                         href="#"
-                        className={`hub-lang-switch-${lang}`}
+                        className={`hub-lang-switch-${example.language}`}
                         onClick={e => {
                           e.preventDefault();
-                          setLanguage(lang);
+                          setLanguage(example.language);
                         }}
                       >
-                        {generateCodeSnippet.getLangName(lang)}
+                        {generateCodeSnippet.getLangName(example.language)}
                       </a>
                     }
                   </li>
                 ))}
               </ul>
-
-              <div className="hub-code-auto">
-                <pre
-                  className={`tomorrow-night hub-lang hub-lang-${language}`}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: snippet }}
-                />
+              <div className="code-sample-body">
+                {customCodeSamples.map(example => {
+                  return (
+                    <pre
+                      className="tomorrow-night tabber-body"
+                      style={{ display: language === example.language ? 'block' : '' }}
+                      key={example.language} // eslint-disable-line react/no-array-index-key
+                      // eslint-disable-next-line react/no-danger
+                      dangerouslySetInnerHTML={{
+                        __html: syntaxHighlighter(example.code, example.language, true),
+                      }}
+                    />
+                  );
+                })}
               </div>
             </div>
           );
-        })()}
-      </div>
-    );
-  }
+        }
+        return (
+          <div>
+            <ul className="code-sample-tabs">
+              {// TODO add `is-lang-${lang}` class, to body?
+              oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                <li key={lang}>
+                  {
+                    // eslint-disable-next-line jsx-a11y/href-no-hash
+                    <a
+                      href="#"
+                      className={`hub-lang-switch-${lang}`}
+                      onClick={e => {
+                        e.preventDefault();
+                        setLanguage(lang);
+                      }}
+                    >
+                      {generateCodeSnippet.getLangName(lang)}
+                    </a>
+                  }
+                </li>
+              ))}
+            </ul>
+
+            <div className="hub-code-auto">
+              <pre
+                className={`tomorrow-night hub-lang hub-lang-${language}`}
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: snippet }}
+              />
+            </div>
+          </div>
+        );
+      })()}
+    </div>
+  );
 }
 
 CodeSample.propTypes = {
