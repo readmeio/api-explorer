@@ -60,21 +60,20 @@ describe('code examples', () => {
       operation: new Operation({}, '/pet/{id}', 'get'),
       formData: {},
       language: 'node',
-      customCodeSamples: [
+      examples: [
         {
           language: 'javascript',
           code: 'console.log(1);',
         },
       ],
     };
-    const languages = ['node', 'curl'];
     const codeSample = shallow(
       <CodeSample
         {...docProps}
         oas={
           new Oas({
             [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: languages,
+            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
             servers: [{ url: 'http://example.com' }],
           })
         }
@@ -83,6 +82,68 @@ describe('code examples', () => {
 
     expect(codeSample.find('.code-sample-body').length).toBe(1);
     expect(codeSample.find('pre.tomorrow-night.tabber-body').length).toBe(1);
+  });
+
+  test('should not error if no code given', () => {
+    const docProps = {
+      setLanguage: () => {},
+      operation: new Operation({}, '/pet/{id}', 'get'),
+      formData: {},
+      language: 'node',
+      examples: [
+        {
+          language: 'javascript',
+        },
+      ],
+    };
+    expect(() =>
+      shallow(
+        <CodeSample
+          {...docProps}
+          oas={
+            new Oas({
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+              servers: [{ url: 'http://example.com' }],
+            })
+          }
+        />,
+      ),
+    ).not.toThrow(/Cannot read property 'split' of undefined/);
+  });
+
+  test('should not render sample if language is missing', () => {
+    const docProps = {
+      setLanguage: () => {},
+      operation: new Operation({}, '/pet/{id}', 'get'),
+      formData: {},
+      language: 'node',
+      examples: [
+        {
+          code: 'console.log(1);',
+        },
+        {
+          language: 'curl',
+          code: 'curl example.com',
+        },
+      ],
+    };
+
+    const codeSample = shallow(
+      <CodeSample
+        {...docProps}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
+      />,
+    );
+
+    expect(codeSample.find('.code-sample-tabs a').length).toBe(1);
+    expect(codeSample.find('.code-sample-body pre').length).toBe(1);
   });
 });
 

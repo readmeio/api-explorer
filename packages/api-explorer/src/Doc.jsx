@@ -173,18 +173,13 @@ class Doc extends React.Component {
   }
 
   renderCodeSample() {
-    if (this.props.doc.api.examples) {
-      return (
-        <CodeSample
-          oas={this.oas}
-          setLanguage={this.props.setLanguage}
-          operation={this.getOperation()}
-          formData={this.state.formData}
-          language={this.props.language}
-          customCodeSamples={this.props.doc.api.examples.codes}
-        />
-      );
+    let examples;
+    try {
+      examples = this.props.doc.api.examples.codes;
+    } catch (e) {
+      examples = [];
     }
+
     return (
       <CodeSample
         oas={this.oas}
@@ -192,6 +187,7 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         formData={this.state.formData}
         language={this.props.language}
+        examples={examples}
       />
     );
   }
@@ -319,7 +315,12 @@ Doc.propTypes = {
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
       examples: PropTypes.shape({
-        codes: PropTypes.arrayOf(PropTypes.shape({})),
+        codes: PropTypes.arrayOf(
+          PropTypes.shape({
+            language: PropTypes.string.isRequired,
+            code: PropTypes.string.isRequired,
+          }),
+        ),
       }),
     }),
     swagger: PropTypes.shape({
