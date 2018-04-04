@@ -15,7 +15,7 @@ const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 
 const Oas = require('./lib/Oas');
-const showCode = require('./lib/show-code');
+// const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
@@ -111,8 +111,12 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
+  // TODO: I couldn't figure out why this existed
+  // Shouldn't we always show code samples?
+  // eslint-disable-next-line
   shouldShowCode() {
-    return showCode(this.oas, this.getOperation());
+    return true;
+    // return showCode(this.oas, this.getOperation());
   }
 
   themeMain(doc) {
@@ -193,6 +197,12 @@ class Doc extends React.Component {
   }
 
   renderResponse() {
+    let exampleResponses;
+    try {
+      exampleResponses = this.props.doc.api.results.codes;
+    } catch (e) {
+      exampleResponses = [];
+    }
     return (
       <Response
         result={this.state.result}
@@ -200,6 +210,7 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         oauth={this.props.oauth}
         hideResults={this.hideResults}
+        exampleResponses={exampleResponses}
       />
     );
   }
@@ -320,6 +331,11 @@ Doc.propTypes = {
             language: PropTypes.string.isRequired,
             code: PropTypes.string.isRequired,
           }),
+        ),
+      }),
+      results: PropTypes.shape({
+        codes: PropTypes.arrayOf(
+          PropTypes.shape({}), // TODO: Jsinspect threw an error because this was too similar to L330
         ),
       }),
     }),

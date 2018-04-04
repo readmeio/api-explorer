@@ -7,6 +7,8 @@ const statusCodes = require('./lib/statuscodes');
 function IconStatus({ status }) {
   const statusCode = statusCodes(status);
 
+  if (!statusCode) return <span />;
+
   return (
     <span
       className={classNames({
@@ -22,7 +24,11 @@ function IconStatus({ status }) {
 }
 
 IconStatus.propTypes = {
-  status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+};
+
+IconStatus.defaultProps = {
+  status: 200, // TODO: For some reason this wasn't getting passed sometimes
 };
 
 module.exports = IconStatus;

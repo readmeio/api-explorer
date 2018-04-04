@@ -31,7 +31,7 @@ class Response extends React.Component {
   }
 
   render() {
-    const { result, oas, operation, oauth, hideResults } = this.props;
+    const { result, oas, operation, oauth, hideResults, exampleResponses } = this.props;
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
 
@@ -67,6 +67,7 @@ class Response extends React.Component {
             oas={oas}
             selected={this.state.exampleTab}
             setExampleTab={this.setExampleTab}
+            exampleResponses={exampleResponses}
           />
         </div>
       </div>
@@ -82,8 +83,10 @@ Response.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   oauth: PropTypes.bool.isRequired,
   hideResults: PropTypes.func.isRequired,
+  exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Response.defaultProps = {
   result: {},
+  exampleResponses: [],
 };

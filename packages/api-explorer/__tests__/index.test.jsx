@@ -151,9 +151,9 @@ describe('oas', () => {
 describe('apiKey', () => {
   afterEach(() => Cookie.remove('user_data'));
 
-  it('should read apiKey from `user_data.keys.api_key` cookie', () => {
+  it('should read apiKey from `user_data.apiKey` cookie', () => {
     const apiKey = '123456';
-    Cookie.set('user_data', JSON.stringify({ keys: { api_key: apiKey } }));
+    Cookie.set('user_data', JSON.stringify({ apiKey }));
 
     const explorer = shallow(<ApiExplorer {...props} />);
 

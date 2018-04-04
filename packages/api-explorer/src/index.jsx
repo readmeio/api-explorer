@@ -9,7 +9,9 @@ class ApiExplorer extends React.Component {
   static getApiKey() {
     try {
       const userData = Cookie.getJSON('user_data');
-      return userData.keys.api_key;
+      // TODO: This needs to work for legacy api_key
+      // as well as keys[].apiKey
+      return userData.apiKey || userData.keys[0].api_key;
     } catch (e) {
       return undefined;
     }

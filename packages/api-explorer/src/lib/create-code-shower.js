@@ -19,10 +19,10 @@ module.exports = type => {
       .map(status => {
         const response = pathOperation.responses[status];
 
-        const language = getLanguage(response);
+        const language = response.language || getLanguage(response);
         if (!language) return false;
 
-        const example = getExample(response, language);
+        const example = response.code || getExample(response, language);
         if (!example) return false;
 
         return {
