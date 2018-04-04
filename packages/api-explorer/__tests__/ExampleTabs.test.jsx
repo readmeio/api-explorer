@@ -4,10 +4,11 @@ const example = require('./fixtures/example-results/oas');
 
 const ExampleTabs = require('../src/ExampleTabs');
 const Oas = require('../src/lib/Oas');
+const showCodeResults = require('../src/lib/show-code-results');
 
 const oas = new Oas(example);
 const props = {
-  operation: oas.operation('/results', 'get'),
+  examples: showCodeResults(oas.operation('/results', 'get')),
   selected: 0,
   setExampleTab: () => {},
 };

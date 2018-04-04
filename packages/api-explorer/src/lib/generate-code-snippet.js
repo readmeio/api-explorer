@@ -66,6 +66,14 @@ module.exports = (oas, operation, values, lang) => {
   const snippet = new HTTPSnippet(har);
 
   const language = supportedLanguages[lang];
+
+  // Prevents errors if non-generated code snippet is selected
+  // and there isn't a way to generate a code snippet for it
+  // ex) shell
+  if (!language) {
+    return undefined;
+  }
+
   return syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight, true);
 };
 

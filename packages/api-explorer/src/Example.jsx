@@ -12,14 +12,18 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function Example({ operation, result, oas, selected, setExampleTab }) {
+function Example({ operation, result, oas, selected, setExampleTab, exampleResponses }) {
+  const examples = exampleResponses.length || showCodeResults(operation);
+  const hasExamples = examples.find(e => e.code && e.code !== '{}');
   return (
     <div className="hub-reference-results-examples code-sample">
-      {showCodeResults(operation).length > 0 && (
+      {examples &&
+      examples.length > 0 &&
+      hasExamples && (
         <span>
-          <ExampleTabs operation={operation} selected={selected} setExampleTab={setExampleTab} />
+          <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
-            {showCodeResults(operation).map((example, index) => {
+            {examples.map((example, index) => {
               return (
                 <pre
                   className={`tomorrow-night tabber-body tabber-body-${index}`}
@@ -35,8 +39,7 @@ function Example({ operation, result, oas, selected, setExampleTab }) {
           </div>
         </span>
       )}
-      {showCodeResults(operation).length === 0 &&
-      result === null && (
+      {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
           {oas[extensions.EXPLORER_ENABLED] ? (
             'Try the API to see Results'
@@ -57,8 +60,10 @@ Example.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   selected: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
+  exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Example.defaultProps = {
   result: {},
+  exampleResponses: [],
 };
