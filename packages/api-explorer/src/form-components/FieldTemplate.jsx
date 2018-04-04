@@ -1,6 +1,9 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const extensions = require('@readme/oas-extensions');
 const CustomObjectField = require('./ObjectField');
+
+let explorerEnabled;
 
 function CustomFieldTemplate(props) {
   const { id, label, help, required, description, errors, children, schema, labelPrefix } = props;
@@ -25,7 +28,11 @@ function CustomFieldTemplate(props) {
               {required && <div className="param-item-required">required</div>}
               {description}
             </div>
-            <div className="param-item-input">{isObject ? String.fromCharCode(160) : children}</div>
+            {explorerEnabled && (
+              <div className="param-item-input">
+                {isObject ? String.fromCharCode(160) : children}
+              </div>
+            )}
             {errors}
             {help}
           </div>
@@ -57,4 +64,9 @@ CustomFieldTemplate.defaultProps = {
   required: false,
 };
 
-module.exports = CustomFieldTemplate;
+function wrapper(oas) {
+  explorerEnabled = oas[extensions.EXPLORER_ENABLED];
+  return CustomFieldTemplate;
+}
+
+module.exports = wrapper;

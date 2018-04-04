@@ -8,8 +8,9 @@ const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/Dat
   .default;
 
 const ObjectField = require('./form-components/ObjectField');
+const ArrayField = require('./form-components/ArrayField');
 const SchemaField = require('./form-components/SchemaField');
-const FieldTemplate = require('./form-components/FieldTemplate');
+const FieldTemplateWrapper = require('./form-components/FieldTemplate');
 const DescriptionField = require('./form-components/DescriptionField');
 const CheckboxWidget = require('./form-components/CheckboxWidget');
 
@@ -20,6 +21,7 @@ const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
 function Params({ oas, operation, formData, onChange, onSubmit }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
+  const FieldTemplate = FieldTemplateWrapper(oas);
   return (
     <div className="api-manager">
       <div className="param-table">
@@ -57,6 +59,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
                 FieldTemplate={FieldTemplate}
                 fields={{
                   ObjectField,
+                  ArrayField,
                   SchemaField,
                   TitleField: () => null,
                   DescriptionField,

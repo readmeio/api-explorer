@@ -13,7 +13,7 @@ const Oas = require('./lib/Oas');
 const { Operation } = Oas;
 
 function Example({ operation, result, oas, selected, setExampleTab, exampleResponses }) {
-  const examples = exampleResponses.length || showCodeResults(operation);
+  const examples = exampleResponses.length ? exampleResponses : showCodeResults(operation);
   const hasExamples = examples.find(e => e.code && e.code !== '{}');
   return (
     <div className="hub-reference-results-examples code-sample">
