@@ -76,7 +76,7 @@ mixin securityInput(security, multipleOauths)
         input(type="text" ng-model="apiAuth.auth._basic_username" focus-me="authFocus")
       .col-xs-6
         label password
-        input(type="text" ng-model="apiAuth.auth._basic_password")
+        input(type="password" ng-model="apiAuth.auth._basic_password")
   if security.type == 'apiKey'
     .row
       .col-xs-5
