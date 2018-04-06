@@ -16464,7 +16464,8 @@ var classNames = __webpack_require__(11);
 var statusCodes = __webpack_require__(77);
 
 function IconStatus(_ref) {
-  var status = _ref.status;
+  var status = _ref.status,
+      name = _ref.name;
   var statusCode = statusCodes(status);
   if (!statusCode) return React.createElement("span", null);
   return React.createElement("span", {
@@ -16474,15 +16475,17 @@ function IconStatus(_ref) {
     })
   }, React.createElement("i", {
     className: "fa fa-circle"
-  }), "\xA0", statusCode[0], "\xA0", React.createElement("em", null, statusCode[1]));
+  }), "\xA0", statusCode[0], "\xA0", React.createElement("em", null, name || statusCode[1]));
 }
 
 IconStatus.propTypes = {
-  status: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  name: PropTypes.string
 };
 IconStatus.defaultProps = {
-  status: 200 // TODO: For some reason this wasn't getting passed sometimes
-
+  status: 200,
+  // TODO: For some reason this wasn't getting passed sometimes
+  name: ''
 };
 module.exports = IconStatus;
 
@@ -42551,7 +42554,7 @@ function (_React$Component) {
             e.preventDefault();
             setLanguage(example.language);
           }
-        }, generateCodeSnippet.getLangName(example.language)));
+        }, example.name || generateCodeSnippet.getLangName(example.language)));
       })), React.createElement("div", {
         className: "code-sample-body"
       }, examplesWithLanguages.map(function (example) {
@@ -48860,7 +48863,8 @@ function ExampleTabs(_ref) {
       key: index // eslint-disable-line react/no-array-index-key
 
     }, React.createElement(IconStatus, {
-      status: example.status
+      status: example.status,
+      name: example.name
     }));
   }));
 }

@@ -12,7 +12,6 @@ const generateCodeSnippet = require('./lib/generate-code-snippet');
 class CodeSample extends React.Component {
   renderExamples(examples, setLanguage) {
     const examplesWithLanguages = examples.filter(example => example.language);
-
     return (
       <div>
         <ul className="code-sample-tabs">
@@ -28,7 +27,7 @@ class CodeSample extends React.Component {
                     setLanguage(example.language);
                   }}
                 >
-                  {generateCodeSnippet.getLangName(example.language)}
+                  {example.name || generateCodeSnippet.getLangName(example.language)}
                 </a>
               }
             </li>

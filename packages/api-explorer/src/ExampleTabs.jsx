@@ -16,7 +16,7 @@ function ExampleTabs({ examples, selected, setExampleTab }) {
             }}
             key={index} // eslint-disable-line react/no-array-index-key
           >
-            <IconStatus status={example.status} />
+            <IconStatus status={example.status} name={example.name} />
           </Tab>
         );
       })}
