@@ -389,7 +389,6 @@ describe('body values', () => {
                     },
                   },
                 },
-                example: { a: 'value' },
               },
             },
           },
@@ -417,12 +416,70 @@ describe('body values', () => {
                     },
                   },
                 },
-                example: { a: 'value' },
               },
             },
           },
         },
         { body: { a: 'test' } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify({ a: 'test' }));
+  });
+
+  it('should work for TOP_LEVEL primitives', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    TOP_LEVEL: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { TOP_LEVEL: 'test' } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify('test'));
+  });
+
+  it('should work for TOP_LEVEL objects', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    TOP_LEVEL: {
+                      type: 'object',
+                      properties: {
+                        a: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { TOP_LEVEL: { a: 'test' } } },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 'test' }));
   });

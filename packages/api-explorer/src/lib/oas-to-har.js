@@ -149,7 +149,7 @@ module.exports = (
       har.postData.text = querystring.stringify(formData.formData);
     } else if (Object.keys(formData.body).length) {
       // Default to JSON.stringify
-      har.postData.text = JSON.stringify(formData.body);
+      har.postData.text = JSON.stringify(formData.body.TOP_LEVEL || formData.body);
     }
   }
 

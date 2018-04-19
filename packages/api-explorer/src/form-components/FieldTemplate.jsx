@@ -2,6 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const CustomObjectField = require('./ObjectField');
+const constructFormLabel = require('../lib/construct-form-label');
 
 let explorerEnabled;
 
@@ -13,7 +14,7 @@ function CustomFieldTemplate(props) {
   }
 
   const isObject = children.type === CustomObjectField;
-  const combinedLabel = [labelPrefix, label].filter(Boolean).join('.');
+  const combinedLabel = constructFormLabel(labelPrefix, label);
 
   return (
     <div>
