@@ -16,6 +16,11 @@
 </head>
 <body>
   <section id="hub-content"></section>
-  <script src="example/bundle.js"></script>
+  <script src="example/bundle.js">
+    if (location.hash) {
+      let target = location.hash;
+      window.scrollTop = document.querySelector(target).offsetTop;
+    }
+  </script>
 </body>
 </html>
