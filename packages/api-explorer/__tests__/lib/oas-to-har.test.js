@@ -452,6 +452,33 @@ describe('body values', () => {
     ).toEqual(JSON.stringify('test'));
   });
 
+  it('should return empty for falsy TOP_LEVEL primitives', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    TOP_LEVEL: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { TOP_LEVEL: '' } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(''));
+  });
+
   it('should work for TOP_LEVEL objects', () => {
     expect(
       oasToHar(
@@ -482,6 +509,65 @@ describe('body values', () => {
         { body: { TOP_LEVEL: { a: 'test' } } },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 'test' }));
+  });
+
+  it('should return empty for TOP_LEVEL objects', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    TOP_LEVEL: {
+                      type: 'object',
+                      properties: {
+                        a: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { TOP_LEVEL: {} } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify({}));
+  });
+
+  it('should return nothing for undefined body property', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { a: undefined } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify({}));
   });
 });
 
