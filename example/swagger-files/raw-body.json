@@ -1,0 +1,44 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://httpbin.org"
+    }
+  ],
+  "info": {
+    "version": "1.0.0",
+    "title": "Special RAW_BODY parameter which gets sent as a raw JSON body"
+  },
+  "paths": {
+    "/post": {
+      "post": {
+        "summary": "Should get sent as a raw JSON body",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "RAW_BODY": {
+                    "type": "string",
+                    "description": "This should get sent as a raw JSON string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
+}
