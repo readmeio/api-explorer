@@ -8,7 +8,7 @@ test('should remove falsy values', () => {
   expect(constructFormLabel('', 'b')).toBe('b');
 });
 
-test('should remove TOP_LEVEL', () => {
-  expect(constructFormLabel('TOP_LEVEL')).toBe('');
-  expect(constructFormLabel('TOP_LEVEL', 'b')).toBe('b');
+test('should remove RAW_BODY', () => {
+  expect(constructFormLabel('RAW_BODY')).toBe('');
+  expect(constructFormLabel('RAW_BODY', 'b')).toBe('b');
 });

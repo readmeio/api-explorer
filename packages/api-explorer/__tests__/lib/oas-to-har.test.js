@@ -425,7 +425,7 @@ describe('body values', () => {
     ).toEqual(JSON.stringify({ a: 'test' }));
   });
 
-  it('should work for TOP_LEVEL primitives', () => {
+  it('should work for RAW_BODY primitives', () => {
     expect(
       oasToHar(
         {},
@@ -438,7 +438,7 @@ describe('body values', () => {
                 schema: {
                   type: 'object',
                   properties: {
-                    TOP_LEVEL: {
+                    RAW_BODY: {
                       type: 'string',
                     },
                   },
@@ -447,12 +447,12 @@ describe('body values', () => {
             },
           },
         },
-        { body: { TOP_LEVEL: 'test' } },
+        { body: { RAW_BODY: 'test' } },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify('test'));
   });
 
-  it('should return empty for falsy TOP_LEVEL primitives', () => {
+  it('should return empty for falsy RAW_BODY primitives', () => {
     expect(
       oasToHar(
         {},
@@ -465,7 +465,7 @@ describe('body values', () => {
                 schema: {
                   type: 'object',
                   properties: {
-                    TOP_LEVEL: {
+                    RAW_BODY: {
                       type: 'string',
                     },
                   },
@@ -474,12 +474,12 @@ describe('body values', () => {
             },
           },
         },
-        { body: { TOP_LEVEL: '' } },
+        { body: { RAW_BODY: '' } },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify(''));
   });
 
-  it('should work for TOP_LEVEL objects', () => {
+  it('should work for RAW_BODY objects', () => {
     expect(
       oasToHar(
         {},
@@ -492,7 +492,7 @@ describe('body values', () => {
                 schema: {
                   type: 'object',
                   properties: {
-                    TOP_LEVEL: {
+                    RAW_BODY: {
                       type: 'object',
                       properties: {
                         a: {
@@ -506,12 +506,12 @@ describe('body values', () => {
             },
           },
         },
-        { body: { TOP_LEVEL: { a: 'test' } } },
+        { body: { RAW_BODY: { a: 'test' } } },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 'test' }));
   });
 
-  it('should return empty for TOP_LEVEL objects', () => {
+  it('should return empty for RAW_BODY objects', () => {
     expect(
       oasToHar(
         {},
@@ -524,7 +524,7 @@ describe('body values', () => {
                 schema: {
                   type: 'object',
                   properties: {
-                    TOP_LEVEL: {
+                    RAW_BODY: {
                       type: 'object',
                       properties: {
                         a: {
@@ -538,7 +538,7 @@ describe('body values', () => {
             },
           },
         },
-        { body: { TOP_LEVEL: {} } },
+        { body: { RAW_BODY: {} } },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({}));
   });

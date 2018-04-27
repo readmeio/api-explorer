@@ -150,7 +150,7 @@ module.exports = (
     } else if (Object.keys(formData.body).length) {
       // Default to JSON.stringify
       har.postData.text = JSON.stringify(
-        typeof formData.body.TOP_LEVEL !== 'undefined' ? formData.body.TOP_LEVEL : formData.body,
+        typeof formData.body.RAW_BODY !== 'undefined' ? formData.body.RAW_BODY : formData.body,
       );
     }
   }
