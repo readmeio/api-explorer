@@ -25,7 +25,7 @@ const props = {
   suggestedEdits: false,
   oauth: false,
   apiKey: '',
-  tryItMetrics: () => {}
+  tryItMetrics: () => {},
 };
 
 function assertDocElements(component, doc) {
@@ -50,7 +50,15 @@ test('should output a div', () => {
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
-    <Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits oauth={false} apiKey="" tryItMetrics={() => {}} />,
+    <Doc
+      doc={doc}
+      setLanguage={() => {}}
+      language="node"
+      suggestedEdits
+      oauth={false}
+      apiKey=""
+      tryItMetrics={() => {}}
+    />,
   );
   docComponent.setState({ showEndpoint: true });
 
