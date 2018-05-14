@@ -25,6 +25,7 @@ const props = {
   suggestedEdits: false,
   oauth: false,
   apiKey: '',
+  tryItMetrics: () => {}
 };
 
 function assertDocElements(component, doc) {
@@ -49,7 +50,7 @@ test('should output a div', () => {
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
-    <Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits oauth={false} apiKey="" />,
+    <Doc doc={doc} setLanguage={() => {}} language="node" suggestedEdits oauth={false} apiKey="" tryItMetrics={() => {}} />,
   );
   docComponent.setState({ showEndpoint: true });
 
@@ -69,6 +70,7 @@ test('should still display `Content` with stripe layout', () => {
       flags={{ stripe: true }}
       oauth={false}
       apiKey=""
+      tryItMetrics={() => {}}
     />,
   );
   docComponent.setState({ showEndpoint: true });
@@ -182,6 +184,29 @@ describe('onSubmit', () => {
 
     doc.instance().onSubmit();
 
+    window.fetch = fetch;
+  });
+
+  test('should call `tryItMetrics` on success', async () => {
+    let called = false;
+
+    const doc = mount(
+      <Doc
+        {...props}
+        tryItMetrics={() => {
+          called = true;
+        }}
+      />,
+    );
+    doc.instance().onChange({ auth: { api_key: 'api-key' } });
+
+    const fetch = window.fetch;
+    window.fetch = () => {
+      return Promise.resolve(new Response());
+    };
+
+    await doc.instance().onSubmit();
+    expect(called).toBe(true);
     window.fetch = fetch;
   });
 });
