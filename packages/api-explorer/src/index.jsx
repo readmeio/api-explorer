@@ -67,6 +67,7 @@ class ApiExplorer extends React.Component {
               oauth={this.props.oauth}
               suggestedEdits={this.props.suggestedEdits}
               apiKey={this.state.apiKey}
+              tryItMetrics={this.props.tryItMetrics}
             />
           ))}
         </div>
@@ -83,11 +84,13 @@ ApiExplorer.propTypes = {
   }).isRequired,
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
+  tryItMetrics: PropTypes.func,
 };
 
 ApiExplorer.defaultProps = {
   oauth: false,
   flags: { stripe: false },
+  tryItMetrics: () => {},
 };
 
 module.exports = ApiExplorer;

@@ -66,6 +66,8 @@ class Doc extends React.Component {
     const har = oasToHar(this.oas, operation, this.state.formData, { proxyUrl: true });
 
     return fetchHar(har).then(async res => {
+      this.props.tryItMetrics(har, res);
+
       this.setState({
         loading: false,
         result: await parseResponse(har, res),
@@ -352,6 +354,7 @@ Doc.propTypes = {
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   apiKey: PropTypes.string,
+  tryItMetrics: PropTypes.func.isRequired,
 };
 
 Doc.defaultProps = {
