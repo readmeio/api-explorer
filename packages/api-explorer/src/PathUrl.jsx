@@ -10,7 +10,7 @@ const extensions = require('@readme/oas-extensions');
 
 function splitPath(path) {
   return path
-    .split(/({\w.+})/)
+    .split(/({\w.+?})/)
     .filter(Boolean)
     .map(part => {
       return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
