@@ -27,9 +27,9 @@ describe('renderer link', () => {
     );
   });
 
-  it('should convert doc:doc to /doc/doc', () => {
+  it('should convert doc:doc to /docs/doc', () => {
     expect(renderer.link('doc:doc', '', '')).toBe(
-      '<a href="/doc/doc" target="_self" class="doc-link" data-sidebar="doc"></a>',
+      '<a href="/docs/doc" target="_self" class="doc-link" data-sidebar="doc"></a>',
     );
   });
 

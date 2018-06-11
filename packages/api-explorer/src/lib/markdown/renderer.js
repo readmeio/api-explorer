@@ -60,7 +60,7 @@ renderer.link = function link(href, title, text) {
   }
 
   if (doc) {
-    href = `/doc/${doc[1]}`;
+    href = `/docs/${doc[1]}`;
     isDoc = doc[1];
   }
 
