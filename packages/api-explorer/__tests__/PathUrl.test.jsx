@@ -3,6 +3,8 @@ const { shallow } = require('enzyme');
 const PathUrl = require('../src/PathUrl');
 const Oas = require('../src/lib/Oas');
 
+const { splitPath } = PathUrl;
+
 const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas');
 
@@ -75,4 +77,13 @@ test('button click should call onSubmit', () => {
     .simulate('click');
 
   expect(called).toBe(true);
+});
+
+describe('splitPath()', () => {
+  test('should work for multiple path params', () => {
+    expect(splitPath('/{a}/{b}/c').length).toBe(5);
+    expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}').length).toBe(
+      4,
+    );
+  });
 });
