@@ -76,19 +76,22 @@ test('it should return with a json schema for each parameter type', () => {
 
 test('it should work for request body inline (json)', () => {
   expect(
-    parametersToJsonSchema({
-      requestBody: {
-        description: 'Body description',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: { a: { type: 'string' } },
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          description: 'Body description',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: { a: { type: 'string' } },
+              },
             },
           },
         },
       },
-    }, {}),
+      {},
+    ),
   ).toEqual([
     {
       label: 'Body Params',
@@ -105,19 +108,22 @@ test('it should work for request body inline (json)', () => {
 
 test('it should work for request body inline (formData)', () => {
   expect(
-    parametersToJsonSchema({
-      requestBody: {
-        description: 'Form data description',
-        content: {
-          'application/x-www-form-urlencoded': {
-            schema: {
-              type: 'object',
-              properties: { a: { type: 'string' } },
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          description: 'Form data description',
+          content: {
+            'application/x-www-form-urlencoded': {
+              schema: {
+                type: 'object',
+                properties: { a: { type: 'string' } },
+              },
             },
           },
         },
       },
-    }, {}),
+      {},
+    ),
   ).toEqual([
     {
       label: 'Form Data',
@@ -280,22 +286,24 @@ test('it should work for top-level request body $ref', () => {
         },
       },
     ),
-  ).toEqual([{
-    type: 'body',
-    label: 'Body Params',
-    schema: {
-      $ref: '#/components/schemas/Pet',
-      definitions: {
-        components: {
-          schemas: {
-            Pet: {
-              type: 'string',
+  ).toEqual([
+    {
+      type: 'body',
+      label: 'Body Params',
+      schema: {
+        $ref: '#/components/schemas/Pet',
+        definitions: {
+          components: {
+            schemas: {
+              Pet: {
+                type: 'string',
+              },
             },
           },
         },
       },
-    }
-  }]);
+    },
+  ]);
 });
 
 test('it should pull out schemas from `components/requestBodies`', () => {
@@ -306,35 +314,40 @@ test('it should pull out schemas from `components/requestBodies`', () => {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Pet'
-              }
-            }
-          }
+                $ref: '#/components/schemas/Pet',
+              },
+            },
+          },
         },
       },
       schemas: {
         Pet: {
           type: 'string',
-        }
-      }
+        },
+      },
     },
   };
   expect(
-    parametersToJsonSchema({
-      requestBody: {
-        $ref: '#/components/requestBodies/Pet',
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          $ref: '#/components/requestBodies/Pet',
+        },
       },
-    }, oas),
-  ).toEqual([{
-    type: 'body',
-    label: 'Body Params',
-    schema: {
-      $ref: '#/components/schemas/Pet',
-      definitions: {
-        components: oas.components,
+      oas,
+    ),
+  ).toEqual([
+    {
+      type: 'body',
+      label: 'Body Params',
+      schema: {
+        $ref: '#/components/schemas/Pet',
+        definitions: {
+          components: oas.components,
+        },
       },
-    }
-  }]);
+    },
+  ]);
 });
 
 test('it should make things required correctly');

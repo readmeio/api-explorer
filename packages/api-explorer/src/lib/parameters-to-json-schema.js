@@ -20,7 +20,9 @@ function getBodyParam(pathOperation, oas) {
   return {
     type,
     label: types[type],
-    schema: oas.components ? { definitions: { components: oas.components }, ...schema.schema } : schema.schema,
+    schema: oas.components
+      ? { definitions: { components: oas.components }, ...schema.schema }
+      : schema.schema,
   };
 }
 
@@ -74,7 +76,9 @@ module.exports = (pathOperation, oas) => {
 
   if (!hasParameters && !hasRequestBody) return null;
 
-  return [getBodyParam(pathOperation, oas)].concat(...getOtherParams(pathOperation)).filter(Boolean);
+  return [getBodyParam(pathOperation, oas)]
+    .concat(...getOtherParams(pathOperation))
+    .filter(Boolean);
 };
 
 // Exported for use in oas-to-har for default values object

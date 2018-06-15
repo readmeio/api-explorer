@@ -13,7 +13,7 @@ function findSchemaDefinition($ref, definitions = {}) {
   // Extract and use the referenced definition if we have it.
   const match = /^#\/(.*)$/.exec($ref);
   if (match && match[0]) {
-    const parts = match[1].split("/");
+    const parts = match[1].split('/');
     let current = definitions;
 
     parts.forEach(part => {
