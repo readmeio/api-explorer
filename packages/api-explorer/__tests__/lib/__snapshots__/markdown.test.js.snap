@@ -33,7 +33,7 @@ exports[`should render markdown 1`] = `
 <h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div>h1<a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
 <h2 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h2\\"></div>h2<a class=\\"fa fa-anchor\\" href=\\"#section-h2\\"></a></h2>
 <h3 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h3\\"></div>h3<a class=\\"fa fa-anchor\\" href=\\"#section-h3\\"></a></h3>
-<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br><a href=\\"\\" target=\\"_self\\">xss</a><br><a href=\\"/doc/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br><a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br><a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br><a href=\\"/page/slug\\" target=\\"_self\\">page</a></p>
+<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br><a href=\\"\\" target=\\"_self\\">xss</a><br><a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br><a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br><a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br><a href=\\"/page/slug\\" target=\\"_self\\">page</a></p>
 <p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy+:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"><br><i class=\\"fa fa-lock\\"></i><br>:unknown-emoji:</p>
 <pre><code class=\\"lang-js\\"><span class=\\"cm-s-neo\\">var a = 1;</span>
 </code></pre>
