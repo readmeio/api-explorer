@@ -15,14 +15,16 @@ function findSchemaDefinition($ref, definitions = {}) {
   if (match && match[0]) {
     const parts = match[1].split("/");
     let current = definitions;
-    for (let part of parts) {
-      if (current.hasOwnProperty(part)) {
+
+    parts.forEach(part => {
+      if (Object.prototype.hasOwnProperty.call(current, part)) {
         current = current[part];
       } else {
         // No matching definition found, that's an error (bogus schema?)
         throw new Error(`Could not find a definition for ${$ref}.`);
       }
-    }
+    });
+
     return current;
   }
 
