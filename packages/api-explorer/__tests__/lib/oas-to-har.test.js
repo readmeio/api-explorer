@@ -42,6 +42,17 @@ describe('url', () => {
     ).toBe('http://example.com/path');
   });
 
+  test('should add https:// if url starts with //', () => {
+    expect(
+      oasToHar(
+        {
+          servers: [{ url: '//example.com' }],
+        },
+        { path: '/', method: 'get' },
+      ).log.entries[0].request.url,
+    ).toBe('https://example.com/');
+  });
+
   test('should replace whitespace with %20', () => {
     expect(
       oasToHar(
