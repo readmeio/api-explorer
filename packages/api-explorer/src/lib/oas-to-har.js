@@ -88,7 +88,7 @@ module.exports = (
   // Add protocol to urls starting with // e.g. //example.com
   // This is because httpsnippet throws a HARError when it doesnt have a protocol
   if (har.url.match(/^\/\//)) {
-    har.url = `https:${har.url}`
+    har.url = `https:${har.url}`;
   }
 
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
