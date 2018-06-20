@@ -580,6 +580,26 @@ describe('body values', () => {
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({}));
   });
+
+  it('should work for schemas that require a lookup', () => {
+    expect(
+      oasToHar(
+        {
+          components: {
+            requestBodies: { schema: { content: { 'application/json': { schema: { type: 'object', properties: { a: { type: 'integer' } } } } } } },
+          },
+        },
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            $ref: '#/components/requestBodies/schema'
+          },
+        },
+        { body: { a: 123 } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify({ a: 123 }));
+  });
 });
 
 describe('formData values', () => {

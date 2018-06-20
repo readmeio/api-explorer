@@ -147,7 +147,7 @@ module.exports = (
     });
   }
 
-  const schema = getSchema(pathOperation) || { schema: {} };
+  const schema = getSchema(pathOperation, oas) || { schema: {} };
 
   if (schema.schema && Object.keys(schema.schema).length) {
     // If there is formData, then the type is application/x-www-form-urlencoded
