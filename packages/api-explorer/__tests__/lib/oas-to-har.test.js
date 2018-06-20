@@ -586,14 +586,22 @@ describe('body values', () => {
       oasToHar(
         {
           components: {
-            requestBodies: { schema: { content: { 'application/json': { schema: { type: 'object', properties: { a: { type: 'integer' } } } } } } },
+            requestBodies: {
+              schema: {
+                content: {
+                  'application/json': {
+                    schema: { type: 'object', properties: { a: { type: 'integer' } } },
+                  },
+                },
+              },
+            },
           },
         },
         {
           path: '/body',
           method: 'get',
           requestBody: {
-            $ref: '#/components/requestBodies/schema'
+            $ref: '#/components/requestBodies/schema',
           },
         },
         { body: { a: 123 } },
