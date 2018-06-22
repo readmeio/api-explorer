@@ -2,6 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const markdown = require('../lib/markdown');
 const sanitizeSchema = require('hast-util-sanitize/lib/github.json');
+const Variable = require('../Variable');
 const variableParser = require('../lib/markdown/variable-parser.js');
 
 sanitizeSchema.tagNames.push('readme-variable');
@@ -17,7 +18,7 @@ function renderMarkdown(text) {
       sanitize: sanitizeSchema,
       remarkReactComponents: {
         'readme-variable': function ({ variable }) {
-          return <span>{variable}</span>
+          return <Variable k={variable} value={[{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }]} />
         },
       },
     })
