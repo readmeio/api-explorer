@@ -21,10 +21,7 @@ module.exports = function markdown(text, opts = {}) {
       }
       return `:${emoji}:`;
     },
-    highlight(code, language) {
-      if (!language) return undefined;
-      return syntaxHighlighter(code, language);
-    },
+    highlight: syntaxHighlighter,
     gfm: true,
     breaks: !opts.correctnewlines,
     // By default we don't wanna strip any tags
