@@ -7,12 +7,12 @@ class Variable extends React.Component {
     super(props);
     this.state = { showDropdown: false, selected: props.selected };
 
-    this.showDropdown = this.showDropdown.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
     this.selectValue = this.selectValue.bind(this);
     this.renderDropdown = this.renderDropdown.bind(this);
   }
-  showDropdown() {
-    this.setState({ showDropdown: true });
+  toggleDropdown() {
+    this.setState({ showDropdown: !this.state.showDropdown });
   }
   selectValue(event) {
     this.setState({ selected: event.target.innerText, showDropdown: false });
@@ -54,7 +54,7 @@ class Variable extends React.Component {
       const selectedValue = selected ? value.find(key => key.name === selected) : value[0];
       return (
         <span>
-          <span className="variable-underline" onClick={this.showDropdown}>
+          <span className="variable-underline" onClick={this.toggleDropdown}>
             {selectedValue[k]}
           </span>
           {this.state.showDropdown && this.renderDropdown()}
