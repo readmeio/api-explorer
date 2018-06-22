@@ -17,19 +17,23 @@ function renderMarkdown(text) {
     .use(reactRenderer, {
       sanitize: sanitizeSchema,
       remarkReactComponents: {
-        'readme-variable': function ({ variable }) {
-          return <Variable k={variable} value={[{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }]} />
+        'readme-variable': function({ variable }) {
+          return (
+            <Variable
+              k={variable}
+              value={[{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }]}
+              defaults={[]}
+              oauth={false}
+            />
+          );
         },
       },
     })
-    .processSync(text)
-    .contents;
+    .processSync(text).contents;
 }
 
 const Textarea = ({ block, flags }) => {
-  return (
-    <div className="magic-block-textarea">{renderMarkdown(block.text)}</div>
-  );
+  return <div className="magic-block-textarea">{renderMarkdown(block.text)}</div>;
 };
 
 Textarea.propTypes = {

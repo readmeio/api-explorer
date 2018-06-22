@@ -5,12 +5,38 @@ const Variable = require('../src/Variable');
 
 describe('single variable', () => {
   test('should render value', () => {
-    const variable = shallow(<Variable value="123456" />);
+    const variable = shallow(<Variable k="apiKey" value={{ apiKey: '123456' }} defaults={[]} />);
 
     expect(variable.text()).toBe('123456');
   });
 
-  test('should render auth dropdown if default and oauth enabled');
+  test('should render default if value not set', () => {
+    const variable = shallow(<Variable k="apiKey" value={{}} defaults={[ { name: 'apiKey', default: 'default' }]} />);
+
+    expect(variable.text()).toBe('default');
+  });
+
+  test('should render uppercase if no value and no default', () => {
+    const variable = shallow(<Variable k="apiKey" value={{}} defaults={[]} />);
+
+    expect(variable.text()).toBe('APIKEY');
+  });
+
+  test('should render auth dropdown if default and oauth enabled', () => {
+    const variable = shallow(<Variable k="apiKey" value={{}} defaults={[ { name: 'apiKey', default: 'default' }]} oauth />);
+    variable.find('.variable-underline').simulate('click');
+
+    expect(variable.find('#loginDropdown').length).toBe(1);
+  });
+
+  test('should render auth dropdown if no default and oauth enabled', () => {
+    const variable = shallow(<Variable k="apiKey" value={{}} defaults={[]} oauth />);
+    variable.find('.variable-underline').simulate('click');
+
+    expect(variable.find('#loginDropdown').length).toBe(1);
+  });
+
+  test('should set `selected` if nothing is selected');
 });
 
 describe('multiple variables', () => {
