@@ -7,7 +7,6 @@ describe('TextArea', () => {
     const block = {
       type: 'textarea',
       text: 'this is text',
-      sidebar: undefined,
     };
     const textArea = shallow(<TextArea block={block} />);
     expect(textArea.text()).toBe(block.text);
