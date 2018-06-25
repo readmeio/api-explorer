@@ -7,7 +7,7 @@ exports[`anchors 1`] = `
 
 exports[`check list items 1`] = `
 "<ul>
-<li style=\\"list-style: none\\" class=\\"checklist\\"><input type=\\"checkbox\\" disabled> checklistitem1</li></ul>
+<li style=\\"list-style: none\\" class=\\"checklist\\"><input type=\\"checkbox\\" disabled> checklistitem1</li><li style=\\"list-style: none\\" class=\\"checklist\\"><input type=\\"checkbox\\" checked disabled> checklistitem1</li></ul>
 "
 `;
 
@@ -33,10 +33,12 @@ exports[`headings 1`] = `
 exports[`image 1`] = `"<div><p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\"/></p></div>"`;
 
 exports[`list items 1`] = `
-"<ul>
-<li >listitem1</li></ul>
-"
+"<div><ul>
+<li>listitem1</li>
+</ul></div>"
 `;
+
+exports[`should strip out inputs 1`] = `"<div></div>"`;
 
 exports[`tables 1`] = `
 "<div class=\\"marked-table\\"><table>

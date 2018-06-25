@@ -1,4 +1,3 @@
-const fs = require('fs');
 const markdown = require('../../src/lib/markdown');
 
 const { shallow } = require('enzyme');
@@ -8,11 +7,15 @@ test('image', () => {
 });
 
 test('list items', () => {
-  expect(markdown('- listitem1')).toMatchSnapshot();
+  expect(shallow(markdown('- listitem1')).html()).toMatchSnapshot();
 });
 
 test('check list items', () => {
-  expect(markdown('- [ ] checklistitem1')).toMatchSnapshot();
+  expect(shallow(markdown('- [ ] checklistitem1\n- [x] checklistitem1')).html()).toMatchSnapshot();
+});
+
+test('should strip out inputs', () => {
+  expect(shallow(markdown('<input type="text" value="value" />')).html()).toMatchSnapshot();
 });
 
 test('tables', () => {

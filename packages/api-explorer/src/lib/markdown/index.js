@@ -1,3 +1,16 @@
+const React = require('react');
+const remark = require('remark');
+const reactRenderer = require('remark-react');
+
+const variableParser = require('./variable-parser');
+const sanitizeSchema = require('hast-util-sanitize/lib/github.json');
+
+sanitizeSchema.tagNames.push('readme-variable');
+sanitizeSchema.attributes['readme-variable'] = ['variable'];
+
+sanitizeSchema.tagNames.push('input');
+sanitizeSchema.ancestors['input'] = ['li'];
+
 const marked = require('marked');
 const Emoji = require('./emojis.js').emoji;
 const syntaxHighlighter = require('@readme/syntax-highlighter');
@@ -5,6 +18,8 @@ const sanitizer = require('./sanitizer');
 const renderer = require('./renderer');
 
 const emojis = new Emoji();
+
+const Variable = require('../../Variable');
 
 module.exports = function markdown(text, opts = {}) {
   marked.setOptions({
@@ -29,5 +44,23 @@ module.exports = function markdown(text, opts = {}) {
     // which just calls `escape()`
     sanitizer: opts.stripHtml ? undefined : sanitizer,
   });
+
+  return remark()
+    .use(variableParser)
+    .use(reactRenderer, {
+      sanitize: sanitizeSchema,
+      remarkReactComponents: {
+        'readme-variable': function({ variable }) {
+          return React.createElement(Variable, {
+            k: variable,
+            value: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }],
+            defaults: [],
+            oauth: false,
+          });
+        },
+      },
+    })
+    .processSync(text).contents;
+
   return marked(text);
 };
