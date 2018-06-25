@@ -17,6 +17,9 @@ sanitizeSchema.attributes.i = ['className'];
 // This is for `emoji` class name
 sanitizeSchema.attributes.img = ['className'];
 
+// This is for code blocks class name
+sanitizeSchema.attributes.code = ['className'];
+
 // This is for checklists in <li>
 sanitizeSchema.tagNames.push('input');
 sanitizeSchema.ancestors.input = ['li'];
@@ -141,6 +144,13 @@ module.exports = function markdown(text, opts = {}) {
             href: href(props.href),
           }, docLink(props.href)));
         },
+        code: function(props) {
+          const language = (props.className || '').replace('language-', '');
+          return React.createElement('code', {
+            className: language ? `lang-${language}` : null,
+            dangerouslySetInnerHTML: { __html: syntaxHighlighter(props.children[0], language) },
+          });
+        }
       },
     })
     .processSync(text).contents;

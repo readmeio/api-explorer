@@ -60,15 +60,15 @@ test('emojis', () => {
 });
 
 test('code samples', () => {
-  expect(markdown(`
-\`\`\`js
+  expect(shallow(markdown(`
+\`\`\`javascript
 var a = 1;
 \`\`\`
 
 \`\`\`
 code-without-language
 \`\`\`
-  `)).toMatchSnapshot();
+  `)).html()).toMatchSnapshot();
 })
 
 test('should render empty string if nothing passed in', () => {
