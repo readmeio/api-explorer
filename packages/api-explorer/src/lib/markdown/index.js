@@ -4,11 +4,17 @@ const reactRenderer = require('remark-react');
 const breaks = require('remark-breaks');
 
 const variableParser = require('./variable-parser');
+const gemojiParser = require('./gemoji-parser');
 const sanitizeSchema = require('hast-util-sanitize/lib/github.json');
 
 sanitizeSchema.tagNames.push('readme-variable');
 sanitizeSchema.attributes['readme-variable'] = ['variable'];
 
+// This is for font awesome gemoji codes
+sanitizeSchema.attributes.i = ['className'];
+
+// This is for `emoji` class name
+sanitizeSchema.attributes.img = ['className'];
 sanitizeSchema.tagNames.push('input');
 sanitizeSchema.ancestors.input = ['li'];
 
@@ -103,6 +109,7 @@ module.exports = function markdown(text, opts = {}) {
   return remark()
     .use(variableParser)
     .use(!opts.correctnewlines ? breaks : function () {})
+    .use(gemojiParser)
     .use(reactRenderer, {
       sanitize: sanitizeSchema,
       remarkReactComponents: {
@@ -129,7 +136,7 @@ module.exports = function markdown(text, opts = {}) {
             target: '_self',
             href: href(props.href),
           }, docLink(props.href)));
-        }
+        },
       },
     })
     .processSync(text).contents;

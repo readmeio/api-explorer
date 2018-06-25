@@ -24,8 +24,10 @@ exports[`code samples 1`] = `
 `;
 
 exports[`emojis 1`] = `
-"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy+:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"><br><i class=\\"fa fa-lock\\"></i><br>:unknown-emoji:</p>
-"
+"<div><p><img alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"/><br/>
+<i class=\\"fa fa-lock\\"></i><br/>
+:unknown-emoji:<br/>
+</p></div>"
 `;
 
 exports[`headings 1`] = `

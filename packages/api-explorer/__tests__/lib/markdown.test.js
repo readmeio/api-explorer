@@ -52,11 +52,11 @@ test('anchors', () => {
 });
 
 test('emojis', () => {
-  expect(markdown(`
+  expect(shallow(markdown(`
 :joy:
 :fa-lock:
 :unknown-emoji:
-  `)).toMatchSnapshot();
+  `)).html()).toMatchSnapshot();
 });
 
 test('code samples', () => {
