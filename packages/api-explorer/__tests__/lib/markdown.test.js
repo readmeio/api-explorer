@@ -41,14 +41,14 @@ test('headings', () => {
 });
 
 test('anchors', () => {
-  expect(markdown(`
+  expect(shallow(markdown(`
 [link](http://example.com)
 [xss](javascript:alert)
 [doc](doc:slug)
 [ref](ref:slug)
 [blog](blog:slug)
 [page](page:slug)
-  `)).toMatchSnapshot();
+  `)).html()).toMatchSnapshot();
 });
 
 test('emojis', () => {
