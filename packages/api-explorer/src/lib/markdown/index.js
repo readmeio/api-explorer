@@ -58,6 +58,9 @@ module.exports = function markdown(text, opts = {}) {
             oauth: false,
           });
         },
+        table: function({ children }) {
+          return React.createElement('div', { className: 'marked-table' }, React.createElement('table', null, children));
+        }
       },
     })
     .processSync(text).contents;
