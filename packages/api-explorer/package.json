@@ -18,6 +18,7 @@
     "react-jsonschema-form": "^1.0.0",
     "react-waypoint": "^7.3.1",
     "remark": "^9.0.0",
+    "remark-breaks": "^1.0.0",
     "remark-react": "^4.0.3",
     "whatwg-fetch": "^2.0.3"
   },

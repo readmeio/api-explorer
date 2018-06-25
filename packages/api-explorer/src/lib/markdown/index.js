@@ -1,6 +1,7 @@
 const React = require('react');
 const remark = require('remark');
 const reactRenderer = require('remark-react');
+const breaks = require('remark-breaks');
 
 const variableParser = require('./variable-parser');
 const sanitizeSchema = require('hast-util-sanitize/lib/github.json');
@@ -58,6 +59,7 @@ module.exports = function markdown(text, opts = {}) {
 
   return remark()
     .use(variableParser)
+    .use(!opts.correctnewlines ? breaks : function () {})
     .use(reactRenderer, {
       sanitize: sanitizeSchema,
       remarkReactComponents: {

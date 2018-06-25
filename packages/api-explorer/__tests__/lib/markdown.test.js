@@ -76,9 +76,9 @@ test('should render empty string if nothing passed in', () => {
 });
 
 test('`correctnewlines` option', () => {
-  expect(markdown('test\ntest\ntest', { correctnewlines: true })).toBe('<p>test\ntest\ntest</p>\n');
-  expect(markdown('test\ntest\ntest', { correctnewlines: false })).toBe(
-    '<p>test<br>test<br>test</p>\n',
+  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: true })).html()).toBe('<div><p>test\ntest\ntest</p></div>');
+  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
+    '<div><p>test<br/>\ntest<br/>\ntest</p></div>',
   );
 });
 
