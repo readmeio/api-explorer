@@ -7,6 +7,7 @@ const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
 const sanitizeSchema = require('hast-util-sanitize/lib/github.json');
 
+// This is for our custom variable tags <<apiKey>>
 sanitizeSchema.tagNames.push('readme-variable');
 sanitizeSchema.attributes['readme-variable'] = ['variable'];
 
@@ -15,9 +16,12 @@ sanitizeSchema.attributes.i = ['className'];
 
 // This is for `emoji` class name
 sanitizeSchema.attributes.img = ['className'];
+
+// This is for checklists in <li>
 sanitizeSchema.tagNames.push('input');
 sanitizeSchema.ancestors.input = ['li'];
 
+// This is for our custom link formats
 sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
 
 const marked = require('marked');
