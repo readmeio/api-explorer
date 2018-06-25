@@ -30,10 +30,7 @@ exports[`headings 1`] = `
 "
 `;
 
-exports[`image 1`] = `
-"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\"></p>
-"
-`;
+exports[`image 1`] = `"<div><p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\"/></p></div>"`;
 
 exports[`list items 1`] = `
 "<ul>
