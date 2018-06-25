@@ -9,7 +9,7 @@ sanitizeSchema.tagNames.push('readme-variable');
 sanitizeSchema.attributes['readme-variable'] = ['variable'];
 
 sanitizeSchema.tagNames.push('input');
-sanitizeSchema.ancestors['input'] = ['li'];
+sanitizeSchema.ancestors.input = ['li'];
 
 const marked = require('marked');
 const Emoji = require('./emojis.js').emoji;
@@ -45,6 +45,17 @@ module.exports = function markdown(text, opts = {}) {
     sanitizer: opts.stripHtml ? undefined : sanitizer,
   });
 
+  function heading(level) {
+    return function (props) {
+      const id = `section-${props.children[0].toLowerCase().replace(/[^\w]+/g, '-')}`
+      return React.createElement(level, Object.assign({ className: 'header-scroll' }, props), [
+        React.createElement('div', { className: 'anchor waypoint', id, key: `anchor-${id}` }),
+        ...props.children,
+        React.createElement('a', { className: 'fa fa-anchor', href: `#${id}`, key: `anchor-icon-${id}` })
+      ]);
+    }
+  }
+
   return remark()
     .use(variableParser)
     .use(reactRenderer, {
@@ -60,7 +71,13 @@ module.exports = function markdown(text, opts = {}) {
         },
         table: function({ children }) {
           return React.createElement('div', { className: 'marked-table' }, React.createElement('table', null, children));
-        }
+        },
+        h1: heading('h1'),
+        h2: heading('h2'),
+        h3: heading('h3'),
+        h4: heading('h4'),
+        h5: heading('h5'),
+        h6: heading('h6'),
       },
     })
     .processSync(text).contents;

@@ -29,11 +29,15 @@ test('tables', () => {
 });
 
 test('headings', () => {
-  expect(markdown(`
+  expect(shallow(markdown(`
 # h1
 ## h2
 ### h3
-  `)).toMatchSnapshot();
+#### h4
+##### h5
+###### h6
+# heading with some more CONTENT
+  `)).html()).toMatchSnapshot();
 });
 
 test('anchors', () => {
