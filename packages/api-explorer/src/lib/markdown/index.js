@@ -15,7 +15,7 @@ sanitizeSchema.attributes['readme-variable'] = ['variable'];
 sanitizeSchema.attributes.i = ['className'];
 
 // This is for `emoji` class name
-sanitizeSchema.attributes.img = ['className'];
+sanitizeSchema.attributes.img.push('className');
 
 // This is for code blocks class name
 sanitizeSchema.attributes.code = ['className'];
@@ -112,6 +112,8 @@ module.exports = function markdown(text, opts = {}) {
       'data-sidebar': doc[1],
     };
   }
+
+  if (!text) return null;
 
   return remark()
     .use(variableParser)
