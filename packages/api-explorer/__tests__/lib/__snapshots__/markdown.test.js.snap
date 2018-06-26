@@ -11,16 +11,17 @@ exports[`anchors 1`] = `
 `;
 
 exports[`check list items 1`] = `
-"<ul>
-<li style=\\"list-style: none\\" class=\\"checklist\\"><input type=\\"checkbox\\" disabled> checklistitem1</li><li style=\\"list-style: none\\" class=\\"checklist\\"><input type=\\"checkbox\\" checked disabled> checklistitem1</li></ul>
-"
+"<div><ul>
+<li><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
+<li><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
+</ul></div>"
 `;
 
 exports[`code samples 1`] = `
-"<pre><code class=\\"lang-js\\"><span class=\\"cm-s-neo\\">var a = 1;</span>
-</code></pre>
-<pre><code><span class=\\"cm-s-neo\\">code-without-language</span>
-</code></pre>"
+"<div><pre><code class=\\"lang-javascript\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
+</span></code></pre>
+<pre><code><span class=\\"cm-s-neo\\">code-without-language
+</span></code></pre></div>"
 `;
 
 exports[`emojis 1`] = `
