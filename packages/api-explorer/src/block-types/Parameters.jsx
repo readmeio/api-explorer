@@ -26,9 +26,7 @@ const Parameters = ({ block, flags }) => {
         <div
           className="td"
           key={c}
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: markdown(block.data.data[`${r}-${c}`] || '', flags) }}
-        />,
+        >{markdown(block.data.data[`${r}-${c}`] || '', flags)}</div>,
       );
     }
     return tdCells;

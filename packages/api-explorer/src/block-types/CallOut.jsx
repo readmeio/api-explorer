@@ -36,15 +36,10 @@ const CallOut = ({ block, flags }) => {
           <Icon type={block.data.type} />
         </span>
       )}
-      {/* eslint-disable react/no-danger */}
       {block.data &&
       block.data.body && (
-        <div
-          className="callout-body"
-          dangerouslySetInnerHTML={{ __html: markdown(block.data.body, flags) }}
-        />
+        <div className="callout-body">{markdown(block.data.body, flags)}</div>
       )}
-      {/* eslint-enable react/no-danger */}
     </div>
   );
 };

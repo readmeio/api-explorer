@@ -23,8 +23,7 @@ const ImageBlock = ({ block, flags }) => {
               </a>
             </figure>
             {image.caption && (
-              // eslint-disable-next-line react/no-danger
-              <figcaption dangerouslySetInnerHTML={{ __html: markdown(image.caption, flags) }} />
+              <figcaption>{markdown(image.caption, flags)}</figcaption>
             )}
           </div>
         )}

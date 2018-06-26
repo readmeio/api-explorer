@@ -15,9 +15,7 @@ function DescriptionField(props) {
       <p
         id={id}
         className="field-description"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: markdown(description) }}
-      />
+      >{markdown(description)}</p>
     );
   }
   return (
