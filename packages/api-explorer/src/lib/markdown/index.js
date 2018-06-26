@@ -124,7 +124,12 @@ module.exports = function markdown(text, opts = {}) {
             className: language ? `lang-${language}` : null,
             dangerouslySetInnerHTML: { __html: syntaxHighlighter(props.children[0], language) },
           });
-        }
+        },
+        // Remove enclosing <div>
+        // https://github.com/mapbox/remark-react/issues/54
+        div: function(props) {
+          return React.createElement(React.Fragment, props);
+        },
       },
     })
     .processSync(text).contents;

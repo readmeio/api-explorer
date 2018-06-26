@@ -1,59 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`anchors 1`] = `
-"<div><p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
+"<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
 <a target=\\"_self\\" href=\\"\\">xss</a><br/>
 <a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
 <a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br/>
 <a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br/>
 <a href=\\"/page/slug\\" target=\\"_self\\">page</a><br/>
-</p></div>"
+</p>"
 `;
 
 exports[`check list items 1`] = `
-"<div><ul>
+"<ul>
 <li><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
 <li><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
-</ul></div>"
+</ul>"
 `;
 
 exports[`code samples 1`] = `
-"<div><pre><code class=\\"lang-javascript\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
+"<pre><code class=\\"lang-javascript\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
 </span></code></pre>
 <pre><code><span class=\\"cm-s-neo\\">code-without-language
-</span></code></pre></div>"
+</span></code></pre>"
 `;
 
 exports[`emojis 1`] = `
-"<div><p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"/><br/>
+"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"/><br/>
 <i class=\\"fa fa-lock\\"></i><br/>
 :unknown-emoji:<br/>
-</p></div>"
+</p>"
 `;
 
 exports[`headings 1`] = `
-"<div><h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div>h1<a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
+"<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div>h1<a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
 <h2 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h2\\"></div>h2<a class=\\"fa fa-anchor\\" href=\\"#section-h2\\"></a></h2>
 <h3 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h3\\"></div>h3<a class=\\"fa fa-anchor\\" href=\\"#section-h3\\"></a></h3>
 <h4 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h4\\"></div>h4<a class=\\"fa fa-anchor\\" href=\\"#section-h4\\"></a></h4>
 <h5 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h5\\"></div>h5<a class=\\"fa fa-anchor\\" href=\\"#section-h5\\"></a></h5>
 <h6 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h6\\"></div>h6<a class=\\"fa fa-anchor\\" href=\\"#section-h6\\"></a></h6>
-<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-with-some-more-content\\"></div>heading with some more CONTENT<a class=\\"fa fa-anchor\\" href=\\"#section-heading-with-some-more-content\\"></a></h1></div>"
+<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-with-some-more-content\\"></div>heading with some more CONTENT<a class=\\"fa fa-anchor\\" href=\\"#section-heading-with-some-more-content\\"></a></h1>"
 `;
 
-exports[`image 1`] = `"<div><p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\"/></p></div>"`;
+exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\"/></p>"`;
 
 exports[`list items 1`] = `
-"<div><ul>
+"<ul>
 <li>listitem1</li>
-</ul></div>"
+</ul>"
 `;
 
-exports[`should strip out inputs 1`] = `"<div></div>"`;
+exports[`should strip out inputs 1`] = `""`;
 
 exports[`tables 1`] = `
-"<div><div class=\\"marked-table\\"><table>
+"<div class=\\"marked-table\\"><table>
 <thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead>
 <tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody>
-</table></div></div>"
+</table></div>"
 `;

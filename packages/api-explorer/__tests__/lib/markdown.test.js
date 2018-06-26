@@ -76,9 +76,9 @@ test('should render nothing if nothing passed in', () => {
 });
 
 test('`correctnewlines` option', () => {
-  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: true })).html()).toBe('<div><p>test\ntest\ntest</p></div>');
+  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: true })).html()).toBe('<p>test\ntest\ntest</p>');
   expect(shallow(markdown('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
-    '<div><p>test<br/>\ntest<br/>\ntest</p></div>',
+    '<p>test<br/>\ntest<br/>\ntest</p>',
   );
 });
 
