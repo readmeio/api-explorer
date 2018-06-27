@@ -1,18 +1,21 @@
 function tokenizeVariable(eat, value, silent) {
-  const match = /^<<([-\w:\s]+)>>/.exec(value);
+  // Regex to match the following:
+  // - \<<apiKey\>> - escaped variables
+  // - <<apiKey>> - regular variables
+  // - <<glossary:glossary items>> - glossary
+  const match = /^(?:\\)?<<([-\w:\s]+)(?:\\)?>>/.exec(value);
 
-  if (!match) {
-    const escapedMatch = /^\\<<([-\w:]*?)\\>>/.exec(value);
-    if (escapedMatch) {
-      return eat(escapedMatch[0])({
-        type: 'text',
-        value: escapedMatch[0].replace(/\\/g, ''),
-      });
-    }
-    return false;
-  }
+  if (!match) return false
 
   if (silent) return true;
+
+  // Escaped variables should just return the text
+  if (match[0].startsWith('\\')) {
+    return eat(match[0])({
+      type: 'text',
+      value: match[0].replace(/\\/g, ''),
+    });
+  }
 
   if (match[1].startsWith('glossary:')) {
     return eat(match[0])({
