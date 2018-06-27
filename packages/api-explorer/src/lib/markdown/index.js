@@ -5,94 +5,28 @@ const breaks = require('remark-breaks');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
-const sanitizeSchema = require('hast-util-sanitize/lib/github.json');
+const sanitize = require('hast-util-sanitize/lib/github.json');
 
-// This is for our custom variable tags <<apiKey>>
-sanitizeSchema.tagNames.push('readme-variable');
-sanitizeSchema.attributes['readme-variable'] = ['variable'];
-
-// This is for font awesome gemoji codes
-sanitizeSchema.attributes.i = ['className'];
-
-// This is for `emoji` class name
-sanitizeSchema.attributes.img.push('className');
-
-// This is for code blocks class name
-sanitizeSchema.attributes.code = ['className'];
+const table = require('./components/Table');
+const heading = require('./components/Heading');
+const anchor = require('./components/Anchor');
+const code = require('./components/Code');
 
 // This is for checklists in <li>
-sanitizeSchema.tagNames.push('input');
-sanitizeSchema.ancestors.input = ['li'];
-
-// This is for our custom link formats
-sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
-
-const Emoji = require('./emojis.js').emoji;
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+sanitize.tagNames.push('input');
+sanitize.ancestors.input = ['li'];
 
 const Variable = require('../../Variable');
 
 module.exports = function markdown(text, opts = {}) {
-  function heading(level) {
-    return function (props) {
-      const id = `section-${props.children[0].toLowerCase().replace(/[^\w]+/g, '-')}`
-      return React.createElement(level, Object.assign({ className: 'header-scroll' }, props), [
-        React.createElement('div', { className: 'anchor waypoint', id, key: `anchor-${id}` }),
-        ...props.children,
-        React.createElement('a', { className: 'fa fa-anchor', href: `#${id}`, key: `anchor-icon-${id}` })
-      ]);
-    }
-  }
-
-  // Nabbed from here:
-  // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/markdown/renderer.js#L52
-  function href(href = '') {
-    const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
-    if (doc) {
-      return `/docs/${doc[1]}`
-    }
-
-    const ref = href.match(/^ref:([-_a-zA-Z0-9#]*)$/);
-    if (ref) {
-      const cat = '';
-      // TODO https://github.com/readmeio/api-explorer/issues/28
-      // if (req && req.project.appearance.categoriesAsDropdown) {
-      //   cat = `/${req._referenceCategoryMap[ref[1]]}`;
-      // }
-      return `/reference${cat}#${ref[1]}`;
-    }
-
-    const blog = href.match(/^blog:([-_a-zA-Z0-9#]*)$/);
-    if (blog) {
-      return `/blog/${blog[1]}`;
-    }
-
-    const custompage = href.match(/^page:([-_a-zA-Z0-9#]*)$/);
-    if (custompage) {
-      return `/page/${custompage[1]}`;
-    }
-
-    return href;
-  }
-
-  function docLink(href = '') {
-    const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
-    if (!doc) return false;
-
-    return {
-      className: 'doc-link',
-      'data-sidebar': doc[1],
-    };
-  }
-
   if (!text) return null;
 
   return remark()
-    .use(variableParser)
-    .use(!opts.correctnewlines ? breaks : function () {})
-    .use(gemojiParser)
+    .use(variableParser.sanitize(sanitize))
+    .use(!opts.correctnewlines ? breaks : () => {})
+    .use(gemojiParser.sanitize(sanitize))
     .use(reactRenderer, {
-      sanitize: sanitizeSchema,
+      sanitize,
       remarkReactComponents: {
         'readme-variable': function({ variable }) {
           return React.createElement(Variable, {
@@ -102,34 +36,18 @@ module.exports = function markdown(text, opts = {}) {
             oauth: false,
           });
         },
-        table: function({ children }) {
-          return React.createElement('div', { className: 'marked-table' }, React.createElement('table', null, children));
-        },
-        h1: heading('h1'),
-        h2: heading('h2'),
-        h3: heading('h3'),
-        h4: heading('h4'),
-        h5: heading('h5'),
-        h6: heading('h6'),
-        a: function(props) {
-          const doc = props.href && props.href.startsWith('doc:');
-          return React.createElement('a', Object.assign({}, props, {
-            target: '_self',
-            href: href(props.href),
-          }, docLink(props.href)));
-        },
-        code: function(props) {
-          const language = (props.className || '').replace('language-', '');
-          return React.createElement('code', {
-            className: language ? `lang-${language}` : null,
-            dangerouslySetInnerHTML: { __html: syntaxHighlighter(props.children[0], language) },
-          });
-        },
+        table: table(sanitize),
+        h1: heading('h1', sanitize),
+        h2: heading('h2', sanitize),
+        h3: heading('h3', sanitize),
+        h4: heading('h4', sanitize),
+        h5: heading('h5', sanitize),
+        h6: heading('h6', sanitize),
+        a: anchor(sanitize),
+        code: code(sanitize),
         // Remove enclosing <div>
         // https://github.com/mapbox/remark-react/issues/54
-        div: function(props) {
-          return React.createElement(React.Fragment, props);
-        },
+        div: (props) => React.createElement(React.Fragment, props),
       },
     })
     .processSync(text).contents;

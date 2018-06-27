@@ -69,3 +69,13 @@ function parser() {
 }
 
 module.exports = parser;
+
+module.exports.sanitize = (sanitizeSchema) => {
+  // This is for font awesome gemoji codes
+  sanitizeSchema.attributes.i = ['className'];
+
+  // This is for `emoji` class name
+  sanitizeSchema.attributes.img.push('className');
+
+  return parser;
+}

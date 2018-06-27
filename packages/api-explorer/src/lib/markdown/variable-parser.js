@@ -29,3 +29,11 @@ function parser() {
 }
 
 module.exports = parser;
+
+module.exports.sanitize = (sanitizeSchema) => {
+  // This is for our custom variable tags <<apiKey>>
+  sanitizeSchema.tagNames.push('readme-variable');
+  sanitizeSchema.attributes['readme-variable'] = ['variable'];
+
+  return parser;
+}
