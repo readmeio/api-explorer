@@ -1,9 +1,25 @@
 function tokenizeVariable(eat, value, silent) {
-  const match = /^<<([-\w:]*?)>>/.exec(value);
+  const match = /^<<([-\w:\s]+)>>/.exec(value);
 
-  if (!match) return false;
+  if (!match) {
+    const escapedMatch = /^\\<<([-\w:]*?)\\>>/.exec(value);
+    if (escapedMatch) {
+      return eat(escapedMatch[0])({
+        type: 'text',
+        value: escapedMatch[0].replace(/\\/g, ''),
+      });
+    }
+    return false;
+  }
 
   if (silent) return true;
+
+  if (match[1].startsWith('glossary:')) {
+    return eat(match[0])({
+      type: 'readme-glossary',
+      data: { hName: 'readme-glossary', hProperties: { term: match[1].replace('glossary:', '') } },
+    });
+  }
 
   return eat(match[0])({
     type: 'readme-variable',
@@ -11,12 +27,11 @@ function tokenizeVariable(eat, value, silent) {
   });
 }
 
-// TODO i'm not sure what this does?
-function locateMention(value, fromIndex) {
+function locate(value, fromIndex) {
   return value.indexOf('<<', fromIndex);
 }
 
-tokenizeVariable.locator = locateMention;
+tokenizeVariable.locator = locate;
 
 function parser() {
   const Parser = this.Parser;
