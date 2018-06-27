@@ -53,6 +53,15 @@ To publish all modules to npm:
 npm run publish
 ```
 
+## Fetching the latest stylesheet from ReadMe (for the demo site)
+```
+# Fetch the latest
+curl https://readme.readme.io/css/bundle-hub2.css -o example/bundle-hub2.css
+
+# Remove relative paths for gh-pages
+sed -i '' 's/\.\.\///g' example/bundle-hub2.css
+```
+
 ## Credits
 [Dom Harrington](https://github.com/domharrington)
 
