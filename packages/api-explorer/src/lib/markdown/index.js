@@ -17,6 +17,7 @@ sanitize.tagNames.push('input');
 sanitize.ancestors.input = ['li'];
 
 const Variable = require('../../Variable');
+const GlossaryItem = require('../../GlossaryItem');
 
 module.exports = function markdown(text, opts = {}) {
   if (!text) return null;
@@ -34,6 +35,12 @@ module.exports = function markdown(text, opts = {}) {
             value: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }],
             defaults: [],
             oauth: false,
+          });
+        },
+        'readme-glossary-item': function({ term }) {
+          return React.createElement(GlossaryItem, {
+            term,
+            terms: [{ term: 'apiKey', definition: 'This is a definition' }],
           });
         },
         table: table(sanitize),

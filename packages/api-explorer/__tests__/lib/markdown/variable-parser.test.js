@@ -38,9 +38,9 @@ it('should output a glossary node', () => {
         children: [
           { type: 'text', value: 'This is a test ' },
           {
-            type: 'readme-glossary',
+            type: 'readme-glossary-item',
             data: {
-              hName: 'readme-glossary',
+              hName: 'readme-glossary-item',
               hProperties: {
                 term: 'item',
               },
@@ -65,9 +65,9 @@ it('should allow whitespace in glossary names', () => {
         children: [
           { type: 'text', value: 'This is a test ' },
           {
-            type: 'readme-glossary',
+            type: 'readme-glossary-item',
             data: {
-              hName: 'readme-glossary',
+              hName: 'readme-glossary-item',
               hProperties: {
                 term: 'item name',
               },

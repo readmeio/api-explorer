@@ -19,8 +19,8 @@ function tokenizeVariable(eat, value, silent) {
 
   if (match[1].startsWith('glossary:')) {
     return eat(match[0])({
-      type: 'readme-glossary',
-      data: { hName: 'readme-glossary', hProperties: { term: match[1].replace('glossary:', '') } },
+      type: 'readme-glossary-item',
+      data: { hName: 'readme-glossary-item', hProperties: { term: match[1].replace('glossary:', '') } },
     });
   }
 
@@ -52,6 +52,10 @@ module.exports.sanitize = (sanitizeSchema) => {
   // This is for our custom variable tags <<apiKey>>
   sanitizeSchema.tagNames.push('readme-variable');
   sanitizeSchema.attributes['readme-variable'] = ['variable'];
+
+  // This is for our glossary variable tags <<glossary:item>>
+  sanitizeSchema.tagNames.push('readme-glossary-item');
+  sanitizeSchema.attributes['readme-glossary-item'] = ['term'];
 
   return parser;
 }
