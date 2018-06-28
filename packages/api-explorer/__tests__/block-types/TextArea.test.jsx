@@ -9,6 +9,6 @@ describe('TextArea', () => {
       text: 'this is text',
     };
     const textArea = shallow(<TextArea block={block} />);
-    expect(textArea.text()).toBe(block.text);
+    expect(textArea.find('p').text()).toBe(block.text);
   });
 });
