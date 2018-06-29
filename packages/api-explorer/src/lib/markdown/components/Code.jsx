@@ -6,7 +6,12 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
 function Code({ className, children }) {
   const language = className.replace('language-', '');
   // eslint-disable-next-line react/no-danger
-  return <code className={language ? `lang-${language}` : null} dangerouslySetInnerHTML={{ __html: syntaxHighlighter(children[0], language) }} />;
+  return (
+    <code
+      className={language ? `lang-${language}` : null}
+      dangerouslySetInnerHTML={{ __html: syntaxHighlighter(children[0], language) }}
+    />
+  );
 }
 
 Code.propTypes = {
@@ -18,7 +23,7 @@ Code.defaultProps = {
   className: '',
 };
 
-module.exports = (sanitizeSchema) => {
+module.exports = sanitizeSchema => {
   // This is for code blocks class name
   sanitizeSchema.attributes.code = ['className'];
 

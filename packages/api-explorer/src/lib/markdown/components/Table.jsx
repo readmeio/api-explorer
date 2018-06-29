@@ -2,7 +2,11 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 function Table({ children }) {
-  return <div className="marked-table"><table>{children}</table></div>
+  return (
+    <div className="marked-table">
+      <table>{children}</table>
+    </div>
+  );
 }
 
 Table.propTypes = {

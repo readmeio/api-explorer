@@ -31,7 +31,12 @@ it('should output an image node for a known emoji', () => {
     ],
   };
 
-  expect(remark().use(parser).data('settings', { position: false }).parse(markdown)).toEqual(ast);
+  expect(
+    remark()
+      .use(parser)
+      .data('settings', { position: false })
+      .parse(markdown),
+  ).toEqual(ast);
 });
 
 it('should output an <i> for a font awesome icon', () => {
@@ -59,7 +64,12 @@ it('should output an <i> for a font awesome icon', () => {
     ],
   };
 
-  expect(remark().use(parser).data('settings', { position: false }).parse(markdown)).toEqual(ast);
+  expect(
+    remark()
+      .use(parser)
+      .data('settings', { position: false })
+      .parse(markdown),
+  ).toEqual(ast);
 });
 
 it('should output nothing for unknown emojis', () => {
@@ -70,12 +80,15 @@ it('should output nothing for unknown emojis', () => {
     children: [
       {
         type: 'paragraph',
-        children: [
-          { type: 'text', value: markdown },
-        ],
+        children: [{ type: 'text', value: markdown }],
       },
     ],
   };
 
-  expect(remark().use(parser).data('settings', { position: false }).parse(markdown)).toEqual(ast);
+  expect(
+    remark()
+      .use(parser)
+      .data('settings', { position: false })
+      .parse(markdown),
+  ).toEqual(ast);
 });

@@ -5,7 +5,7 @@ function tokenizeVariable(eat, value, silent) {
   // - <<glossary:glossary items>> - glossary
   const match = /^(?:\\)?<<([-\w:\s]+)(?:\\)?>>/.exec(value);
 
-  if (!match) return false
+  if (!match) return false;
 
   if (silent) return true;
 
@@ -20,7 +20,10 @@ function tokenizeVariable(eat, value, silent) {
   if (match[1].startsWith('glossary:')) {
     return eat(match[0])({
       type: 'readme-glossary-item',
-      data: { hName: 'readme-glossary-item', hProperties: { term: match[1].replace('glossary:', '') } },
+      data: {
+        hName: 'readme-glossary-item',
+        hProperties: { term: match[1].replace('glossary:', '') },
+      },
     });
   }
 
@@ -48,7 +51,7 @@ function parser() {
 
 module.exports = parser;
 
-module.exports.sanitize = (sanitizeSchema) => {
+module.exports.sanitize = sanitizeSchema => {
   // This is for our custom variable tags <<apiKey>>
   sanitizeSchema.tagNames.push('readme-variable');
   sanitizeSchema.attributes['readme-variable'] = ['variable'];
@@ -58,4 +61,4 @@ module.exports.sanitize = (sanitizeSchema) => {
   sanitizeSchema.attributes['readme-glossary-item'] = ['term'];
 
   return parser;
-}
+};

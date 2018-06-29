@@ -23,15 +23,17 @@ function GlossaryItem({ term, terms }) {
 
 GlossaryItem.propTypes = {
   term: PropTypes.string.isRequired,
-  terms: PropTypes.arrayOf(PropTypes.shape({
-    term: PropTypes.string.isRequired,
-    definition: PropTypes.string.isRequired
-  })).isRequired,
+  terms: PropTypes.arrayOf(
+    PropTypes.shape({
+      term: PropTypes.string.isRequired,
+      definition: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
-module.exports = (props) => (
+module.exports = props => (
   <GlossaryTermsContext.Consumer>
-    {(terms) => <GlossaryItem {...props} terms={terms} />}
+    {terms => <GlossaryItem {...props} terms={terms} />}
   </GlossaryTermsContext.Consumer>
 );
 

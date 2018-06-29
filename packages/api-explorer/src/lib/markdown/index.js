@@ -42,7 +42,7 @@ module.exports = function markdown(text, opts = {}) {
         code: code(sanitize),
         // Remove enclosing <div>
         // https://github.com/mapbox/remark-react/issues/54
-        div: (props) => React.createElement(React.Fragment, props),
+        div: props => React.createElement(React.Fragment, props),
       },
     })
     .processSync(text).contents;

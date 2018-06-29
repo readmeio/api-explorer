@@ -6,7 +6,7 @@ const PropTypes = require('prop-types');
 function getHref(href) {
   const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
   if (doc) {
-    return `/docs/${doc[1]}`
+    return `/docs/${doc[1]}`;
   }
 
   const ref = href.match(/^ref:([-_a-zA-Z0-9#]*)$/);
@@ -44,7 +44,7 @@ function docLink(href) {
 
 function Anchor(props) {
   // eslint-disable-next-line jsx-a11y/anchor-has-content
-  return <a {...props} target="_self" href={getHref(props.href)} {...docLink(props.href)} />
+  return <a {...props} target="_self" href={getHref(props.href)} {...docLink(props.href)} />;
 }
 
 Anchor.propTypes = {
@@ -55,7 +55,7 @@ Anchor.defaultProps = {
   href: '',
 };
 
-module.exports = (sanitizeSchema) => {
+module.exports = sanitizeSchema => {
   // This is for our custom link formats
   sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
 

@@ -37,9 +37,7 @@ const CallOut = ({ block, flags }) => {
         </span>
       )}
       {block.data &&
-      block.data.body && (
-        <div className="callout-body">{markdown(block.data.body, flags)}</div>
-      )}
+      block.data.body && <div className="callout-body">{markdown(block.data.body, flags)}</div>}
     </div>
   );
 };

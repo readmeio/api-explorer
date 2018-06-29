@@ -23,10 +23,9 @@ const Parameters = ({ block, flags }) => {
 
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
-        <div
-          className="td"
-          key={c}
-        >{markdown(block.data.data[`${r}-${c}`] || '', flags)}</div>,
+        <div className="td" key={c}>
+          {markdown(block.data.data[`${r}-${c}`] || '', flags)}
+        </div>,
       );
     }
     return tdCells;

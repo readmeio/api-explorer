@@ -17,7 +17,9 @@ describe('single variable', () => {
   });
 
   test('should render default if value not set', () => {
-    const variable = shallow(<Variable {...props} user={{}} defaults={[ { name: 'apiKey', default: 'default' }]} />);
+    const variable = shallow(
+      <Variable {...props} user={{}} defaults={[{ name: 'apiKey', default: 'default' }]} />,
+    );
 
     expect(variable.text()).toBe('default');
   });
@@ -29,7 +31,9 @@ describe('single variable', () => {
   });
 
   test('should render auth dropdown if default and oauth enabled', () => {
-    const variable = shallow(<Variable {...props} user={{}} defaults={[ { name: 'apiKey', default: 'default' }]} oauth />);
+    const variable = shallow(
+      <Variable {...props} user={{}} defaults={[{ name: 'apiKey', default: 'default' }]} oauth />,
+    );
     variable.find('.variable-underline').simulate('click');
 
     expect(variable.find('#loginDropdown').length).toBe(1);
@@ -80,14 +84,30 @@ describe('multiple variables', () => {
     const variable = shallow(
       <Variable
         {...props}
-        user={{ keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }, { name: 'project3'}]}}
+        user={{
+          keys: [
+            { name: 'project1', apiKey: '123' },
+            { name: 'project2', apiKey: '456' },
+            { name: 'project3' },
+          ],
+        }}
         selected="project1"
         changeSelected={changeSelected}
       />,
     );
 
     variable.find('.variable-underline').simulate('click');
-    variable.find('ul li').at(1).simulate('click', { target: { innerText: variable.find('ul li').at(1).text() } });
+    variable
+      .find('ul li')
+      .at(1)
+      .simulate('click', {
+        target: {
+          innerText: variable
+            .find('ul li')
+            .at(1)
+            .text(),
+        },
+      });
   });
 
   test('should render auth dropdown if default and oauth enabled');

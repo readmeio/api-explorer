@@ -12,7 +12,7 @@ function DescriptionField(props) {
   }
   return (
     <div id={id} className="field-description">
-      {typeof description === 'string'? markdown(description) : description}
+      {typeof description === 'string' ? markdown(description) : description}
     </div>
   );
 }

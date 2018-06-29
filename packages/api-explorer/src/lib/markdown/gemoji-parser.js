@@ -70,7 +70,7 @@ function parser() {
 
 module.exports = parser;
 
-module.exports.sanitize = (sanitizeSchema) => {
+module.exports.sanitize = sanitizeSchema => {
   // This is for font awesome gemoji codes
   sanitizeSchema.attributes.i = ['className'];
 
@@ -78,4 +78,4 @@ module.exports.sanitize = (sanitizeSchema) => {
   sanitizeSchema.attributes.img.push('className');
 
   return parser;
-}
+};

@@ -22,9 +22,7 @@ const ImageBlock = ({ block, flags }) => {
                 <img src={image.image[0]} alt={image.caption} />
               </a>
             </figure>
-            {image.caption && (
-              <figcaption>{markdown(image.caption, flags)}</figcaption>
-            )}
+            {image.caption && <figcaption>{markdown(image.caption, flags)}</figcaption>}
           </div>
         )}
       </div>

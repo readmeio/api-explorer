@@ -25,7 +25,12 @@ it('should output a variable node', () => {
     ],
   };
 
-  expect(remark().use(parser).data('settings', { position: false }).parse(markdown)).toEqual(ast);
+  expect(
+    remark()
+      .use(parser)
+      .data('settings', { position: false })
+      .parse(markdown),
+  ).toEqual(ast);
 });
 
 it('should output a glossary node', () => {
@@ -52,7 +57,12 @@ it('should output a glossary node', () => {
     ],
   };
 
-  expect(remark().use(parser).data('settings', { position: false }).parse(markdown)).toEqual(ast);
+  expect(
+    remark()
+      .use(parser)
+      .data('settings', { position: false })
+      .parse(markdown),
+  ).toEqual(ast);
 });
 
 it('should allow whitespace in glossary names', () => {
@@ -79,7 +89,12 @@ it('should allow whitespace in glossary names', () => {
     ],
   };
 
-  expect(remark().use(parser).data('settings', { position: false }).parse(markdown)).toEqual(ast);
+  expect(
+    remark()
+      .use(parser)
+      .data('settings', { position: false })
+      .parse(markdown),
+  ).toEqual(ast);
 });
 
 it('should allow escape variables to remain', () => {
@@ -98,5 +113,10 @@ it('should allow escape variables to remain', () => {
     ],
   };
 
-  expect(remark().use(parser).data('settings', { position: false }).parse(markdown)).toEqual(ast);
+  expect(
+    remark()
+      .use(parser)
+      .data('settings', { position: false })
+      .parse(markdown),
+  ).toEqual(ast);
 });

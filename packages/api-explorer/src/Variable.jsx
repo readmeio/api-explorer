@@ -78,7 +78,7 @@ class Variable extends React.Component {
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
               <li
                 className={classNames({ active: this.props.selected === key.name })}
-                onClick={(event) => this.props.changeSelected(event.target.innerText)}
+                onClick={event => this.props.changeSelected(event.target.innerText)}
                 key={key.name}
               >
                 {key.name}
@@ -138,14 +138,21 @@ Variable.defaultProps = {
   oauth: false,
 };
 
-module.exports = (props) => (
+module.exports = props => (
   <VariablesContext.Consumer>
     {({ user, defaults }) => (
       <OauthContext.Consumer>
-        {(oauth) => (
+        {oauth => (
           <SelectedAppContext.Consumer>
-            {({selected, changeSelected}) => (
-              <Variable {...props} user={user} defaults={defaults} oauth={oauth} selected={selected} changeSelected={changeSelected} />
+            {({ selected, changeSelected }) => (
+              <Variable
+                {...props}
+                user={user}
+                defaults={defaults}
+                oauth={oauth}
+                selected={selected}
+                changeSelected={changeSelected}
+              />
             )}
           </SelectedAppContext.Consumer>
         )}

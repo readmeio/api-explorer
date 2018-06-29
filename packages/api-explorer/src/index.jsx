@@ -112,9 +112,13 @@ ApiExplorer.propTypes = {
     user: PropTypes.shape({
       keys: PropTypes.array,
     }).isRequired,
-    defaults: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired, default: PropTypes.string.isRequired })).isRequired
+    defaults: PropTypes.arrayOf(
+      PropTypes.shape({ name: PropTypes.string.isRequired, default: PropTypes.string.isRequired }),
+    ).isRequired,
   }).isRequired,
-  glossaryTerms: PropTypes.arrayOf(PropTypes.shape({ term: PropTypes.string.isRequired, definition: PropTypes.string.isRequired })).isRequired,
+  glossaryTerms: PropTypes.arrayOf(
+    PropTypes.shape({ term: PropTypes.string.isRequired, definition: PropTypes.string.isRequired }),
+  ).isRequired,
 };
 
 ApiExplorer.defaultProps = {
