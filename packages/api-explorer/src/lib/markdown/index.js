@@ -29,14 +29,7 @@ module.exports = function markdown(text, opts = {}) {
     .use(reactRenderer, {
       sanitize,
       remarkReactComponents: {
-        'readme-variable': function({ variable }) {
-          return React.createElement(Variable, {
-            k: variable,
-            value: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }],
-            defaults: [],
-            oauth: false,
-          });
-        },
+        'readme-variable': Variable,
         'readme-glossary-item': function({ term }) {
           return React.createElement(GlossaryItem, {
             term,

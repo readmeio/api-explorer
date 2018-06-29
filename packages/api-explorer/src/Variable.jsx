@@ -1,6 +1,7 @@
 const React = require('react');
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
+const VariablesContext = require('./contexts/variables');
 
 class Variable extends React.Component {
   static renderAuthDropdown() {
@@ -38,17 +39,17 @@ class Variable extends React.Component {
     this.renderVarDropdown = this.renderVarDropdown.bind(this);
   }
   getDefault() {
-    const def = this.props.defaults.find(d => d.name === this.props.k) || {};
+    const def = this.props.defaults.find(d => d.name === this.props.variable) || {};
     if (def.default) return def.default;
-    return this.props.k.toUpperCase();
+    return this.props.variable.toUpperCase();
   }
   // Return value in this order
   // - user value
   // - default value
   // - uppercase key
   getValue() {
-    const key = this.props.k;
-    if (this.props.value[key]) return this.props.value[key];
+    const { variable } = this.props;
+    if (this.props.variables[variable]) return this.props.variables[variable];
 
     return this.getDefault();
   }
@@ -75,7 +76,7 @@ class Variable extends React.Component {
           <div className="ns-triangle" />
           <div className="triangle" />
           <ul>
-            {this.props.value.map(key => (
+            {this.props.variables.map(key => (
               <li
                 className={classNames({ active: this.state.selected === key.name })}
                 onClick={this.selectValue}
@@ -90,16 +91,16 @@ class Variable extends React.Component {
     );
   }
   render() {
-    const { k, value } = this.props;
+    const { variable, variables } = this.props;
 
     const { selected } = this.state;
 
-    if (Array.isArray(value)) {
-      const selectedValue = selected ? value.find(key => key.name === selected) : value[0];
+    if (Array.isArray(variables)) {
+      const selectedValue = selected ? variables.find(key => key.name === selected) : variables[0];
       return (
         <span>
           <span className="variable-underline" onClick={this.toggleVarDropdown}>
-            {selectedValue[k]}
+            {selectedValue[variable]}
           </span>
           {this.state.showDropdown && this.renderVarDropdown()}
         </span>
@@ -123,12 +124,20 @@ class Variable extends React.Component {
 }
 
 Variable.propTypes = {
-  k: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  variable: PropTypes.string.isRequired,
+  variables: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   defaults: PropTypes.arrayOf(
     PropTypes.shape({ name: PropTypes.string, default: PropTypes.string }),
   ).isRequired,
   oauth: PropTypes.bool.isRequired,
 };
 
-module.exports = Variable;
+module.exports = (props) => (
+  <VariablesContext.Consumer>
+    {variables => {
+      return <Variable {...props} variables={variables} />
+    } }
+  </VariablesContext.Consumer>
+);
+
+module.exports.Variable = Variable;
