@@ -112,7 +112,7 @@ class Variable extends React.Component {
     if (this.getValue() === this.getDefault() && this.props.oauth) {
       return (
         <span>
-          <span className="variable-underline" onClick={this.toggleAuthDropdown}>
+          <span className="variable-underline" onClick={this.toggleAuthDropdown} role="button">
             {this.getValue()}
           </span>
           {this.state.showAuthDropdown && Variable.renderAuthDropdown()}
