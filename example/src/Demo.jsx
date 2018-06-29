@@ -68,8 +68,10 @@ class Demo extends React.Component {
               flags={{ correctnewlines: false }}
               suggestedEdits
               oauth={this.props.oauth}
-              variables={[{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }]}
-              defaultVariables={[]}
+              variables={{
+                user: { keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] },
+                defaults: [],
+              }}
               glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
             />
           )

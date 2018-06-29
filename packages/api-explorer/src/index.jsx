@@ -2,7 +2,7 @@ const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
-const VariablesContext = require('./contexts/variables');
+const VariablesContext = require('./contexts/Variables');
 
 const Doc = require('./Doc');
 
@@ -88,8 +88,12 @@ ApiExplorer.propTypes = {
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
-  variables: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.arrayOf(PropTypes.shape({}))]).isRequired,
-  defaultVariables: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired, default: PropTypes.string.isRequired })).isRequired,
+  variables: PropTypes.shape({
+    user: PropTypes.shape({
+      keys: PropTypes.array,
+    }).isRequired,
+    defaults: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired, default: PropTypes.string.isRequired })).isRequired
+  }).isRequired,
   glossaryTerms: PropTypes.arrayOf(PropTypes.shape({ term: PropTypes.string.isRequired, definition: PropTypes.string.isRequired })).isRequired,
 };
 

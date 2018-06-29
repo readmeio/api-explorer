@@ -20,8 +20,12 @@ npm install --save @readme/api-explorer
   oauth={Boolean}
   suggestedEdits={Boolean}
   tryItMetrics={function}
-  variables={Object|Array}
-  defaultVariables={Array}
+  variables={
+    user: {
+      keys: Array,
+    },
+    defaults: Array,
+  }
   glossaryTerms={Array}
 />
 ```
@@ -39,8 +43,8 @@ npm install --save @readme/api-explorer
 - `oauth` - whether this project uses oauth or not
 - `suggestedEdits` - whether suggested edits are enabled or not. This just toggles the button.
 - `tryItMetrics` - function to call when request is made
-- `variables` - user specific variables, setup via JWT login to ReadMe
-- `defaultVariables` - default project variables
+- `variables.user` - user specific variables, setup via JWT login to ReadMe
+- `variables.defaults` - default project variables
 - `glossaryTerms` - glossary terms defined in the ReadMe project
 
 ## Credits

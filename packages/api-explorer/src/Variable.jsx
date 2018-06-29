@@ -1,7 +1,7 @@
 const React = require('react');
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
-const VariablesContext = require('./contexts/variables');
+const VariablesContext = require('./contexts/Variables');
 
 class Variable extends React.Component {
   static renderAuthDropdown() {
@@ -49,7 +49,7 @@ class Variable extends React.Component {
   // - uppercase key
   getValue() {
     const { variable } = this.props;
-    if (this.props.variables[variable]) return this.props.variables[variable];
+    if (this.props.user[variable]) return this.props.user[variable];
 
     return this.getDefault();
   }
@@ -76,7 +76,7 @@ class Variable extends React.Component {
           <div className="ns-triangle" />
           <div className="triangle" />
           <ul>
-            {this.props.variables.map(key => (
+            {this.props.user.keys.map(key => (
               <li
                 className={classNames({ active: this.state.selected === key.name })}
                 onClick={this.selectValue}
@@ -91,12 +91,12 @@ class Variable extends React.Component {
     );
   }
   render() {
-    const { variable, variables } = this.props;
+    const { variable, user } = this.props;
 
     const { selected } = this.state;
 
-    if (Array.isArray(variables)) {
-      const selectedValue = selected ? variables.find(key => key.name === selected) : variables[0];
+    if (Array.isArray(user.keys)) {
+      const selectedValue = selected ? user.keys.find(key => key.name === selected) : user.keys[0];
       return (
         <span>
           <span className="variable-underline" onClick={this.toggleVarDropdown}>
@@ -125,7 +125,9 @@ class Variable extends React.Component {
 
 Variable.propTypes = {
   variable: PropTypes.string.isRequired,
-  variables: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  user: PropTypes.shape({
+    keys: PropTypes.array,
+  }).isRequired,
   defaults: PropTypes.arrayOf(
     PropTypes.shape({ name: PropTypes.string, default: PropTypes.string }),
   ).isRequired,
@@ -134,8 +136,8 @@ Variable.propTypes = {
 
 module.exports = (props) => (
   <VariablesContext.Consumer>
-    {variables => {
-      return <Variable {...props} variables={variables} />
+    {({ user, defaults }) => {
+      return <Variable {...props} user={user} defaults={defaults} />
     } }
   </VariablesContext.Consumer>
 );
