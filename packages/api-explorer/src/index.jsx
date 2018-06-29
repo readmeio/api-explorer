@@ -4,6 +4,7 @@ const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const VariablesContext = require('./contexts/Variables');
 const OauthContext = require('./contexts/Oauth');
+const GlossaryTermsContext = require('./contexts/GlossaryTerms');
 
 const Doc = require('./Doc');
 
@@ -61,18 +62,20 @@ class ApiExplorer extends React.Component {
           {this.props.docs.map(doc => (
             <VariablesContext.Provider value={this.props.variables}>
               <OauthContext.Provider value={this.props.oauth}>
-                <Doc
-                  key={doc._id}
-                  doc={doc}
-                  oas={this.getOas(doc)}
-                  setLanguage={this.setLanguage}
-                  flags={this.props.flags}
-                  language={this.state.language}
-                  oauth={this.props.oauth}
-                  suggestedEdits={this.props.suggestedEdits}
-                  apiKey={this.state.apiKey}
-                  tryItMetrics={this.props.tryItMetrics}
-                />
+                <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
+                  <Doc
+                    key={doc._id}
+                    doc={doc}
+                    oas={this.getOas(doc)}
+                    setLanguage={this.setLanguage}
+                    flags={this.props.flags}
+                    language={this.state.language}
+                    oauth={this.props.oauth}
+                    suggestedEdits={this.props.suggestedEdits}
+                    apiKey={this.state.apiKey}
+                    tryItMetrics={this.props.tryItMetrics}
+                  />
+                </GlossaryTermsContext.Provider>
               </OauthContext.Provider>
             </VariablesContext.Provider>
           ))}

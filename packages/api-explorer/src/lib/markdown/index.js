@@ -30,12 +30,7 @@ module.exports = function markdown(text, opts = {}) {
       sanitize,
       remarkReactComponents: {
         'readme-variable': Variable,
-        'readme-glossary-item': function({ term }) {
-          return React.createElement(GlossaryItem, {
-            term,
-            terms: [{ term: 'apiKey', definition: 'This is a definition' }],
-          });
-        },
+        'readme-glossary-item': GlossaryItem,
         table: table(sanitize),
         h1: heading('h1', sanitize),
         h2: heading('h2', sanitize),
