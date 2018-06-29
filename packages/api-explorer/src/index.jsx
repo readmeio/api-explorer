@@ -3,6 +3,7 @@ const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const VariablesContext = require('./contexts/Variables');
+const OauthContext = require('./contexts/Oauth');
 
 const Doc = require('./Doc');
 
@@ -59,18 +60,20 @@ class ApiExplorer extends React.Component {
         >
           {this.props.docs.map(doc => (
             <VariablesContext.Provider value={this.props.variables}>
-              <Doc
-                key={doc._id}
-                doc={doc}
-                oas={this.getOas(doc)}
-                setLanguage={this.setLanguage}
-                flags={this.props.flags}
-                language={this.state.language}
-                oauth={this.props.oauth}
-                suggestedEdits={this.props.suggestedEdits}
-                apiKey={this.state.apiKey}
-                tryItMetrics={this.props.tryItMetrics}
-              />
+              <OauthContext.Provider value={this.props.oauth}>
+                <Doc
+                  key={doc._id}
+                  doc={doc}
+                  oas={this.getOas(doc)}
+                  setLanguage={this.setLanguage}
+                  flags={this.props.flags}
+                  language={this.state.language}
+                  oauth={this.props.oauth}
+                  suggestedEdits={this.props.suggestedEdits}
+                  apiKey={this.state.apiKey}
+                  tryItMetrics={this.props.tryItMetrics}
+                />
+              </OauthContext.Provider>
             </VariablesContext.Provider>
           ))}
         </div>

@@ -2,6 +2,7 @@ const React = require('react');
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
 const VariablesContext = require('./contexts/Variables');
+const OauthContext = require('./contexts/Oauth');
 
 class Variable extends React.Component {
   static renderAuthDropdown() {
@@ -131,14 +132,23 @@ Variable.propTypes = {
   defaults: PropTypes.arrayOf(
     PropTypes.shape({ name: PropTypes.string, default: PropTypes.string }),
   ).isRequired,
-  oauth: PropTypes.bool.isRequired,
+  oauth: PropTypes.bool,
+};
+
+Variable.defaultProps = {
+  oauth: false,
 };
 
 module.exports = (props) => (
   <VariablesContext.Consumer>
-    {({ user, defaults }) => {
-      return <Variable {...props} user={user} defaults={defaults} />
-    } }
+    {({ user, defaults }) => (
+      <OauthContext.Consumer>
+        {(oauth) => (
+          <Variable {...props} user={user} defaults={defaults} oauth={oauth} />
+        )
+      }
+      </OauthContext.Consumer>
+    )}
   </VariablesContext.Consumer>
 );
 
