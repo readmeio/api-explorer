@@ -3,6 +3,7 @@ const classNames = require('classnames');
 const PropTypes = require('prop-types');
 const VariablesContext = require('./contexts/Variables');
 const OauthContext = require('./contexts/Oauth');
+const SelectedAppContext = require('./contexts/SelectedApp');
 
 class Variable extends React.Component {
   static renderAuthDropdown() {
@@ -32,11 +33,10 @@ class Variable extends React.Component {
   }
   constructor(props) {
     super(props);
-    this.state = { showDropdown: false, selected: props.selected };
+    this.state = { showDropdown: false };
 
     this.toggleVarDropdown = this.toggleVarDropdown.bind(this);
     this.toggleAuthDropdown = this.toggleAuthDropdown.bind(this);
-    this.selectValue = this.selectValue.bind(this);
     this.renderVarDropdown = this.renderVarDropdown.bind(this);
   }
   getDefault() {
@@ -60,9 +60,6 @@ class Variable extends React.Component {
   toggleAuthDropdown() {
     this.setState({ showAuthDropdown: !this.state.showAuthDropdown });
   }
-  selectValue(event) {
-    this.setState({ selected: event.target.innerText, showDropdown: false });
-  }
   renderVarDropdown() {
     return (
       <div
@@ -80,8 +77,8 @@ class Variable extends React.Component {
             {this.props.user.keys.map(key => (
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
               <li
-                className={classNames({ active: this.state.selected === key.name })}
-                onClick={this.selectValue}
+                className={classNames({ active: this.props.selected === key.name })}
+                onClick={(event) => this.props.changeSelected(event.target.innerText)}
                 key={key.name}
               >
                 {key.name}
@@ -94,9 +91,7 @@ class Variable extends React.Component {
   }
   render() {
     /* eslint-disable jsx-a11y/no-static-element-interactions */
-    const { variable, user } = this.props;
-
-    const { selected } = this.state;
+    const { variable, user, selected } = this.props;
 
     if (Array.isArray(user.keys)) {
       const selectedValue = selected ? user.keys.find(key => key.name === selected) : user.keys[0];
@@ -128,6 +123,8 @@ class Variable extends React.Component {
 
 Variable.propTypes = {
   variable: PropTypes.string.isRequired,
+  selected: PropTypes.string.isRequired,
+  changeSelected: PropTypes.func.isRequired,
   user: PropTypes.shape({
     keys: PropTypes.array,
   }).isRequired,
@@ -146,9 +143,12 @@ module.exports = (props) => (
     {({ user, defaults }) => (
       <OauthContext.Consumer>
         {(oauth) => (
-          <Variable {...props} user={user} defaults={defaults} oauth={oauth} />
-        )
-      }
+          <SelectedAppContext.Consumer>
+            {({selected, changeSelected}) => (
+              <Variable {...props} user={user} defaults={defaults} oauth={oauth} selected={selected} changeSelected={changeSelected} />
+            )}
+          </SelectedAppContext.Consumer>
+        )}
       </OauthContext.Consumer>
     )}
   </VariablesContext.Consumer>

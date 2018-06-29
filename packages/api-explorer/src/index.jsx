@@ -5,6 +5,7 @@ const extensions = require('@readme/oas-extensions');
 const VariablesContext = require('./contexts/Variables');
 const OauthContext = require('./contexts/Oauth');
 const GlossaryTermsContext = require('./contexts/GlossaryTerms');
+const SelectedAppContext = require('./contexts/SelectedApp');
 
 const Doc = require('./Doc');
 
@@ -22,13 +23,19 @@ class ApiExplorer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      language: Cookie.get('readme_language') || this.getDefaultLanguage(),
-      apiKey: ApiExplorer.getApiKey(),
-    };
 
     this.setLanguage = this.setLanguage.bind(this);
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
+    this.changeSelected = this.changeSelected.bind(this);
+
+    this.state = {
+      language: Cookie.get('readme_language') || this.getDefaultLanguage(),
+      apiKey: ApiExplorer.getApiKey(),
+      selectedApp: {
+        selected: '',
+        changeSelected: this.changeSelected,
+      },
+    };
   }
 
   setLanguage(language) {
@@ -51,6 +58,11 @@ class ApiExplorer extends React.Component {
 
     return this.props.oasFiles[apiSetting];
   }
+
+  changeSelected(selected) {
+    this.setState({ selectedApp: { selected, changeSelected: this.changeSelected } });
+  }
+
   render() {
     const theme = this.props.flags.stripe ? 'stripe' : '';
     return (
@@ -63,18 +75,20 @@ class ApiExplorer extends React.Component {
             <VariablesContext.Provider value={this.props.variables}>
               <OauthContext.Provider value={this.props.oauth}>
                 <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
-                  <Doc
-                    key={doc._id}
-                    doc={doc}
-                    oas={this.getOas(doc)}
-                    setLanguage={this.setLanguage}
-                    flags={this.props.flags}
-                    language={this.state.language}
-                    oauth={this.props.oauth}
-                    suggestedEdits={this.props.suggestedEdits}
-                    apiKey={this.state.apiKey}
-                    tryItMetrics={this.props.tryItMetrics}
-                  />
+                  <SelectedAppContext.Provider value={this.state.selectedApp}>
+                    <Doc
+                      key={doc._id}
+                      doc={doc}
+                      oas={this.getOas(doc)}
+                      setLanguage={this.setLanguage}
+                      flags={this.props.flags}
+                      language={this.state.language}
+                      oauth={this.props.oauth}
+                      suggestedEdits={this.props.suggestedEdits}
+                      apiKey={this.state.apiKey}
+                      tryItMetrics={this.props.tryItMetrics}
+                    />
+                  </SelectedAppContext.Provider>
                 </GlossaryTermsContext.Provider>
               </OauthContext.Provider>
             </VariablesContext.Provider>

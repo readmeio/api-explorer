@@ -4,33 +4,39 @@ const { shallow } = require('enzyme');
 const { Variable } = require('../src/Variable');
 
 describe('single variable', () => {
+  const props = {
+    variable: 'apiKey',
+    user: { apiKey: '123456' },
+    defaults: [],
+  };
+
   test('should render value', () => {
-    const variable = shallow(<Variable variable="apiKey" user={{ apiKey: '123456' }} defaults={[]} />);
+    const variable = shallow(<Variable {...props} />);
 
     expect(variable.text()).toBe('123456');
   });
 
   test('should render default if value not set', () => {
-    const variable = shallow(<Variable variable="apiKey" user={{}} defaults={[ { name: 'apiKey', default: 'default' }]} />);
+    const variable = shallow(<Variable {...props} user={{}} defaults={[ { name: 'apiKey', default: 'default' }]} />);
 
     expect(variable.text()).toBe('default');
   });
 
   test('should render uppercase if no value and no default', () => {
-    const variable = shallow(<Variable variable="apiKey" user={{}} defaults={[]} />);
+    const variable = shallow(<Variable {...props} user={{}} defaults={[]} />);
 
     expect(variable.text()).toBe('APIKEY');
   });
 
   test('should render auth dropdown if default and oauth enabled', () => {
-    const variable = shallow(<Variable variable="apiKey" user={{}} defaults={[ { name: 'apiKey', default: 'default' }]} oauth />);
+    const variable = shallow(<Variable {...props} user={{}} defaults={[ { name: 'apiKey', default: 'default' }]} oauth />);
     variable.find('.variable-underline').simulate('click');
 
     expect(variable.find('#loginDropdown').length).toBe(1);
   });
 
   test('should render auth dropdown if no default and oauth enabled', () => {
-    const variable = shallow(<Variable variable="apiKey" user={{}} defaults={[]} oauth />);
+    const variable = shallow(<Variable {...props} user={{}} defaults={[]} oauth />);
     variable.find('.variable-underline').simulate('click');
 
     expect(variable.find('#loginDropdown').length).toBe(1);
@@ -40,40 +46,27 @@ describe('single variable', () => {
 });
 
 describe('multiple variables', () => {
+  const props = {
+    variable: 'apiKey',
+    user: { keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] },
+    defaults: [],
+    selected: '',
+    changeSelected: () => {},
+  };
   test('should render the first of multiple values', () => {
-    const variable = shallow(
-      <Variable
-        variable="apiKey"
-        user={{ keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] }}
-        defaults={[]}
-      />,
-    );
+    const variable = shallow(<Variable {...props} />);
 
     expect(variable.text()).toBe('123');
   });
 
   test('should render whatever the selected name is', () => {
-    const variable = shallow(
-      <Variable
-        variable="apiKey"
-        user={{ keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }]}}
-        selected="project2"
-        defaults={[]}
-      />,
-    );
+    const variable = shallow(<Variable {...props} selected="project2" />);
 
     expect(variable.text()).toBe('456');
   });
 
   test('should show dropdown when clicked', () => {
-    const variable = shallow(
-      <Variable
-        variable="apiKey"
-        user={{ keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }]}}
-        selected="project2"
-        defaults={[]}
-      />,
-    );
+    const variable = shallow(<Variable {...props} selected="project2" />);
 
     variable.find('.variable-underline').simulate('click');
 
@@ -81,18 +74,20 @@ describe('multiple variables', () => {
   });
 
   test('should select value when clicked', () => {
+    function changeSelected(selected) {
+      expect(selected).toBe('project2');
+    }
     const variable = shallow(
       <Variable
-        variable="apiKey"
+        {...props}
         user={{ keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }, { name: 'project3'}]}}
         selected="project1"
+        changeSelected={changeSelected}
       />,
     );
 
     variable.find('.variable-underline').simulate('click');
     variable.find('ul li').at(1).simulate('click', { target: { innerText: variable.find('ul li').at(1).text() } });
-
-    expect(variable.text()).toBe('456');
   });
 
   test('should render auth dropdown if default and oauth enabled');
