@@ -78,6 +78,7 @@ class Variable extends React.Component {
           <div className="triangle" />
           <ul>
             {this.props.user.keys.map(key => (
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
               <li
                 className={classNames({ active: this.state.selected === key.name })}
                 onClick={this.selectValue}
@@ -92,6 +93,7 @@ class Variable extends React.Component {
     );
   }
   render() {
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     const { variable, user } = this.props;
 
     const { selected } = this.state;
@@ -112,7 +114,7 @@ class Variable extends React.Component {
     if (this.getValue() === this.getDefault() && this.props.oauth) {
       return (
         <span>
-          <span className="variable-underline" onClick={this.toggleAuthDropdown} role="button">
+          <span className="variable-underline" onClick={this.toggleAuthDropdown}>
             {this.getValue()}
           </span>
           {this.state.showAuthDropdown && Variable.renderAuthDropdown()}

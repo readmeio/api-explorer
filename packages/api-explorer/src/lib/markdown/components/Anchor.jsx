@@ -1,4 +1,5 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 
 // Nabbed from here:
 // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/markdown/renderer.js#L52
@@ -42,8 +43,13 @@ function docLink(href = '') {
 }
 
 function Anchor(props) {
+  // eslint-disable-next-line jsx-a11y/anchor-has-content
   return <a {...props} target="_self" href={getHref(props.href)} {...docLink(props.href)} />
 }
+
+Anchor.propTypes = {
+  href: PropTypes.string.isRequired,
+};
 
 module.exports = (sanitizeSchema) => {
   // This is for our custom link formats
