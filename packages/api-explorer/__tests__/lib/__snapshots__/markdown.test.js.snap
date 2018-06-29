@@ -2,7 +2,7 @@
 
 exports[`anchors 1`] = `
 "<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
-<a target=\\"_self\\" href=\\"\\">xss</a><br/>
+<a href=\\"\\" target=\\"_self\\">xss</a><br/>
 <a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
 <a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br/>
 <a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br/>
@@ -31,6 +31,8 @@ exports[`emojis 1`] = `
 </p>"
 `;
 
+exports[`glossary 1`] = `"<p></p>"`;
+
 exports[`headings 1`] = `
 "<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div>h1<a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
 <h2 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h2\\"></div>h2<a class=\\"fa fa-anchor\\" href=\\"#section-h2\\"></a></h2>
@@ -57,3 +59,5 @@ exports[`tables 1`] = `
 <tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody>
 </table></div>"
 `;
+
+exports[`variables 1`] = `"<p><span>APIKEY</span></p>"`;

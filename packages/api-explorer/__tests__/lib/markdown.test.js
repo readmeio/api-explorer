@@ -82,6 +82,14 @@ test('`correctnewlines` option', () => {
   );
 });
 
+test('variables', () => {
+  expect(shallow(markdown(`<<apiKey>>`)).html()).toMatchSnapshot();
+});
+
+test('glossary', () => {
+  expect(shallow(markdown(`<<glossary:term>>`)).html()).toMatchSnapshot();
+});
+
 // TODO not sure if this needs to work or not?
 // Isn't it a good thing to always strip HTML?
 describe.skip('`stripHtml` option', () => {

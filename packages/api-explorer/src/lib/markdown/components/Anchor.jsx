@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 
 // Nabbed from here:
 // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/markdown/renderer.js#L52
-function getHref(href = '') {
+function getHref(href) {
   const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
   if (doc) {
     return `/docs/${doc[1]}`
@@ -32,7 +32,7 @@ function getHref(href = '') {
   return href;
 }
 
-function docLink(href = '') {
+function docLink(href) {
   const doc = href.match(/^doc:([-_a-zA-Z0-9#]*)$/);
   if (!doc) return false;
 
@@ -48,7 +48,11 @@ function Anchor(props) {
 }
 
 Anchor.propTypes = {
-  href: PropTypes.string.isRequired,
+  href: PropTypes.string,
+};
+
+Anchor.defaultProps = {
+  href: '',
 };
 
 module.exports = (sanitizeSchema) => {
