@@ -32,7 +32,10 @@
 //     }
 //   ]
 // }
-// [/block]`;
+// [/block]
+// This is your <<apiKey>>.
+// This is your <<apiKey>>.
+// This is your <<glossary:apiKey>>.`;
 
 module.exports = (oas, apiSetting) => {
   const docs = [];
