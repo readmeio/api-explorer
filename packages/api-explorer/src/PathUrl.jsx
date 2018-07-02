@@ -104,7 +104,7 @@ PathUrl.defaultProps = {
   showAuthBox: false,
   needsAuth: false,
   authInputRef: () => {},
-  apiKey: '',
+  apiKey: undefined,
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

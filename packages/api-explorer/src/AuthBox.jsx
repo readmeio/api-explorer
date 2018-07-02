@@ -115,7 +115,7 @@ AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
   authInputRef: () => {},
-  apiKey: '',
+  apiKey: undefined,
 };
 
 module.exports = AuthBox;

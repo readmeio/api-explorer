@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
 const ApiExplorer = require('../src');
@@ -164,5 +164,26 @@ describe('apiKey', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
     expect(explorer.state('apiKey')).toBe(undefined);
+  });
+
+  it('should be updated via editing authbox', () => {
+    const explorer = mount(<ApiExplorer {...props} docs={docs.slice(0, 1)} />);
+    const doc = explorer.find('Doc').at(0).instance();
+
+    doc.setState({ showEndpoint: true, showAuthBox: true });
+
+    explorer.update();
+
+    const input = explorer.find('input[name="apiKey"]');
+
+    input.instance().value = '1234';
+    input.simulate('change');
+
+    expect(doc.state.formData.auth.petstore_auth).toBe('1234');
+
+    input.instance().value += '5678';
+    input.simulate('change');
+
+    expect(doc.state.formData.auth.petstore_auth).toBe('12345678');
   });
 });
