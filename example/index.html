@@ -13,6 +13,68 @@
       padding-left: 0;
     }
   </style>
+  <style type="text/css">
+    fieldset {
+      border: none;
+    }
+
+    fieldset fieldset {
+      padding: 0;
+    }
+
+    .param-type-header {
+      color: #aeaeae;
+      font-size: 14px;
+      text-transform: uppercase;
+      padding-left: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .form-group .control-label {
+      font-weight: bold;
+      text-align: unset;
+      width: 50%;
+      float: left;
+    }
+
+    .form-group .form-control {
+      width: 50%;
+    }
+
+    legend {
+      font-weight: bold;
+    }
+
+    legend ~ .form-group label {
+      padding-left: 20px;
+    }
+
+    .form-group .form-group {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f2f2f2;
+    }
+
+    .btn.btn-add::after {
+      content: 'Add';
+    }
+
+    .btn.array-item-move-up::after {
+      content: 'Up';
+    }
+
+    .btn.array-item-move-down::after {
+      content: 'Down';
+    }
+
+    .btn.array-item-remove::after {
+      content: 'Remove';
+    }
+
+    .field.field-array .array-item {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
   <section id="hub-content"></section>

@@ -23,54 +23,50 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
   const FieldTemplate = FieldTemplateWrapper(oas);
   return (
-    <div className="api-manager">
-      <div className="param-table">
-        {jsonSchema &&
-          jsonSchema.map(schema => {
-            return [
-              <div className="param-header" key={`${schema.type}-header`}>
-                <h3>{schema.label}</h3>
-                <div className="param-header-border" />
-              </div>,
-              <Form
-                key={`${schema.type}-form`}
-                id={`form-${operation.operationId}`}
-                schema={schema.schema}
-                widgets={{
-                  int64: UpDownWidget,
-                  int32: UpDownWidget,
-                  double: UpDownWidget,
-                  float: UpDownWidget,
-                  binary: FileWidget,
-                  byte: TextWidget,
-                  uuid: TextWidget,
-                  duration: TextWidget,
-                  dateTime: DateTimeWidget,
-                  integer: UpDownWidget,
-                  CheckboxWidget,
-                  TextWidget,
-                }}
-                onSubmit={onSubmit}
-                formData={formData[schema.type]}
-                onChange={form => {
-                  // return onChange({ [schema.type]: { $set: form.formData } })
-                  return onChange({ [schema.type]: form.formData });
-                }}
-                FieldTemplate={FieldTemplate}
-                fields={{
-                  ObjectField,
-                  ArrayField,
-                  SchemaField,
-                  TitleField: () => null,
-                  DescriptionField,
-                }}
-              >
-                <button type="submit" style={{ display: 'none' }} />
-              </Form>,
-            ];
-          })}
-      </div>
-    </div>
+    jsonSchema &&
+      jsonSchema.map(schema => {
+        return [
+          <div className="param-type-header" key={`${schema.type}-header`}>
+            <h3>{schema.label}</h3>
+            <div className="param-header-border" />
+          </div>,
+          <Form
+            key={`${schema.type}-form`}
+            id={`form-${operation.operationId}`}
+            schema={schema.schema}
+            widgets={{
+              int64: UpDownWidget,
+              int32: UpDownWidget,
+              double: UpDownWidget,
+              float: UpDownWidget,
+              binary: FileWidget,
+              byte: TextWidget,
+              uuid: TextWidget,
+              duration: TextWidget,
+              dateTime: DateTimeWidget,
+              integer: UpDownWidget,
+              // CheckboxWidget,
+              // TextWidget,
+            }}
+            onSubmit={onSubmit}
+            formData={formData[schema.type]}
+            onChange={form => {
+              // return onChange({ [schema.type]: { $set: form.formData } })
+              return onChange({ [schema.type]: form.formData });
+            }}
+            // FieldTemplate={FieldTemplate}
+            // fields={{
+            //   ObjectField,
+            //   // ArrayField,
+            //   SchemaField,
+            //   TitleField: () => null,
+            //   DescriptionField,
+            // }}
+          >
+            <button type="submit" style={{ display: 'none' }} />
+          </Form>,
+        ];
+      })
   );
 }
 
