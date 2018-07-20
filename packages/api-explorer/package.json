@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "main": "dist/index.js",
   "dependencies": {
     "@readme/oas-extensions": "^0.2.2",
