@@ -46,6 +46,25 @@ test('should pass through URL with proxy removed', async () => {
   expect((await codeSampleResponse(har, response)).url).toBe('http://petstore.swagger.io/v2/pet');
 });
 
+test('should pass through URL with query string', async () => {
+  expect(
+    (await codeSampleResponse(
+      createHar({
+        method,
+        url,
+        headers: [],
+        queryString: [
+          {
+            name: 'a',
+            value: '123456',
+          },
+        ],
+      }),
+      response,
+    )).url,
+  ).toBe('http://petstore.swagger.io/v2/pet?a=123456');
+});
+
 test('should pass through method', async () => {
   expect((await codeSampleResponse(har, response)).method).toBe(method);
 });

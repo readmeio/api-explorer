@@ -85,6 +85,12 @@ module.exports = (
     url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
 
+  // Add protocol to urls starting with // e.g. //example.com
+  // This is because httpsnippet throws a HARError when it doesnt have a protocol
+  if (har.url.match(/^\/\//)) {
+    har.url = `https:${har.url}`;
+  }
+
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
   }
@@ -141,7 +147,7 @@ module.exports = (
     });
   }
 
-  const schema = getSchema(pathOperation) || { schema: {} };
+  const schema = getSchema(pathOperation, oas) || { schema: {} };
 
   if (schema.schema && Object.keys(schema.schema).length) {
     // If there is formData, then the type is application/x-www-form-urlencoded

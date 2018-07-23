@@ -362,5 +362,5 @@ Doc.defaultProps = {
   flags: {
     stripe: false,
   },
-  apiKey: '',
+  apiKey: undefined,
 };

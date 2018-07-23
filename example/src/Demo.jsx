@@ -1,6 +1,5 @@
 const React = require('react');
 const swagger2openapi = require('swagger2openapi');
-const refParser = require('json-schema-ref-parser');
 const PropTypes = require('prop-types');
 const extensions = require('../../packages/oas-extensions/');
 
@@ -33,13 +32,11 @@ class Demo extends React.Component {
   }
   dereference(oas) {
     this.createDocs(oas);
-    this.updateStatus('Dereferencing swagger file', async () => {
-      this.setState({ oas: await refParser.dereference(oas) });
-      this.updateStatus('Done!', () => {
-        setTimeout(() => {
-          this.setState({ status: [] });
-        }, 1000);
-      });
+    this.setState({ oas });
+    this.updateStatus('Done!', () => {
+      setTimeout(() => {
+        this.setState({ status: [] });
+      }, 1000);
     });
   }
   convertSwagger(swagger) {

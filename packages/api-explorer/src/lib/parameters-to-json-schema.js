@@ -10,8 +10,8 @@ const types = {
   header: 'Headers',
 };
 
-function getBodyParam(pathOperation) {
-  const schema = getSchema(pathOperation);
+function getBodyParam(pathOperation, oas) {
+  const schema = getSchema(pathOperation, oas);
 
   if (!schema) return null;
 
@@ -20,7 +20,9 @@ function getBodyParam(pathOperation) {
   return {
     type,
     label: types[type],
-    schema: schema.schema,
+    schema: oas.components
+      ? { definitions: { components: oas.components }, ...schema.schema }
+      : schema.schema,
   };
 }
 
@@ -68,13 +70,15 @@ function getOtherParams(pathOperation) {
   });
 }
 
-module.exports = pathOperation => {
+module.exports = (pathOperation, oas) => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
 
   if (!hasParameters && !hasRequestBody) return null;
 
-  return [getBodyParam(pathOperation)].concat(...getOtherParams(pathOperation)).filter(Boolean);
+  return [getBodyParam(pathOperation, oas)]
+    .concat(...getOtherParams(pathOperation))
+    .filter(Boolean);
 };
 
 // Exported for use in oas-to-har for default values object
