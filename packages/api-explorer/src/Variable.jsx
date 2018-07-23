@@ -62,31 +62,17 @@ class Variable extends React.Component {
   }
   renderVarDropdown() {
     return (
-      <div
-        className={classNames(
-          'ns-popover-dropdown-theme',
-          'ns-popover-bottom-placement',
-          'ns-popover-right-align',
-        )}
-        style={{ position: 'absolute' }}
-      >
-        <div id="variableDropdown" className="ns-popover-tooltip">
-          <div className="ns-triangle" />
-          <div className="triangle" />
-          <ul>
-            {this.props.user.keys.map(key => (
-              // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-              <li
-                className={classNames({ active: this.props.selected === key.name })}
-                onClick={event => this.props.changeSelected(event.target.innerText)}
-                key={key.name}
-              >
-                {key.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <select value={this.props.selected} onChange={event => this.props.changeSelected(event.target.value)}>
+        {this.props.user.keys.map(key => (
+          <option
+            onClick={event => this.props.changeSelected(event.target.innerText)}
+            key={key.name}
+            value={key.name}
+          >
+            {key.name}
+          </option>
+        ))}
+      </select>
     );
   }
   render() {
@@ -97,9 +83,15 @@ class Variable extends React.Component {
       const selectedValue = selected ? user.keys.find(key => key.name === selected) : user.keys[0];
       return (
         <span>
-          <span className="variable-underline" onClick={this.toggleVarDropdown}>
-            {selectedValue[variable]}
-          </span>
+          {!this.state.showDropdown && (
+            <span
+              className="variable-underline"
+              onClick={this.toggleVarDropdown}
+              ref={this.variableElement}
+            >
+              {selectedValue[variable]}
+            </span>
+          )}
           {this.state.showDropdown && this.renderVarDropdown()}
         </span>
       );
