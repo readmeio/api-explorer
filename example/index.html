@@ -20,6 +20,7 @@
 
     fieldset fieldset {
       padding: 0;
+      width: 100%;
     }
 
     .param-type-header {
@@ -30,10 +31,15 @@
       border-bottom: 1px solid #ddd;
     }
 
+    .form-group {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
     .form-group .control-label {
       font-weight: bold;
       text-align: unset;
-      width: 50%;
+      width: 40%;
       float: left;
     }
 
@@ -43,32 +49,116 @@
 
     legend {
       font-weight: bold;
+      margin-bottom: 10px;
     }
 
     legend ~ .form-group label {
       padding-left: 20px;
     }
 
+    fieldset .form-group:first-of-type {
+      border-top: none;
+    }
+
     .form-group .form-group {
       padding-top: 10px;
       padding-bottom: 10px;
-      border-bottom: 1px solid #f2f2f2;
+      border-top: 1px solid #f2f2f2;
+    }
+
+    fieldset .form-group {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      align-content: center;
+    }
+
+    fieldset fieldset .form-group {
+      border-left: 5px solid #f2f2f2;
+    }
+
+    .array-item {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      align-content: center;
+    }
+
+    .field-array > .row {
+      margin-left: 5%;
+    }
+
+    .array-item .form-group.field {
+      border-left: none;
+    }
+
+    .array-item fieldset {
+      border-left: 5px solid #f2f2f2;
+    }
+
+    .array-item .col-xs-9 {
+      width: auto;
+      flex-basis: auto;
+    }
+  
+    .array-item .col-xs-9 .form-group .form-control {
+      width: 100%;
+    }
+
+    .row .col-xs-offset-9 {
+      margin-left: 0px;
+    }
+
+    .array-item-add.col-xs-3 {
+      flex-basis: auto;
+      max-width: auto;
+      margin-top: 10px;
+    }
+
+    .array-item-toolbox.col-xs-3 {
+      flex-basis: 12%;
+    }
+
+    .array-item-toolbox .btn-group {
+      justify-content: flex-start;
+    }
+
+    .array-item-toolbox button {
+      padding-left: 8px;
+      padding-right: 8px;
+      border: none;
+    }
+
+    .btn:active {
+      box-shadow: none;
+    }
+    
+    .btn:focus {
+      outline: none;
+    }
+
+    .btn.btn-default {
+      border: none;
+    }
+
+    .btn.btn-default:hover {
+      border: none;
     }
 
     .btn.btn-add::after {
-      content: 'Add';
+      content: '+';
     }
 
     .btn.array-item-move-up::after {
-      content: 'Up';
+      content: '↑';
     }
 
     .btn.array-item-move-down::after {
-      content: 'Down';
+      content: '↓';
     }
 
     .btn.array-item-remove::after {
-      content: 'Remove';
+      content: '✕';
     }
 
     .field.field-array .array-item {
