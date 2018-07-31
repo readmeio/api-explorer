@@ -36,6 +36,7 @@ function getOtherParams(pathOperation) {
       const schema = { type: 'string' };
 
       if (current.description) schema.description = current.description;
+      if (current.description && current.schema.type) schema.description = `[${current.schema.type}] ${current.description}`;
 
       if (current.schema) {
         if (current.schema.type === 'array') {
