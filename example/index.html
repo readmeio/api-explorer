@@ -4,6 +4,7 @@
   <title>api-explorer</title>
   <link rel="stylesheet" type="text/css" href="bundle-hub2.css">
   <link rel="stylesheet" type="text/css" href="hub-custom.css">
+  <link href="https://fonts.googleapis.com/css?family=Overpass+Mono:300,400,700" rel="stylesheet">
   <style type="text/css">
     .api-list-header {
       padding-left: 30px;
@@ -14,14 +15,24 @@
     }
   </style>
   <style type="text/css">
+
+    /* Add margin to left- and right-sides of RJSF component. */
+    form.rjsf {
+      margin: 0% 5%;
+    }
+
+    /* Remove borders surrounding params. */
     fieldset {
       border: none;
     }
-
+    
+    /* Ensure nested objects retain full width. */
     fieldset fieldset {
       padding: 0;
+      width: 100%;
     }
-
+    
+    /* Style table header. */
     .param-type-header {
       color: #aeaeae;
       font-size: 14px;
@@ -29,50 +40,204 @@
       padding-left: 15px;
       border-bottom: 1px solid #ddd;
     }
-
+    
+    /* Style param labels. */
     .form-group .control-label {
-      font-weight: bold;
-      text-align: unset;
-      width: 50%;
+      font-weight: 400;
+      text-align: left;
+      min-width: 100px;
+      padding-right: unset;
       float: left;
+      font-weight: bold;
+      flex: 1 1 150px;
     }
 
-    .form-group .form-control {
-      width: 50%;
-    }
-
+    /* Style param category labels. */
     legend {
       font-weight: bold;
+      margin: 10px 0px;
     }
 
-    legend ~ .form-group label {
-      padding-left: 20px;
+    /* Style input fields similar to current explorer. */
+    input {
+      border: 1px solid #eaeaea !important;
+      border-radius: 2px;
+      padding: 8px 10px;
+      margin-left: 15px;
     }
 
+    /* Prevent input fields from becoming too wide. */
+    .form-group .form-control {
+      max-width: 250px;
+      flex: 1 1 150px;
+    }
+
+    /* Align nested input fields. */
+    fieldset fieldset .form-group.field .field-description {
+      margin-left: 1em;
+    }
+    
+    /* Add padding and top-border around nested form-groups. */
     .form-group .form-group {
       padding-top: 10px;
       padding-bottom: 10px;
-      border-bottom: 1px solid #f2f2f2;
+      border-top: 1px solid #f2f2f2;
+    }
+    
+    /* Hide border for first form-group in an object. */
+    fieldset .form-group:first-of-type {
+      border-top: none;
+    }
+    
+    /* Render each object's param container as a flex object.
+       Allows for better aligning of fields, labels, etc. */
+    fieldset .form-group {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      align-content: center;
+    }
+
+    /* Parameters for nested objects should be indented. */
+    fieldset fieldset {
+      margin-left: 0%;
+    }
+    
+    /* Allow description to scale to 2x size of input field and
+       param titles (some endpoints have lengthy descriptions.
+       Also add styling. */
+    .field-description {
+      flex: 2 1 100px;
+      text-align: left;
+      font-size: 14px !important;
+      font-weight: 300;
+      margin-bottom: 0px;
+    }
+    
+    /* Add thick left border to nested params (show hierarchy). */
+    fieldset fieldset .form-group {
+      border-left: 10px solid #f2f2f2;
+    }
+    
+    /* Add margin to label for nested params. */
+    fieldset fieldset .form-group label {
+      margin-left: 1em;
+    }
+
+    .form-group.field select {
+      margin-left: 15px;
+    }
+    
+    /* Display arrays as flex containers, don't wrap, center-align vertically. */
+    .array-item {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      align-content: center;
+      justify-content: flex-start;
+      flex: 1 1 100%;
+    }
+    
+    /* Remove left- */
+    .array-item .form-group.field {
+      border-left: none;
+    }
+    
+    /* For each nested object in an array, add border. */
+    .array-item fieldset {
+      border-left: 10px solid #f2f2f2;
+      margin-left: 1em;
+    }
+
+     /* For each nested object in an array, unset max-width for description. */
+     .array-item fieldset .field-description {
+      max-width: unset;
+      text-align: left;
+    }
+    
+    /* For descriptions of arrays or nested objects, right-align and add padding above. */
+    .field-array > legend {
+      text-align: left;
+      padding-top: 10px !important;
+    }
+    
+    /* Similarly as above, but for .field-description's instead of <legend>'s. */
+    .field-array > .field-description {
+      text-align: left;
+    }
+
+    /* For arrays, override Bootstrap col-xs-9 properties. */
+    .array-item .col-xs-9 {
+      padding: 0px;
+      flex-basis: auto;
+      min-width: 200px;
+      max-width: 90%;
+    }
+    
+    /* Ensure that nested arrays have full-width input fields. */
+    .array-item .col-xs-9 .form-group .form-control {
+      width: 100%;
+    }
+
+    /* Remove left-margins from rows that are offset with Bootstrap's grid system. */
+    .row .col-xs-offset-9 {
+      margin-left: 0px;
+    }
+    
+    /* Override Bootstrap properties for "add" button (for arrays). */
+    .array-item-add.col-xs-3 {
+      flex-basis: unset;
+      max-width: unset;
+      margin-top: 10px;
+    }
+    
+    /* For up/down/remove toolbox for items in arrays, change default size. */
+    .array-item-toolbox.col-xs-3 {
+      flex-basis: 12%;
+    }
+    
+    /* Align up/down/remove toolbox to the right. */
+    .array-item-toolbox .btn-group {
+      justify-content: flex-start;
+    }
+    
+    /* Reset padding and remove border + other styles from buttons in up/down/remove toolbox. */
+    .array-item-toolbox button {
+      padding-left: 8px;
+      padding-right: 8px;
+      border: none;
+    }
+
+    .btn:active {
+      box-shadow: none;
+    }
+    
+    .btn:focus {
+      outline: none;
+    }
+
+    .btn.btn-default {
+      border: none;
+    }
+
+    .btn.btn-default:hover {
+      border: none;
     }
 
     .btn.btn-add::after {
-      content: 'Add';
+      content: '+';
     }
 
     .btn.array-item-move-up::after {
-      content: 'Up';
+      content: '↑';
     }
 
     .btn.array-item-move-down::after {
-      content: 'Down';
+      content: '↓';
     }
 
     .btn.array-item-remove::after {
-      content: 'Remove';
-    }
-
-    .field.field-array .array-item {
-      width: 100%;
+      content: '✕';
     }
   </style>
 </head>
