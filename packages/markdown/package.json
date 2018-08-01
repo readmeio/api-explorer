@@ -1,0 +1,33 @@
+{
+  "name": "readme-markdown",
+  "description": "ReadMe&#39;s React-based Markdown parser",
+  "version": "0.0.0",
+  "dependencies": {},
+  "scripts": {
+    "lint": "eslint -f unix .",
+    "inspect": "jsinspect",
+    "prettier": "prettier --list-different \"./**/**.js\"",
+    "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "test": "nyc mocha",
+    "posttest": "nyc check-coverage --statements 90 --branches 90 --functions 90 --lines 90"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:readme/readme-markdown.git"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.13.0",
+    "jsinspect": "^0.12.7",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "prettier": "^1.14.0"
+  }
+}
