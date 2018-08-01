@@ -1,4 +1,4 @@
 /* eslint-env mocha */
-describe('readme-markdown', () => {
+describe('@readme/markdown', () => {
   it('should work as expected', () => {});
 });

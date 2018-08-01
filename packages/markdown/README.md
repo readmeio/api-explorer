@@ -1,14 +1,11 @@
-# readme-markdown
+# @readme/markdown
 
-ReadMe&#39;s React-based Markdown parser
-
-[![build status](https://secure.travis-ci.org/readme/readme-markdown.svg)](http://travis-ci.org/readme/readme-markdown)
-[![dependency status](https://david-dm.org/readme/readme-markdown.svg)](https://david-dm.org/readme/readme-markdown)
+ReadMe's React-based Markdown parser
 
 ## Installation
 
 ```
-npm install --save readme-markdown
+npm install --save @readme/markdown
 ```
 
 ## Usage

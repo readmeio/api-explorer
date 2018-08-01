@@ -1,6 +1,6 @@
 {
-  "name": "readme-markdown",
-  "description": "ReadMe&#39;s React-based Markdown parser",
+  "name": "@readme/markdown",
+  "description": "ReadMe's React-based Markdown parser",
   "version": "0.0.0",
   "dependencies": {},
   "scripts": {
@@ -16,10 +16,7 @@
   },
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:readme/readme-markdown.git"
-  },
+  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown",
   "devDependencies": {
     "eslint": "^5.1.0",
     "eslint-config-airbnb-base": "^13.0.0",
