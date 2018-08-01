@@ -1,5 +1,6 @@
 const CodeMirror = require('codemirror');
 const React = require('react');
+const { VARIABLE_REGEXP } = require('@readme/api-explorer/src/lib/markdown/variable-parser');
 const Variable = require('@readme/api-explorer/src/Variable');
 
 require('codemirror/addon/runmode/runmode');
@@ -65,13 +66,9 @@ module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
   const mode = getMode(lang);
 
   function tokenizeVariable(value) {
-    // Regex to match the following:
-    // - \<<apiKey\>> - escaped variables
-    // - <<apiKey>> - regular variables
-    // - '<<apiKey>>' - quoted regular variables (code samples)
-    // - <<glossary:glossary items>> - glossary
-    // Also matches any characters that may be enclosing the variable like: ' "
-    const match = /(.*)(?:\\)?<<([-\w:\s]+)(?:\\)?>>(.*)/.exec(value);
+    // Modifies the regular expression to match anything
+    // before or after like quote characters: ' "
+    const match = new RegExp(`(.*)${VARIABLE_REGEXP}(.*)`).exec(value);
 
     if (!match) return value;
 

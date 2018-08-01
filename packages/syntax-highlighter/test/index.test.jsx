@@ -23,7 +23,7 @@ test('should concat the same style items', () => {
 });
 
 
-test.only('should work with modes', () => {
+test('should work with modes', () => {
   expect(shallow(syntaxHighlighter('{ "a": 1 }', 'json')).html()).toBe('<span class="cm-s-neo">{ <span class="cm-property">&quot;a&quot;</span>: <span class="cm-number">1</span> }</span>');
 });
 
