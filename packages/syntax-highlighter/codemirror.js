@@ -1,4 +1,7 @@
 const CodeMirror = require('codemirror');
+const React = require('react');
+const Variable = require('@readme/api-explorer/src/Variable');
+
 require('codemirror/addon/runmode/runmode');
 require('codemirror/mode/meta.js');
 
@@ -8,10 +11,6 @@ require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/python/python');
 require('codemirror/mode/clike/clike');
 require('codemirror/mode/htmlmixed/htmlmixed');
-
-function esc(str) {
-  return str.replace(/[<&]/g, ch => (ch === '&' ? '&amp;' : '&lt;'));
-}
 
 // This is a mapping of potential languages
 // that do not have a direct codemirror mode for them
@@ -60,31 +59,35 @@ function getMode(lang) {
   return mode;
 }
 
-module.exports = (code, lang) => {
-  let output = '';
+module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
+  const output = [];
+  let key = 0;
   const mode = getMode(lang);
 
-  // TODO https://github.com/readmeio/api-explorer/issues/101
-  // CodeMirror.modeInfo.forEach((info) => {
-  //   if (info.mime == lang) {
-  //     modeName = info.mode;
-  //   } else if (info.name.toLowerCase() === lang) {
-  //     modeName = info.mode;
-  //     lang = info.mime;
-  //   }
-  // });
-  // if (!CodeMirror.modes[lang]) {
-  //   require(`codemirror/mode/${lang}/${lang}.js`);
-  // }
+  function tokenizeVariable(value) {
+    // Regex to match the following:
+    // - \<<apiKey\>> - escaped variables
+    // - <<apiKey>> - regular variables
+    // - '<<apiKey>>' - quoted regular variables (code samples)
+    // - <<glossary:glossary items>> - glossary
+    // Also matches any characters that may be enclosing the variable like: ' "
+    const match = /(.*)(?:\\)?<<([-\w:\s]+)(?:\\)?>>(.*)/.exec(value);
+
+    if (!match) return value;
+
+    // eslint-disable-next-line no-plusplus
+    return [match[1], <Variable key={++key} variable={match[2]} />, match[3]];
+  }
 
   let curStyle = null;
   let accum = '';
   function flush() {
-    accum = esc(accum);
+    accum = opts.tokenizeVariables ? tokenizeVariable(accum) : accum;
     if (curStyle) {
-      output += `<span class="${curStyle.replace(/(^|\s+)/g, '$1cm-')}">${accum}</span>`;
+      // eslint-disable-next-line no-plusplus
+      output.push(<span key={++key} className={`${curStyle.replace(/(^|\s+)/g, '$1cm-')}`}>{accum}</span>);
     } else {
-      output += accum;
+      output.push(accum);
     }
   }
 
