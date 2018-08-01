@@ -38,6 +38,11 @@ class Variable extends React.Component {
     this.toggleVarDropdown = this.toggleVarDropdown.bind(this);
     this.toggleAuthDropdown = this.toggleAuthDropdown.bind(this);
     this.renderVarDropdown = this.renderVarDropdown.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+  onChange(event) {
+    this.toggleVarDropdown();
+    this.props.changeSelected(event.target.value)
   }
   getDefault() {
     const def = this.props.defaults.find(d => d.name === this.props.variable) || {};
@@ -62,10 +67,9 @@ class Variable extends React.Component {
   }
   renderVarDropdown() {
     return (
-      <select value={this.props.selected} onChange={event => this.props.changeSelected(event.target.value)}>
+      <select value={this.props.selected} onChange={this.onChange}>
         {this.props.user.keys.map(key => (
           <option
-            onClick={event => this.props.changeSelected(event.target.innerText)}
             key={key.name}
             value={key.name}
           >
@@ -87,7 +91,6 @@ class Variable extends React.Component {
             <span
               className="variable-underline"
               onClick={this.toggleVarDropdown}
-              ref={this.variableElement}
             >
               {selectedValue[variable]}
             </span>
