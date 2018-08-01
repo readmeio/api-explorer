@@ -20,6 +20,8 @@ const props = {
   },
   flags: {},
   suggestedEdits: false,
+  variables: { user: {}, defaults: [] },
+  glossaryTerms: [],
 };
 
 test('ApiExplorer renders a doc for each', () => {

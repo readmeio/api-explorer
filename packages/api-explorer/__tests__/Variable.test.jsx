@@ -74,12 +74,14 @@ describe('multiple variables', () => {
 
     variable.find('.variable-underline').simulate('click');
 
-    expect(variable.find('ul li').map(el => el.text())).toEqual(['project1', 'project2']);
+    expect(variable.find('select option').map(el => el.text())).toEqual(['project1', 'project2']);
   });
 
   test('should select value when clicked', () => {
+    let called = false;
     function changeSelected(selected) {
       expect(selected).toBe('project2');
+      called = true;
     }
     const variable = shallow(
       <Variable
@@ -98,16 +100,19 @@ describe('multiple variables', () => {
 
     variable.find('.variable-underline').simulate('click');
     variable
-      .find('ul li')
-      .at(1)
-      .simulate('click', {
+      .find('select')
+      .simulate('change', {
         target: {
-          innerText: variable
-            .find('ul li')
+          value: variable
+            .find('select option')
             .at(1)
             .text(),
         },
       });
+
+    expect(called).toBe(true);
+
+    expect(variable.state('showDropdown')).toBe(false);
   });
 
   test('should render auth dropdown if default and oauth enabled');

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const Adapter = require('enzyme-adapter-react-16');
+// TODO switch this back once https://github.com/airbnb/enzyme/issues/1509 is merged
+const Adapter = require('enzyme-react-adapter-future');
 const enzyme = require('enzyme');
 
 enzyme.configure({ adapter: new Adapter() });

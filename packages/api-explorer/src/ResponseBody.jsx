@@ -9,13 +9,9 @@ function Authorized({ result }) {
     <pre className="tomorrow-night">
       {result.isBinary && <div>A binary file was returned</div>}
       {!result.isBinary && (
-        <div
-          className="cm-s-tomorrow-night codemirror-highlight"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript'),
-          }}
-        />
+        <div className="cm-s-tomorrow-night codemirror-highlight">
+          {syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript')}
+        </div>
       )}
     </pre>
   );

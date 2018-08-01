@@ -5,12 +5,11 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 function Code({ className, children }) {
   const language = className.replace('language-', '');
-  // eslint-disable-next-line react/no-danger
+
   return (
     <code
       className={language ? `lang-${language}` : null}
-      dangerouslySetInnerHTML={{ __html: syntaxHighlighter(children[0], language) }}
-    />
+    >{syntaxHighlighter(children[0], language, { tokenizeVariables: true })}</code>
   );
 }
 
