@@ -1,5 +1,6 @@
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const statusCodes = require('../lib/statuscodes');
+const CopyCode = require('../CopyCode');
 const PropTypes = require('prop-types');
 const React = require('react');
 const classNames = require('classnames');
@@ -57,7 +58,8 @@ class BlockCode extends React.Component {
           )}
 
           <div className="block-code-code">
-            {codes.map((code, i) => (
+            {codes.map((code, i) => [
+              <CopyCode code={code.code} />,
               // eslint-disable-next-line react/no-array-index-key
               <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
                 {
@@ -68,8 +70,8 @@ class BlockCode extends React.Component {
                     }}
                   />
                 }
-              </pre>
-            ))}
+              </pre>,
+            ])}
           </div>
         </div>
       </span>
