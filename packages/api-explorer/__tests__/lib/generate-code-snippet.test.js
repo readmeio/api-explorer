@@ -35,12 +35,14 @@ test('should pass through values to code snippet', () => {
 });
 
 test('should not contain proxy url', () => {
-  const snippet = shallow(generateCodeSnippet(
-    Object.assign({}, oas, { [extensions.PROXY_ENABLED]: true }),
-    operation,
-    values,
-    'node',
-  ));
+  const snippet = shallow(
+    generateCodeSnippet(
+      Object.assign({}, oas, { [extensions.PROXY_ENABLED]: true }),
+      operation,
+      values,
+      'node',
+    ),
+  );
 
   expect(snippet.text()).toEqual(expect.stringMatching('http://example.com/path/123'));
 });

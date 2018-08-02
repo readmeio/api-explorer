@@ -2,10 +2,10 @@ const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
-const VariablesContext = require('./contexts/Variables');
-const OauthContext = require('./contexts/Oauth');
-const GlossaryTermsContext = require('./contexts/GlossaryTerms');
-const SelectedAppContext = require('./contexts/SelectedApp');
+const VariablesContext = require('@readme/variable/contexts/Variables');
+const OauthContext = require('@readme/variable/contexts/Oauth');
+const GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
+const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 
 const Doc = require('./Doc');
 

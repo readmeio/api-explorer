@@ -29,7 +29,9 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
                   className={`tomorrow-night tabber-body tabber-body-${index}`}
                   style={{ display: index === selected ? 'block' : '' }}
                   key={index} // eslint-disable-line react/no-array-index-key
-                >{syntaxHighlighter(example.code, example.language, { dark: true })}</pre>
+                >
+                  {syntaxHighlighter(example.code, example.language, { dark: true })}
+                </pre>
               );
             })}
           </div>

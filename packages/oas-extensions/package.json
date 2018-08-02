@@ -17,7 +17,5 @@
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.7.0"
   },
-  "dependencies": {
-    "@readme/api-explorer": "^0.6.3"
-  }
+  "dependencies": {}
 }

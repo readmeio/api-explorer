@@ -40,7 +40,9 @@ class CodeSample extends React.Component {
                 className="tomorrow-night tabber-body"
                 style={{ display: this.props.language === example.language ? 'block' : '' }}
                 key={example.language}
-              >{syntaxHighlighter(example.code || '', example.language, { dark: true })}</pre>
+              >
+                {syntaxHighlighter(example.code || '', example.language, { dark: true })}
+              </pre>
             );
           })}
         </div>
@@ -82,9 +84,7 @@ class CodeSample extends React.Component {
                 ))}
               </ul>
               <div className="hub-code-auto">
-                <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>
-                  {snippet}
-                </pre>
+                <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
               </div>
             </div>
           );
