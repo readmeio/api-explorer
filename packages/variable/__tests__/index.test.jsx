@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 
-const { Variable } = require('../src/Variable');
+const { Variable } = require('../index.jsx');
 
 describe('single variable', () => {
   const props = {
@@ -46,7 +46,7 @@ describe('single variable', () => {
     expect(variable.find('#loginDropdown').length).toBe(1);
   });
 
-  test('should set `selected` if nothing is selected');
+  test.skip('should set `selected` if nothing is selected', () => {});
 });
 
 describe('multiple variables', () => {
@@ -99,21 +99,19 @@ describe('multiple variables', () => {
     );
 
     variable.find('.variable-underline').simulate('click');
-    variable
-      .find('select')
-      .simulate('change', {
-        target: {
-          value: variable
-            .find('select option')
-            .at(1)
-            .text(),
-        },
-      });
+    variable.find('select').simulate('change', {
+      target: {
+        value: variable
+          .find('select option')
+          .at(1)
+          .text(),
+      },
+    });
 
     expect(called).toBe(true);
 
     expect(variable.state('showDropdown')).toBe(false);
   });
 
-  test('should render auth dropdown if default and oauth enabled');
+  test.skip('should render auth dropdown if default and oauth enabled', () => {});
 });

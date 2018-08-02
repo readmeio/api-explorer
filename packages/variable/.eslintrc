@@ -1,6 +1,7 @@
 {
-  "extends": ["airbnb-base", "prettier"],
+  "extends": ["airbnb", "prettier"],
   "rules": {
-
+    "react/destructuring-assignment": 0,
+    "react/jsx-one-expression-per-line": 0
   }
 }

@@ -6,6 +6,46 @@ const OauthContext = require('./contexts/Oauth');
 const SelectedAppContext = require('./contexts/SelectedApp');
 
 class Variable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { showDropdown: false };
+
+    this.toggleVarDropdown = this.toggleVarDropdown.bind(this);
+    this.toggleAuthDropdown = this.toggleAuthDropdown.bind(this);
+    this.renderVarDropdown = this.renderVarDropdown.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(event) {
+    this.toggleVarDropdown();
+    this.props.changeSelected(event.target.value);
+  }
+
+  getDefault() {
+    const def = this.props.defaults.find(d => d.name === this.props.variable) || {};
+    if (def.default) return def.default;
+    return this.props.variable.toUpperCase();
+  }
+
+  // Return value in this order
+  // - user value
+  // - default value
+  // - uppercase key
+  getValue() {
+    const { variable } = this.props;
+    if (this.props.user[variable]) return this.props.user[variable];
+
+    return this.getDefault();
+  }
+
+  toggleVarDropdown() {
+    this.setState(prevState => ({ showDropdown: !prevState.showDropdown }));
+  }
+
+  toggleAuthDropdown() {
+    this.setState(prevState => ({ showAuthDropdown: !prevState.showAuthDropdown }));
+  }
+
   static renderAuthDropdown() {
     return (
       <div
@@ -31,56 +71,21 @@ class Variable extends React.Component {
       </div>
     );
   }
-  constructor(props) {
-    super(props);
-    this.state = { showDropdown: false };
 
-    this.toggleVarDropdown = this.toggleVarDropdown.bind(this);
-    this.toggleAuthDropdown = this.toggleAuthDropdown.bind(this);
-    this.renderVarDropdown = this.renderVarDropdown.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
-  onChange(event) {
-    this.toggleVarDropdown();
-    this.props.changeSelected(event.target.value)
-  }
-  getDefault() {
-    const def = this.props.defaults.find(d => d.name === this.props.variable) || {};
-    if (def.default) return def.default;
-    return this.props.variable.toUpperCase();
-  }
-  // Return value in this order
-  // - user value
-  // - default value
-  // - uppercase key
-  getValue() {
-    const { variable } = this.props;
-    if (this.props.user[variable]) return this.props.user[variable];
-
-    return this.getDefault();
-  }
-  toggleVarDropdown() {
-    this.setState({ showDropdown: !this.state.showDropdown });
-  }
-  toggleAuthDropdown() {
-    this.setState({ showAuthDropdown: !this.state.showAuthDropdown });
-  }
   renderVarDropdown() {
     return (
       <select value={this.props.selected} onChange={this.onChange}>
         {this.props.user.keys.map(key => (
-          <option
-            key={key.name}
-            value={key.name}
-          >
+          <option key={key.name} value={key.name}>
             {key.name}
           </option>
         ))}
       </select>
     );
   }
+
   render() {
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
+    /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     const { variable, user, selected } = this.props;
 
     if (Array.isArray(user.keys)) {
@@ -88,10 +93,7 @@ class Variable extends React.Component {
       return (
         <span>
           {!this.state.showDropdown && (
-            <span
-              className="variable-underline"
-              onClick={this.toggleVarDropdown}
-            >
+            <span className="variable-underline" onClick={this.toggleVarDropdown}>
               {selectedValue[variable]}
             </span>
           )}
@@ -163,4 +165,3 @@ module.exports.Variable = Variable;
 // - <<apiKey>> - regular variables
 // - <<glossary:glossary items>> - glossary
 module.exports.VARIABLE_REGEXP = /(?:\\)?<<([-\w:\s]+)(?:\\)?>>/.source;
-
