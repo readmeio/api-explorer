@@ -11,7 +11,7 @@ npm install --save @readme/markdown
 ## Usage
 
 ## Credits
-[Dom Harrington](https://github.com/readme/)
+[Dom Harrington](https://github.com/domharrington/)
 
 ## License
 

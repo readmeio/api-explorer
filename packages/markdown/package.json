@@ -2,14 +2,23 @@
   "name": "@readme/markdown",
   "description": "ReadMe's React-based Markdown parser",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "@readme/syntax-highlighter": "^0.3.2",
+    "@readme/variable": "^0.0.0",
+    "hast-util-sanitize": "^1.2.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "remark": "^9.0.0",
+    "remark-breaks": "^1.0.0",
+    "remark-react": "^4.0.3"
+  },
   "scripts": {
-    "lint": "eslint -f unix .",
+    "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
-    "prettier": "prettier --list-different \"./**/**.js\"",
+    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "test": "nyc mocha",
-    "posttest": "nyc check-coverage --statements 90 --branches 90 --functions 90 --lines 90"
+    "test": "npm run jest --coverage",
+    "jest": "../../node_modules/.bin/jest"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
@@ -18,13 +27,13 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown",
   "devDependencies": {
-    "eslint": "^5.1.0",
-    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
     "jsinspect": "^0.12.7",
-    "mocha": "^5.2.0",
-    "nyc": "^12.0.2",
     "prettier": "^1.14.0"
   }
 }

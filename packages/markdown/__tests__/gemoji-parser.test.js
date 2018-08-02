@@ -1,5 +1,5 @@
 const remark = require('remark');
-const parser = require('../../../src/lib/markdown/gemoji-parser');
+const parser = require('../gemoji-parser');
 
 it('should output an image node for a known emoji', () => {
   const emoji = 'joy';

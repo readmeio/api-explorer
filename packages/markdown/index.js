@@ -16,8 +16,8 @@ const code = require('./components/Code');
 sanitize.tagNames.push('input');
 sanitize.ancestors.input = ['li'];
 
-const Variable = require('../../Variable');
-const GlossaryItem = require('../../GlossaryItem');
+const Variable = require('@readme/variable');
+const GlossaryItem = require('./GlossaryItem');
 
 module.exports = function markdown(text, opts = {}) {
   if (!text) return null;

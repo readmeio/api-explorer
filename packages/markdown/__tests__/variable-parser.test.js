@@ -1,5 +1,5 @@
 const remark = require('remark');
-const parser = require('../../../src/lib/markdown/variable-parser');
+const parser = require('../variable-parser');
 
 it('should output a variable node', () => {
   const markdown = 'This is a test <<apiKey>>.';

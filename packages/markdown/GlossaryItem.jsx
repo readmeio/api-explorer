@@ -31,6 +31,7 @@ GlossaryItem.propTypes = {
   ).isRequired,
 };
 
+/* istanbul ignore next */
 module.exports = props => (
   <GlossaryTermsContext.Consumer>
     {terms => <GlossaryItem {...props} terms={terms} />}

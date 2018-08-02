@@ -1,6 +1,6 @@
-const markdown = require('../../src/lib/markdown');
-
 const { shallow } = require('enzyme');
+
+const markdown = require('../');
 
 test('image', () => {
   expect(shallow(markdown('![Image](http://example.com/image.png)')).html()).toMatchSnapshot();
