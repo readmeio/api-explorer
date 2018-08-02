@@ -12,9 +12,7 @@ function Heading(props) {
 }
 
 function createHeading(level) {
-  return props => {
-    return <Heading level={level} {...props} />;
-  };
+  return props => <Heading level={level} {...props} />;
 }
 
 Heading.propTypes = {
@@ -22,6 +20,4 @@ Heading.propTypes = {
   children: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-module.exports = level => {
-  return createHeading(level);
-};
+module.exports = level => createHeading(level)

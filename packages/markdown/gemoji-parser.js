@@ -59,7 +59,7 @@ function locate(value, fromIndex) {
 tokenize.locator = locate;
 
 function parser() {
-  const Parser = this.Parser;
+  const { Parser } = this;
   const tokenizers = Parser.prototype.inlineTokenizers;
   const methods = Parser.prototype.inlineMethods;
 

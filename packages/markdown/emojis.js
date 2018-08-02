@@ -834,7 +834,7 @@ function Emoji() {
     'zero',
     'zzz',
   ];
-  this.is = function(emoji) {
+  this.is = function e(emoji) {
     return this.emojis.indexOf(emoji) >= 0;
   };
 }

@@ -2,10 +2,11 @@ const React = require('react');
 const remark = require('remark');
 const reactRenderer = require('remark-react');
 const breaks = require('remark-breaks');
+const sanitize = require('hast-util-sanitize/lib/github.json');
+const Variable = require('@readme/variable');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
-const sanitize = require('hast-util-sanitize/lib/github.json');
 
 const table = require('./components/Table');
 const heading = require('./components/Heading');
@@ -16,7 +17,6 @@ const code = require('./components/Code');
 sanitize.tagNames.push('input');
 sanitize.ancestors.input = ['li'];
 
-const Variable = require('@readme/variable');
 const GlossaryItem = require('./GlossaryItem');
 
 module.exports = function markdown(text, opts = {}) {

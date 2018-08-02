@@ -7,9 +7,9 @@ function Code({ className, children }) {
   const language = className.replace('language-', '');
 
   return (
-    <code
-      className={language ? `lang-${language}` : null}
-    >{syntaxHighlighter(children[0], language, { tokenizeVariables: true })}</code>
+    <code className={language ? `lang-${language}` : null}>
+      {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
+    </code>
   );
 }
 
