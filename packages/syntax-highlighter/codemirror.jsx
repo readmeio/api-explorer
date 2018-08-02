@@ -1,7 +1,8 @@
 const CodeMirror = require('codemirror');
 const React = require('react');
-const { VARIABLE_REGEXP } = require('@readme/api-explorer/src/lib/markdown/variable-parser');
-const Variable = require('@readme/api-explorer/src/Variable');
+const Variable = require('@readme/variable');
+
+const { VARIABLE_REGEXP } = Variable;
 
 require('codemirror/addon/runmode/runmode');
 require('codemirror/mode/meta.js');
@@ -81,8 +82,12 @@ module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
   function flush() {
     accum = opts.tokenizeVariables ? tokenizeVariable(accum) : accum;
     if (curStyle) {
-      // eslint-disable-next-line no-plusplus
-      output.push(<span key={++key} className={`${curStyle.replace(/(^|\s+)/g, '$1cm-')}`}>{accum}</span>);
+      output.push(
+        // eslint-disable-next-line no-plusplus
+        <span key={++key} className={`${curStyle.replace(/(^|\s+)/g, '$1cm-')}`}>
+          {accum}
+        </span>,
+      );
     } else {
       output.push(accum);
     }

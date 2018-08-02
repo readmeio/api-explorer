@@ -5,11 +5,15 @@ test('should highlight a block of code', () => {
   const code = shallow(syntaxHighlighter('var a = 1;', 'javascript'));
 
   expect(code.hasClass('cm-s-neo')).toEqual(true);
-  expect(code.html()).toBe('<span class="cm-s-neo"><span class="cm-keyword">var</span> <span class="cm-def">a</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span>');
+  expect(code.html()).toBe(
+    '<span class="cm-s-neo"><span class="cm-keyword">var</span> <span class="cm-def">a</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span>',
+  );
 });
 
 test('should sanitize plain text language', () => {
-  expect(shallow(syntaxHighlighter('& < > " \' /', 'text')).html()).toContain('&amp; &lt; &gt; &quot; &#x27; /');
+  expect(shallow(syntaxHighlighter('& < > " \' /', 'text')).html()).toContain(
+    '&amp; &lt; &gt; &quot; &#x27; /',
+  );
 });
 
 test('should sanitize mode', () => {
@@ -22,25 +26,38 @@ test('should concat the same style items', () => {
   expect(shallow(syntaxHighlighter('====', 'javascript')).text()).toContain('====');
 });
 
-
 test('should work with modes', () => {
-  expect(shallow(syntaxHighlighter('{ "a": 1 }', 'json')).html()).toBe('<span class="cm-s-neo">{ <span class="cm-property">&quot;a&quot;</span>: <span class="cm-number">1</span> }</span>');
+  expect(shallow(syntaxHighlighter('{ "a": 1 }', 'json')).html()).toBe(
+    '<span class="cm-s-neo">{ <span class="cm-property">&quot;a&quot;</span>: <span class="cm-number">1</span> }</span>',
+  );
 });
 
 test('should have a dark theme', () => {
-  expect(shallow(syntaxHighlighter('{ "a": 1 }', 'json', { dark: true })).hasClass('cm-s-tomorrow-night')).toEqual(true);
+  expect(
+    shallow(syntaxHighlighter('{ "a": 1 }', 'json', { dark: true })).hasClass(
+      'cm-s-tomorrow-night',
+    ),
+  ).toEqual(true);
 });
 
 test('should tokenize variables (double quotes)', () => {
-  expect(mount(syntaxHighlighter('"<<apiKey>>"', 'json', { tokenizeVariables: true })).find('Variable').length).toEqual(1);
+  expect(
+    mount(syntaxHighlighter('"<<apiKey>>"', 'json', { tokenizeVariables: true })).find('Variable')
+      .length,
+  ).toEqual(1);
 });
 
 test('should tokenize variables (single quotes)', () => {
-  expect(mount(syntaxHighlighter('\'<<apiKey>>\'', 'json', { tokenizeVariables: true })).find('Variable').length).toEqual(1);
+  expect(
+    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).find('Variable')
+      .length,
+  ).toEqual(1);
 });
 
 test('should keep enclosing characters around the variable', () => {
-  expect(mount(syntaxHighlighter('\'<<apiKey>>\'', 'json', { tokenizeVariables: true })).text()).toEqual('\'APIKEY\'');
+  expect(
+    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).text(),
+  ).toEqual("'APIKEY'");
 });
 
 test('should work for modes with an array like java', () => {
