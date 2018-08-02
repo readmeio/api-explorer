@@ -20,4 +20,4 @@ Heading.propTypes = {
   children: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-module.exports = level => createHeading(level)
+module.exports = level => createHeading(level);

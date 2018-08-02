@@ -1,7 +1,9 @@
+const { VARIABLE_REGEXP } = require('@readme/variable');
+
 function tokenizeVariable(eat, value, silent) {
   // Modifies the regular expression to match from
   // the start of the line
-  const match = new RegExp(`^${module.exports.VARIABLE_REGEXP}`).exec(value);
+  const match = new RegExp(`^${VARIABLE_REGEXP}`).exec(value);
 
   if (!match) return false;
 
@@ -60,9 +62,3 @@ module.exports.sanitize = sanitizeSchema => {
 
   return parser;
 };
-
-// Regex to match the following:
-// - \<<apiKey\>> - escaped variables
-// - <<apiKey>> - regular variables
-// - <<glossary:glossary items>> - glossary
-module.exports.VARIABLE_REGEXP = /(?:\\)?<<([-\w:\s]+)(?:\\)?>>/.source;
