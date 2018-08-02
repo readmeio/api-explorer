@@ -17,7 +17,7 @@
     "inspect": "jsinspect",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "test": "npm run jest --coverage",
+    "test": "npm run jest -- --coverage",
     "jest": "../../node_modules/.bin/jest"
   },
   "publishConfig": {
