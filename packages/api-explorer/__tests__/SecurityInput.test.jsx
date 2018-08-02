@@ -49,8 +49,8 @@ describe('oauth2', () => {
     expect(securityInput.find('input').prop('value')).toBe(apiKey);
   });
 
-  test('should display markdown description');
-  test('should work for multiple oauths and allow selection');
+  test.skip('should display markdown description', () => {});
+  test.skip('should work for multiple oauths and allow selection', () => {});
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
