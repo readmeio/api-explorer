@@ -25,8 +25,7 @@
     "inspect": "jsinspect",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "test": "npm run jest -- --coverage",
-    "jest": "../../node_modules/.bin/jest",
+    "test": "jest --coverage",
     "watch": "webpack -w",
     "build": "webpack --config webpack.prod.js"
   },
@@ -45,6 +44,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "jest": "^23.4.2",
     "jsinspect": "^0.12.6",
     "mocha": "^3.4.2",
     "node-fetch": "^2.0.0-alpha.9",

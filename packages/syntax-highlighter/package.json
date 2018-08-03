@@ -12,8 +12,7 @@
     "inspect": "jsinspect",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "test": "npm run jest -- --coverage",
-    "jest": "../../node_modules/.bin/jest"
+    "test": "jest --coverage"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -26,6 +25,7 @@
     "eslint": "^4.4.1",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
+    "jest": "^23.4.2",
     "jsinspect": "^0.12.6",
     "prettier": "^1.6.1"
   }
