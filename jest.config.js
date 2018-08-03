@@ -24,6 +24,6 @@ module.exports = {
     '!**/coverage/lcov-report/**',
   ],
   transform: {
-    '^.+\\.jsx?$': path.join(__dirname, '/babel-jest-test'),
+    '^.+\\.jsx?$': path.join(__dirname, '/lib/babel-jest'),
   },
 };
