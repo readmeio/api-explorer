@@ -13,6 +13,18 @@ async function parseResponse(har, response) {
   const querystring =
     Object.keys(convertedQueryString).length > 0 ? `?${stringify(convertedQueryString)}` : '';
 
+  let responseBody;
+  // We have to clone it before reading, just incase
+  // we cannot parse it as JSON later, then we can
+  // re-read again as plain text
+  const clonedResponse = response.clone();
+
+  try {
+    responseBody = await response[isJson ? 'json' : 'text']();
+  } catch (e) {
+    responseBody = await clonedResponse.text();
+  }
+
   return {
     method: har.log.entries[0].request.method,
     requestHeaders: har.log.entries[0].request.headers.map(
@@ -24,7 +36,7 @@ async function parseResponse(har, response) {
     isBinary: !!(contentDisposition && contentDisposition.match(/attachment/)),
     url: har.log.entries[0].request.url.replace('https://try.readme.io/', '') + querystring,
     status: response.status,
-    responseBody: await response[isJson ? 'json' : 'text'](),
+    responseBody,
   };
 }
 

@@ -137,3 +137,13 @@ test('should parse non-json response as text', async () => {
     nonJsonResponseBody,
   );
 });
+
+test('should not error if invalid json is returned', async () => {
+  const invalidJsonResponse = new Response('plain text', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  expect((await codeSampleResponse(har, invalidJsonResponse)).responseBody).toEqual('plain text');
+});
