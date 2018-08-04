@@ -18,7 +18,7 @@
 
     /* Add margin to left- and right-sides of RJSF component. */
     form.rjsf {
-      margin: 0% 5%;
+      margin: 0% 3%;
     }
 
     /* Remove borders surrounding params. */
@@ -48,8 +48,8 @@
       color: #aeaeae;
       font-size: 14px;
       text-transform: uppercase;
-      padding-left: 15px;
       border-bottom: 1px solid #ddd;
+      margin-left: 3%;
     }
 
     /* Style param labels. */
@@ -289,13 +289,45 @@
       content: '↑';
     }
 
+    /*TODO fix this?*/
+    .btn.array-item-move-up[disabled]::after {
+      font-weight: lighter;
+    }
+
     .btn.array-item-move-down::after {
       content: '↓';
+    }
+
+    /*TODO fix this?*/
+    .btn.array-item-move-down[disabled] {
+      font-weight: lighter;
     }
 
     .btn.array-item-remove::after {
       content: '✕';
     }
+
+    .field.field-integer label::after {
+      content: 'integer';
+      font-weight: lighter;
+      float: right;
+      margin-right: 3%;
+    }
+
+    .field.field-string label::after {
+      content: 'string';
+      font-weight: lighter;
+      float: right;
+      margin-right: 3%;
+    }
+
+    /*TODO fix this*/
+    /*.array-item .field-string::before {
+      content: 'string';
+      font-weight: lighter;
+      float: right;
+      margin-right: 3%;
+    }*/
   </style>
 </head>
 <body>
