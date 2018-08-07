@@ -33,6 +33,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
           <Form
             key={`${schema.type}-form`}
             id={`form-${operation.operationId}`}
+            idPrefix={operation.operationId}
             schema={schema.schema}
             widgets={{
               int64: UpDownWidget,
