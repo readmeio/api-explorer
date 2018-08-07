@@ -45,9 +45,9 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
             onChange={form => {
               return onChange({ [schema.type]: form.formData });
             }}
-            {/*fields={{
-              DescriptionField,
-            }}*/}
+            // fields={{
+            //  DescriptionField,
+            // }}
           >
             <button type="submit" style={{ display: 'none' }} />
           </Form>,
