@@ -7,13 +7,7 @@ const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWid
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
 
-const ObjectField = require('./form-components/ObjectField');
-const ArrayField = require('./form-components/ArrayField');
-const SchemaField = require('./form-components/SchemaField');
-const FieldTemplateWrapper = require('./form-components/FieldTemplate');
-const DescriptionField = require('./form-components/DescriptionField');
-const CheckboxWidget = require('./form-components/CheckboxWidget');
-
+// const DescriptionField = require('./form-components/DescriptionField');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
@@ -21,7 +15,6 @@ const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
 function Params({ oas, operation, formData, onChange, onSubmit }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
-  const FieldTemplate = FieldTemplateWrapper(oas);
   return (
     jsonSchema &&
       jsonSchema.map(schema => {
@@ -46,23 +39,15 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
               duration: TextWidget,
               dateTime: DateTimeWidget,
               integer: UpDownWidget,
-              // CheckboxWidget,
-              // TextWidget,
             }}
             onSubmit={onSubmit}
             formData={formData[schema.type]}
             onChange={form => {
-              // return onChange({ [schema.type]: { $set: form.formData } })
               return onChange({ [schema.type]: form.formData });
             }}
-            // FieldTemplate={FieldTemplate}
-            // fields={{
-            //   ObjectField,
-            //   // ArrayField,
-            //   SchemaField,
-            //   TitleField: () => null,
-            //   DescriptionField,
-            // }}
+            {/*fields={{
+              DescriptionField,
+            }}*/}
           >
             <button type="submit" style={{ display: 'none' }} />
           </Form>,

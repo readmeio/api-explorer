@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { mount } = require('enzyme');
 const Params = require('../src/Params');
 
 const Oas = require('../src/lib/Oas');
@@ -18,6 +18,6 @@ const props = {
 
 describe('form id attribute', () => {
   test('should be set to the operationId', () => {
-    expect(shallow(<Params {...props} />).find(`#form-${operation.operationId}`).length).toBe(1);
+    expect(mount(<div><Params {...props} /></div>).html().match(new RegExp(`form-${operation.operationId}`, 'g')).length).toBe(1);
   });
 });
