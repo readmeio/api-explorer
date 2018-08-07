@@ -18,6 +18,14 @@ const props = {
 
 describe('form id attribute', () => {
   test('should be set to the operationId', () => {
-    expect(mount(<div><Params {...props} /></div>).html().match(new RegExp(`form-${operation.operationId}`, 'g')).length).toBe(1);
+    expect(
+      mount(
+        <div>
+          <Params {...props} />
+        </div>,
+      )
+        .html()
+        .match(new RegExp(`form-${operation.operationId}`, 'g')).length,
+    ).toBe(1);
   });
 });

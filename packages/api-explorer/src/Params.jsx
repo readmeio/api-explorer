@@ -17,42 +17,42 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
   return (
     jsonSchema &&
-      jsonSchema.map(schema => {
-        return [
-          <div className="param-type-header" key={`${schema.type}-header`}>
-            <h3>{schema.label}</h3>
-            <div className="param-header-border" />
-          </div>,
-          <Form
-            key={`${schema.type}-form`}
-            id={`form-${operation.operationId}`}
-            idPrefix={operation.operationId}
-            schema={schema.schema}
-            widgets={{
-              int64: UpDownWidget,
-              int32: UpDownWidget,
-              double: UpDownWidget,
-              float: UpDownWidget,
-              binary: FileWidget,
-              byte: TextWidget,
-              uuid: TextWidget,
-              duration: TextWidget,
-              dateTime: DateTimeWidget,
-              integer: UpDownWidget,
-            }}
-            onSubmit={onSubmit}
-            formData={formData[schema.type]}
-            onChange={form => {
-              return onChange({ [schema.type]: form.formData });
-            }}
-            // fields={{
-            //  DescriptionField,
-            // }}
-          >
-            <button type="submit" style={{ display: 'none' }} />
-          </Form>,
-        ];
-      })
+    jsonSchema.map(schema => {
+      return [
+        <div className="param-type-header" key={`${schema.type}-header`}>
+          <h3>{schema.label}</h3>
+          <div className="param-header-border" />
+        </div>,
+        <Form
+          key={`${schema.type}-form`}
+          id={`form-${operation.operationId}`}
+          idPrefix={operation.operationId}
+          schema={schema.schema}
+          widgets={{
+            int64: UpDownWidget,
+            int32: UpDownWidget,
+            double: UpDownWidget,
+            float: UpDownWidget,
+            binary: FileWidget,
+            byte: TextWidget,
+            uuid: TextWidget,
+            duration: TextWidget,
+            dateTime: DateTimeWidget,
+            integer: UpDownWidget,
+          }}
+          onSubmit={onSubmit}
+          formData={formData[schema.type]}
+          onChange={form => {
+            return onChange({ [schema.type]: form.formData });
+          }}
+          // fields={{
+          //  DescriptionField,
+          // }}
+        >
+          <button type="submit" style={{ display: 'none' }} />
+        </Form>,
+      ];
+    })
   );
 }
 
