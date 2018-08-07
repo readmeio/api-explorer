@@ -45,6 +45,11 @@ input[type='file'] {
   flex: 1 1 150px;
 }
 
+/* Make required asterisks red */
+.form-group .required {
+  color: #ef6363;
+}
+
 /* Style param category labels. */
 legend {
   font-weight: bold;
