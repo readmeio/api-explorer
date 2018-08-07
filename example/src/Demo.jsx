@@ -64,7 +64,7 @@ class Demo extends React.Component {
               oasFiles={{
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
-              flags={{ correctnewlines: false }}
+              flags={{ correctnewlines: false, stripe: false }}
               suggestedEdits
               oauth={this.props.oauth}
             />
