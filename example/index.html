@@ -140,12 +140,14 @@
     }
 
     /* Fix how booleans are displayed. */
-    .checkbox {
+    .checkbox label {
       display: flex;
       flex-flow: row nowrap;
       justify-content: flex-start;
       align-items: center;
       align-content: space-around;
+      font-size: 14px !important;
+      font-weight: bold;
     }
 
     .checkbox :nth-child(1) {
@@ -158,11 +160,6 @@
 
     .checkbox > .field-description {
       margin-left: 1em;
-    }
-
-    .checkbox > label {
-      font-size: 14px !important;
-      font-weight: bold;
     }
 
     .checkbox input[type='checkbox'] {
