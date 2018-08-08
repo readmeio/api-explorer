@@ -10,6 +10,7 @@ const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/Dat
 const createBaseInput = require('./form-components/BaseInput');
 const createSelectWidget = require('./form-components/SelectWidget');
 const createArrayField = require('./form-components/ArrayField');
+const createSchemaField = require('./form-components/SchemaField');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
@@ -20,6 +21,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
   const BaseInput = createBaseInput(oas);
   const SelectWidget = createSelectWidget(oas);
   const ArrayField = createArrayField(oas);
+  const SchemaField = createSchemaField(oas);
 
   return (
     jsonSchema &&
@@ -56,6 +58,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
           fields={{
           //  DescriptionField,
             ArrayField,
+            SchemaField,
           }}
         >
           <button type="submit" style={{ display: 'none' }} />

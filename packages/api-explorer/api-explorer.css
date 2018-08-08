@@ -130,36 +130,6 @@ fieldset fieldset .form-group label {
   margin-left: 15px;
 }
 
-/* Fix how booleans are displayed. */
-.checkbox {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  align-content: space-around;
-}
-
-.checkbox :nth-child(1) {
-  order: 2;
-}
-
-.checkbox :nth-child(2) {
-  order: 1;
-}
-
-.checkbox > .field-description {
-  margin-left: 1em;
-}
-
-.checkbox > label {
-  font-size: 14px !important;
-  font-weight: bold;
-}
-
-.checkbox input[type='checkbox'] {
-  margin-right: 1em;
-}
-
 /* Style select boxes. */
 
 .field .form-group select {
