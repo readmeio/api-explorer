@@ -41,4 +41,11 @@ describe('x-explorer-enabled', () => {
         <Params {...props} oas={new Oas(oasWithExplorerDisabled)} operation={oas.operation('/pet', 'post')} />
       ).find('.field-array .array-item-add').length).toBe(0);
   });
+
+  test('should not render any <input>', () => {
+    expect(
+      mount(
+        <Params {...props} oas={new Oas(oasWithExplorerDisabled)} />
+      ).find('input').length).toBe(0);
+  });
 });

@@ -5,9 +5,8 @@ const BaseInput = require('react-jsonschema-form/lib/components/widgets/BaseInpu
 function createBaseInput(oas) {
   const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
 
-  if (!explorerEnabled) {
-    return () => { return null; };
-  };
+  // Return a function that renders null when the explorer is disabled
+  if (!explorerEnabled) return () => null;
 
   return BaseInput;
 }
