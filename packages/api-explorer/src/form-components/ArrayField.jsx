@@ -10,8 +10,8 @@ function createArrayField(oas) {
   function ArrayField(props) {
     if (!explorerEnabled) {
       // https://github.com/mozilla-services/react-jsonschema-form#addable-option
-      props.uiSchema = Object.assign(props.uiSchema, { 'ui:options': { addable: false }})
-    };
+      props.uiSchema = Object.assign(props.uiSchema, { 'ui:options': { addable: false } });
+    }
 
     return <BaseArrayField {...props} />;
   }

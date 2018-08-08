@@ -33,10 +33,14 @@ describe('form id attribute', () => {
 });
 
 test('boolean should render as <select>', () => {
-  const params = mount(<div><Params {...props} operation={oas.operation('/store/order', 'post')} /></div>);
+  const params = mount(
+    <div>
+      <Params {...props} operation={oas.operation('/store/order', 'post')} />
+    </div>,
+  );
   expect(params.find('input[type="checkbox"]').length).toBe(0);
 
-  const select = params.find('.field-boolean select')
+  const select = params.find('.field-boolean select');
 
   expect(select.length).toBe(1);
   expect(select.find('option').length).toBe(3);
@@ -44,26 +48,35 @@ test('boolean should render as <select>', () => {
 });
 
 describe('x-explorer-enabled', () => {
-  const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false })
+  const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
 
   test('array should not show add button', () => {
     expect(
       mount(
-        <Params {...props} oas={new Oas(oasWithExplorerDisabled)} operation={oas.operation('/pet', 'post')} />
-      ).find('.field-array .array-item-add').length).toBe(0);
+        <Params
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={oas.operation('/pet', 'post')}
+        />,
+      ).find('.field-array .array-item-add').length,
+    ).toBe(0);
   });
 
   test('should not render any <input>', () => {
     expect(
-      mount(
-        <Params {...props} oas={new Oas(oasWithExplorerDisabled)} />
-      ).find('input').length).toBe(0);
+      mount(<Params {...props} oas={new Oas(oasWithExplorerDisabled)} />).find('input').length,
+    ).toBe(0);
   });
 
   test('should not render any <select>', () => {
     expect(
       mount(
-        <Params {...props} oas={new Oas(oasWithExplorerDisabled)} operation={oas.operation('/pet', 'post')} />
-      ).find('select').length).toBe(0);
+        <Params
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={oas.operation('/pet', 'post')}
+        />,
+      ).find('select').length,
+    ).toBe(0);
   });
 });
