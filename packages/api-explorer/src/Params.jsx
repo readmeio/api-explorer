@@ -17,12 +17,18 @@ const Oas = require('./lib/Oas');
 const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
-function Params({ oas, operation, formData, onChange, onSubmit }) {
+function Params({
+  oas,
+  operation,
+  formData,
+  onChange,
+  onSubmit,
+  BaseInput,
+  SelectWidget,
+  ArrayField,
+  SchemaField,
+}) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
-  const BaseInput = createBaseInput(oas);
-  const SelectWidget = createSelectWidget(oas);
-  const ArrayField = createArrayField(oas);
-  const SchemaField = createSchemaField();
 
   return (
     jsonSchema &&
@@ -75,6 +81,29 @@ Params.propTypes = {
   formData: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  BaseInput: PropTypes.func.isRequired,
+  SelectWidget: PropTypes.func.isRequired,
+  ArrayField: PropTypes.func.isRequired,
+  SchemaField: PropTypes.func.isRequired,
 };
 
-module.exports = Params;
+function createParams(oas) {
+  const BaseInput = createBaseInput(oas);
+  const SelectWidget = createSelectWidget(oas);
+  const ArrayField = createArrayField(oas);
+  const SchemaField = createSchemaField();
+
+  return props => {
+    return (
+      <Params
+        {...props}
+        BaseInput={BaseInput}
+        SelectWidget={SelectWidget}
+        ArrayField={ArrayField}
+        SchemaField={SchemaField}
+      />
+    );
+  };
+}
+
+module.exports = createParams;

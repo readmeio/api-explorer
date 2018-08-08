@@ -2,7 +2,7 @@ const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 
-const Params = require('../src/Params');
+const createParams = require('../src/Params');
 
 const Oas = require('../src/lib/Oas');
 const petstore = require('./fixtures/petstore/oas.json');
@@ -17,6 +17,8 @@ const props = {
   onChange: () => {},
   onSubmit: () => {},
 };
+
+const Params = createParams(oas);
 
 describe('form id attribute', () => {
   test('should be set to the operationId', () => {
@@ -49,11 +51,12 @@ test('boolean should render as <select>', () => {
 
 describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
+  const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
 
   test('array should not show add button', () => {
     expect(
       mount(
-        <Params
+        <ParamsWithExplorerDisabled
           {...props}
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet', 'post')}
@@ -64,14 +67,16 @@ describe('x-explorer-enabled', () => {
 
   test('should not render any <input>', () => {
     expect(
-      mount(<Params {...props} oas={new Oas(oasWithExplorerDisabled)} />).find('input').length,
+      mount(<ParamsWithExplorerDisabled {...props} oas={new Oas(oasWithExplorerDisabled)} />).find(
+        'input',
+      ).length,
     ).toBe(0);
   });
 
   test('should not render any <select>', () => {
     expect(
       mount(
-        <Params
+        <ParamsWithExplorerDisabled
           {...props}
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet', 'post')}
