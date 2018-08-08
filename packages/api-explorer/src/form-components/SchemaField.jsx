@@ -1,22 +1,25 @@
 const React = require('react');
-const extensions = require('@readme/oas-extensions');
+const PropTypes = require('prop-types');
 
-const SchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
+const BaseSchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
 
-function createSchemaField(oas) {
-  const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
-
-  return function (props) {
-    // if (!explorerEnabled) {
-    //   props.uiSchema = Object.assign(props.uiSchema, { "ui:options": { addable: false }})
-    // };
-
+function createSchemaField() {
+  function SchemaField(props) {
     if (props.schema.type === 'boolean') {
       props.schema.enumNames = ['true', 'false']
-      return <SchemaField {...props} uiSchema={{ "ui:widget": "select" }} />
+      return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />
     }
-    return <SchemaField {...props} />
+    return <BaseSchemaField {...props} />
   }
+
+  SchemaField.propTypes = {
+    schema: PropTypes.shape({
+      type: PropTypes.string,
+      enumNames: PropTypes.array,
+    }).isRequired,
+  };
+
+  return SchemaField;
 }
 
 module.exports = createSchemaField;

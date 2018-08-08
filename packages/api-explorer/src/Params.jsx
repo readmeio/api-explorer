@@ -21,7 +21,7 @@ function Params({ oas, operation, formData, onChange, onSubmit }) {
   const BaseInput = createBaseInput(oas);
   const SelectWidget = createSelectWidget(oas);
   const ArrayField = createArrayField(oas);
-  const SchemaField = createSchemaField(oas);
+  const SchemaField = createSchemaField();
 
   return (
     jsonSchema &&
