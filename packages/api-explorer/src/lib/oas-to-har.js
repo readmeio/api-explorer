@@ -82,7 +82,10 @@ module.exports = (
     queryString: [],
     postData: {},
     method: pathOperation.method.toUpperCase(),
-    url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
+    url: `${oas.servers ? oas.servers[0].url : 'https://example.com'}${pathOperation.path}`.replace(
+      /\s/g,
+      '%20',
+    ),
   };
 
   // Add protocol to urls starting with // e.g. //example.com
