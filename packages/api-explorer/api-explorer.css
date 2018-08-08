@@ -70,6 +70,10 @@ input {
   flex: 1 1 150px;
 }
 
+.form-group.field {
+  min-height: 60px;
+}
+
 /* Align nested input fields. */
 fieldset fieldset .form-group.field .field-description {
   margin-left: 1em;
