@@ -59,4 +59,11 @@ describe('x-explorer-enabled', () => {
         <Params {...props} oas={new Oas(oasWithExplorerDisabled)} />
       ).find('input').length).toBe(0);
   });
+
+  test('should not render any <select>', () => {
+    expect(
+      mount(
+        <Params {...props} oas={new Oas(oasWithExplorerDisabled)} operation={oas.operation('/pet', 'post')} />
+      ).find('select').length).toBe(0);
+  });
 });
