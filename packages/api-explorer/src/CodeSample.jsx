@@ -38,7 +38,7 @@ class CodeSample extends React.Component {
         <div className="code-sample-body">
           {examplesWithLanguages.map(example => {
             return (
-              <div style={{ display: this.props.language === example.language ? 'block' : 'none' }} >
+              <div style={{ display: this.props.language === example.language ? 'block' : 'none' }}>
                 <CopyCode key={`copy-${example.language}`} code={example.code} />
                 <pre
                   className="tomorrow-night tabber-body"
