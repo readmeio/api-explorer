@@ -37,18 +37,20 @@ class CodeSample extends React.Component {
         </ul>
         <div className="code-sample-body">
           {examplesWithLanguages.map(example => {
-            return [
-              <CopyCode code={example.code} />,
-              <pre
-                className="tomorrow-night tabber-body"
-                style={{ display: this.props.language === example.language ? 'block' : '' }}
-                key={example.language} // eslint-disable-line react/no-array-index-key
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{
-                  __html: syntaxHighlighter(example.code || '', example.language, true),
-                }}
-              />,
-            ];
+            return (
+              <div style={{ display: this.props.language === example.language ? 'block' : 'none' }} >
+                <CopyCode key={`copy-${example.language}`} code={example.code} />
+                <pre
+                  className="tomorrow-night tabber-body"
+                  key={example.language} // eslint-disable-line react/no-array-index-key
+                  // eslint-disable-next-line react/no-danger
+                  style={{ display: this.props.language === example.language ? 'block' : '' }}
+                  dangerouslySetInnerHTML={{
+                    __html: syntaxHighlighter(example.code || '', example.language, true),
+                  }}
+                />
+              </div>
+            );
           })}
         </div>
       </div>
