@@ -45,6 +45,11 @@ input[type='file'] {
   flex: 1 1 150px;
 }
 
+/* Make required asterisks red */
+.form-group .required {
+  color: #ef6363;
+}
+
 /* Style param category labels. */
 legend {
   font-weight: bold;
@@ -63,6 +68,10 @@ input {
 .form-group .form-control {
   max-width: 250px;
   flex: 1 1 150px;
+}
+
+.form-group.field {
+  min-height: 60px;
 }
 
 /* Align nested input fields. */
@@ -119,57 +128,6 @@ fieldset fieldset .form-group label {
 
 .form-group.field select {
   margin-left: 15px;
-}
-
-/* Fix how booleans are displayed. */
-.checkbox {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  align-content: space-around;
-  width: 100%;
-}
-
-.checkbox > label {
-  font-size: 14px !important;
-  font-weight: bold;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  align-content: space-around;
-  width: 100%;
-}
-
-.checkbox span::after {
-  content: 'boolean';
-  background: #f2f2f2;
-  border-radius: 3px;
-  font-family: monospace;
-  font-size: 11px;
-  font-weight: lighter;
-  margin-left: 10px;
-  padding: 3px;
-}
-
-.checkbox :nth-child(1) {
-  order: 2;
-}
-
-.checkbox .field-description {
-  flex: none;
-  position: relative;
-  top: -20px;
-  left: 31%;
-  max-width: 300px;
-}
-
-.checkbox :nth-child(2) {
-  order: 1;
-}
-
-.checkbox input[type='checkbox'] {
-  margin-right: 1em;
 }
 
 /* Style select boxes. */

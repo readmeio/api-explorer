@@ -13,7 +13,7 @@ test('should output a har format', () => {
             method: '',
             postData: {},
             queryString: [],
-            url: '',
+            url: 'https://example.com',
           },
         },
       ],
@@ -26,9 +26,13 @@ test('should uppercase the method', () => {
 });
 
 describe('url', () => {
-  test('should default to ""', () => {
-    expect(oasToHar({}, { path: '', method: '' }).log.entries[0].request.url).toBe('');
-    expect(oasToHar({}, { path: '/path', method: '' }).log.entries[0].request.url).toBe('/path');
+  test('should default to "https://example.com"', () => {
+    expect(oasToHar({}, { path: '', method: '' }).log.entries[0].request.url).toBe(
+      'https://example.com',
+    );
+    expect(oasToHar({}, { path: '/path', method: '' }).log.entries[0].request.url).toBe(
+      'https://example.com/path',
+    );
   });
 
   test('should be constructed from servers[0]', () => {
@@ -96,7 +100,7 @@ describe('url', () => {
 describe('path values', () => {
   test('should pass through unknown path params', () => {
     expect(oasToHar({}, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
-      '/param-path/id',
+      'https://example.com/param-path/id',
     );
     expect(
       oasToHar(
@@ -113,7 +117,7 @@ describe('path values', () => {
           ],
         },
       ).log.entries[0].request.url,
-    ).toBe('/param-path/id');
+    ).toBe('https://example.com/param-path/id');
   });
 
   test('should not error if empty object passed in for values', () => {
@@ -133,7 +137,7 @@ describe('path values', () => {
         },
         {},
       ).log.entries[0].request.url,
-    ).toBe('/param-path/id');
+    ).toBe('https://example.com/param-path/id');
   });
 
   test('should use example if no value', () => {
@@ -153,7 +157,7 @@ describe('path values', () => {
           ],
         },
       ).log.entries[0].request.url,
-    ).toBe('/param-path/123');
+    ).toBe('https://example.com/param-path/123');
   });
 
   test('should add path values to the url', () => {
@@ -173,7 +177,7 @@ describe('path values', () => {
         },
         { path: { id: '456' } },
       ).log.entries[0].request.url,
-    ).toBe('/param-path/456');
+    ).toBe('https://example.com/param-path/456');
   });
 });
 
