@@ -58,20 +58,22 @@ class BlockCode extends React.Component {
           )}
 
           <div className="block-code-code">
-            {codes.map((code, i) => [
-              <CopyCode code={code.code} />,
-              // eslint-disable-next-line react/no-array-index-key
-              <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
+            {codes.map((code, i) => (
+              <React.Fragment>
+                <CopyCode code={code.code} />
                 {
-                  <code
-                    // eslint-disable-next-line
-                    dangerouslySetInnerHTML={{
-                      __html: syntaxHighlighter(code.code, code.language, dark),
-                    }}
-                  />
+                  // eslint-disable-next-line react/no-array-index-key
+                  <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
+                    <code
+                      // eslint-disable-next-line
+                      dangerouslySetInnerHTML={{
+                        __html: syntaxHighlighter(code.code, code.language, dark),
+                      }}
+                    />
+                  </pre>
                 }
-              </pre>,
-            ])}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </span>
