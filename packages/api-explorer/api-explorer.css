@@ -61,7 +61,6 @@ input {
   border: 1px solid #eaeaea !important;
   border-radius: 2px;
   padding: 8px 10px;
-  margin-left: 15px;
 }
 
 /* Prevent input fields from becoming too wide. */
@@ -101,8 +100,17 @@ fieldset .form-group {
 }
 
 /* Parameters for nested objects should be indented. */
-fieldset fieldset {
-  margin-left: 0%;
+fieldset fieldset .form-group {
+  padding-left: 1%;
+}
+
+fieldset fieldset .form-group label {
+  padding-left: 0%;
+  margin-left: 0% !important;
+}
+
+fieldset fieldset legend {
+  padding-left: 0%;
 }
 
 /* Allow description to scale to 2x size of input field and
@@ -118,7 +126,7 @@ fieldset fieldset {
 
 /* Add thick left border to nested params (show hierarchy). */
 fieldset fieldset .form-group {
-  border-left: 10px solid #f2f2f2;
+  border-left: 10px solid #f8f8f8;
 }
 
 /* Add margin to label for nested params. */
@@ -157,8 +165,8 @@ fieldset fieldset .form-group label {
 
 /* For each nested object in an array, add border. */
 .array-item fieldset {
-  border-left: 10px solid #f2f2f2;
-  background: rgba(244, 244, 244, 0.1);
+  border-left: 10px solid #f8f8f8;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.025);
   padding-left: 1em;
   padding-right: 1em;
   margin-left: 1em;
@@ -181,10 +189,16 @@ fieldset fieldset .form-group label {
   text-align: left;
 }
 
+
+/* Add spacing below description for arrays. */
+.field-object .field-description {
+  margin-bottom: 0.5em !important;
+}
+
 /* For arrays, override Bootstrap col-xs-9 properties. */
 .array-item .col-xs-9 {
   padding: 0px;
-  flex-basis: auto;
+  flex-basis: 80%;
   min-width: 200px;
   max-width: 90%;
 }
@@ -213,17 +227,19 @@ fieldset fieldset .form-group label {
 
 /* Align up/down/remove toolbox to the right. */
 .array-item-toolbox .btn-group {
-  justify-content: flex-start;
+  justify-content: flex-start !important;
 }
 
 /* Reset padding and remove border + other styles from buttons in up/down/remove toolbox. */
-.array-item-toolbox button {
+.array-item-toolbox .btn {
   padding-left: 8px;
   padding-right: 8px;
   border: none;
-  width: 30px !important;
-  height: 30px !important;
+  width: 36px !important;
+  height: 36px !important;
   flex: unset !important;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0);
 }
 
 .btn:active {
@@ -242,90 +258,124 @@ fieldset fieldset .form-group label {
   border: none;
 }
 
+.btn.btn-add {
+  transform: rotate(45deg);
+  font-weight: bold;
+  font-size: 11px;
+  color: rgb(76, 85, 90);
+  background: rgba(255, 255, 255, 0);
+  margin-bottom: 1em;
+}
+
 .btn.btn-add::after {
-  content: '+';
+  content: '✕';
+  font-size: 11px;
+  font-weight: bold;
 }
 
 .btn.array-item-move-up::after {
   content: '↑';
 }
 
-/*TODO fix this?*/
-.btn.array-item-move-up[disabled]::after {
-  font-weight: lighter;
-}
-
 .btn.array-item-move-down::after {
   content: '↓';
-}
-
-/*TODO fix this?*/
-.btn.array-item-move-down[disabled] {
-  font-weight: lighter;
 }
 
 .btn.array-item-remove::after {
   content: '✕';
 }
 
+
+/* Fix color of up/down buttons when disabled. */
 button[disabled] {
   color: #d2d2d2 !important;
 }
 
+/* Add type labels. */
 .field.field-array-of-string legend::after {
+  color: rgba(0, 0, 0, 0.6);
   content: 'array of strings';
   background: #f2f2f2;
   border-radius: 3px;
-  font-family: monospace;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
   font-weight: lighter;
   margin-left: 10px;
-  padding: 3px;
+  padding: 3px 6px;
 }
 
 .field.field-array-of-integer legend::after {
+  color: rgba(0, 0, 0, 0.6);
   content: 'array of integers';
   background: #f2f2f2;
   border-radius: 3px;
-  font-family: monospace;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
   font-weight: lighter;
   margin-left: 10px;
-  padding: 3px;
+  padding: 3px 6px;
 }
 
 .field.field-array-of-object legend::after {
+  color: rgba(0, 0, 0, 0.6);
   content: 'array of objects';
   background: #f2f2f2;
   border-radius: 3px;
-  font-family: monospace;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
   font-weight: lighter;
   margin-left: 10px;
-  padding: 3px;
+  padding: 3px 6px;
 }
 
 
 .field.field-integer label::after {
+  color: rgba(0, 0, 0, 0.6);
   content: 'integer';
   background: #f2f2f2;
   border-radius: 3px;
-  font-family: monospace;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
   font-weight: lighter;
   margin-left: 10px;
-  padding: 3px;
+  padding: 3px 6px;
 }
 
 .field.field-string label::after {
+  color: rgba(0, 0, 0, 0.6);
   content: 'string';
   background: #f2f2f2;
   border-radius: 3px;
-  font-family: monospace;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
   font-weight: lighter;
   margin-left: 10px;
-  padding: 3px;
+  padding: 3px 6px;
+}
+
+/* Fix spacing on input fields. */
+input[type="file"] {
+  font-size: 0.8em;
+}
+
+/* Fix alignment of input field. */
+.form-group.field p {
+  margin-bottom: 0px;
+}
+
+/* Ensure top-level elements are vertically centered within their form-group's,
+   and that all input fields take advantage of available width. */
+
+fieldset {
+  padding: 0em 0.625em 0.75em;
+  width: 100%;
+}
+
+.form-group.field {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
 }
 
 /*TODO fix this*/
