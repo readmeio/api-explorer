@@ -22,20 +22,20 @@ const operation = {
 const values = { path: { id: 123 } };
 
 test('should generate a HTML snippet for each lang', () => {
-  const snippet = generateCodeSnippet(oas, operation, {}, 'node');
+  const { snippet } = generateCodeSnippet(oas, operation, {}, 'node');
 
   expect(typeof snippet).toBe('string');
   expect(snippet).toEqual(expect.stringMatching(/cm-s-tomorrow-night/));
 });
 
 test('should pass through values to code snippet', () => {
-  const snippet = generateCodeSnippet(oas, operation, values, 'node');
+  const { snippet } = generateCodeSnippet(oas, operation, values, 'node');
 
   expect(snippet).toEqual(expect.stringMatching('http://example.com/path/123'));
 });
 
 test('should not contain proxy url', () => {
-  const snippet = generateCodeSnippet(
+  const { snippet } = generateCodeSnippet(
     Object.assign({}, oas, { [extensions.PROXY_ENABLED]: true }),
     operation,
     values,
@@ -46,9 +46,15 @@ test('should not contain proxy url', () => {
 });
 
 test('javascript should not contain `withCredentials`', () => {
-  const snippet = generateCodeSnippet(oas, operation, {}, 'javascript');
+  const { snippet } = generateCodeSnippet(oas, operation, {}, 'javascript');
 
   expect(snippet).not.toMatch(/withCredentials/);
+});
+
+test('should return with unhighlighted code', () => {
+  const { code } = generateCodeSnippet(oas, operation, {}, 'javascript');
+
+  expect(code).not.toMatch(/cm-s-tomorrow-night/);
 });
 
 describe('#getLangName()', () => {
