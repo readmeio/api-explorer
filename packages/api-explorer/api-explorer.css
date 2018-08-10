@@ -183,12 +183,6 @@ fieldset fieldset .form-group label {
   text-align: left;
 }
 
-
-/* Add spacing below description for arrays. */
-.field-object .field-description {
-  margin-bottom: 0.5em !important;
-}
-
 /* For arrays, override Bootstrap col-xs-9 properties. */
 .array-item .col-xs-9 {
   padding: 0px;
