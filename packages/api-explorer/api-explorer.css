@@ -19,12 +19,6 @@ form form.rjsf {
   margin: 2% 2%;
 }
 
-input[type='file'] {
-  border: none !important;
-  margin-left: 0px;
-  padding: 10px;
-}
-
 /* Style table header. */
 .param-type-header {
   color: #aeaeae;
@@ -354,8 +348,11 @@ button[disabled] {
 }
 
 /* Fix spacing on input fields. */
-input[type="file"] {
+input[type='file'] {
   font-size: 0.8em;
+  border: none !important;
+  margin-left: 0px;
+  padding: 10px;
 }
 
 /* Fix alignment of input field. */
