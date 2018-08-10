@@ -612,6 +612,69 @@ describe('body values', () => {
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 123 }));
   });
+
+  it('should work for top level primitives', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+        { body: 'string' },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify('string'));
+
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'integer',
+                  format: 'int64',
+                },
+              },
+            },
+          },
+        },
+        { body: 123 },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(123));
+
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+        },
+        { body: true },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(true));
+  });
 });
 
 describe('formData values', () => {

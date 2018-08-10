@@ -70,6 +70,10 @@ function getResponseContentType(content) {
   return type;
 }
 
+function isPrimitive(val) {
+  return typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean';
+}
+
 module.exports = (
   oas,
   pathOperation = { path: '', method: '' },
@@ -156,7 +160,7 @@ module.exports = (
     // If there is formData, then the type is application/x-www-form-urlencoded
     if (Object.keys(formData.formData).length) {
       har.postData.text = querystring.stringify(formData.formData);
-    } else if (Object.keys(formData.body).length) {
+    } else if (isPrimitive(formData.body) || Object.keys(formData.body).length) {
       // Default to JSON.stringify
       har.postData.text = JSON.stringify(
         typeof formData.body.RAW_BODY !== 'undefined' ? formData.body.RAW_BODY : formData.body,
