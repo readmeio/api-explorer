@@ -43,8 +43,8 @@ class CodeSample extends React.Component {
                 <pre
                   className="tomorrow-night tabber-body"
                   key={example.language} // eslint-disable-line react/no-array-index-key
-                  // eslint-disable-next-line react/no-danger
                   style={{ display: this.props.language === example.language ? 'block' : '' }}
+                  // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{
                     __html: syntaxHighlighter(example.code || '', example.language, true),
                   }}
