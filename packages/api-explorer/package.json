@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "main": "dist/index.js",
   "dependencies": {
     "@readme/oas-extensions": "^0.7.0",
@@ -33,7 +33,9 @@
       "raf/polyfill",
       "./lib/enzyme"
     ],
-    "coveragePathIgnorePatterns": [ "dist/" ],
+    "coveragePathIgnorePatterns": [
+      "dist/"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 90,
