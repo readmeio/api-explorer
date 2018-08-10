@@ -59,7 +59,7 @@ class BlockCode extends React.Component {
 
           <div className="block-code-code">
             {codes.map((code, i) => (
-              <React.Fragment>
+              <div style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
                 <CopyCode code={code.code} />
                 {
                   // eslint-disable-next-line react/no-array-index-key
@@ -72,7 +72,7 @@ class BlockCode extends React.Component {
                     />
                   </pre>
                 }
-              </React.Fragment>
+              </div>
             ))}
           </div>
         </div>
