@@ -41,6 +41,7 @@ const modes = {
   java: ['clike', 'text/x-java'],
   scala: ['clike', 'text/x-scala'],
   objectivec: ['clike', 'text/x-objectivec'],
+  kotlin: ['clike', 'text/x-kotlin'],
   liquid: 'htmlmixed',
   scss: 'css',
 };

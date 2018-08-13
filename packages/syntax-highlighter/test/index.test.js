@@ -42,3 +42,7 @@ test('should work for html', () => {
     '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">></span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">></span></span>',
   );
 });
+
+test('should work for kotlin', () => {
+  expect(syntaxHighlighter('println("$index: $element")', 'kotlin')).toContain('cm-variable');
+});
