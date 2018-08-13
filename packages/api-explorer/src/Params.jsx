@@ -7,7 +7,7 @@ const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWid
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
 
-// const DescriptionField = require('./form-components/DescriptionField');
+const DescriptionField = require('./form-components/DescriptionField');
 const createBaseInput = require('./form-components/BaseInput');
 const createSelectWidget = require('./form-components/SelectWidget');
 const createArrayField = require('./form-components/ArrayField');
@@ -63,7 +63,7 @@ function Params({
             return onChange({ [schema.type]: form.formData });
           }}
           fields={{
-            //  DescriptionField,
+            DescriptionField,
             ArrayField,
             SchemaField,
           }}

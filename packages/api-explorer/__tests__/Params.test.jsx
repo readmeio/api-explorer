@@ -2,6 +2,8 @@ const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 
+const Description = require('../src/form-components/DescriptionField');
+
 const createParams = require('../src/Params');
 
 const Oas = require('../src/lib/Oas');
@@ -32,6 +34,15 @@ describe('form id attribute', () => {
         .match(new RegExp(`form-${operation.operationId}`, 'g')).length,
     ).toBe(1);
   });
+});
+
+test('should use custom description component', () => {
+  const params = mount(
+    <div>
+      <Params {...props} />
+    </div>,
+  );
+  expect(params.find(Description).length).toBe(1);
 });
 
 test('boolean should render as <select>', () => {

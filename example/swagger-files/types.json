@@ -26,6 +26,10 @@
                     "type": "string",
                     "description": "This is a string with a description"
                   },
+                  "string with markdown description": {
+                    "type": "string",
+                    "description": "This is a string with a **markdown** description: [link](ref:action-object)"
+                  },
                   "string without description": {
                     "type": "string"
                   },
