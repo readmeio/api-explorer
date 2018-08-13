@@ -43,6 +43,10 @@ test('should work for html', () => {
   );
 });
 
+test('should work for php without opening tag', () => {
+  expect(syntaxHighlighter('echo "Hello World";', 'php')).toContain('cm-keyword');
+});
+
 test('should work for kotlin', () => {
   expect(syntaxHighlighter('println("$index: $element")', 'kotlin')).toContain('cm-variable');
 });

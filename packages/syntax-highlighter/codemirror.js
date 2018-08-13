@@ -8,6 +8,7 @@ require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/python/python');
 require('codemirror/mode/clike/clike');
 require('codemirror/mode/htmlmixed/htmlmixed');
+require('codemirror/mode/php/php');
 
 function esc(str) {
   return str.replace(/[<&]/g, ch => (ch === '&' ? '&amp;' : '&lt;'));
@@ -44,6 +45,7 @@ const modes = {
   kotlin: ['clike', 'text/x-kotlin'],
   liquid: 'htmlmixed',
   scss: 'css',
+  php: ['php', 'text/x-php'],
 };
 
 function getMode(lang) {
