@@ -103,6 +103,36 @@ test('{ type: string, format: binary } should render as <input type="file">', ()
   expect(params.find('.field-file').length).toBe(1);
 });
 
+function testNumberClass(schema) {
+  test(`${JSON.stringify(schema)} should have correct class`, () => {
+    const params = mount(
+      <div>
+        <Params {...props} operation={new Operation(oas, '/path', 'post', {
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: schema,
+                  },
+                },
+              },
+            },
+          },
+        })} />
+      </div>,
+    );
+
+    expect(params.find(`.field-${schema.type}.field-${schema.format}`).length).toBe(1);
+  });
+}
+
+testNumberClass({ type: 'integer', format: 'int32' });
+testNumberClass({ type: 'integer', format: 'int64' });
+testNumberClass({ type: 'number', format: 'float' });
+testNumberClass({ type: 'number', format: 'double' });
+
 describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);

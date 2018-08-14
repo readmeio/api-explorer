@@ -51,15 +51,19 @@
                     "type": "integer",
                     "format": "int64"
                   },
-                  "integer format:int32": {
+                  "integer (format: int32)": {
                     "type": "integer",
                     "format": "int32"
                   },
-                  "number format:float": {
+                  "integer (format: int64)": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "number (format: float)": {
                     "type": "number",
                     "format": "float"
                   },
-                  "number format:double": {
+                  "number (format: double)": {
                     "type": "number",
                     "format": "double"
                   },

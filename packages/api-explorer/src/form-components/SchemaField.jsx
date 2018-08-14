@@ -11,6 +11,12 @@ function createSchemaField() {
     if (props.schema.type === 'string' && props.schema.format === 'binary') {
       return <BaseSchemaField {...props} uiSchema={Object.assign({}, props.uiSchema, { classNames: 'field-file' })} />;
     }
+    if (props.schema.type === 'integer' && props.schema.format && props.schema.format.match(/int32|int64/)) {
+      return <BaseSchemaField {...props} uiSchema={Object.assign({}, props.uiSchema, { classNames: `field-${props.schema.format}` })} />;
+    }
+    if (props.schema.type === 'number' && props.schema.format && props.schema.format.match(/float|double/)) {
+      return <BaseSchemaField {...props} uiSchema={Object.assign({}, props.uiSchema, { classNames: `field-${props.schema.format}` })} />;
+    }
     if (props.schema.type === 'boolean') {
       props.schema.enumNames = ['true', 'false'];
       return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
