@@ -58,6 +58,13 @@ input {
   margin-left: 5px;
 }
 
+textarea {
+  border: 1px solid #eaeaea !important;
+  border-radius: 2px;
+  padding: 8px 10px;
+  margin-left: 5px;
+}
+
 /* Prevent input fields from becoming too wide. */
 .form-group .form-control {
   max-width: 250px;
