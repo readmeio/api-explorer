@@ -4,6 +4,7 @@ const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWidget').default;
+const TextAreaWidget = require('react-jsonschema-form/lib/components/widgets/TextAreaWidget').default;
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
 
@@ -56,6 +57,7 @@ function Params({
             integer: UpDownWidget,
             BaseInput,
             SelectWidget,
+            json: TextAreaWidget,
           }}
           onSubmit={onSubmit}
           formData={formData[schema.type]}

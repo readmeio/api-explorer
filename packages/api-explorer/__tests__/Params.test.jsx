@@ -7,6 +7,7 @@ const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
 
 const Oas = require('../src/lib/Oas');
+const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas.json');
 
 const oas = new Oas(petstore);
@@ -58,6 +59,34 @@ test('boolean should render as <select>', () => {
   expect(select.length).toBe(1);
   expect(select.find('option').length).toBe(3);
   expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
+});
+
+test('json should render as <textarea>', () => {
+  const jsonOperation = new Operation(oas, '/path', 'post', {
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            required: ['a'],
+            properties: {
+              a: {
+                type: 'json',
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const params = mount(
+    <div>
+      <Params {...props} operation={jsonOperation} />
+    </div>,
+  );
+
+  expect(params.find('textarea').length).toBe(1);
 });
 
 describe('x-explorer-enabled', () => {

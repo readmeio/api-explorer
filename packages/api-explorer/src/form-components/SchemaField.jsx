@@ -5,6 +5,9 @@ const BaseSchemaField = require('react-jsonschema-form/lib/components/fields/Sch
 
 function createSchemaField() {
   function SchemaField(props) {
+    if (props.schema.type === 'json') {
+      return <BaseSchemaField {...props} schema={Object.assign({}, props.schema, { type: 'string' })} uiSchema={{ 'ui:widget': 'json' }} />;
+    }
     if (props.schema.type === 'boolean') {
       props.schema.enumNames = ['true', 'false'];
       return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
