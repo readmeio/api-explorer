@@ -8,6 +8,9 @@ function createSchemaField() {
     if (props.schema.type === 'string' && props.schema.format === 'json') {
       return <BaseSchemaField {...props} uiSchema={Object.assign({}, props.uiSchema, { classNames: 'field-json' })} />;
     }
+    if (props.schema.type === 'string' && props.schema.format === 'binary') {
+      return <BaseSchemaField {...props} uiSchema={Object.assign({}, props.uiSchema, { classNames: 'field-file' })} />;
+    }
     if (props.schema.type === 'boolean') {
       props.schema.enumNames = ['true', 'false'];
       return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;

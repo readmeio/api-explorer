@@ -341,7 +341,7 @@ button[disabled] {
   padding: 3px 6px;
 }
 
-.field.field-string:not(.field-json) label::after {
+.field.field-string:not(.field-json):not(.field-file) label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'string';
   background: #f2f2f2;
@@ -356,6 +356,18 @@ button[disabled] {
 .field.field-json label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'json';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-file label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'file';
   background: #f2f2f2;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;

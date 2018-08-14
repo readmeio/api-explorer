@@ -92,6 +92,17 @@ test('json should render as <textarea>', () => {
   expect(params.find('.field-json').length).toBe(1);
 });
 
+test('{ type: string, format: binary } should render as <input type="file">', () => {
+  const params = mount(
+    <div>
+      <Params {...props} operation={oas.operation('/pet/{petId}/uploadImage', 'post')} />
+    </div>,
+  );
+
+  expect(params.find('input[type="file"]').length).toBe(1);
+  expect(params.find('.field-file').length).toBe(1);
+});
+
 describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
