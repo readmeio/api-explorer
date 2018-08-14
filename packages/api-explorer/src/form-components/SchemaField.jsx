@@ -3,51 +3,36 @@ const PropTypes = require('prop-types');
 
 const BaseSchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
 
+function isNumType(schema, type, format) {
+  return schema.type === type && schema.format.match(format);
+}
+
+function SchemaFieldWithClassName(props) {
+  return (
+    <BaseSchemaField
+      {...props}
+      uiSchema={Object.assign({}, props.uiSchema, { classNames: props.classNames })}
+    />
+  );
+}
+
+SchemaFieldWithClassName.propTypes = {
+  uiSchema: PropTypes.shape({}),
+  classNames: PropTypes.string.isRequired,
+};
+
+SchemaFieldWithClassName.defaultProps = { uiSchema: {} };
+
 function createSchemaField() {
   function SchemaField(props) {
     if (props.schema.type === 'string' && props.schema.format === 'json') {
-      return (
-        <BaseSchemaField
-          {...props}
-          uiSchema={Object.assign({}, props.uiSchema, { classNames: 'field-json' })}
-        />
-      );
+      return <SchemaFieldWithClassName {...props} classNames={'field-json'} />;
     }
     if (props.schema.type === 'string' && props.schema.format === 'binary') {
-      return (
-        <BaseSchemaField
-          {...props}
-          uiSchema={Object.assign({}, props.uiSchema, { classNames: 'field-file' })}
-        />
-      );
+      return <SchemaFieldWithClassName {...props} classNames={'field-file'} />;
     }
-    if (
-      props.schema.type === 'integer' &&
-      props.schema.format &&
-      props.schema.format.match(/int32|int64/)
-    ) {
-      return (
-        <BaseSchemaField
-          {...props}
-          uiSchema={Object.assign({}, props.uiSchema, {
-            classNames: `field-${props.schema.format}`,
-          })}
-        />
-      );
-    }
-    if (
-      props.schema.type === 'number' &&
-      props.schema.format &&
-      props.schema.format.match(/float|double/)
-    ) {
-      return (
-        <BaseSchemaField
-          {...props}
-          uiSchema={Object.assign({}, props.uiSchema, {
-            classNames: `field-${props.schema.format}`,
-          })}
-        />
-      );
+    if (isNumType(props.schema, 'integer', /int32|int64/) || isNumType(props.schema, 'number', /float|double/)) {
+      return <SchemaFieldWithClassName {...props} classNames={`field-${props.schema.format}`} />;
     }
     if (props.schema.type === 'boolean') {
       props.schema.enumNames = ['true', 'false'];
@@ -62,10 +47,7 @@ function createSchemaField() {
       format: PropTypes.string,
       enumNames: PropTypes.array,
     }).isRequired,
-    uiSchema: PropTypes.shape({}),
   };
-
-  SchemaField.defaultProps = { uiSchema: {} };
 
   return SchemaField;
 }
