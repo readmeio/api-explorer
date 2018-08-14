@@ -169,7 +169,7 @@ module.exports = (
       har.postData.text = querystring.stringify(formData.formData);
     } else if (isPrimitive(formData.body) || Object.keys(formData.body).length) {
       try {
-        const jsonTypes = Object.keys(schema.schema.properties).filter(key => schema.schema.properties[key].type === 'json');
+        const jsonTypes = Object.keys(schema.schema.properties).filter(key => schema.schema.properties[key].format === 'json');
         if (jsonTypes.length) {
           const cloned = JSON.parse(JSON.stringify(formData.body));
           jsonTypes.forEach(prop => {

@@ -686,7 +686,7 @@ describe('body values', () => {
                 schema: {
                   content: {
                     'application/json': {
-                      schema: { type: 'object', properties: { a: { type: 'json' } } },
+                      schema: { string: 'object', properties: { a: { type: 'string', format: 'json', } } },
                     },
                   },
                 },
@@ -720,7 +720,8 @@ describe('body values', () => {
                     required: ['a'],
                     properties: {
                       a: {
-                        type: 'json',
+                        type: 'string',
+                        format: 'json',
                       },
                     },
                   },
@@ -748,7 +749,8 @@ describe('body values', () => {
                     required: ['a'],
                     properties: {
                       a: {
-                        type: 'json',
+                        type: 'string',
+                        format: 'json',
                       },
                     },
                   },

@@ -7,6 +7,7 @@ const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
 
 const Oas = require('../src/lib/Oas');
+
 const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas.json');
 
@@ -61,25 +62,26 @@ test('boolean should render as <select>', () => {
   expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
 });
 
-test('json should render as <textarea>', () => {
-  const jsonOperation = new Operation(oas, '/path', 'post', {
-    requestBody: {
-      content: {
-        'application/json': {
-          schema: {
-            type: 'object',
-            required: ['a'],
-            properties: {
-              a: {
-                type: 'json',
-              },
+const jsonOperation = new Operation(oas, '/path', 'post', {
+  requestBody: {
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          required: ['a'],
+          properties: {
+            a: {
+              type: 'string',
+              format: 'json',
             },
           },
         },
       },
     },
-  });
+  },
+});
 
+test('json should render as <textarea>', () => {
   const params = mount(
     <div>
       <Params {...props} operation={jsonOperation} />
@@ -87,6 +89,7 @@ test('json should render as <textarea>', () => {
   );
 
   expect(params.find('textarea').length).toBe(1);
+  expect(params.find('.field-json').length).toBe(1);
 });
 
 describe('x-explorer-enabled', () => {
@@ -122,6 +125,18 @@ describe('x-explorer-enabled', () => {
           operation={oas.operation('/pet', 'post')}
         />,
       ).find('select').length,
+    ).toBe(0);
+  });
+
+  test('should not render any <textarea>', () => {
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={jsonOperation}
+        />,
+      ).find('textarea').length,
     ).toBe(0);
   });
 });

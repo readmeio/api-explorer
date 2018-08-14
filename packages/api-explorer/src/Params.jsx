@@ -4,7 +4,6 @@ const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWidget').default;
-const TextAreaWidget = require('react-jsonschema-form/lib/components/widgets/TextAreaWidget').default;
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
 
@@ -13,6 +12,7 @@ const createBaseInput = require('./form-components/BaseInput');
 const createSelectWidget = require('./form-components/SelectWidget');
 const createArrayField = require('./form-components/ArrayField');
 const createSchemaField = require('./form-components/SchemaField');
+const createTextareaWidget = require('./form-components/TextareaWidget');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
@@ -28,6 +28,7 @@ function Params({
   SelectWidget,
   ArrayField,
   SchemaField,
+  TextareaWidget,
 }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
 
@@ -55,9 +56,9 @@ function Params({
             duration: TextWidget,
             dateTime: DateTimeWidget,
             integer: UpDownWidget,
+            json: TextareaWidget,
             BaseInput,
             SelectWidget,
-            json: TextAreaWidget,
           }}
           onSubmit={onSubmit}
           formData={formData[schema.type]}
@@ -87,6 +88,7 @@ Params.propTypes = {
   SelectWidget: PropTypes.func.isRequired,
   ArrayField: PropTypes.func.isRequired,
   SchemaField: PropTypes.func.isRequired,
+  TextareaWidget: PropTypes.func.isRequired,
 };
 
 function createParams(oas) {
@@ -94,6 +96,7 @@ function createParams(oas) {
   const SelectWidget = createSelectWidget(oas);
   const ArrayField = createArrayField(oas);
   const SchemaField = createSchemaField();
+  const TextareaWidget = createTextareaWidget(oas);
 
   return props => {
     return (
@@ -103,6 +106,7 @@ function createParams(oas) {
         SelectWidget={SelectWidget}
         ArrayField={ArrayField}
         SchemaField={SchemaField}
+        TextareaWidget={TextareaWidget}
       />
     );
   };
