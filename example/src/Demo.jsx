@@ -8,6 +8,7 @@ const createDocs = require('../../packages/api-explorer/lib/create-docs');
 const ApiExplorer = require('../../packages/api-explorer/src');
 const ApiList = require('./ApiList');
 
+require('../../example/swagger-files/types.json');
 require('../../packages/api-explorer/api-explorer.css');
 
 class Demo extends React.Component {
