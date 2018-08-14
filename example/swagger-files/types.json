@@ -51,6 +51,18 @@
                     "type": "integer",
                     "format": "int64"
                   },
+                  "integer format:int32": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "number format:float": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "number format:double": {
+                    "type": "number",
+                    "format": "double"
+                  },
                   "boolean": {
                     "type": "boolean",
                     "description": "This is an boolean with a description"
@@ -298,7 +310,7 @@
       }
     }
   },
-  "x-explorer-enabled": true,
+  "x-explorer-enabled": false,
   "x-samples-enabled": true,
   "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
   "components": {

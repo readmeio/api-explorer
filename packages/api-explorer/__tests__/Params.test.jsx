@@ -139,4 +139,16 @@ describe('x-explorer-enabled', () => {
       ).find('textarea').length,
     ).toBe(0);
   });
+
+  test('should not render any <input type="file">', () => {
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={oas.operation('/pet/{petId}/uploadImage', 'post')}
+        />,
+      ).find('input[type="file"]').length,
+    ).toBe(0);
+  });
 });
