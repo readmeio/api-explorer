@@ -310,7 +310,7 @@
       }
     }
   },
-  "x-explorer-enabled": false,
+  "x-explorer-enabled": true,
   "x-samples-enabled": true,
   "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
   "components": {
