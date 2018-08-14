@@ -308,6 +308,51 @@
           }
         }
       }
+    },
+    "/anything/top-level-using-raw-body-string": {
+      "post": {
+        "summary": "RAW_BODY string",
+        "description": "This is a special value on ReadMe to denote a top level property. This can be done better using JSON Schema, but from ReadMe's dash, this is the only way to do it",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "RAW_BODY": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/top-level-using-raw-body-json": {
+      "post": {
+        "summary": "RAW_BODY json",
+        "description": "This is a special value on ReadMe to denote a top level property. This can be done better using JSON Schema, but from ReadMe's dash, this is the only way to do it",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "RAW_BODY": {
+                    "type": "string",
+                    "format": "json"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-explorer-enabled": true,

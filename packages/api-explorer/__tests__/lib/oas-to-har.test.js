@@ -467,6 +467,34 @@ describe('body values', () => {
     ).toEqual(JSON.stringify('test'));
   });
 
+  it('should work for RAW_BODY json', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    RAW_BODY: {
+                      type: 'string',
+                      format: 'json',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { RAW_BODY: '{ "a": 1 }' } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify({ a: 1 }));
+  });
+
   it('should return empty for falsy RAW_BODY primitives', () => {
     expect(
       oasToHar(
