@@ -31,7 +31,10 @@ function createSchemaField() {
     if (props.schema.type === 'string' && props.schema.format === 'binary') {
       return <SchemaFieldWithClassName {...props} classNames={'field-file'} />;
     }
-    if (isNumType(props.schema, 'integer', /int32|int64/) || isNumType(props.schema, 'number', /float|double/)) {
+    if (
+      isNumType(props.schema, 'integer', /int32|int64/) ||
+      isNumType(props.schema, 'number', /float|double/)
+    ) {
       return <SchemaFieldWithClassName {...props} classNames={`field-${props.schema.format}`} />;
     }
     if (props.schema.type === 'boolean') {
