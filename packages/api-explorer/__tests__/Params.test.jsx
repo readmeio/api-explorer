@@ -107,20 +107,25 @@ function testNumberClass(schema) {
   test(`${JSON.stringify(schema)} should have correct class`, () => {
     const params = mount(
       <div>
-        <Params {...props} operation={new Operation(oas, '/path', 'post', {
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    a: schema,
+        <Params
+          {...props}
+          operation={
+            new Operation(oas, '/path', 'post', {
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        a: schema,
+                      },
+                    },
                   },
                 },
               },
-            },
-          },
-        })} />
+            })
+          }
+        />
       </div>,
     );
 

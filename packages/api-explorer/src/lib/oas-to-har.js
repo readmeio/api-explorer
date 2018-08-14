@@ -158,9 +158,7 @@ module.exports = (
 
   function stringify(json) {
     // Default to JSON.stringify
-    har.postData.text = JSON.stringify(
-      typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json,
-    );
+    har.postData.text = JSON.stringify(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json);
   }
 
   if (schema.schema && Object.keys(schema.schema).length) {
@@ -169,7 +167,9 @@ module.exports = (
       har.postData.text = querystring.stringify(formData.formData);
     } else if (isPrimitive(formData.body) || Object.keys(formData.body).length) {
       try {
-        const jsonTypes = Object.keys(schema.schema.properties).filter(key => schema.schema.properties[key].format === 'json');
+        const jsonTypes = Object.keys(schema.schema.properties).filter(
+          key => schema.schema.properties[key].format === 'json',
+        );
         if (jsonTypes.length) {
           const cloned = JSON.parse(JSON.stringify(formData.body));
           jsonTypes.forEach(prop => {

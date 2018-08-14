@@ -1,6 +1,7 @@
 const extensions = require('@readme/oas-extensions');
 
-const TextareaWidget = require('react-jsonschema-form/lib/components/widgets/TextareaWidget').default;
+const TextareaWidget = require('react-jsonschema-form/lib/components/widgets/TextareaWidget')
+  .default;
 
 function createTextareaWidget(oas) {
   const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
