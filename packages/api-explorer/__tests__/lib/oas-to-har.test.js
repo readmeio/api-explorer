@@ -467,6 +467,34 @@ describe('body values', () => {
     ).toEqual(JSON.stringify('test'));
   });
 
+  it('should work for RAW_BODY json', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    RAW_BODY: {
+                      type: 'string',
+                      format: 'json',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { RAW_BODY: '{ "a": 1 }' } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify({ a: 1 }));
+  });
+
   it('should return empty for falsy RAW_BODY primitives', () => {
     expect(
       oasToHar(
@@ -674,6 +702,97 @@ describe('body values', () => {
         { body: true },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify(true));
+  });
+
+  describe('`json` type', () => {
+    it('should work for refs that require a lookup', () => {
+      expect(
+        oasToHar(
+          {
+            components: {
+              requestBodies: {
+                schema: {
+                  content: {
+                    'application/json': {
+                      schema: {
+                        string: 'object',
+                        properties: { a: { type: 'string', format: 'json' } },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              $ref: '#/components/requestBodies/schema',
+            },
+          },
+          { body: { a: '{ "b": 1 }' } },
+        ).log.entries[0].request.postData.text,
+      ).toEqual(JSON.stringify({ a: JSON.parse('{ "b": 1 }') }));
+    });
+
+    it('should leave invalid JSON as strings', () => {
+      expect(
+        oasToHar(
+          {},
+          {
+            path: '/body',
+            method: 'post',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                        format: 'json',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: { a: '{ "b": invalid json' } },
+        ).log.entries[0].request.postData.text,
+      ).toEqual(JSON.stringify({ a: '{ "b": invalid json' }));
+    });
+
+    it('should parse valid JSON as an object', () => {
+      expect(
+        oasToHar(
+          {},
+          {
+            path: '/body',
+            method: 'post',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                        format: 'json',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: { a: '{ "b": "valid json" }' } },
+        ).log.entries[0].request.postData.text,
+      ).toEqual(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
+    });
   });
 });
 

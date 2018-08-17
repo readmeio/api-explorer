@@ -37,6 +37,11 @@
                     "type": "string",
                     "format": "binary"
                   },
+                  "string (format: json)": {
+                    "description": "This is a special ReadMe type to render a <textarea> to be parsed as JSON",
+                    "type": "string",
+                    "format": "json"
+                  },
                   "integer": {
                     "type": "integer",
                     "format": "int64",
@@ -45,6 +50,22 @@
                   "integer without description": {
                     "type": "integer",
                     "format": "int64"
+                  },
+                  "integer (format: int32)": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "integer (format: int64)": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "number (format: float)": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "number (format: double)": {
+                    "type": "number",
+                    "format": "double"
                   },
                   "boolean": {
                     "type": "boolean",
@@ -286,6 +307,51 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/requestBodies/Circular"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/top-level-using-raw-body-string": {
+      "post": {
+        "summary": "RAW_BODY string",
+        "description": "This is a special value on ReadMe to denote a top level property. This can be done better using JSON Schema, but from ReadMe's dash, this is the only way to do it",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "RAW_BODY": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/top-level-using-raw-body-json": {
+      "post": {
+        "summary": "RAW_BODY json",
+        "description": "This is a special value on ReadMe to denote a top level property. This can be done better using JSON Schema, but from ReadMe's dash, this is the only way to do it",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "RAW_BODY": {
+                    "type": "string",
+                    "format": "json"
+                  }
+                }
               }
             }
           }

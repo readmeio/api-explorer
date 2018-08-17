@@ -7,6 +7,8 @@ const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
 
 const Oas = require('../src/lib/Oas');
+
+const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas.json');
 
 const oas = new Oas(petstore);
@@ -60,6 +62,82 @@ test('boolean should render as <select>', () => {
   expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
 });
 
+const jsonOperation = new Operation(oas, '/path', 'post', {
+  requestBody: {
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          required: ['a'],
+          properties: {
+            a: {
+              type: 'string',
+              format: 'json',
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
+test('json should render as <textarea>', () => {
+  const params = mount(
+    <div>
+      <Params {...props} operation={jsonOperation} />
+    </div>,
+  );
+
+  expect(params.find('textarea').length).toBe(1);
+  expect(params.find('.field-json').length).toBe(1);
+});
+
+test('{ type: string, format: binary } should render as <input type="file">', () => {
+  const params = mount(
+    <div>
+      <Params {...props} operation={oas.operation('/pet/{petId}/uploadImage', 'post')} />
+    </div>,
+  );
+
+  expect(params.find('input[type="file"]').length).toBe(1);
+  expect(params.find('.field-file').length).toBe(1);
+});
+
+function testNumberClass(schema) {
+  test(`${JSON.stringify(schema)} should have correct class`, () => {
+    const params = mount(
+      <div>
+        <Params
+          {...props}
+          operation={
+            new Operation(oas, '/path', 'post', {
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      properties: {
+                        a: schema,
+                      },
+                    },
+                  },
+                },
+              },
+            })
+          }
+        />
+      </div>,
+    );
+
+    expect(params.find(`.field-${schema.type}.field-${schema.format}`).length).toBe(1);
+  });
+}
+
+testNumberClass({ type: 'integer', format: 'int32' });
+testNumberClass({ type: 'integer', format: 'int64' });
+testNumberClass({ type: 'number', format: 'float' });
+testNumberClass({ type: 'number', format: 'double' });
+
 describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
@@ -93,6 +171,30 @@ describe('x-explorer-enabled', () => {
           operation={oas.operation('/pet', 'post')}
         />,
       ).find('select').length,
+    ).toBe(0);
+  });
+
+  test('should not render any <textarea>', () => {
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={jsonOperation}
+        />,
+      ).find('textarea').length,
+    ).toBe(0);
+  });
+
+  test('should not render any <input type="file">', () => {
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={oas.operation('/pet/{petId}/uploadImage', 'post')}
+        />,
+      ).find('input[type="file"]').length,
     ).toBe(0);
   });
 });

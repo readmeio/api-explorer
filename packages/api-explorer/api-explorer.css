@@ -58,6 +58,13 @@ input {
   margin-left: 5px;
 }
 
+textarea {
+  border: 1px solid #eaeaea !important;
+  border-radius: 2px;
+  padding: 8px 10px;
+  margin-left: 5px;
+}
+
 /* Prevent input fields from becoming too wide. */
 .form-group .form-control {
   max-width: 250px;
@@ -329,9 +336,9 @@ button[disabled] {
   padding: 3px 6px;
 }
 
-.field.field-integer label::after {
+.field.field-integer.field-int32 label::after {
   color: rgba(0, 0, 0, 0.6);
-  content: 'integer';
+  content: 'integer: int32';
   background: #f2f2f2;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
@@ -341,9 +348,69 @@ button[disabled] {
   padding: 3px 6px;
 }
 
-.field.field-string label::after {
+.field.field-integer.field-int64 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: int64';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-number.field-float label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'number: float';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-number.field-double label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'number: double';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-string:not(.field-json):not(.field-file) label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'string';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-json label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'json';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-file label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'file';
   background: #f2f2f2;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
