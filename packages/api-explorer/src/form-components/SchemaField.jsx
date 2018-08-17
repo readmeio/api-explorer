@@ -20,37 +20,36 @@ function getCustomType(schema) {
   return false;
 }
 
-function createSchemaField() {
-  function SchemaField(props) {
-    const customType = getCustomType(props.schema);
-
-    if (customType) {
-      return (
-        <BaseSchemaField
-          {...props}
-          uiSchema={Object.assign({}, props.uiSchema, { classNames: `field-${customType}` })}
-        />
-      );
-    }
-
-    if (props.schema.type === 'boolean') {
-      props.schema.enumNames = ['true', 'false'];
-      return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
-    }
-    return <BaseSchemaField {...props} />;
+function SchemaField(props) {
+  const customType = getCustomType(props.schema);
+  if (customType) {
+    return (
+      <BaseSchemaField
+        {...props}
+        uiSchema={Object.assign({}, props.uiSchema, { classNames: `field-${customType}` })}
+      />
+    );
   }
 
-  SchemaField.propTypes = {
-    schema: PropTypes.shape({
-      type: PropTypes.string,
-      format: PropTypes.string,
-      enumNames: PropTypes.array,
-    }).isRequired,
-    uiSchema: PropTypes.shape({}),
-  };
+  if (props.schema.type === 'boolean') {
+    props.schema.enumNames = ['true', 'false'];
+    return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
+  }
+  return <BaseSchemaField {...props} />;
+}
 
-  SchemaField.defaultProps = { uiSchema: {} };
+SchemaField.propTypes = {
+  schema: PropTypes.shape({
+    type: PropTypes.string,
+    format: PropTypes.string,
+    enumNames: PropTypes.array,
+  }).isRequired,
+  uiSchema: PropTypes.shape({}),
+};
 
+SchemaField.defaultProps = { uiSchema: {} };
+
+function createSchemaField() {
   return SchemaField;
 }
 
