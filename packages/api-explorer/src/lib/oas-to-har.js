@@ -167,17 +167,29 @@ module.exports = (
       har.postData.text = querystring.stringify(formData.formData);
     } else if (isPrimitive(formData.body) || Object.keys(formData.body).length) {
       try {
+        // Find all `{ type: string, format: json }` properties in the schema
+        // because we need to manually JSON.parse them before submit, otherwise
+        // they'll be escaped instead of actual objects
         const jsonTypes = Object.keys(schema.schema.properties).filter(
           key => schema.schema.properties[key].format === 'json',
         );
         if (jsonTypes.length) {
+          // We have to clone the body object, otherwise the form
+          // will attempt to re-render with an object, which will
+          // cause it to error!
           const cloned = JSON.parse(JSON.stringify(formData.body));
           jsonTypes.forEach(prop => {
+            // Attempt to JSON parse each of the json properties
+            // if this errors, it'll just get caught and stringify it normally
             cloned[prop] = JSON.parse(cloned[prop]);
           });
           stringify(cloned);
-        } else stringify(formData.body);
+        } else {
+          stringify(formData.body);
+        }
       } catch (e) {
+        // If anything goes wrong in the above, assume that it's invalid JSON
+        // and stringify it
         stringify(formData.body);
       }
     }
