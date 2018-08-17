@@ -63,10 +63,10 @@ class CodeSample extends React.Component {
     return (
       <div className="code-sample tabber-parent">
         {(() => {
+          if (examples.length) return this.renderExamples(examples, setLanguage);
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }
-          if (examples.length) return this.renderExamples(examples, setLanguage);
           const { snippet, code } = generateCodeSnippet(oas, operation, formData, language);
           return (
             <div>
