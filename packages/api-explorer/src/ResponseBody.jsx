@@ -11,13 +11,14 @@ function Authorized({ result }) {
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
-      {!result.isBinary && isJson && (
+      {!result.isBinary &&
+      isJson && (
         <ReactJson
           src={result.responseBody}
           collapsed={1}
           collapseStringsAfterLength={100}
           enableClipboard={false}
-          theme='tomorrow'
+          theme="tomorrow"
           name={null}
           displayDataTypes={false}
           displayObjectSize={false}
@@ -27,7 +28,8 @@ function Authorized({ result }) {
           }}
         />
       )}
-      {!result.isBinary && !isJson && (
+      {!result.isBinary &&
+      !isJson && (
         <div
           className="cm-s-tomorrow-night codemirror-highlight"
           // eslint-disable-next-line react/no-danger

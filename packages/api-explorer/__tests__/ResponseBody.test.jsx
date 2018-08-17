@@ -34,7 +34,7 @@ describe('Response body', () => {
   test('should display result body by default', () => {
     const responseBody = mount(<ResponseBody {...props} oas={oas} />);
 
-    expect(responseBody.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
+    expect(responseBody.find('.react-json-view').length).toBe(1);
   });
 
   test('should not display responseBody if isBinary is true', async () => {
