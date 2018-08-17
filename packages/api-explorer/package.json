@@ -15,6 +15,7 @@
     "prop-types": "^15.5.10",
     "react": "^16.2.0",
     "react-copy-to-clipboard": "^5.0.1",
+    "react-json-view": "^1.19.1",
     "react-jsonschema-form": "github:domharrington/react-jsonschema-form#dist-committed",
     "react-waypoint": "^7.3.1",
     "whatwg-fetch": "^2.0.3"

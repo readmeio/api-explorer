@@ -1,3 +1,5 @@
+import ReactJson from 'react-json-view';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
@@ -5,10 +7,27 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
 const oauthHref = require('./lib/oauth-href');
 
 function Authorized({ result }) {
+  const isJson = typeof result === 'object';
   return (
-    <pre className="tomorrow-night">
+    <div>
       {result.isBinary && <div>A binary file was returned</div>}
-      {!result.isBinary && (
+      {!result.isBinary && isJson && (
+        <ReactJson
+          src={result.responseBody}
+          collapsed={1}
+          collapseStringsAfterLength={100}
+          enableClipboard={false}
+          theme='tomorrow'
+          name={null}
+          displayDataTypes={false}
+          displayObjectSize={false}
+          style={{
+            padding: '20px 10px',
+            'background-color': 'transparent',
+          }}
+        />
+      )}
+      {!result.isBinary && !isJson && (
         <div
           className="cm-s-tomorrow-night codemirror-highlight"
           // eslint-disable-next-line react/no-danger
@@ -17,7 +36,7 @@ function Authorized({ result }) {
           }}
         />
       )}
-    </pre>
+    </div>
   );
 }
 
