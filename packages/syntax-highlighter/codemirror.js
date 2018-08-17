@@ -9,6 +9,7 @@ require('codemirror/mode/python/python');
 require('codemirror/mode/clike/clike');
 require('codemirror/mode/htmlmixed/htmlmixed');
 require('codemirror/mode/php/php');
+require('codemirror/mode/go/go');
 
 function esc(str) {
   return str.replace(/[<&]/g, ch => (ch === '&' ? '&amp;' : '&lt;'));
@@ -46,6 +47,7 @@ const modes = {
   liquid: 'htmlmixed',
   scss: 'css',
   php: ['php', 'text/x-php'],
+  go: ['go', 'text/x-go'],
 };
 
 function getMode(lang) {

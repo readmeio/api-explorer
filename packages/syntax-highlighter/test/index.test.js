@@ -50,3 +50,7 @@ test('should work for php without opening tag', () => {
 test('should work for kotlin', () => {
   expect(syntaxHighlighter('println("$index: $element")', 'kotlin')).toContain('cm-variable');
 });
+
+test('should work for go', () => {
+  expect(syntaxHighlighter('func main() {}', 'go')).toContain('cm-variable');
+});
