@@ -6,7 +6,7 @@ const ReactJson = require('react-json-view').default;
 const oauthHref = require('./lib/oauth-href');
 
 function Authorized({ result }) {
-  const isJson = typeof result === 'object';
+  const isJson = result.type === 'application/json';
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
@@ -29,13 +29,15 @@ function Authorized({ result }) {
       )}
       {!result.isBinary &&
       !isJson && (
-        <div
-          className="cm-s-tomorrow-night codemirror-highlight"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript'),
-          }}
-        />
+        <pre className="tomorrow-night">
+          <div
+            className="cm-s-tomorrow-night codemirror-highlight"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: syntaxHighlighter(result.responseBody, result.type),
+            }}
+          />
+        </pre>
       )}
     </div>
   );
