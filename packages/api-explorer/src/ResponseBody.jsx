@@ -23,7 +23,7 @@ function Authorized({ result }) {
           displayObjectSize={false}
           style={{
             padding: '20px 10px',
-            'background-color': 'transparent',
+            backgroundColor: 'transparent',
           }}
         />
       )}
