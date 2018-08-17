@@ -24,6 +24,7 @@ function Authorized({ result }) {
           style={{
             padding: '20px 10px',
             backgroundColor: 'transparent',
+            fontSize: '12px',
           }}
         />
       )}
