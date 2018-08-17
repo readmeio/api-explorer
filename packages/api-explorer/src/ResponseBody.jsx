@@ -1,8 +1,7 @@
-import ReactJson from 'react-json-view';
-
 const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
+const ReactJson = require('react-json-view').default;
 
 const oauthHref = require('./lib/oauth-href');
 
