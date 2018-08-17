@@ -31,15 +31,18 @@ async function getResponseBody(response) {
 async function parseResponse(har, response) {
   const contentDisposition = response.headers.get('Content-Disposition');
   const querystring = getQuerystring(har);
+  const responseHeaders = Array.from(response.headers.entries());
+  const type = responseHeaders.find(([header]) => header === 'content-type');
 
   return {
     method: har.log.entries[0].request.method,
     requestHeaders: har.log.entries[0].request.headers.map(
       header => `${header.name}: ${header.value}`,
     ),
-    responseHeaders: Array.from(response.headers.entries())
+    responseHeaders: responseHeaders
       .map(header => header.join(': '))
       .filter(header => !header.match(/x-final-url/i)),
+    type: type ? type[1] : null,
     isBinary: !!(contentDisposition && contentDisposition.match(/attachment/)),
     url: har.log.entries[0].request.url.replace('https://try.readme.io/', '') + querystring,
     status: response.status,
