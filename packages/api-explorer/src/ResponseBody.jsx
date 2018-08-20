@@ -6,7 +6,7 @@ const ReactJson = require('react-json-view').default;
 const oauthHref = require('./lib/oauth-href');
 
 function Authorized({ result }) {
-  const isJson = result.type === 'application/json';
+  const isJson = result.type && result.type.includes('application/json');
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}

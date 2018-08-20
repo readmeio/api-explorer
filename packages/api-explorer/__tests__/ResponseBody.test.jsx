@@ -39,6 +39,27 @@ describe('Response body', () => {
     expect(responseBody.find('.react-json-view').length).toBe(1);
   });
 
+  test('should display json viewer if response is json with charset', async () => {
+    props.result = await parseResponse(
+      {
+        log: {
+          entries: [
+            { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
+          ],
+        },
+      },
+      new FetchResponse('{}', {
+        headers: {
+          'content-type': 'application/json; charset=utf-8',
+        },
+      }),
+    );
+
+    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+
+    expect(responseBody.find('.react-json-view').length).toBe(1);
+  });
+
   test('should not display json result if body is a string', async () => {
     props.result = await parseResponse(
       {
