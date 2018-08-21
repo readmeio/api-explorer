@@ -29,7 +29,7 @@ form form.rjsf {
 }
 
 /* Style param labels. */
-.form-group .control-label {
+form.rjsf .form-group .control-label {
   font-weight: 400;
   text-align: left;
   min-width: 100px;
@@ -40,12 +40,12 @@ form form.rjsf {
 }
 
 /* Make required asterisks red */
-.form-group .required {
+form.rjsf .form-group .required {
   color: #ef6363;
 }
 
 /* Style param category labels. */
-legend {
+form.rjsf legend {
   font-weight: bold;
   margin: 10px 0px;
 }
@@ -66,12 +66,12 @@ form.rjsf textarea {
 }
 
 /* Prevent input fields from becoming too wide. */
-.form-group .form-control {
+form.rjsf .form-group .form-control {
   max-width: 250px;
   flex: 1 1 150px;
 }
 
-.form-group.field {
+form.rjsf .form-group.field {
   min-height: 60px;
 }
 
@@ -81,7 +81,7 @@ form.rjsf fieldset fieldset .form-group.field .field-description {
 }
 
 /* Add padding and top-border around nested form-groups. */
-.form-group .form-group {
+form.rjsf .form-group .form-group {
   padding-top: 10px;
   padding-bottom: 10px;
   border-top: 1px solid #f2f2f2;
@@ -118,7 +118,7 @@ form.rjsf fieldset fieldset legend {
 /* Allow description to scale to 2x size of input field and
    param titles (some endpoints have lengthy descriptions.
    Also add styling. */
-.field-description {
+form.rjsf .field-description {
   flex: 2 1 100px;
   text-align: left;
   font-size: 14px !important;
@@ -136,13 +136,13 @@ form.rjsf fieldset fieldset .form-group label {
   margin-left: 1em;
 }
 
-.form-group.field select {
+form.rjsf .form-group.field select {
   margin-left: 15px;
 }
 
 /* Style select boxes. */
 
-.field .form-group select {
+form.rjsf .field .form-group select {
   border: 1px solid #eaeaea !important;
   border-radius: 2px;
   padding: 8px 10px;
@@ -205,7 +205,7 @@ form.rjsf fieldset fieldset .form-group label {
 }
 
 /* Remove left-margins from rows that are offset with Bootstrap's grid system. */
-.row .col-xs-offset-9 {
+form.rjsf .row .col-xs-offset-9 {
   margin-left: 0px;
 }
 
@@ -238,23 +238,23 @@ form.rjsf fieldset fieldset .form-group label {
   background: rgba(255, 255, 255, 0);
 }
 
-.btn:active {
+form.rjsf .btn:active {
   box-shadow: none;
 }
 
-.btn:focus {
+form.rjsf .btn:focus {
   outline: none;
 }
 
-.btn.btn-default {
+form.rjsf .btn.btn-default {
   border: none;
 }
 
-.btn.btn-default:hover {
+form.rjsf .btn.btn-default:hover {
   border: none;
 }
 
-.btn.btn-add {
+form.rjsf .btn.btn-add {
   transform: rotate(45deg);
   font-weight: bold;
   font-size: 11px;
@@ -263,21 +263,21 @@ form.rjsf fieldset fieldset .form-group label {
   margin-bottom: 1em;
 }
 
-.btn.btn-add::after {
+form.rjsf .btn.btn-add::after {
   content: '✕';
   font-size: 11px;
   font-weight: bold;
 }
 
-.btn.array-item-move-up::after {
+form.rjsf .btn.array-item-move-up::after {
   content: '↑';
 }
 
-.btn.array-item-move-down::after {
+form.rjsf .btn.array-item-move-down::after {
   content: '↓';
 }
 
-.btn.array-item-remove::after {
+form.rjsf .btn.array-item-remove::after {
   content: '✕';
 }
 
