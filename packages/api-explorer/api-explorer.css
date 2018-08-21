@@ -4,12 +4,12 @@ form.rjsf {
 }
 
 /* Remove borders surrounding params. */
-fieldset {
+form.rjsf fieldset {
   border: none;
 }
 
 /* Ensure nested objects retain full width. */
-fieldset fieldset {
+form.rjsf fieldset fieldset {
   padding: 0;
   width: 100%;
 }
@@ -51,14 +51,14 @@ legend {
 }
 
 /* Style input fields similar to current explorer. */
-input {
+form.rjsf input {
   border: 1px solid #eaeaea !important;
   border-radius: 2px;
   padding: 8px 10px;
   margin-left: 5px;
 }
 
-textarea {
+form.rjsf textarea {
   border: 1px solid #eaeaea !important;
   border-radius: 2px;
   padding: 8px 10px;
@@ -76,7 +76,7 @@ textarea {
 }
 
 /* Align nested input fields. */
-fieldset fieldset .form-group.field .field-description {
+form.rjsf fieldset fieldset .form-group.field .field-description {
   margin-left: 1em;
 }
 
@@ -88,13 +88,13 @@ fieldset fieldset .form-group.field .field-description {
 }
 
 /* Hide border for first form-group in an object. */
-fieldset .form-group:first-of-type {
+form.rjsf fieldset .form-group:first-of-type {
   border-top: none;
 }
 
 /* Render each object's param container as a flex object.
    Allows for better aligning of fields, labels, etc. */
-fieldset .form-group {
+form.rjsf fieldset .form-group {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -102,16 +102,16 @@ fieldset .form-group {
 }
 
 /* Parameters for nested objects should be indented. */
-fieldset fieldset .form-group {
+form.rjsf fieldset fieldset .form-group {
   padding-left: 1%;
 }
 
-fieldset fieldset .form-group label {
+form.rjsf fieldset fieldset .form-group label {
   padding-left: 0%;
   margin-left: 0% !important;
 }
 
-fieldset fieldset legend {
+form.rjsf fieldset fieldset legend {
   padding-left: 0%;
 }
 
@@ -127,12 +127,12 @@ fieldset fieldset legend {
 }
 
 /* Add thick left border to nested params (show hierarchy). */
-fieldset fieldset .form-group {
+form.rjsf fieldset fieldset .form-group {
   border-left: 10px solid #f8f8f8;
 }
 
 /* Add margin to label for nested params. */
-fieldset fieldset .form-group label {
+form.rjsf fieldset fieldset .form-group label {
   margin-left: 1em;
 }
 
@@ -281,9 +281,8 @@ fieldset fieldset .form-group label {
   content: '✕';
 }
 
-
 /* Fix color of up/down buttons when disabled. */
-button[disabled] {
+form.rjsf button[disabled] {
   color: #d2d2d2 !important;
 }
 
@@ -433,7 +432,7 @@ button[disabled] {
 }
 
 /* Fix spacing on input fields. */
-input[type='file'] {
+form.rjsf input[type='file'] {
   font-size: 0.8em;
   border: none !important;
   margin-left: 0px;
@@ -448,7 +447,7 @@ input[type='file'] {
 /* Ensure top-level elements are vertically centered within their form-group's,
    and that all input fields take advantage of available width. */
 
-fieldset {
+form.rjsf fieldset {
   padding: 0em 0.625em 0.75em;
   width: 100%;
 }
