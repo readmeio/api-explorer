@@ -42,9 +42,15 @@ class ApiExplorer extends React.Component {
     }
   }
   getOas(doc) {
-    // Get the apiSetting id either from the category, or the api if api is set
+    // Get the apiSetting id from the following places:
+    // - category.apiSetting if set and populated
+    // - api.apiSetting if that's a string
+    // - api.apiSetting._id if that's set
     // This will return undefined if apiSetting is not set
-    const apiSetting = doc.category.apiSetting || (doc.api.apiSetting && doc.api.apiSetting._id);
+    const apiSetting =
+      doc.category.apiSetting ||
+      (typeof doc.api.apiSetting === 'string' && doc.api.apiSetting) ||
+      (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting._id);
 
     return this.props.oasFiles[apiSetting];
   }

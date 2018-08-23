@@ -133,6 +133,24 @@ describe('oas', () => {
     expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
   });
 
+  it('should fetch it from `doc.api.apiSetting` if it is a string', () => {
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        oasFiles={{
+          'api-setting': oas,
+        }}
+        docs={[
+          Object.assign({}, baseDoc, {
+            api: { method: 'get', apiSetting: 'api-setting' },
+          }),
+        ]}
+      />,
+    );
+
+    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+  });
+
   it('should set it to empty object', () => {
     const explorer = shallow(
       <ApiExplorer
