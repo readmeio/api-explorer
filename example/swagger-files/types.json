@@ -59,6 +59,9 @@
                     "type": "integer",
                     "format": "int64"
                   },
+                  "integer without `format`": {
+                    "type": "integer"
+                  },
                   "number (format: float)": {
                     "type": "number",
                     "format": "float"
@@ -66,6 +69,9 @@
                   "number (format: double)": {
                     "type": "number",
                     "format": "double"
+                  },
+                  "number without `format`": {
+                    "type": "number"
                   },
                   "boolean": {
                     "type": "boolean",

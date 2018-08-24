@@ -103,31 +103,35 @@ test('{ type: string, format: binary } should render as <input type="file">', ()
   expect(params.find('.field-file').length).toBe(1);
 });
 
-function testNumberClass(schema) {
-  test(`${JSON.stringify(schema)} should have correct class`, () => {
-    const params = mount(
-      <div>
-        <Params
-          {...props}
-          operation={
-            new Operation(oas, '/path', 'post', {
-              requestBody: {
-                content: {
-                  'application/json': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        a: schema,
-                      },
+function renderParams(schema) {
+  return mount(
+    <div>
+      <Params
+        {...props}
+        operation={
+          new Operation(oas, '/path', 'post', {
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: schema,
                     },
                   },
                 },
               },
-            })
-          }
-        />
-      </div>,
-    );
+            },
+          })
+        }
+      />
+    </div>,
+  );
+}
+
+function testNumberClass(schema) {
+  test(`${JSON.stringify(schema)} should have correct class`, () => {
+    const params = renderParams(schema);
 
     expect(params.find(`.field-${schema.type}.field-${schema.format}`).length).toBe(1);
   });
@@ -137,6 +141,24 @@ testNumberClass({ type: 'integer', format: 'int32' });
 testNumberClass({ type: 'integer', format: 'int64' });
 testNumberClass({ type: 'number', format: 'float' });
 testNumberClass({ type: 'number', format: 'double' });
+
+test('should not error if `integer|number` are missing `format`', () => {
+  expect(() => {
+    renderParams({ type: 'integer' });
+  }).not.toThrow(/Cannot read property 'match' of undefined/);
+});
+
+test('should default integer to int32 if missing format', () => {
+  const params = renderParams({ type: 'integer' });
+
+  expect(params.find(`.field-integer.field-int32`).length).toBe(1);
+});
+
+test('should default number to float if missing format', () => {
+  const params = renderParams({ type: 'number' });
+
+  expect(params.find(`.field-number.field-float`).length).toBe(1);
+});
 
 describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
