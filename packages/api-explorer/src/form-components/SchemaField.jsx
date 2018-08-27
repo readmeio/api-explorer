@@ -3,7 +3,14 @@ const PropTypes = require('prop-types');
 
 const BaseSchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
 
+function getDefaultNumFormat(type) {
+  if (type === 'integer') return 'int32';
+  if (type === 'number') return 'float';
+  return '';
+}
+
 function isNumType(schema, type, format) {
+  schema.format = schema.format || getDefaultNumFormat(schema.type);
   return schema.type === type && schema.format.match(format);
 }
 
