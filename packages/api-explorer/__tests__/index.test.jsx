@@ -168,12 +168,7 @@ describe('oas', () => {
   });
 
   it('should set it to empty object', () => {
-    const explorer = shallow(
-      <ApiExplorer
-        {...props}
-        docs={[baseDoc]}
-      />,
-    );
+    const explorer = shallow(<ApiExplorer {...props} docs={[baseDoc]} />);
 
     expect(explorer.find('Doc').get(0).props.oas).toEqual({});
   });
