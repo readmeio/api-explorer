@@ -19,7 +19,13 @@ class EndpointErrorBoundary extends React.Component {
       return (
         <div className="hub-reference-section">
           <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
-            <h3>There was an error rendering this endpoint. Please contact <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a> with the following error:</h3>
+            <h3>
+              There was an error rendering this endpoint. Please contact{' '}
+              <a href="mailto:support@readme.io?subject=API Explorer Error">
+                support@readme.io
+              </a>{' '}
+              with the following error:
+            </h3>
             <pre>
               {this.state.error && this.state.error.toString()}
               {this.state.info.componentStack}
@@ -27,7 +33,7 @@ class EndpointErrorBoundary extends React.Component {
           </div>
           <div className="hub-reference-right" />
         </div>
-      )
+      );
     }
     return this.props.children;
   }
@@ -35,6 +41,6 @@ class EndpointErrorBoundary extends React.Component {
 
 EndpointErrorBoundary.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
 module.exports = EndpointErrorBoundary;

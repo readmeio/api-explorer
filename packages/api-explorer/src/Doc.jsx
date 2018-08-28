@@ -230,7 +230,7 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        { this.props.flags.stripe ? this.themeStripe(doc) : this.themeMain(doc) }
+        {this.props.flags.stripe ? this.themeStripe(doc) : this.themeMain(doc)}
       </EndpointErrorBoundary>
     );
   }

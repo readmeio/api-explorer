@@ -308,21 +308,27 @@ test('should output with an error message if the endpoint fails to load', () => 
   const brokenOas = {
     paths: {
       '/path': {
-        'post': {
+        post: {
           requestBody: {
             $ref: '#/components/schemas/UnknownSchema',
           },
-        }
-      }
-    }
+        },
+      },
+    },
   };
 
   const doc = mount(
     <Doc
       {...props}
       oas={brokenOas}
-      doc={{ title: 'title', slug: 'slug', type: 'endpoint', swagger: { path: '/path' }, api: { method: 'post' } }}
-    />
+      doc={{
+        title: 'title',
+        slug: 'slug',
+        type: 'endpoint',
+        swagger: { path: '/path' },
+        api: { method: 'post' },
+      }}
+    />,
   );
 
   doc.setState({ showEndpoint: true });
