@@ -90,7 +90,7 @@ class ResponseSchema extends React.Component {
 
   render() {
     const { operation } = this.props;
-    if (!operation.responses) return null;
+    if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
 
     return (
       <div className="hub-reference-response-definitions">

@@ -3,74 +3,79 @@ const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
-const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWidget').default;
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
 
-const ObjectField = require('./form-components/ObjectField');
-const ArrayField = require('./form-components/ArrayField');
-const SchemaField = require('./form-components/SchemaField');
-const FieldTemplateWrapper = require('./form-components/FieldTemplate');
 const DescriptionField = require('./form-components/DescriptionField');
-const CheckboxWidget = require('./form-components/CheckboxWidget');
-
+const createBaseInput = require('./form-components/BaseInput');
+const createSelectWidget = require('./form-components/SelectWidget');
+const createArrayField = require('./form-components/ArrayField');
+const createSchemaField = require('./form-components/SchemaField');
+const createTextareaWidget = require('./form-components/TextareaWidget');
+const createFileWidget = require('./form-components/FileWidget');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
-function Params({ oas, operation, formData, onChange, onSubmit }) {
+function Params({
+  oas,
+  operation,
+  formData,
+  onChange,
+  onSubmit,
+  BaseInput,
+  SelectWidget,
+  ArrayField,
+  SchemaField,
+  TextareaWidget,
+  FileWidget,
+}) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
-  const FieldTemplate = FieldTemplateWrapper(oas);
+
   return (
-    <div className="api-manager">
-      <div className="param-table">
-        {jsonSchema &&
-          jsonSchema.map(schema => {
-            return [
-              <div className="param-header" key={`${schema.type}-header`}>
-                <h3>{schema.label}</h3>
-                <div className="param-header-border" />
-              </div>,
-              <Form
-                key={`${schema.type}-form`}
-                id={`form-${operation.operationId}`}
-                schema={schema.schema}
-                widgets={{
-                  int64: UpDownWidget,
-                  int32: UpDownWidget,
-                  double: UpDownWidget,
-                  float: UpDownWidget,
-                  binary: FileWidget,
-                  byte: TextWidget,
-                  uuid: TextWidget,
-                  duration: TextWidget,
-                  dateTime: DateTimeWidget,
-                  integer: UpDownWidget,
-                  CheckboxWidget,
-                  TextWidget,
-                }}
-                onSubmit={onSubmit}
-                formData={formData[schema.type]}
-                onChange={form => {
-                  // return onChange({ [schema.type]: { $set: form.formData } })
-                  return onChange({ [schema.type]: form.formData });
-                }}
-                FieldTemplate={FieldTemplate}
-                fields={{
-                  ObjectField,
-                  ArrayField,
-                  SchemaField,
-                  TitleField: () => null,
-                  DescriptionField,
-                }}
-              >
-                <button type="submit" style={{ display: 'none' }} />
-              </Form>,
-            ];
-          })}
-      </div>
-    </div>
+    jsonSchema &&
+    jsonSchema.map(schema => {
+      return [
+        <div className="param-type-header" key={`${schema.type}-header`}>
+          <h3>{schema.label}</h3>
+          <div className="param-header-border" />
+        </div>,
+        <Form
+          key={`${schema.type}-form`}
+          id={`form-${operation.operationId}`}
+          idPrefix={operation.operationId}
+          schema={schema.schema}
+          widgets={{
+            int64: UpDownWidget,
+            int32: UpDownWidget,
+            double: UpDownWidget,
+            float: UpDownWidget,
+            binary: FileWidget,
+            byte: TextWidget,
+            uuid: TextWidget,
+            duration: TextWidget,
+            dateTime: DateTimeWidget,
+            integer: UpDownWidget,
+            json: TextareaWidget,
+            BaseInput,
+            SelectWidget,
+          }}
+          onSubmit={onSubmit}
+          formData={formData[schema.type]}
+          onChange={form => {
+            return onChange({ [schema.type]: form.formData });
+          }}
+          fields={{
+            DescriptionField,
+            ArrayField,
+            SchemaField,
+          }}
+        >
+          <button type="submit" style={{ display: 'none' }} />
+        </Form>,
+      ];
+    })
   );
 }
 
@@ -80,6 +85,35 @@ Params.propTypes = {
   formData: PropTypes.shape({}).isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  BaseInput: PropTypes.func.isRequired,
+  SelectWidget: PropTypes.func.isRequired,
+  ArrayField: PropTypes.func.isRequired,
+  SchemaField: PropTypes.func.isRequired,
+  TextareaWidget: PropTypes.func.isRequired,
+  FileWidget: PropTypes.func.isRequired,
 };
 
-module.exports = Params;
+function createParams(oas) {
+  const BaseInput = createBaseInput(oas);
+  const SelectWidget = createSelectWidget(oas);
+  const ArrayField = createArrayField(oas);
+  const SchemaField = createSchemaField();
+  const TextareaWidget = createTextareaWidget(oas);
+  const FileWidget = createFileWidget(oas);
+
+  return props => {
+    return (
+      <Params
+        {...props}
+        BaseInput={BaseInput}
+        SelectWidget={SelectWidget}
+        ArrayField={ArrayField}
+        SchemaField={SchemaField}
+        TextareaWidget={TextareaWidget}
+        FileWidget={FileWidget}
+      />
+    );
+  };
+}
+
+module.exports = createParams;

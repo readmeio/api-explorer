@@ -70,6 +70,10 @@ function getResponseContentType(content) {
   return type;
 }
 
+function isPrimitive(val) {
+  return typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean';
+}
+
 module.exports = (
   oas,
   pathOperation = { path: '', method: '' },
@@ -82,7 +86,10 @@ module.exports = (
     queryString: [],
     postData: {},
     method: pathOperation.method.toUpperCase(),
-    url: `${oas.servers ? oas.servers[0].url : ''}${pathOperation.path}`.replace(/\s/g, '%20'),
+    url: `${oas.servers ? oas.servers[0].url : 'https://example.com'}${pathOperation.path}`.replace(
+      /\s/g,
+      '%20',
+    ),
   };
 
   // Add protocol to urls starting with // e.g. //example.com
@@ -149,15 +156,42 @@ module.exports = (
 
   const schema = getSchema(pathOperation, oas) || { schema: {} };
 
+  function stringify(json) {
+    // Default to JSON.stringify
+    har.postData.text = JSON.stringify(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json);
+  }
+
   if (schema.schema && Object.keys(schema.schema).length) {
     // If there is formData, then the type is application/x-www-form-urlencoded
     if (Object.keys(formData.formData).length) {
       har.postData.text = querystring.stringify(formData.formData);
-    } else if (Object.keys(formData.body).length) {
-      // Default to JSON.stringify
-      har.postData.text = JSON.stringify(
-        typeof formData.body.RAW_BODY !== 'undefined' ? formData.body.RAW_BODY : formData.body,
-      );
+    } else if (isPrimitive(formData.body) || Object.keys(formData.body).length) {
+      try {
+        // Find all `{ type: string, format: json }` properties in the schema
+        // because we need to manually JSON.parse them before submit, otherwise
+        // they'll be escaped instead of actual objects
+        const jsonTypes = Object.keys(schema.schema.properties).filter(
+          key => schema.schema.properties[key].format === 'json',
+        );
+        if (jsonTypes.length) {
+          // We have to clone the body object, otherwise the form
+          // will attempt to re-render with an object, which will
+          // cause it to error!
+          const cloned = JSON.parse(JSON.stringify(formData.body));
+          jsonTypes.forEach(prop => {
+            // Attempt to JSON parse each of the json properties
+            // if this errors, it'll just get caught and stringify it normally
+            cloned[prop] = JSON.parse(cloned[prop]);
+          });
+          stringify(cloned);
+        } else {
+          stringify(formData.body);
+        }
+      } catch (e) {
+        // If anything goes wrong in the above, assume that it's invalid JSON
+        // and stringify it
+        stringify(formData.body);
+      }
     }
   }
 

@@ -25,16 +25,66 @@ beforeEach(async () => {
       },
     },
     new FetchResponse('{}', {
-      headers: {},
+      headers: {
+        'content-type': 'application/json',
+      },
     }),
   );
 });
 
 describe('Response body', () => {
-  test('should display result body by default', () => {
+  test('should display json viewer if response is json', () => {
     const responseBody = mount(<ResponseBody {...props} oas={oas} />);
 
+    expect(responseBody.find('.react-json-view').length).toBe(1);
+  });
+
+  test('should display json viewer if response is json with charset', async () => {
+    props.result = await parseResponse(
+      {
+        log: {
+          entries: [
+            { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
+          ],
+        },
+      },
+      new FetchResponse('{}', {
+        headers: {
+          'content-type': 'application/json; charset=utf-8',
+        },
+      }),
+    );
+
+    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+
+    expect(responseBody.find('.react-json-view').length).toBe(1);
+  });
+
+  test('should not display json result if body is a string', async () => {
+    props.result = await parseResponse(
+      {
+        log: {
+          entries: [
+            { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
+          ],
+        },
+      },
+      new FetchResponse(
+        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><apiResponse><message>something bad happened</message><type>unknown</type></apiResponse>',
+        {
+          headers: {
+            'content-type': 'application/xml',
+          },
+        },
+      ),
+    );
+
+    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+
+    expect(responseBody.find('.react-json-view').length).toBe(0);
     expect(responseBody.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
+    // Making sure it is syntax highlighted as xml
+    expect(responseBody.html().indexOf('cm-meta') > -1).toBe(true);
   });
 
   test('should not display responseBody if isBinary is true', async () => {

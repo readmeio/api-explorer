@@ -9,7 +9,7 @@ const Waypoint = require('react-waypoint');
 const { Fragment } = React;
 
 const PathUrl = require('./PathUrl');
-const Params = require('./Params');
+const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
@@ -37,6 +37,7 @@ class Doc extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
+    this.Params = createParams(this.oas);
 
     this.setApiKey();
   }
@@ -235,7 +236,7 @@ class Doc extends React.Component {
 
   renderParams() {
     return (
-      <Params
+      <this.Params
         oas={this.oas}
         operation={this.getOperation()}
         formData={this.state.formData}

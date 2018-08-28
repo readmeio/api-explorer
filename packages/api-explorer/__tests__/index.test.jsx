@@ -135,16 +135,42 @@ describe('oas', () => {
     expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
   });
 
-  it('should set it to empty object', () => {
+  it('should fetch it from `doc.api.apiSetting` if it is a string', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[baseDoc]}
+        docs={[
+          Object.assign({}, baseDoc, {
+            api: { method: 'get', apiSetting: 'api-setting' },
+          }),
+        ]}
       />,
     );
+
+    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+  });
+
+  // Of course... `typeof null === 'object'`
+  it('should not error if `doc.api.apiSetting` is null', () => {
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        docs={[
+          Object.assign({}, baseDoc, {
+            api: { method: 'get', apiSetting: null },
+          }),
+        ]}
+      />,
+    );
+
+    expect(explorer.find('Doc').get(0).props.oas).toEqual({});
+  });
+
+  it('should set it to empty object', () => {
+    const explorer = shallow(<ApiExplorer {...props} docs={[baseDoc]} />);
 
     expect(explorer.find('Doc').get(0).props.oas).toEqual({});
   });

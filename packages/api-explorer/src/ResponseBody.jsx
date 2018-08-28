@@ -1,19 +1,48 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
+const ReactJson = require('react-json-view').default;
 
 const oauthHref = require('./lib/oauth-href');
 
 function Authorized({ result }) {
+  const isJson = result.type && result.type.includes('application/json');
   return (
-    <pre className="tomorrow-night">
+    <div>
       {result.isBinary && <div>A binary file was returned</div>}
-      {!result.isBinary && (
-        <div className="cm-s-tomorrow-night codemirror-highlight">
-          {syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript')}
-        </div>
+      {!result.isBinary &&
+      isJson && (
+        <ReactJson
+          src={result.responseBody}
+          collapsed={1}
+          collapseStringsAfterLength={100}
+          enableClipboard={false}
+          theme="tomorrow"
+          name={null}
+          displayDataTypes={false}
+          displayObjectSize={false}
+          style={{
+            padding: '20px 10px',
+            backgroundColor: 'transparent',
+            fontSize: '12px',
+          }}
+        />
       )}
-    </pre>
+      {!result.isBinary &&
+      !isJson && (
+        <pre className="tomorrow-night">
+          <div
+            className="cm-s-tomorrow-night codemirror-highlight"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: syntaxHighlighter(result.responseBody, result.type),
+            }}
+          >
+          {syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript')}
+          </div>
+        </pre>
+      )}
+    </div>
   );
 }
 

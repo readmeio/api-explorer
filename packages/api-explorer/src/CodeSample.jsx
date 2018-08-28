@@ -5,6 +5,8 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
+const CopyCode = require('./CopyCode');
+
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 const generateCodeSnippet = require('./lib/generate-code-snippet');
@@ -36,13 +38,16 @@ class CodeSample extends React.Component {
         <div className="code-sample-body">
           {examplesWithLanguages.map(example => {
             return (
-              <pre
-                className="tomorrow-night tabber-body"
-                style={{ display: this.props.language === example.language ? 'block' : '' }}
-                key={example.language}
-              >
+              <div style={{ display: this.props.language === example.language ? 'block' : 'none' }}>
+                <CopyCode key={`copy-${example.language}`} code={example.code} />
+                <pre
+                  className="tomorrow-night tabber-body"
+                  key={example.language} // eslint-disable-line react/no-array-index-key
+                  style={{ display: this.props.language === example.language ? 'block' : '' }}
+                >
                 {syntaxHighlighter(example.code || '', example.language, { dark: true })}
-              </pre>
+                </pre>
+              </div>
             );
           })}
         </div>
@@ -56,11 +61,11 @@ class CodeSample extends React.Component {
     return (
       <div className="code-sample tabber-parent">
         {(() => {
+          if (examples.length) return this.renderExamples(examples, setLanguage);
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }
-          if (examples.length) return this.renderExamples(examples, setLanguage);
-          const snippet = generateCodeSnippet(oas, operation, formData, language);
+          const { snippet, code } = generateCodeSnippet(oas, operation, formData, language);
           return (
             <div>
               <ul className="code-sample-tabs">
@@ -84,7 +89,12 @@ class CodeSample extends React.Component {
                 ))}
               </ul>
               <div className="hub-code-auto">
-                <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
+                <CopyCode code={code} />
+                <pre
+                  className={`tomorrow-night hub-lang hub-lang-${language}`}
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{ __html: snippet }}
+                />
               </div>
             </div>
           );

@@ -97,6 +97,14 @@ test('should return array for response headers', async () => {
   ]);
 });
 
+test('should return `type` from content-type header', async () => {
+  expect((await codeSampleResponse(har, response)).type).toEqual('application/json');
+});
+
+test('should return null for `type` if content-type header missing', async () => {
+  expect((await codeSampleResponse(har, new Response(responseBody))).type).toEqual(null);
+});
+
 test('should remove x-final-url header set by the proxy', async () => {
   expect(
     (await codeSampleResponse(
@@ -136,4 +144,14 @@ test('should parse non-json response as text', async () => {
   expect((await codeSampleResponse(har, nonJsonResponse)).responseBody).toEqual(
     nonJsonResponseBody,
   );
+});
+
+test('should not error if invalid json is returned', async () => {
+  const invalidJsonResponse = new Response('plain text', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  expect((await codeSampleResponse(har, invalidJsonResponse)).responseBody).toEqual('plain text');
 });

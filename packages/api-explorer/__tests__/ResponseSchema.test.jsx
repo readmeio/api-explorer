@@ -52,3 +52,20 @@ test('should work if there are no responses', () => {
 
   expect(responseSchema.html()).toBe(null);
 });
+
+test('should work if responses is an empty object', () => {
+  const responseSchema = shallow(
+    <ResponseSchema
+      operation={
+        new Operation(
+          {},
+          '/',
+          'get',
+          Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: {} }),
+        )
+      }
+    />,
+  );
+
+  expect(responseSchema.html()).toBe(null);
+});

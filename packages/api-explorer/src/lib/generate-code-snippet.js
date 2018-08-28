@@ -74,9 +74,9 @@ module.exports = (oas, operation, values, lang) => {
     return undefined;
   }
 
-  return syntaxHighlighter(snippet.convert(...language.httpsnippet), language.highlight, {
-    dark: true,
-  });
+  const code = snippet.convert(...language.httpsnippet);
+
+  return { snippet: syntaxHighlighter(code, language.highlight, { dark: true }), code };
 };
 
 module.exports.getLangName = lang =>

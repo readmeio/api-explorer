@@ -71,3 +71,15 @@ test('should work for html', () => {
     '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span></span>',
   );
 });
+
+test('should work for php without opening tag', () => {
+  expect(syntaxHighlighter('echo "Hello World";', 'php')).toContain('cm-keyword');
+});
+
+test('should work for kotlin', () => {
+  expect(syntaxHighlighter('println("$index: $element")', 'kotlin')).toContain('cm-variable');
+});
+
+test('should work for go', () => {
+  expect(syntaxHighlighter('func main() {}', 'go')).toContain('cm-variable');
+});

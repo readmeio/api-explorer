@@ -13,6 +13,8 @@ require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/python/python');
 require('codemirror/mode/clike/clike');
 require('codemirror/mode/htmlmixed/htmlmixed');
+require('codemirror/mode/php/php');
+require('codemirror/mode/go/go');
 
 // This is a mapping of potential languages
 // that do not have a direct codemirror mode for them
@@ -42,8 +44,11 @@ const modes = {
   java: ['clike', 'text/x-java'],
   scala: ['clike', 'text/x-scala'],
   objectivec: ['clike', 'text/x-objectivec'],
+  kotlin: ['clike', 'text/x-kotlin'],
   liquid: 'htmlmixed',
   scss: 'css',
+  php: ['php', 'text/x-php'],
+  go: ['go', 'text/x-go'],
 };
 
 function getMode(lang) {

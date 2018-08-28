@@ -84,6 +84,34 @@ describe('code examples', () => {
     expect(codeSample.find('pre.tomorrow-night.tabber-body').length).toBe(1);
   });
 
+  test('should display custom examples even if SAMPLES_ENABLED is false', () => {
+    const docProps = {
+      setLanguage: () => {},
+      operation: new Operation({}, '/pet/{id}', 'get'),
+      language: 'node',
+      examples: [
+        {
+          language: 'javascript',
+          code: 'console.log(1);',
+        },
+      ],
+    };
+    const codeSample = shallow(
+      <CodeSample
+        {...docProps}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: false,
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
+      />,
+    );
+
+    expect(codeSample.find('.code-sample-body').length).toBe(1);
+    expect(codeSample.find('pre.tomorrow-night.tabber-body').length).toBe(1);
+  });
+
   test('should not error if no code given', () => {
     const docProps = {
       setLanguage: () => {},
