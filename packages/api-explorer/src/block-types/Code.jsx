@@ -65,7 +65,7 @@ class BlockCode extends React.Component {
                   // eslint-disable-next-line react/no-array-index-key
                   <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
                     <code>
-                    {syntaxHighlighter(code.code, code.language, { dark, tokenizeVariables: true })}
+                      {syntaxHighlighter(code.code, code.language, { dark, tokenizeVariables: true })}
                     </code>
                   </pre>
                 }

@@ -45,7 +45,7 @@ class CodeSample extends React.Component {
                   key={example.language} // eslint-disable-line react/no-array-index-key
                   style={{ display: this.props.language === example.language ? 'block' : '' }}
                 >
-                {syntaxHighlighter(example.code || '', example.language, { dark: true })}
+                  {syntaxHighlighter(example.code || '', example.language, { dark: true })}
                 </pre>
               </div>
             );

@@ -31,14 +31,8 @@ function Authorized({ result }) {
       {!result.isBinary &&
       !isJson && (
         <pre className="tomorrow-night">
-          <div
-            className="cm-s-tomorrow-night codemirror-highlight"
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: syntaxHighlighter(result.responseBody, result.type),
-            }}
-          >
-          {syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript')}
+          <div className="cm-s-tomorrow-night codemirror-highlight">
+            {syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript')}
           </div>
         </pre>
       )}
