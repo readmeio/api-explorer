@@ -50,7 +50,7 @@ class ApiExplorer extends React.Component {
     const apiSetting =
       doc.category.apiSetting ||
       (typeof doc.api.apiSetting === 'string' && doc.api.apiSetting) ||
-      (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting._id);
+      (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
 
     return this.props.oasFiles[apiSetting];
   }
