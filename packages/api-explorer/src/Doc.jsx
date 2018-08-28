@@ -13,6 +13,7 @@ const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
+const EndpointErrorBoundary = require('./EndpointErrorBoundary');
 
 const Oas = require('./lib/Oas');
 // const showCode = require('./lib/show-code');
@@ -227,11 +228,11 @@ class Doc extends React.Component {
   renderEndpoint() {
     const { doc } = this.props;
 
-    if (this.props.flags.stripe) {
-      return this.themeStripe(doc);
-    }
-
-    return this.themeMain(doc);
+    return (
+      <EndpointErrorBoundary>
+        { this.props.flags.stripe ? this.themeStripe(doc) : this.themeMain(doc) }
+      </EndpointErrorBoundary>
+    );
   }
 
   renderParams() {

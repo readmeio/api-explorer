@@ -363,6 +363,23 @@
           }
         }
       }
+    },
+    "/anything/error-boundary": {
+      "post": {
+        "summary": "Demo for error boundary if there is an error rendering the endpoint",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnknownSchema"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-explorer-enabled": true,
