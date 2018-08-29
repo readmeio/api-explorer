@@ -73,13 +73,15 @@ test('should work for html', () => {
 });
 
 test('should work for php without opening tag', () => {
-  expect(syntaxHighlighter('echo "Hello World";', 'php')).toContain('cm-keyword');
+  expect(shallow(syntaxHighlighter('echo "Hello World";', 'php')).html()).toContain('cm-keyword');
 });
 
 test('should work for kotlin', () => {
-  expect(syntaxHighlighter('println("$index: $element")', 'kotlin')).toContain('cm-variable');
+  expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain(
+    'cm-variable',
+  );
 });
 
 test('should work for go', () => {
-  expect(syntaxHighlighter('func main() {}', 'go')).toContain('cm-variable');
+  expect(shallow(syntaxHighlighter('func main() {}', 'go')).html()).toContain('cm-variable');
 });

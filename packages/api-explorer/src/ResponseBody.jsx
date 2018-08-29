@@ -32,7 +32,7 @@ function Authorized({ result }) {
       !isJson && (
         <pre className="tomorrow-night">
           <div className="cm-s-tomorrow-night codemirror-highlight">
-            {syntaxHighlighter(JSON.stringify(result.responseBody), 'javascript')}
+            {syntaxHighlighter(result.responseBody, result.type)}
           </div>
         </pre>
       )}
