@@ -1,9 +1,10 @@
-const syntaxHighlighter = require('@readme/syntax-highlighter');
-const statusCodes = require('../lib/statuscodes');
-const CopyCode = require('../CopyCode');
 const PropTypes = require('prop-types');
 const React = require('react');
 const classNames = require('classnames');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
+
+const CodeElement = require('./CodeElement');
+const statusCodes = require('../lib/statuscodes');
 
 const { uppercase } = syntaxHighlighter;
 
@@ -58,22 +59,9 @@ class BlockCode extends React.Component {
           )}
 
           <div className="block-code-code">
-            {codes.map((code, i) => (
-              <div style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
-                <CopyCode code={code.code} />
-                {
-                  // eslint-disable-next-line react/no-array-index-key
-                  <pre key={i} style={{ display: i === this.state.activeTab ? 'block' : 'none' }}>
-                    <code>
-                      {syntaxHighlighter(code.code, code.language, {
-                        dark,
-                        tokenizeVariables: true,
-                      })}
-                    </code>
-                  </pre>
-                }
-              </div>
-            ))}
+            {codes.map((code, i) => {
+              return <CodeElement code={code} activeTab={i === this.state.activeTab} dark={dark} />;
+            })}
           </div>
         </div>
       </span>
