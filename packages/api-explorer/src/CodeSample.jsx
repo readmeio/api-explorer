@@ -90,9 +90,7 @@ class CodeSample extends React.Component {
               </ul>
               <div className="hub-code-auto">
                 <CopyCode code={code} />
-                <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>
-                  {snippet}
-                </pre>
+                <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
               </div>
             </div>
           );
