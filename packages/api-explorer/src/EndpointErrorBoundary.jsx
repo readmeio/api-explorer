@@ -27,7 +27,7 @@ class EndpointErrorBoundary extends React.Component {
               </a>{' '}
               with the following error:
             </h3>
-            <pre>
+            <pre style={{ whiteSpace: 'pre-wrap' }}>
               {this.state.error && this.state.error.toString()}
               {this.state.info.componentStack}
             </pre>

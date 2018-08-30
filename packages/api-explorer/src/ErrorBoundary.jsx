@@ -17,14 +17,14 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.error) {
       return (
-        <div style={{ paddingLeft: '2%' }}>
+        <div style={{ paddingLeft: '2%', width: '75%' }}>
           <h3>
             There was an error rendering the API Explorer. If you are the owner of this project
             please contact{' '}
             <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a> with
             the following error:
           </h3>
-          <pre>
+          <pre style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             {this.state.info.componentStack}
           </pre>
