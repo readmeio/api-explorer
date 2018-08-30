@@ -1,6 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const BoundaryStackTrace = require('./BoundaryStackTrace');
+
 class EndpointErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -27,10 +29,7 @@ class EndpointErrorBoundary extends React.Component {
               </a>{' '}
               with the following error:
             </h3>
-            <pre style={{ whiteSpace: 'pre-wrap' }}>
-              {this.state.error && this.state.error.toString()}
-              {this.state.info.componentStack}
-            </pre>
+            <BoundaryStackTrace error={this.state.error} info={this.state.info} />
           </div>
           <div className="hub-reference-right" />
         </div>

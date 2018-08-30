@@ -1,6 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const BoundaryStackTrace = require('./BoundaryStackTrace');
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -24,10 +26,7 @@ class ErrorBoundary extends React.Component {
             <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a> with
             the following error:
           </h3>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error && this.state.error.toString()}
-            {this.state.info.componentStack}
-          </pre>
+          <BoundaryStackTrace error={this.state.error} info={this.state.info} />
         </div>
       );
     }
