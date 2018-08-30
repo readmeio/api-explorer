@@ -61,6 +61,8 @@ class Demo extends React.Component {
         {
           this.state.status.length === 0 && (
             <ApiExplorer
+              // // To test the top level error boundary, uncomment this
+              // docs={[null, null]}
               docs={this.state.docs}
               oasFiles={{
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
