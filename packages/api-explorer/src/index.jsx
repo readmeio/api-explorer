@@ -3,6 +3,7 @@ const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 
+const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
 
 class ApiExplorer extends React.Component {
@@ -99,4 +100,9 @@ ApiExplorer.defaultProps = {
   tryItMetrics: () => {},
 };
 
-module.exports = ApiExplorer;
+module.exports = props => (
+  <ErrorBoundary>
+    <ApiExplorer {...props} />
+  </ErrorBoundary>
+);
+module.exports.ApiExplorer = ApiExplorer;
