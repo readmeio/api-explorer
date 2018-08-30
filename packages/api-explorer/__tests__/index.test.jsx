@@ -33,7 +33,7 @@ test('ApiExplorer renders a doc for each', () => {
 test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
   // Prompting an error with an array of nulls instead of Docs
   // This is to simulate some unknown error state during initial render
-  const explorer = shallow(<WrappedApiExplorer {...props} docs={[null, null]} />);
+  const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
 
   expect(explorer.find('ErrorBoundary').length).toBe(1);
 });
