@@ -227,7 +227,7 @@ class Doc extends React.Component {
   renderEndpoint() {
     const { doc } = this.props;
 
-    if (this.props.flags.stripe) {
+    if (this.props.appearance.columnReferenceLayout) {
       return this.themeStripe(doc);
     }
 
@@ -348,8 +348,8 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
-  flags: PropTypes.shape({
-    stripe: PropTypes.bool,
+  appearance: PropTypes.shape({
+    columnReferenceLayout: PropTypes.bool,
   }),
   language: PropTypes.string.isRequired,
   oauth: PropTypes.bool.isRequired,

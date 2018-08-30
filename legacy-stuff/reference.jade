@@ -2,7 +2,7 @@ extends ../partial
 include mixins
 
 block content
-  - var theme = project.flags.stripe ? 'stripe' : ''
+  - var theme = project.appearance.columnReferenceLayout ? 'stripe' : ''
 
   #hub-reference.content-body.hub-reference-sticky(class="hub-reference-theme-"+theme)
     if isPreview

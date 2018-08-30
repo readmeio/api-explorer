@@ -55,7 +55,7 @@ class ApiExplorer extends React.Component {
     return this.props.oasFiles[apiSetting];
   }
   render() {
-    const theme = this.props.flags.stripe ? 'stripe' : '';
+    const theme = this.props.appearance.columnReferenceLayout ? 'stripe' : '';
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
@@ -85,8 +85,8 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
-  flags: PropTypes.shape({
-    stripe: PropTypes.bool,
+  appearance: PropTypes.shape({
+    columnReferenceLayout: PropTypes.bool,
   }).isRequired,
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
