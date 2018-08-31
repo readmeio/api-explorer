@@ -98,6 +98,12 @@ module.exports = (
     har.url = `https:${har.url}`;
   }
 
+  // Add protocol to urls with no // within them
+  // This is because httpsnippet throws a HARError when it doesnt have a protocol
+  if (!har.url.match(/\/\//)) {
+    har.url = `https://${har.url}`;
+  }
+
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
   }
