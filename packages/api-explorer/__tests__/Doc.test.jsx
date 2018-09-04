@@ -1,4 +1,4 @@
-const extensions = require('@readme/oas-extensions/');
+const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
 
 global.Request = Request;
@@ -302,4 +302,36 @@ describe('`apiKey`', () => {
 
     expect(doc.state('formData').auth).toEqual({ api_key: apiKey });
   });
+});
+
+test('should output with an error message if the endpoint fails to load', () => {
+  const brokenOas = {
+    paths: {
+      '/path': {
+        post: {
+          requestBody: {
+            $ref: '#/components/schemas/UnknownSchema',
+          },
+        },
+      },
+    },
+  };
+
+  const doc = mount(
+    <Doc
+      {...props}
+      oas={brokenOas}
+      doc={{
+        title: 'title',
+        slug: 'slug',
+        type: 'endpoint',
+        swagger: { path: '/path' },
+        api: { method: 'post' },
+      }}
+    />,
+  );
+
+  doc.setState({ showEndpoint: true });
+
+  expect(doc.find('EndpointErrorBoundary').length).toBe(1);
 });

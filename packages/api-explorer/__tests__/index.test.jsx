@@ -2,7 +2,9 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
-const ApiExplorer = require('../src');
+const WrappedApiExplorer = require('../src');
+
+const { ApiExplorer } = WrappedApiExplorer;
 
 const oas = require('./fixtures/petstore/oas');
 
@@ -26,6 +28,14 @@ test('ApiExplorer renders a doc for each', () => {
   const explorer = shallow(<ApiExplorer {...props} />);
 
   expect(explorer.find('Doc').length).toBe(docs.length);
+});
+
+test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
+  // Prompting an error with an array of nulls instead of Docs
+  // This is to simulate some unknown error state during initial render
+  const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
+
+  expect(explorer.find('ErrorBoundary').length).toBe(1);
 });
 
 describe('selected language', () => {

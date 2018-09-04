@@ -17,5 +17,5 @@ module.exports = merge(common, {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-source-map',
 });
