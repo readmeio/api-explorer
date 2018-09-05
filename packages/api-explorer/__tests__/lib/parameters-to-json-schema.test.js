@@ -350,4 +350,4 @@ test('it should pull out schemas from `components/requestBodies`', () => {
   ]);
 });
 
-test('it should make things required correctly');
+test.skip('it should make things required correctly', () => {});

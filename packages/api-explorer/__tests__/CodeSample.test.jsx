@@ -15,7 +15,7 @@ const props = {
 
 describe('tabs', () => {
   // TODO this doesnt work in readme
-  test('should display tabs if there are examples in the oas file');
+  test.skip('should display tabs if there are examples in the oas file', () => {});
 
   test('should display tabs if SAMPLES_ENABLED is true', () => {
     const languages = ['node', 'curl'];

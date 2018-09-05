@@ -19,6 +19,14 @@ npm install --save @readme/api-explorer
   flags={Object}
   oauth={Boolean}
   suggestedEdits={Boolean}
+  tryItMetrics={function}
+  variables={
+    user: {
+      keys: Array,
+    },
+    defaults: Array,
+  }
+  glossaryTerms={Array}
 />
 ```
 
@@ -34,6 +42,10 @@ npm install --save @readme/api-explorer
 - `flags` -  an object of project flags from readme. Changing these will modify how the API Explorer works.
 - `oauth` - whether this project uses oauth or not
 - `suggestedEdits` - whether suggested edits are enabled or not. This just toggles the button.
+- `tryItMetrics` - function to call when request is made
+- `variables.user` - user specific variables, setup via JWT login to ReadMe
+- `variables.defaults` - default project variables
+- `glossaryTerms` - glossary terms defined in the ReadMe project
 
 ## Credits
 [Dom Harrington](https://github.com/domharrington)

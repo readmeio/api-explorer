@@ -13,6 +13,9 @@ module.exports = {
         exclude: /node_modules\/(?!(@readme\/syntax-highlighter|swagger2openapi|fetch-har))/,
         use: {
           loader: 'babel-loader',
+          options: {
+            extends: './.babelrc',
+          },
         },
       },
       {

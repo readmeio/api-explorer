@@ -224,12 +224,12 @@ describe('operation.prepareSecurity()', () => {
     expect(operation.prepareSecurity().Header.length).toBe(1);
   });
 
-  test('should set a `key` property');
+  test.skip('should set a `key` property', () => {});
 
   // TODO We dont currently support cookies?
-  test('apiKey/cookie: should return with a type of Cookie');
+  test.skip('apiKey/cookie: should return with a type of Cookie', () => {});
 
-  test('should throw if attempting to use a non-existent scheme');
+  test.skip('should throw if attempting to use a non-existent scheme', () => {});
 
   test('should return empty object if no security', () => {
     const operation = new Oas(multipleSecurities).operation('/no-auth', 'post');

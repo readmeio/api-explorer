@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('../lib/markdown');
+const markdown = require('@readme/markdown');
 
 const ImageBlock = ({ block, flags }) => {
   const myImage = block.data.images.map((image, i) => {
@@ -22,10 +22,7 @@ const ImageBlock = ({ block, flags }) => {
                 <img src={image.image[0]} alt={image.caption} />
               </a>
             </figure>
-            {image.caption && (
-              // eslint-disable-next-line react/no-danger
-              <figcaption dangerouslySetInnerHTML={{ __html: markdown(image.caption, flags) }} />
-            )}
+            {image.caption && <figcaption>{markdown(image.caption, flags)}</figcaption>}
           </div>
         )}
       </div>

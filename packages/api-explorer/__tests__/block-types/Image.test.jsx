@@ -54,6 +54,6 @@ describe('Image', () => {
         .find('figcaption')
         .render()
         .text(),
-    ).toBe('doggo\n');
+    ).toBe('doggo');
   });
 });
