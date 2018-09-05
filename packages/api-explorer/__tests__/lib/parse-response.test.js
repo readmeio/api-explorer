@@ -90,6 +90,47 @@ test('should return array for request headers', async () => {
   ).toEqual(['Authorization: Bearer api-key', 'Authorization1: Bearer api-key1']);
 });
 
+test('should return with post data if set', async () => {
+  expect(
+    (await parseResponse(
+      createHar({
+        headers: [],
+        postData: {
+          text: JSON.stringify({ a: 1 }),
+        },
+        url,
+      }),
+      response,
+    )).requestBody,
+  ).toEqual(JSON.stringify({ a: 1 }));
+});
+
+test('should return with null if postData is empty object', async () => {
+  expect(
+    (await parseResponse(
+      createHar({
+        headers: [],
+        postData: {},
+        url,
+      }),
+      response,
+    )).requestBody,
+  ).toEqual(null);
+});
+
+test('should return with null if postData is undefined', async () => {
+  expect(
+    (await parseResponse(
+      createHar({
+        headers: [],
+        url,
+      }),
+      response,
+    )).requestBody,
+  ).toEqual(null);
+});
+
+
 test('should return array for response headers', async () => {
   expect((await parseResponse(har, response)).responseHeaders).toEqual([
     'content-type: application/json',
