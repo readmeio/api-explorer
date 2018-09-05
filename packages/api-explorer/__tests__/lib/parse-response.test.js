@@ -1,4 +1,4 @@
-const codeSampleResponse = require('../../src/lib/parse-response');
+const parseResponse = require('../../src/lib/parse-response');
 const { Headers, Response } = require('node-fetch');
 
 function createHar(har) {
@@ -43,12 +43,12 @@ beforeEach(() => {
 });
 
 test('should pass through URL with proxy removed', async () => {
-  expect((await codeSampleResponse(har, response)).url).toBe('http://petstore.swagger.io/v2/pet');
+  expect((await parseResponse(har, response)).url).toBe('http://petstore.swagger.io/v2/pet');
 });
 
 test('should pass through URL with query string', async () => {
   expect(
-    (await codeSampleResponse(
+    (await parseResponse(
       createHar({
         method,
         url,
@@ -66,12 +66,12 @@ test('should pass through URL with query string', async () => {
 });
 
 test('should pass through method', async () => {
-  expect((await codeSampleResponse(har, response)).method).toBe(method);
+  expect((await parseResponse(har, response)).method).toBe(method);
 });
 
 test('should return array for request headers', async () => {
   expect(
-    (await codeSampleResponse(
+    (await parseResponse(
       createHar({
         headers: [
           {
@@ -91,23 +91,23 @@ test('should return array for request headers', async () => {
 });
 
 test('should return array for response headers', async () => {
-  expect((await codeSampleResponse(har, response)).responseHeaders).toEqual([
+  expect((await parseResponse(har, response)).responseHeaders).toEqual([
     'content-type: application/json',
     'x-custom-header: application/json',
   ]);
 });
 
 test('should return `type` from content-type header', async () => {
-  expect((await codeSampleResponse(har, response)).type).toEqual('application/json');
+  expect((await parseResponse(har, response)).type).toEqual('application/json');
 });
 
 test('should return null for `type` if content-type header missing', async () => {
-  expect((await codeSampleResponse(har, new Response(responseBody))).type).toEqual(null);
+  expect((await parseResponse(har, new Response(responseBody))).type).toEqual(null);
 });
 
 test('should remove x-final-url header set by the proxy', async () => {
   expect(
-    (await codeSampleResponse(
+    (await parseResponse(
       har,
       new Response('', {
         headers: { 'x-final-url': 'http://example.com' },
@@ -118,19 +118,19 @@ test('should remove x-final-url header set by the proxy', async () => {
 
 test('should pass through status', async () => {
   const status = 200;
-  expect((await codeSampleResponse(har, new Response('', { status }))).status).toEqual(status);
+  expect((await parseResponse(har, new Response('', { status }))).status).toEqual(status);
 });
 
 test('isBinary should be true if there is a content-disposition response header', async () => {
   const binaryHeaders = new Headers();
   binaryHeaders.set('Content-Disposition', 'attachment; filename="example.txt"');
   expect(
-    (await codeSampleResponse(har, new Response('', { headers: binaryHeaders }))).isBinary,
+    (await parseResponse(har, new Response('', { headers: binaryHeaders }))).isBinary,
   ).toEqual(true);
 });
 
 test('should parse json response', async () => {
-  expect((await codeSampleResponse(har, response)).responseBody).toEqual(JSON.parse(responseBody));
+  expect((await parseResponse(har, response)).responseBody).toEqual(JSON.parse(responseBody));
 });
 
 test('should parse non-json response as text', async () => {
@@ -141,7 +141,7 @@ test('should parse non-json response as text', async () => {
     },
   });
 
-  expect((await codeSampleResponse(har, nonJsonResponse)).responseBody).toEqual(
+  expect((await parseResponse(har, nonJsonResponse)).responseBody).toEqual(
     nonJsonResponseBody,
   );
 });
@@ -153,5 +153,5 @@ test('should not error if invalid json is returned', async () => {
     },
   });
 
-  expect((await codeSampleResponse(har, invalidJsonResponse)).responseBody).toEqual('plain text');
+  expect((await parseResponse(har, invalidJsonResponse)).responseBody).toEqual('plain text');
 });
