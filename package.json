@@ -48,8 +48,8 @@
     "babel-polyfill": "^6.26.0",
     "livereactload": "^4.0.0-beta.2",
     "prop-types": "^15.6.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "react-hot-loader": "^3.1.3",
     "swagger2openapi": "^2.9.2",
     "whatwg-fetch": "^2.0.3"

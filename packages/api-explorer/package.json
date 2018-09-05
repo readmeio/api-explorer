@@ -15,7 +15,7 @@
     "js-cookie": "^2.1.4",
     "lodash.kebabcase": "^4.1.1",
     "prop-types": "^15.5.10",
-    "react": "^16.4.1",
+    "react": "^16.4.2",
     "react-copy-to-clipboard": "^5.0.1",
     "react-json-view": "^1.19.1",
     "react-jsonschema-form": "github:domharrington/react-jsonschema-form#dist-committed",
