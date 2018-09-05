@@ -130,7 +130,6 @@ test('should return with null if postData is undefined', async () => {
   ).toEqual(null);
 });
 
-
 test('should return array for response headers', async () => {
   expect((await parseResponse(har, response)).responseHeaders).toEqual([
     'content-type: application/json',
@@ -165,9 +164,9 @@ test('should pass through status', async () => {
 test('isBinary should be true if there is a content-disposition response header', async () => {
   const binaryHeaders = new Headers();
   binaryHeaders.set('Content-Disposition', 'attachment; filename="example.txt"');
-  expect(
-    (await parseResponse(har, new Response('', { headers: binaryHeaders }))).isBinary,
-  ).toEqual(true);
+  expect((await parseResponse(har, new Response('', { headers: binaryHeaders }))).isBinary).toEqual(
+    true,
+  );
 });
 
 test('should parse json response', async () => {
@@ -182,9 +181,7 @@ test('should parse non-json response as text', async () => {
     },
   });
 
-  expect((await parseResponse(har, nonJsonResponse)).responseBody).toEqual(
-    nonJsonResponseBody,
-  );
+  expect((await parseResponse(har, nonJsonResponse)).responseBody).toEqual(nonJsonResponseBody);
 });
 
 test('should not error if invalid json is returned', async () => {
