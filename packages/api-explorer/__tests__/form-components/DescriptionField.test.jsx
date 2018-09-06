@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const DescriptionField = require('../../src/form-components/DescriptionField');
-const markdown = require('../../src/lib/markdown');
+const markdown = require('@readme/markdown');
 
 test('should parse description as markdown', () => {
   const actual = '`all` or a comma-separated list of action [fields](ref:action-object)';
@@ -10,6 +10,6 @@ test('should parse description as markdown', () => {
   expect(
     shallow(<DescriptionField description={actual} />)
       .html()
-      .indexOf(markdown(actual)) > 1,
+      .indexOf(shallow(markdown(actual)).html()) > 1,
   ).toBe(true);
 });

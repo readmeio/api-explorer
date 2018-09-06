@@ -7,4 +7,4 @@
 //   expect(() => shallow(<ApiExplorer />)).not.toThrow(/element.type is not a function/);
 // });
 
-test('This test is taking too long on CI right now');
+test.skip('This test is taking too long on CI right now', () => {});

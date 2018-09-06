@@ -7,6 +7,9 @@ module.exports = {
         exclude: /node_modules\/(?!(@readme\/syntax-highlighter|fetch-har))/,
         use: {
           loader: 'babel-loader',
+          options: {
+            extends: '../../.babelrc',
+          },
         },
       },
     ],

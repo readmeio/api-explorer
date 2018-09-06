@@ -71,11 +71,9 @@ class CodeSample extends React.Component {
                   className="tomorrow-night tabber-body"
                   key={key} // eslint-disable-line react/no-array-index-key
                   style={{ display: this.state.selectedExample === example ? 'block' : '' }}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{
-                    __html: syntaxHighlighter(example.code || '', example.language, true),
-                  }}
-                />
+                >
+                  {syntaxHighlighter(example.code || '', example.language, { dark: true })}
+                </pre>
               </div>
             );
           })}
@@ -119,11 +117,7 @@ class CodeSample extends React.Component {
               </ul>
               <div className="hub-code-auto">
                 <CopyCode code={code} />
-                <pre
-                  className={`tomorrow-night hub-lang hub-lang-${language}`}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: snippet }}
-                />
+                <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
               </div>
             </div>
           );

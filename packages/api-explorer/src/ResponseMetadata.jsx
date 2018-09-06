@@ -38,7 +38,7 @@ function ResponseMetadata({ result }) {
       </Meta>
 
       <Meta label="Request Data">
-        <pre>{JSON.stringify(result.responseBody)}</pre>
+        <pre>{result.requestBody}</pre>
       </Meta>
 
       <Meta label="Status">

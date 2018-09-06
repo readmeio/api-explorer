@@ -39,6 +39,6 @@ describe('Parameters', () => {
         .find('div.td')
         .render()
         .text(),
-    ).toBe('arbitrary\n');
+    ).toBe('arbitrary');
   });
 });

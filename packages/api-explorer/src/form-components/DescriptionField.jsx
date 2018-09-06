@@ -2,27 +2,15 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const markdown = require('../lib/markdown');
+const markdown = require('@readme/markdown');
 
 function DescriptionField(props) {
   const { id, description } = props;
-
   if (!description) return null;
-
-  if (typeof description === 'string') {
-    return (
-      <p
-        id={id}
-        className="field-description"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: markdown(description) }}
-      />
-    );
-  }
 
   return (
     <div id={id} className="field-description">
-      {description}
+      {typeof description === 'string' ? markdown(description) : description}
     </div>
   );
 }

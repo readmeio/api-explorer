@@ -2,7 +2,9 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
-const ApiExplorer = require('../src');
+const WrappedApiExplorer = require('../src');
+
+const { ApiExplorer } = WrappedApiExplorer;
 
 const oas = require('./fixtures/petstore/oas');
 
@@ -20,12 +22,22 @@ const props = {
   },
   flags: {},
   suggestedEdits: false,
+  variables: { user: {}, defaults: [] },
+  glossaryTerms: [],
 };
 
 test('ApiExplorer renders a doc for each', () => {
   const explorer = shallow(<ApiExplorer {...props} />);
 
   expect(explorer.find('Doc').length).toBe(docs.length);
+});
+
+test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
+  // Prompting an error with an array of nulls instead of Docs
+  // This is to simulate some unknown error state during initial render
+  const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
+
+  expect(explorer.find('ErrorBoundary').length).toBe(1);
 });
 
 describe('selected language', () => {
@@ -182,6 +194,55 @@ describe('apiKey', () => {
     Cookie.set('user_data', JSON.stringify({ apiKey }));
 
     const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `variables.user.apiKey`', () => {
+    const apiKey = '123456';
+
+    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `user_data.keys[].apiKey`', () => {
+    const apiKey = '123456';
+    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', apiKey }] }));
+
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `variables.user.keys[].apiKey`', () => {
+    const apiKey = '123456';
+
+    const explorer = shallow(
+      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
+    );
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `user_data.keys[].api_key`', () => {
+    const apiKey = '123456';
+    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', api_key: apiKey }] }));
+
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `user_data.keys[].api_key`', () => {
+    const apiKey = '123456';
+
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] } }}
+      />,
+    );
 
     expect(explorer.state('apiKey')).toBe(apiKey);
   });

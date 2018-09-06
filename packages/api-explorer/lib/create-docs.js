@@ -1,38 +1,29 @@
 // const body = `
-// [Test doc link](doc:doc-slug)
-// [Test blog link](blog:blog-slug)
-// [Test page link](page:page-slug)
-// [block:api-header]
-// {
-//   "title": "This is cool header",
-//   "sidebar": true
-// }
-// [/block]
-// [block:textarea]
-// {
-//   "text": "This is text area"
-// }
-// [/block]
+// \`\`\`javascript
+// var a = '<<apiKey>>';
+// var b = "<<apiKey>>";
+// \`\`\`
+// This is your <<apiKey>>.
+
 // [block:code]
 // {
 //   "codes": [
 //     {
-//       "code": "var a = 1;",
+//       "code": "<p>test</p>",
+//       "language": "html"
+//     },
+//     {
+//       "code": "var a = '<<apiKey>>';",
 //       "language": "javascript"
 //     },
 //     {
-//       "code": "System.out.println('Hello World!');",
-//       "language": "java",
-//       "name": "Java"
-//     },
-//     {
-//       "code": "<h1>HTML</h1>",
-//       "language": "html",
-//       "name": "HTML"
+//       "code": "& < > ' /",
+//       "language": "text"
 //     }
 //   ]
 // }
-// [/block]`;
+// [/block]
+// `;
 
 module.exports = (oas, apiSetting) => {
   const docs = [];

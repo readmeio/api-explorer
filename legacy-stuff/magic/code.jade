@@ -26,7 +26,3 @@ mixin block-code(data, opts)
       for code, i in data.codes
         pre(ng-if="tab == #{i}")
           code!= codemirror(code.code, code.language, opts.dark)
-
-
-
-

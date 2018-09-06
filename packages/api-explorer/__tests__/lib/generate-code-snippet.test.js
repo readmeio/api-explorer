@@ -1,3 +1,4 @@
+const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const generateCodeSnippet = require('../../src/lib/generate-code-snippet');
 
@@ -24,14 +25,13 @@ const values = { path: { id: 123 } };
 test('should generate a HTML snippet for each lang', () => {
   const { snippet } = generateCodeSnippet(oas, operation, {}, 'node');
 
-  expect(typeof snippet).toBe('string');
-  expect(snippet).toEqual(expect.stringMatching(/cm-s-tomorrow-night/));
+  expect(shallow(snippet).hasClass('cm-s-tomorrow-night')).toEqual(true);
 });
 
 test('should pass through values to code snippet', () => {
   const { snippet } = generateCodeSnippet(oas, operation, values, 'node');
 
-  expect(snippet).toEqual(expect.stringMatching('http://example.com/path/123'));
+  expect(shallow(snippet).text()).toEqual(expect.stringMatching('http://example.com/path/123'));
 });
 
 test('should not contain proxy url', () => {
@@ -42,13 +42,13 @@ test('should not contain proxy url', () => {
     'node',
   );
 
-  expect(snippet).toEqual(expect.stringMatching('http://example.com/path/123'));
+  expect(shallow(snippet).text()).toEqual(expect.stringMatching('http://example.com/path/123'));
 });
 
 test('javascript should not contain `withCredentials`', () => {
   const { snippet } = generateCodeSnippet(oas, operation, {}, 'javascript');
 
-  expect(snippet).not.toMatch(/withCredentials/);
+  expect(shallow(snippet).text()).not.toMatch(/withCredentials/);
 });
 
 test('should return with unhighlighted code', () => {
