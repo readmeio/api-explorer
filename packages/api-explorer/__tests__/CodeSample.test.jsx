@@ -196,6 +196,42 @@ describe('code examples', () => {
     expect(codeSample.find('.hub-code-auto pre').length).toBe(1);
     expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
+
+  test('should not display more than one example block at a time', () => {
+    const docProps = {
+      setLanguage: () => {},
+      operation: new Operation({}, '/pet/{id}', 'get'),
+      formData: {},
+      language: 'javascript',
+      examples: [
+        {
+          name: 'Javascript/Node.js',
+          code: 'console.log(1);',
+          language: 'javascript',
+        },
+        {
+          name: 'TypeScript',
+          code: 'console.log(1)',
+          language: 'javascript',
+        },
+      ],
+    };
+
+    const codeSample = shallow(
+      <CodeSample
+        {...docProps}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
+      />,
+    );
+
+    expect(codeSample.find('.code-sample-tabs a.selected').length).toBe(1);
+  });
 });
 
 describe('updating language', () => {
