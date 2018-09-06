@@ -42,16 +42,16 @@ class ApiExplorer extends React.Component {
     function tryGetApiKey(userData) {
       try {
         return userData.apiKey || userData.keys[0].apiKey || userData.keys[0].api_key;
-      } catch(e) {
+      } catch (e) {
         return undefined;
       }
     }
 
-    const apiKey = tryGetApiKey(this.props.variables.user) || tryGetApiKey(Cookie.getJSON('user_data'));
+    const apiKey =
+      tryGetApiKey(this.props.variables.user) || tryGetApiKey(Cookie.getJSON('user_data'));
 
     return apiKey || undefined;
   }
-
 
   setLanguage(language) {
     this.setState({ language });
