@@ -198,6 +198,55 @@ describe('apiKey', () => {
     expect(explorer.state('apiKey')).toBe(apiKey);
   });
 
+  it('should read apiKey from `variables.user.apiKey`', () => {
+    const apiKey = '123456';
+
+    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `user_data.keys[].apiKey`', () => {
+    const apiKey = '123456';
+    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', apiKey }] }));
+
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `variables.user.keys[].apiKey`', () => {
+    const apiKey = '123456';
+
+    const explorer = shallow(
+      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
+    );
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `user_data.keys[].api_key`', () => {
+    const apiKey = '123456';
+    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', api_key: apiKey }] }));
+
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
+  it('should read apiKey from `user_data.keys[].api_key`', () => {
+    const apiKey = '123456';
+
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] } }}
+      />,
+    );
+
+    expect(explorer.state('apiKey')).toBe(apiKey);
+  });
+
   it('should default to undefined', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 

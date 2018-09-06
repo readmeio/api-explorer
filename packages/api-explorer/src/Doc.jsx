@@ -89,7 +89,7 @@ class Doc extends React.Component {
 
       this.state.formData.auth = { [Object.keys(firstSecurity)[0]]: this.props.apiKey };
     } catch (e) {
-      console.error('There was a problem setting the api key', e); // eslint-disable-line no-console
+      // console.warn('There was a problem setting the api key on', operation.operationId, 'This probably just means there is no auth on this endpoint'); // eslint-disable-line no-console
     }
   }
 

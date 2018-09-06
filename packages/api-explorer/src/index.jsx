@@ -11,17 +11,6 @@ const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
 
 class ApiExplorer extends React.Component {
-  static getApiKey() {
-    try {
-      const userData = Cookie.getJSON('user_data');
-      // TODO: This needs to work for legacy api_key
-      // as well as keys[].apiKey
-      return userData.apiKey || userData.keys[0].api_key;
-    } catch (e) {
-      return undefined;
-    }
-  }
-
   constructor(props) {
     super(props);
 
@@ -31,13 +20,38 @@ class ApiExplorer extends React.Component {
 
     this.state = {
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
-      apiKey: ApiExplorer.getApiKey(),
+      apiKey: this.getApiKey(),
       selectedApp: {
         selected: '',
         changeSelected: this.changeSelected,
       },
     };
   }
+
+  getApiKey() {
+    // This supports:
+    // { apiKey: 'key' }
+    // { keys: [{ name: 'a', apiKey: 'key' }] }
+    // { keys: [{ name: 'a', api_key: 'key' }] }
+    //
+    // TODO this should update the selected key throughout
+    // based upon the SelectedApp
+    //
+    // TODO we should remove the dependency on pulling this
+    // in from a cookie, and just use `props.variables.user`
+    function tryGetApiKey(userData) {
+      try {
+        return userData.apiKey || userData.keys[0].apiKey || userData.keys[0].api_key;
+      } catch(e) {
+        return undefined;
+      }
+    }
+
+    const apiKey = tryGetApiKey(this.props.variables.user) || tryGetApiKey(Cookie.getJSON('user_data'));
+
+    return apiKey || undefined;
+  }
+
 
   setLanguage(language) {
     this.setState({ language });
