@@ -17,18 +17,27 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
  * Because we want the rendered value and not the template
  * <<apiKey>>, we have to render it first, then fetch
  * the `textContent` out of the ref.
+ *
+ * We have to call setState with the value of the ref
+ * because CopyCode is rendered before the <code> element
+ * and setting a ref on it's own does not cause a rerender.
  */
 class CodeElement extends React.PureComponent {
   constructor(props) {
     super(props);
     this.el = React.createRef();
+    this.state = { el: null };
+  }
+  componentDidMount() {
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({ el: this.el.current });
   }
   render() {
     const { activeTab, code, dark } = this.props;
 
     return (
       <div style={{ display: activeTab ? 'block' : 'none' }}>
-        <CopyCode code={this.el.current ? this.el.current.textContent : ''} />
+        <CopyCode code={() => (this.state.el ? this.state.el.textContent : '')} />
         {
           // eslint-disable-next-line react/no-array-index-key
           <pre style={{ display: activeTab ? 'block' : 'none' }}>
