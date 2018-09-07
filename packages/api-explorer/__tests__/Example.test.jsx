@@ -43,20 +43,27 @@ test('should show each example', () => {
   expect(example.find('pre').length).toEqual(2);
 });
 
-test('should correctly highlight syntax', () => {
+test('should display json viewer', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
     <Example {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />,
   );
 
-  // Asserting all JSON keys from the example oas.json
+  // Asserting all JSON examples are displayed with JSON viewer from the example oas.json
   expect(
     example
       .find('pre')
       .at(0)
       .render()
-      .find('.cm-property').length,
-  ).toBe(3);
+      .find('.react-json-view').length,
+  ).toBe(1);
+});
+
+test('should correctly highlight XML syntax', () => {
+  const exampleOas = new Oas(exampleResults);
+  const example = shallow(
+    <Example {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />,
+  );
 
   // Asserting that there are XML tags
   expect(

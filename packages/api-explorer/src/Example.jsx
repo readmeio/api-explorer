@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const ReactJson = require('react-json-view').default;
 const showCodeResults = require('./lib/show-code-results');
 
 // const { replaceVars } = require('./lib/replace-vars');
@@ -24,13 +25,32 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
           <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
             {examples.map((example, index) => {
+              const isJson = example.language && example.language === 'application/json';
               return (
                 <pre
                   className={`tomorrow-night tabber-body tabber-body-${index}`}
                   style={{ display: index === selected ? 'block' : '' }}
                   key={index} // eslint-disable-line react/no-array-index-key
                 >
-                  {syntaxHighlighter(example.code, example.language, { dark: true })}
+                  {isJson ? (
+                    <ReactJson
+                      src={JSON.parse(example.code)}
+                      collapsed={2}
+                      collapseStringsAfterLength={100}
+                      enableClipboard={false}
+                      theme="tomorrow"
+                      name={null}
+                      displayDataTypes={false}
+                      displayObjectSize={false}
+                      style={{
+                        padding: '20px 10px',
+                        backgroundColor: 'transparent',
+                        fontSize: '12px',
+                      }}
+                    />
+                  ) : (
+                    <div>{syntaxHighlighter(example.code, example.language, { dark: true })}</div>
+                  )}
                 </pre>
               );
             })}
