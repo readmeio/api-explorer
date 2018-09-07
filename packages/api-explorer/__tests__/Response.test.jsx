@@ -59,6 +59,7 @@ test('should show different component tabs based on state', () => {
       result={{
         status: 200,
         responseBody: JSON.stringify({ a: 1 }),
+        requestBody: JSON.stringify({ b: 2 }),
         requestHeaders: [],
         method: 'post',
         responseHeaders: [],
@@ -71,4 +72,7 @@ test('should show different component tabs based on state', () => {
   // I want to do the below assertion instead, but it's not working
   // expect(doc.find('ResponseMetadata').length).toBe(1);
   expect(doc.html().includes('Response Headers')).toBe(true);
+
+  // Should include request body in HTML
+  expect(doc.html().includes(JSON.stringify({ b: 2 }))).toBe(true);
 });

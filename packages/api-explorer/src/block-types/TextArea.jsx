@@ -1,15 +1,9 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('../lib/markdown');
+const markdown = require('@readme/markdown');
 
 const Textarea = ({ block, flags }) => {
-  return (
-    <div
-      className="magic-block-textarea"
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: markdown(block.text, flags) }}
-    />
-  );
+  return <div className="magic-block-textarea">{markdown(block.text, flags)}</div>;
 };
 
 Textarea.propTypes = {

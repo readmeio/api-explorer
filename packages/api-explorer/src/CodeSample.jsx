@@ -12,43 +12,68 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
 class CodeSample extends React.Component {
-  renderExamples(examples, setLanguage) {
+  constructor(props) {
+    super(props);
+
+    const { examples, language } = props;
+    const selectedExample = examples.find(example => example.language === language);
+
+    this.state = {
+      selectedExample,
+    };
+  }
+
+  getKey(example, index) {
+    const key = `${example.language}-${index}`;
+    const selected = this.state.selectedExample === example;
+    return { key, selected };
+  }
+
+  selectExample(example) {
+    this.setState({ selectedExample: example });
+  }
+
+  renderSelected(examples, setLanguage) {
     const examplesWithLanguages = examples.filter(example => example.language);
     return (
       <div>
         <ul className="code-sample-tabs">
-          {examplesWithLanguages.map(example => (
-            <li key={example.language}>
-              {
-                // eslint-disable-next-line jsx-a11y/href-no-hash
-                <a
-                  href="#"
-                  className={`hub-lang-switch-${example.language}`}
-                  onClick={e => {
-                    e.preventDefault();
-                    setLanguage(example.language);
-                  }}
-                >
-                  {example.name || generateCodeSnippet.getLangName(example.language)}
-                </a>
-              }
-            </li>
-          ))}
+          {examplesWithLanguages.map((example, index) => {
+            const { key, selected } = this.getKey(example, index);
+            const selectedClass = selected ? 'selected' : '';
+            return (
+              <li key={key}>
+                {
+                  // eslint-disable-next-line jsx-a11y/href-no-hash
+                  <a
+                    href="#"
+                    className={selectedClass}
+                    onClick={e => {
+                      e.preventDefault();
+                      setLanguage(example.language);
+                      this.selectExample(example);
+                    }}
+                  >
+                    {example.name || generateCodeSnippet.getLangName(example.language)}
+                  </a>
+                }
+              </li>
+            );
+          })}
         </ul>
         <div className="code-sample-body">
-          {examplesWithLanguages.map(example => {
+          {examplesWithLanguages.map((example, index) => {
+            const { key, selected } = this.getKey(example, index);
             return (
-              <div style={{ display: this.props.language === example.language ? 'block' : 'none' }}>
-                <CopyCode key={`copy-${example.language}`} code={example.code} />
+              <div style={{ display: selected ? 'block' : 'none' }}>
+                <CopyCode key={`copy-${key}`} code={example.code} />
                 <pre
                   className="tomorrow-night tabber-body"
-                  key={example.language} // eslint-disable-line react/no-array-index-key
-                  style={{ display: this.props.language === example.language ? 'block' : '' }}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{
-                    __html: syntaxHighlighter(example.code || '', example.language, true),
-                  }}
-                />
+                  key={key} // eslint-disable-line react/no-array-index-key
+                  style={{ display: this.state.selectedExample === example ? 'block' : '' }}
+                >
+                  {syntaxHighlighter(example.code || '', example.language, { dark: true })}
+                </pre>
               </div>
             );
           })}
@@ -63,7 +88,7 @@ class CodeSample extends React.Component {
     return (
       <div className="code-sample tabber-parent">
         {(() => {
-          if (examples.length) return this.renderExamples(examples, setLanguage);
+          if (examples.length) return this.renderSelected(examples, setLanguage);
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }
@@ -92,11 +117,7 @@ class CodeSample extends React.Component {
               </ul>
               <div className="hub-code-auto">
                 <CopyCode code={code} />
-                <pre
-                  className={`tomorrow-night hub-lang hub-lang-${language}`}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: snippet }}
-                />
+                <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
               </div>
             </div>
           );

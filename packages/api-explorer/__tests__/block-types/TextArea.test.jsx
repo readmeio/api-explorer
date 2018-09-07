@@ -7,14 +7,8 @@ describe('TextArea', () => {
     const block = {
       type: 'textarea',
       text: 'this is text',
-      sidebar: undefined,
     };
-    const callOutInput = shallow(<TextArea block={block} />);
-    expect(
-      callOutInput
-        .find('div')
-        .render()
-        .text(),
-    ).toBe('this is text\n');
+    const textArea = shallow(<TextArea block={block} />);
+    expect(textArea.find('p').text()).toBe(block.text);
   });
 });

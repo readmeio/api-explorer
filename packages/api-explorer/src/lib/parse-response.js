@@ -28,6 +28,18 @@ async function getResponseBody(response) {
   return responseBody;
 }
 
+function getRequestBody(har) {
+  let requestBody;
+
+  try {
+    requestBody = har.log.entries[0].request.postData.text || null;
+  } catch (e) {
+    requestBody = null;
+  }
+
+  return requestBody;
+}
+
 async function parseResponse(har, response) {
   const contentDisposition = response.headers.get('Content-Disposition');
   const querystring = getQuerystring(har);
@@ -39,6 +51,7 @@ async function parseResponse(har, response) {
     requestHeaders: har.log.entries[0].request.headers.map(
       header => `${header.name}: ${header.value}`,
     ),
+    requestBody: getRequestBody(har),
     responseHeaders: responseHeaders
       .map(header => header.join(': '))
       .filter(header => !header.match(/x-final-url/i)),

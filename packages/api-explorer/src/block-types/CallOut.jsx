@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('../lib/markdown');
+const markdown = require('@readme/markdown');
 
 function Icon({ type }) {
   switch (type) {
@@ -36,15 +36,8 @@ const CallOut = ({ block, flags }) => {
           <Icon type={block.data.type} />
         </span>
       )}
-      {/* eslint-disable react/no-danger */}
       {block.data &&
-      block.data.body && (
-        <div
-          className="callout-body"
-          dangerouslySetInnerHTML={{ __html: markdown(block.data.body, flags) }}
-        />
-      )}
-      {/* eslint-enable react/no-danger */}
+      block.data.body && <div className="callout-body">{markdown(block.data.body, flags)}</div>}
     </div>
   );
 };

@@ -1,56 +1,87 @@
+const { mount, shallow } = require('enzyme');
 const syntaxHighlighter = require('../');
 
 test('should highlight a block of code', () => {
-  const code = syntaxHighlighter('var a = 1;', 'javascript');
+  const code = shallow(syntaxHighlighter('var a = 1;', 'javascript'));
 
-  expect(code).toEqual(expect.stringMatching(/neo/));
-  expect(code).toEqual(expect.stringMatching(/cm-s-neo/));
-  expect(code).toBe('<span class="cm-s-neo"><span class="cm-keyword">var</span> <span class="cm-def">a</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span>');
+  expect(code.hasClass('cm-s-neo')).toEqual(true);
+  expect(code.html()).toBe(
+    '<span class="cm-s-neo"><span class="cm-keyword">var</span> <span class="cm-def">a</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span>',
+  );
 });
 
 test('should sanitize plain text language', () => {
-  expect(syntaxHighlighter('& < > " \' /', 'text')).toBe('&amp; &lt; &gt; &quot; &#39; &#x2F;');
+  expect(shallow(syntaxHighlighter('& < > " \' /', 'text')).html()).toContain(
+    '&amp; &lt; &gt; &quot; &#x27; /',
+  );
 });
 
 test('should sanitize mode', () => {
-  expect(syntaxHighlighter('&', 'json')).toContain('&amp;');
-  expect(syntaxHighlighter('<', 'json')).toContain('&lt;');
+  expect(shallow(syntaxHighlighter('&', 'json')).html()).toContain('&amp;');
+  expect(shallow(syntaxHighlighter('<', 'json')).html()).toContain('&lt;');
 });
 
 test('should concat the same style items', () => {
   // This is testing the `accum += text;` line
-  expect(syntaxHighlighter('====', 'javascript')).toContain('====');
+  expect(shallow(syntaxHighlighter('====', 'javascript')).text()).toContain('====');
 });
 
-
 test('should work with modes', () => {
-  expect(syntaxHighlighter('{ "a": 1 }', 'json')).toBe('<span class="cm-s-neo">{ <span class="cm-property">"a"</span>: <span class="cm-number">1</span> }</span>');
+  expect(shallow(syntaxHighlighter('{ "a": 1 }', 'json')).html()).toBe(
+    '<span class="cm-s-neo">{ <span class="cm-property">&quot;a&quot;</span>: <span class="cm-number">1</span> }</span>',
+  );
 });
 
 test('should have a dark theme', () => {
-  expect(syntaxHighlighter('{ "a": 1 }', 'json', true)).toContain('<span class="cm-s-tomorrow-night">');
+  expect(
+    shallow(syntaxHighlighter('{ "a": 1 }', 'json', { dark: true })).hasClass(
+      'cm-s-tomorrow-night',
+    ),
+  ).toEqual(true);
+});
+
+test('should tokenize variables (double quotes)', () => {
+  expect(
+    mount(syntaxHighlighter('"<<apiKey>>"', 'json', { tokenizeVariables: true })).find('Variable')
+      .length,
+  ).toEqual(1);
+});
+
+test('should tokenize variables (single quotes)', () => {
+  expect(
+    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).find('Variable')
+      .length,
+  ).toEqual(1);
+});
+
+test('should keep enclosing characters around the variable', () => {
+  expect(
+    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).text(),
+  ).toEqual("'APIKEY'");
 });
 
 test('should work for modes with an array like java', () => {
-  expect(syntaxHighlighter('service = client.service().messaging();', 'java')).toBe(
+  expect(shallow(syntaxHighlighter('service = client.service().messaging();', 'java')).html()).toBe(
     '<span class="cm-s-neo"><span class="cm-variable">service</span> <span class="cm-operator">=</span> <span class="cm-variable">client</span>.<span class="cm-variable">service</span>().<span class="cm-variable">messaging</span>();</span>',
   );
 });
 
 test('should work for html', () => {
-  expect(syntaxHighlighter('<p>test</p>', 'html')).toBe(
-    '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">></span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">></span></span>',
+  expect(shallow(syntaxHighlighter('<p>test</p>', 'html')).html()).toBe(
+    '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span></span>',
   );
 });
 
 test('should work for php without opening tag', () => {
-  expect(syntaxHighlighter('echo "Hello World";', 'php')).toContain('cm-keyword');
+  expect(shallow(syntaxHighlighter('echo "Hello World";', 'php')).html()).toContain('cm-keyword');
 });
 
 test('should work for kotlin', () => {
-  expect(syntaxHighlighter('println("$index: $element")', 'kotlin')).toContain('cm-variable');
+  expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain(
+    'cm-variable',
+  );
 });
 
 test('should work for go', () => {
-  expect(syntaxHighlighter('func main() {}', 'go')).toContain('cm-variable');
+  expect(shallow(syntaxHighlighter('func main() {}', 'go')).html()).toContain('cm-variable');
 });
