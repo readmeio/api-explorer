@@ -17,6 +17,9 @@ npm install --save @readme/api-explorer
   docs={Array}
   oasFiles={Object}
   flags={Object}
+  appearance={{
+    referenceLayout: String,  
+  }},
   oauth={Boolean}
   suggestedEdits={Boolean}
   tryItMetrics={function}
@@ -39,7 +42,8 @@ npm install --save @readme/api-explorer
 }
 ```
 
-- `flags` -  an object of project flags from readme. Changing these will modify how the API Explorer works.
+- `flags` - an object of project flags from readme. Changing these will modify how the API Explorer works.
+- `appearance.referenceLayout` - a string to determine the layout style, either `row` or `column`.
 - `oauth` - whether this project uses oauth or not
 - `suggestedEdits` - whether suggested edits are enabled or not. This just toggles the button.
 - `tryItMetrics` - function to call when request is made

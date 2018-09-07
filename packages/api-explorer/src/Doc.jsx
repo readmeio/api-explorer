@@ -354,7 +354,7 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({
-    referenceLayout: PropTypes.string,
+    correctnewlines: PropTypes.bool,
   }).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
