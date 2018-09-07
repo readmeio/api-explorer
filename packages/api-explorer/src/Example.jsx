@@ -35,7 +35,7 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
                   {isJson ? (
                     <ReactJson
                       src={JSON.parse(example.code)}
-                      collapsed={1}
+                      collapsed={2}
                       collapseStringsAfterLength={100}
                       enableClipboard={false}
                       theme="tomorrow"
