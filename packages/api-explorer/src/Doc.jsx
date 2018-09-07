@@ -148,7 +148,7 @@ class Doc extends React.Component {
     );
   }
 
-  themeStripe(doc) {
+  columnTheme(doc) {
     return (
       <div className="hub-api">
         <div className="hub-reference-section">
@@ -227,8 +227,8 @@ class Doc extends React.Component {
   renderEndpoint() {
     const { doc } = this.props;
 
-    if (this.props.appearance.columnReferenceLayout) {
-      return this.themeStripe(doc);
+    if (this.props.appearance.referenceLayout === 'column') {
+      return this.columnTheme(doc);
     }
 
     return this.themeMain(doc);
@@ -348,9 +348,12 @@ Doc.propTypes = {
   }).isRequired,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
+  flags: PropTypes.shape({
+    referenceLayout: PropTypes.string,
+  }).isRequired,
   appearance: PropTypes.shape({
-    columnReferenceLayout: PropTypes.bool,
-  }),
+    referenceLayout: PropTypes.string,
+  }).isRequired,
   language: PropTypes.string.isRequired,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -361,7 +364,10 @@ Doc.propTypes = {
 Doc.defaultProps = {
   oas: {},
   flags: {
-    stripe: false,
+    correctnewlines: false,
+  },
+  appearance: {
+    referenceLayout: 'row',
   },
   apiKey: undefined,
 };

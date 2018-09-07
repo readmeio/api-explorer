@@ -55,12 +55,12 @@ class ApiExplorer extends React.Component {
     return this.props.oasFiles[apiSetting];
   }
   render() {
-    const theme = this.props.appearance.columnReferenceLayout ? 'stripe' : '';
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
           id="hub-reference"
-          className={`content-body hub-reference-sticky hub-reference-theme-${theme}`}
+          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
+            .referenceLayout}`}
         >
           {this.props.docs.map(doc => (
             <Doc
@@ -68,6 +68,7 @@ class ApiExplorer extends React.Component {
               doc={doc}
               oas={this.getOas(doc)}
               setLanguage={this.setLanguage}
+              appearance={this.props.appearance}
               flags={this.props.flags}
               language={this.state.language}
               oauth={this.props.oauth}
@@ -86,7 +87,10 @@ ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
   appearance: PropTypes.shape({
-    columnReferenceLayout: PropTypes.bool,
+    referenceLayout: PropTypes.string,
+  }).isRequired,
+  flags: PropTypes.shape({
+    correctnewlines: PropTypes.bool,
   }).isRequired,
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -95,7 +99,9 @@ ApiExplorer.propTypes = {
 
 ApiExplorer.defaultProps = {
   oauth: false,
-  flags: { stripe: false },
+  flags: {
+    correctnewlines: false,
+  },
   tryItMetrics: () => {},
 };
 

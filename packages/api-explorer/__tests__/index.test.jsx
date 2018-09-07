@@ -19,6 +19,7 @@ const props = {
     }),
   },
   flags: {},
+  appearance: {},
   suggestedEdits: false,
 };
 
