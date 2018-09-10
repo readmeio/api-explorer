@@ -69,8 +69,8 @@ class Demo extends React.Component {
               }}
               flags={{ correctnewlines: false }}
               // Uncomment this in for column layout
-              appearance={{ referenceLayout: 'column' }}
-              // appearance={{ referenceLayout: 'row' }}
+              // appearance={{ referenceLayout: 'column' }}
+              appearance={{ referenceLayout: 'row' }}
               suggestedEdits
               oauth={this.props.oauth}
               variables={{
