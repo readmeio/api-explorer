@@ -23,6 +23,10 @@
 //   ]
 // }
 // [/block]
+
+// testing
+// correctnewlines
+// option
 // `;
 
 module.exports = (oas, apiSetting) => {

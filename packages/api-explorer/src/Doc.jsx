@@ -123,7 +123,7 @@ class Doc extends React.Component {
     // return showCode(this.oas, this.getOperation());
   }
 
-  themeMain(doc) {
+  mainTheme(doc) {
     return (
       <Fragment>
         {doc.type === 'endpoint' && (
@@ -149,7 +149,7 @@ class Doc extends React.Component {
     );
   }
 
-  themeStripe(doc) {
+  columnTheme(doc) {
     return (
       <div className="hub-api">
         <div className="hub-reference-section">
@@ -230,7 +230,11 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        {this.props.flags.stripe ? this.themeStripe(doc) : this.themeMain(doc)}
+        {this.props.appearance.referenceLayout === 'column' ? (
+          this.columnTheme(doc)
+        ) : (
+          this.mainTheme(doc)
+        )}
       </EndpointErrorBoundary>
     );
   }
@@ -350,8 +354,11 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({
-    stripe: PropTypes.bool,
-  }),
+    correctnewlines: PropTypes.bool,
+  }).isRequired,
+  appearance: PropTypes.shape({
+    referenceLayout: PropTypes.string,
+  }).isRequired,
   language: PropTypes.string.isRequired,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -362,7 +369,10 @@ Doc.propTypes = {
 Doc.defaultProps = {
   oas: {},
   flags: {
-    stripe: false,
+    correctnewlines: false,
+  },
+  appearance: {
+    referenceLayout: 'row',
   },
   apiKey: undefined,
 };

@@ -21,6 +21,7 @@ const props = {
     }),
   },
   flags: {},
+  appearance: {},
   suggestedEdits: false,
   variables: { user: {}, defaults: [] },
   glossaryTerms: [],

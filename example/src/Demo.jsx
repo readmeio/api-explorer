@@ -67,7 +67,10 @@ class Demo extends React.Component {
               oasFiles={{
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
-              flags={{ correctnewlines: false, stripe: false }}
+              flags={{ correctnewlines: false }}
+              // Uncomment this in for column layout
+              // appearance={{ referenceLayout: 'column' }}
+              appearance={{ referenceLayout: 'row' }}
               suggestedEdits
               oauth={this.props.oauth}
               variables={{

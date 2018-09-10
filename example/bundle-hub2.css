@@ -7839,19 +7839,19 @@ section#hub-content #content-suggested-edits .hub-se-magic dragbox ul {
   -ms-filter: none;
   filter: none;
 }
-#hub-reference.content-body.hub-reference-theme-stripe .hub-reference .hub-reference-section .hub-reference-right {
+#hub-reference.content-body.hub-reference-theme-column .hub-reference .hub-reference-section .hub-reference-right {
   width: 450px;
   background: #3d434a;
   border-left: 0 none;
 }
-#hub-reference.content-body.hub-reference-theme-stripe .hub-reference-results {
+#hub-reference.content-body.hub-reference-theme-column .hub-reference-results {
   width: 450px;
 }
-#hub-reference.content-body.hub-reference-theme-stripe .hub-reference-results .hub-reference-results-slider {
+#hub-reference.content-body.hub-reference-theme-column .hub-reference-results .hub-reference-results-slider {
   width: 900px;
 }
-#hub-reference.content-body.hub-reference-theme-stripe .hub-reference-results .hub-reference-results-slider .hub-reference-results-examples,
-#hub-reference.content-body.hub-reference-theme-stripe .hub-reference-results .hub-reference-results-slider .hub-reference-results-explorer {
+#hub-reference.content-body.hub-reference-theme-column .hub-reference-results .hub-reference-results-slider .hub-reference-results-examples,
+#hub-reference.content-body.hub-reference-theme-column .hub-reference-results .hub-reference-results-slider .hub-reference-results-explorer {
   width: 450px !important;
 }
 #hub-search .searchbox {

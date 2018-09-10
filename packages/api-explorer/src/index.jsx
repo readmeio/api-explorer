@@ -85,12 +85,12 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
-    const theme = this.props.flags.stripe ? 'stripe' : '';
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
           id="hub-reference"
-          className={`content-body hub-reference-sticky hub-reference-theme-${theme}`}
+          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
+            .referenceLayout}`}
         >
           {this.props.docs.map(doc => (
             <VariablesContext.Provider value={this.props.variables}>
@@ -103,6 +103,7 @@ class ApiExplorer extends React.Component {
                       oas={this.getOas(doc)}
                       setLanguage={this.setLanguage}
                       flags={this.props.flags}
+                      appearance={this.props.appearance}
                       language={this.state.language}
                       oauth={this.props.oauth}
                       suggestedEdits={this.props.suggestedEdits}
@@ -123,8 +124,11 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
+  appearance: PropTypes.shape({
+    referenceLayout: PropTypes.string,
+  }).isRequired,
   flags: PropTypes.shape({
-    stripe: PropTypes.bool,
+    correctnewlines: PropTypes.bool,
   }).isRequired,
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -144,7 +148,9 @@ ApiExplorer.propTypes = {
 
 ApiExplorer.defaultProps = {
   oauth: false,
-  flags: { stripe: false },
+  flags: {
+    correctnewlines: false,
+  },
   tryItMetrics: () => {},
 };
 

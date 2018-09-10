@@ -94,7 +94,9 @@ Loop.propTypes = {
     }),
   ).isRequired,
   column: PropTypes.string,
-  flags: PropTypes.shape({}),
+  flags: PropTypes.shape({
+    correctnewlines: PropTypes.bool,
+  }).isRequired,
 };
 
 Loop.defaultProps = {

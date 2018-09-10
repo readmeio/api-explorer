@@ -71,7 +71,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
   expect(docComponent.find('Content').length).toBe(1);
 });
 
-test('should still display `Content` with stripe layout', () => {
+test('should still display `Content` with column-style layout', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
     <Doc
@@ -79,7 +79,7 @@ test('should still display `Content` with stripe layout', () => {
       setLanguage={() => {}}
       language="node"
       suggestedEdits
-      flags={{ stripe: true }}
+      appearance={{ referenceLayout: 'column' }}
       oauth={false}
       apiKey=""
       tryItMetrics={() => {}}
@@ -284,9 +284,9 @@ describe('Response Schema', () => {
   });
 });
 
-describe('stripe theme', () => {
+describe('themes', () => {
   test('should output code samples and responses in the right column', () => {
-    const doc = mount(<Doc {...props} flags={{ stripe: true }} />);
+    const doc = mount(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);
     doc.setState({ showEndpoint: true });
 
     expect(doc.find('.hub-reference-right').find('CodeSample').length).toBe(1);
