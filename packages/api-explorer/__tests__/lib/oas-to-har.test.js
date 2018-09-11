@@ -1184,3 +1184,16 @@ describe('content-type & accept header', () => {
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });
+
+describe('x-headers', () => {
+  it('should append any static headers to the request', () => {
+    expect(oasToHar({
+      'x-headers': [
+        {
+          key: 'x-api-key',
+          value: '123456',
+        },
+      ],
+    }).log.entries[0].request.headers).toEqual([{ name: 'x-api-key', value: '123456' }])
+  });
+});
