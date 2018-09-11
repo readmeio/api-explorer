@@ -60,6 +60,28 @@ describe('Response body', () => {
     expect(responseBody.find('.react-json-view').length).toBe(1);
   });
 
+  test('should not display json viewer if invalid json', async () => {
+    props.result = await parseResponse(
+      {
+        log: {
+          entries: [
+            { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
+          ],
+        },
+      },
+      new FetchResponse('ok', {
+        headers: {
+          'content-type': 'application/json',
+        },
+      }),
+    );
+
+    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+
+    expect(responseBody.find('.react-json-view').length).toBe(0);
+    expect(responseBody.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
+  });
+
   test('should not display json result if body is a string', async () => {
     props.result = await parseResponse(
       {
