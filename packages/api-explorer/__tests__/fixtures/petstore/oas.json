@@ -881,7 +881,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "readOnly": true
           },
           "category": {
             "$ref": "#/components/schemas/Category"

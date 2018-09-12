@@ -220,3 +220,16 @@ describe('x-explorer-enabled', () => {
     ).toBe(0);
   });
 });
+
+describe('readOnly', () => {
+  test('should make `readOnly` properties hidden', () => {
+    expect(mount(
+      <div>
+        <Params
+          {...props}
+          operation={oas.operation('/pet', 'post')}
+        />
+      </div>,
+    ).find('input#addPet_id[type="hidden"]').length).toBe(1);
+  });
+});
