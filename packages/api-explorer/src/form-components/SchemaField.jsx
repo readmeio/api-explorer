@@ -28,6 +28,18 @@ function getCustomType(schema) {
 }
 
 function SchemaField(props) {
+  if (props.schema.readOnly) {
+    // Maybe use this when it's been merged?
+    // Though that just sets `input[readonly]` which still shows
+    // the input, which isnt exactly what we want
+    //
+    // We have to perform this at the view layer and not in
+    // parameters-to-json-schema because we may only have
+    // a $ref at that point
+    // https://github.com/mozilla-services/react-jsonschema-form/pull/888
+    return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'hidden' }} />;
+  }
+
   const customType = getCustomType(props.schema);
   if (customType) {
     return (
@@ -50,6 +62,7 @@ SchemaField.propTypes = {
     type: PropTypes.string,
     format: PropTypes.string,
     enumNames: PropTypes.array,
+    readOnly: PropTypes.bool,
   }).isRequired,
   uiSchema: PropTypes.shape({}),
 };
