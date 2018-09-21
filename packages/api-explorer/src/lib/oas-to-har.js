@@ -160,6 +160,16 @@ module.exports = (
     });
   }
 
+  // x-headers static headers
+  if (oas['x-headers']) {
+    oas['x-headers'].forEach(header => {
+      har.headers.push({
+        name: header.key,
+        value: String(header.value),
+      });
+    });
+  }
+
   const schema = getSchema(pathOperation, oas) || { schema: {} };
 
   function stringify(json) {

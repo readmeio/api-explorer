@@ -65,12 +65,16 @@ form form.rjsf {
   word-break: break-all;
   overflow-x: hidden;
 }
-.logs .logs-list table tbody tr:nth-child(1n) {
+.hub-reference-section .logs .logs-list table thead tr:first-child:hover {
+  background-color: initial;
+  cursor: default;
+}
+.logs .logs-list table tbody tr:nth-child(2n) {
   background-color: #f8f8f8;
 }
 .logs .logs-list table {}
-.logs .logs-list table tbody tr:hover {
-  cursor: pointer;
+.hub-reference-section .logs .logs-list table tbody tr:hover {
+  cursor: default;
   background-color: #eee;
 }
 .logs .select-container {

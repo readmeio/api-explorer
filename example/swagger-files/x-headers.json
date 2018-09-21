@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://httpbin.org"
+    }
+  ],
+  "info": {
+    "version": "1.0.0",
+    "title": "x-headers demo"
+  },
+  "paths": {
+    "/post": {
+      "post": {
+        "summary": "Should send static x-headers with the request",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        }
+      }
+    }
+  },
+  "x-headers": [
+    {
+      "key": "x-api-key",
+      "value": "static-value"
+    }
+  ]
+}
