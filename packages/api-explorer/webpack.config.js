@@ -21,4 +21,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', '.jsx'],
   },
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty', // https://github.com/request/request/issues/1529
+  },
 };

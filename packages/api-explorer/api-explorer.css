@@ -19,6 +19,67 @@ form form.rjsf {
   margin: 2% 2%;
 }
 
+.logs {
+  width: 97%;
+  margin-left: 3%;
+}
+.logs .loading-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  height: 50px;
+  width: 50px;
+}
+.logs h3 {
+  color: #aeaeae;
+  text-transform: uppercase;
+  padding-bottom: 12px;
+  margin-bottom: 6px;
+}
+.logs .logs-list {
+  border-bottom: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-top: none;
+  border-right: none;
+  min-height: 224px;
+  position: relative;
+}
+
+.logs .log-header {
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 30px;
+}
+.logs .logs-list table {
+  width: 100%;
+  text-align: left;
+  table-layout: fixed;
+}
+.logs .logs-list table td,
+.logs .logs-list table th {
+  padding: 10px;
+  word-break: break-all;
+  overflow-x: hidden;
+}
+.logs .logs-list table tbody tr:nth-child(1n) {
+  background-color: #f8f8f8;
+}
+.logs .logs-list table {}
+.logs .logs-list table tbody tr:hover {
+  cursor: pointer;
+  background-color: #eee;
+}
+.logs .select-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
 /* Style table header. */
 .param-type-header {
   color: #aeaeae;

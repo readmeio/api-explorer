@@ -11,6 +11,7 @@ const { Fragment } = React;
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
+const Logs = require('@readme/api-logs');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
@@ -138,7 +139,10 @@ class Doc extends React.Component {
             )}
 
             <div className="hub-reference-section">
-              <div className="hub-reference-left">{this.renderParams()}</div>
+              <div className="hub-reference-left">
+                {this.renderLogs()}
+                {this.renderParams()}
+              </div>
               <div className="hub-reference-right switcher">{this.renderResponseSchema()}</div>
             </div>
           </div>
@@ -236,6 +240,21 @@ class Doc extends React.Component {
           this.mainTheme(doc)
         )}
       </EndpointErrorBoundary>
+    );
+  }
+
+  renderLogs() {
+    if (!this.props.flags.apilogs) return null;
+
+    return (
+      <Logs
+        apiKey={this.props.apiKey}
+        oas={this.oas}
+        operation={this.getOperation()}
+        formData={this.state.formData}
+        onChange={this.onChange}
+        onSubmit={this.onSubmit}
+      />
     );
   }
 
@@ -355,6 +374,7 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
+    apilogs: PropTypes.bool,
   }).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
@@ -370,6 +390,7 @@ Doc.defaultProps = {
   oas: {},
   flags: {
     correctnewlines: false,
+    apilogs: false,
   },
   appearance: {
     referenceLayout: 'row',

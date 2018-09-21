@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "main": "dist/index.js",
   "dependencies": {
+    "@readme/api-logs": "^1.0.0",
     "@readme/markdown": "^2.0.0",
     "@readme/oas-extensions": "^1.0.0",
     "@readme/syntax-highlighter": "^2.0.0",
@@ -20,6 +21,8 @@
     "react-json-view": "^1.19.1",
     "react-jsonschema-form": "github:domharrington/react-jsonschema-form#dist-committed",
     "react-waypoint": "^7.3.1",
+    "request": "^2.88.0",
+    "useragent": "^2.3.0",
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {

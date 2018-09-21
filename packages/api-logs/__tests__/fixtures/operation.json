@@ -1,0 +1,423 @@
+{
+  "summary": "Delete doc",
+  "description": "Delete the doc with this slug",
+  "tags": [
+    "Docs"
+  ],
+  "parameters": [
+    {
+      "name": "slug",
+      "in": "path",
+      "description": "Slug of doc",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "x-readme-version",
+      "in": "header",
+      "description": "Project version",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "204": {
+      "description": "The doc has successfully been updated"
+    },
+    "404": {
+      "description": "There is no doc with that slug"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
+  "oas": {
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Create beautiful product and API documentation with our developer friendly platform.",
+      "version": "2.0.0",
+      "title": "readme.io"
+    },
+    "paths": {
+      "/docs/{slug}": {
+        "get": {
+          "summary": "Get doc",
+          "description": "Returns the doc with this slug",
+          "tags": [
+            "Docs"
+          ],
+          "parameters": [
+            {
+              "name": "slug",
+              "in": "path",
+              "description": "Slug of doc",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "x-readme-version",
+              "in": "header",
+              "description": "Project version",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The doc exists and has been returned"
+            },
+            "404": {
+              "description": "There is no doc with that slug"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ]
+        },
+        "put": {
+          "summary": "Update doc",
+          "description": "Update a doc with this slug",
+          "tags": [
+            "Docs"
+          ],
+          "parameters": [
+            {
+              "name": "slug",
+              "in": "path",
+              "description": "Slug of doc",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "x-readme-version",
+              "in": "header",
+              "description": "Project version",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The doc has successfully been updated"
+            },
+            "400": {
+              "description": "There was a validation error during update"
+            },
+            "404": {
+              "description": "There is no doc with that slug"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/Body"
+          }
+        },
+        "delete": {
+          "summary": "Delete doc",
+          "description": "Delete the doc with this slug",
+          "tags": [
+            "Docs"
+          ],
+          "parameters": [
+            {
+              "name": "slug",
+              "in": "path",
+              "description": "Slug of doc",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "x-readme-version",
+              "in": "header",
+              "description": "Project version",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "The doc has successfully been updated"
+            },
+            "404": {
+              "description": "There is no doc with that slug"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ]
+        }
+      },
+      "/docs": {
+        "post": {
+          "summary": "Create doc",
+          "description": "Create a new doc inside of this project",
+          "tags": [
+            "Docs"
+          ],
+          "parameters": [
+            {
+              "name": "x-readme-version",
+              "in": "header",
+              "description": "Project version",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "The doc has successfully been created"
+            },
+            "400": {
+              "description": "There was a validation error during creation"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/Body"
+          }
+        }
+      },
+      "/": {
+        "get": {
+          "description": "Returns project name for API key",
+          "responses": {
+            "200": {
+              "description": "The project name"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ]
+        }
+      },
+      "/swagger": {
+        "post": {
+          "description": "Upload a swagger file to ReadMe",
+          "tags": [
+            "Swagger"
+          ],
+          "responses": {
+            "201": {
+              "description": "The swagger file successfully imported"
+            },
+            "400": {
+              "description": "There was a validation error during import"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/postSwagger"
+          }
+        }
+      },
+      "/swagger/{id}": {
+        "put": {
+          "description": "Update a swagger file in ReadMe",
+          "tags": [
+            "Swagger"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Id of swagger file",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The swagger file successfully updated"
+            },
+            "400": {
+              "description": "There was a validation error during import"
+            },
+            "404": {
+              "description": "There is no swagger file with that id"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/postSwagger"
+          }
+        },
+        "delete": {
+          "description": "Delete a swagger file in ReadMe",
+          "tags": [
+            "Swagger"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Id of swagger file",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "The swagger file successfully deleted"
+            },
+            "404": {
+              "description": "There is no swagger file with that id"
+            }
+          },
+          "security": [
+            {
+              "apiKey": []
+            }
+          ]
+        }
+      }
+    },
+    "servers": [
+      {
+        "url": "https://dash.readme.io/api/v1"
+      }
+    ],
+    "components": {
+      "requestBodies": {
+        "postSwagger": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "swagger": {
+                    "description": "Swagger file",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Body": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "format": ""
+                  },
+                  "type": {
+                    "type": "string",
+                    "format": ""
+                  },
+                  "body": {
+                    "type": "string",
+                    "format": ""
+                  },
+                  "category": {
+                    "type": "string",
+                    "format": ""
+                  }
+                },
+                "required": [
+                  "title",
+                  "category"
+                ]
+              }
+            }
+          },
+          "description": "Doc object"
+        }
+      },
+      "securitySchemes": {
+        "apiKey": {
+          "type": "http",
+          "scheme": "basic",
+          "_key": "apiKey"
+        }
+      },
+      "schemas": {
+        "Doc": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "category"
+          ]
+        }
+      }
+    },
+    "x-explorer-enabled": true,
+    "x-proxy-enabled": true,
+    "x-samples-enabled": true,
+    "x-samples-languages": [
+      "curl",
+      "node",
+      "ruby",
+      "javascript",
+      "python"
+    ]
+  },
+  "path": "/docs/{slug}",
+  "method": "delete",
+  "_cache": {
+    "results": []
+  }
+}

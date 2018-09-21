@@ -129,6 +129,7 @@ ApiExplorer.propTypes = {
   }).isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
+    apilogs: PropTypes.bool,
   }).isRequired,
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -150,6 +151,7 @@ ApiExplorer.defaultProps = {
   oauth: false,
   flags: {
     correctnewlines: false,
+    apilogs: false,
   },
   tryItMetrics: () => {},
 };

@@ -5,6 +5,10 @@ coverage
 .idea/*
 lerna-debug.log
 .DS_Store
+*.hot-update.json
+*.hot-update.js
+*.hot-update.js.map
+
 example/swagger-files/directory.json
 
 example/dist

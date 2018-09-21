@@ -18,4 +18,10 @@ module.exports = merge(common, {
     new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: 'cheap-module-source-map',
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty', // https://github.com/request/request/issues/1529
+  },
 });
