@@ -1,12 +1,14 @@
 rm -rf example/dist
 mkdir example/dist
+mkdir example/dist/preview
 
 webpack --config webpack.prod.js
 
 # webpack-dev-server requires you to give an exact path match to it's
 # bundle otherwise you'll actually be loading the regular built webpack
 # file and wont get any auto-reloading, and you have to run webpack -w
-sed 's/example\/bundle.js/bundle.js/g' example/index.html > example/dist/index.html
+sed 's/example\/demo-bundle.js/demo-bundle.js/g' example/index.html > example/dist/index.html
+sed 's/example\/preview-bundle.js/preview-bundle.js/g' example/preview/index.html > example/dist/preview/index.html
 
 cp example/*.css example/dist
 cp -R example/fonts example/dist
