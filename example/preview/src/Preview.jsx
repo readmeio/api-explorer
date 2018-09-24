@@ -4,6 +4,7 @@ const PropTypes = require('prop-types');
 const extensions = require('../../../packages/oas-extensions/');
 
 const Sidebar = require('./Sidebar');
+const Version = require('./Version');
 const ApiExplorer = require('../../../packages/api-explorer/src');
 const withSpecFetching = require('../../src/SpecFetcher');
 
@@ -35,6 +36,7 @@ class Preview extends React.Component {
 
         { status.length ? <pre style={{ marginLeft: '20px' }}>{status.join('\n')}</pre> : null }
         { status.length === 0 && oas.info && <Sidebar title={oas.info.title} docs={docs} /> }
+        { status.length === 0 && oas.info && <Version version={oas.info.version} docs={docs} /> }
         {
           status.length === 0 && (
             <ApiExplorer
