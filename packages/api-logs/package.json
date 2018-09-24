@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
-    "pretest": "npm run lint && npm run inspect",
+    "prettier": "prettier --list-different \"index.jsx\"",
+    "pretest": "npm run lint && npm run inspect && npm run prettier",
     "test": "jest --coverage"
   },
   "publishConfig": {
