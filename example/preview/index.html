@@ -49,14 +49,30 @@
     <div ng-class="{active:contentLoadingSection || contentLoading}" class="hub-loading-indicator"></div>
     <div id="hub-container" ng-class="{loading:contentLoadingSection}">
         <div class="hub-container">
-            <div id="hub-sidebar-parent" sidebar="" class="hub-sidebar-sticky static" style="height: 872px;">
+            <style type="text/css">
+                #hub-sidebar-parent {
+                    position: sticky;
+                }
+                nav#hub-sidebar {
+                    position: initial;
+                    padding-bottom: 0px;
+                }
+                section#hub-content {
+                    border-left: 1px solid #ddd;
+                    margin-left: 246px;
+                    padding-left: 0px;
+                    width: unset;
+                }
+                @media (max-width: 768px) {
+                    section#hub-content {
+                        margin-left: 0 !important;
+                    }
+                }
+            </style>
+            <div id="hub-sidebar-parent" class="hub-sidebar-sticky">
                 <nav id="hub-sidebar">
                     <div class="scrollable-parent">
-                        <div class="nano ng-isolate-scope" scroll-to-top="state.current().root">
-                            <div class="nano-content" ng-transclude="" tabindex="0">
-                                <div id="hub-sidebar-content" class="ng-scope">
-                                </div>
-                            </div>
+                        <div id="hub-sidebar-content">
                         </div>
                     </div>
                 </nav>
@@ -65,7 +81,6 @@
             </section>
         </div>
     </div>
-    <!-- Logo-->
     <footer>
         <div class="hub-container">
             <div id="readmeLogo">
