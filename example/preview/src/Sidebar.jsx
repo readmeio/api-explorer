@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
+const PropTypes = require('prop-types');
 
 function Doc({ doc }) {
   return (
@@ -11,6 +12,15 @@ function Doc({ doc }) {
     </li>
   );
 }
+
+Doc.propTypes = {
+  doc: PropTypes.shape({
+    api: PropTypes.shape({
+      method: PropTypes.string.isRequired,
+    }),
+    slug: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 function Sidebar({ title, docs }) {
   return ReactDOM.createPortal((
