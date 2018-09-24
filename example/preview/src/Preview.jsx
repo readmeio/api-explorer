@@ -1,5 +1,4 @@
 const React = require('react');
-const ReactDOM = require('react-dom');
 const PropTypes = require('prop-types');
 const extensions = require('../../../packages/oas-extensions/');
 
@@ -26,15 +25,25 @@ class Preview extends React.Component {
               <div className="hub-reference-left">
                 <div className="hub-preview">
                   <div className="hub-preview-owlbert" /><i className="icon icon-readme" />
-                  <p><strong>Like what you see?</strong> ReadMe makes it easy to create beautiful documentation for your API! You can import a Swagger/OAS file&hellip; but that&apos;s not all! ReadMe also helps you build a community, document non-API references and much more! Sign up now to get awesome docs for your Swagger file!</p><a className="btn btn-primary btn-lg" href="https://dash.readme.io/signup">Sign Up for ReadMe</a>
+                  <p><strong>Like what you see?</strong> ReadMe makes it easy to create beautiful documentation for your API! You can import a Swagger/OAS file&hellip; but that&apos;s not all! ReadMe also helps you build a community, document non-API references and much more! Sign up now to get awesome docs for your Swagger/OAS file!</p><a className="btn btn-primary btn-lg" href="https://dash.readme.io/signup">Sign Up for ReadMe</a>
                 </div>
               </div>
               <div className="hub-reference-right">&nbsp;</div>
             </div>
+
+            {
+              status.length ? (
+                <div className="hub-reference-section">
+                  <div className="hub-reference-left">
+                    <pre style={{ marginLeft: '20px' }}>{status.join('\n')}</pre>
+                  </div>
+                  <div className="hub-reference-right">&nbsp;</div>
+                </div>
+              ) : null
+            }
           </div>
         </div>
 
-        { status.length ? <pre style={{ marginLeft: '20px' }}>{status.join('\n')}</pre> : null }
         { status.length === 0 && oas.info && <Sidebar title={oas.info.title} docs={docs} /> }
         { status.length === 0 && oas.info && <Version version={oas.info.version} docs={docs} /> }
         {
@@ -45,13 +54,13 @@ class Preview extends React.Component {
                 'api-setting': Object.assign(extensions.defaults, oas),
               }}
               appearance={{ referenceLayout: 'row' }}
-              suggestedEdits
+              suggestedEdits={false}
               oauth={oauth}
               variables={{
-                user: { keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] },
+                user: {},
                 defaults: [],
               }}
-              glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
+              glossaryTerms={[]}
             />
           )
         }
