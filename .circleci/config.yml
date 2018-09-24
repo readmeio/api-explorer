@@ -41,5 +41,7 @@ jobs:
       - run: ./cc-test-reporter before-build
       - run: npm test
       - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer/coverage/lcov.info -o coverage/api-explorer.json
+      - run: ./cc-test-reporter format-coverage -t lcov packages/api-logs/coverage/lcov.info -o coverage/api-logs.json
+      - run: ./cc-test-reporter format-coverage -t lcov packages/variable/coverage/lcov.info -o coverage/variable.json
       - run: ./cc-test-reporter format-coverage -t lcov packages/syntax-highlighter/coverage/lcov.info -o coverage/syntax-highlighter.json
       - run: ./cc-test-reporter sum-coverage --output - --parts 2 coverage/*.json | ./cc-test-reporter upload-coverage --input -
