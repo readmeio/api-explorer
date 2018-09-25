@@ -5,13 +5,13 @@ const oasToHar = require('./lib/oas-to-har');
 const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('@readme/oas-extensions');
 const Waypoint = require('react-waypoint');
+const Logs = require('@readme/api-logs');
 
 const { Fragment } = React;
 
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
-const Logs = require('@readme/api-logs');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
@@ -244,12 +244,11 @@ class Doc extends React.Component {
   }
 
   renderLogs() {
-    if (!this.props.flags.apilogs) return null;
-
     return (
       <Logs
         apiKey={this.props.apiKey}
         oas={this.oas}
+        user={this.props.user}
         operation={this.getOperation()}
         formData={this.state.formData}
         onChange={this.onChange}
@@ -370,6 +369,7 @@ Doc.propTypes = {
       path: PropTypes.string.isRequired,
     }),
   }).isRequired,
+  user: PropTypes.shape({}),
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({

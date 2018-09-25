@@ -3,7 +3,6 @@
   "description": "React component for Api Logs",
   "version": "1.0.0",
   "dependencies": {
-    "js-cookie": "^2.2.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "yamlparser": "0.0.2"

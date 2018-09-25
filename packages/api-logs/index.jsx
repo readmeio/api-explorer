@@ -1,5 +1,4 @@
 const React = require('react');
-const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const querystring = require('querystring');
 
@@ -55,19 +54,11 @@ function getGroup(userData) {
 class Logs extends React.Component {
   constructor(props) {
     super(props);
-    let userData = {};
-    try {
-      userData = JSON.parse(Cookie.get('user_data'));
-    } catch (e) {
-      // TODO
-      // console.log('e: ', e);
-    }
-
     this.state = {
       loading: false,
       logs: [],
-      group: getGroup(userData),
-      groups: userData.keys && userData.keys.map(key => ({ id: key.id, name: key.name })),
+      group: getGroup(props.user),
+      groups: props.user.keys && props.user.keys.map(key => ({ id: key.id, name: key.name })),
     };
 
     this.renderOption = this.renderOption.bind(this);
@@ -212,9 +203,15 @@ class Logs extends React.Component {
 Logs.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  user: PropTypes.shape({
+    keys: PropTypes.array,
+    id: PropTypes.string,
+  }),
 };
 
-Logs.defaultProps = {};
+Logs.defaultProps = {
+  user: {},
+};
 
 module.exports = Logs;
 module.exports.Logs = Logs;
