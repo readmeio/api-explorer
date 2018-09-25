@@ -1,12 +1,23 @@
 const React = require('react');
 const swagger2openapi = require('swagger2openapi');
 const PropTypes = require('prop-types');
+const Cookie = require('js-cookie');
+
 const extensions = require('../../packages/oas-extensions/');
 
 const createDocs = require('../../packages/api-explorer/lib/create-docs');
 
 const ApiExplorer = require('../../packages/api-explorer/src');
 const ApiList = require('./ApiList');
+
+
+const userData = {
+  name: 'Gilfoyle',
+  email: 'gilfoyle@piedpiper.com',
+  isAdmin: true,
+  id: 'someid',
+};
+Cookie.set('user_data', JSON.stringify(userData));
 
 require('../../example/swagger-files/types.json');
 require('../../packages/api-explorer/api-explorer.css');
@@ -67,7 +78,10 @@ class Demo extends React.Component {
               oasFiles={{
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
-              flags={{ correctnewlines: false }}
+              flags={{
+                correctnewlines: false,
+                apilogs: true,
+              }}
               // Uncomment this in for column layout
               // appearance={{ referenceLayout: 'column' }}
               appearance={{ referenceLayout: 'row' }}

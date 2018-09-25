@@ -49,6 +49,7 @@
     "livereactload": "^4.0.0-beta.2",
     "prop-types": "^15.6.0",
     "react": "^16.4.2",
+    "js-cookie": "^2.1.4",
     "react-dom": "^16.4.2",
     "react-hot-loader": "^3.1.3",
     "swagger2openapi": "^2.9.2",

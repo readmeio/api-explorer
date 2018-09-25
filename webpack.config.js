@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
+const log = require('./example/fixtures/requestmodel.json');
 
 module.exports = merge(common, {
   output: {
@@ -12,16 +13,15 @@ module.exports = merge(common, {
     port: 9966,
     hot: true,
     watchContentBase: true,
+    before: (app) => {
+      app.get('/api/logs', (req, res) => {
+        res.json([log, log, log, log, log]);
+      });
+    },
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: 'cheap-module-source-map',
-  node: {
-    console: true,
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty', // https://github.com/request/request/issues/1529
-  },
 });
