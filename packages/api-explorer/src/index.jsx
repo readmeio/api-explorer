@@ -105,6 +105,7 @@ class ApiExplorer extends React.Component {
                       flags={this.props.flags}
                       user={Cookie.getJSON('user_data')}
                       Logs={this.props.Logs}
+                      baseUrl={this.props.baseUrl}
                       appearance={this.props.appearance}
                       language={this.state.language}
                       oauth={this.props.oauth}
@@ -133,6 +134,7 @@ ApiExplorer.propTypes = {
     correctnewlines: PropTypes.bool,
   }).isRequired,
   oauth: PropTypes.bool,
+  baseUrl: PropTypes.string.isRequired,
   Logs: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
@@ -156,6 +158,7 @@ ApiExplorer.defaultProps = {
   },
   tryItMetrics: () => {},
   Logs: undefined,
+  baseUrl: '/',
 };
 
 module.exports = props => (

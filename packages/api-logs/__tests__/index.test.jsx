@@ -38,7 +38,6 @@ describe('Logs', () => {
   test('should be in a loading state', () => {
     const comp = shallow(<LogTest {...props} />);
     comp.setState({ loading: true });
-    console.log('whoa dude: ', comp.html());
 
     expect(comp.find('.loading-container').length).toBe(1);
   });

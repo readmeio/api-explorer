@@ -79,6 +79,7 @@ class Demo extends React.Component {
               oasFiles={{
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
+              baseUrl={'/'}
               Logs={Logs}
               flags={{
                 correctnewlines: false,

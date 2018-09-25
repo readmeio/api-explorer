@@ -250,6 +250,7 @@ class Doc extends React.Component {
         apiKey={this.props.apiKey}
         oas={this.oas}
         user={this.props.user}
+        baseUrl={this.props.baseUrl}
         operation={this.getOperation()}
         formData={this.state.formData}
         onChange={this.onChange}
@@ -381,6 +382,7 @@ Doc.propTypes = {
     referenceLayout: PropTypes.string,
   }).isRequired,
   language: PropTypes.string.isRequired,
+  baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   apiKey: PropTypes.string,
@@ -398,4 +400,5 @@ Doc.defaultProps = {
   apiKey: undefined,
   Logs: undefined,
   user: undefined,
+  baseUrl: '/',
 };

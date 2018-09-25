@@ -31180,6 +31180,7 @@ function (_React$Component) {
           flags: _this2.props.flags,
           user: Cookie.getJSON('user_data'),
           Logs: _this2.props.Logs,
+          baseUrl: _this2.props.baseUrl,
           appearance: _this2.props.appearance,
           language: _this2.state.language,
           oauth: _this2.props.oauth,
@@ -31204,6 +31205,7 @@ ApiExplorer.propTypes = {
     correctnewlines: PropTypes.bool
   }).isRequired,
   oauth: PropTypes.bool,
+  baseUrl: PropTypes.string.isRequired,
   Logs: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
@@ -31227,7 +31229,8 @@ ApiExplorer.defaultProps = {
     correctnewlines: false
   },
   tryItMetrics: function tryItMetrics() {},
-  Logs: undefined
+  Logs: undefined,
+  baseUrl: '/'
 };
 
 module.exports = function (props) {
@@ -37758,6 +37761,7 @@ function (_React$Component) {
         apiKey: this.props.apiKey,
         oas: this.oas,
         user: this.props.user,
+        baseUrl: this.props.baseUrl,
         operation: this.getOperation(),
         formData: this.state.formData,
         onChange: this.onChange,
@@ -37878,6 +37882,7 @@ Doc.propTypes = {
     referenceLayout: PropTypes.string
   }).isRequired,
   language: PropTypes.string.isRequired,
+  baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   apiKey: PropTypes.string,
@@ -37893,7 +37898,8 @@ Doc.defaultProps = {
   },
   apiKey: undefined,
   Logs: undefined,
-  user: undefined
+  user: undefined,
+  baseUrl: '/'
 };
 
 /***/ }),

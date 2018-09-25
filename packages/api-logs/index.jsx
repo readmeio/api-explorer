@@ -73,7 +73,7 @@ class Logs extends React.Component {
   }
 
   getData() {
-    const { oas, operation } = this.props;
+    const { oas, operation, baseUrl } = this.props;
     const { group } = this.state;
     this.setState({ loading: true });
 
@@ -91,8 +91,7 @@ class Logs extends React.Component {
       find.group = group;
     }
 
-    // TODO: make this url non-root so that it can work with parent
-    const reqUrl = `/api/logs?${querystring.stringify(find)}`;
+    const reqUrl = `${baseUrl}api/logs?${querystring.stringify(find)}`;
 
     return fetch(reqUrl).then(res => {
       return this.handleData(res);
@@ -199,6 +198,7 @@ class Logs extends React.Component {
 Logs.propTypes = {
   oas: PropTypes.shape({}).isRequired,
   operation: PropTypes.shape({}).isRequired,
+  baseUrl: PropTypes.string.isRequired,
   user: PropTypes.shape({
     keys: PropTypes.array,
     id: PropTypes.string,
