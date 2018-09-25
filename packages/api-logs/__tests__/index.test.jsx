@@ -8,6 +8,8 @@ const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
 
+const baseUrl = '/';
+
 class LogTest extends Logs {
   getData() { // eslint-disable-line class-methods-use-this
     return new Promise(resolve => {
@@ -26,10 +28,11 @@ describe('Logs', () => {
       isAdmin: true,
       id: 'someid',
     },
+    baseUrl,
   };
 
   test('should not render if user_data does not have id or keys.id', () => {
-    const noUser = { oas, operation };
+    const noUser = { oas, operation, baseUrl };
     const comp = shallow(<LogTest {...noUser} />);
 
     expect(comp.html()).toBe(null);
