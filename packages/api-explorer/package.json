@@ -8,7 +8,6 @@
     "@readme/oas-extensions": "^1.0.0",
     "@readme/syntax-highlighter": "^2.1.0",
     "@readme/variable": "^2.0.0",
-    "@readme/api-logs": "^1.0.0",
     "classnames": "^2.2.5",
     "fetch-har": "^2.0.0",
     "hast-util-sanitize": "^1.2.0",
