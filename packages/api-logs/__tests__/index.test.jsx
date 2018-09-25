@@ -1,4 +1,4 @@
-import 'isomorphic-fetch';
+require('isomorphic-fetch');
 
 const React = require('react');
 const { shallow } = require('enzyme');

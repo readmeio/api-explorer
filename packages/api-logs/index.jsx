@@ -1,14 +1,8 @@
 const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
-const useragent = require('useragent');
 const querystring = require('querystring');
-/* 
-eslint-disable 
-no-underscore-dangle,
-react/no-unused-prop-types,
-error/no-unused-vars,
-*/
+
 const LoadingSvg = props => (
   <svg
     width="38"
@@ -38,17 +32,12 @@ const Oas = require('./lib/Oas.js');
 
 const { Operation } = Oas;
 
-function getHeader(name, headers) {
-  return headers.find(e => e.name.toLowerCase() === name.toLowerCase());
-}
-
 function getLanguage(log) {
-  // holy moly, look at that key path
-  const userAgent = getHeader('User-Agent', log.request.log.entries[0].request.headers);
-  if (!userAgent) return '-';
-  const parsedAgent = useragent.parse(userAgent.value);
-  if (parsedAgent.family !== 'Other') return parsedAgent.family;
-  return parsedAgent.source;
+  const header = log.request.log.entries[0].request.headers.find(
+    e => e.name.toLowerCase() === 'user-agent',
+  );
+  if (header) return header.value;
+  return '-';
 }
 
 function getGroup(userData) {
