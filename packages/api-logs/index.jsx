@@ -27,10 +27,6 @@ const LoadingSvg = props => (
   </svg>
 );
 
-const Oas = require('./lib/Oas.js');
-
-const { Operation } = Oas;
-
 function getLanguage(log) {
   const header = log.request.log.entries[0].request.headers.find(
     e => e.name.toLowerCase() === 'user-agent',
@@ -201,8 +197,8 @@ class Logs extends React.Component {
 }
 
 Logs.propTypes = {
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
+  oas: PropTypes.shape({}).isRequired,
+  operation: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
     keys: PropTypes.array,
     id: PropTypes.string,

@@ -2,60 +2,48 @@ require('isomorphic-fetch');
 
 const React = require('react');
 const { shallow } = require('enzyme');
-const Cookie = require('js-cookie');
 
 const { Logs } = require('../index.jsx');
 const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
-const Oas = require('../lib/Oas.js');
-
-const { Operation } = Oas;
 
 class LogTest extends Logs {
   getData() { // eslint-disable-line class-methods-use-this
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve([requestmodel]);
     });
   }
 }
 
-
 describe('Logs', () => {
   const props = {
-    oas: new Oas(oas),
-    operation: new Operation(operation),
+    oas,
+    operation,
+    user: {
+      name: 'Gilfoyle',
+      email: 'gilfoyle@piedpiper.com',
+      isAdmin: true,
+      id: 'someid',
+    },
   };
 
   test('should not render if user_data does not have id or keys.id', () => {
-    const comp = shallow(<LogTest {...props} />);
+    const noUser = { oas, operation };
+    const comp = shallow(<LogTest {...noUser} />);
 
     expect(comp.html()).toBe(null);
   });
 
   test('should be in a loading state', () => {
-    const userData = {
-      name: 'Gilfoyle',
-      email: 'gilfoyle@piedpiper.com',
-      isAdmin: true,
-      id: 'someid',
-    };
-    Cookie.set('user_data', JSON.stringify(userData));
     const comp = shallow(<LogTest {...props} />);
-    comp.setState({ loading: true })
+    comp.setState({ loading: true });
+    console.log('whoa dude: ', comp.html());
 
     expect(comp.find('.loading-container').length).toBe(1);
   });
 
   test('should render with id', () => {
-    const userData = {
-      name: 'Gilfoyle',
-      email: 'gilfoyle@piedpiper.com',
-      isAdmin: true,
-      id: 'someid',
-    };
-    Cookie.set('user_data', JSON.stringify(userData));
-
     const comp = shallow(<LogTest {...props} />);
     comp.setState({ logs: [requestmodel] });
 
@@ -64,17 +52,13 @@ describe('Logs', () => {
   });
 
   test('should render with key', () => {
-
     const userData = {
       name: 'Gilfoyle',
       email: 'gilfoyle@piedpiper.com',
       isAdmin: true,
-      keys: [
-        { id: 'one', name: 'one' },
-        { id: 'two', name: 'two' },
-      ],
+      keys: [{ id: 'one', name: 'one' }, { id: 'two', name: 'two' }],
     };
-    Cookie.set('user_data', JSON.stringify(userData));
+    props.user = userData;
 
     const comp = shallow(<LogTest {...props} />);
     comp.setState({ logs: [requestmodel] });
