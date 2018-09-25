@@ -5,7 +5,6 @@ const oasToHar = require('./lib/oas-to-har');
 const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('@readme/oas-extensions');
 const Waypoint = require('react-waypoint');
-const Logs = require('@readme/api-logs');
 
 const { Fragment } = React;
 
@@ -244,6 +243,8 @@ class Doc extends React.Component {
   }
 
   renderLogs() {
+    if (!this.props.Logs) return null;
+    const { Logs } = this.props;
     return (
       <Logs
         apiKey={this.props.apiKey}
@@ -370,11 +371,11 @@ Doc.propTypes = {
     }),
   }).isRequired,
   user: PropTypes.shape({}),
+  Logs: PropTypes.func,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
-    apilogs: PropTypes.bool,
   }).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
@@ -390,10 +391,11 @@ Doc.defaultProps = {
   oas: {},
   flags: {
     correctnewlines: false,
-    apilogs: false,
   },
   appearance: {
     referenceLayout: 'row',
   },
   apiKey: undefined,
+  Logs: undefined,
+  user: undefined,
 };

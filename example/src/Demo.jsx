@@ -8,6 +8,7 @@ const extensions = require('../../packages/oas-extensions/');
 const createDocs = require('../../packages/api-explorer/lib/create-docs');
 
 const ApiExplorer = require('../../packages/api-explorer/src');
+const Logs = require('../../packages/api-logs');
 const ApiList = require('./ApiList');
 
 
@@ -78,9 +79,9 @@ class Demo extends React.Component {
               oasFiles={{
                 'api-setting': Object.assign(extensions.defaults, this.state.oas),
               }}
+              Logs={Logs}
               flags={{
                 correctnewlines: false,
-                apilogs: true,
               }}
               // Uncomment this in for column layout
               // appearance={{ referenceLayout: 'column' }}
