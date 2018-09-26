@@ -23,6 +23,8 @@ function withSpecFetching(Component) {
             if (json.swagger) return this.convertSwagger(json);
 
             return this.dereference(json);
+          }).catch((e) => {
+            this.updateStatus(`There was an error fetching your specification:\n\n${e.message}`);
           });
       });
     }
