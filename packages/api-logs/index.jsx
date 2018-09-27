@@ -57,7 +57,6 @@ class Logs extends React.Component {
       groups: props.user.keys && props.user.keys.map(key => ({ id: key.id, name: key.name })),
     };
 
-    this.renderOption = this.renderOption.bind(this);
     this.renderSelect = this.renderSelect.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.renderTable = this.renderTable.bind(this);
@@ -134,20 +133,19 @@ class Logs extends React.Component {
     });
   }
 
-  renderOption(item) {
-    const { group } = this.state;
-    return (
-      <option value={item.id}>
-        {item.name}
-      </option>
-    );
+  static renderOption(item) {
+    return <option value={item.id}>{item.name}</option>;
   }
 
   renderSelect() {
     const { groups, group } = this.state;
 
     if (groups && groups.length > 1) {
-      return <select value={group} onChange={this.onSelect}>{groups.map(this.renderOption)}</select>;
+      return (
+        <select value={group} onChange={this.onSelect}>
+          {groups.map(Logs.renderOption)}
+        </select>
+      );
     }
     return null;
   }

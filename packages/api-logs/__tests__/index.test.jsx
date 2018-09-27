@@ -11,7 +11,8 @@ const operation = require('./fixtures/operation.json');
 const baseUrl = '/';
 
 class LogTest extends Logs {
-  getData() { // eslint-disable-line class-methods-use-this
+  // eslint-disable-next-line class-methods-use-this
+  getData() {
     return new Promise(resolve => {
       resolve([requestmodel]);
     });
