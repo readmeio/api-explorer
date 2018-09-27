@@ -4,8 +4,7 @@
   "version": "1.0.0",
   "dependencies": {
     "prop-types": "^15.6.2",
-    "react": "^16.4.2",
-    "yamlparser": "0.0.2"
+    "react": "^16.4.2"
   },
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
