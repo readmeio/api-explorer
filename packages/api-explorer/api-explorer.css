@@ -52,7 +52,7 @@ form form.rjsf {
   border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
-  padding-right: 30px;
+  padding-right: 3.55%;
 }
 .logs .logs-list table {
   width: 100%;
@@ -64,6 +64,11 @@ form form.rjsf {
   padding: 10px;
   word-break: break-all;
   overflow-x: hidden;
+}
+.logs .logs-list table tr th:last-child,
+.logs .logs-list table tr td:last-child {
+  text-align: right;
+  padding-right: 3.55%;
 }
 .hub-reference-section .logs .logs-list table thead tr:first-child:hover {
   background-color: initial;

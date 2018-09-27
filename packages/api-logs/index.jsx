@@ -137,17 +137,17 @@ class Logs extends React.Component {
   renderOption(item) {
     const { group } = this.state;
     return (
-      <option value={item.id} selected={group === item}>
+      <option value={item.id}>
         {item.name}
       </option>
     );
   }
 
   renderSelect() {
-    const { groups } = this.state;
+    const { groups, group } = this.state;
 
     if (groups && groups.length > 1) {
-      return <select onChange={this.onSelect}>{groups.map(this.renderOption)}</select>;
+      return <select value={group} onChange={this.onSelect}>{groups.map(this.renderOption)}</select>;
     }
     return null;
   }
