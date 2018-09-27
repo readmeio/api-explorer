@@ -18,3 +18,6 @@ cp -R example/swagger-files example/dist
 # Need to copy over the circleci config so that
 # it picks up we want to ignore the gh-pages branch
 cp -R .circleci example/dist
+
+# Copy over CNAME for gh-pages custom domain
+cp example/CNAME example/dist
