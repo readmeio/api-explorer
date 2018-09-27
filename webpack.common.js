@@ -7,11 +7,11 @@ module.exports = {
       'whatwg-fetch',
       './example/index.jsx',
     ],
-    preview: [
+    reference: [
       'babel-polyfill',
       'react-hot-loader/patch',
       'whatwg-fetch',
-      './example/preview/index.jsx',
+      './example/reference/index.jsx',
     ],
   },
   module: {
