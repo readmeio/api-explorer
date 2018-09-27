@@ -15,7 +15,12 @@ module.exports = merge(common, {
     watchContentBase: true,
     before: (app) => {
       app.get('/api/logs', (req, res) => {
-        res.json([log, log, log, log, log]);
+        // Simulate some loading time
+        setTimeout(() => {
+          res.json([...Array(5).keys()].map(() =>
+            Object.assign({}, log, { _id: Math.random().toString(5) }),
+          ));
+        }, 500);
       });
     },
   },
