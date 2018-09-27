@@ -67,7 +67,6 @@ form form.rjsf {
 }
 .logs .logs-list table tr th:last-child,
 .logs .logs-list table tr td:last-child {
-  text-align: right;
   padding-right: 3.55%;
 }
 .hub-reference-section .logs .logs-list table thead tr:first-child:hover {
