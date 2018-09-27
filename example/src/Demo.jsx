@@ -39,7 +39,14 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
             variables={{
               // Uncomment this to test without logs
               // user: {}
-              user: { keys: [{ id: 'someid', name: 'project1', apiKey: '123' }, { id: 'anotherid', name: 'project2', apiKey: '456' }] },
+              // Uncomment this to test with logs
+              // user: {
+              //   keys: [
+              //     { id: 'someid', name: 'project1', apiKey: '123' },
+              //     { id: 'anotherid', name: 'project2', apiKey: '456' },
+              //   ],
+              // },
+              user: { keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] },
               defaults: [],
             }}
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
