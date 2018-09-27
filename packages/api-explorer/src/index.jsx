@@ -103,7 +103,7 @@ class ApiExplorer extends React.Component {
                       oas={this.getOas(doc)}
                       setLanguage={this.setLanguage}
                       flags={this.props.flags}
-                      user={Cookie.getJSON('user_data')}
+                      user={this.props.variables.user}
                       Logs={this.props.Logs}
                       baseUrl={this.props.baseUrl}
                       appearance={this.props.appearance}

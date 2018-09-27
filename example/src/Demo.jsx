@@ -1,7 +1,6 @@
 const React = require('react');
 const swagger2openapi = require('swagger2openapi');
 const PropTypes = require('prop-types');
-const Cookie = require('js-cookie');
 
 const extensions = require('../../packages/oas-extensions/');
 
@@ -10,15 +9,6 @@ const createDocs = require('../../packages/api-explorer/lib/create-docs');
 const ApiExplorer = require('../../packages/api-explorer/src');
 const Logs = require('../../packages/api-logs');
 const ApiList = require('./ApiList');
-
-
-const userData = {
-  name: 'Gilfoyle',
-  email: 'gilfoyle@piedpiper.com',
-  isAdmin: true,
-  id: 'someid',
-};
-Cookie.set('user_data', JSON.stringify(userData));
 
 require('../../example/swagger-files/types.json');
 require('../../packages/api-explorer/api-explorer.css');
@@ -90,7 +80,7 @@ class Demo extends React.Component {
               suggestedEdits
               oauth={this.props.oauth}
               variables={{
-                user: { keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] },
+                user: { keys: [{ id: 'someid', name: 'project1', apiKey: '123' }, { id: 'anotherid', name: 'project2', apiKey: '456' }] },
                 defaults: [],
               }}
               glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
