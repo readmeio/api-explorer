@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
-    "prettier": "prettier --list-different \"index.jsx\"",
+    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "test": "jest --coverage"
   },
