@@ -80,6 +80,8 @@ class Demo extends React.Component {
               suggestedEdits
               oauth={this.props.oauth}
               variables={{
+                // Uncomment this to test without logs
+                // user: {}
                 user: { keys: [{ id: 'someid', name: 'project1', apiKey: '123' }, { id: 'anotherid', name: 'project2', apiKey: '456' }] },
                 defaults: [],
               }}
