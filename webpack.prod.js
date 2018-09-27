@@ -7,7 +7,7 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   output: {
-    filename: './example/dist/bundle.js',
+    filename: './example/dist/[name]-bundle.js',
   },
   plugins: [
     new webpack.DefinePlugin({

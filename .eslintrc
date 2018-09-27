@@ -4,6 +4,6 @@
     "browser": true
   },
   "rules": {
-
+    "no-underscore-dangle": ["error", { "allow": ["_cache", "_id", "_key"] }]
   }
 }

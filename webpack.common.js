@@ -1,11 +1,19 @@
 module.exports = {
-  entry: [
-    // We require the babel polyfill because the swagger2openapi module uses generators
-    'babel-polyfill',
-    'react-hot-loader/patch',
-    'whatwg-fetch',
-    './example/index.jsx',
-  ],
+  entry: {
+    demo: [
+      // We require the babel polyfill because the swagger2openapi module uses generators
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      'whatwg-fetch',
+      './example/index.jsx',
+    ],
+    reference: [
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      'whatwg-fetch',
+      './example/reference/index.jsx',
+    ],
+  },
   module: {
     rules: [
       {

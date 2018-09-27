@@ -41,7 +41,7 @@ module.exports = (oas, apiSetting) => {
       if (!docs.find(category => category.slug === tag && category.type === 'basic')) {
         docs.push({
           _id: Math.random().toString(16),
-          title: operation.summary || tag,
+          title: operation.summary || path || tag,
           slug: tag,
           type: 'endpoint',
           category: { apiSetting },
@@ -62,6 +62,7 @@ module.exports = (oas, apiSetting) => {
             // },
           },
           swagger: { path },
+          excerpt: operation.description,
           // Uncomment this if you want some body content blocks
           // body,
         });
@@ -71,7 +72,7 @@ module.exports = (oas, apiSetting) => {
       if (!isCategory) {
         docs.push({
           _id: Math.random().toString(16),
-          title: operation.summary,
+          title: operation.summary || path || tag,
           slug: operation.operationId,
           type: 'endpoint',
           category: { apiSetting },

@@ -5,7 +5,7 @@ const log = require('./example/fixtures/requestmodel.json');
 
 module.exports = merge(common, {
   output: {
-    filename: './example/bundle.js',
+    filename: './example/[name]-bundle.js',
   },
   devServer: {
     contentBase: './example',
