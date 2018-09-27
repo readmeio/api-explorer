@@ -36,7 +36,7 @@
     "eslint-plugin-react": "^7.1.0",
     "gh-pages": "^1.1.0",
     "jest": "^23.5.0",
-    "lerna": "^2.6.0",
+    "lerna": "^3.4.0",
     "style-loader": "^0.22.0",
     "uglify-es": "^3.2.1",
     "uglifyjs-webpack-plugin": "^1.2.3",
