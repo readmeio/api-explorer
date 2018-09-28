@@ -5,7 +5,7 @@ const extensions = require('../../packages/oas-extensions/');
 
 const withSpecFetching = require('./SpecFetcher');
 
-const ApiExplorer = require('../../packages/api-explorer');
+const ApiExplorer = require('../../packages/api-explorer/src');
 const Logs = require('../../packages/api-logs');
 const ApiList = require('./ApiList');
 
