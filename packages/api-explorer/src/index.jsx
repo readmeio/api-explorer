@@ -105,6 +105,7 @@ class ApiExplorer extends React.Component {
                       flags={this.props.flags}
                       user={this.props.variables.user}
                       Logs={this.props.Logs}
+                      enableLogs={this.props.enableLogs}
                       baseUrl={this.props.baseUrl}
                       appearance={this.props.appearance}
                       language={this.state.language}
@@ -137,6 +138,7 @@ ApiExplorer.propTypes = {
   baseUrl: PropTypes.string.isRequired,
   Logs: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
+  enableLogs: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
   variables: PropTypes.shape({
     user: PropTypes.shape({

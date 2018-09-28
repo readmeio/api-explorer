@@ -33,6 +33,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
             flags={{ correctnewlines: false }}
             // Uncomment this in for column layout
             // appearance={{ referenceLayout: 'column' }}
+            enableLogs={false}
             appearance={{ referenceLayout: 'row' }}
             suggestedEdits
             oauth={oauth}
