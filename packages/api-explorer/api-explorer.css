@@ -78,7 +78,7 @@ form form.rjsf {
 }
 .logs .logs-list table {}
 .hub-reference-section .logs .logs-list table tbody tr:hover {
-  cursor: default;
+  cursor: pointer;
   background-color: #eee;
 }
 .logs .select-container {

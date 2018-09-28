@@ -60,6 +60,7 @@ class Logs extends React.Component {
     this.renderSelect = this.renderSelect.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.renderTable = this.renderTable.bind(this);
+    this.visitLogItem = this.visitLogItem.bind(this);
   }
 
   componentDidMount() {
@@ -115,13 +116,18 @@ class Logs extends React.Component {
       });
   }
 
+  visitLogItem(log) {
+    const { baseUrl } = this.props;
+    window.location = `${baseUrl}logs/${log._id}`;
+  }
+
   renderLogs() {
     const { logs } = this.state;
 
     return logs.map(log => {
       const entry = log.request.log.entries[0];
       return (
-        <tr key={log._id}>
+        <tr onClick={this.visitLogItem.bind(this, log)} key={log._id}>
           <td>{entry.request.method}</td>
           <td>{entry.response.status}</td>
           <td>{entry.request.url}</td>
