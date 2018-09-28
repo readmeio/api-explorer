@@ -59,6 +59,18 @@ form form.rjsf {
   text-align: left;
   table-layout: fixed;
 }
+.logs .select-container a {
+  margin-right: 10px;
+  cursor: pointer;
+}
+.logs .logs-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background: #eee;
+  min-height: 224px;
+}
 .logs .logs-list table td,
 .logs .logs-list table th {
   padding: 10px;
