@@ -118,7 +118,7 @@ class Logs extends React.Component {
 
   visitLogItem(log) {
     const { baseUrl } = this.props;
-    window.location = `${baseUrl}logs/${log._id}`;
+    window.open(`${baseUrl}logs/${log._id}`);
   }
 
   renderLogs() {
