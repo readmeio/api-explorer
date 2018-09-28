@@ -243,7 +243,7 @@ class Doc extends React.Component {
   }
 
   renderLogs() {
-    if (!this.props.enableLogs || !this.props.Logs) return null;
+    if (!this.props.Logs) return null;
     const { Logs } = this.props;
     return (
       <Logs
@@ -384,7 +384,6 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
-  enableLogs: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   apiKey: PropTypes.string,
   tryItMetrics: PropTypes.func.isRequired,

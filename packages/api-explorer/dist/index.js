@@ -31081,7 +31081,6 @@ function (_React$Component) {
           flags: _this2.props.flags,
           user: _this2.props.variables.user,
           Logs: _this2.props.Logs,
-          enableLogs: _this2.props.enableLogs,
           baseUrl: _this2.props.baseUrl,
           appearance: _this2.props.appearance,
           language: _this2.state.language,
@@ -31110,7 +31109,6 @@ ApiExplorer.propTypes = {
   baseUrl: PropTypes.string.isRequired,
   Logs: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
-  enableLogs: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
   variables: PropTypes.shape({
     user: PropTypes.shape({
@@ -37109,7 +37107,7 @@ function (_React$Component) {
   }, {
     key: "renderLogs",
     value: function renderLogs() {
-      if (!this.props.enableLogs || !this.props.Logs) return null;
+      if (!this.props.Logs) return null;
       var Logs = this.props.Logs;
       return React.createElement(Logs, {
         apiKey: this.props.apiKey,
@@ -37238,7 +37236,6 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
-  enableLogs: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   apiKey: PropTypes.string,
   tryItMetrics: PropTypes.func.isRequired
