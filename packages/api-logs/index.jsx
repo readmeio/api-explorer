@@ -157,7 +157,7 @@ class Logs extends React.Component {
   }
 
   renderTable() {
-    const { loading } = this.state;
+    const { loading, logs } = this.state;
     if (loading) {
       return (
         <div className="loading-container">
@@ -165,6 +165,15 @@ class Logs extends React.Component {
         </div>
       );
     }
+
+    if (!logs.length) {
+      return (
+        <div className="logs-empty">
+          <p>No Logs</p>
+        </div>
+      );
+    }
+
     return (
       <table className="table">
         <thead>
@@ -184,14 +193,24 @@ class Logs extends React.Component {
 
   render() {
     const { group } = this.state;
-
+    const { oas, operation, baseUrl } = this.props;
     if (!group) return null;
+
+    const find = {
+      url: `${oas.servers[0].url}${operation.path}`,
+    };
+    const url = `${baseUrl}logs?${querystring.stringify(find)}`;
 
     return (
       <div className="logs">
         <div className="log-header">
           <h3>Logs</h3>
-          <div className="select-container">{this.renderSelect()}</div>
+          <div className="select-container">
+            <div>
+              <a href={url}>View More</a>
+              {this.renderSelect()}
+            </div>
+          </div>
         </div>
         <div className="logs-list">{this.renderTable()}</div>
       </div>
