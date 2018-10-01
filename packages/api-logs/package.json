@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "main": "index.jsx",
   "dependencies": {
     "prop-types": "^15.6.2",
