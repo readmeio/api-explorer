@@ -60,6 +60,7 @@ class Logs extends React.Component {
     this.renderSelect = this.renderSelect.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.renderTable = this.renderTable.bind(this);
+    this.visitLogItem = this.visitLogItem.bind(this);
   }
 
   componentDidMount() {
@@ -115,13 +116,18 @@ class Logs extends React.Component {
       });
   }
 
+  visitLogItem(log) {
+    const { baseUrl } = this.props;
+    window.open(`${baseUrl}logs/${log._id}`);
+  }
+
   renderLogs() {
     const { logs } = this.state;
 
     return logs.map(log => {
       const entry = log.request.log.entries[0];
       return (
-        <tr key={log._id}>
+        <tr onClick={this.visitLogItem.bind(this, log)} key={log._id}>
           <td>{entry.request.method}</td>
           <td>{entry.response.status}</td>
           <td>{entry.request.url}</td>
@@ -151,7 +157,7 @@ class Logs extends React.Component {
   }
 
   renderTable() {
-    const { loading } = this.state;
+    const { loading, logs } = this.state;
     if (loading) {
       return (
         <div className="loading-container">
@@ -159,6 +165,15 @@ class Logs extends React.Component {
         </div>
       );
     }
+
+    if (!logs.length) {
+      return (
+        <div className="logs-empty">
+          <p>No Logs</p>
+        </div>
+      );
+    }
+
     return (
       <table className="table">
         <thead>
@@ -178,14 +193,24 @@ class Logs extends React.Component {
 
   render() {
     const { group } = this.state;
-
+    const { oas, operation, baseUrl } = this.props;
     if (!group) return null;
+
+    const find = {
+      url: `${oas.servers[0].url}${operation.path}`,
+    };
+    const url = `${baseUrl}logs?${querystring.stringify(find)}`;
 
     return (
       <div className="logs">
         <div className="log-header">
           <h3>Logs</h3>
-          <div className="select-container">{this.renderSelect()}</div>
+          <div className="select-container">
+            <div>
+              <a href={url}>View More</a>
+              {this.renderSelect()}
+            </div>
+          </div>
         </div>
         <div className="logs-list">{this.renderTable()}</div>
       </div>

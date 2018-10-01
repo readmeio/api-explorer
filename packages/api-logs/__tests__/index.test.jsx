@@ -105,6 +105,14 @@ describe('Logs', () => {
     expect(instance.state.group).toBe('1230');
   });
 
+  test('open window on log visit', () => {
+    const comp = shallow(<Logs {...props} />);
+    global.open = jest.fn();
+    const instance = comp.instance();
+    instance.visitLogItem(requestmodel);
+    expect(global.open).toBeCalled();
+  });
+
   test('when parsed agent is not Other', () => {
     const comp = shallow(<LogTest {...props} />);
     requestmodel.request.log.entries[0].request.headers[0].value = 'IE4.0';
