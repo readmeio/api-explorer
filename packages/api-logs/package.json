@@ -2,7 +2,7 @@
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
   "version": "2.2.2",
-  "main": "index.jsx",
+  "main": "dist/index.js",
   "dependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.4.2"
@@ -12,7 +12,9 @@
     "inspect": "jsinspect",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "watch": "webpack -w",
+    "build": "webpack --config webpack.prod.js"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -31,6 +33,10 @@
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.5.0",
     "jsinspect": "^0.12.7",
-    "prettier": "^1.14.0"
+    "prettier": "^1.14.0",
+    "uglify-es": "^3.2.1",
+    "uglifyjs-webpack-plugin": "^1.2.3",
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
   }
 }
