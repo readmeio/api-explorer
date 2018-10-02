@@ -14,6 +14,7 @@ module.exports = {
     path.join(__dirname, '/lib/enzyme'),
   ],
   coveragePathIgnorePatterns: [
+    '<rootDir>/webpack.*.js',
     '<rootDir>/src/form-components',
     'dist/',
   ],
