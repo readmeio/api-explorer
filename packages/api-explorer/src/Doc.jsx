@@ -161,6 +161,7 @@ class Doc extends React.Component {
               {doc.type === 'endpoint' && (
                 <Fragment>
                   {this.renderPathUrl()}
+                  {this.renderLogs()}
                   {this.renderParams()}
                 </Fragment>
               )}
