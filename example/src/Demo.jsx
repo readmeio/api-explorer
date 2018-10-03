@@ -11,6 +11,7 @@ const ApiList = require('./ApiList');
 
 require('../../example/swagger-files/types.json');
 require('../../packages/api-explorer/api-explorer.css');
+require('../../packages/api-logs/main.css');
 
 function Demo({ fetchSwagger, status, docs, oas, oauth }) {
   return (

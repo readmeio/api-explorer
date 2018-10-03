@@ -1,0 +1,77 @@
+.hub-reference .logs {
+  width: 97%;
+  margin-left: 3%;
+}
+.hub-reference .logs .loading-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  height: 50px;
+  width: 50px;
+}
+.hub-reference .logs h3 {
+  color: #aeaeae;
+  text-transform: uppercase;
+  padding-bottom: 12px;
+  margin-bottom: 6px;
+}
+.hub-reference .logs .logs-list {
+  border-bottom: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-top: none;
+  border-right: none;
+  min-height: 224px;
+  position: relative;
+}
+.hub-reference .logs .log-header {
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 3.55%;
+}
+.hub-reference .logs .logs-list table {
+  width: 100%;
+  text-align: left;
+  table-layout: fixed;
+}
+.hub-reference .logs .select-container a {
+  margin-right: 10px;
+  cursor: pointer;
+}
+.hub-reference .logs .logs-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background: #eee;
+  min-height: 224px;
+}
+.hub-reference .logs .logs-list table td,
+.hub-reference .logs .logs-list table th {
+  padding: 10px;
+  word-break: break-all;
+  overflow-x: hidden;
+}
+.hub-reference .logs .logs-list table tr th:last-child,
+.hub-reference .logs .logs-list table tr td:last-child {
+  padding-right: 3.55%;
+}
+.hub-reference .hub-reference-section .logs .logs-list table thead tr:first-child:hover {
+  background-color: initial;
+  cursor: default;
+}
+.hub-reference .logs .logs-list table tbody tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+.hub-reference .hub-reference-section .logs .logs-list table tbody tr:hover {
+  cursor: pointer;
+  background-color: #eee;
+}
+.hub-reference .logs .select-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
