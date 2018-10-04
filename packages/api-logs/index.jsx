@@ -207,7 +207,9 @@ class Logs extends React.Component {
           <h3>Logs</h3>
           <div className="select-container">
             <div>
-              <a href={url}>View More</a>
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                View More
+              </a>
               {this.renderSelect()}
             </div>
           </div>
