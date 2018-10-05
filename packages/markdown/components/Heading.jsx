@@ -1,8 +1,15 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+function generateHeadingId(e) {
+  if (typeof e === 'object') {
+    return generateHeadingId(e.props.children[0]);
+  }
+  return e.toLowerCase().replace(/[^\w]+/g, '-');
+}
+
 function Heading(props) {
-  const id = `section-${props.children[0].toLowerCase().replace(/[^\w]+/g, '-')}`;
+  const id = `section-${generateHeadingId(props.children[0])}`;
   return React.createElement(props.level, { className: 'header-scroll' }, [
     <div className="anchor waypoint" id={id} key={`anchor-${id}`} />,
     ...props.children,
