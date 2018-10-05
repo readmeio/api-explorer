@@ -3,7 +3,7 @@ require('isomorphic-fetch');
 const React = require('react');
 const { shallow } = require('enzyme');
 
-const { Logs } = require('../index.jsx');
+const { Logs, LogsEmitter } = require('../index.jsx');
 const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
@@ -37,6 +37,20 @@ describe('Logs', () => {
     const comp = shallow(<LogTest {...noUser} />);
 
     expect(comp.html()).toBe(null);
+  });
+
+  test('should render a log with no user-agent', () => {
+    const comp = shallow(<LogTest {...props} />);
+    const clonedLog = JSON.parse(JSON.stringify(requestmodel));
+    clonedLog.request.log.entries[0].request.headers[0].name = '';
+    comp.setState({ logs: [clonedLog] });
+
+    expect(
+      comp
+        .find('tbody tr')
+        .childAt(4)
+        .text(),
+    ).toBe('-');
   });
 
   test('should be in a loading state', () => {
@@ -111,6 +125,23 @@ describe('Logs', () => {
     const instance = comp.instance();
     instance.visitLogItem(requestmodel);
     expect(global.open).toBeCalled();
+  });
+
+  test('on stale call refresh', () => {
+    const comp = shallow(<Logs {...props} />);
+    comp.setState({ stale: true });
+    const instance = comp.instance();
+    jest.spyOn(instance, 'refresh');
+    instance.onVisible();
+    expect(instance.refresh).toHaveBeenCalledWith('1230');
+  });
+
+  test('remove listener on component unmount', () => {
+    const comp = shallow(<Logs {...props} />);
+    comp.setState({ stale: true });
+    const instance = comp.instance();
+    instance.componentWillUnmount();
+    expect(LogsEmitter.listeners().length).toBe(0);
   });
 
   test('when parsed agent is not Other', () => {

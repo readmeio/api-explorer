@@ -1,6 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const querystring = require('querystring');
+const VisibilitySensor = require('react-visibility-sensor');
+const EventsEmitter = require('events');
 
 const LoadingSvg = props => (
   <svg
@@ -47,13 +49,17 @@ function getGroup(userData) {
   return undefined;
 }
 
+const emitter = new EventsEmitter();
+let selectedGroup;
+
 class Logs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
+      stale: false,
       logs: [],
-      group: getGroup(props.user),
+      group: selectedGroup || getGroup(props.user),
       groups: props.user.keys && props.user.keys.map(key => ({ id: key.id, name: key.name })),
     };
 
@@ -61,20 +67,35 @@ class Logs extends React.Component {
     this.onSelect = this.onSelect.bind(this);
     this.renderTable = this.renderTable.bind(this);
     this.visitLogItem = this.visitLogItem.bind(this);
+    this.changeGroup = this.changeGroup.bind(this);
+    this.onVisible = this.onVisible.bind(this);
   }
 
   componentDidMount() {
-    this.refresh();
+    const { group } = this.state;
+    emitter.on('changeGroup', this.changeGroup);
+    this.refresh(group);
+  }
+
+  componentWillUnmount() {
+    emitter.removeListener('changeGroup', this.changeGroup);
   }
 
   onSelect(event) {
-    this.setState({ group: event.target.value });
-    this.refresh();
+    emitter.emit('changeGroup', event.target.value);
+    // this.changeGroup(event.target.value);
+    this.refresh(event.target.value);
   }
 
-  getData() {
+  onVisible() {
+    const { stale, group } = this.state;
+    if (stale) {
+      this.refresh(group);
+    }
+  }
+
+  getData(group) {
     const { oas, operation, baseUrl } = this.props;
-    const { group } = this.state;
     this.setState({ loading: true });
 
     const limit = 5;
@@ -106,8 +127,19 @@ class Logs extends React.Component {
     throw new Error(`Failed to fetch logs`);
   }
 
-  refresh() {
-    this.getData()
+  changeGroup(group) {
+    selectedGroup = group;
+    this.setState({
+      group,
+      stale: true,
+    });
+  }
+
+  refresh(group) {
+    this.setState({
+      stale: false,
+    });
+    this.getData(group)
       .then(logs => {
         this.setState({ logs });
       })
@@ -182,7 +214,7 @@ class Logs extends React.Component {
             <th>Status</th>
             <th>URL</th>
             <th>Group</th>
-            <th>Language</th>
+            <th>User Agent</th>
             <th>Time</th>
           </tr>
         </thead>
@@ -198,22 +230,27 @@ class Logs extends React.Component {
 
     const find = {
       url: `${oas.servers[0].url}${operation.path}`,
+      group,
     };
     const url = `${baseUrl}logs?${querystring.stringify(find)}`;
 
     return (
-      <div className="logs">
-        <div className="log-header">
-          <h3>Logs</h3>
-          <div className="select-container">
-            <div>
-              <a href={url}>View More</a>
-              {this.renderSelect()}
+      <VisibilitySensor onChange={this.onVisible}>
+        <div className="logs">
+          <div className="log-header">
+            <h3>Logs</h3>
+            <div className="select-container">
+              <div>
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  View More
+                </a>
+                {this.renderSelect()}
+              </div>
             </div>
           </div>
+          <div className="logs-list">{this.renderTable()}</div>
         </div>
-        <div className="logs-list">{this.renderTable()}</div>
-      </div>
+      </VisibilitySensor>
     );
   }
 }
@@ -234,3 +271,4 @@ Logs.defaultProps = {
 
 module.exports = Logs;
 module.exports.Logs = Logs;
+module.exports.LogsEmitter = emitter;
