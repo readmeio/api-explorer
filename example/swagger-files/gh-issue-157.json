@@ -21,5 +21,5 @@
   },
   "x-explorer-enabled": true,
   "x-samples-enabled": true,
-  "x-samples-languages": ["css"]
+  "x-samples-languages": ["node", "php", "css"]
 }

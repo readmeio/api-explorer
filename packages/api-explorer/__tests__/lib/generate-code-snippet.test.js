@@ -22,6 +22,13 @@ const operation = {
 
 const values = { path: { id: 123 } };
 
+test('should return falsy values for an unknown language', () => {
+  const codeSnippet = generateCodeSnippet(oas, operation, {}, 'css');
+
+  expect(codeSnippet.snippet).toBe(false);
+  expect(codeSnippet.code).toBe('');
+});
+
 test('should generate a HTML snippet for each lang', () => {
   const { snippet } = generateCodeSnippet(oas, operation, {}, 'node');
 

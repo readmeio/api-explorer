@@ -71,7 +71,7 @@ module.exports = (oas, operation, values, lang) => {
   // and there isn't a way to generate a code snippet for it
   // ex) shell
   if (!language) {
-    return undefined;
+    return { snippet: false, code: '' };
   }
 
   const code = snippet.convert(...language.httpsnippet);
