@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://httpbin.org"
+    }
+  ],
+  "info": {
+    "version": "1.0.0",
+    "title": "GH issue #157"
+  },
+  "paths": {
+    "/post": {
+      "post": {
+        "summary": "Should not error",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    }
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["css"]
+}
