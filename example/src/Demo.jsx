@@ -6,7 +6,7 @@ const extensions = require('../../packages/oas-extensions/');
 const withSpecFetching = require('./SpecFetcher');
 
 const ApiExplorer = require('../../packages/api-explorer/src');
-const Logs = require('../../packages/api-logs');
+const Logs = require('../../packages/api-logs/index');
 const ApiList = require('./ApiList');
 
 require('../../example/swagger-files/types.json');
