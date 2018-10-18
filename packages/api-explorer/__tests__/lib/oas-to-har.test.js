@@ -190,6 +190,26 @@ describe('path values', () => {
       ).log.entries[0].request.url,
     ).toBe('https://example.com/param-path/456');
   });
+
+  test('should add non-undefined values to the url', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/param-path/{id}',
+          method: 'get',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              required: true,
+            },
+          ],
+        },
+        { path: { id: 0 } },
+      ).log.entries[0].request.url,
+    ).toBe('https://example.com/param-path/0');
+  });
 });
 
 describe('query values', () => {

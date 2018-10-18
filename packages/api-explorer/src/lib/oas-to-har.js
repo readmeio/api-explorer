@@ -17,7 +17,7 @@ const format = {
 };
 
 function formatter(values, param, type, onlyIfExists) {
-  if (values[type][param.name]) {
+  if (typeof values[type][param.name] !== 'undefined') {
     return format.value(values[type][param.name]);
   }
   if (onlyIfExists && !param.required) {
