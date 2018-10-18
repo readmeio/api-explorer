@@ -4,7 +4,6 @@ function tokenizeVariable(eat, value, silent) {
   // Modifies the regular expression to match from
   // the start of the line
   const match = new RegExp(`^${VARIABLE_REGEXP}`).exec(value);
-
   if (!match) return false;
 
   if (silent) return true;

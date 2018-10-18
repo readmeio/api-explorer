@@ -4,6 +4,7 @@ const PropTypes = require('prop-types');
 const VariablesContext = require('./contexts/Variables');
 const OauthContext = require('./contexts/Oauth');
 const SelectedAppContext = require('./contexts/SelectedApp');
+const replaceVars = require('./replaceVars');
 
 class Variable extends React.Component {
   constructor(props) {
@@ -160,6 +161,8 @@ module.exports = props => (
 );
 
 module.exports.Variable = Variable;
+module.exports.VariablesContext = VariablesContext;
+module.exports.replaceVars = replaceVars;
 
 // Regex to match the following:
 // - \<<apiKey\>> - escaped variables

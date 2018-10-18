@@ -18,6 +18,7 @@ sanitize.tagNames.push('input');
 sanitize.ancestors.input = ['li'];
 
 const GlossaryItem = require('./GlossaryItem');
+const GlossaryTermsContext = require('./contexts/GlossaryTerms');
 
 module.exports = function markdown(text, opts = {}) {
   if (!text) return null;
@@ -47,3 +48,5 @@ module.exports = function markdown(text, opts = {}) {
     })
     .processSync(text).contents;
 };
+
+module.exports.GlossaryTermsContext = GlossaryTermsContext;
