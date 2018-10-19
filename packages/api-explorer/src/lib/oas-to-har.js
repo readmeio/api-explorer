@@ -124,7 +124,7 @@ module.exports = (
   if (queryStrings && queryStrings.length) {
     queryStrings.forEach(queryString => {
       const value = formatter(formData, queryString, 'query', true);
-      if (!value) return;
+      if (typeof value === 'undefined') return;
       har.queryString.push({
         name: queryString.name,
         value: String(value),
@@ -152,7 +152,7 @@ module.exports = (
   if (headers && headers.length) {
     headers.forEach(header => {
       const value = formatter(formData, header, 'header', true);
-      if (!value) return;
+      if (typeof value === 'undefined') return;
       har.headers.push({
         name: header.name,
         value: String(value),
