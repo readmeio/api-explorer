@@ -19,10 +19,6 @@
   margin-bottom: 6px;
 }
 .hub-reference .logs .logs-list {
-  border-bottom: 1px solid #eee;
-  border-left: 1px solid #eee;
-  border-top: none;
-  border-right: none;
   min-height: 224px;
   position: relative;
 }
@@ -52,8 +48,27 @@
 .hub-reference .logs .logs-list table td,
 .hub-reference .logs .logs-list table th {
   padding: 10px;
-  word-break: break-all;
+  white-space: nowrap;
   overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.hub-reference .logs .logs-list table th.method {
+  width: 7%;
+}
+.hub-reference .logs .logs-list table th.status {
+  width: 7%;
+}
+.hub-reference .logs .logs-list table th.url {
+  width: 40%;
+}
+.hub-reference .logs .logs-list table th.group {
+  width: 8%;
+}
+.hub-reference .logs .logs-list table th.useragent {
+  width: 13%;
+}
+.hub-reference .logs .logs-list table th.time {
+  width: 15%;
 }
 .hub-reference .logs .logs-list table tr th:last-child,
 .hub-reference .logs .logs-list table tr td:last-child {

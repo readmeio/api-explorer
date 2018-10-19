@@ -165,7 +165,7 @@ class Logs extends React.Component {
           <td>{entry.request.url}</td>
           <td>{log.group.label}</td>
           <td>{getLanguage(log)}</td>
-          <td>{log.createdAt}</td>
+          <td>{new Date(log.createdAt).toLocaleString()}</td>
         </tr>
       );
     });
@@ -210,12 +210,12 @@ class Logs extends React.Component {
       <table className="table">
         <thead>
           <tr>
-            <th>Method</th>
-            <th>Status</th>
-            <th>URL</th>
-            <th>Group</th>
-            <th>User Agent</th>
-            <th>Time</th>
+            <th className="method">Method</th>
+            <th className="status">Status</th>
+            <th className="url">URL</th>
+            <th className="group">Project</th>
+            <th className="useragent">User Agent</th>
+            <th className="time">Time</th>
           </tr>
         </thead>
         <tbody>{this.renderLogs()}</tbody>
