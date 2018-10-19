@@ -282,7 +282,7 @@ describe('query values', () => {
           parameters: [
             {
               name: 'id',
-              in: 'query'
+              in: 'query',
             },
           ],
         },
@@ -419,7 +419,7 @@ describe('header values', () => {
           parameters: [
             {
               name: 'id',
-              in: 'header'
+              in: 'header',
             },
           ],
         },
