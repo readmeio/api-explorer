@@ -226,7 +226,7 @@ class Doc extends React.Component {
   renderResponseSchema() {
     const operation = this.getOperation();
 
-    return operation.responses && <ResponseSchema operation={this.getOperation()} />;
+    return operation.responses && <ResponseSchema operation={this.getOperation()} oas={this.oas} />;
   }
 
   renderEndpoint() {

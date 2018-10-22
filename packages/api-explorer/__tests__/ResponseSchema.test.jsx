@@ -10,6 +10,7 @@ const oas = new Oas(petstore);
 
 const props = {
   operation: oas.operation('/pet/{petId}', 'get'),
+  oas,
 };
 
 test('should display a header with a dropdown', () => {
@@ -23,7 +24,6 @@ test('selectedStatus should change state of selectedStatus', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
 
   expect(responseSchema.state('selectedStatus')).toBe('200');
-
   responseSchema.instance().selectedStatus('400');
 
   expect(responseSchema.state('selectedStatus')).toBe('400');
@@ -68,4 +68,11 @@ test('should work if responses is an empty object', () => {
   );
 
   expect(responseSchema.html()).toBe(null);
+});
+
+test('display object properties in the table response', () => {
+
+  const responseSchema = shallow(<ResponseSchema {...props} />);
+  expect(responseSchema.last('th').text()).toContain('string');
+  expect(responseSchema.last('td').text()).toContain('status');
 });
