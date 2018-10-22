@@ -109,7 +109,7 @@ class Logs extends React.Component {
       method,
     };
     if (group) {
-      find.group = group;
+      find.id = group;
     }
 
     const reqUrl = `${baseUrl}api/logs?${querystring.stringify(find)}`;
@@ -230,7 +230,7 @@ class Logs extends React.Component {
 
     const find = {
       url: `${oas.servers[0].url}${operation.path}`,
-      group,
+      id: group,
     };
     const url = `${baseUrl}logs?${querystring.stringify(find)}`;
 
