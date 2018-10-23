@@ -351,3 +351,20 @@ test('it should pull out schemas from `components/requestBodies`', () => {
 });
 
 test.skip('it should make things required correctly', () => {});
+
+test('it should pass false value as default parameter', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'check',
+          schema: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+      ],
+    })[0].schema.properties.check,
+  ).toEqual({ default: false, type: 'boolean' });
+});

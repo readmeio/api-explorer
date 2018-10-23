@@ -190,6 +190,26 @@ describe('path values', () => {
       ).log.entries[0].request.url,
     ).toBe('https://example.com/param-path/456');
   });
+
+  test('should add falsy values to the url', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/param-path/{id}',
+          method: 'get',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              required: true,
+            },
+          ],
+        },
+        { path: { id: 0 } },
+      ).log.entries[0].request.url,
+    ).toBe('https://example.com/param-path/0');
+  });
 });
 
 describe('query values', () => {
@@ -250,6 +270,25 @@ describe('query values', () => {
         { query: { a: 'test' } },
       ).log.entries[0].request.queryString,
     ).toEqual([{ name: 'a', value: 'test' }]);
+  });
+
+  test('should add falsy values to the querystring', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/param-path',
+          method: 'get',
+          parameters: [
+            {
+              name: 'id',
+              in: 'query',
+            },
+          ],
+        },
+        { query: { id: 0 } },
+      ).log.entries[0].request.queryString,
+    ).toEqual([{ name: 'id', value: '0' }]);
   });
 });
 
@@ -368,6 +407,25 @@ describe('header values', () => {
         },
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+  });
+
+  test('should add falsy values to the headers', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/param-path',
+          method: 'get',
+          parameters: [
+            {
+              name: 'id',
+              in: 'header',
+            },
+          ],
+        },
+        { header: { id: 0 } },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'id', value: '0' }]);
   });
 });
 
