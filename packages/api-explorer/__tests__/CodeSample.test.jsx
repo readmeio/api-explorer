@@ -140,6 +140,32 @@ describe('code examples', () => {
     ).not.toThrow(/Cannot read property 'split' of undefined/);
   });
 
+  test('should not error if language requested cannot be auto-generated', () => {
+    const docProps = {
+      setLanguage: () => {},
+      operation: new Operation({}, '/pet/{id}', 'get'),
+      formData: {},
+      language: 'css',
+    };
+    const component = (
+      <CodeSample
+        {...docProps}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: ['css'],
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
+      />
+    );
+    expect(() => shallow(component)).not.toThrow(/Cannot read property 'snippet' of undefined/);
+
+    const codeSample = shallow(component);
+    expect(codeSample.find('.code-sample-tabs a').length).toBe(1);
+    expect(codeSample.find('.hub-code-auto pre').length).toBe(0);
+  });
+
   test('should not render sample if language is missing', () => {
     const docProps = {
       setLanguage: () => {},

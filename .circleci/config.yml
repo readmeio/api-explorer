@@ -28,7 +28,7 @@ jobs:
           - v1-dependencies-
 
       - run: npm install
-      - run: npx lerna bootstrap
+      - run: npx lerna bootstrap --concurrency 2
 
       - save_cache:
           paths:
