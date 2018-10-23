@@ -70,9 +70,21 @@ test('should work if responses is an empty object', () => {
   expect(responseSchema.html()).toBe(null);
 });
 
-test('display object properties in the table response', () => {
-
+test('should contain ResponseSchemaBody element if $ref exist', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
-  expect(responseSchema.last('th').text()).toContain('string');
-  expect(responseSchema.last('td').text()).toContain('status');
+  expect(responseSchema.text()).toContain('ResponseSchemaBody');
+});
+
+test('should contain ResponseSchemaBody element if $ref not exist', () => {
+  const testProps = {
+    operation: new Operation(
+      {},
+      '/',
+      'get',
+      Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: {} }),
+    ),
+    oas,
+  };
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(responseSchema.find('table').length).toBe(0);
 });
