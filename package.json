@@ -3,7 +3,7 @@
   "description": "Open source components that make up ReadMe&#39;s API explorer",
   "version": "0.0.0",
   "scripts": {
-    "test": "node scripts/update-example-swagger-files && eslint -f unix example --ext js --ext jsx && lerna run test --stream --concurrency 2",
+    "test": "node scripts/update-example-swagger-files && eslint -f unix example --ext js --ext jsx && lerna run test --stream",
     "start": "node scripts/update-example-swagger-files && webpack-dev-server",
     "build": "./build.sh & lerna run build",
     "watch": "lerna run watch --stream",
