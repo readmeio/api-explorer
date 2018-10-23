@@ -24,6 +24,18 @@ test('should remove end slash from the server URL', () => {
   );
 });
 
+test('should default missing servers array to example.com', () => {
+  expect(new Oas({}).servers[0].url).toBe('https://example.com');
+});
+
+test('should default empty servers array to example.com', () => {
+  expect(new Oas({ servers: [] }).servers[0].url).toBe('https://example.com');
+});
+
+test('should default empty server object to example.com', () => {
+  expect(new Oas({ servers: [{}] }).servers[0].url).toBe('https://example.com');
+});
+
 describe('operation.getSecurity()', () => {
   const security = [{ auth: [] }];
 
