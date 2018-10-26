@@ -75,7 +75,7 @@ test('should contain ResponseSchemaBody element if $ref exist', () => {
   expect(responseSchema.text()).toContain('ResponseSchemaBody');
 });
 
-test('should contain ResponseSchemaBody element if $ref not exist', () => {
+test('should not contain ResponseSchemaBody element if $ref not exist', () => {
   const testProps = {
     operation: new Operation(
       {},

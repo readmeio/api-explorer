@@ -45,6 +45,13 @@ class ResponseSchema extends React.Component {
     if (content && content['application/xml'].schema && content['application/xml'].schema.$ref) {
       return findSchemaDefinition(content['application/xml'].schema.$ref, oas);
     }
+    if (content['application/xml'] && content['application/xml'].schema) {
+      return content['application/xml'].schema;
+    }
+    if (content['application/json'] && content['application/json'].schema) {
+      return content['application/json'].schema;
+    }
+
     return null;
   }
 
@@ -93,7 +100,6 @@ class ResponseSchema extends React.Component {
     const { operation, oas } = this.props;
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
     const schema = this.getSchema(operation);
-
     return (
       <div className="hub-reference-response-definitions">
         {this.renderHeader()}
