@@ -38,16 +38,24 @@ class ResponseSchema extends React.Component {
       return content['application/xml'].schema;
     }
 
-    if (content && content['application/json'].schema && content['application/json'].schema.$ref) {
+    if (
+      content['application/json'] &&
+      content['application/json'].schema &&
+      content['application/json'].schema.$ref
+    ) {
       return findSchemaDefinition(content['application/json'].schema.$ref, oas);
     }
-
-    if (content && content['application/xml'].schema && content['application/xml'].schema.$ref) {
+    if (
+      content['application/xml'] &&
+      content['application/xml'].schema &&
+      content['application/xml'].schema.$ref
+    ) {
       return findSchemaDefinition(content['application/xml'].schema.$ref, oas);
     }
     if (content['application/xml'] && content['application/xml'].schema) {
       return content['application/xml'].schema;
     }
+
     if (content['application/json'] && content['application/json'].schema) {
       return content['application/json'].schema;
     }
@@ -106,6 +114,13 @@ class ResponseSchema extends React.Component {
         <div>
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
+          )}
+          {schema &&
+          schema.type && (
+            <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
+              {`Response schema type: `}
+              <span style={{ fontWeight: 'bold' }}>{schema.type}</span>
+            </p>
           )}
           {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
         </div>

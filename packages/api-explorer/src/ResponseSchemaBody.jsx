@@ -5,10 +5,21 @@ const marked = require('../../markdown/index');
 const findSchemaDefinition = require('./lib/find-schema-definition');
 
 const flatten = list => list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
-function flattenResponseSchema(obj, oas, parent = '') {
+const getName = (parent, prop) => {
+  if (!parent) return prop;
+  if (parent[parent.length - 1] === ' ') return `${parent}${prop}`;
+
+  return `${parent}.${prop}`;
+};
+function flattenResponseSchema(obj, oas, parent = '', level = 0) {
+  const prefix = new Array(level + 2).join('| ');
+  if (level > 2) {
+    return [];
+  }
+
   if (obj.type === 'array' && obj.items && obj.items.$ref) {
     const value = findSchemaDefinition(obj.items.$ref, oas);
-    return flatten(flattenResponseSchema(value, oas, `| `));
+    return flatten(flattenResponseSchema(value, oas));
   }
 
   if (obj && !obj.properties) {
@@ -18,23 +29,23 @@ function flattenResponseSchema(obj, oas, parent = '') {
     let value = obj.properties[prop];
     const array = [];
     if (value.type === 'object') {
-      array.push(flattenResponseSchema(value, oas, parent ? `${parent}.${prop}` : `${prop}`));
+      array.push(flattenResponseSchema(value, oas, getName(parent, prop), level + 1));
     }
 
     if (value.$ref) {
       value = findSchemaDefinition(value.$ref, oas);
-      array.push(flattenResponseSchema(value, oas, parent ? `${parent}.${prop}` : `${prop}`));
+      array.push(flattenResponseSchema(value, oas, getName(parent, prop), level + 1));
     }
 
     if (value.type === 'array' && value.items && value.items.$ref) {
       array.push({
-        name: parent ? `${parent}.${prop}` : `${prop}`,
+        name: getName(parent, prop),
         type: `array of objects`,
         description: value.description,
       });
 
       value = findSchemaDefinition(value.items.$ref, oas);
-      array.push(flattenResponseSchema(value, oas, parent ? `| ${parent}.${prop}` : `${prop}`));
+      array.push(flattenResponseSchema(value, oas, `${prefix}`, level + 1));
       return array;
     }
 
@@ -45,7 +56,7 @@ function flattenResponseSchema(obj, oas, parent = '') {
       value.items.type !== 'object'
     ) {
       array.push({
-        name: parent ? `${parent}.${prop}` : `${prop}`,
+        name: getName(parent, prop),
         type: `array of ${value.items.type}`,
         description: value.description,
       });
@@ -54,7 +65,7 @@ function flattenResponseSchema(obj, oas, parent = '') {
     }
 
     array.unshift({
-      name: parent ? `${parent}.${prop}` : prop,
+      name: getName(parent, prop),
       type: value.type,
       description: value.description,
     });

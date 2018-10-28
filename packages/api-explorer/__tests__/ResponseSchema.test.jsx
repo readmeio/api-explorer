@@ -32,7 +32,12 @@ test('selectedStatus should change state of selectedStatus', () => {
 test('should display response schema description', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
 
-  expect(responseSchema.find('p.desc').text()).toBe(props.operation.responses['200'].description);
+  expect(
+    responseSchema
+      .find('p.desc')
+      .first()
+      .text(),
+  ).toBe(props.operation.responses['200'].description);
 });
 
 test('should work if there are no responses', () => {
@@ -47,6 +52,7 @@ test('should work if there are no responses', () => {
           Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: undefined }),
         )
       }
+      oas={oas}
     />,
   );
 
@@ -64,13 +70,14 @@ test('should work if responses is an empty object', () => {
           Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: {} }),
         )
       }
+      oas={oas}
     />,
   );
 
   expect(responseSchema.html()).toBe(null);
 });
 
-test('should contain ResponseSchemaBody element if $ref exist', () => {
+test('should contain ResponseSchemaBody element if $ref exist for "application/json"', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
   expect(responseSchema.text()).toContain('ResponseSchemaBody');
 });
@@ -85,6 +92,188 @@ test('should not contain ResponseSchemaBody element if $ref not exist', () => {
     ),
     oas,
   };
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(responseSchema.find('table').length).toBe(0);
+});
+
+test('should show "string" response type', () => {
+  const testProps = {
+    operation: oas.operation('/user/login', 'get'),
+    oas,
+  };
+
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(
+    responseSchema
+      .find('p span')
+      .last()
+      .text(),
+  ).toBe('string');
+});
+
+test('should show "object" response schema type', () => {
+  const testProps = {
+    operation: oas.operation('/store/inventory', 'get'),
+    oas,
+  };
+
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(
+    responseSchema
+      .find('p span')
+      .last()
+      .text(),
+  ).toBe('object');
+});
+
+test('should show "array" response schema type', () => {
+  const testProps = {
+    operation: oas.operation('/pet/findByTags', 'get'),
+    oas,
+  };
+
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(
+    responseSchema
+      .find('p span')
+      .last()
+      .text(),
+  ).toBe('array');
+});
+
+test('should render schema type from "application/json"', () => {
+  const testProps = {
+    operation: new Operation(
+      {},
+      '/',
+      'get',
+      Object.assign({}, oas.operation('/pet/findByTags', 'get'), {
+        responses: {
+          '200': {
+            content: {
+              'application/json': {
+                description: 'successful operation',
+                schema: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      }),
+    ),
+    oas,
+  };
+
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(
+    responseSchema
+      .find('p span')
+      .last()
+      .text(),
+  ).toBe('string');
+});
+
+test('should contain ResponseSchemaBody element if $ref exist for "application/xml"', () => {
+  const testProps = {
+    operation: new Operation(
+      oas,
+      '/',
+      'get',
+      Object.assign({}, oas.operation('/pet/{petId}', 'get'), {
+        responses: {
+          '200': {
+            content: {
+              'application/xml': {
+                description: 'successful operation',
+                schema: {
+                  $ref: '#/components/schemas/Pet',
+                },
+              },
+            },
+          },
+        },
+      }),
+    ),
+    oas,
+  };
+
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(responseSchema.text()).toContain('ResponseSchemaBody');
+});
+
+test('should change selectedStatus in component', () => {
+  const responseSchema = shallow(<ResponseSchema {...props} />);
+
+  const selectedStatus = responseSchema.state().selectedStatus;
+  // const selectedStatus = responseSchema.instance().selectedStatus
+
+  responseSchema.instance().changeHandler({ target: { value: '404' } });
+  const newSelectedStatus = responseSchema.state().selectedStatus;
+  expect(selectedStatus).toEqual('200');
+  expect(newSelectedStatus).toEqual('404');
+});
+
+test('should show "object" response schema type for "application/xml" content', () => {
+  const testProps = {
+    operation: new Operation(
+      {},
+      '/',
+      'get',
+      Object.assign({}, oas.operation('/pet/findByTags', 'get'), {
+        responses: {
+          '200': {
+            content: {
+              'application/xml': {
+                description: 'successful operation',
+                schema: {
+                  type: 'object',
+                  properties: {
+                    code: {
+                      type: 'integer',
+                      format: 'int32',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }),
+    ),
+    oas,
+  };
+
+  const responseSchema = shallow(<ResponseSchema {...testProps} />);
+  expect(
+    responseSchema
+      .find('p span')
+      .last()
+      .text(),
+  ).toBe('object');
+});
+
+test('should not break if schema property missing', () => {
+  const testProps = {
+    operation: new Operation(
+      {},
+      '/',
+      'get',
+      Object.assign({}, oas.operation('/pet/findByTags', 'get'), {
+        responses: {
+          '200': {
+            content: {
+              'application/xml': {
+                description: 'successful operation',
+              },
+            },
+          },
+        },
+      }),
+    ),
+    oas,
+  };
+
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
   expect(responseSchema.find('table').length).toBe(0);
 });
