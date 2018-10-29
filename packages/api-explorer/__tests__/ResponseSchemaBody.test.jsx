@@ -63,7 +63,7 @@ test('should flatten array ', () => {
   expect(flattenResponseSchema(responseSchema)).toEqual([
     {
       name: 'category',
-      type: 'array of string',
+      type: 'array of strings',
       description: undefined,
     },
   ]);
@@ -151,7 +151,7 @@ test('not fail when object property missing', () => {
   expect(responseSchemaBody.find('th').length).toBe(0);
 });
 
-test('render top level array of object', () => {
+test('render top level array of $ref', () => {
   const schema = {
     type: 'array',
     items: {
@@ -227,4 +227,33 @@ test('not render more than 3 level deep object', () => {
       .map(a => a.text())
       .filter(a => a === 'a.a.a.a').length,
   ).toBe(0);
+});
+
+test('render top level array of objects', () => {
+  const schema = {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          example: 'doggie',
+        },
+      },
+    },
+  };
+
+  const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  expect(
+    responseSchemaBody
+      .find('th')
+      .map(a => a.text())
+      .filter(a => a === 'name').length,
+  ).toBe(1);
+  expect(
+    responseSchemaBody
+      .find('td')
+      .map(a => a.text())
+      .filter(a => a === 'string').length,
+  ).toBe(1);
 });

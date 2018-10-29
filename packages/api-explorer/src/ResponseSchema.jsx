@@ -7,6 +7,16 @@ const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 const { Operation } = Oas;
 
+function getSchemaType(schema) {
+  if (schema.type !== 'array') {
+    return schema.type;
+  }
+  if (schema.items.$ref) {
+    return 'array of objects';
+  }
+  return `array of ${schema.items.type}s`;
+}
+
 class ResponseSchema extends React.Component {
   constructor(props) {
     super(props);
@@ -22,21 +32,6 @@ class ResponseSchema extends React.Component {
 
     const content = operation.responses[this.state.selectedStatus].content;
     const oas = this.props.oas;
-
-    if (
-      content['application/json'] &&
-      content['application/json'].schema &&
-      content['application/json'].schema.type === 'object'
-    ) {
-      return content['application/json'].schema;
-    }
-    if (
-      content['application/xml'] &&
-      content['application/xml'].schema &&
-      content['application/xml'].schema.type === 'object'
-    ) {
-      return content['application/xml'].schema;
-    }
 
     if (
       content['application/json'] &&
@@ -119,7 +114,7 @@ class ResponseSchema extends React.Component {
           schema.type && (
             <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
               {`Response schema type: `}
-              <span style={{ fontWeight: 'bold' }}>{schema.type}</span>
+              <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
             </p>
           )}
           {schema && <ResponseSchemaBody schema={schema} oas={oas} />}

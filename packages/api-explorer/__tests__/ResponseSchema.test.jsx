@@ -138,7 +138,7 @@ test('should show "array" response schema type', () => {
       .find('p span')
       .last()
       .text(),
-  ).toBe('array');
+  ).toBe('array of objects');
 });
 
 test('should render schema type from "application/json"', () => {
