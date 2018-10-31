@@ -1,10 +1,21 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+
 const Oas = require('./lib/Oas');
+const findSchemaDefinition = require('./lib/find-schema-definition');
+const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 const { Operation } = Oas;
-// const marked = require('./lib/markdown/index');
-// const convertToParams = require('../../../legacy-stuff/swagger');
+
+function getSchemaType(schema) {
+  if (schema.type !== 'array') {
+    return schema.type;
+  }
+  if (schema.items.$ref) {
+    return 'array of objects';
+  }
+  return `array of ${schema.items.type}s`;
+}
 
 class ResponseSchema extends React.Component {
   constructor(props) {
@@ -15,55 +26,55 @@ class ResponseSchema extends React.Component {
     this.selectedStatus = this.selectedStatus.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
   }
-  selectedStatus(selected) {
-    this.setState({ selectedStatus: selected });
+
+  getSchema(operation) {
+    if (!this.validateOperation(operation)) return null;
+
+    const content = operation.responses[this.state.selectedStatus].content;
+    const oas = this.props.oas;
+
+    if (
+      content['application/json'] &&
+      content['application/json'].schema &&
+      content['application/json'].schema.$ref
+    ) {
+      return findSchemaDefinition(content['application/json'].schema.$ref, oas);
+    }
+    if (
+      content['application/xml'] &&
+      content['application/xml'].schema &&
+      content['application/xml'].schema.$ref
+    ) {
+      return findSchemaDefinition(content['application/xml'].schema.$ref, oas);
+    }
+    if (content['application/xml'] && content['application/xml'].schema) {
+      return content['application/xml'].schema;
+    }
+
+    if (content['application/json'] && content['application/json'].schema) {
+      return content['application/json'].schema;
+    }
+
+    return null;
+  }
+
+  validateOperation(operation) {
+    const status = this.state.selectedStatus;
+    return (
+      operation &&
+      operation.responses &&
+      operation.responses[status] &&
+      operation.responses[status].content
+    );
   }
 
   changeHandler(e) {
     this.selectedStatus(e.target.value);
   }
 
-  // TODO https://github.com/readmeio/api-explorer/issues/43
-  // renderSchema() {
-  // let schema;
-  //
-  // try {
-  //   if (operation.responses[this.state.selectedStatus].content) {
-  //     if (
-  //       operation.responses[this.state.selectedStatus].content['application/json'].schema.type ===
-  //         'object' &&
-  //       operation.responses[this.state.selectedStatus].content['application/json'].schema
-  //         .properties
-  //     ) {
-  //       schema =
-  //         operation.responses[this.state.selectedStatus].content['application/json'].schema
-  //           .properties;
-  //     }
-  //   } else if (
-  //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.type ===
-  //       'object' &&
-  //     operation.responses[this.state.selectedStatus].content['application/xml'].schema.properties
-  //   ) {
-  //     schema =
-  //       operation.responses[this.state.selectedStatus].content['application/xml'].schema
-  //         .properties;
-  //   }
-  // } catch (e) {} // eslint-disable-line no-empty
-
-  /* {schema && (
-      <table>
-        {swaggerUtils.convertToParams([response], 'response').forEach(param => {
-          <tr>
-            <th>param.name</th>
-            <td>
-              param.type
-              {param.description && marked(param.description)}
-            </td>
-          </tr>;
-        })}
-      </table>
-    )} */
-  // }
+  selectedStatus(selected) {
+    this.setState({ selectedStatus: selected });
+  }
 
   renderHeader() {
     const keys = Object.keys(this.props.operation.responses);
@@ -89,9 +100,9 @@ class ResponseSchema extends React.Component {
   }
 
   render() {
-    const { operation } = this.props;
+    const { operation, oas } = this.props;
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
-
+    const schema = this.getSchema(operation);
     return (
       <div className="hub-reference-response-definitions">
         {this.renderHeader()}
@@ -99,7 +110,14 @@ class ResponseSchema extends React.Component {
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
           )}
-          {/* this.renderSchema() */}
+          {schema &&
+          schema.type && (
+            <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
+              {`Response schema type: `}
+              <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
+            </p>
+          )}
+          {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
         </div>
       </div>
     );
@@ -108,6 +126,7 @@ class ResponseSchema extends React.Component {
 
 ResponseSchema.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
 };
 
 module.exports = ResponseSchema;
