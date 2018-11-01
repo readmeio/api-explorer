@@ -1,0 +1,117 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://httpbin.org"
+    }
+  ],
+  "info": {
+    "title": "response schemas",
+    "version": "1.0"
+  },
+  "paths": {
+    "/anything/array-of-primitives": {
+      "get": {
+        "summary": "Array of primitives",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/object": {
+      "get": {
+        "summary": "Object",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/array-of-objects": {
+      "get": {
+        "summary": "Array of objects",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Object": {
+        "type": "object",
+        "properties": {
+          "primitive": {
+            "type": "string"
+          },
+          "object": {
+            "type": "object",
+            "properties": {
+              "primitive": {
+                "type": "boolean"
+              }
+            }
+          },
+          "array": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "primitive": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {},
+    "parameters": {},
+    "examples": {},
+    "requestBodies": {},
+    "securitySchemes": {},
+    "headers": {}
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": [
+    "curl",
+    "node",
+    "ruby",
+    "javascript",
+    "python"
+  ]
+}

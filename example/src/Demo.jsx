@@ -10,6 +10,7 @@ const Logs = require('../../packages/api-logs/index');
 const ApiList = require('./ApiList');
 
 require('../../example/swagger-files/types.json');
+require('../../example/swagger-files/response-schemas.json');
 require('../../packages/api-explorer/api-explorer.css');
 require('../../packages/api-logs/main.css');
 
