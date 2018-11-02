@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
 const flattenResponseSchema = require('../src/ResponseSchemaBody').flattenResponseSchema;
@@ -256,4 +256,20 @@ test('render top level array of objects', () => {
       .map(a => a.text())
       .filter(a => a === 'string').length,
   ).toBe(1);
+});
+
+test('should render markdown in the description', () => {
+  const schema = {
+    type: 'object',
+    properties: {
+      a: {
+        type: 'string',
+        description: '[Description](https://example.com)',
+      },
+    },
+  };
+
+  const responseSchemaBody = mount(<ResponseSchemaBody oas={oas} schema={schema} />);
+
+  expect(responseSchemaBody.find('a').html()).toEqual('<a href="https://example.com" target="_self">Description</a>');
 });
