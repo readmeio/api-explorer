@@ -11,26 +11,20 @@ const getName = (parent, prop) => {
 
   return `${parent}.${prop}`;
 };
-function flattenResponseSchema(obj, oas, parent = '', level = 0) {
-  const prefix = new Array(level + 2).join('| ');
-  if (level > 2) {
-    return [];
+const capitalizeFirstLetter = string => (string || '').charAt(0).toUpperCase() + string.slice(1);
+
+function getSchemaType(schema) {
+  if (schema.type !== 'array') {
+    return schema.type;
   }
-
-  // top level array
-  if (obj.type === 'array' && obj.items) {
-    if (obj.items.$ref) {
-      const value = findSchemaDefinition(obj.items.$ref, oas);
-      return flattenResponseSchema(value, oas);
-    }
-
-    return flattenResponseSchema(obj.items, oas);
+  if (schema.items.$ref) {
+    return 'array of objects';
   }
+  return `array of ${schema.items.type}s`;
+}
 
-  if (obj && !obj.properties) {
-    return [];
-  }
-
+/* eslint-disable no-use-before-define */
+function flattenObject(obj, parent, level, oas) {
   return flatten(
     Object.keys(obj.properties).map(prop => {
       let value = obj.properties[prop];
@@ -44,47 +38,98 @@ function flattenResponseSchema(obj, oas, parent = '', level = 0) {
       }
 
       if (value.type === 'array' && value.items) {
-        if (value.items.$ref) {
-          value.items = findSchemaDefinition(value.items.$ref, oas);
+        let items = value.items;
+        if (items.$ref) {
+          items = findSchemaDefinition(items.$ref, oas);
         }
-        if (value.items.type) {
+        if (items.type) {
           array.push({
             name: getName(parent, prop),
-            type: `array of ${value.items.type}s`,
+            type: `[${capitalizeFirstLetter(items.type)}]`,
             description: value.description,
           });
         }
-        if (value.items.type === 'object') {
-          array.push(flattenResponseSchema(value.items, oas, `${prefix}`, level + 1));
+        const newParent = parent ? `${parent}.` : '';
+        if (items.type === 'object') {
+          array.push(flattenResponseSchema(items, oas, `${newParent}${prop}[]`, level + 1));
         }
         return array;
       }
 
       array.unshift({
         name: getName(parent, prop),
-        type: value.type,
+        type: capitalizeFirstLetter(value.type),
         description: value.description,
       });
       return array;
     }),
   );
 }
+/* eslint-enable no-use-before-define */
+
+function flattenResponseSchema(obj, oas, parent = '', level = 0) {
+  if (level > 2) {
+    return [];
+  }
+  let newParent;
+  // top level array
+  if (obj.type === 'array' && obj.items) {
+    if (obj.items.$ref) {
+      const value = findSchemaDefinition(obj.items.$ref, oas);
+      return flattenResponseSchema(value, oas);
+    }
+    newParent = parent ? `${parent}.[]` : '';
+    return flattenResponseSchema(obj.items, oas, `${newParent}`, level + 1);
+  }
+
+  if (obj && !obj.properties) {
+    return [];
+  }
+
+  return flattenObject(obj, parent, level, oas);
+}
 
 function ResponseSchemaBody({ schema, oas }) {
-  const rows = flattenResponseSchema(schema, oas).map(row => (
-    <tr key={Math.random().toString(10)}>
-      <th style={{ whiteSpace: 'nowrap' }}>{row.name}</th>
-      <td>
+  const rows = flatten(flattenResponseSchema(schema, oas)).map(row => (
+    <tr key={Math.random().toString(10)} style={{ overflow: 'hidden' }}>
+      <th
+        style={{
+          whiteSpace: 'nowrap',
+          width: '30%',
+          paddingRight: '5px',
+          textAlign: 'right',
+          overflow: 'hidden',
+        }}
+      >
         {row.type}
+      </th>
+      <td
+        style={{
+          width: '70%',
+          overflow: 'hidden',
+          paddingLeft: '15px',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {row.name}
         {row.description && marked(row.description)}
       </td>
     </tr>
   ));
 
   return (
-    <table>
-      <tbody>{rows}</tbody>
-    </table>
+    <div>
+      {schema &&
+      schema.type && (
+        <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
+          {`Response schema type: `}
+          <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
+        </p>
+      )}
+      <table style={{ tableLayout: 'fixed' }}>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
   );
 }
 

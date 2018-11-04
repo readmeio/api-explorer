@@ -7,16 +7,6 @@ const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 const { Operation } = Oas;
 
-function getSchemaType(schema) {
-  if (schema.type !== 'array') {
-    return schema.type;
-  }
-  if (schema.items.$ref) {
-    return 'array of objects';
-  }
-  return `array of ${schema.items.type}s`;
-}
-
 class ResponseSchema extends React.Component {
   constructor(props) {
     super(props);
@@ -28,37 +18,34 @@ class ResponseSchema extends React.Component {
   }
 
   getSchema(operation) {
-    if (!this.validateOperation(operation)) return null;
+    const content = this.getContent(operation);
 
-    const content = operation.responses[this.state.selectedStatus].content;
+    if (!content) return null;
+
     const oas = this.props.oas;
 
     if (
-      content['application/json'] &&
-      content['application/json'].schema &&
-      content['application/json'].schema.$ref
+      (content['application/json'] || content['application/xml']) &&
+      (content['application/json'] || content['application/xml']).schema &&
+      (content['application/json'] || content['application/xml']).schema.$ref
     ) {
-      return findSchemaDefinition(content['application/json'].schema.$ref, oas);
-    }
-    if (
-      content['application/xml'] &&
-      content['application/xml'].schema &&
-      content['application/xml'].schema.$ref
-    ) {
-      return findSchemaDefinition(content['application/xml'].schema.$ref, oas);
-    }
-    if (content['application/xml'] && content['application/xml'].schema) {
-      return content['application/xml'].schema;
+      return findSchemaDefinition(
+        (content['application/json'] || content['application/xml']).schema.$ref,
+        oas,
+      );
     }
 
-    if (content['application/json'] && content['application/json'].schema) {
-      return content['application/json'].schema;
+    if (
+      (content['application/xml'] || content['application/json']) &&
+      (content['application/xml'] || content['application/json']).schema
+    ) {
+      return (content['application/xml'] || content['application/json']).schema;
     }
 
     return null;
   }
 
-  validateOperation(operation) {
+  getContent(operation) {
     const status = this.state.selectedStatus;
     return (
       operation &&
@@ -106,16 +93,9 @@ class ResponseSchema extends React.Component {
     return (
       <div className="hub-reference-response-definitions">
         {this.renderHeader()}
-        <div>
+        <div className="response-schema">
           {operation.responses[this.state.selectedStatus].description && (
             <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
-          )}
-          {schema &&
-          schema.type && (
-            <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
-              {`Response schema type: `}
-              <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
-            </p>
           )}
           {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
         </div>

@@ -466,3 +466,8 @@ form.rjsf fieldset {
   float: right;
   margin-right: 3%;
 }*/
+
+.response-schema{
+  overflow-y: auto;
+  max-height: 600px;
+}
