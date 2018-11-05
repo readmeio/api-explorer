@@ -11,7 +11,7 @@ const getName = (parent, prop) => {
 
   return `${parent}.${prop}`;
 };
-const capitalizeFirstLetter = string => (string || '').charAt(0).toUpperCase() + string.slice(1);
+const capitalizeFirstLetter = (string = '') => string.charAt(0).toUpperCase() + string.slice(1);
 
 function getSchemaType(schema) {
   if (schema.type !== 'array') {
