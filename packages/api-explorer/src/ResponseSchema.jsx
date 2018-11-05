@@ -24,22 +24,18 @@ class ResponseSchema extends React.Component {
 
     const oas = this.props.oas;
 
-    if (
-      (content['application/json'] || content['application/xml']) &&
-      (content['application/json'] || content['application/xml']).schema &&
-      (content['application/json'] || content['application/xml']).schema.$ref
-    ) {
-      return findSchemaDefinition(
-        (content['application/json'] || content['application/xml']).schema.$ref,
-        oas,
-      );
-    }
+    const firstContentType = Object.keys(content)[0];
 
     if (
-      (content['application/xml'] || content['application/json']) &&
-      (content['application/xml'] || content['application/json']).schema
+      content[firstContentType] &&
+      content[firstContentType].schema &&
+      content[firstContentType].schema.$ref
     ) {
-      return (content['application/xml'] || content['application/json']).schema;
+      return findSchemaDefinition(content[firstContentType].schema.$ref, oas);
+    }
+
+    if (content[firstContentType] && content[firstContentType].schema) {
+      return content[firstContentType].schema;
     }
 
     return null;
