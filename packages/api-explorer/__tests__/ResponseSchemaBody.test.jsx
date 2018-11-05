@@ -27,21 +27,15 @@ test('display object properties in the table', () => {
 test('display properties if object contains $ref type', () => {
   const schema = {
     type: 'object',
-    required: ['name', 'photoUrls'],
     properties: {
-      id: {
-        type: 'integer',
-        format: 'int64',
-        readOnly: true,
-      },
       category: {
         $ref: '#/components/schemas/Category',
       },
     },
   };
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+
   expect(
-    responseSchemaBody
+    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
       .find('td')
       .map(a => a.text())
       .filter(a => a === 'category.name').length,
@@ -83,9 +77,8 @@ test('display object properties inside another object in the table', () => {
       },
     },
   };
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
   expect(
-    responseSchemaBody
+    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
       .find('td')
       .map(a => a.text())
       .filter(a => a === 'a.a').length,
@@ -141,14 +134,9 @@ test('display $ref items inside object', () => {
 test('not fail when object property missing', () => {
   const schema = {
     type: 'object',
-    additionalProperties: {
-      type: 'integer',
-      format: 'int32',
-    },
   };
 
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
-  expect(responseSchemaBody.find('th').length).toBe(0);
+  expect(shallow(<ResponseSchemaBody oas={oas} schema={schema} />).find('th').length).toBe(0);
 });
 
 test('render top level array of $ref', () => {
@@ -167,7 +155,6 @@ test('render top level array of $ref', () => {
           properties: {
             name: {
               type: 'string',
-              example: 'doggie',
             },
           },
         },
@@ -237,7 +224,6 @@ test('render top level array of objects', () => {
       properties: {
         name: {
           type: 'string',
-          example: 'doggie',
         },
       },
     },
@@ -269,11 +255,11 @@ test('should render markdown in the description', () => {
     },
   };
 
-  const responseSchemaBody = mount(<ResponseSchemaBody oas={oas} schema={schema} />);
-
-  expect(responseSchemaBody.find('a').html()).toEqual(
-    '<a href="https://example.com" target="_self">Description</a>',
-  );
+  expect(
+    mount(<ResponseSchemaBody oas={oas} schema={schema} />)
+      .find('a')
+      .html(),
+  ).toEqual('<a href="https://example.com" target="_self">Description</a>');
 });
 
 test('should show "string" response type', () => {
@@ -281,14 +267,9 @@ test('should show "string" response type', () => {
     type: 'string',
   };
 
-  const responseSchemaBody = mount(<ResponseSchemaBody oas={oas} schema={schema} />);
-
-  expect(
-    responseSchemaBody
-      .find('p span')
-      .last()
-      .text(),
-  ).toBe('string');
+  expect(shallow(<ResponseSchemaBody oas={oas} schema={schema} />).text()).toBe(
+    'Response schema type: string',
+  );
 });
 
 test('should show "string" response type', () => {
@@ -301,14 +282,11 @@ test('should show "string" response type', () => {
     },
   };
 
-  const responseSchemaBody = mount(<ResponseSchemaBody oas={oas} schema={schema} />);
-
   expect(
-    responseSchemaBody
-      .find('p span')
-      .last()
+    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
+      .find('p')
       .text(),
-  ).toBe('object');
+  ).toBe('Response schema type: object');
 });
 
 test('should show "array" response schema type', () => {
@@ -319,20 +297,16 @@ test('should show "array" response schema type', () => {
       properties: {
         name: {
           type: 'string',
-          example: 'doggie',
         },
       },
     },
   };
 
-  const responseSchemaBody = mount(<ResponseSchemaBody oas={oas} schema={schema} />);
-
   expect(
-    responseSchemaBody
-      .find('p span')
-      .last()
+    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
+      .find('p')
       .text(),
-  ).toBe('array of objects');
+  ).toBe('Response schema type: array of objects');
 });
 
 test('should flatten array ', () => {
