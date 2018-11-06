@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const marked = require('../../markdown/index');
+const markdown = require('@readme/markdown');
 const findSchemaDefinition = require('./lib/find-schema-definition');
 
 const flatten = list => list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
@@ -112,7 +112,7 @@ function ResponseSchemaBody({ schema, oas }) {
         }}
       >
         {row.name}
-        {row.description && marked(row.description)}
+        {row.description && markdown(row.description)}
       </td>
     </tr>
   ));
