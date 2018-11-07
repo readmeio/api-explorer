@@ -1,7 +1,7 @@
 {
   "name": "@readme/variable",
   "description": "React component for Variables",
-  "version": "2.2.11",
+  "version": "2.3.0",
   "main": "index.jsx",
   "dependencies": {
     "classnames": "^2.2.6",
