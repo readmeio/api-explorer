@@ -1,9 +1,13 @@
 const React = require('react');
 const remark = require('remark');
-const reactRenderer = require('remark-react');
-const breaks = require('remark-breaks');
 const sanitize = require('hast-util-sanitize/lib/github.json');
 const Variable = require('@readme/variable');
+const remarkRehype = require('remark-rehype');
+const rehypeRaw = require('rehype-raw');
+const remarkParse = require('remark-parse');
+const rehypeSanitize = require('rehype-sanitize');
+const rehypeReact = require('rehype-react');
+const rehype = require('rehype');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
@@ -19,16 +23,22 @@ sanitize.ancestors.input = ['li'];
 
 const GlossaryItem = require('./GlossaryItem');
 
-module.exports = function markdown(text, opts = {}) {
+module.exports = function markdown(text) {
   if (!text) return null;
+  // strip out unsafe html
+  const parsedText = rehype()
+    .use(rehypeSanitize)
+    .processSync(text).contents;
 
   return remark()
     .use(variableParser.sanitize(sanitize))
-    .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
-    .use(reactRenderer, {
-      sanitize,
-      remarkReactComponents: {
+    .use(remarkParse)
+    .use(remarkRehype, { allowDangerousHTML: true })
+    .use(rehypeRaw)
+    .use(rehypeReact, {
+      createElement: React.createElement,
+      components: {
         'readme-variable': Variable,
         'readme-glossary-item': GlossaryItem,
         table: table(sanitize),
@@ -45,5 +55,5 @@ module.exports = function markdown(text, opts = {}) {
         div: props => React.createElement(React.Fragment, props),
       },
     })
-    .processSync(text).contents;
+    .processSync(parsedText).contents;
 };

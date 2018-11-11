@@ -96,13 +96,12 @@ test('should render nothing if nothing passed in', () => {
   expect(markdown('')).toBe(null);
 });
 
-test('`correctnewlines` option', () => {
-  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: true })).html()).toBe(
-    '<p>test\ntest\ntest</p>',
-  );
-  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
-    '<p>test<br/>\ntest<br/>\ntest</p>',
-  );
+test('should parse newline character', () => {
+  expect(
+    shallow(markdown('test\ntest\ntest'))
+      .html()
+      .includes('\n'),
+  ).toBe(true);
 });
 
 test('variables', () => {
@@ -113,29 +112,34 @@ test('glossary', () => {
   expect(shallow(markdown(`<<glossary:term>>`)).html()).toMatchSnapshot();
 });
 
-// TODO not sure if this needs to work or not?
-// Isn't it a good thing to always strip HTML?
-describe.skip('`stripHtml` option', () => {
-  test('should allow html by default', () => {
-    expect(markdown('<p>Test</p>')).toBe('<p><p>Test</p></p>\n');
-    expect(markdown('<p>Test</p>', { stripHtml: false })).toBe('<p><p>Test</p></p>\n');
-  });
+test('should escape unknown tags', () => {
+  expect(shallow(markdown('<unknown-tag>Test</unknown-tag>')).html()).toBe('<p>Test</p>');
+});
 
-  test('should escape unknown tags', () => {
-    expect(markdown('<unknown-tag>Test</unknown-tag>')).toBe(
-      '<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>\n',
-    );
-  });
+test('should allow certain attributes', () => {
+  expect(shallow(markdown('<p id="test">Test</p>')).html()).toBe(
+    '<p id="user-content-test">Test</p>',
+  );
+});
 
-  test('should allow certain attributes', () => {
-    expect(markdown('<p id="test">Test</p>')).toBe('<p><p id="test">Test</p></p>\n');
-  });
+test('should strip unknown attributes', () => {
+  expect(shallow(markdown('<p unknown="test">Test</p>')).html()).toBe('<p>Test</p>');
+});
 
-  test('should strip unknown attributes', () => {
-    expect(markdown('<p unknown="test">Test</p>')).toBe('<p><p>Test</p></p>\n');
-  });
+test('should strip dangerous href', () => {
+  expect(shallow(markdown('<a href="jAva script:alert(\'bravo\')">delta</a>')).html()).toBe(
+    '<p><a href="" target="_self">delta</a></p>',
+  );
+});
 
-  test('should escape everything if `stripHtml=true`', () => {
-    expect(markdown('<p>Test</p>', { stripHtml: true })).toBe('<p>&lt;p&gt;Test&lt;/p&gt;</p>\n');
-  });
+test('should strip dangerous iframe tag', () => {
+  expect(
+    shallow(markdown('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>')).html(),
+  ).toBe('<p></p>');
+});
+
+test('should strip dangerous img attributes', () => {
+  expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
+    '<img src="x"/>',
+  );
 });

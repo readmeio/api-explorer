@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`anchors 1`] = `
-"<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
-<a href=\\"\\" target=\\"_self\\">xss</a><br/>
-<a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
-<a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br/>
-<a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br/>
-<a href=\\"/page/slug\\" target=\\"_self\\">page</a><br/>
+"<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a>
+<a href=\\"javascript:alert\\" target=\\"_self\\">xss</a>
+<a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a>
+<a href=\\"/reference#slug\\" target=\\"_self\\">ref</a>
+<a href=\\"/blog/slug\\" target=\\"_self\\">blog</a>
+<a href=\\"/page/slug\\" target=\\"_self\\">page</a>
 </p>"
 `;
 
 exports[`check list items 1`] = `
 "<ul>
-<li><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
-<li><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
 </ul>"
 `;
 
@@ -25,13 +25,13 @@ exports[`code samples 1`] = `
 `;
 
 exports[`emojis 1`] = `
-"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"/><br/>
-<i class=\\"fa fa-lock\\"></i><br/>
-:unknown-emoji:<br/>
+"<p>:joy:
+:fa-lock:
+:unknown-emoji:
 </p>"
 `;
 
-exports[`glossary 1`] = `"<p></p>"`;
+exports[`glossary 1`] = `"<p>&lt;&gt;</p>"`;
 
 exports[`headings 1`] = `
 "<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div>h1<a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
@@ -55,10 +55,32 @@ exports[`list items 1`] = `
 exports[`should strip out inputs 1`] = `""`;
 
 exports[`tables 1`] = `
-"<div class=\\"marked-table\\"><table>
-<thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead>
-<tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody>
-</table></div>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class=\\"marked-table\\"><table><thead><tr><th>Tables</th><th align=\\"center\\">Are</th><th align=\\"right\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td align=\\"center\\">right-aligned</td><td align=\\"right\\">$1600</td></tr><tr><td>col 2 is</td><td align=\\"center\\">centered</td><td align=\\"right\\">$12</td></tr><tr><td>zebra stripes</td><td align=\\"center\\">are neat</td><td align=\\"right\\">$1</td></tr></tbody></table></div>"
 `;
 
-exports[`variables 1`] = `"<p><span>APIKEY</span></p>"`;
+exports[`variables 1`] = `"<p>&lt;&gt;</p>"`;

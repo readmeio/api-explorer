@@ -14,6 +14,7 @@ const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const markdown = require('../../markdown');
 
 const Oas = require('./lib/Oas');
 // const showCode = require('./lib/show-code');
@@ -315,10 +316,7 @@ class Doc extends React.Component {
               <h2>{doc.title}</h2>
               {doc.excerpt && (
                 <div className="excerpt">
-                  {
-                    // eslint-disable-next-line react/no-danger
-                    <p dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
-                  }
+                  {markdown(doc.excerpt)}
                 </div>
               )}
             </header>
