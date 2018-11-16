@@ -86,6 +86,24 @@
           }
         }
       }
+    },
+    "object/properties": {
+      "get": {
+        "parameters": [{
+          "name": "value",
+          "in": "query",
+          "description": "Status values that need to be considered for filter",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "title": "First name"
+              }
+            }
+          }
+        }]
+      }
     }
   },
   "components": {

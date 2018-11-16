@@ -368,3 +368,25 @@ test('it should pass false value as default parameter', () => {
     })[0].schema.properties.check,
   ).toEqual({ default: false, type: 'boolean' });
 });
+
+test('it should display object type', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'check',
+          "schema": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "title": "First name"
+              }
+            }
+          }
+        },
+      ],
+    })[0].schema.properties.check,
+  ).toEqual({"properties": {"firstName": {"title": "First name", "type": "string"}}, "type": "object"});
+});
