@@ -376,17 +376,17 @@ test('it should display object type', () => {
         {
           in: 'query',
           name: 'check',
-          "schema": {
-            "type": "object",
-            "properties": {
-              "firstName": {
-                "type": "string",
-                "title": "First name"
-              }
-            }
-          }
+          schema: {
+            type: 'object',
+            properties: {
+              firstName: {
+                type: 'string',
+                title: 'First name',
+              },
+            },
+          },
         },
       ],
     })[0].schema.properties.check,
-  ).toEqual({"properties": {"firstName": {"title": "First name", "type": "string"}}, "type": "object"});
+  ).toEqual({ properties: { firstName: { title: 'First name', type: 'string' } }, type: 'object' });
 });
