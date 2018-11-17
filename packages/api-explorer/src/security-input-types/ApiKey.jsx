@@ -15,6 +15,7 @@ function ApiKey({ scheme, authInputRef, change }) {
           ref={authInputRef}
           type="text"
           onChange={e => change(e.currentTarget.value)}
+          disabled={apiKeyCookie}
           value={apiKeyCookie}
         />
       </div>
