@@ -14,7 +14,7 @@ const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
-const markdown = require('../../markdown');
+const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
 // const showCode = require('./lib/show-code');
@@ -314,11 +314,7 @@ class Doc extends React.Component {
                 </a>
               )}
               <h2>{doc.title}</h2>
-              {doc.excerpt && (
-                <div className="excerpt">
-                  {markdown(doc.excerpt)}
-                </div>
-              )}
+              {doc.excerpt && <div className="excerpt">{markdown(doc.excerpt)}</div>}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>

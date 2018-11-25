@@ -8,6 +8,8 @@ const remarkParse = require('remark-parse');
 const rehypeSanitize = require('rehype-sanitize');
 const rehypeReact = require('rehype-react');
 const rehype = require('rehype');
+const breaks = require('remark-breaks');
+const html = require('remark-html');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
@@ -23,16 +25,25 @@ sanitize.ancestors.input = ['li'];
 
 const GlossaryItem = require('./GlossaryItem');
 
-module.exports = function markdown(text) {
-  if (!text) return null;
-  // strip out unsafe html
-  const parsedText = rehype()
-    .use(rehypeSanitize)
-    .processSync(text).contents;
-
+function remarkString(text, opts) {
   return remark()
     .use(variableParser.sanitize(sanitize))
+    .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
+    .use(html)
+    .processSync(text).contents;
+}
+
+function getSafeHtml(text, opts) {
+  return rehype()
+    .use(rehypeSanitize)
+    .processSync(remarkString(text, opts)).contents;
+}
+
+module.exports = function markdown(text, opts = {}) {
+  if (!text) return null;
+
+  return remark()
     .use(remarkParse)
     .use(remarkRehype, { allowDangerousHTML: true })
     .use(rehypeRaw)
@@ -55,5 +66,5 @@ module.exports = function markdown(text) {
         div: props => React.createElement(React.Fragment, props),
       },
     })
-    .processSync(parsedText).contents;
+    .processSync(getSafeHtml(text, opts)).contents;
 };
