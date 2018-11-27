@@ -295,6 +295,18 @@ class Doc extends React.Component {
     const { doc } = this.props;
     const oas = this.oas;
 
+    const renderPage = () => {
+      if (this.props.appearance.splitPages) {
+        return this.renderEndpoint();
+      } else {
+        return (
+          <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
+            {this.state.showEndpoint && this.renderEndpoint()}
+          </Waypoint>
+        );
+      }
+    }
+
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
         {
@@ -326,9 +338,8 @@ class Doc extends React.Component {
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
-          {this.state.showEndpoint && this.renderEndpoint()}
-        </Waypoint>
+        { renderPage() }
+
 
         {
           // TODO maybe we dont need to do this with a hidden input now
