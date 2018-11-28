@@ -296,7 +296,7 @@ class Doc extends React.Component {
     const oas = this.oas;
 
     const renderPage = () => {
-      if (this.props.appearance.splitPages) {
+      if (this.props.appearance.splitReferenceDocs) {
         return this.renderEndpoint();
       } else {
         return (
