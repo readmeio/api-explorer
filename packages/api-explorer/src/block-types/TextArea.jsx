@@ -2,8 +2,15 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const markdown = require('@readme/markdown');
 
-const Textarea = ({ block, flags }) => {
-  return <div className="magic-block-textarea">{markdown(block.text, flags)}</div>;
+const Textarea = ({ block, flags, baseUrl }) => {
+  const combined = Object.assign(
+    {
+      baseUrl,
+    },
+    flags,
+  );
+
+  return <div className="magic-block-textarea">{markdown(block.text, combined)}</div>;
 };
 
 Textarea.propTypes = {
@@ -11,9 +18,11 @@ Textarea.propTypes = {
     text: PropTypes.string.isRequired,
   }).isRequired,
   flags: PropTypes.shape({}),
+  baseUrl: PropTypes.string,
 };
 
 Textarea.defaultProps = {
   flags: {},
+  baseUrl: '/',
 };
 module.exports = Textarea;

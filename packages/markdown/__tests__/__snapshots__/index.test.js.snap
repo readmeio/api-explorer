@@ -10,6 +10,14 @@ exports[`anchors 1`] = `
 </p>"
 `;
 
+exports[`anchors with baseUrl 1`] = `
+"<p><a href=\\"/child/v1.0/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
+<a href=\\"/child/v1.0/reference#slug\\" target=\\"_self\\">ref</a><br/>
+<a href=\\"/child/v1.0/blog/slug\\" target=\\"_self\\">blog</a><br/>
+<a href=\\"/child/v1.0/page/slug\\" target=\\"_self\\">page</a><br/>
+</p>"
+`;
+
 exports[`check list items 1`] = `
 "<ul>
 <li><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
