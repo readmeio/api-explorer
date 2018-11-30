@@ -5,6 +5,8 @@
 // \`\`\`
 // This is your <<apiKey>>.
 
+// [link](doc:link)
+
 // [block:code]
 // {
 //   "codes": [

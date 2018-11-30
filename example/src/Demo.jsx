@@ -31,6 +31,8 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
               'api-setting': Object.assign(extensions.defaults, oas),
             }}
             baseUrl={'/'}
+            // Uncomment this if you want to test enterprise-structured URLs
+            // baseUrl={'/child/v1.0/'}
             Logs={Logs}
             flags={{ correctnewlines: false }}
             // Uncomment this in for column layout
