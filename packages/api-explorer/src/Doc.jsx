@@ -296,17 +296,15 @@ class Doc extends React.Component {
     const { doc } = this.props;
     const oas = this.oas;
 
-    const renderPage = () => {
-      if (this.props.appearance.splitReferenceDocs) {
-        return this.renderEndpoint();
-      } else {
-        return (
-          <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
-            {this.state.showEndpoint && this.renderEndpoint()}
-          </Waypoint>
-        );
-      }
-    }
+    const renderEndpoint = () => {
+      if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
+
+      return (
+        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
+          {this.state.showEndpoint && this.renderEndpoint()}
+        </Waypoint>
+      );
+    };
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
@@ -332,8 +330,7 @@ class Doc extends React.Component {
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        { renderPage() }
-
+        {renderEndpoint()}
 
         {
           // TODO maybe we dont need to do this with a hidden input now
@@ -386,6 +383,7 @@ Doc.propTypes = {
   }).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
+    splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   language: PropTypes.string.isRequired,
   baseUrl: PropTypes.string,
@@ -402,6 +400,7 @@ Doc.defaultProps = {
   },
   appearance: {
     referenceLayout: 'row',
+    splitReferenceDocs: false,
   },
   apiKey: undefined,
   Logs: undefined,
