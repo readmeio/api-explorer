@@ -55,10 +55,32 @@ exports[`list items 1`] = `
 exports[`should strip out inputs 1`] = `""`;
 
 exports[`tables 1`] = `
-"<div class=\\"marked-table\\"><table>
-<thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead>
-<tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody>
-</table></div>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class=\\"marked-table\\"><table><thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody></table></div>"
 `;
 
 exports[`variables 1`] = `"<p><span>APIKEY</span></p>"`;
