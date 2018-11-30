@@ -13,7 +13,6 @@
     "/anything/array-of-primitives": {
       "get": {
         "summary": "Array of primitives",
-        "description": "sadf<h1>this is a paragraph</h1> <img src=\"x\" onerror=\"alert('charlie')\"> Test \n > this is markdown",
         "responses": {
           "200": {
             "description": "OK",
@@ -34,7 +33,6 @@
     "/anything/object": {
       "get": {
         "summary": "Object",
-        "description": "<h3>this is a paragraph</h3>",
         "responses": {
           "200": {
             "description": "OK",
@@ -52,7 +50,6 @@
     "/anything/array-of-objects": {
       "get": {
         "summary": "Array of objects",
-        "description": "Test \n > this is markdown",
         "responses": {
           "200": {
             "description": "OK",
