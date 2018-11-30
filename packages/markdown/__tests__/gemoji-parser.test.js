@@ -1,4 +1,5 @@
-const remark = require('remark');
+const unified = require('unified');
+const remarkParse = require('remark-parse');
 const parser = require('../gemoji-parser');
 
 it('should output an image node for a known emoji', () => {
@@ -32,7 +33,8 @@ it('should output an image node for a known emoji', () => {
   };
 
   expect(
-    remark()
+    unified()
+      .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
@@ -65,7 +67,8 @@ it('should output an <i> for a font awesome icon', () => {
   };
 
   expect(
-    remark()
+    unified()
+      .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
@@ -86,7 +89,8 @@ it('should output nothing for unknown emojis', () => {
   };
 
   expect(
-    remark()
+    unified()
+      .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
