@@ -4,7 +4,7 @@ exports[`anchors 1`] = `
 "<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
 <a href=\\"\\" target=\\"_self\\">xss</a><br/>
 <a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
-<a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br/>
+<a href=\\"/reference-link/slug\\" target=\\"_self\\">ref</a><br/>
 <a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br/>
 <a href=\\"/page/slug\\" target=\\"_self\\">page</a><br/>
 </p>"
