@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const classNames = require('classnames');
 
 const Oas = require('./lib/Oas');
 const findSchemaDefinition = require('./lib/find-schema-definition');
@@ -87,7 +88,7 @@ class ResponseSchema extends React.Component {
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
     const schema = this.getSchema(operation);
     return (
-      <div className="hub-reference-response-definitions">
+      <div className={classNames({"hub-reference-response-definitions": true, 'dark': this.props.theme === 'dark' })}>
         {this.renderHeader()}
         <div className="response-schema">
           {operation.responses[this.state.selectedStatus].description && (
@@ -103,6 +104,7 @@ class ResponseSchema extends React.Component {
 ResponseSchema.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 module.exports = ResponseSchema;
