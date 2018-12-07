@@ -177,7 +177,9 @@ class Doc extends React.Component {
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
                 </div>
               )}
-              <div className="hub-reference-right switcher">{this.renderResponseSchema('dark')}</div>
+              <div className="hub-reference-right switcher">
+                {this.renderResponseSchema('dark')}
+              </div>
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
             </div>
           </Fragment>
@@ -228,7 +230,12 @@ class Doc extends React.Component {
   renderResponseSchema(theme = 'light') {
     const operation = this.getOperation();
 
-    return operation.responses && <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />;
+    return (
+      operation &&
+      operation.responses && (
+        <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />
+      )
+    );
   }
 
   renderEndpoint() {
