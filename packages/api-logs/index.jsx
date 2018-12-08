@@ -172,7 +172,7 @@ class Logs extends React.Component {
   }
 
   static renderOption(item) {
-    return <option value={item.id}>{item.name}</option>;
+    return <option key={item.id} value={item.id}>{item.name}</option>;
   }
 
   renderSelect() {
