@@ -95,24 +95,15 @@ class Logs extends React.Component {
   }
 
   getData(group) {
-    const { oas, operation, baseUrl } = this.props;
+    const { query, baseUrl } = this.props;
     this.setState({ loading: true });
 
-    const limit = 5;
-    const page = 0;
-    const { method } = operation;
-    const url = `${oas.servers[0].url}${operation.path}`;
-    const find = {
-      limit,
-      page,
-      url,
-      method,
-    };
-    if (group) {
-      find.id = group;
-    }
+    // TODO make sure the new way works
+    // if (group) {
+    //   query.id = group;
+    // }
 
-    const reqUrl = `${baseUrl}api/logs?${querystring.stringify(find)}`;
+    const reqUrl = `${baseUrl}api/logs?${querystring.stringify(Object.assign({}, query, { id: group || null, limit: 5, page: 0 }))}`;
 
     return fetch(reqUrl).then(res => {
       return this.handleData(res);
@@ -225,14 +216,11 @@ class Logs extends React.Component {
 
   render() {
     const { group } = this.state;
-    const { oas, operation, baseUrl } = this.props;
+    const { query, baseUrl } = this.props;
     if (!group) return null;
 
-    const find = {
-      url: `${oas.servers[0].url}${operation.path}`,
-      id: group,
-    };
-    const url = `${baseUrl}logs?${querystring.stringify(find)}`;
+    // TODO make sure this works with method
+    const url = `${baseUrl}logs?${querystring.stringify(Object.assign({}, query, { id: group }))}`;
 
     return (
       <VisibilitySensor onChange={this.onVisible}>
@@ -256,8 +244,7 @@ class Logs extends React.Component {
 }
 
 Logs.propTypes = {
-  oas: PropTypes.shape({}).isRequired,
-  operation: PropTypes.shape({}).isRequired,
+  query: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string.isRequired,
   user: PropTypes.shape({
     keys: PropTypes.array,
