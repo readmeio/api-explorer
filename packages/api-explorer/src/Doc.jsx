@@ -257,14 +257,10 @@ class Doc extends React.Component {
     const { Logs } = this.props;
     return (
       <Logs
-        apiKey={this.props.apiKey}
         oas={this.oas}
         user={this.props.user}
         baseUrl={this.props.baseUrl}
         operation={this.getOperation()}
-        formData={this.state.formData}
-        onChange={this.onChange}
-        onSubmit={this.onSubmit}
       />
     );
   }
