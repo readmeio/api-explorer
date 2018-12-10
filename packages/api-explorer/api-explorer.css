@@ -471,3 +471,10 @@ form.rjsf fieldset {
   overflow-y: auto;
   max-height: 600px;
 }
+
+.hub-reference-response-definitions.dark p,
+.hub-reference-response-definitions.dark h3,
+.hub-reference-response-definitions.dark th,
+.hub-reference-response-definitions.dark td {
+  color: rgba(255,255,255,0.7);
+}
