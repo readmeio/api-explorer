@@ -89,8 +89,7 @@ class ResponseSchema extends React.Component {
     const schema = this.getSchema(operation);
     return (
       <div
-        className={classNames({
-          'hub-reference-response-definitions': true,
+        className={classNames('hub-reference-response-definitions', {
           dark: this.props.theme === 'dark',
         })}
       >
