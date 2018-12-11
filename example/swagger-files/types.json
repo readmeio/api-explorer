@@ -33,6 +33,10 @@
                   "string without description": {
                     "type": "string"
                   },
+                  "string with default value": {
+                    "type": "string",
+                    "default": "default value"
+                  },
                   "string (format: binary) (not sure this will work)": {
                     "type": "string",
                     "format": "binary"
