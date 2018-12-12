@@ -652,7 +652,7 @@ describe('body values', () => {
         },
         { body: { RAW_BODY: {} } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({}));
+    ).toEqual(undefined);
   });
 
   it('should return nothing for undefined body property', () => {
@@ -679,7 +679,7 @@ describe('body values', () => {
         },
         { body: { a: undefined } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({}));
+    ).toEqual(undefined);
   });
 
   it('should work for schemas that require a lookup', () => {
@@ -862,6 +862,46 @@ describe('body values', () => {
         ).log.entries[0].request.postData.text,
       ).toEqual(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
     });
+  });
+
+  it('should not include objects with undefined sub properties', () => {
+    expect(
+      oasToHar(
+        {},
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: {
+                      type: 'object',
+                      properties: {
+                        b: {
+                          type: 'string',
+                        },
+                        c: {
+                          type: 'object',
+                          properties: {
+                            d: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { a: { b: undefined, c: { d: undefined } } } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(undefined);
   });
 });
 
