@@ -234,7 +234,7 @@ describe('readOnly', () => {
   });
 });
 
-test('defaults should be applied on first render', (done) => {
+test('defaults should be applied on first render', done => {
   const defaultValue = 'this is a default value';
   function onChange(formData) {
     expect(formData.body).toEqual({ a: defaultValue });
