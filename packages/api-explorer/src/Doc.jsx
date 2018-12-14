@@ -255,7 +255,7 @@ class Doc extends React.Component {
   renderLogs() {
     if (!this.props.Logs) return null;
     const { Logs } = this.props;
-    const operation = this.getOperation()
+    const operation = this.getOperation();
     const { method } = operation;
     const url = `${this.oas.servers[0].url}${operation.path}`;
 
