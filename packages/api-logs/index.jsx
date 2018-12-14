@@ -98,11 +98,6 @@ class Logs extends React.Component {
     const { query, baseUrl } = this.props;
     this.setState({ loading: true });
 
-    // TODO make sure the new way works
-    // if (group) {
-    //   query.id = group;
-    // }
-
     const reqUrl = `${baseUrl}api/logs?${querystring.stringify(Object.assign({}, query, { id: group || null, limit: 5, page: 0 }))}`;
 
     return fetch(reqUrl).then(res => {
@@ -219,7 +214,6 @@ class Logs extends React.Component {
     const { query, baseUrl } = this.props;
     if (!group) return null;
 
-    // TODO make sure this works with method
     const url = `${baseUrl}logs?${querystring.stringify(Object.assign({}, query, { id: group }))}`;
 
     return (
