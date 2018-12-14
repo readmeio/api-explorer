@@ -98,7 +98,9 @@ class Logs extends React.Component {
     const { query, baseUrl } = this.props;
     this.setState({ loading: true });
 
-    const reqUrl = `${baseUrl}api/logs?${querystring.stringify(Object.assign({}, query, { id: group || null, limit: 5, page: 0 }))}`;
+    const reqUrl = `${baseUrl}api/logs?${querystring.stringify(
+      Object.assign({}, query, { id: group || null, limit: 5, page: 0 }),
+    )}`;
 
     return fetch(reqUrl).then(res => {
       return this.handleData(res);
@@ -158,7 +160,11 @@ class Logs extends React.Component {
   }
 
   static renderOption(item) {
-    return <option key={item.id} value={item.id}>{item.name}</option>;
+    return (
+      <option key={item.id} value={item.id}>
+        {item.name}
+      </option>
+    );
   }
 
   renderSelect() {
