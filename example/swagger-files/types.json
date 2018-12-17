@@ -123,6 +123,10 @@
                         "type": "string"
                       }
                     }
+                  },
+                  "object with `additionalProperties: true`": {
+                    "type": "object",
+                    "additionalProperties": true
                   }
                 }
               }
