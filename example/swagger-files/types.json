@@ -54,6 +54,10 @@
                     "type": "string",
                     "format": "date-time"
                   },
+                  "string (format: string)": {
+                    "type": "string",
+                    "format": "string"
+                  },
                   "integer": {
                     "type": "integer",
                     "format": "int64",
