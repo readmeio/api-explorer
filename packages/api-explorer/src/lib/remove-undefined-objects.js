@@ -7,7 +7,7 @@ function isEmptyObject(obj) {
 function stripEmptyObjects(obj) {
   Object.keys(obj).forEach(key => {
     const value = obj[key];
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && !Array.isArray(obj)) {
       // Recurse, strip out empty objects from children
       stripEmptyObjects(value);
       // Then remove all empty objects from the top level object
