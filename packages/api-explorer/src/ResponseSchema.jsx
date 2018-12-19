@@ -19,11 +19,10 @@ class ResponseSchema extends React.Component {
   }
 
   getSchema(operation) {
-    const content = this.getContent(operation);
+    const oas = this.props.oas;
+    const content = this.getContent(operation, oas);
 
     if (!content) return null;
-
-    const oas = this.props.oas;
 
     const firstContentType = Object.keys(content)[0];
 
@@ -42,14 +41,14 @@ class ResponseSchema extends React.Component {
     return null;
   }
 
-  getContent(operation) {
+  getContent(operation, oas) {
     const status = this.state.selectedStatus;
-    return (
-      operation &&
-      operation.responses &&
-      operation.responses[status] &&
-      operation.responses[status].content
-    );
+    const response = operation && operation.responses && operation.responses[status];
+
+    if (!response) return false;
+
+    if (response.$ref) return findSchemaDefinition(response.$ref, oas).content;
+    return response.content;
   }
 
   changeHandler(e) {

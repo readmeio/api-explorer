@@ -149,7 +149,45 @@ test('should contain ResponseSchemaBody element if $ref exist for "application/x
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
-  expect(responseSchema.text()).toContain('ResponseSchemaBody');
+  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
+});
+
+test('should allow $ref lookup at the responses object level', () => {
+  const testOas = new Oas({
+    components: {
+      responses: {
+        Response: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    },
+    paths: {
+      '/ref-responses': {
+        get: {
+          responses: {
+            200: {
+              $ref: '#/components/responses/Response',
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const responseSchema = shallow(
+    <ResponseSchema
+      {...props}
+      oas={testOas}
+      operation={testOas.operation('/ref-responses', 'get')}
+    />,
+  );
+  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
 });
 
 test('should change selectedStatus in component', () => {
