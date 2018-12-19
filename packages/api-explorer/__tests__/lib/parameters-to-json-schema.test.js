@@ -368,3 +368,31 @@ test('it should pass false value as default parameter', () => {
     })[0].schema.properties.check,
   ).toEqual({ default: false, type: 'boolean' });
 });
+
+test('it should fetch $ref parameters', () => {
+  const oas = {
+    components: {
+      parameters: {
+        Param: {
+          name: 'param',
+          in: 'query',
+          schema: {
+            type: 'string',
+          },
+        },
+      },
+    },
+  };
+  expect(
+    parametersToJsonSchema(
+      {
+        parameters: [
+          {
+            $ref: '#/components/parameters/Param',
+          },
+        ],
+      },
+      oas,
+    )[0].schema.properties.param,
+  ).toEqual(oas.components.parameters.Param.schema);
+});
