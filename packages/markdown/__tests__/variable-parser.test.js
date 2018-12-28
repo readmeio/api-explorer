@@ -1,4 +1,5 @@
-const remark = require('remark');
+const unified = require('unified');
+const remarkParse = require('remark-parse');
 const parser = require('../variable-parser');
 
 it('should output a variable node', () => {
@@ -26,7 +27,8 @@ it('should output a variable node', () => {
   };
 
   expect(
-    remark()
+    unified()
+      .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
@@ -58,7 +60,8 @@ it('should output a glossary node', () => {
   };
 
   expect(
-    remark()
+    unified()
+      .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
@@ -90,7 +93,8 @@ it('should allow whitespace in glossary names', () => {
   };
 
   expect(
-    remark()
+    unified()
+      .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
@@ -114,7 +118,8 @@ it('should allow escape variables to remain', () => {
   };
 
   expect(
-    remark()
+    unified()
+      .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),

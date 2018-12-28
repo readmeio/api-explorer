@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const classNames = require('classnames');
 
 const Oas = require('./lib/Oas');
 const findSchemaDefinition = require('./lib/find-schema-definition');
@@ -18,11 +19,10 @@ class ResponseSchema extends React.Component {
   }
 
   getSchema(operation) {
-    const content = this.getContent(operation);
+    const oas = this.props.oas;
+    const content = this.getContent(operation, oas);
 
     if (!content) return null;
-
-    const oas = this.props.oas;
 
     const firstContentType = Object.keys(content)[0];
 
@@ -41,14 +41,14 @@ class ResponseSchema extends React.Component {
     return null;
   }
 
-  getContent(operation) {
+  getContent(operation, oas) {
     const status = this.state.selectedStatus;
-    return (
-      operation &&
-      operation.responses &&
-      operation.responses[status] &&
-      operation.responses[status].content
-    );
+    const response = operation && operation.responses && operation.responses[status];
+
+    if (!response) return false;
+
+    if (response.$ref) return findSchemaDefinition(response.$ref, oas).content;
+    return response.content;
   }
 
   changeHandler(e) {
@@ -87,7 +87,11 @@ class ResponseSchema extends React.Component {
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
     const schema = this.getSchema(operation);
     return (
-      <div className="hub-reference-response-definitions">
+      <div
+        className={classNames('hub-reference-response-definitions', {
+          dark: this.props.theme === 'dark',
+        })}
+      >
         {this.renderHeader()}
         <div className="response-schema">
           {operation.responses[this.state.selectedStatus].description && (
@@ -103,6 +107,7 @@ class ResponseSchema extends React.Component {
 ResponseSchema.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 module.exports = ResponseSchema;

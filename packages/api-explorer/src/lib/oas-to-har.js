@@ -3,6 +3,7 @@ const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
+const removeUndefinedObjects = require('./remove-undefined-objects');
 
 // const format = {
 //   value: v => `__START_VALUE__${v}__END__`,
@@ -174,7 +175,9 @@ module.exports = (
 
   function stringify(json) {
     // Default to JSON.stringify
-    har.postData.text = JSON.stringify(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json);
+    har.postData.text = JSON.stringify(
+      removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json),
+    );
   }
 
   if (schema.schema && Object.keys(schema.schema).length) {

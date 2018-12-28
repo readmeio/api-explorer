@@ -1,9 +1,13 @@
 const React = require('react');
-const remark = require('remark');
-const reactRenderer = require('remark-react');
-const breaks = require('remark-breaks');
+const unified = require('unified');
 const sanitize = require('hast-util-sanitize/lib/github.json');
 const Variable = require('@readme/variable');
+const remarkRehype = require('remark-rehype');
+const rehypeRaw = require('rehype-raw');
+const remarkParse = require('remark-parse');
+const rehypeSanitize = require('rehype-sanitize');
+const rehypeReact = require('rehype-react');
+const breaks = require('remark-breaks');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
@@ -19,16 +23,38 @@ sanitize.ancestors.input = ['li'];
 
 const GlossaryItem = require('./GlossaryItem');
 
+/*
+ * This is kinda complicated. Our "markdown" within ReadMe
+ * can often not be just markdown, but also include regular HTML.
+ *
+ * In addition, we also have a few special markdown features
+ * e.g. <<variables>>
+ *
+ * We use the https://github.com/unifiedjs/unified
+ * to parse/transform and output React components.
+ *
+ * The order for this process goes like follows:
+ * - Parse regular markdown
+ * - Parse out our markdown add-ons using custom compilers
+ * - Convert from a remark mdast (markdown ast) to a rehype hast (hypertext ast)
+ * - Extract any raw HTML elements
+ * - Sanitize and remove any disallowed attributes
+ * - Output the hast to a React vdom with our custom components
+ */
 module.exports = function markdown(text, opts = {}) {
   if (!text) return null;
 
-  return remark()
+  return unified()
+    .use(remarkParse)
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
-    .use(reactRenderer, {
-      sanitize,
-      remarkReactComponents: {
+    .use(remarkRehype, { allowDangerousHTML: true })
+    .use(rehypeRaw)
+    .use(rehypeSanitize)
+    .use(rehypeReact, {
+      createElement: React.createElement,
+      components: {
         'readme-variable': Variable,
         'readme-glossary-item': GlossaryItem,
         table: table(sanitize),

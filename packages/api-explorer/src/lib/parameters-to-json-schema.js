@@ -1,4 +1,5 @@
 const getSchema = require('./get-schema');
+const findSchemaDefinition = require('./find-schema-definition');
 
 // https://github.com/OAI/OpenAPI-Specification/blob/4875e02d97048d030de3060185471b9f9443296c/versions/3.0.md#parameterObject
 const types = {
@@ -26,10 +27,16 @@ function getBodyParam(pathOperation, oas) {
   };
 }
 
-function getOtherParams(pathOperation) {
+function getOtherParams(pathOperation, oas) {
+  const resolvedParameters = (pathOperation.parameters || []).map(param => {
+    if (param.$ref) return findSchemaDefinition(param.$ref, oas);
+    return param;
+  });
+
   return Object.keys(types).map(type => {
     const required = [];
-    const parameters = (pathOperation.parameters || []).filter(param => param.in === type);
+
+    const parameters = resolvedParameters.filter(param => param.in === type);
     if (parameters.length === 0) return null;
 
     const properties = parameters.reduce((prev, current) => {
@@ -77,7 +84,7 @@ module.exports = (pathOperation, oas) => {
   if (!hasParameters && !hasRequestBody) return null;
 
   return [getBodyParam(pathOperation, oas)]
-    .concat(...getOtherParams(pathOperation))
+    .concat(...getOtherParams(pathOperation, oas))
     .filter(Boolean);
 };
 

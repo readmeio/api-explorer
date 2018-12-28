@@ -51,6 +51,19 @@ test('should output a div', () => {
   expect(doc.find('Content').length).toBe(1);
 });
 
+test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
+  const doc = mount(
+    <Doc
+      {...props}
+      appearance={{
+        splitReferenceDocs: true,
+      }}
+    />,
+  );
+
+  expect(doc.find('Waypoint').length).toBe(0);
+});
+
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
@@ -64,6 +77,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       tryItMetrics={() => {}}
     />,
   );
+  expect(docComponent.find('Waypoint').length).toBe(1);
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);

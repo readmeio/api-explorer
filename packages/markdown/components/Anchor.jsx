@@ -12,12 +12,7 @@ function getHref(href, baseUrl) {
 
   const ref = href.match(/^ref:([-_a-zA-Z0-9#]*)$/);
   if (ref) {
-    const cat = '';
-    // TODO https://github.com/readmeio/api-explorer/issues/28
-    // if (req && req.project.appearance.categoriesAsDropdown) {
-    //   cat = `/${req._referenceCategoryMap[ref[1]]}`;
-    // }
-    return `${base}/reference${cat}#${ref[1]}`;
+    return `${base}/reference-link/${ref[1]}`;
   }
 
   const blog = href.match(/^blog:([-_a-zA-Z0-9#]*)$/);

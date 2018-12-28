@@ -14,6 +14,7 @@ const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
 // const showCode = require('./lib/show-code');
@@ -186,6 +187,9 @@ class Doc extends React.Component {
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
                 </div>
               )}
+              <div className="hub-reference-right switcher">
+                {this.renderResponseSchema('dark')}
+              </div>
               <Content
                 baseUrl={this.props.baseUrl}
                 body={doc.body}
@@ -238,10 +242,15 @@ class Doc extends React.Component {
     );
   }
 
-  renderResponseSchema() {
+  renderResponseSchema(theme = 'light') {
     const operation = this.getOperation();
 
-    return operation.responses && <ResponseSchema operation={this.getOperation()} oas={this.oas} />;
+    return (
+      operation &&
+      operation.responses && (
+        <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />
+      )
+    );
   }
 
   renderEndpoint() {
@@ -261,16 +270,18 @@ class Doc extends React.Component {
   renderLogs() {
     if (!this.props.Logs) return null;
     const { Logs } = this.props;
+    const operation = this.getOperation();
+    const { method } = operation;
+    const url = `${this.oas.servers[0].url}${operation.path}`;
+
     return (
       <Logs
-        apiKey={this.props.apiKey}
-        oas={this.oas}
         user={this.props.user}
         baseUrl={this.props.baseUrl}
-        operation={this.getOperation()}
-        formData={this.state.formData}
-        onChange={this.onChange}
-        onSubmit={this.onSubmit}
+        query={{
+          url,
+          method,
+        }}
       />
     );
   }
@@ -310,6 +321,16 @@ class Doc extends React.Component {
     const { doc } = this.props;
     const oas = this.oas;
 
+    const renderEndpoint = () => {
+      if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
+
+      return (
+        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
+          {this.state.showEndpoint && this.renderEndpoint()}
+        </Waypoint>
+      );
+    };
+
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
         {
@@ -328,22 +349,13 @@ class Doc extends React.Component {
                 </a>
               )}
               <h2>{doc.title}</h2>
-              {doc.excerpt && (
-                <div className="excerpt">
-                  {
-                    // eslint-disable-next-line react/no-danger
-                    <p dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
-                  }
-                </div>
-              )}
+              {doc.excerpt && <div className="excerpt">{markdown(doc.excerpt)}</div>}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
-          {this.state.showEndpoint && this.renderEndpoint()}
-        </Waypoint>
+        {renderEndpoint()}
 
         {
           // TODO maybe we dont need to do this with a hidden input now
@@ -396,6 +408,7 @@ Doc.propTypes = {
   }).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
+    splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   language: PropTypes.string.isRequired,
   baseUrl: PropTypes.string,
@@ -412,6 +425,7 @@ Doc.defaultProps = {
   },
   appearance: {
     referenceLayout: 'row',
+    splitReferenceDocs: false,
   },
   apiKey: undefined,
   Logs: undefined,

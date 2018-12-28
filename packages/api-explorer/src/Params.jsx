@@ -53,6 +53,7 @@ function Params({
             float: UpDownWidget,
             binary: FileWidget,
             byte: TextWidget,
+            string: TextWidget,
             uuid: TextWidget,
             duration: TextWidget,
             dateTime: DateTimeWidget,

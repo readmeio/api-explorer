@@ -103,11 +103,12 @@ test('{ type: string, format: binary } should render as <input type="file">', ()
   expect(params.find('.field-file').length).toBe(1);
 });
 
-function renderParams(schema) {
+function renderParams(schema, customProps) {
   return mount(
     <div>
       <Params
         {...props}
+        {...customProps}
         operation={
           new Operation(oas, '/path', 'post', {
             requestBody: {
@@ -231,4 +232,14 @@ describe('readOnly', () => {
       ).find('input#addPet_id[type="hidden"]').length,
     ).toBe(1);
   });
+});
+
+test('defaults should be applied on first render', done => {
+  const defaultValue = 'this is a default value';
+  function onChange(formData) {
+    expect(formData.body).toEqual({ a: defaultValue });
+    return done();
+  }
+
+  renderParams({ type: 'string', default: defaultValue }, { onChange });
 });

@@ -156,3 +156,15 @@ describe.skip('`stripHtml` option', () => {
     expect(markdown('<p>Test</p>', { stripHtml: true })).toBe('<p>&lt;p&gt;Test&lt;/p&gt;</p>\n');
   });
 });
+
+test('should strip dangerous iframe tag', () => {
+  expect(
+    shallow(markdown('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>')).html(),
+  ).toBe('<p></p>');
+});
+
+test('should strip dangerous img attributes', () => {
+  expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
+    '<img src="x"/>',
+  );
+});
