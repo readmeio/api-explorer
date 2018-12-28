@@ -12,7 +12,7 @@ exports[`anchors 1`] = `
 
 exports[`anchors with baseUrl 1`] = `
 "<p><a href=\\"/child/v1.0/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
-<a href=\\"/child/v1.0/reference-link\\" target=\\"_self\\">ref</a><br/>
+<a href=\\"/child/v1.0/reference-link/slug\\" target=\\"_self\\">ref</a><br/>
 <a href=\\"/child/v1.0/blog/slug\\" target=\\"_self\\">blog</a><br/>
 <a href=\\"/child/v1.0/page/slug\\" target=\\"_self\\">page</a><br/>
 </p>"
