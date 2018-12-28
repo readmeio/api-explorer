@@ -15,6 +15,7 @@ class ApiExplorer extends React.Component {
     super(props);
 
     this.setLanguage = this.setLanguage.bind(this);
+    this.setExample = this.setExample.bind(this);
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
 
@@ -56,6 +57,10 @@ class ApiExplorer extends React.Component {
   setLanguage(language) {
     this.setState({ language });
     Cookie.set('readme_language', language);
+  }
+
+  setExample(example) {
+    this.setState({ example });
   }
 
   getDefaultLanguage() {
@@ -102,12 +107,14 @@ class ApiExplorer extends React.Component {
                       doc={doc}
                       oas={this.getOas(doc)}
                       setLanguage={this.setLanguage}
+                      setExample={this.setExample}
                       flags={this.props.flags}
                       user={this.props.variables.user}
                       Logs={this.props.Logs}
                       baseUrl={this.props.baseUrl}
                       appearance={this.props.appearance}
                       language={this.state.language}
+                      example={this.state.example}
                       oauth={this.props.oauth}
                       suggestedEdits={this.props.suggestedEdits}
                       apiKey={this.state.apiKey}

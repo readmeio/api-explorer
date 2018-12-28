@@ -200,9 +200,11 @@ class Doc extends React.Component {
       <CodeSample
         oas={this.oas}
         setLanguage={this.props.setLanguage}
+        setExample={this.props.setExample}
         operation={this.getOperation()}
         formData={this.state.formData}
         language={this.props.language}
+        example={this.props.example}
         examples={examples}
       />
     );
@@ -388,6 +390,7 @@ Doc.propTypes = {
   Logs: PropTypes.func,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
+  setExample: PropTypes.func.isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
   }).isRequired,
@@ -396,6 +399,7 @@ Doc.propTypes = {
     splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   language: PropTypes.string.isRequired,
+  example: PropTypes.shape({}),
   baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -415,5 +419,6 @@ Doc.defaultProps = {
   apiKey: undefined,
   Logs: undefined,
   user: undefined,
+  example: {},
   baseUrl: '/',
 };
