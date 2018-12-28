@@ -12,25 +12,17 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
 class CodeSample extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const { examples, language } = props;
-    const selectedExample = examples.find(example => example.language === language);
-
-    this.state = {
-      selectedExample,
-    };
-  }
-
   getKey(example, index) {
     const key = `${example.language}-${index}`;
-    const selected = this.state.selectedExample === example;
+    const selected = this.isSelected(example, index);
     return { key, selected };
   }
 
-  selectExample(example) {
-    this.setState({ selectedExample: example });
+  isSelected(source, index) {
+    const { example } = this.props;
+    const defaultSelection = index === 0 && !example.language;
+    const isSame = source.language === example.language && source.name === example.name;
+    return defaultSelection || isSame;
   }
 
   renderSelected(examples, setLanguage) {
@@ -51,7 +43,7 @@ class CodeSample extends React.Component {
                     onClick={e => {
                       e.preventDefault();
                       setLanguage(example.language);
-                      this.selectExample(example);
+                      this.props.setExample(example);
                     }}
                   >
                     {example.name || generateCodeSnippet.getLangName(example.language)}
@@ -70,7 +62,7 @@ class CodeSample extends React.Component {
                 <pre
                   className="tomorrow-night tabber-body"
                   key={key} // eslint-disable-line react/no-array-index-key
-                  style={{ display: this.state.selectedExample === example ? 'block' : '' }}
+                  style={{ display: selected ? 'block' : '' }}
                 >
                   {syntaxHighlighter(example.code || '', example.language, { dark: true })}
                 </pre>
@@ -132,6 +124,7 @@ class CodeSample extends React.Component {
 CodeSample.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   setLanguage: PropTypes.func.isRequired,
+  setExample: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
   examples: PropTypes.arrayOf(
@@ -141,10 +134,12 @@ CodeSample.propTypes = {
     }),
   ),
   language: PropTypes.string.isRequired,
+  example: PropTypes.shape({}),
 };
 
 CodeSample.defaultProps = {
   examples: [],
+  example: {},
 };
 
 module.exports = CodeSample;
