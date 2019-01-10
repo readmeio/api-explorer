@@ -61,8 +61,8 @@ Anchor.defaultProps = {
   baseUrl: '/',
 };
 
-function createAnchor(options) {
-  return props => <Anchor baseUrl={options.baseUrl} {...props} />;
+function createAnchor(baseUrl) {
+  return props => <Anchor baseUrl={baseUrl} {...props} />;
 }
 
 module.exports = (options, sanitizeSchema) => {

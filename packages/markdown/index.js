@@ -64,7 +64,7 @@ module.exports = function markdown(text, opts = {}) {
         h4: heading('h4', sanitize),
         h5: heading('h5', sanitize),
         h6: heading('h6', sanitize),
-        a: anchor(opts, sanitize),
+        a: anchor(opts.baseUrl, sanitize),
         code: code(sanitize),
         // Remove enclosing <div>
         // https://github.com/mapbox/remark-react/issues/54
