@@ -25,7 +25,7 @@
   "scripts": {
     "lint": "eslint -f unix . --ext js --ext jsx",
     "inspect": "jsinspect",
-    "prettier:write": "node_modules/.bin/prettier --write \"./**/**.{js,jsx}\"",
+    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "test": "jest --coverage --runInBand",
