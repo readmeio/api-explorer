@@ -39,22 +39,21 @@ function docLink(href) {
 }
 
 function Anchor(props) {
-  const data = Object.assign({}, props);
-  delete data.baseUrl;
   return (
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
-      {...data}
-      target="_self"
       href={getHref(props.href, props.baseUrl)}
+      target="_self"
       {...docLink(props.href)}
-    />
+    >
+      {props.children}
+    </a>
   );
 }
 
 Anchor.propTypes = {
   href: PropTypes.string,
   baseUrl: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
 
 Anchor.defaultProps = {
