@@ -105,7 +105,7 @@ class ApiExplorer extends React.Component {
                       flags={this.props.flags}
                       user={this.props.variables.user}
                       Logs={this.props.Logs}
-                      baseUrl={this.props.baseUrl}
+                      baseUrl={this.props.baseUrl.replace(/\/$/, '')}
                       appearance={this.props.appearance}
                       language={this.state.language}
                       oauth={this.props.oauth}
