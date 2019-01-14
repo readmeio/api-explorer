@@ -71,7 +71,7 @@ const Content = props => {
         </div>
         <div className="hub-reference-right">
           <div className="content-body">
-            <Loop content={right} column="right" baseUrl={props.baseUrl} />
+            <Loop content={right} column="right" flags={props.flags} baseUrl={props.baseUrl} />
           </div>
         </div>
       </div>
