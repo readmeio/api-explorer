@@ -25,7 +25,10 @@ class CodeSample extends React.Component {
 
   getKey(example, index) {
     const key = `${example.language}-${index}`;
-    const selected = this.state.selectedExample === example;
+    let selected = this.state.selectedExample === example;
+    if (!this.state.selectedExample && index === 0) {
+      selected = true;
+    }
     return { key, selected };
   }
 
@@ -70,7 +73,7 @@ class CodeSample extends React.Component {
                 <pre
                   className="tomorrow-night tabber-body"
                   key={key} // eslint-disable-line react/no-array-index-key
-                  style={{ display: this.state.selectedExample === example ? 'block' : '' }}
+                  style={{ display: selected ? 'block' : '' }}
                 >
                   {syntaxHighlighter(example.code || '', example.language, { dark: true })}
                 </pre>
