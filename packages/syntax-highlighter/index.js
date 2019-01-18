@@ -1,5 +1,5 @@
 const React = require('react');
-const codemirror = require('./codemirror.jsx');
+const { codemirror, modes } = require('./codemirror.jsx');
 
 module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) =>
   React.createElement(
@@ -11,3 +11,5 @@ module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) 
   );
 
 module.exports.uppercase = require('./uppercase');
+
+module.exports.modes = modes;

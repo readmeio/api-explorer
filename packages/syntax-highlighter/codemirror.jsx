@@ -27,7 +27,7 @@ require('codemirror/mode/go/go');
 //
 // We also have the mimeType to potentially in future load
 // in new types dynamically
-const modes = {
+exports.modes = {
   html: 'htmlmixed',
   json: ['javascript', 'application/ld+json'],
   text: ['null', 'text/plain'],
@@ -55,8 +55,8 @@ const modes = {
 function getMode(lang) {
   let mode = lang;
 
-  if (mode in modes) {
-    mode = modes[mode];
+  if (mode in exports.modes) {
+    mode = exports.modes[mode];
     // lang = mode;
     if (Array.isArray(mode)) {
       // lang = mode[0];
@@ -67,7 +67,7 @@ function getMode(lang) {
   return mode;
 }
 
-module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
+exports.codemirror = (code, lang, opts = { tokenizeVariables: false }) => {
   const output = [];
   let key = 0;
   const mode = getMode(lang);
