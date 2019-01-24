@@ -15,6 +15,10 @@ class Basic extends React.Component {
   // Maybe we should be calling getAuth from the top level
   // so the value is correct on the first pass through to
   // the CodeSample component. Let me mull this over a little more.
+  //
+  // This also has the unfortunate side-effect of making the "Try It"
+  // button in the explorer turn active by default, as though an edit
+  // has been made
   componentDidMount() {
     this.props.change({ user: this.state.user, password: this.state.password });
   }
