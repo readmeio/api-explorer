@@ -1,10 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Cookie = require('js-cookie');
 
-function ApiKey({ scheme, authInputRef, change }) {
-  const apiKeyCookie = Cookie.get('api_key');
-  // apiKeyCookie = apiKeyCookie || {e => apiKey.change(e.currentTarget.value)};
+function ApiKey({ apiKey, scheme, authInputRef, change }) {
   return (
     <div className="row">
       <div className="col-xs-5">
@@ -15,7 +12,7 @@ function ApiKey({ scheme, authInputRef, change }) {
           ref={authInputRef}
           type="text"
           onChange={e => change(e.currentTarget.value)}
-          value={apiKeyCookie}
+          value={apiKey}
         />
       </div>
     </div>

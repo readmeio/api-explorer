@@ -78,6 +78,13 @@ describe('oauth2', () => {
 describe('apiKey', () => {
   const props = { scheme: { type: 'apiKey', name: 'api_key', _key: 'api_key' } };
 
+  test('should display api key if set', () => {
+    const apiKey = '123456';
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} user={{ apiKey }} />);
+
+    expect(securityInput.find('input').prop('value')).toBe(apiKey);
+  });
+
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
     const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
@@ -87,9 +94,10 @@ describe('apiKey', () => {
 
     expect(onChange.mock.calls[0][0]).toEqual({ api_key: 'user' });
   });
+
   test('should display name inside label', () => {
     const onChange = jest.fn();
-    const securityInput = mount(<SecurityInput {...props} onChange={onChange} />);
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
 
     expect(securityInput.find('label').text()).toBe('api_key');
   });
