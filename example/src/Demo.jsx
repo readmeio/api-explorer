@@ -48,7 +48,9 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
               //     { id: 'anotherid', name: 'project2', apiKey: '456' },
               //   ],
               // },
-              user: { keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] },
+              // Uncomment this to test without keys array
+              // user: { user: '123456', pass: 'abc', apiKey: '123456' },
+              user: { keys: [{ name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' }, { name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' }] },
               defaults: [],
             }}
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
