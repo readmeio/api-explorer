@@ -68,7 +68,7 @@ class Oas {
     Object.assign(this, oas);
   }
 
-  url() {
+  url(user) {
     let url;
     try {
       url = this.servers[0].url;
@@ -92,6 +92,7 @@ class Oas {
     }
 
     return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
+      if (user && user[key]) return user[key];
       return variables[key] ? variables[key].default : original;
     });
   }

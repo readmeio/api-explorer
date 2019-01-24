@@ -43,6 +43,29 @@ describe('server variables', () => {
     ).toBe('https://example.com/path');
   });
 
+  it('should use user variables over defaults', () => {
+    expect(
+      new Oas({
+        servers: [{ url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } }],
+      }).url({ username: 'domh' }),
+    ).toBe('https://domh.example.com');
+  });
+
+  it.skip('should fetch user variables from keys array', () => {
+    expect(
+      new Oas({
+        servers: [{ url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } }],
+      }).url({ keys: [ { name: 1, username: 'domh' } ] }),
+    ).toBe('https://domh.example.com');
+
+    expect(
+      new Oas({
+        servers: [{ url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } }],
+      }).url({ keys: [ { name: 1, username: 'domh' }, { name: 2, username: 'readme' } ] }, 2),
+    ).toBe('https://readme.example.com');
+  });
+
+  // Test encodeURI
   it('should pass through if no default set', () => {
     expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).url()).toBe(
       'https://example.com/{path}',
