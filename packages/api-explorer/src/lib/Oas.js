@@ -83,7 +83,17 @@ class Oas {
       url = 'https://example.com';
     }
 
-    return url;
+    let variables;
+    try {
+      variables = this.servers[0].variables;
+      if (!variables) throw Error('no variables');
+    } catch(e) {
+      variables = {};
+    }
+
+    return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
+      return variables[key] ? variables[key].default : original;
+    });
   }
 
   operation(path, method) {

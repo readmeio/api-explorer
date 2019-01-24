@@ -33,6 +33,21 @@ test('should default empty servers array to example.com', () => {
 test('should default empty server object to example.com', () => {
   expect(new Oas({ servers: [{}] }).url()).toBe('https://example.com');
 });
+
+describe('server variables', () => {
+  it('should use defaults', () => {
+    expect(
+      new Oas({
+        servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
+      }).url(),
+    ).toBe('https://example.com/path');
+  });
+
+  it('should pass through if no default set', () => {
+    expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).url()).toBe(
+      'https://example.com/{path}',
+    );
+  });
 });
 
 describe('operation.getSecurity()', () => {
