@@ -1,0 +1,72 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://httpbin.org"
+    }
+  ],
+  "info": {
+    "version": "1.0.0",
+    "title": "Different auth types"
+  },
+  "paths": {
+    "/anything/oauth2": {
+      "post": {
+        "summary": "Oauth2 security type",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/anything/basic": {
+      "post": {
+        "summary": "Basic security type",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "basic": []
+          }
+        ]
+      }
+    },
+    "/anything/apiKey": {
+      "post": {
+        "summary": "ApiKey security type",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2"
+      },
+      "basic": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "apiKey"
+      }
+    }
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
+}
