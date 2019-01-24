@@ -3,13 +3,7 @@
 exports[`operation() should return a default when no operation 1`] = `
 Operation {
   "method": "get",
-  "oas": Oas {
-    "servers": Array [
-      Object {
-        "url": "https://example.com",
-      },
-    ],
-  },
+  "oas": Oas {},
   "parameters": Array [],
   "path": "/unknown",
 }

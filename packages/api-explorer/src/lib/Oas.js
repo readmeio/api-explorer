@@ -65,19 +65,25 @@ class Operation {
 
 class Oas {
   constructor(oas) {
-    // Setting up a default server url
-    oas.servers = oas.servers || [];
-    oas.servers[0] = oas.servers[0] || {};
-    oas.servers[0].url = oas.servers[0].url || 'https://example.com';
+    Object.assign(this, oas);
+  }
 
-    let url = oas.servers[0].url;
+  url() {
+    let url;
+    try {
+      url = this.servers[0].url;
+      // This is to catch the case where servers = [{}]
+      if (!url) throw Error('no url');
+    } catch(e) {
+      url = 'https://example.com';
+    }
+
     // Stripping the '/' off the end
     if (url[url.length - 1] === '/') {
       url = url.slice(0, -1);
     }
 
-    oas.servers[0].url = url;
-    Object.assign(this, oas);
+    return url;
   }
 
   operation(path, method) {

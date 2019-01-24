@@ -19,21 +19,20 @@ describe('operation()', () => {
 });
 
 test('should remove end slash from the server URL', () => {
-  expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).servers[0].url).toBe(
-    'http://example.com',
-  );
+  expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).url()).toBe('http://example.com');
 });
 
 test('should default missing servers array to example.com', () => {
-  expect(new Oas({}).servers[0].url).toBe('https://example.com');
+  expect(new Oas({}).url()).toBe('https://example.com');
 });
 
 test('should default empty servers array to example.com', () => {
-  expect(new Oas({ servers: [] }).servers[0].url).toBe('https://example.com');
+  expect(new Oas({ servers: [] }).url()).toBe('https://example.com');
 });
 
 test('should default empty server object to example.com', () => {
-  expect(new Oas({ servers: [{}] }).servers[0].url).toBe('https://example.com');
+  expect(new Oas({ servers: [{}] }).url()).toBe('https://example.com');
+});
 });
 
 describe('operation.getSecurity()', () => {
