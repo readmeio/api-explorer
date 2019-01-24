@@ -107,11 +107,29 @@ describe('basic', () => {
     securityInput.find('input[name="password"]').instance().value = 'pass';
     securityInput.find('input[name="password"]').simulate('change');
 
-    expect(onChange.mock.calls[1][0]).toEqual({
+    // TODO this should eventually be removed
+    // see comment above componentDidMount in Basic.jsx
+    expect(onChange.mock.calls[0][0]).toEqual({
+      'test-basic': {
+        user: '',
+        password: '',
+      },
+    });
+
+    expect(onChange.mock.calls[2][0]).toEqual({
       'test-basic': {
         user: 'user',
         password: 'pass',
       },
     });
+  });
+
+  test('should display user/pass if set', () => {
+    const user = 'user';
+    const pass = 'pass';
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} oauth user={{ user, pass }} />);
+
+    expect(securityInput.find('input[name="user"]').prop('value')).toBe(user)
+    expect(securityInput.find('input[name="password"]').prop('value')).toBe(pass)
   });
 });
