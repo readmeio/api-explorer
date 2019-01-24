@@ -28,7 +28,7 @@ function PathUrl({
   toggleAuth,
   onSubmit,
   oauth,
-  apiKey,
+  user,
 }) {
   return (
     <div className="api-definition-parent">
@@ -45,7 +45,7 @@ function PathUrl({
                 toggle={toggleAuth}
                 authInputRef={authInputRef}
                 oauth={oauth}
-                apiKey={apiKey}
+                user={user}
               />
 
               <button
@@ -97,14 +97,14 @@ PathUrl.propTypes = {
   showAuthBox: PropTypes.bool,
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string,
+  user: PropTypes.shape({}),
 };
 
 PathUrl.defaultProps = {
   showAuthBox: false,
   needsAuth: false,
   authInputRef: () => {},
-  apiKey: undefined,
+  user: {},
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

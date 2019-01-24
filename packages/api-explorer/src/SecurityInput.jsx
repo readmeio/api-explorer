@@ -11,15 +11,15 @@ function SecurityInput(props) {
   function change(value) {
     return props.onChange({ [props.scheme._key]: value });
   }
+  const auth = getAuth(props.user, props.scheme);
   switch (props.scheme.type) {
     case 'oauth2':
-      return <Oauth2 {...props} apiKey={getAuth(props.user, props.scheme)} change={change} />;
+      return <Oauth2 {...props} apiKey={auth} change={change} />;
     case 'http':
       // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
-      const { user, pass } = getAuth(props.user, props.scheme);
-      return <Basic {...props} change={change} user={user} pass={pass} />;
+      return <Basic {...props} change={change} user={auth.user} pass={auth.pass} />;
     case 'apiKey':
-      return <ApiKey {...props} change={change} />;
+      return <ApiKey {...props} apiKey={auth} change={change} />;
     default:
       return null;
   }
@@ -30,7 +30,12 @@ SecurityInput.propTypes = {
     type: PropTypes.string.isRequired,
     _key: PropTypes.string.isRequired,
   }).isRequired,
+  user: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
+};
+
+SecurityInput.defaultProps = {
+  user: {},
 };
 
 module.exports = SecurityInput;

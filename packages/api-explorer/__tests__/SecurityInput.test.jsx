@@ -39,18 +39,24 @@ describe('oauth2', () => {
   });
 
   test('should disable the input if `oauth=true`', () => {
-    const securityInput = mount(<SecurityInput {...props} {...baseProps} oauth user={{ apiKey: 'test' }} />);
+    const securityInput = mount(
+      <SecurityInput {...props} {...baseProps} oauth user={{ apiKey: 'test' }} />,
+    );
     expect(securityInput.find('input').prop('disabled')).toBe(true);
   });
 
   test.skip('should disable the input if apiKey is set', () => {
-    const securityInput = mount(<SecurityInput {...props} {...baseProps} user={{ apiKey: 'test' }} />);
+    const securityInput = mount(
+      <SecurityInput {...props} {...baseProps} user={{ apiKey: 'test' }} />,
+    );
     expect(securityInput.find('input').prop('disabled')).toBe(true);
   });
 
   test('should display api key if set', () => {
     const apiKey = '123456';
-    const securityInput = mount(<SecurityInput {...props} {...baseProps} oauth user={{ apiKey }} />);
+    const securityInput = mount(
+      <SecurityInput {...props} {...baseProps} oauth user={{ apiKey }} />,
+    );
 
     expect(securityInput.find('input').prop('value')).toBe(apiKey);
   });
@@ -135,9 +141,11 @@ describe('basic', () => {
   test('should display user/pass if set', () => {
     const user = 'user';
     const pass = 'pass';
-    const securityInput = mount(<SecurityInput {...props} {...baseProps} oauth user={{ user, pass }} />);
+    const securityInput = mount(
+      <SecurityInput {...props} {...baseProps} oauth user={{ user, pass }} />,
+    );
 
-    expect(securityInput.find('input[name="user"]').prop('value')).toBe(user)
-    expect(securityInput.find('input[name="password"]').prop('value')).toBe(pass)
+    expect(securityInput.find('input[name="user"]').prop('value')).toBe(user);
+    expect(securityInput.find('input[name="password"]').prop('value')).toBe(pass);
   });
 });

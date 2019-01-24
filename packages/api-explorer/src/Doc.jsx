@@ -297,7 +297,7 @@ class Doc extends React.Component {
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
-        apiKey={this.props.apiKey}
+        user={this.props.user}
       />
     );
   }

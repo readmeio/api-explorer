@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function Securities({ authInputRef, operation, onChange, oauth, apiKey, onSubmit }) {
+function Securities({ authInputRef, operation, onChange, oauth, user, onSubmit }) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -27,7 +27,7 @@ function Securities({ authInputRef, operation, onChange, oauth, apiKey, onSubmit
             }
             {securities.map(security => (
               <SecurityInput
-                {...{ apiKey, onChange, authInputRef, oauth }}
+                {...{ user, onChange, authInputRef, oauth }}
                 key={security._key}
                 scheme={security}
               />
@@ -64,7 +64,7 @@ class AuthBox extends React.Component {
       needsAuth,
       toggle,
       oauth,
-      apiKey,
+      user,
     } = this.props;
 
     if (Object.keys(operation.prepareSecurity()).length === 0) return null;
@@ -79,7 +79,7 @@ class AuthBox extends React.Component {
           <div className="triangle" />
           <div>
             <Securities
-              {...{ authInputRef, operation, oauth, apiKey }}
+              {...{ authInputRef, operation, oauth, user }}
               onChange={this.onChange}
               onSubmit={e => {
                 e.preventDefault();
@@ -108,14 +108,14 @@ AuthBox.propTypes = {
   needsAuth: PropTypes.bool,
   open: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string,
+  user: PropTypes.shape({}),
 };
 
 AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
   authInputRef: () => {},
-  apiKey: undefined,
+  user: {},
 };
 
 module.exports = AuthBox;

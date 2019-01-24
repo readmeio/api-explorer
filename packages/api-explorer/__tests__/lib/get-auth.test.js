@@ -3,7 +3,13 @@ const getAuth = require('../../src/lib/get-auth');
 const topLevelUser = { apiKey: '123456', user: 'user', pass: 'pass' };
 const keysUser = { keys: [{ apiKey: '123456', name: 'app-1' }, { apiKey: '7890', name: 'app-2' }] };
 const topLevelSchemeUser = { schemeName: 'scheme-key' };
-const keysSchemeUser = { keys: [{ schemeName: 'scheme-key-1', name: 'app-1' }, { schemeName: 'scheme-key-2', name: 'app-2' }, { schemeName: { user: 'user', pass: 'pass' }, name: 'app-3'  }] };
+const keysSchemeUser = {
+  keys: [
+    { schemeName: 'scheme-key-1', name: 'app-1' },
+    { schemeName: 'scheme-key-2', name: 'app-2' },
+    { schemeName: { user: 'user', pass: 'pass' }, name: 'app-3' },
+  ],
+};
 
 it('should return apiKey property for oauth', () => {
   expect(getAuth(topLevelUser, { type: 'oauth2' })).toBe('123456');
@@ -31,7 +37,9 @@ it('should return selected app from keys array if app provided', () => {
 it('should return item by scheme name if no apiKey/user/pass', () => {
   expect(getAuth(topLevelSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key');
   expect(getAuth(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key-1');
-  expect(getAuth(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' }, 'app-2')).toBe('scheme-key-2');
+  expect(getAuth(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' }, 'app-2')).toBe(
+    'scheme-key-2',
+  );
   expect(getAuth(keysSchemeUser, { type: 'http', _key: 'schemeName' }, 'app-3')).toEqual({
     user: 'user',
     pass: 'pass',

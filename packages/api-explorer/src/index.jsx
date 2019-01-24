@@ -110,7 +110,6 @@ class ApiExplorer extends React.Component {
                       language={this.state.language}
                       oauth={this.props.oauth}
                       suggestedEdits={this.props.suggestedEdits}
-                      apiKey={this.state.apiKey}
                       tryItMetrics={this.props.tryItMetrics}
                     />
                   </SelectedAppContext.Provider>
