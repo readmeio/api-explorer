@@ -91,6 +91,18 @@ class Oas {
       variables = {};
     }
 
+    // Add protocol to urls starting with // e.g. //example.com
+    // This is because httpsnippet throws a HARError when it doesnt have a protocol
+    if (url.match(/^\/\//)) {
+      url = `https:${url}`;
+    }
+
+    // Add protocol to urls with no // within them
+    // This is because httpsnippet throws a HARError when it doesnt have a protocol
+    if (!url.match(/\/\//)) {
+      url = `https://${url}`;
+    }
+
     return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
       if (user && user[key]) return user[key];
       return variables[key] ? variables[key].default : original;

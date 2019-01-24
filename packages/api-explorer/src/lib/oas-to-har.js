@@ -93,18 +93,8 @@ module.exports = (
     ),
   };
 
-  // Add protocol to urls starting with // e.g. //example.com
-  // This is because httpsnippet throws a HARError when it doesnt have a protocol
-  if (har.url.match(/^\/\//)) {
-    har.url = `https:${har.url}`;
-  }
-
-  // Add protocol to urls with no // within them
-  // This is because httpsnippet throws a HARError when it doesnt have a protocol
-  if (!har.url.match(/\/\//)) {
-    har.url = `https://${har.url}`;
-  }
-
+  // This is in here and not in Oas because this only happens
+  // when the request is made, and is not to be shown externally
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
   }

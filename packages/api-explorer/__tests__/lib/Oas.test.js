@@ -34,6 +34,14 @@ test('should default empty server object to example.com', () => {
   expect(new Oas({ servers: [{}] }).url()).toBe('https://example.com');
 });
 
+test('should add https:// if url starts with //', () => {
+  expect(new Oas({ servers: [{ url: '//example.com' }] }).url()).toBe('https://example.com');
+});
+
+test('should add https:// if url does not start with a protocol', () => {
+  expect(new Oas({ servers: [{ url: 'example.com' }] }).url()).toBe('https://example.com');
+});
+
 describe('server variables', () => {
   it('should use defaults', () => {
     expect(

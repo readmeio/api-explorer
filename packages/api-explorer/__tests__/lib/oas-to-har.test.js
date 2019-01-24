@@ -26,14 +26,6 @@ test('should uppercase the method', () => {
 });
 
 describe('url', () => {
-  test('should default to "https://example.com"', () => {
-    expect(oasToHar({}, { path: '', method: '' }).log.entries[0].request.url).toBe(
-      'https://example.com',
-    );
-    expect(oasToHar({}, { path: '/path', method: '' }).log.entries[0].request.url).toBe(
-      'https://example.com/path',
-    );
-  });
 
   test('should be constructed from servers[0]', () => {
     expect(
@@ -46,28 +38,7 @@ describe('url', () => {
     ).toBe('http://example.com/path');
   });
 
-  test('should add https:// if url starts with //', () => {
-    expect(
-      oasToHar(
-        {
-          servers: [{ url: '//example.com' }],
-        },
-        { path: '/', method: 'get' },
-      ).log.entries[0].request.url,
-    ).toBe('https://example.com/');
-  });
-
-  test('should add https:// if url does not start with a protocol', () => {
-    expect(
-      oasToHar(
-        {
-          servers: [{ url: 'example.com' }],
-        },
-        { path: '/', method: 'get' },
-      ).log.entries[0].request.url,
-    ).toBe('https://example.com/');
-  });
-
+  // TODO this should probably happen within the Operation class
   test('should replace whitespace with %20', () => {
     expect(
       oasToHar(
