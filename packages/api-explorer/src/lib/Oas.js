@@ -74,13 +74,13 @@ class Oas {
       url = this.servers[0].url;
       // This is to catch the case where servers = [{}]
       if (!url) throw Error('no url');
+
+      // Stripping the '/' off the end
+      if (url[url.length - 1] === '/') {
+        url = url.slice(0, -1);
+      }
     } catch(e) {
       url = 'https://example.com';
-    }
-
-    // Stripping the '/' off the end
-    if (url[url.length - 1] === '/') {
-      url = url.slice(0, -1);
     }
 
     return url;
