@@ -1,4 +1,5 @@
 const getPathOperation = require('./get-path-operation');
+const getUserVariable = require('./get-user-variable');
 
 class Operation {
   constructor(oas, path, method, operation) {
@@ -66,7 +67,7 @@ class Operation {
 class Oas {
   constructor(oas, user) {
     Object.assign(this, oas);
-    this.user = user;
+    this.user = user || {};
   }
 
   url() {
@@ -105,7 +106,7 @@ class Oas {
     }
 
     return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
-      if (this.user && this.user[key]) return this.user[key];
+      if (getUserVariable(this.user, key)) return getUserVariable(this.user, key);
       return variables[key] ? variables[key].default : original;
     });
   }

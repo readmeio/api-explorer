@@ -64,7 +64,7 @@ describe('server variables', () => {
     ).toBe('https://domh.example.com');
   });
 
-  it.skip('should fetch user variables from keys array', () => {
+  it('should fetch user variables from keys array', () => {
     expect(
       new Oas(
         {
@@ -75,7 +75,9 @@ describe('server variables', () => {
         { keys: [{ name: 1, username: 'domh' }] },
       ).url(),
     ).toBe('https://domh.example.com');
+  });
 
+  it.skip('should fetch user variables from selected app', () => {
     expect(
       new Oas(
         {
@@ -88,6 +90,7 @@ describe('server variables', () => {
       ).url(),
     ).toBe('https://readme.example.com');
   });
+
 
   // Test encodeURI
   it('should pass through if no default set', () => {
