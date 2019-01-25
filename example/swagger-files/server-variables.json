@@ -2,9 +2,9 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "https://{username}.example.com:{port}/{basePath}",
+      "url": "https://{name}.example.com:{port}/{basePath}",
       "variables": {
-        "username": {
+        "name": {
           "default": "demo"
         },
         "port": {
