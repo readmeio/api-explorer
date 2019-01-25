@@ -3,6 +3,7 @@ const PropTypes = require('prop-types');
 const fetchHar = require('fetch-har');
 const oasToHar = require('./lib/oas-to-har');
 const isAuthReady = require('./lib/is-auth-ready');
+const getAuth = require('./lib/get-auth');
 const extensions = require('@readme/oas-extensions');
 const Waypoint = require('react-waypoint');
 
@@ -79,16 +80,19 @@ class Doc extends React.Component {
   }
 
   setApiKey() {
-    if (!this.props.apiKey) return;
+    if (!this.props.user) return;
 
     const operation = this.getOperation();
 
     if (!operation) return;
 
     try {
-      const firstSecurity = this.operation.getSecurity()[0];
-
-      this.state.formData.auth = { [Object.keys(firstSecurity)[0]]: this.props.apiKey };
+      this.state.formData.auth = this.operation.getSecurity().map((securityRequirement) => {
+        return Object.keys(securityRequirement).map((name) => {
+          this.oas.components.securitySchemes[name]._key = name;
+          return { [name]: getAuth(this.props.user, this.oas.components.securitySchemes[name]) };
+        }).reduce((prev, next) => Object.assign(prev, next));
+      }).reduce((prev, next) => Object.assign(prev, next), {})
     } catch (e) {
       // console.warn('There was a problem setting the api key on', operation.operationId, 'This probably just means there is no auth on this endpoint'); // eslint-disable-line no-console
     }

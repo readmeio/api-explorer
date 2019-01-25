@@ -51,3 +51,7 @@ it('should return null for anything else', () => {
   expect(getAuth(keysUser, { type: 'unknown' })).toBe(null);
   expect(getAuth(keysUser, { type: 'unknown' }, 'app-2')).toBe(null);
 });
+
+it('should allow scheme to be undefined', () => {
+  expect(getAuth(topLevelUser)).toBe(null);
+});

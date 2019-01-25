@@ -308,13 +308,27 @@ describe('themes', () => {
   });
 });
 
-describe('`apiKey`', () => {
-  test('should set apiKey in formData if passed in', () => {
-    const apiKey = '123456';
+describe('`auth`', () => {
+  test('should set auth from user in formData if passed in', () => {
+    const doc = mount(
+      <Doc
+        {...props}
+        oas={multipleSecurities}
+        doc={{
+          swagger: { path: '/things' },
+          api: { method: 'post' },
+          title: 'title',
+          slug: 'slug',
+          type: 'endpoint',
+        }}
+        user={{
+          oauthScheme: 'oauth',
+          apiKeyScheme: 'apiKey',
+        }}
+      />,
+    );
 
-    const doc = mount(<Doc {...props} apiKey={apiKey} />);
-
-    expect(doc.state('formData').auth).toEqual({ api_key: apiKey });
+    expect(doc.state('formData').auth).toEqual({ oauthScheme: 'oauth', apiKeyScheme: 'apiKey' });
   });
 });
 

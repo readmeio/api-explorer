@@ -91,7 +91,6 @@ describe('server variables', () => {
     ).toBe('https://readme.example.com');
   });
 
-
   // Test encodeURI
   it('should pass through if no default set', () => {
     expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).url()).toBe(
