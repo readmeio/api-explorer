@@ -281,7 +281,7 @@ describe('operation.prepareSecurity()', () => {
   });
 
   test('should work for multiple securities (||)', () => {
-    const operation = new Oas(multipleSecurities).operation('/things', 'post');
+    const operation = new Oas(multipleSecurities).operation('/or-security', 'post');
 
     expect(Object.keys(operation.prepareSecurity()).length).toBe(2);
   });

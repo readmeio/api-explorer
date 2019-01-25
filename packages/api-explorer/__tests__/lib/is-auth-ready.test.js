@@ -12,8 +12,8 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: 'bearer',
-        apiKey: 'bearer',
+        oauthScheme: 'bearer',
+        apiKeyScheme: 'bearer',
       }),
     ).toBe(true);
   });
@@ -23,8 +23,8 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: '',
-        apiKey: 'bearer',
+        oauthScheme: '',
+        apiKeyScheme: 'bearer',
       }),
     ).toBe(false);
   });
@@ -34,8 +34,8 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: '',
-        apiKey: '',
+        oauthScheme: '',
+        apiKeyScheme: '',
       }),
     ).toBe(false);
   });
@@ -45,15 +45,15 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: 'bearer',
-        apiKey: '',
+        oauthScheme: 'bearer',
+        apiKeyScheme: '',
       }),
     ).toBe(true);
 
     expect(
       isAuthReady(operation, {
-        oauth: '',
-        apiKey: 'bearer',
+        oauthScheme: '',
+        apiKeyScheme: 'bearer',
       }),
     ).toBe(true);
   });
@@ -63,7 +63,7 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: '',
+        oauthScheme: '',
         oauthDiff: '',
       }),
     ).toBe(false);
@@ -74,24 +74,24 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: 'bearer',
-        apiKey: '',
+        oauthScheme: 'bearer',
+        apiKeyScheme: '',
         oauthDiff: '',
       }),
     ).toBe(false);
 
     expect(
       isAuthReady(operation, {
-        oauth: '',
-        apiKey: 'key',
+        oauthScheme: '',
+        apiKeyScheme: 'key',
         oauthDiff: '',
       }),
     ).toBe(false);
 
     expect(
       isAuthReady(operation, {
-        oauth: '',
-        apiKey: '',
+        oauthScheme: '',
+        apiKeyScheme: '',
         oauthDiff: '',
       }),
     ).toBe(false);
@@ -102,24 +102,24 @@ describe('isAuthReady', () => {
 
     expect(
       isAuthReady(operation, {
-        oauth: 'bearer',
-        apiKey: '',
+        oauthScheme: 'bearer',
+        apiKeyScheme: '',
         oauthDiff: 'test',
       }),
     ).toBe(true);
 
     expect(
       isAuthReady(operation, {
-        oauth: '',
-        apiKey: '',
+        oauthScheme: '',
+        apiKeyScheme: '',
         oauthDiff: 'test',
       }),
     ).toBe(true);
 
     expect(
       isAuthReady(operation, {
-        oauth: 'bearer',
-        apiKey: 'key',
+        oauthScheme: 'bearer',
+        apiKeyScheme: 'key',
         oauthDiff: '',
       }),
     ).toBe(true);
