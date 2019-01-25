@@ -10,7 +10,7 @@ function getKey(user, scheme) {
   }
 }
 
-function getAuth(user, scheme, selectedApp = false) {
+function getSingle(user, scheme = {}, selectedApp = false) {
   if (user.keys) {
     if (selectedApp) return getKey(user.keys.find(key => key.name === selectedApp), scheme);
     return getKey(user.keys[0], scheme);
