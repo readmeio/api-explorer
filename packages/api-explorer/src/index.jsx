@@ -25,6 +25,7 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
+      auth: {},
     };
   }
 

@@ -42,7 +42,7 @@ class Doc extends React.Component {
     this.waypointEntered = this.waypointEntered.bind(this);
     this.Params = createParams(this.oas);
 
-    this.setApiKey();
+    this.setAuth();
   }
 
   onChange(formData) {
@@ -79,7 +79,9 @@ class Doc extends React.Component {
     });
   }
 
-  setApiKey() {
+  // TODO make sure this works again to set the api key in the initial code sample
+  // needs to work for both && and || securities
+  setAuth() {
     if (!this.props.user) return;
 
     const operation = this.getOperation();
@@ -87,12 +89,7 @@ class Doc extends React.Component {
     if (!operation) return;
 
     try {
-      this.state.formData.auth = this.operation.getSecurity().map((securityRequirement) => {
-        return Object.keys(securityRequirement).map((name) => {
-          this.oas.components.securitySchemes[name]._key = name;
-          return { [name]: getAuth(this.props.user, this.oas.components.securitySchemes[name]) };
-        }).reduce((prev, next) => Object.assign(prev, next));
-      }).reduce((prev, next) => Object.assign(prev, next), {})
+      this.state.formData.auth = getAuth(this.props.user, operation);
     } catch (e) {
       // console.warn('There was a problem setting the api key on', operation.operationId, 'This probably just means there is no auth on this endpoint'); // eslint-disable-line no-console
     }
@@ -301,7 +298,7 @@ class Doc extends React.Component {
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
-        user={this.props.user}
+        auth={this.state.formData.auth}
       />
     );
   }
@@ -403,7 +400,6 @@ Doc.propTypes = {
   baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string,
   tryItMetrics: PropTypes.func.isRequired,
 };
 
