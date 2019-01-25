@@ -5,7 +5,7 @@ const SecurityInput = require('../src/SecurityInput');
 const baseProps = {
   onChange: () => {},
   oauth: false,
-  user: {},
+  auth: {},
 };
 
 test('should render an Oauth2 component if type is oauth2', () => {
@@ -22,7 +22,7 @@ test('should render an ApiKey component if type is apiKey', () => {
 
 test('should render a Basic component if type is http', () => {
   const props = { scheme: { type: 'http', _key: 'auth', name: 'auth' } };
-  const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
+  const securityInput = shallow(<SecurityInput {...props} {...baseProps} auth={{auth: {}}} />);
   expect(securityInput.find('Basic').length).toBe(1);
 });
 
@@ -40,14 +40,14 @@ describe('oauth2', () => {
 
   test('should disable the input if `oauth=true`', () => {
     const securityInput = mount(
-      <SecurityInput {...props} {...baseProps} oauth user={{ apiKey: 'test' }} />,
+      <SecurityInput {...props} {...baseProps} oauth auth={{ 'test-auth': 'test' }} />,
     );
     expect(securityInput.find('input').prop('disabled')).toBe(true);
   });
 
   test.skip('should disable the input if apiKey is set', () => {
     const securityInput = mount(
-      <SecurityInput {...props} {...baseProps} user={{ apiKey: 'test' }} />,
+      <SecurityInput {...props} {...baseProps} auth={{ 'test-auth': 'test' }} />,
     );
     expect(securityInput.find('input').prop('disabled')).toBe(true);
   });
@@ -55,7 +55,7 @@ describe('oauth2', () => {
   test('should display api key if set', () => {
     const apiKey = '123456';
     const securityInput = mount(
-      <SecurityInput {...props} {...baseProps} oauth user={{ apiKey }} />,
+      <SecurityInput {...props} {...baseProps} oauth auth={{ 'test-auth': apiKey }} />,
     );
 
     expect(securityInput.find('input').prop('value')).toBe(apiKey);
@@ -86,7 +86,7 @@ describe('apiKey', () => {
 
   test('should display api key if set', () => {
     const apiKey = '123456';
-    const securityInput = mount(<SecurityInput {...props} {...baseProps} user={{ apiKey }} />);
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} auth={{ 'api_key': apiKey}}  />);
 
     expect(securityInput.find('input').prop('value')).toBe(apiKey);
   });
@@ -114,7 +114,7 @@ describe('basic', () => {
 
   test('should send auth apiKey into onChange()', () => {
     const onChange = jest.fn();
-    const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
+    const securityInput = mount(<SecurityInput {...props} {...baseProps} auth={{ 'test-basic': {} }} onChange={onChange} />);
 
     securityInput.find('input[name="user"]').instance().value = 'user';
     securityInput.find('input[name="user"]').simulate('change');
@@ -142,7 +142,7 @@ describe('basic', () => {
     const user = 'user';
     const pass = 'pass';
     const securityInput = mount(
-      <SecurityInput {...props} {...baseProps} oauth user={{ user, pass }} />,
+      <SecurityInput {...props} {...baseProps} oauth auth={{ 'test-basic': { user, pass }}} />,
     );
 
     expect(securityInput.find('input[name="user"]').prop('value')).toBe(user);
