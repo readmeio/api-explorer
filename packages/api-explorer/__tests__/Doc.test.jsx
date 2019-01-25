@@ -315,7 +315,7 @@ describe('`auth`', () => {
         {...props}
         oas={multipleSecurities}
         doc={{
-          swagger: { path: '/things' },
+          swagger: { path: '/or-security' },
           api: { method: 'post' },
           title: 'title',
           slug: 'slug',
