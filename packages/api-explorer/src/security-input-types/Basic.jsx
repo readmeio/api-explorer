@@ -48,7 +48,14 @@ class Basic extends React.Component {
 Basic.propTypes = {
   change: PropTypes.func.isRequired,
   authInputRef: PropTypes.func,
+  user: PropTypes.string,
+  pass: PropTypes.string,
 };
+
+Basic.defaultProps = {
+  user: '',
+  pass: '',
+}
 
 Basic.defaultProps = {
   authInputRef: () => {},

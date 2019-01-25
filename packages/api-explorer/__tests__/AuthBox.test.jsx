@@ -15,7 +15,7 @@ const props = {
   toggle: () => {},
   open: false,
   oauth: false,
-  auth: '',
+  auth: {},
 };
 
 test('should not display if no auth', () => {
