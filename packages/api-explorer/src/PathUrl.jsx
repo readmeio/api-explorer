@@ -71,7 +71,7 @@ function PathUrl({
           {oas.servers &&
           oas.servers.length > 0 && (
             <span className="definition-url">
-              <span className="url">{oas.servers[0].url}</span>
+              <span className="url">{oas.url()}</span>
               {splitPath(operation.path).map(part => (
                 <span key={part.value} className={`api-${part.type}`}>
                   {part.value}

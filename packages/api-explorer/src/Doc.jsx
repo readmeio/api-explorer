@@ -34,7 +34,7 @@ class Doc extends React.Component {
       showEndpoint: false,
     };
     this.onChange = this.onChange.bind(this);
-    this.oas = new Oas(this.props.oas);
+    this.oas = new Oas(this.props.oas, this.props.user);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
@@ -257,7 +257,7 @@ class Doc extends React.Component {
     const { Logs } = this.props;
     const operation = this.getOperation();
     const { method } = operation;
-    const url = `${this.oas.servers[0].url}${operation.path}`;
+    const url = `${this.oas.url()}${operation.path}`;
 
     return (
       <Logs
