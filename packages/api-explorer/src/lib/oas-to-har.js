@@ -87,14 +87,13 @@ module.exports = (
     queryString: [],
     postData: {},
     method: pathOperation.method.toUpperCase(),
-    url: `${oas.servers ? oas.servers[0].url : 'https://example.com'}${pathOperation.path}`.replace(
+    url: `${oas.url()}${pathOperation.path}`.replace(
       /\s/g,
       '%20',
     ),
   };
 
-  // This is in here and not in Oas because this only happens
-  // when the request is made, and is not to be shown externally
+  // TODO look to move this to Oas class as well
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
   }
