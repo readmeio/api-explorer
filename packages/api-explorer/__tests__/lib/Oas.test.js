@@ -55,7 +55,7 @@ describe('server variables', () => {
     expect(
       new Oas({
         servers: [{ url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } }],
-      }).url({ username: 'domh' }),
+      }, { username: 'domh' }).url(),
     ).toBe('https://domh.example.com');
   });
 
@@ -63,13 +63,13 @@ describe('server variables', () => {
     expect(
       new Oas({
         servers: [{ url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } }],
-      }).url({ keys: [ { name: 1, username: 'domh' } ] }),
+      }, { keys: [ { name: 1, username: 'domh' } ] }).url(),
     ).toBe('https://domh.example.com');
 
     expect(
       new Oas({
         servers: [{ url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } }],
-      }).url({ keys: [ { name: 1, username: 'domh' }, { name: 2, username: 'readme' } ] }, 2),
+      }, { keys: [ { name: 1, username: 'domh' }, { name: 2, username: 'readme' } ] }, 2).url(),
     ).toBe('https://readme.example.com');
   });
 

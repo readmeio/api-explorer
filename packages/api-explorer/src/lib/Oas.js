@@ -64,11 +64,12 @@ class Operation {
 }
 
 class Oas {
-  constructor(oas) {
+  constructor(oas, user) {
     Object.assign(this, oas);
+    this.user = user;
   }
 
-  url(user) {
+  url() {
     let url;
     try {
       url = this.servers[0].url;
@@ -104,7 +105,7 @@ class Oas {
     }
 
     return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
-      if (user && user[key]) return user[key];
+      if (this.user && this.user[key]) return this.user[key];
       return variables[key] ? variables[key].default : original;
     });
   }
