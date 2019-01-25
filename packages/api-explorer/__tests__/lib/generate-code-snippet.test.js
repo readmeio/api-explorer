@@ -1,12 +1,11 @@
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const generateCodeSnippet = require('../../src/lib/generate-code-snippet');
+const Oas = require('../../src/lib/Oas');
 
 const { getLangName } = generateCodeSnippet;
 
-const oas = {
-  servers: [{ url: 'http://example.com' }],
-};
+const oas = new Oas();
 
 const operation = {
   path: '/path/{id}',
@@ -38,18 +37,18 @@ test('should generate a HTML snippet for each lang', () => {
 test('should pass through values to code snippet', () => {
   const { snippet } = generateCodeSnippet(oas, operation, values, 'node');
 
-  expect(shallow(snippet).text()).toEqual(expect.stringMatching('http://example.com/path/123'));
+  expect(shallow(snippet).text()).toEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('should not contain proxy url', () => {
   const { snippet } = generateCodeSnippet(
-    Object.assign({}, oas, { [extensions.PROXY_ENABLED]: true }),
+    new Oas({ [extensions.PROXY_ENABLED]: true }),
     operation,
     values,
     'node',
   );
 
-  expect(shallow(snippet).text()).toEqual(expect.stringMatching('http://example.com/path/123'));
+  expect(shallow(snippet).text()).toEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('javascript should not contain `withCredentials`', () => {
