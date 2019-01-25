@@ -19,4 +19,20 @@ function getAuth(user, scheme, selectedApp = false) {
   return getKey(user, scheme);
 }
 
+function getAuth(user, operation) {
+  return operation
+    .getSecurity()
+    .map(securityRequirement => {
+      return Object.keys(securityRequirement)
+        .map(name => {
+          operation.oas.components.securitySchemes[name]._key = name;
+          return { [name]: getSingle(user, operation.oas.components.securitySchemes[name]) };
+        })
+        .reduce((prev, next) => Object.assign(prev, next));
+    })
+    .reduce((prev, next) => Object.assign(prev, next), {});
+}
+
 module.exports = getAuth;
+
+module.exports.getSingle = getSingle;

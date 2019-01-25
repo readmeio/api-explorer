@@ -10,9 +10,9 @@
     }
   ],
   "paths": {
-    "/things": {
+    "/or-security": {
       "post": {
-        "operationId": "things",
+        "operationId": "orSecurity",
         "security": [
           {
             "oauthScheme": ["write:things"]
@@ -67,28 +67,6 @@
         "summary": "and or security",
         "description": "",
         "operationId": "addAndOrSecurity",
-        "parameters": [],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/or-security": {
-      "post": {
-        "operationId": "orSecurity",
-        "security": [
-          {
-            "oauthScheme": ["write:things"]
-          },
-          {
-            "apiKeyScheme": []
-          }
-        ],
-        "summary": "or security",
-        "description": "",
-        "operationId": "addOrSecurity",
         "parameters": [],
         "responses": {
           "405": {
@@ -158,7 +136,7 @@
         "security": [
           {
             "oauthScheme": ["write:things", "read:things"],
-            "specialMagicAuth": []
+            "unknownAuthType": []
           },
           {
             "oauthDiff": ["write:things", "read:things"]
@@ -181,7 +159,7 @@
         "security": [
           {
             "oauthScheme": ["write:things", "read:things"],
-            "specialMagicAuth": []
+            "unknownAuthType": []
           },
           {
             "nonExistentScheme": []
@@ -203,7 +181,7 @@
         "operationId": "unknownAuthType",
         "security": [
           {
-            "specialMagicAuth": []
+            "unknownAuthType": []
           }
         ],
         "summary": "unknown auth type",
@@ -259,7 +237,7 @@
         "name": "apiKey",
         "in": "header"
       },
-      "specialMagicAuth": {
+      "unknownAuthType": {
         "type": "demigorgon",
         "name": "eleven",
         "in": "header"
