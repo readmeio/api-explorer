@@ -97,10 +97,8 @@ test("should work for Basic (Basic has it's own state)", () => {
   basic.inputChange('user', 'user');
   basic.inputChange('password', 'password');
 
-  // TODO this should be removed. See comment above componentDidMount in Basic
-  expect(onChange.mock.calls[0][0]).toEqual({ auth: { basic: { user: '', password: '' } } });
-  expect(onChange.mock.calls[1][0]).toEqual({ auth: { basic: { user: 'user', password: '' } } });
-  expect(onChange.mock.calls[2][0]).toEqual({
+  expect(onChange.mock.calls[0][0]).toEqual({ auth: { basic: { user: 'user', password: '' } } });
+  expect(onChange.mock.calls[1][0]).toEqual({
     auth: { basic: { user: 'user', password: 'password' } },
   });
 });

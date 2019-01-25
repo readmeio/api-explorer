@@ -121,16 +121,7 @@ describe('basic', () => {
     securityInput.find('input[name="password"]').instance().value = 'pass';
     securityInput.find('input[name="password"]').simulate('change');
 
-    // TODO this should eventually be removed
-    // see comment above componentDidMount in Basic.jsx
-    expect(onChange.mock.calls[0][0]).toEqual({
-      'test-basic': {
-        user: '',
-        password: '',
-      },
-    });
-
-    expect(onChange.mock.calls[2][0]).toEqual({
+    expect(onChange.mock.calls[1][0]).toEqual({
       'test-basic': {
         user: 'user',
         password: 'pass',
