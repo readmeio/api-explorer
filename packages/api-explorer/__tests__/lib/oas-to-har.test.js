@@ -31,21 +31,13 @@ test('should uppercase the method', () => {
 
 describe('url', () => {
   test('should be constructed from oas.url()', () => {
-    expect(
-      oasToHar(
-        oas,
-        { path: '', method: 'get' },
-      ).log.entries[0].request.url,
-    ).toBe(oas.url());
+    expect(oasToHar(oas, { path: '', method: 'get' }).log.entries[0].request.url).toBe(oas.url());
   });
 
   // TODO this should probably happen within the Operation class
   test('should replace whitespace with %20', () => {
     expect(
-      oasToHar(
-        oas,
-        { path: '/path with spaces', method: '' },
-      ).log.entries[0].request.url,
+      oasToHar(oas, { path: '/path with spaces', method: '' }).log.entries[0].request.url,
     ).toBe('https://example.com/path%20with%20spaces');
   });
 
@@ -54,22 +46,15 @@ describe('url', () => {
       [extensions.PROXY_ENABLED]: true,
     });
     test('should not be prefixed with without option', () => {
-      expect(
-        oasToHar(
-          proxyOas,
-          { path: '/path', method: 'get' },
-        ).log.entries[0].request.url,
-      ).toBe('https://example.com/path');
+      expect(oasToHar(proxyOas, { path: '/path', method: 'get' }).log.entries[0].request.url).toBe(
+        'https://example.com/path',
+      );
     });
 
     test('should be prefixed with try.readme.io with option', () => {
       expect(
-        oasToHar(
-          proxyOas,
-          { path: '/path', method: 'get' },
-          {},
-          { proxyUrl: true },
-        ).log.entries[0].request.url,
+        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, { proxyUrl: true }).log.entries[0]
+          .request.url,
       ).toBe('https://try.readme.io/https://example.com/path');
     });
   });
@@ -81,20 +66,17 @@ describe('path values', () => {
       'https://example.com/param-path/id',
     );
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/param-path/{id}',
-          method: 'get',
-          parameters: [
-            {
-              name: 'something-else',
-              in: 'path',
-              required: true,
-            },
-          ],
-        },
-      ).log.entries[0].request.url,
+      oasToHar(oas, {
+        path: '/param-path/{id}',
+        method: 'get',
+        parameters: [
+          {
+            name: 'something-else',
+            in: 'path',
+            required: true,
+          },
+        ],
+      }).log.entries[0].request.url,
     ).toBe('https://example.com/param-path/id');
   });
 
@@ -120,21 +102,18 @@ describe('path values', () => {
 
   test('should use example if no value', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/param-path/{id}',
-          method: 'get',
-          parameters: [
-            {
-              name: 'id',
-              in: 'path',
-              required: true,
-              example: '123',
-            },
-          ],
-        },
-      ).log.entries[0].request.url,
+      oasToHar(oas, {
+        path: '/param-path/{id}',
+        method: 'get',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            example: '123',
+          },
+        ],
+      }).log.entries[0].request.url,
     ).toBe('https://example.com/param-path/123');
   });
 
@@ -182,39 +161,33 @@ describe('path values', () => {
 describe('query values', () => {
   it('should not add on empty unrequired values', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/query',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'query',
-            },
-          ],
-        },
-      ).log.entries[0].request.queryString,
+      oasToHar(oas, {
+        path: '/query',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'query',
+          },
+        ],
+      }).log.entries[0].request.queryString,
     ).toEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/query',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'query',
-              required: true,
-              example: 'value',
-            },
-          ],
-        },
-      ).log.entries[0].request.queryString,
+      oasToHar(oas, {
+        path: '/query',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'query',
+            required: true,
+            example: 'value',
+          },
+        ],
+      }).log.entries[0].request.queryString,
     ).toEqual([{ name: 'a', value: 'value' }]);
   });
 
@@ -262,39 +235,33 @@ describe('query values', () => {
 describe('header values', () => {
   it('should not add on empty unrequired values', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-            },
-          ],
-        },
-      ).log.entries[0].request.headers,
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'header',
+          },
+        ],
+      }).log.entries[0].request.headers,
     ).toEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-              required: true,
-              example: 'value',
-            },
-          ],
-        },
-      ).log.entries[0].request.headers,
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'header',
+            required: true,
+            example: 'value',
+          },
+        ],
+      }).log.entries[0].request.headers,
     ).toEqual([{ name: 'a', value: 'value' }]);
   });
 
@@ -321,58 +288,52 @@ describe('header values', () => {
 
   it('should pass accept header if endpoint expects a content back from response', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-              required: true,
-              example: 'value',
-            },
-          ],
-          responses: {
-            200: {
-              content: {
-                'application/xml': {
-                  type: 'array',
-                },
-                'application/json': {
-                  type: 'array',
-                },
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'header',
+            required: true,
+            example: 'value',
+          },
+        ],
+        responses: {
+          200: {
+            content: {
+              'application/xml': {
+                type: 'array',
+              },
+              'application/json': {
+                type: 'array',
               },
             },
           },
         },
-      ).log.entries[0].request.headers,
+      }).log.entries[0].request.headers,
     ).toEqual([{ name: 'Accept', value: 'application/xml' }, { name: 'a', value: 'value' }]);
   });
 
   it('should only add one accept header', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/header',
-          method: 'get',
-          parameters: [],
-          responses: {
-            200: {
-              content: {
-                'application/xml': {},
-              },
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [],
+        responses: {
+          200: {
+            content: {
+              'application/xml': {},
             },
-            400: {
-              content: {
-                'application/json': {},
-              },
+          },
+          400: {
+            content: {
+              'application/json': {},
             },
           },
         },
-      ).log.entries[0].request.headers,
+      }).log.entries[0].request.headers,
     ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
@@ -423,28 +384,25 @@ describe('body values', () => {
   // TODO extensions[SEND_DEFAULTS]
   it.skip('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  required: ['a'],
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+      oasToHar(oas, {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
               },
             },
           },
         },
-      ).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 'value' }));
   });
 
@@ -875,56 +833,50 @@ describe('body values', () => {
 describe('formData values', () => {
   it('should not add on empty unrequired values', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/x-www-form-urlencoded': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+      oasToHar(oas, {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'application/x-www-form-urlencoded': {
+              schema: {
+                type: 'object',
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
               },
             },
           },
         },
-      ).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text,
     ).toEqual(undefined);
   });
 
   // TODO extensions[SEND_DEFAULTS]
   it.skip('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/x-www-form-urlencoded': {
-                schema: {
-                  type: 'object',
-                  required: ['a'],
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+      oasToHar(oas, {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'application/x-www-form-urlencoded': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
-                example: { a: 'value' },
               },
+              example: { a: 'value' },
             },
           },
         },
-      ).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text,
     ).toEqual(querystring.stringify({ a: 'value' }));
   });
 
@@ -1253,14 +1205,16 @@ describe('content-type & accept header', () => {
 describe('x-headers', () => {
   it('should append any static headers to the request', () => {
     expect(
-      oasToHar(new Oas({
-        'x-headers': [
-          {
-            key: 'x-api-key',
-            value: '123456',
-          },
-        ],
-      })).log.entries[0].request.headers,
+      oasToHar(
+        new Oas({
+          'x-headers': [
+            {
+              key: 'x-api-key',
+              value: '123456',
+            },
+          ],
+        }),
+      ).log.entries[0].request.headers,
     ).toEqual([{ name: 'x-api-key', value: '123456' }]);
   });
 });

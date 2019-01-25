@@ -80,7 +80,7 @@ class Oas {
       if (url[url.length - 1] === '/') {
         url = url.slice(0, -1);
       }
-    } catch(e) {
+    } catch (e) {
       url = 'https://example.com';
     }
 
@@ -88,7 +88,7 @@ class Oas {
     try {
       variables = this.servers[0].variables;
       if (!variables) throw Error('no variables');
-    } catch(e) {
+    } catch (e) {
       variables = {};
     }
 

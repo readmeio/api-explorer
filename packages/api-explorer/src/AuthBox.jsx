@@ -56,16 +56,7 @@ class AuthBox extends React.Component {
     });
   }
   render() {
-    const {
-      authInputRef,
-      operation,
-      onSubmit,
-      open,
-      needsAuth,
-      toggle,
-      oauth,
-      user,
-    } = this.props;
+    const { authInputRef, operation, onSubmit, open, needsAuth, toggle, oauth, user } = this.props;
 
     if (Object.keys(operation.prepareSecurity()).length === 0) return null;
 
