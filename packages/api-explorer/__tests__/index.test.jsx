@@ -216,13 +216,13 @@ describe('auth', () => {
       />,
     );
 
-    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: undefined });
+    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
   });
 
-  it('should default to undefined', () => {
+  it('should default to empty string', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
-    expect(explorer.state('auth')).toEqual({ api_key: undefined, petstore_auth: undefined });
+    expect(explorer.state('auth')).toEqual({ api_key: '', petstore_auth: '' });
   });
 
   it('should be updated via editing authbox', () => {

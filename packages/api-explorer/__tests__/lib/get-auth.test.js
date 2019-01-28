@@ -9,9 +9,9 @@ it('should fetch all auths from the OAS files', () => {
     getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas }),
   ).toEqual({
     oauthScheme: 'oauth',
-    oauthDiff: undefined,
+    oauthDiff: '',
     apiKeyScheme: 'apikey',
-    unknownAuthType: null,
+    unknownAuthType: '',
   });
 });
 
@@ -63,12 +63,13 @@ it('should return item by scheme name if no apiKey/user/pass', () => {
   });
 });
 
-it('should return null for anything else', () => {
-  expect(getSingle(topLevelUser, { type: 'unknown' })).toBe(null);
-  expect(getSingle(keysUser, { type: 'unknown' })).toBe(null);
-  expect(getSingle(keysUser, { type: 'unknown' }, 'app-2')).toBe(null);
+it('should return emptystring for anything else', () => {
+  expect(getSingle(topLevelUser, { type: 'unknown' })).toBe('');
+  expect(getSingle({}, { type: 'http', scheme: 'basic' })).toEqual({ user: '', pass: '' });
+  expect(getSingle(keysUser, { type: 'unknown' })).toBe('');
+  expect(getSingle(keysUser, { type: 'unknown' }, 'app-2')).toBe('');
 });
 
 it('should allow scheme to be undefined', () => {
-  expect(getSingle(topLevelUser)).toBe(null);
+  expect(getSingle(topLevelUser)).toBe('');
 });

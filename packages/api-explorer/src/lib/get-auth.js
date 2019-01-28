@@ -2,11 +2,11 @@ function getKey(user, scheme) {
   switch (scheme.type) {
     case 'oauth2':
     case 'apiKey':
-      return user[scheme._key] || user.apiKey;
+      return user[scheme._key] || user.apiKey || '';
     case 'http':
-      return user[scheme._key] || { user: user.user, pass: user.pass };
+      return user[scheme._key] || { user: user.user || '', pass: user.pass || '' };
     default:
-      return null;
+      return '';
   }
 }
 
