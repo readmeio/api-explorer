@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 
 function Basic({ user, pass, change, authInputRef }) {
   function inputChange(name, value) {
-    change(Object.assign({ user, pass }, { [name]: value }))
+    change(Object.assign({ user, pass }, { [name]: value }));
   }
 
   return (
@@ -42,6 +42,6 @@ Basic.defaultProps = {
   user: '',
   pass: '',
   authInputRef: () => {},
-}
+};
 
 module.exports = Basic;

@@ -6,11 +6,13 @@ const oas = new Oas(multipleSecurities);
 
 it('should fetch all auths from the OAS files', () => {
   expect(
-    getAuth(
-      { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
-      { 'api-setting': oas },
-    ),
-  ).toEqual({ oauthScheme: 'oauth', "oauthDiff": undefined, apiKeyScheme: 'apikey', "unknownAuthType": null, });
+    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas }),
+  ).toEqual({
+    oauthScheme: 'oauth',
+    oauthDiff: undefined,
+    apiKeyScheme: 'apikey',
+    unknownAuthType: null,
+  });
 });
 
 const { getSingle } = getAuth;

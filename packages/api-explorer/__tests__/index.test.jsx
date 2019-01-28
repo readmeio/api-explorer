@@ -193,7 +193,7 @@ describe('auth', () => {
 
     const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
 
-    expect(explorer.state('auth')).toEqual({"api_key": "123456", "petstore_auth": "123456"});
+    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
@@ -203,7 +203,7 @@ describe('auth', () => {
       <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
     );
 
-    expect(explorer.state('auth')).toEqual({"api_key": "123456", "petstore_auth": "123456"});
+    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `user_data.keys[].api_key`', () => {
@@ -216,13 +216,13 @@ describe('auth', () => {
       />,
     );
 
-    expect(explorer.state('auth')).toEqual({"api_key": "123456", "petstore_auth": undefined});
+    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: undefined });
   });
 
   it('should default to undefined', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
-    expect(explorer.state('auth')).toEqual({"api_key": undefined, "petstore_auth": undefined});
+    expect(explorer.state('auth')).toEqual({ api_key: undefined, petstore_auth: undefined });
   });
 
   it('should be updated via editing authbox', () => {
@@ -255,6 +255,6 @@ describe('auth', () => {
     explorer.instance().onAuthChange({ api_key: '7890' });
     explorer.instance().onAuthChange({ petstore_auth: '123456' });
 
-    expect(explorer.state('auth')).toEqual({"api_key": "7890", "petstore_auth": "123456"});
+    expect(explorer.state('auth')).toEqual({ api_key: '7890', petstore_auth: '123456' });
   });
 });

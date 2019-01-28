@@ -39,7 +39,17 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
   });
 }
 
-function AuthBox({ authInputRef, operation, onSubmit, onChange, open, needsAuth, toggle, oauth, auth }) {
+function AuthBox({
+  authInputRef,
+  operation,
+  onSubmit,
+  onChange,
+  open,
+  needsAuth,
+  toggle,
+  oauth,
+  auth,
+}) {
   if (Object.keys(operation.prepareSecurity()).length === 0) return null;
 
   return (

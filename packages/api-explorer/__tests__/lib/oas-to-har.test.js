@@ -53,8 +53,8 @@ describe('url', () => {
 
     test('should be prefixed with try.readme.io with option', () => {
       expect(
-        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log.entries[0]
-          .request.url,
+        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log
+          .entries[0].request.url,
       ).toBe('https://try.readme.io/https://example.com/path');
     });
   });

@@ -65,7 +65,9 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, { proxyUrl: true });
+    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, {
+      proxyUrl: true,
+    });
 
     return fetchHar(har).then(async res => {
       this.props.tryItMetrics(har, res);

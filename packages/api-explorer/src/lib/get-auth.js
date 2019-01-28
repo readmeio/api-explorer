@@ -20,12 +20,21 @@ function getSingle(user, scheme = {}, selectedApp = false) {
 }
 
 function getAuth(user, oasFiles) {
-  return Object.keys(oasFiles).map((id) => {
-    const oas = oasFiles[id];
-    return Object.keys(oas.components.securitySchemes).map((scheme) => {
-      return { [scheme]: getSingle(user, Object.assign({}, oas.components.securitySchemes[scheme], { _key: scheme })) };
-    }).reduce((prev, next) => Object.assign(prev, next), {});
-  }).reduce((prev, next) => Object.assign(prev, next), {});
+  return Object.keys(oasFiles)
+    .map(id => {
+      const oas = oasFiles[id];
+      return Object.keys(oas.components.securitySchemes)
+        .map(scheme => {
+          return {
+            [scheme]: getSingle(
+              user,
+              Object.assign({}, oas.components.securitySchemes[scheme], { _key: scheme }),
+            ),
+          };
+        })
+        .reduce((prev, next) => Object.assign(prev, next), {});
+    })
+    .reduce((prev, next) => Object.assign(prev, next), {});
 }
 
 module.exports = getAuth;

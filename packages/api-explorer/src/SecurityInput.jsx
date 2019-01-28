@@ -14,7 +14,14 @@ function SecurityInput(props) {
       return <Oauth2 {...props} apiKey={props.auth[props.scheme._key]} change={change} />;
     case 'http':
       // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
-      return <Basic {...props} change={change} user={props.auth[props.scheme._key].user} pass={props.auth[props.scheme._key].pass} />;
+      return (
+        <Basic
+          {...props}
+          change={change}
+          user={props.auth[props.scheme._key].user}
+          pass={props.auth[props.scheme._key].pass}
+        />
+      );
     case 'apiKey':
       return <ApiKey {...props} apiKey={props.auth[props.scheme._key]} change={change} />;
     default:
