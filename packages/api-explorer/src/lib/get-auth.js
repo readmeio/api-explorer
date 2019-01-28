@@ -23,6 +23,9 @@ function getAuth(user, oasFiles) {
   return Object.keys(oasFiles)
     .map(id => {
       const oas = oasFiles[id];
+
+      if (Object.keys(oas.components || {}).length === 0) return {};
+
       return Object.keys(oas.components.securitySchemes)
         .map(scheme => {
           return {
