@@ -4,7 +4,6 @@ const AuthBox = require('../src/AuthBox');
 
 const Oas = require('../src/lib/Oas.js');
 const multipleSecurities = require('./fixtures/multiple-securities/oas');
-const authTypes = require('./fixtures/auth-types/oas');
 
 const oas = new Oas(multipleSecurities);
 

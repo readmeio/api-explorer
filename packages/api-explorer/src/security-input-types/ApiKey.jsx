@@ -20,6 +20,7 @@ function ApiKey({ apiKey, scheme, authInputRef, change }) {
 }
 
 ApiKey.propTypes = {
+  apiKey: PropTypes.string,
   scheme: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
@@ -28,6 +29,7 @@ ApiKey.propTypes = {
 };
 
 ApiKey.defaultProps = {
+  apiKey: undefined,
   authInputRef: () => {},
 };
 
