@@ -68,37 +68,3 @@ test('should display multiple securities', () => {
 
   expect(authBox.find('SecurityInput').length).toBe(2);
 });
-
-test('should merge securities auth changes', () => {
-  const onChange = jest.fn();
-  const authBox = mount(<AuthBox {...props} onChange={onChange} />);
-
-  authBox
-    .find('ApiKey')
-    .props()
-    .change('auth');
-  authBox
-    .find('Oauth2')
-    .props()
-    .change('auth');
-
-  expect(onChange.mock.calls[0][0]).toEqual({ auth: { apiKeyScheme: 'auth' } });
-  expect(onChange.mock.calls[1][0]).toEqual({ auth: { apiKeyScheme: 'auth', oauthScheme: 'auth' } });
-});
-
-test("should work for Basic (Basic has it's own state)", () => {
-  const authTypesOas = new Oas(authTypes);
-  const onChange = jest.fn();
-  const authBox = mount(
-    <AuthBox {...props} operation={authTypesOas.operation('/basic', 'post')} onChange={onChange} auth={{basic: {}}} />,
-  );
-  const basic = authBox.find('Basic').instance();
-
-  basic.inputChange('user', 'user');
-  basic.inputChange('password', 'password');
-
-  expect(onChange.mock.calls[0][0]).toEqual({ auth: { basic: { user: 'user', password: '' } } });
-  expect(onChange.mock.calls[1][0]).toEqual({
-    auth: { basic: { user: 'user', password: 'password' } },
-  });
-});

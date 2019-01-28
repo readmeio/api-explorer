@@ -112,19 +112,25 @@ describe('apiKey', () => {
 describe('basic', () => {
   const props = { scheme: { type: 'http', scheme: 'basic', _key: 'test-basic' } };
 
-  test('should send auth apiKey into onChange()', () => {
+  test('should send both user/pass into onChange()', () => {
     const onChange = jest.fn();
     const securityInput = mount(<SecurityInput {...props} {...baseProps} auth={{ 'test-basic': {} }} onChange={onChange} />);
 
     securityInput.find('input[name="user"]').instance().value = 'user';
     securityInput.find('input[name="user"]').simulate('change');
-    securityInput.find('input[name="password"]').instance().value = 'pass';
-    securityInput.find('input[name="password"]').simulate('change');
+    securityInput.find('input[name="pass"]').instance().value = 'pass';
+    securityInput.find('input[name="pass"]').simulate('change');
 
-    expect(onChange.mock.calls[1][0]).toEqual({
+    expect(onChange.mock.calls[0][0]).toEqual({
       'test-basic': {
         user: 'user',
-        password: 'pass',
+        pass: '',
+      },
+    });
+    expect(onChange.mock.calls[1][0]).toEqual({
+      'test-basic': {
+        user: '',
+        pass: 'pass',
       },
     });
   });
@@ -137,6 +143,6 @@ describe('basic', () => {
     );
 
     expect(securityInput.find('input[name="user"]').prop('value')).toBe(user);
-    expect(securityInput.find('input[name="password"]').prop('value')).toBe(pass);
+    expect(securityInput.find('input[name="pass"]').prop('value')).toBe(pass);
   });
 });

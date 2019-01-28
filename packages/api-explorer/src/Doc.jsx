@@ -41,8 +41,6 @@ class Doc extends React.Component {
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
     this.Params = createParams(this.oas);
-
-    this.setAuth();
   }
 
   onChange(formData) {
@@ -56,7 +54,7 @@ class Doc extends React.Component {
   onSubmit() {
     const operation = this.getOperation();
 
-    if (!isAuthReady(operation, this.state.formData.auth)) {
+    if (!isAuthReady(operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.authInput.focus();
@@ -67,7 +65,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, operation, this.state.formData, { proxyUrl: true });
+    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, { proxyUrl: true });
 
     return fetchHar(har).then(async res => {
       this.props.tryItMetrics(har, res);
@@ -77,22 +75,6 @@ class Doc extends React.Component {
         result: await parseResponse(har, res),
       });
     });
-  }
-
-  // TODO make sure this works again to set the api key in the initial code sample
-  // needs to work for both && and || securities
-  setAuth() {
-    if (!this.props.user) return;
-
-    const operation = this.getOperation();
-
-    if (!operation) return;
-
-    try {
-      this.state.formData.auth = getAuth(this.props.user, operation);
-    } catch (e) {
-      // console.warn('There was a problem setting the api key on', operation.operationId, 'This probably just means there is no auth on this endpoint'); // eslint-disable-line no-console
-    }
   }
 
   getOperation() {
@@ -203,6 +185,7 @@ class Doc extends React.Component {
         setLanguage={this.props.setLanguage}
         operation={this.getOperation()}
         formData={this.state.formData}
+        auth={this.props.auth}
         language={this.props.language}
         examples={examples}
       />
@@ -291,14 +274,14 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         dirty={this.state.dirty}
         loading={this.state.loading}
-        onChange={this.onChange}
+        onChange={this.props.onAuthChange}
         showAuthBox={this.state.showAuthBox}
         needsAuth={this.state.needsAuth}
         oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
-        auth={this.state.formData.auth}
+        auth={this.props.auth}
       />
     );
   }
@@ -386,6 +369,7 @@ Doc.propTypes = {
     }),
   }).isRequired,
   user: PropTypes.shape({}),
+  auth: PropTypes.shape({}).isRequired,
   Logs: PropTypes.func,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
@@ -401,6 +385,7 @@ Doc.propTypes = {
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
+  onAuthChange: PropTypes.func.isRequired,
 };
 
 Doc.defaultProps = {
@@ -412,7 +397,6 @@ Doc.defaultProps = {
     referenceLayout: 'row',
     splitReferenceDocs: false,
   },
-  apiKey: undefined,
   Logs: undefined,
   user: undefined,
   baseUrl: '/',

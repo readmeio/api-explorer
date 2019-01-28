@@ -10,6 +10,8 @@ const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
 
+const getAuth = require('./lib/get-auth');
+
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -17,41 +19,24 @@ class ApiExplorer extends React.Component {
     this.setLanguage = this.setLanguage.bind(this);
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
+    this.onAuthChange = this.onAuthChange.bind(this);
 
     this.state = {
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
-      apiKey: this.getApiKey(),
       selectedApp: {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      auth: {},
+      auth: getAuth(this.props.variables.user, this.props.oasFiles),
     };
   }
 
-  getApiKey() {
-    // This supports:
-    // { apiKey: 'key' }
-    // { keys: [{ name: 'a', apiKey: 'key' }] }
-    // { keys: [{ name: 'a', api_key: 'key' }] }
-    //
-    // TODO this should update the selected key throughout
-    // based upon the SelectedApp
-    //
-    // TODO we should remove the dependency on pulling this
-    // in from a cookie, and just use `props.variables.user`
-    function tryGetApiKey(userData) {
-      try {
-        return userData.apiKey || userData.keys[0].apiKey || userData.keys[0].api_key;
-      } catch (e) {
-        return undefined;
-      }
-    }
-
-    const apiKey =
-      tryGetApiKey(this.props.variables.user) || tryGetApiKey(Cookie.getJSON('user_data'));
-
-    return apiKey || undefined;
+  onAuthChange(auth) {
+    this.setState(previousState => {
+      return {
+        auth: Object.assign({}, previousState.auth, auth),
+      };
+    });
   }
 
   setLanguage(language) {
@@ -112,6 +97,8 @@ class ApiExplorer extends React.Component {
                       oauth={this.props.oauth}
                       suggestedEdits={this.props.suggestedEdits}
                       tryItMetrics={this.props.tryItMetrics}
+                      auth={this.state.auth}
+                      onAuthChange={this.onAuthChange}
                     />
                   </SelectedAppContext.Provider>
                 </GlossaryTermsContext.Provider>

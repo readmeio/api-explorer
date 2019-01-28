@@ -187,33 +187,13 @@ describe('oas', () => {
   });
 });
 
-describe('apiKey', () => {
-  afterEach(() => Cookie.remove('user_data'));
-
-  it('should read apiKey from `user_data.apiKey` cookie', () => {
-    const apiKey = '123456';
-    Cookie.set('user_data', JSON.stringify({ apiKey }));
-
-    const explorer = shallow(<ApiExplorer {...props} />);
-
-    expect(explorer.state('apiKey')).toBe(apiKey);
-  });
-
+describe('auth', () => {
   it('should read apiKey from `variables.user.apiKey`', () => {
     const apiKey = '123456';
 
     const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
 
-    expect(explorer.state('apiKey')).toBe(apiKey);
-  });
-
-  it('should read apiKey from `user_data.keys[].apiKey`', () => {
-    const apiKey = '123456';
-    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', apiKey }] }));
-
-    const explorer = shallow(<ApiExplorer {...props} />);
-
-    expect(explorer.state('apiKey')).toBe(apiKey);
+    expect(explorer.state('auth')).toEqual({"api_key": "123456", "petstore_auth": "123456"});
   });
 
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
@@ -223,16 +203,7 @@ describe('apiKey', () => {
       <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
     );
 
-    expect(explorer.state('apiKey')).toBe(apiKey);
-  });
-
-  it('should read apiKey from `user_data.keys[].api_key`', () => {
-    const apiKey = '123456';
-    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', api_key: apiKey }] }));
-
-    const explorer = shallow(<ApiExplorer {...props} />);
-
-    expect(explorer.state('apiKey')).toBe(apiKey);
+    expect(explorer.state('auth')).toEqual({"api_key": "123456", "petstore_auth": "123456"});
   });
 
   it('should read apiKey from `user_data.keys[].api_key`', () => {
@@ -245,13 +216,13 @@ describe('apiKey', () => {
       />,
     );
 
-    expect(explorer.state('apiKey')).toBe(apiKey);
+    expect(explorer.state('auth')).toEqual({"api_key": "123456", "petstore_auth": undefined});
   });
 
   it('should default to undefined', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
-    expect(explorer.state('apiKey')).toBe(undefined);
+    expect(explorer.state('auth')).toEqual({"api_key": undefined, "petstore_auth": undefined});
   });
 
   it('should be updated via editing authbox', () => {
@@ -270,11 +241,20 @@ describe('apiKey', () => {
     input.instance().value = '1234';
     input.simulate('change');
 
-    expect(doc.state.formData.auth.petstore_auth).toBe('1234');
+    expect(explorer.state('auth').petstore_auth).toBe('1234');
 
     input.instance().value += '5678';
     input.simulate('change');
 
-    expect(doc.state.formData.auth.petstore_auth).toBe('12345678');
+    expect(explorer.state('auth').petstore_auth).toBe('12345678');
+  });
+
+  test('should merge securities auth changes', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+
+    explorer.instance().onAuthChange({ api_key: '7890' });
+    explorer.instance().onAuthChange({ petstore_auth: '123456' });
+
+    expect(explorer.state('auth')).toEqual({"api_key": "7890", "petstore_auth": "123456"});
   });
 });

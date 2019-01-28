@@ -20,7 +20,6 @@ describe('configure-security', () => {
   });
 
   test('should not return non-existent values', () => {
-    const values = { auth: {} };
     const security = { type: 'apiKey', in: 'header', name: 'key' };
 
     expect(
@@ -28,7 +27,7 @@ describe('configure-security', () => {
         {
           components: { securitySchemes: { test: security } },
         },
-        values,
+        {},
         'test',
       ),
     ).toEqual(undefined);
@@ -37,39 +36,32 @@ describe('configure-security', () => {
   describe('type=basic', () => {
     test('should work for basic type', () => {
       const user = 'user';
-      const password = 'password';
-      const values = {
-        auth: { test: { user, password } },
-      };
+      const pass = 'pass';
 
       expect(
         configureSecurity(
           {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
-          values,
+          { test: { user, pass } },
           'test',
         ),
       ).toEqual({
         type: 'headers',
         value: {
           name: 'Authorization',
-          value: `Basic ${new Buffer(`${user}:${password}`).toString('base64')}`,
+          value: `Basic ${new Buffer(`${user}:${pass}`).toString('base64')}`,
         },
       });
     });
 
     test('should return with no header if user and password are blank', () => {
-      const values = {
-        auth: { test: { user: '', password: '' } },
-      };
-
       expect(
         configureSecurity(
           {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
-          values,
+          { test: { user: '', pass: '' } },
           'test',
         ),
       ).toEqual(false);
@@ -77,16 +69,13 @@ describe('configure-security', () => {
 
     test('should return with a header if user or password are not blank', () => {
       const user = 'user';
-      const values = {
-        auth: { test: { user, password: '' } },
-      };
 
       expect(
         configureSecurity(
           {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
-          values,
+          { test: { user, pass: '' } },
           'test',
         ),
       ).toEqual({
@@ -102,16 +91,13 @@ describe('configure-security', () => {
   describe('type=oauth2', () => {
     test('should work for oauth2', () => {
       const apiKey = '123456';
-      const values = {
-        auth: { test: apiKey },
-      };
 
       expect(
         configureSecurity(
           {
             components: { securitySchemes: { test: { type: 'oauth2' } } },
           },
-          values,
+          { test: apiKey },
           'test',
         ),
       ).toEqual({
@@ -124,16 +110,12 @@ describe('configure-security', () => {
     });
 
     test('should return with no header if apiKey is blank', () => {
-      const values = {
-        auth: { test: '' },
-      };
-
       expect(
         configureSecurity(
           {
             components: { securitySchemes: { test: { type: 'oauth2' } } },
           },
-          values,
+          { test: '' },
           'test',
         ),
       ).toEqual(false);
@@ -143,7 +125,7 @@ describe('configure-security', () => {
   describe('type=apiKey', () => {
     describe('in=query', () => {
       test('should work for query', () => {
-        const values = { auth: { test: 'value' } };
+        const values = { test: 'value' };
         const security = { type: 'apiKey', in: 'query', name: 'key' };
 
         expect(
@@ -158,7 +140,7 @@ describe('configure-security', () => {
           type: 'queryString',
           value: {
             name: security.name,
-            value: values.auth.test,
+            value: values.test,
           },
         });
       });
@@ -166,7 +148,7 @@ describe('configure-security', () => {
 
     describe('in=header', () => {
       test('should work for header', () => {
-        const values = { auth: { test: 'value' } };
+        const values = { test: 'value' };
         const security = { type: 'apiKey', in: 'header', name: 'key' };
 
         expect(
@@ -181,14 +163,14 @@ describe('configure-security', () => {
           type: 'headers',
           value: {
             name: security.name,
-            value: values.auth.test,
+            value: values.test,
           },
         });
       });
 
       describe('x-bearer-format', () => {
         test('should work for bearer', () => {
-          const values = { auth: { test: 'value' } };
+          const values = { test: 'value' };
           const security = {
             type: 'apiKey',
             in: 'header',
@@ -208,13 +190,13 @@ describe('configure-security', () => {
             type: 'headers',
             value: {
               name: security.name,
-              value: `Bearer ${values.auth.test}`,
+              value: `Bearer ${values.test}`,
             },
           });
         });
 
         test('should work for basic', () => {
-          const values = { auth: { test: 'value' } };
+          const values = { test: 'value' };
           const security = {
             type: 'apiKey',
             in: 'header',
@@ -234,13 +216,13 @@ describe('configure-security', () => {
             type: 'headers',
             value: {
               name: security.name,
-              value: `Basic ${values.auth.test}`,
+              value: `Basic ${values.test}`,
             },
           });
         });
 
         test('should work for token', () => {
-          const values = { auth: { test: 'value' } };
+          const values = { test: 'value' };
           const security = {
             type: 'apiKey',
             in: 'header',
@@ -260,7 +242,7 @@ describe('configure-security', () => {
             type: 'headers',
             value: {
               name: security.name,
-              value: `Token ${values.auth.test}`,
+              value: `Token ${values.test}`,
             },
           });
         });

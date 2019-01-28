@@ -83,7 +83,7 @@ class CodeSample extends React.Component {
   }
 
   render() {
-    const { oas, setLanguage, operation, formData, language, examples } = this.props;
+    const { oas, setLanguage, operation, formData, language, examples, auth } = this.props;
 
     return (
       <div className="code-sample tabber-parent">
@@ -92,7 +92,7 @@ class CodeSample extends React.Component {
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }
-          const { snippet, code } = generateCodeSnippet(oas, operation, formData, language);
+          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language);
           return (
             <div>
               <ul className="code-sample-tabs">
@@ -134,6 +134,7 @@ CodeSample.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
+  auth: PropTypes.shape({}).isRequired,
   examples: PropTypes.arrayOf(
     PropTypes.shape({
       language: PropTypes.string.isRequired,

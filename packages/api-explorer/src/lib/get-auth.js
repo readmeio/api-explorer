@@ -19,18 +19,13 @@ function getSingle(user, scheme = {}, selectedApp = false) {
   return getKey(user, scheme);
 }
 
-function getAuth(user, operation) {
-  return operation
-    .getSecurity()
-    .map(securityRequirement => {
-      return Object.keys(securityRequirement)
-        .map(name => {
-          operation.oas.components.securitySchemes[name]._key = name;
-          return { [name]: getSingle(user, operation.oas.components.securitySchemes[name]) };
-        })
-        .reduce((prev, next) => Object.assign(prev, next));
-    })
-    .reduce((prev, next) => Object.assign(prev, next), {});
+function getAuth(user, oasFiles) {
+  return Object.keys(oasFiles).map((id) => {
+    const oas = oasFiles[id];
+    return Object.keys(oas.components.securitySchemes).map((scheme) => {
+      return { [scheme]: getSingle(user, Object.assign({}, oas.components.securitySchemes[scheme], { _key: scheme })) };
+    }).reduce((prev, next) => Object.assign(prev, next), {});
+  }).reduce((prev, next) => Object.assign(prev, next), {});
 }
 
 module.exports = getAuth;

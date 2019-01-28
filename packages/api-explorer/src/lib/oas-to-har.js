@@ -79,6 +79,7 @@ module.exports = (
   oas,
   pathOperation = { path: '', method: '' },
   values = {},
+  auth = {},
   opts = { proxyUrl: false },
 ) => {
   const formData = Object.assign({}, defaultValues, values);
@@ -216,7 +217,7 @@ module.exports = (
     // TODO pass these values through the formatter?
     securityRequirements.forEach(schemes => {
       Object.keys(schemes).forEach(security => {
-        const securityValue = configureSecurity(oas, formData, security);
+        const securityValue = configureSecurity(oas, auth, security);
 
         if (!securityValue) return;
         har[securityValue.type].push(securityValue.value);

@@ -53,7 +53,7 @@ describe('url', () => {
 
     test('should be prefixed with try.readme.io with option', () => {
       expect(
-        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, { proxyUrl: true }).log.entries[0]
+        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log.entries[0]
           .request.url,
       ).toBe('https://try.readme.io/https://example.com/path');
     });
@@ -929,10 +929,9 @@ describe('auth', () => {
           method: 'get',
           security: [{ 'auth-header': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-header': 'value',
-          },
+          'auth-header': 'value',
         },
       ).log.entries[0].request.headers,
     ).toEqual([
@@ -962,10 +961,9 @@ describe('auth', () => {
           method: 'get',
           security: [{ 'auth-query': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-query': 'value',
-          },
+          'auth-query': 'value',
         },
       ).log.entries[0].request.queryString,
     ).toEqual([
@@ -1000,11 +998,10 @@ describe('auth', () => {
           method: 'get',
           security: [{ 'auth-header': [] }, { 'auth-header2': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-header': 'value',
-            'auth-header2': 'value',
-          },
+          'auth-header': 'value',
+          'auth-header2': 'value',
         },
       ).log.entries[0].request.headers,
     ).toEqual([
@@ -1043,11 +1040,10 @@ describe('auth', () => {
           method: 'get',
           security: [{ 'auth-header': [], 'auth-header2': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-header': 'value',
-            'auth-header2': 'value',
-          },
+          'auth-header': 'value',
+          'auth-header2': 'value',
         },
       ).log.entries[0].request.headers,
     ).toEqual([
@@ -1081,7 +1077,8 @@ describe('auth', () => {
           method: 'get',
           security: [{ 'auth-header': [] }],
         },
-        { auth: {} },
+        {},
+        {},
       ).log.entries[0].request.headers,
     ).toEqual([]);
   });

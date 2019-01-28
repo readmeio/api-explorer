@@ -60,8 +60,8 @@ const supportedLanguages = {
   },
 };
 
-module.exports = (oas, operation, values, lang) => {
-  const har = generateHar(oas, operation, values);
+module.exports = (oas, operation, values, auth, lang) => {
+  const har = generateHar(oas, operation, values, auth);
 
   const snippet = new HTTPSnippet(har);
 

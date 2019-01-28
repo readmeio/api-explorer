@@ -24,7 +24,8 @@ const props = {
   language: 'node',
   suggestedEdits: false,
   oauth: false,
-  apiKey: '',
+  onAuthChange: () => {},
+  auth: {},
   tryItMetrics: () => {},
 };
 
@@ -73,8 +74,9 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       language="node"
       suggestedEdits
       oauth={false}
-      apiKey=""
       tryItMetrics={() => {}}
+      onAuthChange={() => {}}
+      auth={{}}
     />,
   );
   expect(docComponent.find('Waypoint').length).toBe(1);
@@ -95,8 +97,9 @@ test('should still display `Content` with column-style layout', () => {
       suggestedEdits
       appearance={{ referenceLayout: 'column' }}
       oauth={false}
-      apiKey=""
       tryItMetrics={() => {}}
+      onAuthChange={() => {}}
+      auth={{}}
     />,
   );
   docComponent.setState({ showEndpoint: true });
@@ -155,6 +158,7 @@ describe('onSubmit', () => {
       setLanguage: () => {},
       language: 'node',
       oauth: false,
+      auth: { petstore_auth: 'api-key' },
     };
 
     const fetch = window.fetch;
@@ -169,7 +173,6 @@ describe('onSubmit', () => {
     };
 
     const doc = mount(<Doc {...props} {...props2} />);
-    doc.instance().onChange({ auth: { petstore_auth: 'api-key' } });
 
     doc
       .instance()
@@ -222,9 +225,9 @@ describe('onSubmit', () => {
         tryItMetrics={() => {
           called = true;
         }}
+        auth={{ api_key: 'api-key' }}
       />,
     );
-    doc.instance().onChange({ auth: { api_key: 'api-key' } });
 
     const fetch = window.fetch;
     window.fetch = () => {
@@ -305,30 +308,6 @@ describe('themes', () => {
 
     expect(doc.find('.hub-reference-right').find('CodeSample').length).toBe(1);
     expect(doc.find('.hub-reference-right').find('Response').length).toBe(1);
-  });
-});
-
-describe('`auth`', () => {
-  test('should set auth from user in formData if passed in', () => {
-    const doc = mount(
-      <Doc
-        {...props}
-        oas={multipleSecurities}
-        doc={{
-          swagger: { path: '/or-security' },
-          api: { method: 'post' },
-          title: 'title',
-          slug: 'slug',
-          type: 'endpoint',
-        }}
-        user={{
-          oauthScheme: 'oauth',
-          apiKeyScheme: 'apiKey',
-        }}
-      />,
-    );
-
-    expect(doc.state('formData').auth).toEqual({ oauthScheme: 'oauth', apiKeyScheme: 'apiKey' });
   });
 });
 

@@ -4,47 +4,13 @@ const getAuth = require('../../src/lib/get-auth');
 
 const oas = new Oas(multipleSecurities);
 
-it('should work for || security', () => {
+it('should fetch all auths from the OAS files', () => {
   expect(
     getAuth(
       { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
-      oas.operation('/or-security', 'post'),
+      { 'api-setting': oas },
     ),
-  ).toEqual({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' });
-});
-
-it('should work for && security', () => {
-  expect(
-    getAuth(
-      { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
-      oas.operation('/and-security', 'post'),
-    ),
-  ).toEqual({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' });
-});
-
-it('should work for && and || security', () => {
-  expect(
-    getAuth(
-      { oauthScheme: 'oauth', apiKeyScheme: 'apikey', oauthDiff: 'oauthDiff' },
-      oas.operation('/and-or-security', 'post'),
-    ),
-  ).toEqual({ oauthScheme: 'oauth', apiKeyScheme: 'apikey', oauthDiff: 'oauthDiff' });
-});
-
-it('should work for single auth', () => {
-  expect(getAuth({ apiKeyScheme: 'apikey' }, oas.operation('/single-auth', 'post'))).toEqual({
-    apiKeyScheme: 'apikey',
-  });
-});
-
-it('should work for no auth', () => {
-  expect(getAuth({}, oas.operation('/no-auth', 'post'))).toEqual({});
-});
-
-it('should work for unknown auth type', () => {
-  expect(getAuth({}, oas.operation('/unknown-auth-type', 'post'))).toEqual({
-    unknownAuthType: null,
-  });
+  ).toEqual({ oauthScheme: 'oauth', "oauthDiff": undefined, apiKeyScheme: 'apikey', "unknownAuthType": null, });
 });
 
 const { getSingle } = getAuth;
