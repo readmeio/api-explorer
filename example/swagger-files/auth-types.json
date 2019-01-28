@@ -23,7 +23,33 @@
         ]
       }
     },
+    "/anything/oauth2-another": {
+      "post": {
+        "summary": "Oauth2 security type",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
     "/anything/basic": {
+      "post": {
+        "summary": "Basic security type",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "basic": []
+          }
+        ]
+      }
+    },
+    "/anything/basic-another": {
       "post": {
         "summary": "Basic security type",
         "description": "",
