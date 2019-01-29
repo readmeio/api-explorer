@@ -17,11 +17,14 @@ it('should fetch all auths from the OAS files', () => {
 
 it('should not error if oas.components is not set', () => {
   expect(() => {
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': {} })
+    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': {} });
   }).not.toThrow();
 
   expect(() => {
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': { components: {} } })
+    getAuth(
+      { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
+      { 'api-setting': { components: {} } },
+    );
   }).not.toThrow();
 });
 
