@@ -26,6 +26,13 @@ it('should not error if oas.components is not set', () => {
       { 'api-setting': { components: {} } },
     );
   }).not.toThrow();
+
+  expect(() => {
+    getAuth(
+      { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
+      { 'api-setting': { components: { requestBodies: {} } } },
+    );
+  }).not.toThrow();
 });
 
 const { getSingle } = getAuth;
