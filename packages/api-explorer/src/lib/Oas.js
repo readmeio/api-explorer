@@ -64,6 +64,40 @@ class Operation {
   }
 }
 
+function ensureProtocol(url) {
+  // Add protocol to urls starting with // e.g. //example.com
+  // This is because httpsnippet throws a HARError when it doesnt have a protocol
+  if (url.match(/^\/\//)) {
+    return `https:${url}`;
+  }
+
+  // Add protocol to urls with no // within them
+  // This is because httpsnippet throws a HARError when it doesnt have a protocol
+  if (!url.match(/\/\//)) {
+    return `https://${url}`;
+  }
+
+  return url;
+}
+
+function normalizedUrl(oas) {
+  let url;
+  try {
+    url = oas.servers[0].url;
+    // This is to catch the case where servers = [{}]
+    if (!url) throw Error('no url');
+
+    // Stripping the '/' off the end
+    if (url[url.length - 1] === '/') {
+      url = url.slice(0, -1);
+    }
+  } catch (e) {
+    url = 'https://example.com';
+  }
+
+  return ensureProtocol(url);
+}
+
 class Oas {
   constructor(oas, user) {
     Object.assign(this, oas);
@@ -71,19 +105,7 @@ class Oas {
   }
 
   url() {
-    let url;
-    try {
-      url = this.servers[0].url;
-      // This is to catch the case where servers = [{}]
-      if (!url) throw Error('no url');
-
-      // Stripping the '/' off the end
-      if (url[url.length - 1] === '/') {
-        url = url.slice(0, -1);
-      }
-    } catch (e) {
-      url = 'https://example.com';
-    }
+    const url = normalizedUrl(this);
 
     let variables;
     try {
@@ -91,18 +113,6 @@ class Oas {
       if (!variables) throw Error('no variables');
     } catch (e) {
       variables = {};
-    }
-
-    // Add protocol to urls starting with // e.g. //example.com
-    // This is because httpsnippet throws a HARError when it doesnt have a protocol
-    if (url.match(/^\/\//)) {
-      url = `https:${url}`;
-    }
-
-    // Add protocol to urls with no // within them
-    // This is because httpsnippet throws a HARError when it doesnt have a protocol
-    if (!url.match(/\/\//)) {
-      url = `https://${url}`;
     }
 
     return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
