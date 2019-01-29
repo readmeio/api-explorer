@@ -5,13 +5,21 @@ const Oauth2 = require('./security-input-types/Oauth2');
 const ApiKey = require('./security-input-types/ApiKey');
 const Basic = require('./security-input-types/Basic');
 
+const types = {
+  oauth2: Oauth2,
+  apiKey: ApiKey,
+};
+
 function SecurityInput(props) {
   function change(value) {
     return props.onChange({ [props.scheme._key]: value });
   }
   switch (props.scheme.type) {
-    case 'oauth2':
-      return <Oauth2 {...props} apiKey={props.auth[props.scheme._key]} change={change} />;
+    case 'apiKey':
+    case 'oauth2': {
+      const Component = types[props.scheme.type];
+      return <Component {...props} apiKey={props.auth[props.scheme._key]} change={change} />;
+    }
     case 'http':
       // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
       return (
@@ -22,8 +30,6 @@ function SecurityInput(props) {
           pass={props.auth[props.scheme._key].pass}
         />
       );
-    case 'apiKey':
-      return <ApiKey {...props} apiKey={props.auth[props.scheme._key]} change={change} />;
     default:
       return null;
   }
