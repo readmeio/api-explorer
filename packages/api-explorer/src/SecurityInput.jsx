@@ -13,8 +13,9 @@ function SecurityInput(props) {
     case 'oauth2':
       return <Oauth2 {...props} change={change} />;
     case 'http':
-      // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
-      return <Basic {...props} change={change} />;
+      if (props.scheme.scheme === 'basic') return <Basic {...props} change={change} />;
+      if (props.scheme.scheme === 'bearer') return <Oauth2 {...props} change={change} />;
+      break;
     case 'apiKey':
       return <ApiKey {...props} change={change} />;
     default:
@@ -25,6 +26,7 @@ function SecurityInput(props) {
 SecurityInput.propTypes = {
   scheme: PropTypes.shape({
     type: PropTypes.string.isRequired,
+    scheme: PropTypes.string,
     _key: PropTypes.string.isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
