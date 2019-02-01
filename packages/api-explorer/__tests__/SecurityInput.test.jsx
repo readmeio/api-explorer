@@ -19,10 +19,16 @@ test('should render an ApiKey component if type is apiKey', () => {
   expect(securityInput.find('ApiKey').length).toBe(1);
 });
 
-test('should render a Basic component if type is http', () => {
-  const props = { scheme: { type: 'http', _key: 'auth', name: 'auth' } };
+test('should render a Basic component if type is http/basic', () => {
+  const props = { scheme: { type: 'http', scheme: 'basic', _key: 'auth', name: 'auth' } };
   const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
   expect(securityInput.find('Basic').length).toBe(1);
+});
+
+test('should render an Oauth2 component if type is http/bearer', () => {
+  const props = { scheme: { type: 'http', scheme: 'bearer', _key: 'auth', name: 'auth' } };
+  const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
+  expect(securityInput.find('Oauth2').length).toBe(1);
 });
 
 describe('oauth2', () => {

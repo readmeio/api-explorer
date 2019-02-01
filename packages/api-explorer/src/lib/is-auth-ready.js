@@ -10,8 +10,9 @@ function isAuthReady(operation, authData) {
       const scheme = operation.oas.components.securitySchemes[key];
       const auth = authInputData[key];
 
-      if (scheme.type === 'http' && scheme.scheme === 'basic') {
-        return auth && auth.user;
+      if (scheme.type === 'http') {
+        if (scheme.scheme === 'basic') return auth && auth.user;
+        if (scheme.scheme === 'bearer') return auth;
       }
 
       if (scheme.type === 'apiKey') {

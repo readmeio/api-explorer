@@ -11,16 +11,27 @@ module.exports = function configureSecurity(oas, values, scheme) {
   if (!oas.components.securitySchemes[scheme]) return undefined;
   const security = oas.components.securitySchemes[scheme];
 
-  if (security.type === 'http' && security.scheme === 'basic') {
-    // Return with no header if user and password are blank
-    if (!values.auth[scheme].user && !values.auth[scheme].password) return false;
+  if (security.type === 'http') {
+    if (security.scheme === 'basic') {
+      // Return with no header if user and password are blank
+      if (!values.auth[scheme].user && !values.auth[scheme].password) return false;
 
-    return harValue('headers', {
-      name: 'Authorization',
-      value: `Basic ${new Buffer(
-        `${values.auth[scheme].user}:${values.auth[scheme].password}`,
-      ).toString('base64')}`,
-    });
+      return harValue('headers', {
+        name: 'Authorization',
+        value: `Basic ${new Buffer(
+          `${values.auth[scheme].user}:${values.auth[scheme].password}`,
+        ).toString('base64')}`,
+      });
+    }
+
+    if (security.scheme === 'bearer') {
+      if (!values.auth[scheme]) return false;
+
+      return harValue('headers', {
+        name: 'Authorization',
+        value: `Bearer ${values.auth[scheme]}`,
+      });
+    }
   }
 
   if (security.type === 'apiKey') {

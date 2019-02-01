@@ -34,8 +34,9 @@ class Operation {
 
           if (!security) return false;
           let type = security.type;
-          if (security.type === 'http' && security.scheme === 'basic') {
-            type = 'Basic';
+          if (security.type === 'http') {
+            if (security.scheme === 'basic') type = 'Basic';
+            if (security.scheme === 'bearer') type = 'Bearer';
           } else if (security.type === 'oauth2') {
             type = 'OAuth2';
           } else if (security.type === 'apiKey' && security.in === 'query') {
