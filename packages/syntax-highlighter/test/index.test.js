@@ -87,5 +87,7 @@ test('should work for go', () => {
 });
 
 test('should work for typescript', () => {
-  expect(shallow(syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript')).html()).toContain('cm-variable');
+  expect(
+    shallow(syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript')).html(),
+  ).toContain('cm-variable');
 });
