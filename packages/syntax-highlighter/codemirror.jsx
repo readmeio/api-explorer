@@ -32,7 +32,7 @@ function getMode(lang) {
   return mode;
 }
 
-exports.codemirror = (code, lang, opts = { tokenizeVariables: false }) => {
+module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
   const output = [];
   let key = 0;
   const mode = getMode(lang);
