@@ -199,6 +199,37 @@ describe('code examples', () => {
     expect(codeSample.find('.code-sample-tabs a').length).toBe(1);
     expect(codeSample.find('.code-sample-body pre').length).toBe(1);
   });
+
+  test('should render first of examples if language does not exist', () => {
+    const docProps = {
+      setLanguage: () => {},
+      operation: new Operation({}, '/pet/{id}', 'get'),
+      examples: [
+        {
+          language: 'javascript',
+        },
+        {
+          language: 'typescript',
+        },
+      ],
+      formData: {},
+      language: 'perl',
+    };
+
+    const codeSample = shallow(
+      <CodeSample
+        {...docProps}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: ['css'],
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
+      />,
+    );
+    expect(codeSample.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
+  });
 });
 
 describe('code examples', () => {

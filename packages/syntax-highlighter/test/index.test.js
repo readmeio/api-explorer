@@ -85,3 +85,9 @@ test('should work for kotlin', () => {
 test('should work for go', () => {
   expect(shallow(syntaxHighlighter('func main() {}', 'go')).html()).toContain('cm-variable');
 });
+
+test('should work for typescript', () => {
+  expect(
+    shallow(syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript')).html(),
+  ).toContain('cm-variable');
+});
