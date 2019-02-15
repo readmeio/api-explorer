@@ -28,7 +28,9 @@ test('should render a Basic component if type is http/basic', () => {
 
 test('should render an Oauth2 component if type is http/bearer', () => {
   const props = { scheme: { type: 'http', scheme: 'bearer', _key: 'auth', name: 'auth' } };
-  const securityInput = shallow(<SecurityInput {...props} {...baseProps} auth={{ auth: '123456' }} />);
+  const securityInput = shallow(
+    <SecurityInput {...props} {...baseProps} auth={{ auth: '123456' }} />,
+  );
   expect(securityInput.find('Oauth2').length).toBe(1);
 });
 
