@@ -88,6 +88,44 @@ describe('configure-security', () => {
     });
   });
 
+  describe('type=bearer', () => {
+    test('should work for bearer', () => {
+      const apiKey = '123456';
+
+      expect(
+        configureSecurity(
+          {
+            components: { securitySchemes: { test: { type: 'http', scheme: 'bearer' } } },
+          },
+          { test: apiKey },
+          'test',
+        ),
+      ).toEqual({
+        type: 'headers',
+        value: {
+          name: 'Authorization',
+          value: `Bearer ${apiKey}`,
+        },
+      });
+    });
+
+    test('should return with no header if apiKey is blank', () => {
+      const values = {
+        auth: { test: '' },
+      };
+
+      expect(
+        configureSecurity(
+          {
+            components: { securitySchemes: { test: { type: 'http', scheme: 'bearer' } } },
+          },
+          values,
+          'test',
+        ),
+      ).toEqual(false);
+    });
+  });
+
   describe('type=oauth2', () => {
     test('should work for oauth2', () => {
       const apiKey = '123456';

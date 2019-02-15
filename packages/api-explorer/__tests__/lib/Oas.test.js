@@ -232,7 +232,7 @@ describe('operation.prepareSecurity()', () => {
     });
   }
 
-  test('http: should return with a type of Basic', () => {
+  test('http/basic: should return with a type of Basic', () => {
     const oas = createSecurityOas({
       securityScheme: {
         type: 'http',
@@ -243,6 +243,20 @@ describe('operation.prepareSecurity()', () => {
 
     expect(operation.prepareSecurity()).toEqual({
       Basic: [oas.components.securitySchemes.securityScheme],
+    });
+  });
+
+  test('http/bearer: should return with a type of Bearer', () => {
+    const oas = createSecurityOas({
+      securityScheme: {
+        type: 'http',
+        scheme: 'bearer',
+      },
+    });
+    const operation = oas.operation(path, method);
+
+    expect(operation.prepareSecurity()).toEqual({
+      Bearer: [oas.components.securitySchemes.securityScheme],
     });
   });
 

@@ -64,6 +64,23 @@ test('anchors', () => {
   ).toMatchSnapshot();
 });
 
+test('anchors with baseUrl', () => {
+  const opts = { baseUrl: '/child/v1.0' };
+  expect(
+    shallow(
+      markdown(
+        `
+[doc](doc:slug)
+[ref](ref:slug)
+[blog](blog:slug)
+[page](page:slug)
+  `,
+        opts,
+      ),
+    ).html(),
+  ).toMatchSnapshot();
+});
+
 test('emojis', () => {
   expect(
     shallow(

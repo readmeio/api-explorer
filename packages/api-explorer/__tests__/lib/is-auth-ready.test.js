@@ -161,6 +161,18 @@ describe('isAuthReady', () => {
     expect(isAuthReady(operation, { basic: { user: '', password: '' } })).toBe(false);
   });
 
+  it('should return true if auth data is passed in for bearer condition', () => {
+    const operation = oas.operation('/bearer', 'post');
+
+    expect(isAuthReady(operation, { bearer: 'bearer' })).toBe(true);
+  });
+
+  it('should return false if auth data is not passed in for bearer condition', () => {
+    const operation = oas.operation('/bearer', 'post');
+
+    expect(isAuthReady(operation, { bearer: '' })).toBe(false);
+  });
+
   it('should return true if endpoint does not need auth or passed in auth is correct', () => {
     const operation = oas.operation('/no-auth', 'post');
 

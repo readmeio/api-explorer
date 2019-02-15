@@ -32,6 +32,15 @@
         ]
       }
     },
+    "/bearer": {
+      "post": {
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/no-auth": {
       "post": {}
     },
@@ -80,6 +89,10 @@
       "basic": {
         "type": "http",
         "scheme": "basic"
+      },
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }
