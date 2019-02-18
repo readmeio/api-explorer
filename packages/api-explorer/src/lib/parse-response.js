@@ -1,4 +1,5 @@
 const { stringify } = require('querystring');
+const contentTypeIsJson = require('./content-type-is-json');
 
 function getQuerystring(har) {
   // Converting [{ name: a, value: '123456' }] => { a: '123456' } so we can use querystring.stringify
@@ -11,7 +12,7 @@ function getQuerystring(har) {
 
 async function getResponseBody(response) {
   const contentType = response.headers.get('Content-Type');
-  const isJson = contentType && contentType.includes('application/json');
+  const isJson = contentType && contentTypeIsJson(contentType);
 
   // We have to clone it before reading, just incase
   // we cannot parse it as JSON later, then we can

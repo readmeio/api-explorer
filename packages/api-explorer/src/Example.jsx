@@ -2,6 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
 const showCodeResults = require('./lib/show-code-results');
+const contentTypeIsJson = require('./lib/content-type-is-json');
 
 // const { replaceVars } = require('./lib/replace-vars');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
@@ -25,7 +26,7 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
           <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
             {examples.map((example, index) => {
-              const isJson = example.language && example.language === 'application/json';
+              const isJson = example.language && contentTypeIsJson(example.language);
               return (
                 <pre
                   className={`tomorrow-night tabber-body tabber-body-${index}`}
