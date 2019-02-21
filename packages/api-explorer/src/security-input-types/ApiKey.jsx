@@ -1,17 +1,17 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function ApiKey({ apiKey, scheme, authInputRef, change }) {
+function ApiKey({ apiKey, scheme, authInputRef, change, Input }) {
   return (
     <div className="row">
       <div className="col-xs-5">
         <label htmlFor="apiKey">{scheme.name}</label>
       </div>
       <div className="col-xs-7">
-        <input
-          ref={authInputRef}
+        <Input
+          inputRef={authInputRef}
           type="text"
-          onChange={e => change(e.currentTarget.value)}
+          onChange={e => change(e.target.value)}
           value={apiKey}
         />
       </div>
@@ -26,6 +26,7 @@ ApiKey.propTypes = {
   }).isRequired,
   authInputRef: PropTypes.func,
   change: PropTypes.func.isRequired,
+  Input: PropTypes.func.isRequired,
 };
 
 ApiKey.defaultProps = {

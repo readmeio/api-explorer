@@ -17,6 +17,7 @@
     "prop-types": "^15.5.10",
     "react": "^16.4.2",
     "react-copy-to-clipboard": "^5.0.1",
+    "react-debounce-input": "^3.2.0",
     "react-json-view": "^1.19.1",
     "react-jsonschema-form": "github:domharrington/react-jsonschema-form#dist-committed",
     "react-waypoint": "^7.3.1",
