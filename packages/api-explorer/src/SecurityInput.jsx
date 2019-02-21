@@ -11,12 +11,13 @@ const types = {
   apiKey: ApiKey,
 };
 
+// eslint-disable-next-line react/prefer-stateless-function
 class Input extends React.Component {
   render() {
     return (
       <DebounceInput
         {...this.props}
-        minLength={2}
+        minLength={0}
         debounceTimeout={process.env.NODE_ENV === 'test' ? 0 : 300}
       />
     );
