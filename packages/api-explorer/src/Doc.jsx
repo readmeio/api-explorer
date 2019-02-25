@@ -343,7 +343,10 @@ class Doc extends React.Component {
             <header>
               {this.props.suggestedEdits && (
                 // eslint-disable-next-line jsx-a11y/href-no-hash
-                <a className="hub-reference-edit pull-right" href={`reference-edit/${doc.slug}`}>
+                <a
+                  className="hub-reference-edit pull-right"
+                  href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
+                >
                   <i className="icon icon-register" />
                   Suggest Edits
                 </a>

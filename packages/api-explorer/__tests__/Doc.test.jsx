@@ -271,6 +271,15 @@ describe('suggest edits', () => {
     const doc = shallow(<Doc {...props} suggestedEdits />);
     expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
   });
+
+  test('should have child project if baseUrl is set', () => {
+    const doc = shallow(
+      <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
+    );
+    expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(
+      `/child/reference-edit/${props.doc.slug}`,
+    );
+  });
 });
 
 describe('Response Schema', () => {
