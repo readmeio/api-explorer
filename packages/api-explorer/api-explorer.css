@@ -469,7 +469,6 @@ form.rjsf fieldset {
 
 .response-schema {
   overflow-y: auto;
-  max-height: 600px;
 }
 
 .hub-reference-response-definitions.dark p,
