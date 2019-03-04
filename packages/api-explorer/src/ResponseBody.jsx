@@ -7,9 +7,7 @@ const oauthHref = require('./lib/oauth-href');
 
 function Authorized({ result }) {
   const isJson =
-    result.type &&
-    contentTypeIsJson(result.type) &&
-    typeof result.responseBody === 'object';
+    result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
