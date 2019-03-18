@@ -92,8 +92,6 @@ test('should work for typescript', () => {
   ).toContain('cm-variable');
 });
 
-// test('should work for swift', () => {
-//   console.log(shallow(syntaxHighlighter('var x = 0;', 'swift')).html());
-//   expect(
-//     shallow(syntaxHighlighter('var x = 0;', 'swift')).html()).toContain('cm-def');
-// });
+test('should work for swift', () => {
+  expect(shallow(syntaxHighlighter('var x = 0;', 'swift')).html()).toContain('cm-def');
+});
