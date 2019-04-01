@@ -337,6 +337,33 @@ describe('header values', () => {
     ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
+  it('should only receive one accept header if specified in values', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [
+            {
+              name: 'Accept',
+              in: 'header',
+            },
+          ],
+          responses: {
+            200: {
+              content: {
+                'application/json': {},
+                'application/xml': {},
+              },
+            },
+          },
+        },
+        { header: { Accept: 'application/xml' } },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+  });
+
   test('should add falsy values to the headers', () => {
     expect(
       oasToHar(

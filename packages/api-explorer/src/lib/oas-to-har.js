@@ -129,6 +129,9 @@ module.exports = (
     Object.keys(pathOperation.responses).some(response => {
       if (!pathOperation.responses[response].content) return false;
 
+      // if there is an Accept header specified in the form, we'll use that instead.
+      if (formData.header.Accept) return true;
+
       har.headers.push({
         name: 'Accept',
         value: getResponseContentType(pathOperation.responses[response].content),
