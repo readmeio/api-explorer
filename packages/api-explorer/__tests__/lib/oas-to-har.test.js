@@ -662,6 +662,32 @@ describe('body values', () => {
     ).toEqual(JSON.stringify({ a: 123 }));
   });
 
+  it('should work for schemas that require a parameters lookup', () => {
+    expect(
+      oasToHar(
+        new Oas({
+          components: {
+            parameters: {
+              authorization: {
+                name: 'Authorization',
+                in: 'header',
+              },
+            },
+          },
+        }),
+        {
+          method: 'get',
+          parameters: [
+            {
+              $ref: '#/components/parameters/authorization',
+            },
+          ],
+        },
+        { header: { Authorization: 'test' } },
+      ).log.entries[0].request.headers[0].value,
+    ).toEqual('test');
+  });
+
   it('should work for top level primitives', () => {
     expect(
       oasToHar(

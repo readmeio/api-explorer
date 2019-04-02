@@ -4,6 +4,7 @@ const extensions = require('@readme/oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
 const removeUndefinedObjects = require('./remove-undefined-objects');
+const findSchemaDefinition = require('./find-schema-definition');
 
 // const format = {
 //   value: v => `__START_VALUE__${v}__END__`,
@@ -94,6 +95,14 @@ module.exports = (
   // TODO look to move this to Oas class as well
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
+  }
+
+  if (pathOperation.parameters) {
+    pathOperation.parameters.forEach((param, i, params) => {
+      if (param.$ref) {
+        params[i] = findSchemaDefinition(param.$ref, oas);
+      }
+    });
   }
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
