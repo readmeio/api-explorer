@@ -13,7 +13,7 @@ describe('operation()', () => {
     expect(operation.method).toBe('get');
   });
 
-  test.only('should strip trailing slashes from path', () => {
+  test('should strip trailing slashes from path', () => {
     const oas = { paths: { '/path/': { get: { a: 1 } } } };
     const operation = new Oas(oas).operation('/path/', 'get');
     expect(operation).toBeInstanceOf(Operation);
