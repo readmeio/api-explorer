@@ -91,3 +91,7 @@ test('should work for typescript', () => {
     shallow(syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript')).html(),
   ).toContain('cm-variable');
 });
+
+test('should work for swift', () => {
+  expect(shallow(syntaxHighlighter('var x = 0;', 'swift')).html()).toContain('cm-def');
+});

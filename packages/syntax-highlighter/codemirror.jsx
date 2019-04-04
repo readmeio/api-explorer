@@ -16,6 +16,7 @@ require('codemirror/mode/clike/clike');
 require('codemirror/mode/htmlmixed/htmlmixed');
 require('codemirror/mode/php/php');
 require('codemirror/mode/go/go');
+require('codemirror/mode/swift/swift');
 
 function getMode(lang) {
   let mode = lang;
