@@ -7,3 +7,7 @@ test('should remove empty objects with only undefined properties', () => {
 test('should not throw on arrays of primitives', () => {
   expect(removeUndefinedObjects([null])).toEqual([null]);
 });
+
+test('should not throw for null', () => {
+  expect(removeUndefinedObjects({ a: null })).toEqual({ a: null });
+});
