@@ -337,6 +337,33 @@ describe('header values', () => {
     ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
+  it('should only receive one accept header if specified in values', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [
+            {
+              name: 'Accept',
+              in: 'header',
+            },
+          ],
+          responses: {
+            200: {
+              content: {
+                'application/json': {},
+                'application/xml': {},
+              },
+            },
+          },
+        },
+        { header: { Accept: 'application/xml' } },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+  });
+
   test('should add falsy values to the headers', () => {
     expect(
       oasToHar(
@@ -633,6 +660,32 @@ describe('body values', () => {
         { body: { a: 123 } },
       ).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 123 }));
+  });
+
+  it('should work for schemas that require a parameters lookup', () => {
+    expect(
+      oasToHar(
+        new Oas({
+          components: {
+            parameters: {
+              authorization: {
+                name: 'Authorization',
+                in: 'header',
+              },
+            },
+          },
+        }),
+        {
+          method: 'get',
+          parameters: [
+            {
+              $ref: '#/components/parameters/authorization',
+            },
+          ],
+        },
+        { header: { Authorization: 'test' } },
+      ).log.entries[0].request.headers[0].value,
+    ).toEqual('test');
   });
 
   it('should work for top level primitives', () => {

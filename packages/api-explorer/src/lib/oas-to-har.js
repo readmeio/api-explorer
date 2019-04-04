@@ -4,6 +4,7 @@ const extensions = require('@readme/oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
 const removeUndefinedObjects = require('./remove-undefined-objects');
+const findSchemaDefinition = require('./find-schema-definition');
 
 // const format = {
 //   value: v => `__START_VALUE__${v}__END__`,
@@ -96,6 +97,14 @@ module.exports = (
     har.url = `https://try.readme.io/${har.url}`;
   }
 
+  if (pathOperation.parameters) {
+    pathOperation.parameters.forEach((param, i, params) => {
+      if (param.$ref) {
+        params[i] = findSchemaDefinition(param.$ref, oas);
+      }
+    });
+  }
+
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
     if (!pathOperation || !pathOperation.parameters) return key; // No path params at all
     // Find the path parameter or set a default value if it does not exist
@@ -128,6 +137,9 @@ module.exports = (
   if (pathOperation.responses) {
     Object.keys(pathOperation.responses).some(response => {
       if (!pathOperation.responses[response].content) return false;
+
+      // if there is an Accept header specified in the form, we'll use that instead.
+      if (formData.header.Accept) return true;
 
       har.headers.push({
         name: 'Accept',
