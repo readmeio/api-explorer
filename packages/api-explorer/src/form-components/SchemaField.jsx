@@ -9,6 +9,25 @@ function getDefaultNumFormat(type) {
   return '';
 }
 
+function doesFormatExist(type, format) {
+  const availableFormats = [
+    'int64',
+    'int32',
+    'double',
+    'float',
+    'binary',
+    'byte',
+    'string',
+    'uuid',
+    'duration',
+    'dateTime',
+    'integer',
+    'json',
+  ];
+
+  return type === 'string' && availableFormats.includes(format);
+}
+
 function isNumType(schema, type, format) {
   schema.format = schema.format || getDefaultNumFormat(schema.type);
   return schema.type === type && schema.format.match(format);
@@ -28,6 +47,8 @@ function getCustomType(schema) {
 }
 
 function SchemaField(props) {
+  if (!doesFormatExist(props.schema.type, props.schema.format)) props.schema.format = undefined;
+
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
     // Though that just sets `input[readonly]` which still shows
