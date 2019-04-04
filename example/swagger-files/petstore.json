@@ -229,6 +229,13 @@
           "description": "Updated status of the pet",
           "required": false,
           "type": "string"
+        }, {
+          "name": "url image",
+          "in": "formData",
+          "description": "pet's image url",
+          "required": false,
+          "type": "string",
+          "format": "url"
         }],
         "responses": {
           "405": {
