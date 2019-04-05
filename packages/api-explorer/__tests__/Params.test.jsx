@@ -243,3 +243,15 @@ test('defaults should be applied on first render', done => {
 
   renderParams({ type: 'string', default: defaultValue }, { onChange });
 });
+
+describe('should not contains error message when property key missing in object type', () => {
+  test('should make `readOnly` properties hidden', () => {
+    expect(
+      mount(
+        <div>
+          <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
+        </div>,
+      ).html().includes('Invalid empty object object field configuration'),
+    ).toBe(false);
+  });
+})

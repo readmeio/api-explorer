@@ -289,6 +289,10 @@
                   "status": {
                     "description": "Updated status of the pet",
                     "type": "string"
+                  },
+                  "empty object": {
+                    "description": "Updated status of the pet",
+                    "type": "object"
                   }
                 }
               }

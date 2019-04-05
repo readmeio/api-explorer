@@ -18,6 +18,43 @@ const Oas = require('./lib/Oas');
 const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
+const arrayKeys = [];
+
+const _set = (obj, path, value) => {
+  if (Object(obj) !== obj) return obj;
+  const p = path.split(".");
+  p.slice(0,-1).reduce((a, c, i) =>
+      Object(a[c]) === a[c]
+        ? a[c]
+        : a[c] = Math.abs(p[i+1])>>0 === +p[i+1]
+        ? []
+        : {},
+    obj)[p.pop()] = value;
+  return obj;
+};
+
+function updateSchema(schema) {
+  arrayKeys.forEach(key => {
+    _set(schema, `${key}.properties`, {});
+  });
+  return schema;
+}
+
+function findObjectKeysWithoutPropertyValue(target, keyName) {
+  if (typeof target !== 'object') return;
+
+  for (const key in target) {
+    if (
+      key === 'type' &&
+      target[key] === 'object' &&
+      !target.properties &&
+      !target.additionalProperties
+    )
+      arrayKeys.push(keyName);
+    findObjectKeysWithoutPropertyValue(target[key], keyName ? `${keyName}.${key}` : key);
+  }
+}
+
 function Params({
   oas,
   operation,
@@ -36,6 +73,9 @@ function Params({
   return (
     jsonSchema &&
     jsonSchema.map(schema => {
+      arrayKeys.splice(0, arrayKeys.length);
+      findObjectKeysWithoutPropertyValue(schema);
+      updateSchema(schema);
       return [
         <div className="param-type-header" key={`${schema.type}-header`}>
           <h3>{schema.label}</h3>
