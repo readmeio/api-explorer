@@ -1,3 +1,5 @@
+const ReactResizeDetector = require('react-resize-detector').default;
+
 const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
@@ -20,6 +22,9 @@ class ApiExplorer extends React.Component {
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
     this.onAuthChange = this.onAuthChange.bind(this);
+    this.onResize = this.onResize.bind(this);
+
+    this.top = React.createRef();
 
     this.state = {
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
@@ -70,9 +75,22 @@ class ApiExplorer extends React.Component {
     this.setState({ selectedApp: { selected, changeSelected: this.changeSelected } });
   }
 
+  onResize() {
+    const elem = this.top.current;
+    const contentHeight = elem.offsetHeight + elem.offsetTop;
+    if (contentHeight < window.innerHeight) {
+      this.setState({
+        height: window.innerHeight - elem.offsetTop,
+      });
+    }
+  }
+
   render() {
+    const topStyle = this.state.height ? { height: this.state.height } : {};
+    const filler = this.state.height ? (<div className="filler"><div className="right" /></div>) : undefined;
     return (
-      <div className={`is-lang-${this.state.language}`}>
+      <div className={`is-lang-${this.state.language}`} ref={this.top} style={topStyle}>
+        <ReactResizeDetector handleHeight onResize={this.onResize} />
         <div
           id="hub-reference"
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
@@ -105,6 +123,7 @@ class ApiExplorer extends React.Component {
               </OauthContext.Provider>
             </VariablesContext.Provider>
           ))}
+          {filler}
         </div>
       </div>
     );
