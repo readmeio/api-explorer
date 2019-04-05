@@ -222,8 +222,7 @@
           "in": "formData",
           "description": "Updated name of the pet",
           "required": false,
-          "type": "string",
-          "format": "some-unknown-format"
+          "type": "string"
         }, {
           "name": "status",
           "in": "formData",

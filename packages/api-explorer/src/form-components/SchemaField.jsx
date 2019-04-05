@@ -9,21 +9,8 @@ function getDefaultNumFormat(type) {
   return '';
 }
 
-function doesFormatExist(type, format) {
-  const availableFormats = [
-    'int64',
-    'int32',
-    'double',
-    'float',
-    'binary',
-    'byte',
-    'string',
-    'uuid',
-    'duration',
-    'dateTime',
-    'integer',
-    'json',
-  ];
+function doesFormatExist(widgets, type, format) {
+  const availableFormats = Object.keys(widgets);
 
   return type === 'string' && availableFormats.includes(format);
 }
@@ -47,7 +34,8 @@ function getCustomType(schema) {
 }
 
 function SchemaField(props) {
-  if (!doesFormatExist(props.schema.type, props.schema.format)) props.schema.format = undefined;
+  if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
+    props.schema.format = undefined;
 
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
@@ -84,6 +72,9 @@ SchemaField.propTypes = {
     format: PropTypes.string,
     enumNames: PropTypes.array,
     readOnly: PropTypes.bool,
+  }).isRequired,
+  registry: PropTypes.shape({
+    widgets: PropTypes.object,
   }).isRequired,
   uiSchema: PropTypes.shape({}),
 };

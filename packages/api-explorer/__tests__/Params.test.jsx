@@ -62,6 +62,17 @@ test('boolean should render as <select>', () => {
   expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
 });
 
+test('should strip out unknown format for string type', () => {
+  const params = mount(
+    <div>
+      <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
+    </div>,
+  );
+
+  expect(params.find('input[label="unknown format"]').length).toBe(1);
+  expect(params.find('input[format="unknown format"]').length).toBe(0);
+});
+
 const jsonOperation = new Operation(oas, '/path', 'post', {
   requestBody: {
     content: {

@@ -58,6 +58,10 @@
                     "type": "string",
                     "format": "string"
                   },
+                  "string (format: unknown-format)": {
+                    "type": "string",
+                    "format": "unknown-format"
+                  },
                   "integer": {
                     "type": "integer",
                     "format": "int64",

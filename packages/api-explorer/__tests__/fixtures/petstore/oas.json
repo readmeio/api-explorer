@@ -289,6 +289,10 @@
                   "status": {
                     "description": "Updated status of the pet",
                     "type": "string"
+                  },
+                  "unknown format": {
+                    "type": "string",
+                    "format": "unknown format"
                   }
                 }
               }
