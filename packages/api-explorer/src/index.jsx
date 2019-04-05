@@ -36,17 +36,22 @@ class ApiExplorer extends React.Component {
     };
   }
 
+  onResize() {
+    const elem = this.top.current;
+    const contentHeight = elem.offsetHeight + elem.offsetTop;
+    if (contentHeight < window.innerHeight) {
+      this.setState({
+        height: window.innerHeight - elem.offsetTop,
+      });
+    }
+  }
+
   onAuthChange(auth) {
     this.setState(previousState => {
       return {
         auth: Object.assign({}, previousState.auth, auth),
       };
     });
-  }
-
-  setLanguage(language) {
-    this.setState({ language });
-    Cookie.set('readme_language', language);
   }
 
   getDefaultLanguage() {
@@ -57,6 +62,12 @@ class ApiExplorer extends React.Component {
       return 'curl';
     }
   }
+
+  setLanguage(language) {
+    this.setState({ language });
+    Cookie.set('readme_language', language);
+  }
+
   getOas(doc) {
     // Get the apiSetting id from the following places:
     // - category.apiSetting if set and populated
@@ -75,19 +86,15 @@ class ApiExplorer extends React.Component {
     this.setState({ selectedApp: { selected, changeSelected: this.changeSelected } });
   }
 
-  onResize() {
-    const elem = this.top.current;
-    const contentHeight = elem.offsetHeight + elem.offsetTop;
-    if (contentHeight < window.innerHeight) {
-      this.setState({
-        height: window.innerHeight - elem.offsetTop,
-      });
-    }
-  }
-
   render() {
     const topStyle = this.state.height ? { height: this.state.height } : {};
-    const filler = this.state.height ? (<div className="filler"><div className="right" /></div>) : undefined;
+    const filler = this.state.height ? (
+      <div className="filler">
+        <div className="right" />
+      </div>
+    ) : (
+      undefined
+    );
     return (
       <div className={`is-lang-${this.state.language}`} ref={this.top} style={topStyle}>
         <ReactResizeDetector handleHeight onResize={this.onResize} />
