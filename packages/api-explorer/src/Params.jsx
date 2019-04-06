@@ -1,5 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const setValue = require('lodash.set');
 const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
@@ -17,6 +18,25 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
+
+const arrayKeys = [];
+
+function updateSchema(schema) {
+  arrayKeys.forEach(key => {
+    setValue(schema, `${key}.type`, 'object');
+  });
+  return schema;
+}
+
+function findObjectKeysWithoutTypeObject(target, keyName) {
+  if (typeof target !== 'object') return;
+
+  Object.keys(target).forEach(key => {
+    if (key === 'properties' && !target.type) arrayKeys.push(keyName);
+
+    findObjectKeysWithoutTypeObject(target[key], keyName ? `${keyName}.${key}` : key);
+  });
+}
 
 function Params({
   oas,
@@ -36,6 +56,10 @@ function Params({
   return (
     jsonSchema &&
     jsonSchema.map(schema => {
+      arrayKeys.splice(0, arrayKeys.length);
+      findObjectKeysWithoutTypeObject(schema);
+      updateSchema(schema);
+
       return [
         <div className="param-type-header" key={`${schema.type}-header`}>
           <h3>{schema.label}</h3>

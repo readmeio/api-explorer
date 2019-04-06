@@ -14,6 +14,7 @@
     "httpsnippet": "^1.16.5",
     "js-cookie": "^2.1.4",
     "lodash.kebabcase": "^4.1.1",
+    "lodash.set": "^4.3.2",
     "prop-types": "^15.5.10",
     "react": "^16.4.2",
     "react-copy-to-clipboard": "^5.0.1",

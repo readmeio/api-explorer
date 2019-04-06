@@ -243,3 +243,15 @@ test('defaults should be applied on first render', done => {
 
   renderParams({ type: 'string', default: defaultValue }, { onChange });
 });
+
+test('should set type object if it missing', () => {
+  expect(
+    mount(
+      <div>
+        <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
+      </div>,
+    )
+      .html()
+      .includes('Unsupported field'),
+  ).toBe(false);
+});

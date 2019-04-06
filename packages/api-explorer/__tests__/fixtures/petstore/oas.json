@@ -289,6 +289,19 @@
                   "status": {
                     "description": "Updated status of the pet",
                     "type": "string"
+                  },
+                  "missing object": {
+                    "description": "Updated status of the pet",
+                    "properties": {
+                      "property1": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "property2": {
+                        "type": "integer",
+                        "format": "int64"
+                      }
+                    }
                   }
                 }
               }
