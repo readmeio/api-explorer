@@ -131,6 +131,9 @@
                   "object with `additionalProperties: true`": {
                     "type": "object",
                     "additionalProperties": true
+                  },
+                  "object without `properties`": {
+                    "type": "object"
                   }
                 }
               }
