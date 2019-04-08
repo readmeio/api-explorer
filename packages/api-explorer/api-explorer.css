@@ -479,6 +479,10 @@ form.rjsf fieldset {
 }
 
 @media screen and (min-width: 1001px) {
+  #hub-reference .hub-api .api-definition .api-definition-container {
+    background: white;
+  }
+
   #hub-content:before {
     content: '';
     width: 390px;
