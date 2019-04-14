@@ -14,7 +14,62 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function Example({ operation, result, oas, selected, setExampleTab, exampleResponses }) {
+function getReactJson(example, responseTypeCopy = '') {
+  return (
+    <ReactJson
+      src={JSON.parse(example.code)}
+      collapsed={2}
+      collapseStringsAfterLength={100}
+      enableClipboard={false}
+      theme="tomorrow"
+      name={null}
+      displayDataTypes={false}
+      displayObjectSize={false}
+      key={example.code}
+      style={{
+        padding: '20px 10px',
+        backgroundColor: 'transparent',
+        display: example.label === responseTypeCopy ? 'block' : 'none',
+        fontSize: '12px',
+      }}
+    />
+  );
+}
+
+function showExamples(examples, setResponseType, responseType) {
+  let responseTypeCopy = responseType;
+  if (!responseTypeCopy && examples[0]) responseTypeCopy = examples[0].label;
+
+  return (
+    <div>
+      <select
+        style={{ backgroundColor: '#3d434a' }}
+        onChange={e => setResponseType(e.target.value)}
+        value={responseTypeCopy}
+      >
+        {examples.map(example => (
+          <option value={example.label} key={example.label}>
+            {example.label}
+          </option>
+        ))}
+      </select>
+      {examples.map(example => {
+        return getReactJson(example, responseTypeCopy);
+      })}
+    </div>
+  );
+}
+
+function Example({
+  operation,
+  result,
+  oas,
+  selected,
+  setExampleTab,
+  exampleResponses,
+  setResponseType,
+  responseType,
+}) {
   const examples = exampleResponses.length ? exampleResponses : showCodeResults(operation);
   const hasExamples = examples.find(e => e.code && e.code !== '{}');
   return (
@@ -33,24 +88,16 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
                   style={{ display: index === selected ? 'block' : '' }}
                   key={index} // eslint-disable-line react/no-array-index-key
                 >
-                  {isJson ? (
-                    <ReactJson
-                      src={JSON.parse(example.code)}
-                      collapsed={2}
-                      collapseStringsAfterLength={100}
-                      enableClipboard={false}
-                      theme="tomorrow"
-                      name={null}
-                      displayDataTypes={false}
-                      displayObjectSize={false}
-                      style={{
-                        padding: '20px 10px',
-                        backgroundColor: 'transparent',
-                        fontSize: '12px',
-                      }}
-                    />
+                  {example.multipleExamples &&
+                    showExamples(example.multipleExamples, setResponseType, responseType)}
+                  {isJson && !example.multipleExamples ? (
+                    getReactJson(example)
                   ) : (
-                    <div>{syntaxHighlighter(example.code, example.language, { dark: true })}</div>
+                    <div>
+                      {syntaxHighlighter(example.code, example.language, {
+                        dark: true,
+                      })}
+                    </div>
                   )}
                 </pre>
               );
@@ -78,7 +125,9 @@ Example.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   selected: PropTypes.number.isRequired,
+  responseType: PropTypes.string,
   setExampleTab: PropTypes.func.isRequired,
+  setResponseType: PropTypes.func.isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
 };
 

@@ -3,7 +3,24 @@ function getLanguage(response) {
 }
 
 function getExample(response, lang) {
-  return response.content[lang].examples ? response.content[lang].examples.response.value : '';
+  return response.content[lang].examples && response.content[lang].examples.response
+    ? response.content[lang].examples.response.value
+    : '';
+}
+
+function getMultipleExamples(response, lang) {
+  if (!response.content[lang].examples || response.content[lang].examples.response) return '';
+
+  const examples = response.content[lang].examples;
+  return Object.keys(examples).map(key => {
+    return {
+      label: key,
+      code:
+        typeof examples[key] === 'object'
+          ? JSON.stringify(examples[key], undefined, 2)
+          : examples[key],
+    };
+  });
 }
 
 module.exports = type => {
@@ -23,10 +40,12 @@ module.exports = type => {
         if (!language) return false;
 
         const example = response.code || getExample(response, language);
-        if (!example) return false;
+        const multipleExamples = getMultipleExamples(response, language);
+        if (!example && !multipleExamples) return false;
 
         return {
           code: typeof example === 'object' ? JSON.stringify(example, undefined, 2) : example,
+          multipleExamples,
           language,
           status,
         };
