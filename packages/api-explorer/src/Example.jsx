@@ -14,7 +14,13 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function getReactJson(example, responseTypeCopy = '') {
+function isDisplayable(example, responseTypeCopy) {
+  if (!responseTypeCopy) return true;
+
+  return example.label === responseTypeCopy;
+}
+
+function getReactJson(example, responseTypeCopy) {
   return (
     <ReactJson
       src={JSON.parse(example.code)}
@@ -29,7 +35,7 @@ function getReactJson(example, responseTypeCopy = '') {
       style={{
         padding: '20px 10px',
         backgroundColor: 'transparent',
-        display: example.label === responseTypeCopy ? 'block' : 'none',
+        display: isDisplayable(example, responseTypeCopy) ? 'block' : 'none',
         fontSize: '12px',
       }}
     />
