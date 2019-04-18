@@ -1,4 +1,5 @@
-const React = require('react');
+import React, {Fragment} from 'react'
+
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('./lib/Oas');
@@ -7,9 +8,15 @@ const { Operation } = Oas;
 
 const CopyCode = require('./CopyCode');
 
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+// const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 const generateCodeSnippet = require('./lib/generate-code-snippet');
+
+const style = {
+  selected: {
+    background: '#000'
+  }
+}
 
 class CodeSample extends React.Component {
   constructor(props) {
@@ -36,6 +43,7 @@ class CodeSample extends React.Component {
     this.setState({ selectedExample: example });
   }
 
+  /*  I think we don't need this
   renderSelected(examples, setLanguage) {
     const examplesWithLanguages = examples.filter(example => example.language);
     return (
@@ -84,47 +92,61 @@ class CodeSample extends React.Component {
       </div>
     );
   }
+  */
+
+ renderLanguageItem(lang, setLanguage){
+  const {language} = this.props
+  return(
+    <li key={lang} style={{...lang === language ? style.selected : {}}}>
+      {
+          // eslint-disable-next-line jsx-a11y/href-no-hash
+        <a
+          href="#"
+          className={`hub-lang-switch-${lang}`}
+          onClick={e => {
+              e.preventDefault();
+              setLanguage(lang);
+            }}
+        >
+          {generateCodeSnippet.getLangName(lang)}
+        </a>
+        }
+    </li>
+  )
+}
+renderCodeWithListSection(snippet, code, languagesList, setLanguage){
+  const {language} = this.props
+
+  return(
+    <Fragment>
+      <ul className="code-sample-tabs">
+        {languagesList.map(lang => this.renderLanguageItem(lang, setLanguage))}
+      </ul>
+      {
+        snippet && (
+        <div className="hub-code-auto" style={{borderTop: '2px solid #fff'}}>
+          <CopyCode code={code} />
+          <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
+        </div>
+            )}
+    </Fragment>
+  )
+}
 
   render() {
-    const { oas, setLanguage, operation, formData, language, examples, auth } = this.props;
+    const { oas, setLanguage, operation, formData, language, examples, auth,  selectedContentType} = this.props;
 
     return (
       <div className="code-sample tabber-parent">
         {(() => {
-          if (examples.length) return this.renderSelected(examples, setLanguage);
+          // if (examples.length) return this.renderSelected(examples, setLanguage);
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }
-          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language);
+          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language, selectedContentType);
+          const languagesList = oas[extensions.SAMPLES_LANGUAGES]
           return (
-            <div>
-              <ul className="code-sample-tabs">
-                {// TODO add `is-lang-${lang}` class, to body?
-                oas[extensions.SAMPLES_LANGUAGES].map(lang => (
-                  <li key={lang}>
-                    {
-                      // eslint-disable-next-line jsx-a11y/href-no-hash
-                      <a
-                        href="#"
-                        className={`hub-lang-switch-${lang}`}
-                        onClick={e => {
-                          e.preventDefault();
-                          setLanguage(lang);
-                        }}
-                      >
-                        {generateCodeSnippet.getLangName(lang)}
-                      </a>
-                    }
-                  </li>
-                ))}
-              </ul>
-              {snippet && (
-                <div className="hub-code-auto">
-                  <CopyCode code={code} />
-                  <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
-                </div>
-              )}
-            </div>
+            this.renderCodeWithListSection(snippet, code, languagesList, setLanguage)
           );
         })()}
       </div>
@@ -145,6 +167,7 @@ CodeSample.propTypes = {
     }),
   ),
   language: PropTypes.string.isRequired,
+  selectedContentType: PropTypes.string
 };
 
 CodeSample.defaultProps = {

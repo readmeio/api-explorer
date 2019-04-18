@@ -5,6 +5,7 @@ const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
 const removeUndefinedObjects = require('./remove-undefined-objects');
 const findSchemaDefinition = require('./find-schema-definition');
+const getContentTypeFromOperation = require('./get-content-type')
 
 // const format = {
 //   value: v => `__START_VALUE__${v}__END__`,
@@ -40,13 +41,7 @@ const defaultValues = Object.keys(
 // If you pass in types, it either uses a default, or favors
 // anything JSON.
 function getContentType(pathOperation) {
-  const types =
-    (pathOperation &&
-      pathOperation.requestBody &&
-      pathOperation.requestBody.content &&
-      Object.keys(pathOperation.requestBody.content)) ||
-    [];
-
+  const types = getContentTypeFromOperation(pathOperation)
   let type = 'application/json';
   if (types && types.length) {
     type = types[0];
@@ -82,6 +77,7 @@ module.exports = (
   values = {},
   auth = {},
   opts = { proxyUrl: false },
+  contentType
 ) => {
   const formData = Object.assign({}, defaultValues, values);
   const har = {
@@ -94,7 +90,7 @@ module.exports = (
 
   // TODO look to move this to Oas class as well
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
-    har.url = `https://try.readme.io/${har.url}`;
+    // har.url = `https://try.readme.io/${har.url}`; // Remove?
   }
 
   if (pathOperation.parameters) {
@@ -219,7 +215,7 @@ module.exports = (
     const type = getContentType(pathOperation);
     har.headers.push({
       name: 'Content-Type',
-      value: type,
+      value: contentType || type,
     });
   }
 

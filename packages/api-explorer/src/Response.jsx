@@ -40,6 +40,7 @@ class Response extends React.Component {
         className={classNames('hub-reference-right hub-reference-results tabber-parent', {
           on: result !== null,
         })}
+        style={{background: '#000'}}
       >
         <div className="hub-reference-results-slider">
           <div className="hub-reference-results-explorer code-sample">

@@ -1,12 +1,14 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const fetchHar = require('fetch-har');
-const oasToHar = require('./lib/oas-to-har');
-const isAuthReady = require('./lib/is-auth-ready');
-const extensions = require('@readme/oas-extensions');
-const Waypoint = require('react-waypoint');
+import React, {Fragment} from 'react'
 
-const { Fragment } = React;
+import PropTypes from 'prop-types'
+import fetchHar from 'fetch-har'
+import oasToHar from './lib/oas-to-har'
+import isAuthReady from './lib/is-auth-ready'
+import extensions from '@readme/oas-extensions'
+import Waypoint from 'react-waypoint'
+
+import ContentWithTitle from './components/ContentWithTitle'
+import Select from './components/Select'
 
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
@@ -20,6 +22,7 @@ const Oas = require('./lib/Oas');
 // const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
+const getContentTypeFromOperation = require('./lib/get-content-type')
 
 class Doc extends React.Component {
   constructor(props) {
@@ -32,6 +35,7 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
+      selectedContentType: null
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
@@ -100,12 +104,20 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  // TODO: I couldn't figure out why this existed
-  // Shouldn't we always show code samples?
-  // eslint-disable-next-line
-  shouldShowCode() {
-    return true;
-    // return showCode(this.oas, this.getOperation());
+  renderContentTypeSelect(){
+    const list = getContentTypeFromOperation(this.getOperation())
+    return <Select options={list} onChange={(e) => this.setState({selectedContentType: e.currentTarget.value})} />
+  }
+
+  renderCodeAndResponse(){
+    return(
+      // <div className="hub-reference-section hub-reference-section-code">
+      <div style={{display: 'grid', gridGap: '8px'}}>
+        {/* <div className="hub-reference-left"> */}
+        <ContentWithTitle title={'Examples'} subheader={this.renderContentTypeSelect()} content={this.renderCodeSample()} />
+        <ContentWithTitle title={'Results'}  content={this.renderResponse()} />
+      </div>
+    )
   }
 
   mainTheme(doc) {
@@ -114,20 +126,29 @@ class Doc extends React.Component {
         {doc.type === 'endpoint' && (
           <div className="hub-api">
             {this.renderPathUrl()}
-
-            {this.shouldShowCode() && (
-              <div className="hub-reference-section hub-reference-section-code">
-                <div className="hub-reference-left">{this.renderCodeSample()}</div>
-                {this.renderResponse()}
-              </div>
-            )}
-
-            <div className="hub-reference-section">
-              <div className="hub-reference-left">
+            {/* <div className="hub-reference-section"> */}
+            <div 
+              style={{
+                  display: 'grid', 
+                  gridTemplateColumns: '3fr 1fr'
+                }}
+            >
+              {/* <div className="hub-reference-left"> */}
+              <div>
                 {this.renderLogs()}
                 {this.renderParams()}
               </div>
-              <div className="hub-reference-right switcher">{this.renderResponseSchema()}</div>
+              {/* <div className="hub-reference-right switcher"> */}
+              <div
+                style={{
+                  padding: 8,
+                  border: '1px solid #0f0f0f',
+                  background: 'rgb(51, 55, 58)'
+                }}
+              >
+                {this.renderCodeAndResponse()}
+                {this.renderResponseSchema()}
+              </div>
             </div>
           </div>
         )}
@@ -188,6 +209,7 @@ class Doc extends React.Component {
   }
 
   renderCodeSample() {
+    const {selectedContentType} = this.state
     let examples;
     try {
       examples = this.props.doc.api.examples.codes;
@@ -204,6 +226,7 @@ class Doc extends React.Component {
         auth={this.props.auth}
         language={this.props.language}
         examples={examples}
+        selectedContentType={selectedContentType}
       />
     );
   }

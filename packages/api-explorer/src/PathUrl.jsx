@@ -1,3 +1,5 @@
+import {Button} from 'antd'
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
@@ -48,11 +50,16 @@ function PathUrl({
                 auth={auth}
               />
 
-              <button
+              {/* <button
                 className={classNames('api-try-it-out', { active: dirty })}
                 type="submit"
                 disabled={loading}
                 onClick={onSubmit}
+              > */}
+              <Button 
+                disabled={loading}
+                onClick={onSubmit}
+                type={'primary'}
               >
                 {!loading && (
                   <span className="try-it-now-btn">
@@ -62,7 +69,7 @@ function PathUrl({
                 )}
 
                 {loading && <i className="fa fa-circle-o-notch fa-spin" />}
-              </button>
+              </Button>
             </div>
           )}
 

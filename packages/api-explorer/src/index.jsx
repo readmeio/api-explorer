@@ -1,3 +1,5 @@
+import 'antd/dist/antd.css';
+
 const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
@@ -6,12 +8,17 @@ const VariablesContext = require('@readme/variable/contexts/Variables');
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
+const {get} = require('lodash')
+const markdown = require('@readme/markdown');
 
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
 
 const getAuth = require('./lib/get-auth');
 
+function getDescription(oasFiles){
+  return get(oasFiles, 'api-setting.info.description')
+}
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +35,7 @@ class ApiExplorer extends React.Component {
         changeSelected: this.changeSelected,
       },
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
+      description: getDescription(this.props.oasFiles)
     };
   }
 
@@ -70,9 +78,24 @@ class ApiExplorer extends React.Component {
     this.setState({ selectedApp: { selected, changeSelected: this.changeSelected } });
   }
 
+  renderDescription(){
+    const style = {
+      maxHeight: 300,
+      overflowY: 'auto',
+      margin: '10px',
+      border: '1px solid',
+      padding: '10px',
+      background: '#33373a'
+    }
+    return(
+      <div style={style}>{markdown(this.state.description)}</div>
+    )
+  }
+
   render() {
     return (
       <div className={`is-lang-${this.state.language}`}>
+        {this.renderDescription()}
         <div
           id="hub-reference"
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance

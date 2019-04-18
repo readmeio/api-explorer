@@ -47,8 +47,10 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "antd": "^3.16.3",
     "babel-polyfill": "^6.26.0",
     "livereactload": "^4.0.0-beta.2",
+    "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
