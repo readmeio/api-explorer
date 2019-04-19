@@ -1,5 +1,7 @@
 import 'antd/dist/antd.css';
-import { Collapse } from 'antd';
+import { Collapse, Tag } from 'antd';
+
+import colors from './colors'
 
 const {Panel} = Collapse
 
@@ -124,7 +126,21 @@ class ApiExplorer extends React.Component {
       </VariablesContext.Provider>
     )
   }
+
+  renderHeaderPanel(doc){
+    const method = <Tag color={colors[doc.api.method]}>{doc.api.method}</Tag>
+    return(
+      <div>
+        {method} <b style={{color: colors.bold}}>{this.getOas(doc).servers[0].url}{doc.swagger.path}</b> {doc.title}
+      </div>    
+    )
+  }
   render() {
+    const styleByMethod = (method) => ({
+        backgroundColor: colors[`${method}Light`], 
+        border: `1px solid ${colors[method]}`
+    })
+
     return (
       <div className={`is-lang-${this.state.language}`}>
         {this.renderDescription()}
@@ -138,7 +154,7 @@ class ApiExplorer extends React.Component {
             defaultActiveKey={['0']}
           >
             {this.props.docs.map((doc, index) => (
-              <Panel header={`${doc.api.method} ${this.getOas(doc).servers[0].url}${doc.swagger.path} ${doc.title}`} key={index}>
+              <Panel header={this.renderHeaderPanel(doc)} style={styleByMethod(doc.api.method)} key={index}>
                 {this.renderDoc(doc)}
               </Panel>
           ))}

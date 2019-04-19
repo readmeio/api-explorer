@@ -1,5 +1,7 @@
 import {Button, Tag} from 'antd'
 
+import colors from './colors'
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
@@ -45,14 +47,8 @@ function renderButtonTry(loading, onSubmit){
   )
 }
 function renderOperationMethod(operation){
-  const background = {
-    post: '#52c41a',
-    put: '#fa541c',
-    get: '#1890ff',
-    delete: '#f5222d'
-  }
   return(
-    <Tag color={background[operation.method]}>{operation.method}</Tag>
+    <Tag color={colors[operation.method]}>{operation.method}</Tag>
   )
   // return(
   //   <span 
