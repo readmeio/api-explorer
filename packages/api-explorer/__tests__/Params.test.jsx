@@ -247,6 +247,18 @@ describe('x-explorer-enabled', () => {
       ).find('input[type="file"]').length,
     ).toBe(0);
   });
+
+  test('should not render any <input type="url">', () => {
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={oas.operation('/pet/{petId}', 'post')}
+        />,
+      ).find('input[type="file"]').length,
+    ).toBe(0);
+  });
 });
 
 describe('readOnly', () => {
