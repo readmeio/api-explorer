@@ -1,4 +1,7 @@
 import 'antd/dist/antd.css';
+import { Collapse } from 'antd';
+
+const {Panel} = Collapse
 
 const React = require('react');
 const Cookie = require('js-cookie');
@@ -92,6 +95,35 @@ class ApiExplorer extends React.Component {
     )
   }
 
+  renderDoc(doc){
+    return(
+      <VariablesContext.Provider value={this.props.variables}>
+        <OauthContext.Provider value={this.props.oauth}>
+          <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
+            <SelectedAppContext.Provider value={this.state.selectedApp}>
+              <Doc
+                key={doc._id}
+                doc={doc}
+                oas={this.getOas(doc)}
+                setLanguage={this.setLanguage}
+                flags={this.props.flags}
+                user={this.props.variables.user}
+                Logs={this.props.Logs}
+                baseUrl={this.props.baseUrl.replace(/\/$/, '')}
+                appearance={this.props.appearance}
+                language={this.state.language}
+                oauth={this.props.oauth}
+                suggestedEdits={this.props.suggestedEdits}
+                tryItMetrics={this.props.tryItMetrics}
+                auth={this.state.auth}
+                onAuthChange={this.onAuthChange}
+              />
+            </SelectedAppContext.Provider>
+          </GlossaryTermsContext.Provider>
+        </OauthContext.Provider>
+      </VariablesContext.Provider>
+    )
+  }
   render() {
     return (
       <div className={`is-lang-${this.state.language}`}>
@@ -100,34 +132,17 @@ class ApiExplorer extends React.Component {
           id="hub-reference"
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
             .referenceLayout}`}
+          style={{padding: 16}}
         >
-          {this.props.docs.map(doc => (
-            <VariablesContext.Provider value={this.props.variables}>
-              <OauthContext.Provider value={this.props.oauth}>
-                <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
-                  <SelectedAppContext.Provider value={this.state.selectedApp}>
-                    <Doc
-                      key={doc._id}
-                      doc={doc}
-                      oas={this.getOas(doc)}
-                      setLanguage={this.setLanguage}
-                      flags={this.props.flags}
-                      user={this.props.variables.user}
-                      Logs={this.props.Logs}
-                      baseUrl={this.props.baseUrl.replace(/\/$/, '')}
-                      appearance={this.props.appearance}
-                      language={this.state.language}
-                      oauth={this.props.oauth}
-                      suggestedEdits={this.props.suggestedEdits}
-                      tryItMetrics={this.props.tryItMetrics}
-                      auth={this.state.auth}
-                      onAuthChange={this.onAuthChange}
-                    />
-                  </SelectedAppContext.Provider>
-                </GlossaryTermsContext.Provider>
-              </OauthContext.Provider>
-            </VariablesContext.Provider>
+          <Collapse
+            defaultActiveKey={['0']}
+          >
+            {this.props.docs.map((doc, index) => (
+              <Panel header={`${doc.api.method} ${this.getOas(doc).servers[0].url}${doc.swagger.path} ${doc.title}`} key={index}>
+                {this.renderDoc(doc)}
+              </Panel>
           ))}
+          </Collapse>
         </div>
       </div>
     );

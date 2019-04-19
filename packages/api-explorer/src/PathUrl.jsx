@@ -1,4 +1,4 @@
-import {Button} from 'antd'
+import {Button, Tag} from 'antd'
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -18,6 +18,63 @@ function splitPath(path) {
       return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
     });
 }
+
+function renderButtonTry(loading, onSubmit){
+  /* <button
+                className={classNames('api-try-it-out', { active: dirty })}
+                type="submit"
+                disabled={loading}
+                onClick={onSubmit}
+              > */
+  return(
+    
+    <Button 
+      disabled={loading}
+      onClick={onSubmit}
+      type={'primary'}
+    >
+      {!loading && (
+        <span className="try-it-now-btn">
+          <span className="fa fa-compass" />&nbsp;
+          <span>Try It</span>
+        </span>
+      )}
+
+      {loading && <i className="fa fa-circle-o-notch fa-spin" />}
+    </Button>
+  )
+}
+function renderOperationMethod(operation){
+  const background = {
+    post: '#52c41a',
+    put: '#fa541c',
+    get: '#1890ff',
+    delete: '#f5222d'
+  }
+  return(
+    <Tag color={background[operation.method]}>{operation.method}</Tag>
+  )
+  // return(
+  //   <span 
+  //     style={style} 
+  //     className={`pg-type-big pg-type type-${operation.method}`}
+  //   >{operation.method}</span>
+  // )
+}
+function renderUrl(oas, operation){
+  return(
+    oas.servers &&
+      oas.servers.length > 0 && (
+        <span className="definition-url">
+          <span className="url">{oas.url()}</span>
+          {splitPath(operation.path).map(part => (
+            <span key={part.value} className={`api-${part.type}`}>
+              {part.value}
+            </span>
+          ))}
+        </span>)
+  )
+}
 function PathUrl({
   oas,
   operation,
@@ -32,10 +89,23 @@ function PathUrl({
   oauth,
   auth,
 }) {
+  const containerStyle = {
+    background: '#f0f2f4',
+    padding: '8px 18px',
+    borderRadius: 10
+  }
   return (
-    <div className="api-definition-parent">
-      <div className="api-definition">
-        <div className="api-definition-container">
+    <div className="api-definition-parent" style={{padding: 10}}>
+      <div className="api-definition" style={containerStyle}>
+        {/* <div className="api-definition-container"> */}
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+  
+          <div>
+            {renderOperationMethod(operation)}
+
+            {renderUrl(oas, operation)}
+          </div>
+          
           {oas[extensions.EXPLORER_ENABLED] && (
             <div className="api-definition-actions">
               <AuthBox
@@ -50,42 +120,10 @@ function PathUrl({
                 auth={auth}
               />
 
-              {/* <button
-                className={classNames('api-try-it-out', { active: dirty })}
-                type="submit"
-                disabled={loading}
-                onClick={onSubmit}
-              > */}
-              <Button 
-                disabled={loading}
-                onClick={onSubmit}
-                type={'primary'}
-              >
-                {!loading && (
-                  <span className="try-it-now-btn">
-                    <span className="fa fa-compass" />&nbsp;
-                    <span>Try It</span>
-                  </span>
-                )}
-
-                {loading && <i className="fa fa-circle-o-notch fa-spin" />}
-              </Button>
+              {renderButtonTry(loading, onSubmit)}
             </div>
           )}
 
-          <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
-
-          {oas.servers &&
-          oas.servers.length > 0 && (
-            <span className="definition-url">
-              <span className="url">{oas.url()}</span>
-              {splitPath(operation.path).map(part => (
-                <span key={part.value} className={`api-${part.type}`}>
-                  {part.value}
-                </span>
-              ))}
-            </span>
-          )}
         </div>
       </div>
     </div>

@@ -43,7 +43,9 @@ class CodeSample extends React.Component {
     this.setState({ selectedExample: example });
   }
 
-  /*  I think we don't need this
+  /*  I think we don't need this (Riccardo Di Benedetto)
+  *
+  *
   renderSelected(examples, setLanguage) {
     const examplesWithLanguages = examples.filter(example => example.language);
     return (
@@ -139,7 +141,7 @@ renderCodeWithListSection(snippet, code, languagesList, setLanguage){
     return (
       <div className="code-sample tabber-parent">
         {(() => {
-          // if (examples.length) return this.renderSelected(examples, setLanguage);
+          // if (examples.length) return this.renderSelected(examples, setLanguage); I think we don't need this (Riccardo Di Benedetto)
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }

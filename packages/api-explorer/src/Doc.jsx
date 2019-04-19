@@ -120,93 +120,7 @@ class Doc extends React.Component {
     )
   }
 
-  mainTheme(doc) {
-    return (
-      <Fragment>
-        {doc.type === 'endpoint' && (
-          <div className="hub-api">
-            {this.renderPathUrl()}
-            {/* <div className="hub-reference-section"> */}
-            <div 
-              style={{
-                  display: 'grid', 
-                  gridTemplateColumns: '3fr 1fr'
-                }}
-            >
-              {/* <div className="hub-reference-left"> */}
-              <div>
-                {this.renderLogs()}
-                {this.renderParams()}
-              </div>
-              {/* <div className="hub-reference-right switcher"> */}
-              <div
-                style={{
-                  padding: 8,
-                  border: '1px solid #0f0f0f',
-                  background: 'rgb(51, 55, 58)'
-                }}
-              >
-                {this.renderCodeAndResponse()}
-                {this.renderResponseSchema()}
-              </div>
-            </div>
-          </div>
-        )}
 
-        <Content
-          baseUrl={this.props.baseUrl}
-          body={doc.body}
-          flags={this.props.flags}
-          isThreeColumn
-        />
-      </Fragment>
-    );
-  }
-
-  columnTheme(doc) {
-    return (
-      <div className="hub-api">
-        <div className="hub-reference-section">
-          <Fragment>
-            <div className="hub-reference-left">
-              {doc.type === 'endpoint' && (
-                <Fragment>
-                  {this.renderPathUrl()}
-                  {this.renderLogs()}
-                  {this.renderParams()}
-                </Fragment>
-              )}
-              <Content
-                baseUrl={this.props.baseUrl}
-                body={doc.body}
-                flags={this.props.flags}
-                isThreeColumn="left"
-              />
-            </div>
-
-            <div className="hub-reference-right">
-              {doc.type === 'endpoint' &&
-              this.shouldShowCode() && (
-                <div className="hub-reference-section-code">
-                  {this.renderCodeSample()}
-                  <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
-                </div>
-              )}
-              <div className="hub-reference-right switcher">
-                {this.renderResponseSchema('dark')}
-              </div>
-              <Content
-                baseUrl={this.props.baseUrl}
-                body={doc.body}
-                flags={this.props.flags}
-                isThreeColumn="right"
-              />
-            </div>
-          </Fragment>
-        </div>
-      </div>
-    );
-  }
 
   renderCodeSample() {
     const {selectedContentType} = this.state
@@ -262,16 +176,56 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc } = this.props;
-
+    const { doc } = this.props
     return (
-      <EndpointErrorBoundary>
-        {this.props.appearance.referenceLayout === 'column' ? (
-          this.columnTheme(doc)
-        ) : (
-          this.mainTheme(doc)
+      <Fragment>
+        {doc.type === 'endpoint' && (
+          <Fragment>
+            <div className="hub-reference-left" >
+              <header>
+                {this.props.suggestedEdits && (
+                  // eslint-disable-next-line jsx-a11y/href-no-hash
+                <a
+                  className="hub-reference-edit pull-right"
+                  href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
+                >
+                  <i className="icon icon-register" />
+                    Suggest Edits
+                  </a>
+                )}
+                <h3>Description</h3>
+                {/* Excerpt === operation.description  (lib/create-docs.js) */}
+                {doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available'}
+              </header>
+            
+              <div className="hub-api"> { /** this class prevent breaking GUI. Find a better way. CSS class dependency (Riccardo Di Benedetto) */}
+                {this.renderPathUrl()}  
+                {this.renderLogs()}
+                {this.renderParams()}
+              </div>
+            </div>
+            <div
+              style={{
+                  padding: 8,
+                  border: '1px solid #0f0f0f',
+                  background: 'rgb(51, 55, 58)'
+                }}
+              className="hub-api"
+            > { /** this class prevent breaking GUI. Find a better way.  CSS class dependency (Riccardo Di Benedetto) */}
+              
+              {this.renderCodeAndResponse()}
+              {this.renderResponseSchema()}
+            </div>
+          </Fragment>
         )}
-      </EndpointErrorBoundary>
+
+        <Content
+          baseUrl={this.props.baseUrl}
+          body={doc.body}
+          flags={this.props.flags}
+          isThreeColumn
+        />
+      </Fragment>
     );
   }
 
@@ -340,44 +294,23 @@ class Doc extends React.Component {
     };
 
     return (
-      <div className="hub-reference" id={`page-${doc.slug}`}>
-        {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content
+      <EndpointErrorBoundary>
+        <div className="hub-reference" id={`page-${doc.slug}`}>
           <a className="anchor-page-title" id={doc.slug} />
-        }
-
-        <div className="hub-reference-section hub-reference-section-top">
-          <div className="hub-reference-left">
-            <header>
-              {this.props.suggestedEdits && (
-                // eslint-disable-next-line jsx-a11y/href-no-hash
-                <a
-                  className="hub-reference-edit pull-right"
-                  href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
-                >
-                  <i className="icon icon-register" />
-                  Suggest Edits
-                </a>
-              )}
-              <h2>{doc.title}</h2>
-              {doc.excerpt && <div className="excerpt">{markdown(doc.excerpt)}</div>}
-            </header>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
+            {renderEndpoint()}
           </div>
-          <div className="hub-reference-right">&nbsp;</div>
-        </div>
-
-        {renderEndpoint()}
-
-        {
+          {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
-        }
-        <input
-          type="hidden"
-          id={`swagger-${extensions.SEND_DEFAULTS}`}
-          value={oas[extensions.SEND_DEFAULTS]}
-        />
-      </div>
+          }
+          <input
+            type="hidden"
+            id={`swagger-${extensions.SEND_DEFAULTS}`}
+            value={oas[extensions.SEND_DEFAULTS]}
+          />
+        </div>
+      </EndpointErrorBoundary>
     );
   }
 }
