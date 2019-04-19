@@ -1,6 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const BaseUrlContext = require('../contexts/BaseUrl');
+
 // Nabbed from here:
 // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/markdown/renderer.js#L52
 function getHref(href, baseUrl) {
@@ -57,13 +59,13 @@ Anchor.defaultProps = {
   baseUrl: '/',
 };
 
-function createAnchor(baseUrl) {
-  return props => <Anchor baseUrl={baseUrl} {...props} />;
-}
-
-module.exports = (options, sanitizeSchema) => {
+module.exports = (sanitizeSchema) => {
   // This is for our custom link formats
   sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
 
-  return createAnchor(options);
+  return props => (
+    <BaseUrlContext.Consumer>
+      {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
+    </BaseUrlContext.Consumer>
+  );
 };
