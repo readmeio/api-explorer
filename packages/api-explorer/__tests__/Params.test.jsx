@@ -88,7 +88,7 @@ test('should not throw on unknown string format', () => {
         <Params {...props} operation={stringOas.operation('/format-unknown', 'get')} />
       </div>,
     );
-  }).not.toThrow(/No widget "some-unknown-format" for type "string"/)
+  }).not.toThrow(/No widget "some-unknown-format" for type "string"/);
 
   const params = mount(
     <div>
