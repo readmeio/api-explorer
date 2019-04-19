@@ -10,9 +10,11 @@ const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas.json');
+const boolean = require('./fixtures/boolean/oas.json');
 
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet/{petId}', 'get');
+const booleanOas = new Oas(boolean);
 
 const props = {
   oas,
@@ -50,7 +52,22 @@ test('should use custom description component', () => {
 test('boolean should render as <select>', () => {
   const params = mount(
     <div>
-      <Params {...props} operation={oas.operation('/store/order', 'post')} />
+      <Params {...props} operation={booleanOas.operation('/boolean-with-default', 'get')} />
+    </div>,
+  );
+  expect(params.find('input[type="checkbox"]').length).toBe(0);
+
+  const select = params.find('.field-boolean select');
+
+  expect(select.length).toBe(1);
+  expect(select.find('option').length).toBe(2);
+  expect(select.find('option').map(el => el.text())).toEqual(['true', 'false']);
+});
+
+test('boolean should render empty item if default is undefined', () => {
+  const params = mount(
+    <div>
+      <Params {...props} operation={booleanOas.operation('/boolean-without-default', 'get')} />
     </div>,
   );
   expect(params.find('input[type="checkbox"]').length).toBe(0);
