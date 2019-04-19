@@ -251,7 +251,9 @@ describe('should not contains error message when property key missing in object 
         <div>
           <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
         </div>,
-      ).html().includes('Invalid empty object object field configuration'),
+      )
+        .html()
+        .includes('Invalid empty object object field configuration'),
     ).toBe(false);
   });
-})
+});
