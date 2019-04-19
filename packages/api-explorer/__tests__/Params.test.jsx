@@ -120,6 +120,16 @@ test('{ type: string, format: binary } should render as <input type="file">', ()
   expect(params.find('.field-file').length).toBe(1);
 });
 
+test('{ type: string, format: url } should render as <input type="url">', () => {
+  const params = mount(
+    <div>
+      <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
+    </div>,
+  );
+
+  expect(params.find('input[type="url"]').length).toBe(1);
+});
+
 function renderParams(schema, customProps) {
   return mount(
     <div>
@@ -233,6 +243,18 @@ describe('x-explorer-enabled', () => {
           {...props}
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet/{petId}/uploadImage', 'post')}
+        />,
+      ).find('input[type="file"]').length,
+    ).toBe(0);
+  });
+
+  test('should not render any <input type="url">', () => {
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={oas.operation('/pet/{petId}', 'post')}
         />,
       ).find('input[type="file"]').length,
     ).toBe(0);
