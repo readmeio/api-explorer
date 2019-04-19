@@ -59,8 +59,12 @@
                     "format": "string"
                   },
                   "string (format: url)": {
+                      "type": "string",
+                      "format": "url"
+                  },
+                  "string (format: unknown-format)": {
                     "type": "string",
-                    "format": "url"
+                    "format": "unknown-format"
                   },
                   "integer": {
                     "type": "integer",

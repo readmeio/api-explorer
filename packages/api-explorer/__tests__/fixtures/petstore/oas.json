@@ -289,11 +289,6 @@
                   "status": {
                     "description": "Updated status of the pet",
                     "type": "string"
-                  },
-                  "url": {
-                    "description": "Updated url of the pet",
-                    "type": "string",
-                    "format": "url"
                   }
                 }
               }
