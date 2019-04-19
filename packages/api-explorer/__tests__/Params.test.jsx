@@ -11,10 +11,12 @@ const Oas = require('../src/lib/Oas');
 const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas.json');
 const boolean = require('./fixtures/boolean/oas.json');
+const string = require('./fixtures/string/oas.json');
 
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet/{petId}', 'get');
 const booleanOas = new Oas(boolean);
+const stringOas = new Oas(string);
 
 const props = {
   oas,
@@ -79,6 +81,24 @@ test('boolean should render empty item if default is undefined', () => {
   expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
 });
 
+test('should not throw on unknown string format', () => {
+  expect(() => {
+    mount(
+      <div>
+        <Params {...props} operation={stringOas.operation('/format-unknown', 'get')} />
+      </div>,
+    );
+  }).not.toThrow(/No widget "some-unknown-format" for type "string"/)
+
+  const params = mount(
+    <div>
+      <Params {...props} operation={stringOas.operation('/format-unknown', 'get')} />
+    </div>,
+  );
+
+  expect(params.find('input').length).toBe(1);
+});
+
 const jsonOperation = new Operation(oas, '/path', 'post', {
   requestBody: {
     content: {
@@ -123,7 +143,7 @@ test('{ type: string, format: binary } should render as <input type="file">', ()
 test('{ type: string, format: url } should render as <input type="url">', () => {
   const params = mount(
     <div>
-      <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
+      <Params {...props} operation={stringOas.operation('/format-url', 'get')} />
     </div>,
   );
 
