@@ -59,7 +59,7 @@ Anchor.defaultProps = {
   baseUrl: '/',
 };
 
-module.exports = (sanitizeSchema) => {
+module.exports = sanitizeSchema => {
   // This is for our custom link formats
   sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
 
