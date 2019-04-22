@@ -58,6 +58,14 @@
                     "type": "string",
                     "format": "string"
                   },
+                  "string (format: url)": {
+                      "type": "string",
+                      "format": "url"
+                  },
+                  "string (format: unknown-format)": {
+                    "type": "string",
+                    "format": "unknown-format"
+                  },
                   "integer": {
                     "type": "integer",
                     "format": "int64",
@@ -131,6 +139,9 @@
                   "object with `additionalProperties: true`": {
                     "type": "object",
                     "additionalProperties": true
+                  },
+                  "object without `properties`": {
+                    "type": "object"
                   }
                 }
               }
