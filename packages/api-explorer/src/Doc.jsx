@@ -111,11 +111,17 @@ class Doc extends React.Component {
     return <Select options={list} onChange={(e) => this.setState({selectedContentType: e.currentTarget.value})} />
   }
 
-  renderCodeAndResponse(){
+  renderCodeAndResponse() {
     return(
       // <div className="hub-reference-section hub-reference-section-code">
       <div style={{display: 'grid', gridGap: '8px'}}>
         {/* <div className="hub-reference-left"> */}
+        <ContentWithTitle 
+          title={'Description'} 
+          showBorder={false}
+          content={<span style={{color: 'white'}}>
+            {this.oas.servers[0].url}{this.getOperation().path}</span>} 
+        />
         <ContentWithTitle title={'Examples'} subheader={this.renderContentTypeSelect()} content={this.renderCodeSample()} />
         <ContentWithTitle title={'Results'}  content={this.renderResponse()} />
       </div>
@@ -235,7 +241,7 @@ class Doc extends React.Component {
                 }}
               className="hub-api"
             > { /** this class prevent breaking GUI. Find a better way.  CSS class dependency (Riccardo Di Benedetto) */}
-              
+
               {this.renderCodeAndResponse()}
               {this.renderResponseSchema()}
             </div>
