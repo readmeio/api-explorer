@@ -82,8 +82,9 @@ class Params extends Component{
 
     return (
       jsonSchema &&
-      jsonSchema.map(schema => {
+      jsonSchema.map((schema) => {
         return (<ContentWithTitle
+          key={schema.label+schema.schema.ref}
           title={schema.label}
           content={this.renderParam(schema)}
           showDivider={false}
