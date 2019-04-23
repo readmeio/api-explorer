@@ -1,7 +1,9 @@
 import React, {Fragment} from 'react'
 
 import PropTypes from 'prop-types'
+import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
+
 import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
 import extensions from '@readme/oas-extensions'
@@ -172,7 +174,41 @@ class Doc extends React.Component {
       operation.responses && (
         <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />
       )
-    );
+    )
+  }
+
+  renderContentWithUpperTitle(title, content){
+    return(
+      <ContentWithTitle
+        title={title}
+        content={content}
+        showDivider={false}
+        theme={'dark'}
+        showBorder={false}
+        titleUpperCase
+      />
+    )
+  }
+  renderDescription(){
+    const {doc} = this.props
+    return(
+      <Fragment>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          {this.props.suggestedEdits && (
+                  // eslint-disable-next-line jsx-a11y/href-no-hash
+          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <a
+              style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
+              href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
+            >
+              <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+            </a>
+          </div>
+        )} 
+          {this.renderContentWithUpperTitle('Description', doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available')}
+        </div>
+      </Fragment>
+    )
   }
 
   renderEndpoint() {
@@ -182,26 +218,13 @@ class Doc extends React.Component {
         {doc.type === 'endpoint' && (
           <Fragment>
             <div className="hub-reference-left" >
-              <header>
-                {this.props.suggestedEdits && (
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
-                <a
-                  className="hub-reference-edit pull-right"
-                  href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
-                >
-                  <i className="icon icon-register" />
-                    Suggest Edits
-                  </a>
-                )}
-                <h3>Description</h3>
-                {/* Excerpt === operation.description  (lib/create-docs.js) */}
-                {doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available'}
-              </header>
-            
               <div className="hub-api"> { /** this class prevent breaking GUI. Find a better way. CSS class dependency (Riccardo Di Benedetto) */}
-                {this.renderPathUrl()}  
-                {this.renderLogs()}
-                {this.renderParams()}
+                <div style={{display: 'grid', gridTemplateColumns: '1fr', gridGap: '16px', paddingRight: '16px'}}>
+                  {this.renderPathUrl()}  
+                  {this.renderDescription()}
+                  {this.renderLogs()}
+                  {this.renderParams()}
+                </div>
               </div>
             </div>
             <div

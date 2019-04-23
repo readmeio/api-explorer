@@ -91,7 +91,7 @@ function PathUrl({
     borderRadius: 10
   }
   return (
-    <div className="api-definition-parent" style={{padding: 10}}>
+    <div className="api-definition-parent">
       <div className="api-definition" style={containerStyle}>
         {/* <div className="api-definition-container"> */}
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>

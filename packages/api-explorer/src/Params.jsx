@@ -1,10 +1,13 @@
-const React = require('react');
+import React, {Component} from 'react'
+
 const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
+
+import ContentWithTitle from './components/ContentWithTitle'
 
 const DescriptionField = require('./form-components/DescriptionField');
 const createBaseInput = require('./form-components/BaseInput');
@@ -18,35 +21,30 @@ const Oas = require('./lib/Oas');
 const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
-function Params({
-  oas,
-  operation,
-  formData,
-  onChange,
-  onSubmit,
-  BaseInput,
-  SelectWidget,
-  ArrayField,
-  SchemaField,
-  TextareaWidget,
-  FileWidget,
-}) {
-  const jsonSchema = parametersToJsonSchema(operation, oas);
+class Params extends Component{
+  
+  renderParam(schema) {
+    const{
+      operation,
+      formData,
+      onChange,
+      onSubmit,
+      BaseInput,
+      SelectWidget,
+      ArrayField,
+      SchemaField,
+      TextareaWidget,
+      FileWidget,
+    } = this.props
 
-  return (
-    jsonSchema &&
-    jsonSchema.map(schema => {
-      return [
-        <div className="param-type-header" key={`${schema.type}-header`}>
-          <h3>{schema.label}</h3>
-          <div className="param-header-border" />
-        </div>,
-        <Form
-          key={`${schema.type}-form`}
-          id={`form-${operation.operationId}`}
-          idPrefix={operation.operationId}
-          schema={schema.schema}
-          widgets={{
+    return(
+      <Form
+        key={`${schema.type}-form`}
+        id={`form-${operation.operationId}`}
+        idPrefix={operation.operationId}
+        schema={schema.schema}
+        style={{margin: 0}}
+        widgets={{
             int64: UpDownWidget,
             int32: UpDownWidget,
             double: UpDownWidget,
@@ -62,22 +60,40 @@ function Params({
             BaseInput,
             SelectWidget,
           }}
-          onSubmit={onSubmit}
-          formData={formData[schema.type]}
-          onChange={form => {
+        onSubmit={onSubmit}
+        formData={formData[schema.type]}
+        onChange={form => {
             return onChange({ [schema.type]: form.formData });
           }}
-          fields={{
+        fields={{
             DescriptionField,
             ArrayField,
             SchemaField,
           }}
-        >
-          <button type="submit" style={{ display: 'none' }} />
-        </Form>,
-      ];
-    })
-  );
+      >
+        <button type="submit" style={{ display: 'none' }} />
+      </Form>
+    )
+  }
+
+  render() {
+    const {oas, operation} = this.props
+    const jsonSchema = parametersToJsonSchema(operation, oas);
+
+    return (
+      jsonSchema &&
+      jsonSchema.map(schema => {
+        return (<ContentWithTitle
+          title={schema.label}
+          content={this.renderParam(schema)}
+          showDivider={false}
+          theme={'dark'}
+          showBorder={false}
+          titleUpperCase
+        />)
+      })
+    )
+    }
 }
 
 Params.propTypes = {
