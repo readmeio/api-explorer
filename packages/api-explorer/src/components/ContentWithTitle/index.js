@@ -39,7 +39,7 @@ export default function ContentWithTitle({
         <div style={showBorder ? {border: `2px solid ${colors.borderContent}`} : {}}>
           {content}
         </div>
-        {showDivider ? <div style={{height: 1, background: colors.divider, margin: 8}} /> : null}
+        {showDivider ? <div style={{height: 1, background: colors.divider, margin: 0, marginTop: 5, opacity: 0.2}} /> : null}
       </div>
     )
 }
