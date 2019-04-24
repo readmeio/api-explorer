@@ -115,7 +115,7 @@ class Doc extends React.Component {
     const definitionStyle = {
       color: 'white',
       whiteSpace: 'pre-wrap',
-      wordWrap: 'break-word',
+      wordBreak: 'break-word',
     }
     return(
       // <div className="hub-reference-section hub-reference-section-code">
