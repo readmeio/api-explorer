@@ -8,7 +8,7 @@
 }
 
 .mia-ctc-button span:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: white;
   background-color: black;
   transition: color ease 0.3s 0, background-color ease 0.3s 0;
   -webkit-transition: color ease 0.3s 0, background-color ease 0.3s 0;
