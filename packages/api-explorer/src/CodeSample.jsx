@@ -96,44 +96,48 @@ class CodeSample extends React.Component {
   }
   */
 
- renderLanguageItem(lang, setLanguage){
-  const {language} = this.props
-  return(
-    <li key={lang} style={{...lang === language ? style.selected : {}}}>
-      {
-          // eslint-disable-next-line jsx-a11y/href-no-hash
-        <a
-          href="#"
-          className={`hub-lang-switch-${lang}`}
-          onClick={e => {
-              e.preventDefault();
-              setLanguage(lang);
-            }}
-        >
-          {generateCodeSnippet.getLangName(lang)}
-        </a>
-        }
-    </li>
-  )
-}
-renderCodeWithListSection(snippet, code, languagesList, setLanguage){
-  const {language} = this.props
+  renderLanguageItem(lang, setLanguage){
+    const {language} = this.props
+    return(
+      <li key={lang} style={{...lang === language ? style.selected : {}}}>
+        {
+            // eslint-disable-next-line jsx-a11y/href-no-hash
+          <a
+            href="#"
+            className={`hub-lang-switch-${lang}`}
+            onClick={e => {
+                e.preventDefault();
+                setLanguage(lang);
+              }}
+          >
+            {generateCodeSnippet.getLangName(lang)}
+          </a>
+          }
+      </li>
+    )
+  }
 
-  return(
-    <Fragment>
-      <ul className="code-sample-tabs">
-        {languagesList.map(lang => this.renderLanguageItem(lang, setLanguage))}
-      </ul>
-      {
-        snippet && (
+  renderCodeWithListSection(snippet, code, languagesList, setLanguage){
+    const {language} = this.props
+
+    return(
+      <Fragment>
+        <ul className="code-sample-tabs">
+          {languagesList.map(lang => this.renderLanguageItem(lang, setLanguage))}
+        </ul>
         <div className="hub-code-auto" style={{borderTop: '2px solid #fff'}}>
           <CopyCode code={code} />
-          <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
         </div>
-            )}
-    </Fragment>
-  )
-}
+        {
+          snippet && (
+          <div className="hub-code-auto"> { /* style={{borderTop: '2px solid #fff'}} */ }
+            <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
+          </div>
+          )
+        }
+      </Fragment>
+    )
+  }
 
   render() {
     const { oas, setLanguage, operation, formData, language, examples, auth,  selectedContentType} = this.props;
@@ -174,6 +178,7 @@ CodeSample.propTypes = {
 
 CodeSample.defaultProps = {
   examples: [],
+  selectedContentType: '',
 };
 
 module.exports = CodeSample;
