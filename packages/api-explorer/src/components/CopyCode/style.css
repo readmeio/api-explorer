@@ -5,6 +5,7 @@
   cursor: pointer;
   color: #aaa;
   border: 0px;
+  margin-top: 1px;
 }
 
 .mia-ctc-button span:hover {
