@@ -37,7 +37,8 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
-      selectedContentType: null
+      selectedContentType: null,
+      error: false
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
@@ -80,7 +81,14 @@ class Doc extends React.Component {
       this.setState({
         loading: false,
         result: await parseResponse(har, res),
+        error: false
       });
+    }).catch(e => {
+      this.setState({
+        loading: false,
+        error: true
+      })
+      console.log(e)
     });
   }
 
@@ -288,6 +296,7 @@ class Doc extends React.Component {
   }
 
   renderPathUrl() {
+    const {error} = this.state
     return (
       <PathUrl
         oas={this.oas}
@@ -302,6 +311,7 @@ class Doc extends React.Component {
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
         auth={this.props.auth}
+        error={error}
       />
     );
   }

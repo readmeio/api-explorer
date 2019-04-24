@@ -7,5 +7,14 @@ export default {
     getLight: '#e6f7ff',
     delete: '#f5222d',
     deleteLight: '#fff1f0',
-    bold: '#666666'
+    bold: '#666666',
+    pathUrl: '#a8a7a7',
+    pathVariable: '#5a5a5a',
+    pathUrlShadow: 'rgba(81,88,90,0.17)',
+    inputColor: '#666',
+    inputBorder: '#ddd',
+    authType: '#a8a7a7',
+    success: 'green',
+    error: 'red',
+    resultsTab: '#fff'
   }

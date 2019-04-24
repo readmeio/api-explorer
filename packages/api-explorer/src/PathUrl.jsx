@@ -3,8 +3,7 @@ import {Button, Tag} from 'antd'
 import colors from './colors'
 
 const React = require('react');
-const PropTypes = require('prop-types');
-const classNames = require('classnames');
+const PropTypes = require('prop-types')
 const AuthBox = require('./AuthBox');
 const Oas = require('./lib/Oas');
 
@@ -21,28 +20,15 @@ function splitPath(path) {
     });
 }
 
-function renderButtonTry(loading, onSubmit){
-  /* <button
-                className={classNames('api-try-it-out', { active: dirty })}
-                type="submit"
-                disabled={loading}
-                onClick={onSubmit}
-              > */
+function renderButtonTry(loading, onSubmit, error){
   return(
-    
     <Button 
       disabled={loading}
       onClick={onSubmit}
-      type={'primary'}
+      type={error ? 'danger' : 'primary'}
+      loading={loading}
     >
-      {!loading && (
-        <span className="try-it-now-btn">
-          <span className="fa fa-compass" />&nbsp;
-          <span>Try It</span>
-        </span>
-      )}
-
-      {loading && <i className="fa fa-circle-o-notch fa-spin" />}
+      {error ? 'Error' : 'Try It'}
     </Button>
   )
 }
@@ -50,25 +36,38 @@ function renderOperationMethod(operation){
   return(
     <Tag color={colors[operation.method]}>{operation.method}</Tag>
   )
-  // return(
-  //   <span 
-  //     style={style} 
-  //     className={`pg-type-big pg-type type-${operation.method}`}
-  //   >{operation.method}</span>
-  // )
 }
+
 function renderUrl(oas, operation){
+  const style = {
+    container: {
+      color: colors.pathUrl,
+      fontSize: 15,
+      wordBreak: 'break-all'
+    },
+    baseUrl: {
+
+    },
+    text: {
+
+    },
+    variable: {
+      color: colors.pathVariable,
+      borderBottom: '1px solid #ccc'
+    }
+  }
   return(
     oas.servers &&
       oas.servers.length > 0 && (
-        <span className="definition-url">
+        <div style={style.container}>
           <span className="url">{oas.url()}</span>
           {splitPath(operation.path).map(part => (
-            <span key={part.value} className={`api-${part.type}`}>
+            <span key={part.value} style={style[part.type]}>
               {part.value}
             </span>
           ))}
-        </span>)
+        </div>
+      )
   )
 }
 function PathUrl({
@@ -84,43 +83,45 @@ function PathUrl({
   onSubmit,
   oauth,
   auth,
+  error
 }) {
   const containerStyle = {
     background: '#f0f2f4',
     padding: '8px 18px',
-    borderRadius: 10
+    borderRadius: 10,
+    boxShadow:  `0 1px 0 ${colors.pathUrlShadow}`,
+    color: colors.pathUrl
   }
   return (
-    <div className="api-definition-parent">
-      <div className="api-definition" style={containerStyle}>
-        {/* <div className="api-definition-container"> */}
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+    <div style={containerStyle}>
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
   
-          <div>
-            {renderOperationMethod(operation)}
+        <div style={{display: 'flex'}}>
+          {renderOperationMethod(operation)}
 
-            {renderUrl(oas, operation)}
-          </div>
+          {renderUrl(oas, operation)}
+        </div>
           
-          {oas[extensions.EXPLORER_ENABLED] && (
-            <div className="api-definition-actions">
-              <AuthBox
-                operation={operation}
-                onChange={onChange}
-                onSubmit={onSubmit}
-                open={showAuthBox}
-                needsAuth={needsAuth}
-                toggle={toggleAuth}
-                authInputRef={authInputRef}
-                oauth={oauth}
-                auth={auth}
-              />
+        {oas[extensions.EXPLORER_ENABLED] && (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <div style={{marginRight: 10}}>
+            <AuthBox
+              operation={operation}
+              onChange={onChange}
+              onSubmit={onSubmit}
+              open={showAuthBox}
+              needsAuth={needsAuth}
+              toggle={toggleAuth}
+              authInputRef={authInputRef}
+              oauth={oauth}
+              auth={auth}
+            />
+          </div>
 
-              {renderButtonTry(loading, onSubmit)}
-            </div>
+          {renderButtonTry(loading, onSubmit, error)}
+        </div>
           )}
 
-        </div>
       </div>
     </div>
   );
@@ -139,6 +140,7 @@ PathUrl.propTypes = {
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
+  error: PropTypes.bool
 };
 
 PathUrl.defaultProps = {
@@ -146,6 +148,7 @@ PathUrl.defaultProps = {
   needsAuth: false,
   authInputRef: () => {},
   auth: {},
+  error: false
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;
