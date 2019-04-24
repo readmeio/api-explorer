@@ -125,6 +125,7 @@ class CodeSample extends React.Component {
       flexDirection: 'row-reverse',
       padding: '5px',
       paddingRight: '10px',
+      paddingBottom: '0px',
     }
 
     return(
