@@ -5,6 +5,7 @@ const extensions = require('@readme/oas-extensions');
 const VariablesContext = require('@readme/variable/contexts/Variables');
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
+const BaseUrlContext = require('@readme/markdown/contexts/BaseUrl');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 
 const ErrorBoundary = require('./ErrorBoundary');
@@ -82,25 +83,27 @@ class ApiExplorer extends React.Component {
             <VariablesContext.Provider value={this.props.variables}>
               <OauthContext.Provider value={this.props.oauth}>
                 <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
-                  <SelectedAppContext.Provider value={this.state.selectedApp}>
-                    <Doc
-                      key={doc._id}
-                      doc={doc}
-                      oas={this.getOas(doc)}
-                      setLanguage={this.setLanguage}
-                      flags={this.props.flags}
-                      user={this.props.variables.user}
-                      Logs={this.props.Logs}
-                      baseUrl={this.props.baseUrl.replace(/\/$/, '')}
-                      appearance={this.props.appearance}
-                      language={this.state.language}
-                      oauth={this.props.oauth}
-                      suggestedEdits={this.props.suggestedEdits}
-                      tryItMetrics={this.props.tryItMetrics}
-                      auth={this.state.auth}
-                      onAuthChange={this.onAuthChange}
-                    />
-                  </SelectedAppContext.Provider>
+                  <BaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
+                    <SelectedAppContext.Provider value={this.state.selectedApp}>
+                      <Doc
+                        key={doc._id}
+                        doc={doc}
+                        oas={this.getOas(doc)}
+                        setLanguage={this.setLanguage}
+                        flags={this.props.flags}
+                        user={this.props.variables.user}
+                        Logs={this.props.Logs}
+                        baseUrl={this.props.baseUrl.replace(/\/$/, '')}
+                        appearance={this.props.appearance}
+                        language={this.state.language}
+                        oauth={this.props.oauth}
+                        suggestedEdits={this.props.suggestedEdits}
+                        tryItMetrics={this.props.tryItMetrics}
+                        auth={this.state.auth}
+                        onAuthChange={this.onAuthChange}
+                      />
+                    </SelectedAppContext.Provider>
+                  </BaseUrlContext.Provider>
                 </GlossaryTermsContext.Provider>
               </OauthContext.Provider>
             </VariablesContext.Provider>

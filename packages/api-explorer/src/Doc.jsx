@@ -132,12 +132,7 @@ class Doc extends React.Component {
           </div>
         )}
 
-        <Content
-          baseUrl={this.props.baseUrl}
-          body={doc.body}
-          flags={this.props.flags}
-          isThreeColumn
-        />
+        <Content body={doc.body} flags={this.props.flags} isThreeColumn />
       </Fragment>
     );
   }
@@ -155,12 +150,7 @@ class Doc extends React.Component {
                   {this.renderParams()}
                 </Fragment>
               )}
-              <Content
-                baseUrl={this.props.baseUrl}
-                body={doc.body}
-                flags={this.props.flags}
-                isThreeColumn="left"
-              />
+              <Content body={doc.body} flags={this.props.flags} isThreeColumn="left" />
             </div>
 
             <div className="hub-reference-right">
@@ -174,12 +164,7 @@ class Doc extends React.Component {
               <div className="hub-reference-right switcher">
                 {this.renderResponseSchema('dark')}
               </div>
-              <Content
-                baseUrl={this.props.baseUrl}
-                body={doc.body}
-                flags={this.props.flags}
-                isThreeColumn="right"
-              />
+              <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
             </div>
           </Fragment>
         </div>
