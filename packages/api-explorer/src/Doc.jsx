@@ -112,15 +112,23 @@ class Doc extends React.Component {
   }
 
   renderCodeAndResponse() {
+    const definitionStyle = {
+      color: 'white',
+      whiteSpace: 'pre-wrap',
+      wordWrap: 'break-word',
+    }
     return(
       // <div className="hub-reference-section hub-reference-section-code">
       <div style={{display: 'grid', gridGap: '8px'}}>
         {/* <div className="hub-reference-left"> */}
         <ContentWithTitle 
-          title={'Description'} 
+          title={'Definition'} 
           showBorder={false}
-          content={<span style={{color: 'white'}}>
-            {this.oas.servers[0].url}{this.getOperation().path}</span>} 
+          content={
+            <pre style={definitionStyle}>
+              {this.oas.servers[0].url}{this.getOperation().path}
+            </pre>
+          } 
         />
         <ContentWithTitle title={'Examples'} subheader={this.renderContentTypeSelect()} content={this.renderCodeSample()} />
         <ContentWithTitle title={'Results'}  content={this.renderResponse()} />
