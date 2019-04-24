@@ -6,6 +6,7 @@ const Tab = require('./Tab');
 const { Operation } = require('./lib/Oas');
 
 function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
+  console.log('ResponseTab ', responseTab)
   return (
     <ul className="code-sample-tabs hub-reference-results-header">
       <Tab

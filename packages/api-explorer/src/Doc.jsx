@@ -8,6 +8,7 @@ import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
 import extensions from '@readme/oas-extensions'
 import Waypoint from 'react-waypoint'
+import {get} from 'lodash'
 
 import ContentWithTitle from './components/ContentWithTitle'
 import Select from './components/Select'
@@ -25,6 +26,32 @@ const Oas = require('./lib/Oas');
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 const getContentTypeFromOperation = require('./lib/get-content-type')
+
+
+function Description({doc, suggestedEdits, baseUrl}){
+  return(
+    <div style={{display: 'flex', flexDirection: 'column'}}>
+      {suggestedEdits && (
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <a
+          style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
+          href={`${baseUrl}/reference-edit/${doc.slug}`}
+        >
+          <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+        </a>
+      </div>
+        )} 
+      <ContentWithTitle
+        title={'Description'}
+        content={doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available'}
+        showDivider={false}
+        theme={'dark'}
+        showBorder={false}
+        titleUpperCase
+      />
+    </div>
+    )
+}
 
 class Doc extends React.Component {
   constructor(props) {
@@ -88,7 +115,6 @@ class Doc extends React.Component {
         loading: false,
         error: true
       })
-      console.log(e)
     });
   }
 
@@ -121,29 +147,32 @@ class Doc extends React.Component {
 
   renderCodeAndResponse() {
     return(
-      // <div className="hub-reference-section hub-reference-section-code">
       <div style={{display: 'grid', gridGap: '8px'}}>
-        {/* <div className="hub-reference-left"> */}
         <ContentWithTitle 
           title={'Description'} 
           showBorder={false}
-          content={<span style={{color: 'white'}}>
-            {this.oas.servers[0].url}{this.getOperation().path}</span>} 
+          content={
+            <span style={{color: 'white'}}>
+              {this.oas.servers[0].url}{this.getOperation().path}
+            </span>
+          } 
         />
-        <ContentWithTitle title={'Examples'} subheader={this.renderContentTypeSelect()} content={this.renderCodeSample()} />
-        <ContentWithTitle title={'Results'}  content={this.renderResponse()} />
+        <ContentWithTitle 
+          title={'Examples'} 
+          subheader={this.renderContentTypeSelect()} 
+          content={this.renderCodeSample()} 
+        />
+        <ContentWithTitle 
+          title={'Results'}  
+          content={this.renderResponse()} 
+        />
       </div>
     )
   }
 
   renderCodeSample() {
     const {selectedContentType} = this.state
-    let examples;
-    try {
-      examples = this.props.doc.api.examples.codes;
-    } catch (e) {
-      examples = [];
-    }
+    const examples = get(this.props, 'doc.api.examples.codes', [])
 
     return (
       <CodeSample
@@ -160,12 +189,8 @@ class Doc extends React.Component {
   }
 
   renderResponse() {
-    let exampleResponses;
-    try {
-      exampleResponses = this.props.doc.api.results.codes;
-    } catch (e) {
-      exampleResponses = [];
-    }
+    const exampleResponses = get(this.props, 'doc.api.results.codes', [])
+    
     return (
       <Response
         result={this.state.result}
@@ -189,42 +214,8 @@ class Doc extends React.Component {
     )
   }
 
-  renderContentWithUpperTitle(title, content){
-    return(
-      <ContentWithTitle
-        title={title}
-        content={content}
-        showDivider={false}
-        theme={'dark'}
-        showBorder={false}
-        titleUpperCase
-      />
-    )
-  }
-  renderDescription(){
-    const {doc} = this.props
-    return(
-      <Fragment>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          {this.props.suggestedEdits && (
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
-          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <a
-              style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
-              href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
-            >
-              <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
-            </a>
-          </div>
-        )} 
-          {this.renderContentWithUpperTitle('Description', doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available')}
-        </div>
-      </Fragment>
-    )
-  }
-
   renderEndpoint() {
-    const { doc } = this.props
+    const { doc, suggestedEdits, baseUrl } = this.props
     return (
       <Fragment>
         {doc.type === 'endpoint' && (
@@ -233,7 +224,11 @@ class Doc extends React.Component {
               <div className="hub-api"> { /** this class prevent breaking GUI. Find a better way. CSS class dependency (Riccardo Di Benedetto) */}
                 <div style={{display: 'grid', gridTemplateColumns: '1fr', gridGap: '16px', paddingRight: '16px'}}>
                   {this.renderPathUrl()}  
-                  {this.renderDescription()}
+                  <Description 
+                    doc={doc} 
+                    suggestedEdits={suggestedEdits}  
+                    baseUrl={baseUrl}
+                  />
                   {this.renderLogs()}
                   {this.renderParams()}
                 </div>

@@ -1,4 +1,8 @@
 const React = require('react');
+
+import BlockWithTab from './components/BlockWithTab'
+import IconStatus from './IconStatus'
+
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
 
@@ -6,6 +10,7 @@ const ResponseTabs = require('./ResponseTabs');
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
 const Example = require('./Example');
+const showCodeResults = require('./lib/show-code-results');
 
 const Oas = require('./lib/Oas');
 
@@ -34,7 +39,17 @@ class Response extends React.Component {
     const { result, oas, operation, oauth, hideResults, exampleResponses } = this.props;
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
-
+    let itemsResult = []
+    if(result){
+      itemsResult = [
+        {value: 'result', label: <IconStatus status={result.status} />},
+        {value: 'metadata', label: 'Metadata'},
+      ]
+      if(showCodeResults(operation).length > 0){
+        itemsResult.push({label: 'to examples', onClick: hideResults})
+      }
+    }
+    
     return (
       <div
         className={classNames('hub-reference-right hub-reference-results tabber-parent', {
@@ -42,6 +57,21 @@ class Response extends React.Component {
         })}
       >
         <div className="hub-reference-results-slider">
+          <div className="hub-reference-results-explorer code-sample">
+            {result !== null && (
+            <BlockWithTab
+              items={itemsResult}
+              selected={responseTab}
+              onClick={this.setTab}
+            >
+
+              {responseTab === 'result' && (
+              <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
+                )}
+              {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+              </BlockWithTab>
+            )}
+          </div> 
           <div className="hub-reference-results-explorer code-sample">
             {result !== null && (
               <span>

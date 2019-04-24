@@ -2,14 +2,39 @@ const React = require('react');
 const IconStatus = require('./IconStatus');
 const PropTypes = require('prop-types');
 
+import colors from './colors'
+
 function Meta({ label, children }) {
+  const style = {
+    label: {
+      textTransform: 'uppercase',
+      fontSize: 11,
+      marginBottom: 3,
+      color: colors.metadataLabel
+    },
+    content: {
+      margin: '0px 10px',
+      padding: 0,
+      fontSize: 11,
+      fontFamily: 'monospace',
+      color: colors.metadataContent
+    },
+    container: {
+      display: 'grid', 
+      gridTemplateColumns: '1fr', 
+      gridTemplateRows: 'auto 1fr',
+      padding: 5
+    }
+  }
   return (
-    <div className="meta">
+    <div style={style.container}>
       {
         // eslint-disable-next-line jsx-a11y/label-has-for
-        <label>{label}</label>
+        <label style={style.label}>{label}</label>
       }
-      {children}
+      <div style={style.content}>
+        {children}
+      </div>
     </div>
   );
 }
@@ -21,24 +46,21 @@ Meta.propTypes = {
 
 function ResponseMetadata({ result }) {
   return (
-    <div
-      className="hub-reference-results-meta tabber-body-metadata tabber-body"
-      style={{ display: 'block' }}
-    >
+    <div style={{ display: 'block' }}>
       <Meta label="Method">
-        <div>{result.method.toString()}</div>
+        {result.method.toString()}
       </Meta>
 
       <Meta label="URL">
-        <div>{result.url}</div>
+        {result.url}
       </Meta>
 
       <Meta label="Request Headers">
-        <pre>{result.requestHeaders.join('\n')}</pre>
+        {result.requestHeaders.join('\n')}
       </Meta>
 
       <Meta label="Request Data">
-        <pre>{result.requestBody}</pre>
+        {result.requestBody}
       </Meta>
 
       <Meta label="Status">
@@ -48,7 +70,7 @@ function ResponseMetadata({ result }) {
       </Meta>
 
       <Meta label="Response Headers">
-        <pre>{result.responseHeaders.join('\n')}</pre>
+        {result.responseHeaders.join('\n')}
       </Meta>
     </div>
   );

@@ -17,9 +17,12 @@ class ApiList extends React.Component {
   }
 
   componentDidMount() {
-    // fetch('https://api.apis.guru/v2/list.json')
-    //   .then(res => res.json())
-    //   .then(apis => this.setState({ apis: Object.assign({}, this.state.apis, apis) }));
+    if (this.props.doFetch) {
+      fetch('https://api.apis.guru/v2/list.json')
+      .then(res => res.json())
+      .then(apis => this.setState({ apis: Object.assign({}, this.state.apis, apis) }));
+    }
+
 
     this.props.fetchSwagger(this.state.selected);
   }
@@ -56,6 +59,10 @@ class ApiList extends React.Component {
 
 ApiList.propTypes = {
   fetchSwagger: PropTypes.func.isRequired,
+  doFetch: PropTypes.bool,
+};
+ApiList.defaultProps = {
+  doFetch: true,
 };
 
 module.exports = ApiList;

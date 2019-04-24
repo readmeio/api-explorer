@@ -90,10 +90,13 @@ class ApiExplorer extends React.Component {
       margin: '10px',
       border: '1px solid',
       padding: '10px',
-      background: '#33373a'
+      background: colors.descriptionBackground
     }
+    const {description} = this.state
     return(
-      <div style={style}>{markdown(this.state.description)}</div>
+      description ?
+        <div style={style}>{markdown(description)}</div> :
+        null
     )
   }
 
@@ -115,7 +118,7 @@ class ApiExplorer extends React.Component {
                 appearance={this.props.appearance}
                 language={this.state.language}
                 oauth={this.props.oauth}
-                suggestedEdits={this.props.suggestedEdits}
+                suggestedEdits={false}
                 tryItMetrics={this.props.tryItMetrics}
                 auth={this.state.auth}
                 onAuthChange={this.onAuthChange}

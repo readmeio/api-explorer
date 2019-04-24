@@ -48,12 +48,10 @@ function renderUrl(oas, operation){
     baseUrl: {
 
     },
-    text: {
-
-    },
+    text: {},
     variable: {
       color: colors.pathVariable,
-      borderBottom: '1px solid #ccc'
+      borderBottom: `1px solid ${colors.pathVariableBorder}`
     }
   }
   return(
@@ -86,7 +84,7 @@ function PathUrl({
   error
 }) {
   const containerStyle = {
-    background: '#f0f2f4',
+    background: colors.pathUrlBackground,
     padding: '8px 18px',
     borderRadius: 10,
     boxShadow:  `0 1px 0 ${colors.pathUrlShadow}`,

@@ -11,10 +11,16 @@ export default {
     pathUrl: '#a8a7a7',
     pathVariable: '#5a5a5a',
     pathUrlShadow: 'rgba(81,88,90,0.17)',
+    pathUrlBackground: '#f0f2f4',
+    pathVariableBorder: '#ccc',
     inputColor: '#666',
     inputBorder: '#ddd',
     authType: '#a8a7a7',
     success: 'green',
     error: 'red',
-    resultsTab: '#fff'
+    resultsTab: '#fff',
+    descriptionBackground: '#33373a',
+    BlockWithTabSelected: '#000',
+    metadataLabel: 'rgba(255,255,255,.4)',
+    metadataContent: '#fff'
   }
