@@ -30,14 +30,6 @@ class CopyCode extends React.Component {
   }
 
   render() {
-    // const buttonStyle = {
-    //   textTransform: 'uppercase',
-    //   background: 'transparent',
-    //   color: '#aaaaaa',
-    //   cursor: 'pointer',
-    //   border: '0px',
-    // }
-
     return (
       <CopyToClipboard class="mia-ctc-button" text={this.state.code} onCopy={this.onCopy}>
         <span>
