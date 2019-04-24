@@ -14,24 +14,19 @@ class CopyCode extends React.Component {
     this.onCopy = this.onCopy.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const code = typeof prevProps.code === 'function' ? prevProps.code() : prevProps.code;
-    if (code !== this.state.code) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ code });
-    }
-  }
-
   onCopy() {
-    this.setState({ copied: true });
-    setTimeout(() => {
-      this.setState({ copied: false });
-    }, 1000);
+    if (!this.state.copied) {
+      this.setState({ copied: true }, () => {
+        setTimeout(() => {
+          this.setState({ copied: false })
+        }, 1000)
+      });
+    }
   }
 
   render() {
     return (
-      <CopyToClipboard class="mia-ctc-button" text={this.state.code} onCopy={this.onCopy}>
+      <CopyToClipboard className="mia-ctc-button" text={this.props.code} onCopy={this.onCopy}>
         <span>
           {this.state.copied ? <span>Copied</span> : <span>Copy</span>}
         </span>
