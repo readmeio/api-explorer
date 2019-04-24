@@ -1,3 +1,5 @@
+import './style.css'
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const { CopyToClipboard } = require('react-copy-to-clipboard');
@@ -5,7 +7,6 @@ const { CopyToClipboard } = require('react-copy-to-clipboard');
 class CopyCode extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       copied: false,
     };
@@ -13,28 +14,22 @@ class CopyCode extends React.Component {
     this.onCopy = this.onCopy.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const code = typeof prevProps.code === 'function' ? prevProps.code() : prevProps.code;
-
-    if (code !== this.state.code) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ code });
-    }
-  }
-
   onCopy() {
-    this.setState({ copied: true });
-    setTimeout(() => {
-      this.setState({ copied: false });
-    }, 1000);
+    if (!this.state.copied) {
+      this.setState({ copied: true }, () => {
+        setTimeout(() => {
+          this.setState({ copied: false })
+        }, 1000)
+      });
+    }
   }
 
   render() {
     return (
-      <CopyToClipboard text={this.state.code} onCopy={this.onCopy}>
-        <button className="copy-code-button main_background">
+      <CopyToClipboard className="mia-ctc-button" text={this.props.code} onCopy={this.onCopy}>
+        <span>
           {this.state.copied ? <span>Copied</span> : <span>Copy</span>}
-        </button>
+        </span>
       </CopyToClipboard>
     );
   }

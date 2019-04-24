@@ -6,7 +6,7 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-const CopyCode = require('./CopyCode');
+const CopyCode = require('./components/CopyCode');
 
 // const syntaxHighlighter = require('@readme/syntax-highlighter');
 
@@ -119,18 +119,26 @@ class CodeSample extends React.Component {
 
   renderCodeWithListSection(snippet, code, languagesList, setLanguage){
     const {language} = this.props
+    const ctaContainerStyle = {
+      borderTop: '2px solid #fff',
+      display: 'flex',
+      flexDirection: 'row-reverse',
+      padding: '5px',
+      paddingRight: '10px',
+      paddingBottom: '0px',
+    }
 
     return(
       <Fragment>
         <ul className="code-sample-tabs">
           {languagesList.map(lang => this.renderLanguageItem(lang, setLanguage))}
         </ul>
-        <div className="hub-code-auto" style={{borderTop: '2px solid #fff'}}>
+        <div className="hub-code-auto" style={ctaContainerStyle}>
           <CopyCode code={code} />
         </div>
         {
           snippet && (
-          <div className="hub-code-auto"> { /* style={{borderTop: '2px solid #fff'}} */ }
+          <div className="hub-code-auto">
             <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
           </div>
           )
