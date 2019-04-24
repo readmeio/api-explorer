@@ -1,0 +1,11 @@
+.mia-ctc-button span {
+  text-transform: uppercase;
+  background: transparent;
+  color: #AAA;
+  cursor: pointer;
+  border: 0px;
+}
+
+.mia-ctc-button span:hover {
+  color: white;
+}
