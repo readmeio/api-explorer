@@ -128,8 +128,6 @@ class Doc extends React.Component {
     )
   }
 
-
-
   renderCodeSample() {
     const {selectedContentType} = this.state
     let examples;
