@@ -12,9 +12,9 @@ const PropTypes = require('prop-types');
 
 const parseBlocks = require('../lib/parse-magic-blocks');
 
-const Loop = ({ content, column, flags, baseUrl }) => {
+const Loop = ({ content, column, flags }) => {
   const elements = content.map((block, key) => {
-    const props = { key, block, flags, baseUrl };
+    const props = { key, block, flags };
     switch (block.type) {
       case 'textarea':
         // eslint-disable-next-line react/no-array-index-key
@@ -66,12 +66,12 @@ const Content = props => {
       <div className="hub-reference-section">
         <div className="hub-reference-left">
           <div className="content-body">
-            <Loop content={left} column="left" flags={props.flags} baseUrl={props.baseUrl} />
+            <Loop content={left} column="left" flags={props.flags} />
           </div>
         </div>
         <div className="hub-reference-right">
           <div className="content-body">
-            <Loop content={right} column="right" flags={props.flags} baseUrl={props.baseUrl} />
+            <Loop content={right} column="right" flags={props.flags} />
           </div>
         </div>
       </div>
@@ -83,7 +83,6 @@ const Content = props => {
       content={isThreeColumn === 'left' ? left : right}
       flags={props.flags}
       column={isThreeColumn}
-      baseUrl={props.baseUrl}
     />
   );
 };
@@ -98,27 +97,23 @@ Loop.propTypes = {
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
   }).isRequired,
-  baseUrl: PropTypes.string,
 };
 
 Loop.defaultProps = {
   column: 'left',
   flags: {},
-  baseUrl: '/',
 };
 
 Content.propTypes = {
   isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   body: PropTypes.string,
   flags: PropTypes.shape({}),
-  baseUrl: PropTypes.string,
 };
 
 Content.defaultProps = {
   isThreeColumn: true,
   body: '',
   flags: {},
-  baseUrl: '/',
 };
 
 module.exports = Content;
