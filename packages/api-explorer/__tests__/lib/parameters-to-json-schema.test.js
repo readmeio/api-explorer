@@ -449,3 +449,59 @@ test('it should fetch parameters that have a child $ref', () => {
     )[0].schema.properties.param.items,
   ).toEqual(oas.components.schemas.string_enum);
 });
+
+test('it should add common parameter to path params', () => {
+  const oas = {
+    paths: {
+      '/pet/{petId}': {
+        parameters: [
+          {
+            name: 'petId',
+            in: 'path',
+            description: 'ID of pet to return',
+            required: true,
+          },
+        ],
+      },
+    },
+  };
+
+  expect(
+    parametersToJsonSchema({
+      path: '/pet/{petId}',
+      oas,
+    })[0].schema.properties.petId.description,
+  ).toEqual(oas.paths['/pet/{petId}'].parameters[0].description);
+});
+
+test('it should overrides path-level parameters on the operation level', () => {
+  const oas = {
+    paths: {
+      '/pet/{petId}': {
+        parameters: [
+          {
+            name: 'petId',
+            in: 'path',
+            description: 'ID of pet to return',
+            required: true,
+          },
+        ],
+      },
+    },
+  };
+
+  expect(
+    parametersToJsonSchema({
+      path: '/pet/{petId}',
+      parameters: [
+        {
+          name: 'petId',
+          in: 'path',
+          description: 'A comma-separated list of pet IDs',
+          required: true,
+        },
+      ],
+      oas,
+    })[0].schema.properties.petId.description,
+  ).toEqual('A comma-separated list of pet IDs');
+});
