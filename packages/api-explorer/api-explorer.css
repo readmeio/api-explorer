@@ -313,7 +313,7 @@ form.rjsf button[disabled] {
 
 .field.field-array-of-object > legend::after {
   color: rgba(0, 0, 0, 0.6);
-  content: 'array of objects' !important;
+  content: 'array of objects';
   background: #f2f2f2;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
@@ -323,8 +323,8 @@ form.rjsf button[disabled] {
   padding: 3px 6px;
 }
 
-fieldset[id^='root_array of objects_']:not(.field-array-of-object) > legend::after {
-  content: 'object' !important;
+fieldset[id^='root_array of objects_'] > legend::after {
+  content: 'object';
   color: rgba(0, 0, 0, 0.6);
   background: #f2f2f2;
   border-radius: 3px;
