@@ -83,6 +83,7 @@ class Doc extends React.Component {
       };
     });
   }
+
   onSubmit() {
     const operation = this.getOperation();
 
@@ -139,19 +140,24 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  renderContentTypeSelect(){
+  renderContentTypeSelect() {
     const list = getContentTypeFromOperation(this.getOperation())
     return <Select options={list} onChange={(e) => this.setState({selectedContentType: e.currentTarget.value})} />
   }
 
   renderCodeAndResponse() {
+    const definitionStyle = {
+      color: 'white',
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-word',
+    }
     return(
       <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%'}}>
         <ContentWithTitle 
-          title={'Description'} 
+          title={'Definition'} 
           showBorder={false}
           content={
-            <span style={{color: 'white'}}>
+            <span style={definitionStyle}>
               {this.oas.servers[0].url}{this.getOperation().path}
             </span>
           } 
@@ -206,6 +212,42 @@ class Doc extends React.Component {
       operation.responses && (
         <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />
       )
+    )
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  renderContentWithUpperTitle(title, content) {
+    return(
+      <ContentWithTitle
+        title={title}
+        content={content}
+        showDivider={false}
+        theme={'dark'}
+        showBorder={false}
+        titleUpperCase
+      />
+    )
+  }
+
+  renderDescription() {
+    const {doc} = this.props
+    return(
+      <Fragment>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          {this.props.suggestedEdits && (
+                  // eslint-disable-next-line jsx-a11y/href-no-hash
+          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <a
+              style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
+              href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
+            >
+              <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+            </a>
+          </div>
+        )} 
+          {this.renderContentWithUpperTitle('Description', doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available')}
+        </div>
+      </Fragment>
     )
   }
 
