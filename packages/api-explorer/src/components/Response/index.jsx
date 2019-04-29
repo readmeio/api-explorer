@@ -7,7 +7,6 @@ const PropTypes = require('prop-types');
 
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
-const Example = require('./Example');
 const showCodeResults = require('../../lib/show-code-results');
 
 const Oas = require('../../lib/Oas');
@@ -34,7 +33,7 @@ class Response extends React.Component {
   }
 
   render() {
-    const { result, oas, operation, oauth, hideResults, exampleResponses } = this.props;
+    const { result, operation, oauth, hideResults } = this.props;
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
     let itemsResult = []
@@ -48,32 +47,30 @@ class Response extends React.Component {
       }
     }
     
+    const placeholderStyle = {
+      textAlign: 'center',
+      padding: '40px 0',
+      color: 'rgba(255,255,255,0.7)',
+      fontStyle: 'italic',
+      fontSize: '14px',
+    }
+
     return (
-      <div className="results-container">
-        <div className="hub-reference-results-slider">
-          <div className="hub-reference-results-explorer code-sample">
-            {result !== null && (
-              <BlockWithTab
-                items={itemsResult}
-                selected={responseTab}
-                onClick={this.setTab} 
-              >
-                {responseTab === 'result' && (
-                <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
-                  )}
-                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-              </BlockWithTab>
-            )}
-          </div> 
-          <Example
-            operation={operation}
-            result={result}
-            oas={oas}
-            selected={this.state.exampleTab}
-            setExampleTab={this.setExampleTab}
-            exampleResponses={exampleResponses}
-          />
-        </div>
+      <div className="code-sample">
+        {result !== null ? (
+          <BlockWithTab
+            items={itemsResult}
+            selected={responseTab}
+            onClick={this.setTab} 
+          >
+            {responseTab === 'result' && (
+            <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
+              )}
+            {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+          </BlockWithTab>
+        ) : (
+          <div style={placeholderStyle}>Try the API to see Results</div>
+        )}
       </div>
     );
   }
@@ -83,11 +80,9 @@ module.exports = Response;
 
 Response.propTypes = {
   result: PropTypes.shape({}),
-  oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   oauth: PropTypes.bool.isRequired,
   hideResults: PropTypes.func.isRequired,
-  exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Response.defaultProps = {

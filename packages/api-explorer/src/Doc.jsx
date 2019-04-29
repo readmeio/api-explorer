@@ -188,17 +188,13 @@ class Doc extends React.Component {
     );
   }
 
-  renderResponse() {
-    const exampleResponses = get(this.props, 'doc.api.results.codes', [])
-    
+  renderResponse() {    
     return (
       <Response
         result={this.state.result}
-        oas={this.oas}
         operation={this.getOperation()}
         oauth={this.props.oauth}
         hideResults={this.hideResults}
-        exampleResponses={exampleResponses}
       />
     );
   }
