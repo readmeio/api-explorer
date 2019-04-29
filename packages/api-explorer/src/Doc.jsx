@@ -56,6 +56,7 @@ class Doc extends React.Component {
       };
     });
   }
+
   onSubmit() {
     const operation = this.getOperation();
 
