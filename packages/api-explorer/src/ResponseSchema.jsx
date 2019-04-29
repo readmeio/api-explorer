@@ -66,22 +66,19 @@ class ResponseSchema extends React.Component {
     const keys = Object.keys(this.props.operation.responses);
     
     return(
-      <span>
-          Response
-          <div className="pull-right">
-            <select
-              className="switcher-switch"
-              value={this.state.selectedStatus}
-              onChange={this.changeHandler}
-            >
-              {keys.map(status => (
-                <option value={status} key={status}>
-                  {status}
-                </option>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <span>Response</span>
+        <select
+          value={this.state.selectedStatus}
+          onChange={this.changeHandler}
+        >
+          {keys.map(status => (
+            <option value={status} key={status}>
+              {status}
+            </option>
               ))}
-            </select>
-          </div>
-      </span>
+        </select>
+      </div>
     )
   }
   renderContent(){
@@ -90,15 +87,17 @@ class ResponseSchema extends React.Component {
     return(
       <Fragment>
         {operation.responses[this.state.selectedStatus].description && (
-        <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
+        <p>{operation.responses[this.state.selectedStatus].description}</p>
       )}
         { schema && <ResponseSchemaBody schema={schema} oas={oas} />}
       </Fragment>
     )
   }
-  renderResponse() {
-    
-    return(
+
+  render() {
+    const { operation } = this.props;
+    if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
+    return (
       <ContentWithTitle
         title={this.renderHeader()}
         content={this.renderContent()}
@@ -107,30 +106,13 @@ class ResponseSchema extends React.Component {
         showBorder={false}
         titleUpperCase
       />
-    )
-  }
-
-  render() {
-    const { operation, oas } = this.props;
-    if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
-    const schema = this.getSchema(operation);
-    return (
-      <div
-        style={{padding: '8px 30px'}}
-        className={classNames('hub-reference-response-definitions', {
-          dark: this.props.theme === 'dark',
-        })}
-      >
-        {this.renderResponse()}
-      </div>
     );
   }
 }
 
 ResponseSchema.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  theme: PropTypes.string.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired
 };
 
 module.exports = ResponseSchema;

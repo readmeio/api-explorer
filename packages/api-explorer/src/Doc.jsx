@@ -43,7 +43,7 @@ function Description({doc, suggestedEdits, baseUrl}){
         )} 
       <ContentWithTitle
         title={'Description'}
-        content={doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available'}
+        content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : 'Description not available'}
         showDivider={false}
         theme={'dark'}
         showBorder={false}
