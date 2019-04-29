@@ -22,5 +22,6 @@ export default {
     descriptionBackground: '#33373a',
     BlockWithTabSelected: '#000',
     metadataLabel: 'rgba(255,255,255,.4)',
-    metadataContent: '#fff'
+    metadataContent: '#fff',
+    suggestEdit: '#aaaaaa'
   }

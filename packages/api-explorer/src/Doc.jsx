@@ -12,6 +12,7 @@ import {get} from 'lodash'
 
 import ContentWithTitle from './components/ContentWithTitle'
 import Select from './components/Select'
+import colors from './colors';
 
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
@@ -24,7 +25,6 @@ const markdown = require('@readme/markdown');
 const Oas = require('./lib/Oas');
 // const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
-const Content = require('./block-types/Content');
 const getContentTypeFromOperation = require('./lib/get-content-type')
 
 
@@ -32,14 +32,14 @@ function Description({doc, suggestedEdits, baseUrl}){
   return(
     <div style={{display: 'flex', flexDirection: 'column'}}>
       {suggestedEdits && (
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <a
-          style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
-          href={`${baseUrl}/reference-edit/${doc.slug}`}
-        >
-          <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
-        </a>
-      </div>
+        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <a
+            style={{fontSize: 14, color: colors.suggestEdit, textTransform: 'uppercase'}}
+            href={`${baseUrl}/reference-edit/${doc.slug}`}
+          >
+            <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+          </a>
+        </div>
         )} 
       <ContentWithTitle
         title={'Description'}
@@ -217,8 +217,7 @@ class Doc extends React.Component {
   renderEndpoint() {
     const { doc, suggestedEdits, baseUrl } = this.props
     return (
-      <Fragment>
-        {doc.type === 'endpoint' && (
+        doc.type === 'endpoint' ? (
           <Fragment>
             <div className="hub-reference-left" >
               <div className="hub-api"> { /** this class prevent breaking GUI. Find a better way. CSS class dependency (Riccardo Di Benedetto) */}
@@ -231,6 +230,7 @@ class Doc extends React.Component {
                   />
                   {this.renderLogs()}
                   {this.renderParams()}
+                  {this.renderResponseSchema()}
                 </div>
               </div>
             </div>
@@ -244,18 +244,9 @@ class Doc extends React.Component {
             > { /** this class prevent breaking GUI. Find a better way.  CSS class dependency (Riccardo Di Benedetto) */}
 
               {this.renderCodeAndResponse()}
-              {this.renderResponseSchema()}
             </div>
           </Fragment>
-        )}
-
-        <Content
-          baseUrl={this.props.baseUrl}
-          body={doc.body}
-          flags={this.props.flags}
-          isThreeColumn
-        />
-      </Fragment>
+        ) : null
     );
   }
 

@@ -69,7 +69,7 @@ class Response extends React.Component {
               <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
                 )}
               {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-              </BlockWithTab>
+            </BlockWithTab>
             )}
           </div> 
           <div className="hub-reference-results-explorer code-sample">

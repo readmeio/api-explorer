@@ -45,7 +45,7 @@ export default function ContentWithTitle({
 }
 
 ContentWithTitle.propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.node,
     subheader: PropTypes.node,
     content: PropTypes.node,
     showDivider: PropTypes.bool,
