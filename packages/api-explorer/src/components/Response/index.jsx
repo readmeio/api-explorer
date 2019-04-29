@@ -1,18 +1,16 @@
+import BlockWithTab from '../BlockWithTab'
+import IconStatus from '../../IconStatus'
+
 const React = require('react');
 
-import BlockWithTab from './components/BlockWithTab'
-import IconStatus from './IconStatus'
-
-const classNames = require('classnames');
 const PropTypes = require('prop-types');
 
-const ResponseTabs = require('./ResponseTabs');
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
 const Example = require('./Example');
-const showCodeResults = require('./lib/show-code-results');
+const showCodeResults = require('../../lib/show-code-results');
 
-const Oas = require('./lib/Oas');
+const Oas = require('../../lib/Oas');
 
 const { Operation } = Oas;
 
@@ -40,57 +38,33 @@ class Response extends React.Component {
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
     let itemsResult = []
-    if(result){
+    if (result) {
       itemsResult = [
         {value: 'result', label: <IconStatus status={result.status} />},
         {value: 'metadata', label: 'Metadata'},
       ]
-      if(showCodeResults(operation).length > 0){
+      if (showCodeResults(operation).length > 0) {
         itemsResult.push({label: 'to examples', onClick: hideResults})
       }
     }
     
     return (
-      <div
-        className={classNames('hub-reference-right hub-reference-results tabber-parent', {
-          on: result !== null,
-        })}
-      >
+      <div className="results-container">
         <div className="hub-reference-results-slider">
           <div className="hub-reference-results-explorer code-sample">
             {result !== null && (
-            <BlockWithTab
-              items={itemsResult}
-              selected={responseTab}
-              onClick={this.setTab}
-            >
-
-              {responseTab === 'result' && (
-              <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
-                )}
-              {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-            </BlockWithTab>
+              <BlockWithTab
+                items={itemsResult}
+                selected={responseTab}
+                onClick={this.setTab} 
+              >
+                {responseTab === 'result' && (
+                <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
+                  )}
+                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+              </BlockWithTab>
             )}
           </div> 
-          <div className="hub-reference-results-explorer code-sample">
-            {result !== null && (
-              <span>
-                <ResponseTabs
-                  result={result}
-                  oas={oas}
-                  operation={operation}
-                  responseTab={responseTab}
-                  setTab={this.setTab}
-                  hideResults={hideResults}
-                />
-
-                {responseTab === 'result' && (
-                  <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
-                )}
-                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-              </span>
-            )}
-          </div>
           <Example
             operation={operation}
             result={result}

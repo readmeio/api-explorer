@@ -1,8 +1,9 @@
+import colors from '../../colors'
+
 const React = require('react');
-const IconStatus = require('./IconStatus');
+const IconStatus = require('../../IconStatus');
 const PropTypes = require('prop-types');
 
-import colors from './colors'
 
 function Meta({ label, children }) {
   const style = {

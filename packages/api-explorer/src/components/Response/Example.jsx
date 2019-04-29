@@ -1,16 +1,16 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
-const showCodeResults = require('./lib/show-code-results');
-const contentTypeIsJson = require('./lib/content-type-is-json');
+const showCodeResults = require('../../lib/show-code-results');
+const contentTypeIsJson = require('../../lib/content-type-is-json');
 
 // const { replaceVars } = require('./lib/replace-vars');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const extensions = require('@readme/oas-extensions');
 
-const ExampleTabs = require('./ExampleTabs');
+const ExampleTabs = require('../../ExampleTabs');
 
-const Oas = require('./lib/Oas');
+const Oas = require('../../lib/Oas');
 
 const { Operation } = Oas;
 

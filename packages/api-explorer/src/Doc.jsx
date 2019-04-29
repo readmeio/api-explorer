@@ -17,7 +17,7 @@ import colors from './colors';
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
-const Response = require('./Response');
+const Response = require('./components/Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
 const markdown = require('@readme/markdown');
