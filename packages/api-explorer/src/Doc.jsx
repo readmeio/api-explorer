@@ -202,6 +202,7 @@ class Doc extends React.Component {
       />
     )
   }
+
   renderDescription(){
     const {doc} = this.props
     return(
