@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
-import { IntlProvider } from 'react-intl';
 import Waypoint from 'react-waypoint'
+import {injectIntl} from 'react-intl'
 
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
@@ -124,7 +124,7 @@ class Doc extends React.Component {
       <div style={{display: 'grid', gridGap: '8px'}}>
         {/* <div className="hub-reference-left"> */}
         <ContentWithTitle 
-          title={'Definition'} 
+          title={this.props.intl.formatMessage({id:'doc.definition'})} 
           showBorder={false}
           content={
             <pre style={definitionStyle}>
@@ -319,9 +319,9 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, i18n } = this.props;
+    const { doc, intl } = this.props;
     const oas = this.oas;
-
+    console.log('INTL', intl)
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
 
@@ -333,30 +333,28 @@ class Doc extends React.Component {
     };
 
     return (
-      <IntlProvider locale={i18n.locale} defaultLocale={i18n.defaultLocale}>
-        <EndpointErrorBoundary>
-          <div className="hub-reference" id={`page-${doc.slug}`}>
-            <a className="anchor-page-title" id={doc.slug} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
-              {renderEndpoint()}
-            </div>
-            {
-              // TODO maybe we dont need to do this with a hidden input now
-              // cos we can just pass it around?
-            }
-            <input
-              type="hidden"
-              id={`swagger-${extensions.SEND_DEFAULTS}`}
-              value={oas[extensions.SEND_DEFAULTS]}
-            />
+      <EndpointErrorBoundary>
+        <div className="hub-reference" id={`page-${doc.slug}`}>
+          <a className="anchor-page-title" id={doc.slug} />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
+            {renderEndpoint()}
           </div>
-        </EndpointErrorBoundary>
-      </IntlProvider>
+          {
+            // TODO maybe we dont need to do this with a hidden input now
+            // cos we can just pass it around?
+          }
+          <input
+            type="hidden"
+            id={`swagger-${extensions.SEND_DEFAULTS}`}
+            value={oas[extensions.SEND_DEFAULTS]}
+          />
+        </div>
+      </EndpointErrorBoundary>
     );
   }
 }
 
-module.exports = Doc;
+module.exports = injectIntl(Doc);
 
 Doc.propTypes = {
   doc: PropTypes.shape({
@@ -402,10 +400,6 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
-  i18n: PropTypes.shape({
-    locale: PropTypes.string,
-    defaultLocale: PropTypes.string,
-  }),
 };
 
 Doc.defaultProps = {
@@ -420,8 +414,4 @@ Doc.defaultProps = {
   Logs: undefined,
   user: undefined,
   baseUrl: '/',
-  i18n: {
-    locale: 'en',
-    defaultLocale: 'en',
-  },
 };
