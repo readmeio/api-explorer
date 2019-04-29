@@ -25,5 +25,6 @@ export default {
     blockWithTabLink: 'rgba(255,255,255,0.4)',
     metadataLabel: 'rgba(255,255,255,.4)',
     metadataContent: '#fff',
-    suggestEdit: '#aaaaaa'
+    suggestEdit: '#aaaaaa',
+    snippet: '#fff'
   }

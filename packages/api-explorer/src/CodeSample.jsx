@@ -1,6 +1,7 @@
 import React from 'react'
 
 import BlockWithTab from './components/BlockWithTab'
+import colors from './colors';
 
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
@@ -102,7 +103,17 @@ class CodeSample extends React.Component {
       paddingRight: '10px',
       paddingBottom: '0px',
     }
-
+    const snippetStyle = {
+      fontSize: 12,
+      fontFamily: 'Monaco, "Lucida Console", monospace',
+      border: 0,
+      background: 'transparent',
+      padding: '0 30px',
+      overflow: 'visible',
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-all',
+      color: colors.snippet
+    }
     const langItems = languagesList.map(lang => ({value: lang, label: generateCodeSnippet.getLangName(lang)}))
     return(
       <BlockWithTab
@@ -110,13 +121,13 @@ class CodeSample extends React.Component {
         selected={language}
         onClick={setLanguage}
       >
-        <div className="hub-code-auto" style={ctaContainerStyle}>
+        <div style={ctaContainerStyle}>
           <CopyCode code={code} />
         </div>
         {
           snippet && (
-          <div className="hub-code-auto">
-            <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
+          <div>
+            <pre className={`tomorrow-night hub-lang hub-lang-${language}`} style={snippetStyle}>{snippet}</pre>
           </div>
           )
         }
@@ -127,7 +138,7 @@ class CodeSample extends React.Component {
   render() {
     const { oas, setLanguage, operation, formData, language, examples, auth,  selectedContentType} = this.props;
     return (
-      <div className="code-sample tabber-parent">
+      <div className="tabber-parent">
         {(() => {
           // if (examples.length) return this.renderSelected(examples, setLanguage); I think we don't need this (Riccardo Di Benedetto)
           if (!oas[extensions.SAMPLES_ENABLED]) {

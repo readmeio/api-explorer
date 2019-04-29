@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './params.css'
 
 const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
@@ -40,8 +41,8 @@ class Params extends Component{
     return(
       <Form
         key={`${schema.type}-form`}
-        id={`form-${operation.operationId}`}
-        idPrefix={operation.operationId}
+        id={"form-params"}
+        idPrefix={'form-id'}
         schema={schema.schema}
         style={{margin: 0}}
         widgets={{
