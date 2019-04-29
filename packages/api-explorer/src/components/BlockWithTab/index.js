@@ -6,19 +6,32 @@ import colors from '../../colors'
 export default function BlockWithTab({items, selected, onClick, children}){
     const style = {
       selected: {
-        background: colors.BlockWithTabSelected
+        background: colors.blockWithTabSelected
+      },
+      ul: {
+        padding: '0px 30px 0px 20px',
+        margin: 0,
+        background: colors.blockWithTabList,
+        fontSize: 14,
+        listStyleType: 'none'
+      },
+      a: {
+        display: 'inline-block',
+        padding: '5px 10px',
+        color: colors.blockWithTabLink
       }
     }
     return(
       <Fragment>
-        <ul className="code-sample-tabs">
+        <ul style={style.ul}>
           {items.map(item => {
             return(
-              <li key={item.value} style={item.value === selected ? style.selected : {}}>
+              <li key={item.value} style={{...item.value === selected ? style.selected : {}, display: 'inline-block'}}>
                 {
                 // eslint-disable-next-line jsx-a11y/href-no-hash
                   <a
                     href="#"
+                    style={style.a}
                     onClick={e => {
                     e.preventDefault();
                     onClick(item.value);
