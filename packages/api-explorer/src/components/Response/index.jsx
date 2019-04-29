@@ -56,7 +56,7 @@ class Response extends React.Component {
     }
 
     return (
-      <div className="code-sample prova">
+      <div>
         {result !== null ? (
           <BlockWithTab
             items={itemsResult}

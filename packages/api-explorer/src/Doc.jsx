@@ -309,7 +309,6 @@ class Doc extends React.Component {
     return (
       <EndpointErrorBoundary>
         <div id={`page-${doc.slug}`}>
-          {/* <a className="anchor-page-title" id={doc.slug} /> */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
             {renderEndpoint()}
           </div>
