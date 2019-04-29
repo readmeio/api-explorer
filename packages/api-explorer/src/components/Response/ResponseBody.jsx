@@ -20,7 +20,7 @@ function Authorized({ result }) {
     overflow: 'visible',
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-all',
-    color: '#fff'
+    color: colors.notJson
 
   }
   return (

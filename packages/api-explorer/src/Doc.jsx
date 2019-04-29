@@ -23,7 +23,6 @@ const EndpointErrorBoundary = require('./EndpointErrorBoundary');
 const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
-// const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
 const getContentTypeFromOperation = require('./lib/get-content-type')
 
@@ -229,8 +228,8 @@ class Doc extends React.Component {
             <div
               style={{
                   padding: 8,
-                  border: '1px solid #0f0f0f',
-                  background: 'rgb(51, 55, 58)'
+                  border: `1px solid ${colors.codeAndResponseBorder}`,
+                  background: colors.codeAndResponseBackground
                 }}
             > 
               {this.renderCodeAndResponse()}

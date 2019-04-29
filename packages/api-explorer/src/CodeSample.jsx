@@ -11,8 +11,6 @@ const { Operation } = Oas;
 
 const CopyCode = require('./components/CopyCode');
 
-// const syntaxHighlighter = require('@readme/syntax-highlighter');
-
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
 class CodeSample extends React.Component {

@@ -28,5 +28,8 @@ export default {
     metadataContent: '#fff',
     suggestEdit: '#aaaaaa',
     snippet: '#fff',
-    reactJson: '#000'
+    reactJson: '#000',
+    codeAndResponseBackground: 'rgb(51, 55, 58)',
+    codeAndResponseBorder: '#0f0f0f',
+    notJson: '#fff'
   }
