@@ -107,7 +107,7 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  renderContentTypeSelect(){
+  renderContentTypeSelect() {
     const list = getContentTypeFromOperation(this.getOperation())
     return <Select options={list} onChange={(e) => this.setState({selectedContentType: e.currentTarget.value})} />
   }
@@ -190,7 +190,8 @@ class Doc extends React.Component {
     )
   }
 
-  renderContentWithUpperTitle(title, content){
+  // eslint-disable-next-line class-methods-use-this
+  renderContentWithUpperTitle(title, content) {
     return(
       <ContentWithTitle
         title={title}
@@ -203,7 +204,7 @@ class Doc extends React.Component {
     )
   }
 
-  renderDescription(){
+  renderDescription() {
     const {doc} = this.props
     return(
       <Fragment>
