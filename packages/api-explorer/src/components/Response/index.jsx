@@ -1,18 +1,18 @@
-const React = require('react');
+import BlockWithTab from '../BlockWithTab'
+import IconStatus from '../../IconStatus'
 
-import BlockWithTab from './components/BlockWithTab'
-import IconStatus from './IconStatus'
+const React = require('react');
 
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
 
-const ResponseTabs = require('./ResponseTabs');
+const ResponseTabs = require('../../ResponseTabs');
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
 const Example = require('./Example');
-const showCodeResults = require('./lib/show-code-results');
+const showCodeResults = require('../../lib/show-code-results');
 
-const Oas = require('./lib/Oas');
+const Oas = require('../../lib/Oas');
 
 const { Operation } = Oas;
 
@@ -72,25 +72,6 @@ class Response extends React.Component {
             </BlockWithTab>
             )}
           </div> 
-          <div className="hub-reference-results-explorer code-sample">
-            {result !== null && (
-              <span>
-                <ResponseTabs
-                  result={result}
-                  oas={oas}
-                  operation={operation}
-                  responseTab={responseTab}
-                  setTab={this.setTab}
-                  hideResults={hideResults}
-                />
-
-                {responseTab === 'result' && (
-                  <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
-                )}
-                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-              </span>
-            )}
-          </div>
           <Example
             operation={operation}
             result={result}
