@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react'
+import { IntlProvider } from 'react-intl';
 
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
@@ -317,7 +318,7 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc } = this.props;
+    const { doc, i18n } = this.props;
     const oas = this.oas;
 
     const renderEndpoint = () => {
@@ -331,23 +332,25 @@ class Doc extends React.Component {
     };
 
     return (
-      <EndpointErrorBoundary>
-        <div className="hub-reference" id={`page-${doc.slug}`}>
-          <a className="anchor-page-title" id={doc.slug} />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
-            {renderEndpoint()}
+      <IntlProvider locale={i18n.locale} defaultLocale={i18n.defaultLocale}>
+        <EndpointErrorBoundary>
+          <div className="hub-reference" id={`page-${doc.slug}`}>
+            <a className="anchor-page-title" id={doc.slug} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
+              {renderEndpoint()}
+            </div>
+            {
+              // TODO maybe we dont need to do this with a hidden input now
+              // cos we can just pass it around?
+            }
+            <input
+              type="hidden"
+              id={`swagger-${extensions.SEND_DEFAULTS}`}
+              value={oas[extensions.SEND_DEFAULTS]}
+            />
           </div>
-          {
-          // TODO maybe we dont need to do this with a hidden input now
-          // cos we can just pass it around?
-          }
-          <input
-            type="hidden"
-            id={`swagger-${extensions.SEND_DEFAULTS}`}
-            value={oas[extensions.SEND_DEFAULTS]}
-          />
-        </div>
-      </EndpointErrorBoundary>
+        </EndpointErrorBoundary>
+      </IntlProvider>
     );
   }
 }
