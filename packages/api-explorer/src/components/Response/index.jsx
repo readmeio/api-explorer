@@ -48,23 +48,21 @@ class Response extends React.Component {
       }
     }
     
+    console.log('RESULT', result)
     return (
-      <div className="results-container">
-        <div className="hub-reference-results-slider">
-          <div className="hub-reference-results-explorer code-sample">
-            {result !== null && (
-              <BlockWithTab
-                items={itemsResult}
-                selected={responseTab}
-                onClick={this.setTab} 
-              >
-                {responseTab === 'result' && (
-                <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
-                  )}
-                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-              </BlockWithTab>
-            )}
-          </div> 
+      <div className="results-container hub-reference-results-slider">
+        {result !== null ? (
+          <BlockWithTab
+            items={itemsResult}
+            selected={responseTab}
+            onClick={this.setTab} 
+          >
+            {responseTab === 'result' && (
+            <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
+              )}
+            {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+          </BlockWithTab>
+        ) : (
           <Example
             operation={operation}
             result={result}
@@ -73,7 +71,7 @@ class Response extends React.Component {
             setExampleTab={this.setExampleTab}
             exampleResponses={exampleResponses}
           />
-        </div>
+        )}
       </div>
     );
   }
