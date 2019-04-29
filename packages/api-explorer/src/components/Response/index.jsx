@@ -48,9 +48,8 @@ class Response extends React.Component {
       }
     }
     
-    console.log('RESULT', result)
     return (
-      <div className="results-container hub-reference-results-slider">
+      <div className="code-sample">
         {result !== null ? (
           <BlockWithTab
             items={itemsResult}
