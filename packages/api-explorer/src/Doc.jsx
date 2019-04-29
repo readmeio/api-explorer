@@ -398,6 +398,10 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  i18n: PropTypes.shape({
+    locale: PropTypes.string,
+    defaultLocale: PropTypes.string,
+  }),
 };
 
 Doc.defaultProps = {
@@ -412,4 +416,8 @@ Doc.defaultProps = {
   Logs: undefined,
   user: undefined,
   baseUrl: '/',
+  i18n: {
+    locale: 'en',
+    defaultLocale: 'en',
+  },
 };
