@@ -147,7 +147,7 @@ class Doc extends React.Component {
 
   renderCodeAndResponse() {
     return(
-      <div style={{display: 'grid', gridGap: '8px'}}>
+      <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%'}}>
         <ContentWithTitle 
           title={'Description'} 
           showBorder={false}
@@ -215,20 +215,16 @@ class Doc extends React.Component {
     return (
         doc.type === 'endpoint' ? (
           <Fragment>
-            <div className="hub-reference-left" >
-              <div className="hub-api"> { /** this class prevent breaking GUI. Find a better way. CSS class dependency (Riccardo Di Benedetto) */}
-                <div style={{display: 'grid', gridTemplateColumns: '1fr', gridGap: '16px', paddingRight: '16px'}}>
-                  {this.renderPathUrl()}  
-                  <Description 
-                    doc={doc} 
-                    suggestedEdits={suggestedEdits}  
-                    baseUrl={baseUrl}
-                  />
-                  {this.renderLogs()}
-                  {this.renderParams()}
-                  {this.renderResponseSchema()}
-                </div>
-              </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr', gridTemplateRows: 'min-content', gridGap: '16px', paddingRight: '16px'}}>
+              {this.renderPathUrl()}  
+              <Description 
+                doc={doc} 
+                suggestedEdits={suggestedEdits}  
+                baseUrl={baseUrl}
+              />
+              {this.renderLogs()}
+              {this.renderParams()}
+              {this.renderResponseSchema()}
             </div>
             <div
               style={{
@@ -236,9 +232,7 @@ class Doc extends React.Component {
                   border: '1px solid #0f0f0f',
                   background: 'rgb(51, 55, 58)'
                 }}
-              className="hub-api"
-            > { /** this class prevent breaking GUI. Find a better way.  CSS class dependency (Riccardo Di Benedetto) */}
-
+            > 
               {this.renderCodeAndResponse()}
             </div>
           </Fragment>
@@ -314,8 +308,8 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        <div className="hub-reference" id={`page-${doc.slug}`}>
-          <a className="anchor-page-title" id={doc.slug} />
+        <div id={`page-${doc.slug}`}>
+          {/* <a className="anchor-page-title" id={doc.slug} /> */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
             {renderEndpoint()}
           </div>

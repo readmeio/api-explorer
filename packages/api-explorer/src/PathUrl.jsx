@@ -58,7 +58,7 @@ function renderUrl(oas, operation){
     oas.servers &&
       oas.servers.length > 0 && (
         <div style={style.container}>
-          <span className="url">{oas.url()}</span>
+          <span>{oas.url()}</span>
           {splitPath(operation.path).map(part => (
             <span key={part.value} style={style[part.type]}>
               {part.value}

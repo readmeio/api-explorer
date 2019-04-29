@@ -3,7 +3,6 @@ const codemirror = require('./codemirror.jsx');
 
 module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) =>{
   const codeMirrored = codemirror(code, lang, opts)
-  console.log('CODE MIRROR ', opts, codeMirrored)
   return React.createElement(
     'span',
     {

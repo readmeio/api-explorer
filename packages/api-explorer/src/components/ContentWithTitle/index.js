@@ -31,7 +31,7 @@ export default function ContentWithTitle({
       fontWeight: 'bold'
     }
     return(
-      <div style={{display: 'grid', gridGap: '8px'}}>
+      <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%', gridTemplateRows: 'min-content'}}>
         <div style={titleStyle}>
           {title}
         </div>

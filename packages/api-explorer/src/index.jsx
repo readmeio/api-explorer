@@ -90,7 +90,10 @@ class ApiExplorer extends React.Component {
       margin: '10px',
       border: '1px solid',
       padding: '10px',
-      background: colors.descriptionBackground
+      background: colors.descriptionBackground,
+      fontSize: 14,
+      lineHeight: '24px',
+      color: colors.descriptionText
     }
     const {description} = this.state
     return(

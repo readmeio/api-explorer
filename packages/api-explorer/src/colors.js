@@ -20,11 +20,13 @@ export default {
     error: 'red',
     resultsTab: '#fff',
     descriptionBackground: '#33373a',
+    descriptionText: '#747c84',
     blockWithTabSelected: '#000',
     blockWithTabList: '#333840',
     blockWithTabLink: 'rgba(255,255,255,0.4)',
     metadataLabel: 'rgba(255,255,255,.4)',
     metadataContent: '#fff',
     suggestEdit: '#aaaaaa',
-    snippet: '#fff'
+    snippet: '#fff',
+    reactJson: '#000'
   }
