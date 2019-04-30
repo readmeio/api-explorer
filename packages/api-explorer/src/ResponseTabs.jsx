@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const showCodeResults = require('./lib/show-code-results');
@@ -25,7 +27,7 @@ function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
           setTab('metadata');
         }}
       >
-        Metadata
+        <FormattedMessage id="api.response.metadata" defaultMessage="Metadata" />
       </Tab>
 
       {showCodeResults(operation).length > 0 && (
@@ -38,7 +40,9 @@ function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
             hideResults();
           }}
         >
-          <span className="fa fa-chevron-circle-left"> to examples </span>
+          <span className="fa fa-chevron-circle-left">
+            {' '}<FormattedMessage id="api.response.examples" defaultMessage="to examples" />{' '}
+          </span>
         </a>
       )}
     </ul>
