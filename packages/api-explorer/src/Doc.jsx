@@ -23,7 +23,7 @@ const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./components/Response');
 const ResponseSchema = require('./ResponseSchema');
-const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const ErrorBoundary = require('./ErrorBoundary');
 const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
@@ -371,7 +371,7 @@ class Doc extends React.Component {
     };
 
     return (
-      <EndpointErrorBoundary>
+      <ErrorBoundary>
         <div id={`page-${doc.slug}`}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
             {renderEndpoint()}
@@ -386,7 +386,7 @@ class Doc extends React.Component {
             value={oas[extensions.SEND_DEFAULTS]}
           />
         </div>
-      </EndpointErrorBoundary>
+      </ErrorBoundary>
     );
   }
 }

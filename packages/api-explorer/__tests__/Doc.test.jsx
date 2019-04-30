@@ -349,5 +349,5 @@ test('should output with an error message if the endpoint fails to load', () => 
 
   doc.setState({ showEndpoint: true });
 
-  expect(doc.find('EndpointErrorBoundary').length).toBe(1);
+  expect(doc.find('ErrorBoundary').length).toBe(1);
 });
