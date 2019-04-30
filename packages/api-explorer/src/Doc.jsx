@@ -37,7 +37,8 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
-      selectedContentType: null
+      selectedContentType: null,
+      auth: null
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
@@ -58,6 +59,7 @@ class Doc extends React.Component {
   }
 
   onSubmit() {
+    const {auth} = this.state
     const operation = this.getOperation();
 
     if (!isAuthReady(operation, this.props.auth)) {
@@ -71,7 +73,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, {
+    const har = oasToHar(this.oas, operation, this.state.formData, auth || this.props.auth, {
       proxyUrl: true,
     });
 
@@ -298,6 +300,14 @@ class Doc extends React.Component {
     );
   }
 
+  onAuthChange(auth){
+    this.setState(prevState => {
+      return {
+        auth: {...prevState.auth, ...auth}
+      }
+    })
+  }
+
   renderPathUrl() {
     return (
       <PathUrl
@@ -305,14 +315,14 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         dirty={this.state.dirty}
         loading={this.state.loading}
-        onChange={this.props.onAuthChange}
+        onChange={(auth) => this.onAuthChange(auth)}
         showAuthBox={this.state.showAuthBox}
         needsAuth={this.state.needsAuth}
         oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
-        auth={this.props.auth}
+        auth={this.state.auth || this.props.auth}
       />
     );
   }
