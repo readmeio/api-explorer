@@ -1,0 +1,46 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://example.com"
+    }
+  ],
+  "info": {
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/format-url": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "url"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-unknown": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string": {
+                    "type": "string",
+                    "format": "some-unknown-format"                    
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

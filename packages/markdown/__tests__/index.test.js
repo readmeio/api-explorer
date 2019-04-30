@@ -1,4 +1,6 @@
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
+const React = require('react');
+const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../');
 
@@ -65,9 +67,12 @@ test('anchors', () => {
 });
 
 test('anchors with baseUrl', () => {
-  const opts = { baseUrl: '/child/v1.0' };
-  expect(
-    shallow(
+  const wrapper = mount(
+    React.createElement(
+      BaseUrlContext.Provider,
+      {
+        value: '/child/v1.0',
+      },
       markdown(
         `
 [doc](doc:slug)
@@ -75,10 +80,10 @@ test('anchors with baseUrl', () => {
 [blog](blog:slug)
 [page](page:slug)
   `,
-        opts,
       ),
-    ).html(),
-  ).toMatchSnapshot();
+    ),
+  );
+  expect(wrapper.html()).toMatchSnapshot();
 });
 
 test('emojis', () => {
