@@ -21,8 +21,8 @@ function Authorized({ result }) {
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-all',
     color: colors.notJson
-
   }
+
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
