@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const { CopyToClipboard } = require('react-copy-to-clipboard');
@@ -33,7 +35,12 @@ class CopyCode extends React.Component {
     return (
       <CopyToClipboard text={this.state.code} onCopy={this.onCopy}>
         <button className="copy-code-button main_background">
-          {this.state.copied ? <span>Copied</span> : <span>Copy</span>}
+          {
+            this.state.copied ?
+              <span><FormattedMessage id="code.copied" defaultMessage="Copied" /></span>
+              :
+              <span><FormattedMessage id="code.copy" defaultMessage="Copy" /></span>
+          }
         </button>
       </CopyToClipboard>
     );
