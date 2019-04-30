@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -9,7 +11,7 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
       <section>
         <div className="text-center">
           <a className="btn btn-primary" href={oauthHref()} target="_self">
-            Authenticate via OAuth2
+            <FormattedMessage id="auth.oauth2.info" defaultMessage="Authenticate via OAuth2" />
           </a>
         </div>
       </section>
@@ -25,7 +27,9 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
       }
       <div className="row">
         <div className="col-xs-4">
-          <label htmlFor="apiKey">Authorization</label>
+          <label htmlFor="apiKey">
+            <FormattedMessage id="auth.oauth2.authorization" defaultMessage="Authorization" />
+          </label>
         </div>
         <div className="col-xs-2">
           <div
@@ -36,7 +40,7 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
               fontSize: '13px',
             }}
           >
-            Bearer
+            <FormattedMessage id="auth.oauth2.bearer" defaultMessage="Bearer" />
           </div>
         </div>
         <div className="col-xs-6">
