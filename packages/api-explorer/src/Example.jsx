@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
@@ -61,9 +63,9 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
       {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
           {oas[extensions.EXPLORER_ENABLED] ? (
-            'Try the API to see Results'
+            <FormattedMessage id="api.example.try" defaultMessage="Try the API to see Results" />
           ) : (
-            'No response examples available'
+            <FormattedMessage id="api.example.na" defaultMessage="No response examples available" />
           )}
         </div>
       )}
