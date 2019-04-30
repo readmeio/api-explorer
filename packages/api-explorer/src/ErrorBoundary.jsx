@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -21,10 +23,13 @@ class ErrorBoundary extends React.Component {
       return (
         <div style={{ paddingLeft: '2%', width: '75%' }}>
           <h3>
-            There was an error rendering the API Explorer. If you are the owner of this project
-            please contact{' '}
-            <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a> with
-            the following error:
+            <FormattedMessage
+              id="error.endpoint.render"
+              defaultMessage="There was an error rendering the API Explorer. If you are the owner of this project please contact {address} with the following error"
+              values={{
+                address: <a href="mailto:support@mia-platform.eu">support@mia-platform.eu</a>,
+              }}
+            />
           </h3>
           <BoundaryStackTrace error={this.state.error} info={this.state.info} />
         </div>
