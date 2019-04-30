@@ -319,9 +319,8 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, intl } = this.props;
+    const { doc } = this.props;
     const oas = this.oas;
-    console.log('INTL', intl)
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
 
@@ -400,6 +399,7 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  intl: PropTypes.shape({}).isRequired,
 };
 
 Doc.defaultProps = {

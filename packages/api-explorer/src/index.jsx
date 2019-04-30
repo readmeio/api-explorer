@@ -2,13 +2,17 @@ import 'antd/dist/antd.css';
 import { Collapse, Tag } from 'antd';
 
 import { IntlProvider, addLocaleData } from 'react-intl';
-import it from 'react-intl/locale-data/de';
-import en from 'react-intl/locale-data/en';
+import itLocale from 'react-intl/locale-data/it';
+import enLocale from 'react-intl/locale-data/en';
+import it from "../i18n/it.json";
+import en from "../i18n/en.json";
 
 import colors from './colors'
 
-
-addLocaleData([...it, ...en]);
+addLocaleData([...itLocale, ...enLocale]);
+const messages = {
+  it, en,
+}
 
 const {Panel} = Collapse
 
@@ -31,6 +35,7 @@ const getAuth = require('./lib/get-auth');
 function getDescription(oasFiles){
   return get(oasFiles, 'api-setting.info.description')
 }
+
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -72,6 +77,7 @@ class ApiExplorer extends React.Component {
       return 'curl';
     }
   }
+
   getOas(doc) {
     // Get the apiSetting id from the following places:
     // - category.apiSetting if set and populated
@@ -105,8 +111,13 @@ class ApiExplorer extends React.Component {
   }
 
   renderDoc(doc) {
-    return(
-      <IntlProvider locale={this.props.i18n.locale} defaultLocale={this.props.i18n.defaultLocale}>
+    const localizedMessages = messages[this.props.i18n.locale] || messages[this.props.i18n.defaultLocale]
+    return (
+      <IntlProvider
+        locale={this.props.i18n.locale}
+        defaultLocale={this.props.i18n.defaultLocale}
+        messages={localizedMessages}
+      >
         <VariablesContext.Provider value={this.props.variables}>
           <OauthContext.Provider value={this.props.oauth}>
             <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>

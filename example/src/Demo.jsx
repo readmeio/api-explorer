@@ -26,6 +26,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
           <ApiExplorer
             i18n={{
               locale: 'it',
+              defaultLocale: 'en',
             }}
             // // To test the top level error boundary, uncomment this
             // docs={[null, null]}
