@@ -88,7 +88,7 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
-    const topStyle = this.state.height ? { height: this.state.height } : {};
+    const topStyle = this.state.height ? { height: `${this.state.height}px` } : {};
     const filler = this.state.height ? (
       <div className="filler">
         <div className="right" />
