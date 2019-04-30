@@ -163,6 +163,7 @@ class ApiExplorer extends React.Component {
           <Collapse
             defaultActiveKey={['0']}
             style={{background: 'none', border: 'none'}}
+            accordion
           >
             {this.props.docs.map((doc, index) => (
               <Panel header={this.renderHeaderPanel(doc)} style={{...styleByMethod(doc.api.method), ...panelStyle}} key={index}>
