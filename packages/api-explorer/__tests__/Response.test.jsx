@@ -74,5 +74,6 @@ test('should show different component tabs based on state', () => {
   expect(doc.html().includes('Response Headers')).toBe(true);
 
   // Should include request body in HTML
+  expect(doc.html().includes('Request Data')).toBe(true);
   expect(doc.html().includes(JSON.stringify({ b: 2 }))).toBe(true);
 });
