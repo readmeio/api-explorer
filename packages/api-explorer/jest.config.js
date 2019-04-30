@@ -4,6 +4,6 @@ module.exports = {
   ...config,
   rootDir: './',
   moduleNameMapper: {
-    "\\.(css|less|sass|scss)$": "<rootDir>/__tests__/__mocks__/styleMock.js",
+    "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
   }
 };
