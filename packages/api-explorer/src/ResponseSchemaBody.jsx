@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -121,7 +123,7 @@ function ResponseSchemaBody({ schema, oas }) {
       {schema &&
       schema.type && (
         <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
-          {`Response schema type: `}
+          <FormattedMessage id="api.response.schematype" defaultMessage="Response schema type:" /> {' '}
           <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
         </p>
       )}
