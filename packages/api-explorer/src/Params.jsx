@@ -25,7 +25,7 @@ class Params extends Component{
   
   renderParam(schema) {
     const {
-      operation,
+      // operation,
       formData,
       onChange,
       onSubmit,

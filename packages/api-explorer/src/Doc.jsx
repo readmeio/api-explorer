@@ -1,14 +1,18 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unused-prop-types */
 import React, {Fragment} from 'react'
+import Waypoint from 'react-waypoint'
 
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
 
+import {get} from 'lodash'
+import extensions from '@readme/oas-extensions'
+
 import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
-import extensions from '@readme/oas-extensions'
-import Waypoint from 'react-waypoint'
-import {get} from 'lodash'
 
 import ContentWithTitle from './components/ContentWithTitle'
 import Select from './components/Select'
@@ -110,7 +114,7 @@ class Doc extends React.Component {
         result: await parseResponse(har, res),
         error: false
       });
-    }).catch(e => {
+    }).catch(() => {
       this.setState({
         loading: false,
         error: true

@@ -13,6 +13,7 @@ function getSecurityTabs(securityTypes, config, onChange,onSubmit) {
   return Object.keys(securityTypes).map((type, index) => {
     const securities = securityTypes[type];
     return (
+      // eslint-disable-next-line react/no-array-index-key
       <TabPane tab={type} key={`security-${index}`} >
         <form onSubmit={onSubmit}>
           <div style={{padding: '15px 17px'}}>

@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react';
 
+import ContentWithTitle from './components/ContentWithTitle'
+import Select from './components/Select'
+
 const PropTypes = require('prop-types');
-const classNames = require('classnames');
 
 const Oas = require('./lib/Oas');
 const findSchemaDefinition = require('./lib/find-schema-definition');
 const ResponseSchemaBody = require('./ResponseSchemaBody');
-
-import ContentWithTitle from './components/ContentWithTitle'
-import Select from './components/Select'
 
 const { Operation } = Oas;
 

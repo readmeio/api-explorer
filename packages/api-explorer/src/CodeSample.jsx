@@ -134,6 +134,7 @@ class CodeSample extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line no-unused-vars
     const { oas, setLanguage, operation, formData, language, examples, auth,  selectedContentType} = this.props;
     return (
       <div className="tabber-parent">

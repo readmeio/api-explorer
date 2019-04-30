@@ -1,3 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-unused-prop-types */
 import { Collapse, Tag } from 'antd';
 
 import colors from './colors'

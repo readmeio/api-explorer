@@ -1,9 +1,9 @@
+import colors from '../colors'
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
 const oauthHref = require('../lib/oauth-href');
-
-import colors from '../colors'
 
 const style={
   container: {
