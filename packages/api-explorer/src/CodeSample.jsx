@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react'
+import {FormattedMessage} from 'react-intl';
 
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
@@ -147,7 +148,14 @@ class CodeSample extends React.Component {
         {(() => {
           // if (examples.length) return this.renderSelected(examples, setLanguage); I think we don't need this (Riccardo Di Benedetto)
           if (!oas[extensions.SAMPLES_ENABLED]) {
-            return <div className="hub-no-code">No code samples available</div>;
+            return (
+              <div className="hub-no-code">
+                <FormattedMessage
+                  id="code.sample.na"
+                  defaultMessage="No code samples available"
+                />
+              </div>
+            );
           }
           const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language, selectedContentType);
           const languagesList = oas[extensions.SAMPLES_LANGUAGES]
