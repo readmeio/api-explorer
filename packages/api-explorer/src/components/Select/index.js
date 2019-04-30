@@ -1,12 +1,15 @@
 import React from 'react'
+import { Select as SelectComponent } from 'antd'
 
-export default function Select({options, onChange}){
+export default class Select extends React.PureComponent {
+  render() {
+    const { options, value, onChange } = this.props
     return (
-            (options.length === 0) ? null
-            :
-            <select onChange={onChange}>
-                <option value />
-                {options.map((content, index) => <option value={content} key={`o-${index}`}>{content}</option>)}
-            </select>
+      (options.length === 0) ? null
+      :
+      <SelectComponent onChange={onChange}  value={value || options[0]}>
+        {options.map((content, index) => <SelectComponent.Option value={content} key={`o-${index}`}>{content}</SelectComponent.Option>)}
+      </SelectComponent>
     )
+  }
 }

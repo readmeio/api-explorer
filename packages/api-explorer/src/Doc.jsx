@@ -37,8 +37,8 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
-      selectedContentType: null,
-      auth: null
+      auth: null,
+      selectedContentType: undefined,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
@@ -112,9 +112,26 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  renderContentTypeSelect() {
+  renderContentTypeSelect(showTitle = false) {
     const list = getContentTypeFromOperation(this.getOperation())
-    return <Select options={list} onChange={(e) => this.setState({selectedContentType: e.currentTarget.value})} />
+    const renderSelect = () => {
+      return (<Select
+        value={this.state.selectedContentType}
+        options={list}
+        onChange={value => this.setState({selectedContentType: value})} 
+      />)
+    }
+
+    return list && list.length !== 0 && showTitle ? (
+      <ContentWithTitle
+        title='Select Content Type'
+        showBorder={false}
+        showDivider={false}
+        theme={'dark'}
+        titleUpperCase
+        content={renderSelect()}
+      />
+    ) : renderSelect()
   }
 
   renderCodeAndResponse() {
@@ -123,6 +140,7 @@ class Doc extends React.Component {
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
     }
+
     return(
       // <div className="hub-reference-section hub-reference-section-code">
       <div style={{display: 'grid', gridGap: '8px'}}>
@@ -243,6 +261,7 @@ class Doc extends React.Component {
                   {this.renderPathUrl()}  
                   {this.renderDescription()}
                   {this.renderLogs()}
+                  {this.renderContentTypeSelect(true)}
                   {this.renderParams()}
                 </div>
               </div>

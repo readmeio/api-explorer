@@ -138,18 +138,6 @@ class ApiExplorer extends React.Component {
     )
   }
 
-  renderGlobalAuth(){
-    const authMap = this.state.auth
-    console.log(authMap)
-    return(
-      <Fragment>
-        <ul>
-          {Object.keys(authMap).map(auth => <li>{auth} : {JSON.stringify(authMap[auth])}</li>)}
-        </ul>
-      </Fragment>
-    )
-  }
-
   render() {
     const styleByMethod = (method) => ({
         backgroundColor: colors[`${method}Light`], 
@@ -159,7 +147,6 @@ class ApiExplorer extends React.Component {
     return (
       <div className={`is-lang-${this.state.language}`}>
         {this.renderDescription()}
-        {this.renderGlobalAuth()}
         <div
           id="hub-reference"
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
