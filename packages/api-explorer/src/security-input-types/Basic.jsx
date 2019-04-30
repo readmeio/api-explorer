@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -9,7 +11,9 @@ function Basic({ user, pass, change, authInputRef, Input }) {
   return (
     <div className="row">
       <div className="col-xs-6">
-        <label htmlFor="user">username</label>
+        <label htmlFor="user">
+          <FormattedMessage id="auth.basic.username" defaultMessage="username" />
+        </label>
         <Input
           inputRef={authInputRef}
           type="text"
@@ -19,7 +23,9 @@ function Basic({ user, pass, change, authInputRef, Input }) {
         />
       </div>
       <div className="col-xs-6">
-        <label htmlFor="password">password</label>
+        <label htmlFor="password">
+          <FormattedMessage id="auth.basic.password" defaultMessage="password" />
+        </label>
         <Input
           type="text"
           onChange={e => inputChange(e.target.name, e.target.value)}
