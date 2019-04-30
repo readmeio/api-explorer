@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component {
         <div style={{ paddingLeft: '2%', width: '75%' }}>
           <h3>
             <FormattedMessage
-              id="error.endpoint.render"
+              id="error.explorer.render"
               defaultMessage="There was an error rendering the API Explorer. If you are the owner of this project please contact {address} with the following error"
               values={{
                 address: <a href="mailto:support@mia-platform.eu">support@mia-platform.eu</a>,

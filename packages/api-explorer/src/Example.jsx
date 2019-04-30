@@ -63,9 +63,9 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
       {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
           {oas[extensions.EXPLORER_ENABLED] ? (
-            <FormattedMessage id="api.example.try" defaultMessage="Try the API to see Results" />
+            <FormattedMessage id="code.example.try" defaultMessage="Try the API to see Results" />
           ) : (
-            <FormattedMessage id="api.example.na" defaultMessage="No response examples available" />
+            <FormattedMessage id="code.example.na" defaultMessage="No response examples available" />
           )}
         </div>
       )}

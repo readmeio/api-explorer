@@ -38,7 +38,7 @@ function renderButtonTry(loading, onSubmit){
     >
       {!loading && (
         <span className="try-it-now-btn">
-          <span className="fa fa-compass" />&nbsp;
+          <span className="fa fa-compass" />{' '}
           <span><FormattedMessage id="api.try" defaultMessage="Try It" /></span>
         </span>
       )}
