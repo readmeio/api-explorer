@@ -44,7 +44,7 @@ test('boolean should render as <select>', () => {
   const select = params.find('.field-boolean select');
 
   expect(select.length).toBe(1);
-  expect(select.find('option').length).toBe(3);
+  expect(select.find('option').length).toBe(2);
   expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
 });
 
