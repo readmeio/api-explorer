@@ -146,6 +146,11 @@ class ApiExplorer extends React.Component {
         border: `1px solid ${colors[method]}`
     })
 
+    const panelStyle = {
+      margin: '5px 0px',
+      borderRadius: 5,
+      overflow: 'hidden'
+    }
     return (
       <div className={`is-lang-${this.state.language}`}>
         {this.renderDescription()}
@@ -157,9 +162,10 @@ class ApiExplorer extends React.Component {
         >
           <Collapse
             defaultActiveKey={['0']}
+            style={{background: 'none', border: 'none'}}
           >
             {this.props.docs.map((doc, index) => (
-              <Panel header={this.renderHeaderPanel(doc)} style={styleByMethod(doc.api.method)} key={index}>
+              <Panel header={this.renderHeaderPanel(doc)} style={{...styleByMethod(doc.api.method), ...panelStyle}} key={index}>
                 {this.renderDoc(doc)}
               </Panel>
           ))}
