@@ -1,6 +1,7 @@
+import PathUrl from '../src/PathUrl';
+
 const React = require('react');
 const { shallow } = require('enzyme');
-const PathUrl = require('../src/PathUrl');
 const Oas = require('../src/lib/Oas');
 
 const { splitPath } = PathUrl;
