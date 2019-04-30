@@ -1,5 +1,6 @@
 import React from 'react'
 import {Icon} from 'antd'
+import {FormattedMessage} from 'react-intl';
 
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
@@ -12,7 +13,13 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
     const securities = securityTypes[type];
     return (
       <form key={type} onSubmit={onSubmit}>
-        <h3>{type} Auth</h3>
+        <h3>{type}&nbsp;
+          <FormattedMessage
+            id='api.auth'
+            defaultMessage='Auth'
+          />
+        </h3>
+
         <div className="pad">
           <section>
             {
@@ -76,7 +83,10 @@ function AuthBox({
         <div className={classNames('hub-authrequired', { active: needsAuth })}>
           <div className="hub-authrequired-slider">
             <i className="icon icon-notification" />
-            Authentication is required for this endpoint
+            <FormattedMessage
+              id='api.auth.required'
+              defaultMessage='Authentication is required for this endpoint'
+            />
           </div>
         </div>
       </div>
