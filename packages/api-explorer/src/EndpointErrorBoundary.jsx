@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -22,12 +24,13 @@ class EndpointErrorBoundary extends React.Component {
         <div className="hub-reference-section">
           <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
             <h3>
-              There was an error rendering this endpoint. If you are the owner of this project
-              please contact{' '}
-              <a href="mailto:support@readme.io?subject=API Explorer Error">
-                support@readme.io
-              </a>{' '}
-              with the following error:
+              <FormattedMessage
+                id="error.endpoint.render"
+                message="There was an error rendering this endpoint. If you are the owner of this project please contact {address} with the following error"
+                value={{
+                  address: 'support@mia-platform.eu'
+                }}
+              />
             </h3>
             <BoundaryStackTrace error={this.state.error} info={this.state.info} />
           </div>
