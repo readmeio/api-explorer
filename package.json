@@ -7,7 +7,7 @@
     "start": "node scripts/update-example-swagger-files && webpack-dev-server",
     "build": "./build.sh & lerna run build",
     "watch": "lerna run watch --stream",
-    "deploy": "gh-pages --dotfiles -d example/dist",
+    "deploy": "npx gh-pages --dotfiles -d example/dist",
     "publish": "lerna publish",
     "version": "auto-changelog -v $(node -e \"console.log('v' + require('./lerna.json').version)\") && git add CHANGELOG.md"
   },
