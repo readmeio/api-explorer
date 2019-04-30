@@ -14,11 +14,11 @@
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
   },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "author": "Mia Platform Core Team<core@mia-platform.eu>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git@github.com:readme/api-explorer.git"
+    "url": "git@github.com:miaplatform/api-explorer.git"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
