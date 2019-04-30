@@ -43,7 +43,7 @@ describe('url', () => {
 
   describe('proxy url', () => {
     const proxyOas = new Oas({
-      [extensions.PROXY_ENABLED]: true,
+      [extensions.PROXY_ENABLED]: false,
     });
     test('should not be prefixed with without option', () => {
       expect(oasToHar(proxyOas, { path: '/path', method: 'get' }).log.entries[0].request.url).toBe(
@@ -51,11 +51,11 @@ describe('url', () => {
       );
     });
 
-    test('should be prefixed with try.readme.io with option', () => {
+    test('should never be prefixed with try.readme.io with option', () => {
       expect(
         oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log
           .entries[0].request.url,
-      ).toBe('https://try.readme.io/https://example.com/path');
+      ).toBe('https://example.com/path');
     });
   });
 });
