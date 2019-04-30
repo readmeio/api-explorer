@@ -1,4 +1,5 @@
-const React = require('react');
+import React, { Fragment } from 'react';
+
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 
@@ -7,7 +8,7 @@ const findSchemaDefinition = require('./lib/find-schema-definition');
 const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 import ContentWithTitle from './components/ContentWithTitle'
-import { Fragment } from 'react';
+import Select from './components/Select'
 
 const { Operation } = Oas;
 
@@ -54,8 +55,8 @@ class ResponseSchema extends React.Component {
     return response.content;
   }
 
-  changeHandler(e) {
-    this.selectedStatus(e.target.value);
+  changeHandler(status) {
+    this.selectedStatus(status);
   }
 
   selectedStatus(selected) {
@@ -68,16 +69,7 @@ class ResponseSchema extends React.Component {
     return(
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <span>Response</span>
-        <select
-          value={this.state.selectedStatus}
-          onChange={this.changeHandler}
-        >
-          {keys.map(status => (
-            <option value={status} key={status}>
-              {status}
-            </option>
-              ))}
-        </select>
+        <Select options={keys} onChange={this.changeHandler} value={this.state.selectedStatus} />
       </div>
     )
   }
