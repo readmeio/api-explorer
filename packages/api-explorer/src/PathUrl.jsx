@@ -1,3 +1,4 @@
+import { FormattedMessage } from 'react-intl';
 import {Button, Tag} from 'antd'
 
 import colors from './colors'
@@ -38,7 +39,7 @@ function renderButtonTry(loading, onSubmit){
       {!loading && (
         <span className="try-it-now-btn">
           <span className="fa fa-compass" />&nbsp;
-          <span>Try It</span>
+          <span><FormattedMessage id="api.try" defaultMessage="Try It" /></span>
         </span>
       )}
 
