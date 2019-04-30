@@ -24,20 +24,6 @@ const props = {
 
 const Params = createParams(oas);
 
-describe('form id attribute', () => {
-  test('should be set to the operationId', () => {
-    expect(
-      mount(
-        <div>
-          <Params {...props} />
-        </div>,
-      )
-        .html()
-        .match(new RegExp(`form-${operation.operationId}`, 'g')).length,
-    ).toBe(1);
-  });
-});
-
 test('should use custom description component', () => {
   const params = mount(
     <div>
