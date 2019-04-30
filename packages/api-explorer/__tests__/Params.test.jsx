@@ -208,18 +208,6 @@ describe('x-explorer-enabled', () => {
   });
 });
 
-describe('readOnly', () => {
-  test('should make `readOnly` properties hidden', () => {
-    expect(
-      mount(
-        <div>
-          <Params {...props} operation={oas.operation('/pet', 'post')} />
-        </div>,
-      ).find('input#addPet_id[type="hidden"]').length,
-    ).toBe(1);
-  });
-});
-
 test('defaults should be applied on first render', done => {
   const defaultValue = 'this is a default value';
   function onChange(formData) {
