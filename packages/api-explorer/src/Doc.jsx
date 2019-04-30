@@ -124,7 +124,7 @@ class Doc extends React.Component {
       <div style={{display: 'grid', gridGap: '8px'}}>
         {/* <div className="hub-reference-left"> */}
         <ContentWithTitle 
-          title={this.props.intl.formatMessage({id:'doc.definition'})} 
+          title={this.props.intl.formatMessage({id:'doc.definition', defaultMessage: 'Definition'})} 
           showBorder={false}
           content={
             <pre style={definitionStyle}>
@@ -132,8 +132,15 @@ class Doc extends React.Component {
             </pre>
           } 
         />
-        <ContentWithTitle title={'Examples'} subheader={this.renderContentTypeSelect()} content={this.renderCodeSample()} />
-        <ContentWithTitle title={'Results'}  content={this.renderResponse()} />
+        <ContentWithTitle
+          title={this.props.intl.formatMessage({id:'doc.examples', defaultMessage: 'Examples'})}
+          subheader={this.renderContentTypeSelect()}
+          content={this.renderCodeSample()}
+        />
+        <ContentWithTitle
+          title={this.props.intl.formatMessage({id:'doc.results', defaultMessage: 'Results'})}
+          content={this.renderResponse()}
+        />
       </div>
     )
   }
@@ -207,6 +214,8 @@ class Doc extends React.Component {
 
   renderDescription() {
     const {doc} = this.props
+    const descriptionUpperTitle = this.props.intl.formatMessage({id:'doc.description', defaultMessage: 'Description'})
+    const descriptionNotAvailable = this.props.intl.formatMessage({id:'doc.description.na', defaultMessage: 'Description not available'})
     return(
       <Fragment>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -220,8 +229,8 @@ class Doc extends React.Component {
               <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
             </a>
           </div>
-        )} 
-          {this.renderContentWithUpperTitle('Description', doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available')}
+          )}
+          {this.renderContentWithUpperTitle(descriptionUpperTitle, doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : descriptionNotAvailable)}
         </div>
       </Fragment>
     )
@@ -399,7 +408,9 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
-  intl: PropTypes.shape({}).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Doc.defaultProps = {
