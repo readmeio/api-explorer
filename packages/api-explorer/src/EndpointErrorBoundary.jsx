@@ -26,9 +26,9 @@ class EndpointErrorBoundary extends React.Component {
             <h3>
               <FormattedMessage
                 id="error.endpoint.render"
-                message="There was an error rendering this endpoint. If you are the owner of this project please contact {address} with the following error"
-                value={{
-                  address: 'support@mia-platform.eu'
+                defaultMessage="There was an error rendering this endpoint. If you are the owner of this project please contact {address} with the following error"
+                values={{
+                  address: <a href="mailto:support@mia-platform.eu">support@mia-platform.eu</a>,
                 }}
               />
             </h3>
