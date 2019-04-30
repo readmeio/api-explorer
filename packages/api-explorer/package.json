@@ -38,9 +38,9 @@
     "registry": "http://registry.npmjs.org",
     "access": "public"
   },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "author": "Mia Platform Core Team<core@mia-platform.eu>",
   "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-explorer",
+  "repository": "https://github.com/mia-platform/api-explorer/tree/master/packages/api-explorer",
   "devDependencies": {
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",
