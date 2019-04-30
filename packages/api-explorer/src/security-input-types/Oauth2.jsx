@@ -3,6 +3,17 @@ const PropTypes = require('prop-types');
 
 const oauthHref = require('../lib/oauth-href');
 
+import colors from '../colors'
+
+const style={
+  container: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, minmax(50px, min-content))',
+    alignItems: 'center',
+    gridGap: 10,
+    fontSize: 12
+  }
+}
 function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
   if (!apiKey && oauth) {
     return (
@@ -23,23 +34,14 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
         //   if security.description
         //     != marked(security.description)
       }
-      <div className="row">
-        <div className="col-xs-4">
+      <div style={style.container}>
+        <div>
           <label htmlFor="apiKey">Authorization</label>
         </div>
-        <div className="col-xs-2">
-          <div
-            style={{
-              display: 'inline-block',
-              marginRight: '10px',
-              marginTop: '5px',
-              fontSize: '13px',
-            }}
-          >
-            Bearer
-          </div>
+        <div style={{color: colors.authType}}>
+          Bearer
         </div>
-        <div className="col-xs-6">
+        <div>
           <Input
             inputRef={authInputRef}
             disabled={oauth}

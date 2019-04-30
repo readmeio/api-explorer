@@ -2,12 +2,27 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const ReactJson = require('react-json-view').default;
-const contentTypeIsJson = require('./lib/content-type-is-json');
-const oauthHref = require('./lib/oauth-href');
+const contentTypeIsJson = require('../../lib/content-type-is-json');
+const oauthHref = require('../../lib/oauth-href');
+
+import colors from '../../colors'
 
 function Authorized({ result }) {
   const isJson =
     result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
+
+  const notJsonStyle = {
+    fontSize: 12,
+    fontFamily: 'Monaco, "Lucida Console", monospace',
+    border: 0,
+    background: 'transparent',
+    padding: '0 30px',
+    overflow: 'visible',
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-all',
+    color: colors.notJson
+
+  }
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
@@ -25,13 +40,17 @@ function Authorized({ result }) {
           style={{
             padding: '20px 10px',
             backgroundColor: 'transparent',
+            color: colors.reactJson,
             fontSize: '12px',
+            overflow: 'visible',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-all'
           }}
         />
       )}
       {!result.isBinary &&
       !isJson && (
-        <pre className="tomorrow-night">
+        <pre className="tomorrow-night" style={notJsonStyle}>
           <div className="cm-s-tomorrow-night codemirror-highlight">
             {syntaxHighlighter(result.responseBody, result.type)}
           </div>
@@ -77,7 +96,7 @@ Unauthorized.defaultProps = {
 
 function ResponseBody({ result, isOauth, oauth }) {
   return (
-    <div className="tabber-body tabber-body-result" style={{ display: 'block' }}>
+    <div style={{ display: 'block'}}>
       {result.status !== 401 && <Authorized result={result} />}
       {result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />}
     </div>
