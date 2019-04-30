@@ -1,4 +1,3 @@
-import 'antd/dist/antd.css';
 import { Collapse, Tag } from 'antd';
 
 import colors from './colors'
