@@ -45,9 +45,7 @@ class ApiExplorer extends React.Component {
   }
 
   onAuthChange(auth) {
-    console.log('Auth change ', auth)
     this.setState(previousState => {
-      console.log('Previous ', previousState.auth)
       return {
         auth: Object.assign({}, previousState.auth, auth),
       };
