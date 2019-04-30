@@ -47,6 +47,7 @@ class Doc extends React.Component {
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
     this.Params = createParams(this.oas);
+    this.onAuthReset = this.onAuthReset.bind(this)
   }
 
   onChange(formData) {
@@ -61,7 +62,6 @@ class Doc extends React.Component {
   onSubmit() {
     const {auth} = this.state
     const operation = this.getOperation();
-
     if (!isAuthReady(operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
@@ -70,7 +70,6 @@ class Doc extends React.Component {
       }, 600);
       return false;
     }
-
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
     const har = oasToHar(this.oas, operation, this.state.formData, auth || this.props.auth, {
@@ -94,6 +93,10 @@ class Doc extends React.Component {
     const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
     this.operation = operation;
     return operation;
+  }
+
+  getCurrentAuth(){
+    return this.state.auth || this.props.auth
   }
 
   toggleAuth(e) {
@@ -154,7 +157,7 @@ class Doc extends React.Component {
         setLanguage={this.props.setLanguage}
         operation={this.getOperation()}
         formData={this.state.formData}
-        auth={this.props.auth}
+        auth={this.getCurrentAuth()}
         language={this.props.language}
         examples={examples}
         selectedContentType={selectedContentType}
@@ -308,6 +311,10 @@ class Doc extends React.Component {
     })
   }
 
+  onAuthReset(){
+    this.setState({auth: null})
+  }
+  
   renderPathUrl() {
     return (
       <PathUrl
@@ -322,7 +329,9 @@ class Doc extends React.Component {
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
-        auth={this.state.auth || this.props.auth}
+        auth={this.getCurrentAuth()}
+        onReset={this.onAuthReset}
+        showReset={this.state.auth !== null}
       />
     );
   }

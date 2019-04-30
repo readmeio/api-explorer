@@ -84,6 +84,8 @@ function PathUrl({
   onSubmit,
   oauth,
   auth,
+  onReset,
+  showReset
 }) {
   const containerStyle = {
     background: '#f0f2f4',
@@ -105,7 +107,7 @@ function PathUrl({
           {oas[extensions.EXPLORER_ENABLED] && (
             <div className="api-definition-actions">
               <AuthBox
-                operation={operation}
+                securityTypes={operation.prepareSecurity()}
                 onChange={onChange}
                 onSubmit={onSubmit}
                 open={showAuthBox}
@@ -114,6 +116,8 @@ function PathUrl({
                 authInputRef={authInputRef}
                 oauth={oauth}
                 auth={auth}
+                onReset={onReset}
+                showReset={false} // ToDo: showReset={showReset} after merge of AC-801 (new GUI for AuthBox)
               />
 
               {renderButtonTry(loading, onSubmit)}
@@ -139,6 +143,7 @@ PathUrl.propTypes = {
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
+  showReset: PropTypes.bool
 };
 
 PathUrl.defaultProps = {
@@ -146,6 +151,7 @@ PathUrl.defaultProps = {
   needsAuth: false,
   authInputRef: () => {},
   auth: {},
+  showReset: true
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

@@ -1,13 +1,12 @@
 import React from 'react'
-import {Icon} from 'antd'
+import {Icon, Button} from 'antd'
 
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }) {
-  const securityTypes = operation.prepareSecurity();
+function Securities({ authInputRef, securityTypes, onChange, oauth, auth, onSubmit }) {
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
     return (
@@ -43,7 +42,7 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
 
 function AuthBox({
   authInputRef,
-  operation,
+  securityTypes,
   onSubmit,
   onChange,
   open,
@@ -51,9 +50,11 @@ function AuthBox({
   toggle,
   oauth,
   auth,
+  onReset,
+  showReset
 }) {
-  if (Object.keys(operation.prepareSecurity()).length === 0) return null;
-
+  if (Object.keys(securityTypes).length === 0) return null;
+  
   return (
     <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
       {
@@ -65,7 +66,7 @@ function AuthBox({
         <div className="triangle" />
         <div>
           <Securities
-            {...{ authInputRef, operation, oauth, auth }}
+            {...{ authInputRef, securityTypes, oauth, auth }}
             onChange={onChange}
             onSubmit={e => {
               e.preventDefault();
@@ -73,6 +74,17 @@ function AuthBox({
             }}
           />
         </div>
+        {
+          showReset ? 
+            <Button 
+              onClick={onReset}
+              type={'danger'}
+              size={'small'}
+            >
+              Reset
+            </Button> 
+        : null
+      }
         <div className={classNames('hub-authrequired', { active: needsAuth })}>
           <div className="hub-authrequired-slider">
             <i className="icon icon-notification" />
@@ -85,15 +97,17 @@ function AuthBox({
 }
 
 AuthBox.propTypes = {
-  operation: PropTypes.instanceOf(Operation).isRequired,
+  securityTypes: PropTypes.object.isRequired,
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   toggle: PropTypes.func.isRequired,
   needsAuth: PropTypes.bool,
   open: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
+  onReset: PropTypes.func,
+  showReset: PropTypes.bool
 };
 
 AuthBox.defaultProps = {
@@ -101,6 +115,9 @@ AuthBox.defaultProps = {
   open: false,
   authInputRef: () => {},
   auth: {},
+  onSubmit: () => {},
+  onReset: () => {},
+  showReset: true
 };
 
 module.exports = AuthBox;
