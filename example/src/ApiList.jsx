@@ -23,7 +23,6 @@ class ApiList extends React.Component {
       .then(apis => this.setState({ apis: Object.assign({}, this.state.apis, apis) }));
     }
 
-
     this.props.fetchSwagger(this.state.selected);
   }
 
