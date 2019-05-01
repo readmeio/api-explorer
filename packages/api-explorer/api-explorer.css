@@ -483,15 +483,12 @@ form.rjsf fieldset {
   display: flex;
   flex-direction: column;
 }
-#hub-reference .filler {
+#hub-reference .hub-reference.filler {
   flex: 1;
   position: relative;
   width: 100%;
 }
-#hub-reference .filler .right {
-  float: right;
-  width: 390px;
+
+#hub-reference .hub-reference.filler .hub-reference-section {
   height: 100%;
-  background-color: #f0f2f4;
-  border-left: 1px solid #dee5e8;
 }

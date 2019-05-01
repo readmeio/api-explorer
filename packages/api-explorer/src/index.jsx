@@ -90,8 +90,11 @@ class ApiExplorer extends React.Component {
   render() {
     const topStyle = this.state.height ? { height: `${this.state.height}px` } : {};
     const filler = this.state.height ? (
-      <div className="filler">
-        <div className="right" />
+      <div className="hub-reference filler">
+        <div className="hub-reference-section">
+          <div className="hub-reference-left" />
+          <div className="hub-reference-right" />
+        </div>
       </div>
     ) : (
       undefined
