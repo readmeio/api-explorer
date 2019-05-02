@@ -83,13 +83,15 @@ class AuthBox extends Component {
         </Tabs>
         {
           showReset ? 
-            <Button 
-              onClick={onReset}
-              type={'danger'}
-              size={'small'}
-            >
-              Reset
-            </Button> 
+            <div style={{padding: 5}}>
+              <Button 
+                onClick={onReset}
+                type={'danger'}
+                size={'small'}
+              >
+                Reset
+              </Button>
+            </div>
         : null
       }
         {this.renderAuthAlert()}

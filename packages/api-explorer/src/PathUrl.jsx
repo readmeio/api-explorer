@@ -116,7 +116,7 @@ function PathUrl({
                 oauth={oauth}
                 auth={auth}
                 onReset={onReset}
-                showReset={false}
+                showReset={showReset}
               />
             </div>
 
@@ -143,6 +143,7 @@ PathUrl.propTypes = {
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
   showReset: PropTypes.bool,
+  onReset: PropTypes.func,
   error: PropTypes.bool
 };
 
@@ -152,7 +153,8 @@ PathUrl.defaultProps = {
   authInputRef: () => {},
   auth: {},
   showReset: true,
-  error: false
+  error: false,
+  onReset: () => {}
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;
