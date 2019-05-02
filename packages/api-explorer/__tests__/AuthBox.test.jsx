@@ -1,6 +1,6 @@
+import React from 'react';
 import AuthBox from '../src/AuthBox';
 
-const React = require('react');
 const { shallow, mount } = require('enzyme');
 
 const Oas = require('../src/lib/Oas.js');
