@@ -81,6 +81,8 @@ function PathUrl({
   onSubmit,
   oauth,
   auth,
+  onReset,
+  showReset,
   error
 }) {
   const containerStyle = {
@@ -101,23 +103,25 @@ function PathUrl({
         </div>
           
         {oas[extensions.EXPLORER_ENABLED] && (
-        <div style={{display: 'flex', alignItems: 'center'}}>
-          <div style={{marginRight: 10}}>
-            <AuthBox
-              operation={operation}
-              onChange={onChange}
-              onSubmit={onSubmit}
-              open={showAuthBox}
-              needsAuth={needsAuth}
-              toggle={toggleAuth}
-              authInputRef={authInputRef}
-              oauth={oauth}
-              auth={auth}
-            />
-          </div>
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{marginRight: 10}}>
+              <AuthBox
+                securityTypes={operation.prepareSecurity()}
+                onChange={onChange}
+                onSubmit={onSubmit}
+                open={showAuthBox}
+                needsAuth={needsAuth}
+                toggle={toggleAuth}
+                authInputRef={authInputRef}
+                oauth={oauth}
+                auth={auth}
+                onReset={onReset}
+                showReset={showReset}
+              />
+            </div>
 
-          {renderButtonTry(loading, onSubmit, error)}
-        </div>
+            {renderButtonTry(loading, onSubmit, error)}
+          </div>
           )}
 
       </div>
@@ -138,6 +142,8 @@ PathUrl.propTypes = {
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
+  showReset: PropTypes.bool,
+  onReset: PropTypes.func,
   error: PropTypes.bool
 };
 
@@ -146,7 +152,9 @@ PathUrl.defaultProps = {
   needsAuth: false,
   authInputRef: () => {},
   auth: {},
-  error: false
+  showReset: true,
+  error: false,
+  onReset: () => {}
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;
