@@ -1,11 +1,10 @@
 import React, {Component, Fragment} from 'react'
-import {Icon, Popover, Alert, Tabs} from 'antd'
+import {Icon, Popover, Alert, Tabs, Button} from 'antd'
 
 const {TabPane} = Tabs
 
 const PropTypes = require('prop-types');
-const SecurityInput = require('./SecurityInput');
-const { Operation } = require('./lib/Oas');
+const SecurityInput = require('./SecurityInput')
 
 function getSecurityTabs(securityTypes, config, onChange,onSubmit) {
   const {authInputRef, oauth, auth} = config
@@ -58,21 +57,22 @@ class AuthBox extends Component {
   }
   renderSecurityBox(){
     const {
-      operation,
+      securityTypes,
       onSubmit,
       onChange,
       oauth,
       auth,
-      authInputRef
+      authInputRef,
+      showReset,
+      onReset
     } = this.props
-    const securityTypes = operation.prepareSecurity();
     return(
       <Fragment>
         <Tabs defaultActiveKey={'security-0'}>
           {
             getSecurityTabs(
               securityTypes,
-              { authInputRef, operation, oauth, auth },
+              { authInputRef, oauth, auth },
               onChange,
               e => {
                 e.preventDefault();
@@ -82,15 +82,28 @@ class AuthBox extends Component {
           }
         
         </Tabs>
+        {
+          showReset ? 
+            <div style={{padding: 5}}>
+              <Button 
+                onClick={onReset}
+                type={'danger'}
+                size={'small'}
+              >
+                Reset
+              </Button>
+            </div>
+        : null
+      }
         {this.renderAuthAlert()}
       </Fragment>
     )
   }
 
   render() {
-    const {operation} = this.props
+    const {securityTypes} = this.props
 
-    if (Object.keys(operation.prepareSecurity()).length === 0) return null;
+    if (Object.keys(securityTypes).length === 0) return null;
     
     return (
       <Popover
@@ -105,15 +118,17 @@ class AuthBox extends Component {
 }
 
 AuthBox.propTypes = {
-  operation: PropTypes.instanceOf(Operation).isRequired,
+  securityTypes: PropTypes.object.isRequired,
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   toggle: PropTypes.func.isRequired,
   needsAuth: PropTypes.bool,
   open: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
+  onReset: PropTypes.func,
+  showReset: PropTypes.bool
 };
 
 AuthBox.defaultProps = {
@@ -121,6 +136,10 @@ AuthBox.defaultProps = {
   open: false,
   authInputRef: () => {},
   auth: {},
+  onSubmit: () => {},
+  onReset: () => {},
+  showReset: true,
+  securityTypes: {}
 };
 
 module.exports = AuthBox;

@@ -1,13 +1,14 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unused-prop-types */
+import React from 'react'
 import { Collapse, Tag } from 'antd';
+import get from 'lodash.get'
 
 import colors from './colors'
 
 const {Panel} = Collapse
 
-const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
@@ -15,7 +16,6 @@ const VariablesContext = require('@readme/variable/contexts/Variables');
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
-const {get} = require('lodash')
 const markdown = require('@readme/markdown');
 
 const ErrorBoundary = require('./ErrorBoundary');
@@ -143,6 +143,7 @@ class ApiExplorer extends React.Component {
       </div>    
     )
   }
+
   render() {
     const styleByMethod = (method) => ({
         backgroundColor: colors[`${method}Light`], 
