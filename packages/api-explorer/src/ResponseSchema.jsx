@@ -64,7 +64,6 @@ class ResponseSchema extends React.Component {
 
   renderHeader(){
     const keys = Object.keys(this.props.operation.responses);
-    
     return(
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <span>Response</span>
@@ -78,8 +77,8 @@ class ResponseSchema extends React.Component {
     return(
       <Fragment>
         {operation.responses[this.state.selectedStatus].description && (
-        <p>{operation.responses[this.state.selectedStatus].description}</p>
-      )}
+          <p>{operation.responses[this.state.selectedStatus].description}</p>
+        )}
         { schema && <ResponseSchemaBody schema={schema} oas={oas} />}
       </Fragment>
     )
