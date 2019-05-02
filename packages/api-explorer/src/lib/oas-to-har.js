@@ -88,11 +88,6 @@ module.exports = (
     url: `${oas.url()}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
 
-  // TODO look to move this to Oas class as well
-  if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
-    // har.url = `https://try.readme.io/${har.url}`; // Remove?
-  }
-
   if (pathOperation.parameters) {
     pathOperation.parameters.forEach((param, i, params) => {
       if (param.$ref) {
