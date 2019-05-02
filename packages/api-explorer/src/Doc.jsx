@@ -123,6 +123,18 @@ class Doc extends React.Component {
     });
   }
 
+  onAuthChange(auth) {
+    this.setState(prevState => {
+      return {
+        auth: {...prevState.auth, ...auth}
+      }
+    })
+  }
+
+  onAuthReset(){
+    this.setState({auth: null})
+  }
+  
   getOperation() {
     if (this.operation) return this.operation;
 
@@ -340,18 +352,6 @@ class Doc extends React.Component {
     );
   }
 
-  onAuthChange(auth){
-    this.setState(prevState => {
-      return {
-        auth: {...prevState.auth, ...auth}
-      }
-    })
-  }
-
-  onAuthReset(){
-    this.setState({auth: null})
-  }
-  
   renderPathUrl() {
     const {error} = this.state
     return (

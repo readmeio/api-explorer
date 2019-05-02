@@ -118,7 +118,7 @@ class AuthBox extends Component {
 }
 
 AuthBox.propTypes = {
-  securityTypes: PropTypes.object.isRequired,
+  securityTypes: PropTypes.shape({}).isRequired,
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
