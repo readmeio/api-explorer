@@ -15,6 +15,8 @@ require('../../packages/api-explorer/api-explorer.css');
 require('../../packages/api-logs/main.css');
 
 function Demo({ fetchSwagger, status, docs, oas, oauth }) {
+  const lang = navigator.language.substring(0, 2) || 'en'
+
   return (
     <div>
       <div className="api-list-header">
@@ -25,7 +27,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
         status.length === 0 && (
           <ApiExplorer
             i18n={{
-              locale: 'en',
+              locale: lang,
             }}
             // // To test the top level error boundary, uncomment this
             // docs={[null, null]}
