@@ -1,36 +1,3 @@
-// const body = `
-// \`\`\`javascript
-// var a = '<<apiKey>>';
-// var b = "<<apiKey>>";
-// \`\`\`
-// This is your <<apiKey>>.
-
-// [link](doc:link)
-
-// [block:code]
-// {
-//   "codes": [
-//     {
-//       "code": "<p>test</p>",
-//       "language": "html"
-//     },
-//     {
-//       "code": "var a = '<<apiKey>>';",
-//       "language": "javascript"
-//     },
-//     {
-//       "code": "& < > ' /",
-//       "language": "text"
-//     }
-//   ]
-// }
-// [/block]
-
-// testing
-// correctnewlines
-// option
-// `;
-
 module.exports = (oas, apiSetting) => {
   const docs = [];
 
@@ -50,23 +17,21 @@ module.exports = (oas, apiSetting) => {
           api: {
             method,
             // Uncomment this if you want to test custom code samples
-            // examples: {
-            //   codes: [
-            //     {
-            //       language: 'javascript',
-            //       code: 'console.log(1);',
-            //     },
-            //     {
-            //       language: 'curl',
-            //       code: 'curl http://example.com',
-            //     },
-            //   ],
-            // },
+            examples: {
+              codes: [
+                {
+                  language: 'javascript',
+                  code: 'console.log(1);',
+                },
+                {
+                  language: 'curl',
+                  code: 'curl http://example.com',
+                },
+              ],
+            },
           },
           swagger: { path },
-          excerpt: operation.description,
-          // Uncomment this if you want some body content blocks
-          // body,
+          excerpt: operation.description
         });
         isCategory = true;
       }

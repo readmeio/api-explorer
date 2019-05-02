@@ -1,22 +1,32 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const classNames = require('classnames');
 
-const statusCodes = require('./lib/statuscodes');
+const statusCodes = require('./lib/statuscodes')
+
+import colors from './colors'
+
+const style = {
+  circle: {
+    height: 10,
+    width: 10,
+    display: 'inline-block',
+    borderRadius: '100%'
+  },
+  success: {
+    background: colors.success
+  },
+  error: {
+    background: colors.error
+  }
+}
 
 function IconStatus({ status, name }) {
   const statusCode = statusCodes(status);
 
   if (!statusCode) return <span />;
-
   return (
-    <span
-      className={classNames({
-        httpsuccess: statusCode[2] === 'success',
-        httperror: statusCode[2] !== 'success',
-      })}
-    >
-      <i className="fa fa-circle" />
+    <span style={{color: colors.resultsTab}}>
+      <span style={{...style.circle, ...style[statusCode[2]]}} />
       &nbsp;{statusCode[0]}&nbsp;
       <em>{name || statusCode[1]}</em>
     </span>

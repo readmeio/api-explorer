@@ -1,6 +1,6 @@
+import React, {Fragment} from 'react'
 import {FormattedMessage} from 'react-intl';
 
-const React = require('react');
 const PropTypes = require('prop-types');
 
 const BoundaryStackTrace = require('./BoundaryStackTrace');
@@ -21,18 +21,15 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.error) {
       return (
-        <div style={{ paddingLeft: '2%', width: '75%' }}>
+        <Fragment>
           <h3>
             <FormattedMessage
               id="error.explorer.render"
-              defaultMessage="There was an error rendering the API Explorer. If you are the owner of this project please contact {address} with the following error"
-              values={{
-                address: <a href="mailto:support@mia-platform.eu">support@mia-platform.eu</a>,
-              }}
+              defaultMessage="There was an error rendering the API Explorer."
             />
           </h3>
           <BoundaryStackTrace error={this.state.error} info={this.state.info} />
-        </div>
+        </Fragment>
       );
     }
     return this.props.children;

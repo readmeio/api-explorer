@@ -13,6 +13,7 @@
     "hast-util-sanitize": "^1.2.0",
     "httpsnippet": "^1.16.5",
     "js-cookie": "^2.1.4",
+    "lodash.get": "^4.4.2",
     "lodash.kebabcase": "^4.1.1",
     "prop-types": "^15.5.10",
     "react": "^16.4.2",
@@ -60,5 +61,8 @@
     "uglifyjs-webpack-plugin": "^1.2.3",
     "webpack": "^3.10.0",
     "webpack-merge": "^4.1.1"
+  },
+  "peerDependencies": {
+    "antd": "3.16.x"
   }
 }

@@ -16,7 +16,6 @@ class Operation {
 
   prepareSecurity() {
     const securityRequirements = this.getSecurity();
-
     return securityRequirements
       .map(requirement => {
         let keys;

@@ -10,22 +10,49 @@ import extensions from '@readme/oas-extensions'
 import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
 
+import {get} from 'lodash'
+
 import ContentWithTitle from './components/ContentWithTitle'
 import Select from './components/Select'
+import colors from './colors';
 
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
-const Response = require('./Response');
+const Response = require('./components/Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
 const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
-// const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
-const Content = require('./block-types/Content');
 const getContentTypeFromOperation = require('./lib/get-content-type')
+
+
+function Description({doc, suggestedEdits, baseUrl}){
+  return(
+    <div style={{display: 'flex', flexDirection: 'column'}}>
+      {suggestedEdits && (
+        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <a
+            style={{fontSize: 14, color: colors.suggestEdit, textTransform: 'uppercase'}}
+            href={`${baseUrl}/reference-edit/${doc.slug}`}
+          >
+            <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+          </a>
+        </div>
+        )} 
+      <ContentWithTitle
+        title={'Description'}
+        content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : 'Description not available'}
+        showDivider={false}
+        theme={'dark'}
+        showBorder={false}
+        titleUpperCase
+      />
+    </div>
+    )
+}
 
 class Doc extends React.Component {
   constructor(props) {
@@ -38,7 +65,9 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
-      selectedContentType: null
+      auth: null,
+      error: false,
+      selectedContentType: undefined,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
@@ -47,6 +76,7 @@ class Doc extends React.Component {
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
     this.Params = createParams(this.oas);
+    this.onAuthReset = this.onAuthReset.bind(this)
   }
 
   onChange(formData) {
@@ -59,8 +89,8 @@ class Doc extends React.Component {
   }
 
   onSubmit() {
+    const {auth} = this.state
     const operation = this.getOperation();
-
     if (!isAuthReady(operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
@@ -69,10 +99,9 @@ class Doc extends React.Component {
       }, 600);
       return false;
     }
-
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, {
+    const har = oasToHar(this.oas, operation, this.state.formData, auth || this.props.auth, {
       proxyUrl: true,
     });
 
@@ -82,7 +111,13 @@ class Doc extends React.Component {
       this.setState({
         loading: false,
         result: await parseResponse(har, res),
+        error: false
       });
+    }).catch(e => {
+      this.setState({
+        loading: false,
+        error: true
+      })
     });
   }
 
@@ -93,6 +128,10 @@ class Doc extends React.Component {
     const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
     this.operation = operation;
     return operation;
+  }
+
+  getCurrentAuth(){
+    return this.state.auth || this.props.auth
   }
 
   toggleAuth(e) {
@@ -108,9 +147,26 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  renderContentTypeSelect() {
+  renderContentTypeSelect(showTitle = false) {
     const list = getContentTypeFromOperation(this.getOperation())
-    return <Select options={list} onChange={(e) => this.setState({selectedContentType: e.currentTarget.value})} />
+    const renderSelect = () => {
+      return (<Select
+        value={this.state.selectedContentType}
+        options={list}
+        onChange={value => this.setState({selectedContentType: value})} 
+      />)
+    }
+
+    return list && list.length !== 0 && showTitle ? (
+      <ContentWithTitle
+        title='Select Content Type'
+        showBorder={false}
+        showDivider={false}
+        theme={'dark'}
+        titleUpperCase
+        content={renderSelect()}
+      />
+    ) : renderSelect()
   }
 
   renderCodeAndResponse() {
@@ -119,17 +175,16 @@ class Doc extends React.Component {
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
     }
+
     return(
-      // <div className="hub-reference-section hub-reference-section-code">
-      <div style={{display: 'grid', gridGap: '8px'}}>
-        {/* <div className="hub-reference-left"> */}
+      <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%'}}>
         <ContentWithTitle 
           title={this.props.intl.formatMessage({id:'doc.definition', defaultMessage: 'Definition'})} 
           showBorder={false}
           content={
-            <pre style={definitionStyle}>
+            <span style={definitionStyle}>
               {this.oas.servers[0].url}{this.getOperation().path}
-            </pre>
+            </span>
           } 
         />
         <ContentWithTitle
@@ -147,12 +202,7 @@ class Doc extends React.Component {
 
   renderCodeSample() {
     const {selectedContentType} = this.state
-    let examples;
-    try {
-      examples = this.props.doc.api.examples.codes;
-    } catch (e) {
-      examples = [];
-    }
+    const examples = get(this.props, 'doc.api.examples.codes', [])
 
     return (
       <CodeSample
@@ -160,7 +210,7 @@ class Doc extends React.Component {
         setLanguage={this.props.setLanguage}
         operation={this.getOperation()}
         formData={this.state.formData}
-        auth={this.props.auth}
+        auth={this.getCurrentAuth()}
         language={this.props.language}
         examples={examples}
         selectedContentType={selectedContentType}
@@ -168,21 +218,13 @@ class Doc extends React.Component {
     );
   }
 
-  renderResponse() {
-    let exampleResponses;
-    try {
-      exampleResponses = this.props.doc.api.results.codes;
-    } catch (e) {
-      exampleResponses = [];
-    }
+  renderResponse() {    
     return (
       <Response
         result={this.state.result}
-        oas={this.oas}
         operation={this.getOperation()}
         oauth={this.props.oauth}
         hideResults={this.hideResults}
-        exampleResponses={exampleResponses}
       />
     );
   }
@@ -237,43 +279,33 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc } = this.props
+    const { doc, suggestedEdits, baseUrl } = this.props
     return (
-      <Fragment>
-        {doc.type === 'endpoint' && (
+        doc.type === 'endpoint' ? (
           <Fragment>
-            <div className="hub-reference-left" >
-              <div className="hub-api"> { /** this class prevent breaking GUI. Find a better way. CSS class dependency (Riccardo Di Benedetto) */}
-                <div style={{display: 'grid', gridTemplateColumns: '1fr', gridGap: '16px', paddingRight: '16px'}}>
-                  {this.renderPathUrl()}  
-                  {this.renderDescription()}
-                  {this.renderLogs()}
-                  {this.renderParams()}
-                </div>
-              </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr', gridTemplateRows: 'min-content', gridGap: '16px', paddingRight: '16px'}}>
+              {this.renderPathUrl()}  
+              <Description 
+                doc={doc} 
+                suggestedEdits={suggestedEdits}  
+                baseUrl={baseUrl}
+              />
+              {this.renderLogs()}
+              {this.renderParams()}
+              {this.renderContentTypeSelect(true)}
+              {this.renderResponseSchema()}
             </div>
             <div
               style={{
                   padding: 8,
-                  border: '1px solid #0f0f0f',
-                  background: 'rgb(51, 55, 58)'
+                  border: `1px solid ${colors.codeAndResponseBorder}`,
+                  background: colors.codeAndResponseBackground
                 }}
-              className="hub-api"
-            > { /** this class prevent breaking GUI. Find a better way.  CSS class dependency (Riccardo Di Benedetto) */}
-
+            > 
               {this.renderCodeAndResponse()}
-              {this.renderResponseSchema()}
             </div>
           </Fragment>
-        )}
-
-        <Content
-          baseUrl={this.props.baseUrl}
-          body={doc.body}
-          flags={this.props.flags}
-          isThreeColumn
-        />
-      </Fragment>
+        ) : null
     );
   }
 
@@ -308,21 +340,37 @@ class Doc extends React.Component {
     );
   }
 
+  onAuthChange(auth){
+    this.setState(prevState => {
+      return {
+        auth: {...prevState.auth, ...auth}
+      }
+    })
+  }
+
+  onAuthReset(){
+    this.setState({auth: null})
+  }
+  
   renderPathUrl() {
+    const {error} = this.state
     return (
       <PathUrl
         oas={this.oas}
         operation={this.getOperation()}
         dirty={this.state.dirty}
         loading={this.state.loading}
-        onChange={this.props.onAuthChange}
+        onChange={(auth) => this.onAuthChange(auth)}
         showAuthBox={this.state.showAuthBox}
         needsAuth={this.state.needsAuth}
         oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
-        auth={this.props.auth}
+        auth={this.getCurrentAuth()}
+        error={error}
+        onReset={this.onAuthReset}
+        showReset={this.state.auth !== null}
       />
     );
   }
@@ -342,8 +390,7 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        <div className="hub-reference" id={`page-${doc.slug}`}>
-          <a className="anchor-page-title" id={doc.slug} />
+        <div id={`page-${doc.slug}`}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
             {renderEndpoint()}
           </div>
