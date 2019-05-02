@@ -1,4 +1,3 @@
-import 'antd/dist/antd.css';
 import { Collapse, Tag } from 'antd';
 
 import colors from './colors'
@@ -90,10 +89,16 @@ class ApiExplorer extends React.Component {
       margin: '10px',
       border: '1px solid',
       padding: '10px',
-      background: '#33373a'
+      background: colors.descriptionBackground,
+      fontSize: 14,
+      lineHeight: '24px',
+      color: colors.descriptionText
     }
+    const {description} = this.state
     return(
-      <div style={style}>{markdown(this.state.description)}</div>
+      description ?
+        <div style={style}>{markdown(description)}</div> :
+        null
     )
   }
 
@@ -115,7 +120,7 @@ class ApiExplorer extends React.Component {
                 appearance={this.props.appearance}
                 language={this.state.language}
                 oauth={this.props.oauth}
-                suggestedEdits={this.props.suggestedEdits}
+                suggestedEdits={false}
                 tryItMetrics={this.props.tryItMetrics}
                 auth={this.state.auth}
                 onAuthChange={this.onAuthChange}
@@ -141,6 +146,11 @@ class ApiExplorer extends React.Component {
         border: `1px solid ${colors[method]}`
     })
 
+    const panelStyle = {
+      margin: '5px 0px',
+      borderRadius: 5,
+      overflow: 'hidden'
+    }
     return (
       <div className={`is-lang-${this.state.language}`}>
         {this.renderDescription()}
@@ -152,9 +162,11 @@ class ApiExplorer extends React.Component {
         >
           <Collapse
             defaultActiveKey={['0']}
+            style={{background: 'none', border: 'none'}}
+            accordion
           >
             {this.props.docs.map((doc, index) => (
-              <Panel header={this.renderHeaderPanel(doc)} style={styleByMethod(doc.api.method)} key={index}>
+              <Panel header={this.renderHeaderPanel(doc)} style={{...styleByMethod(doc.api.method), ...panelStyle}} key={index}>
                 {this.renderDoc(doc)}
               </Panel>
           ))}

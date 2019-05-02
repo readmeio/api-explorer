@@ -18,7 +18,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
   return (
     <div>
       <div className="api-list-header">
-        <ApiList fetchSwagger={fetchSwagger} />
+        <ApiList fetchSwagger={fetchSwagger} doFetch={false} />
         <pre>{status.join('\n')}</pre>
       </div>
       {

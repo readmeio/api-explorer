@@ -1,4 +1,5 @@
-const React = require('react');
+import React, {Fragment} from 'react'
+
 const PropTypes = require('prop-types');
 
 const BoundaryStackTrace = require('./BoundaryStackTrace');
@@ -19,15 +20,10 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.error) {
       return (
-        <div style={{ paddingLeft: '2%', width: '75%' }}>
-          <h3>
-            There was an error rendering the API Explorer. If you are the owner of this project
-            please contact{' '}
-            <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a> with
-            the following error:
-          </h3>
+        <Fragment>
+          <h3>There was an error rendering this endpoint</h3>
           <BoundaryStackTrace error={this.state.error} info={this.state.info} />
-        </div>
+        </Fragment>
       );
     }
     return this.props.children;

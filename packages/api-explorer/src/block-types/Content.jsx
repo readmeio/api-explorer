@@ -60,7 +60,7 @@ const Content = props => {
       left.push(elem);
     }
   });
-
+  
   if (isThreeColumn === true) {
     return (
       <div className="hub-reference-section">

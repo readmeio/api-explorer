@@ -1,4 +1,5 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
+import './params.css'
 import ContentWithTitle from './components/ContentWithTitle'
 
 const PropTypes = require('prop-types');
@@ -39,8 +40,8 @@ class Params extends Component{
     return (
       <Form
         key={`${schema.type}-form`}
-        id={`form-${operation.operationId}`}
-        idPrefix={operation.operationId}
+        id={"form-params"}
+        idPrefix={'form-id'}
         schema={schema.schema}
         style={{margin: 0}}
         widgets={{
