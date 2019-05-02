@@ -366,7 +366,10 @@ class Doc extends React.Component {
         oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
-        authInputRef={el => (this.authInput = el)}
+        authInputRef={el => {
+          // eslint-disable-next-line no-return-assign
+          return (this.authInput = el);
+        }}
         auth={this.getCurrentAuth()}
         error={error}
         onReset={this.onAuthReset}

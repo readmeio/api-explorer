@@ -94,6 +94,7 @@ Unauthorized.defaultProps = {
   isOauth: false,
 };
 
+// eslint-disable-next-line react/prop-types
 function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div style={{ display: 'block'}}>
