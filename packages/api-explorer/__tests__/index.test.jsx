@@ -120,7 +120,10 @@ describe('oas', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[Object.assign({}, baseDoc, { category: { apiSetting: 'api-setting' } })]}
+        docs={[Object.assign({}, baseDoc, {
+          swagger: { path: '' },
+          category: { apiSetting: 'api-setting' } 
+        })]}
       />,
     );
 
@@ -138,6 +141,7 @@ describe('oas', () => {
         docs={[
           Object.assign({}, baseDoc, {
             api: { method: 'get', apiSetting: { _id: 'api-setting' } },
+            swagger: { path: '' }, 
           }),
         ]}
       />,
@@ -155,6 +159,7 @@ describe('oas', () => {
         }}
         docs={[
           Object.assign({}, baseDoc, {
+            swagger: { path: '' }, 
             api: { method: 'get', apiSetting: 'api-setting' },
           }),
         ]}
@@ -223,30 +228,6 @@ describe('auth', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
     expect(explorer.state('auth')).toEqual({ api_key: '', petstore_auth: '' });
-  });
-
-  it('should be updated via editing authbox', () => {
-    const explorer = mount(<ApiExplorer {...props} docs={docs.slice(0, 1)} />);
-    const doc = explorer
-      .find('Doc')
-      .at(0)
-      .instance();
-
-    doc.setState({ showEndpoint: true, showAuthBox: true });
-
-    explorer.update();
-
-    const input = explorer.find('input[name="apiKey"]');
-
-    input.instance().value = '1234';
-    input.simulate('change');
-
-    expect(explorer.state('auth').petstore_auth).toBe('1234');
-
-    input.instance().value += '5678';
-    input.simulate('change');
-
-    expect(explorer.state('auth').petstore_auth).toBe('12345678');
   });
 
   test('should merge securities auth changes', () => {

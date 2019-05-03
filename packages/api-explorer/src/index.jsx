@@ -137,10 +137,16 @@ class ApiExplorer extends React.Component {
   }
 
   renderHeaderPanel(doc){
+    const oas = this.getOas(doc)
+    const swagger = doc.swagger
+
     const method = <Tag color={colors[doc.api.method]}>{doc.api.method}</Tag>
     return(
       <div>
-        {method} <b style={{color: colors.bold}}>{this.getOas(doc).servers[0].url}{doc.swagger.path}</b> {doc.title}
+        {method} <b style={{color: colors.bold}}>
+          {oas && oas.servers[0].url}
+          {swagger && swagger.path}
+        </b> {doc.title}
       </div>    
     )
   }

@@ -55,6 +55,7 @@ class AuthBox extends Component {
       null
     )
   }
+
   renderSecurityBox(){
     const {
       securityTypes,
