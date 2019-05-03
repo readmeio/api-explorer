@@ -3,7 +3,7 @@
 # API Explorer
 
 [![Build Status][travis-svg]][travis-link]
-[![lerna][lerna-svb]][lerna-link]
+[![lerna][lerna-svg]][lerna-link]
 
 </div>
 
@@ -69,7 +69,7 @@ MIT
 
 
 <!-- Links -->
-[travis-svg]: [https://travis-ci.org/mia-platform/api-explorer.svg?branch=master]
-[travis-link]: [https://travis-ci.org/mia-platform/api-explorer]
-[lerna-svg]: [https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg]
-[lerna-link]: [https://lerna.js.org/]
+[travis-svg]: https://travis-ci.org/mia-platform/api-explorer.svg?branch=master
+[travis-link]: https://travis-ci.org/mia-platform/api-explorer
+[lerna-svg]: https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg
+[lerna-link]: https://lerna.js.org/
