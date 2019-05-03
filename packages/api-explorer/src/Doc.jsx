@@ -144,7 +144,7 @@ class Doc extends React.Component {
     return operation;
   }
 
-  getCurrentAuth(){
+  getCurrentAuth() {
     return this.state.auth || this.props.auth
   }
 
@@ -232,7 +232,7 @@ class Doc extends React.Component {
     );
   }
 
-  renderResponse() {    
+  renderResponse() {
     return (
       <Response
         result={this.state.result}
@@ -274,16 +274,16 @@ class Doc extends React.Component {
       <Fragment>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           {this.props.suggestedEdits && (
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
-          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <a
-              style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
-              href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
-            >
-              <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
-            </a>
-          </div>
-        )} 
+            // eslint-disable-next-line jsx-a11y/href-no-hash
+            <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+              <a
+                style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
+                href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
+              >
+                <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+              </a>
+            </div>
+          )}
           {this.renderContentWithUpperTitle('Description', doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available')}
         </div>
       </Fragment>

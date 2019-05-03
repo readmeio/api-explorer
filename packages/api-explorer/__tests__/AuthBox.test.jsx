@@ -26,8 +26,8 @@ test('should not display if no auth', () => {
 
 test('should display a single heading heading for single auth type', () => {
   const authBox = mount(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
-  expect(authBox.find('h3').length).toBe(1);
-  expect(authBox.find('h3').text()).toBe('Header Auth');
+  expect(authBox.find('Tabs').length).toBe(1);
+  expect(authBox.find('Tabs').text()).toBe('Header Auth');
 });
 
 test('should display a heading for each auth type with dropdown', () => {

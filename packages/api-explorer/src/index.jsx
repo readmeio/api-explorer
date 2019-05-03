@@ -7,7 +7,7 @@ import get from 'lodash.get'
 
 import colors from './colors'
 
-const {Panel} = Collapse
+const Panel = Collapse.Panel
 
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
@@ -26,6 +26,7 @@ const getAuth = require('./lib/get-auth');
 function getDescription(oasFiles){
   return get(oasFiles, 'api-setting.info.description')
 }
+
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -146,8 +147,8 @@ class ApiExplorer extends React.Component {
 
   render() {
     const styleByMethod = (method) => ({
-        backgroundColor: colors[`${method}Light`], 
-        border: `1px solid ${colors[method]}`
+      backgroundColor: colors[`${method}Light`], 
+      border: `1px solid ${colors[method]}`
     })
 
     const panelStyle = {

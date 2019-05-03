@@ -31,17 +31,15 @@ const props = {
 
 function assertDocElements(component, doc) {
   expect(component.find(`#page-${doc.slug}`).length).toBe(1);
-  expect(component.find('a.anchor-page-title').length).toBe(1);
-  expect(component.find('h2').text()).toBe(doc.title);
 }
 
 test('should output a div', () => {
-  const doc = shallow(<Doc {...props} />);
+  const doc = mount(<Doc {...props} />);
 
   doc.setState({ showEndpoint: true });
 
   assertDocElements(doc, props.doc);
-  expect(doc.find('.hub-api').length).toBe(1);
+  expect(doc.find(`div#page-${props.doc.slug}`).length).toBe(1);
   expect(doc.find('PathUrl').length).toBe(1);
   expect(doc.find('CodeSample').length).toBe(1);
   // This test needs the component to be `mount()`ed
@@ -49,7 +47,7 @@ test('should output a div', () => {
   // it makes the test below that uses `jest.useFakeTimers()`
   // fail ¯\_(ツ)_/¯. Skipping for now
   // expect(doc.find('Params').length).toBe(1);
-  expect(doc.find('Content').length).toBe(1);
+  expect(doc.find('ContentWithTitle').length).toBe(6);
 });
 
 test('should render straight away if `appearance.splitReferenceDocs` is true', () => {

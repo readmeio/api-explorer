@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react'
 import {Icon, Popover, Alert, Tabs, Button} from 'antd'
 
-const {TabPane} = Tabs
-
 const PropTypes = require('prop-types');
 const SecurityInput = require('./SecurityInput')
+
+const TabPane = Tabs.TabPane
 
 function getSecurityTabs(securityTypes, config, onChange,onSubmit) {
   const {authInputRef, oauth, auth} = config
@@ -80,8 +80,8 @@ class AuthBox extends Component {
               }
             )
           }
-        
         </Tabs>
+
         {
           showReset ? 
             <div style={{padding: 5}}>
@@ -93,8 +93,8 @@ class AuthBox extends Component {
                 Reset
               </Button>
             </div>
-        : null
-      }
+          : null
+        }
         {this.renderAuthAlert()}
       </Fragment>
     )
