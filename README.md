@@ -2,8 +2,8 @@
 
 # API Explorer
 
-[![Build Status](https://travis-ci.org/mia-platform/api-explorer.svg?branch=master)](https://travis-ci.org/mia-platform/api-explorer)
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+[![Build Status][travis-svg]][travis-link]
+[![lerna][lerna-svb]][lerna-link]
 
 </div>
 
@@ -66,3 +66,10 @@ sed -i '' 's/\.\.\///g' example/bundle-hub2.css
 ## License
 
 MIT
+
+
+<!-- Links -->
+[travis-svg]: [https://travis-ci.org/mia-platform/api-explorer.svg?branch=master]
+[travis-link]: [https://travis-ci.org/mia-platform/api-explorer]
+[lerna-svg]: [https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg]
+[lerna-link]: [https://lerna.js.org/]
