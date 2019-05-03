@@ -196,9 +196,11 @@ class Doc extends React.Component {
           title={'Definition'} 
           showBorder={false}
           content={
-            <span style={definitionStyle}>
-              {this.oas.servers[0].url}{this.getOperation().path}
-            </span>
+            this.oas.servers && (
+              <span style={definitionStyle}>
+                {this.oas.servers[0].url}{this.getOperation().path}
+              </span>
+            )
           } 
         />
         <ContentWithTitle 
@@ -265,28 +267,6 @@ class Doc extends React.Component {
         showBorder={false}
         titleUpperCase
       />
-    )
-  }
-
-  renderDescription() {
-    const {doc} = this.props
-    return(
-      <Fragment>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          {this.props.suggestedEdits && (
-            // eslint-disable-next-line jsx-a11y/href-no-hash
-            <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-              <a
-                style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
-                href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
-              >
-                <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
-              </a>
-            </div>
-          )}
-          {this.renderContentWithUpperTitle('Description', doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : 'Description not available')}
-        </div>
-      </Fragment>
     )
   }
 

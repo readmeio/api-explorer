@@ -46,7 +46,7 @@ test('should output a div', () => {
   // but for some reason when I mount in this test
   // it makes the test below that uses `jest.useFakeTimers()`
   // fail ¯\_(ツ)_/¯. Skipping for now
-  // expect(doc.find('Params').length).toBe(1);
+  expect(doc.find('Params').length).toBe(1);
   expect(doc.find('ContentWithTitle').length).toBe(6);
 });
 
@@ -81,8 +81,8 @@ test('should work without a doc.swagger/doc.path/oas', () => {
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
-  expect(docComponent.find('.hub-api').length).toBe(0);
-  expect(docComponent.find('Content').length).toBe(1);
+  expect(docComponent.find(`div#page-${props.doc.slug}`).length).toBe(1);
+  expect(docComponent.find('ContentWithTitle').length).toBe(0);
 });
 
 test('should still display `Content` with column-style layout', () => {
@@ -103,8 +103,7 @@ test('should still display `Content` with column-style layout', () => {
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
-  expect(docComponent.find('.hub-api').length).toBe(1);
-  expect(docComponent.find('Content').length).toBe(2);
+  expect(docComponent.find('ContentWithTitle').length).toBe(0);
 });
 
 describe('state.dirty', () => {
@@ -128,6 +127,8 @@ describe('onSubmit', () => {
 
     const doc = mount(<Doc {...props} />);
 
+    // mock authInput focus function.
+    doc.instance().authInput = {focus: () => {}}
     doc.instance().onSubmit();
     expect(doc.state('showAuthBox')).toBe(true);
 
@@ -183,7 +184,7 @@ describe('onSubmit', () => {
       });
   });
 
-  test('should make request to the proxy url if necessary', () => {
+  test('should not make request to the proxy url if necessary (proxy feature has been removed)', () => {
     const proxyOas = {
       servers: [{ url: 'http://example.com' }],
       [extensions.PROXY_ENABLED]: true,
@@ -205,7 +206,7 @@ describe('onSubmit', () => {
     const fetch = window.fetch;
 
     window.fetch = request => {
-      expect(request.url).toContain(`https://try.readme.io/${proxyOas.servers[0].url}`);
+      expect(request.url).toContain(`${proxyOas.servers[0].url}`);
       return Promise.resolve(new Response());
     };
 
@@ -264,22 +265,23 @@ describe('state.loading', () => {
 
 describe('suggest edits', () => {
   test('should not show if suggestedEdits is false', () => {
-    const doc = shallow(<Doc {...props} suggestedEdits={false} />);
-    expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(0);
+    const doc = mount(<Doc {...props} suggestedEdits={false} />);
+    doc.setState({showEndpoint: true})
+    expect(doc.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
   });
 
   test('should show icon if suggested edits is true', () => {
-    const doc = shallow(<Doc {...props} suggestedEdits />);
-    expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
+    const doc = mount(<Doc {...props} suggestedEdits />);
+    doc.setState({showEndpoint: true})
+    expect(doc.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 
   test('should have child project if baseUrl is set', () => {
-    const doc = shallow(
+    const doc = mount(
       <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
     );
-    expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(
-      `/child/reference-edit/${props.doc.slug}`,
-    );
+    doc.setState({showEndpoint: true})
+    expect(doc.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 });
 
@@ -305,16 +307,6 @@ describe('Response Schema', () => {
       />,
     );
     expect(doc.find('ResponseSchema').length).toBe(0);
-  });
-});
-
-describe('themes', () => {
-  test('should output code samples and responses in the right column', () => {
-    const doc = mount(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);
-    doc.setState({ showEndpoint: true });
-
-    expect(doc.find('.hub-reference-right').find('CodeSample').length).toBe(1);
-    expect(doc.find('.hub-reference-right').find('Response').length).toBe(1);
   });
 });
 
