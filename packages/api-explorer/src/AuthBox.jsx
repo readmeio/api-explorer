@@ -8,7 +8,7 @@ const TabPane = Tabs.TabPane
 
 function getSecurityTabs(securityTypes, config, onChange,onSubmit) {
   const {authInputRef, oauth, auth} = config
- 
+  console.log('SECURITY', securityTypes)
   return Object.keys(securityTypes).map((type, index) => {
     const securities = securityTypes[type];
     return (
@@ -103,7 +103,6 @@ class AuthBox extends Component {
 
   render() {
     const {securityTypes} = this.props
-
     if (Object.keys(securityTypes).length === 0) return null;
     
     return (

@@ -24,16 +24,30 @@ test('should not display if no auth', () => {
   );
 });
 
-test('should display a single heading heading for single auth type', () => {
-  const authBox = mount(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
-  expect(authBox.find('Tabs').length).toBe(1);
-  expect(authBox.find('Tabs').text()).toBe('Header Auth');
+test('should display a single heading for single auth type', () => {
+  // This object is retrieved from OAS library while running in prod.
+  const securityTypes = {
+    "Header Auth":[{"type":"auth","flows":{"implicit":{"authorizationUrl":"http://petstore.swagger.io/oauth/dialog","scopes":{"write:pets":"modify pets in your account","read:pets":"read your pets"}}},"_key":"petstore_auth"}],  
+  }
+  const authBox = shallow(<AuthBox {...props} securityTypes={securityTypes} />);
+  const popoverContent = shallow(<div>{authBox.find('Popover').prop('content')}</div>)
+
+  expect(popoverContent.find('Tabs').length).toBe(1);
+  expect(popoverContent.find('TabPane').prop('tab')).toBe('Header Auth');
 });
 
 test('should display a heading for each auth type with dropdown', () => {
-  const authBox = mount(<AuthBox {...props} />);
-  expect(authBox.find('h3').length).toBe(2);
-  expect(authBox.find('h3').map(h3 => h3.text())).toEqual(['OAuth2 Auth', 'Header Auth']);
+  // This object is retrieved from OAS library while running in prod.
+  const securityTypes = {
+    "OAuth2 Auth":[{"type":"oauth2","flows":{"implicit":{"authorizationUrl":"http://petstore.swagger.io/oauth/dialog","scopes":{"write:pets":"modify pets in your account","read:pets":"read your pets"}}},"_key":"petstore_auth"}],
+    "Header Auth":[{"type":"auth","flows":{"implicit":{"authorizationUrl":"http://petstore.swagger.io/oauth/dialog","scopes":{"write:pets":"modify pets in your account","read:pets":"read your pets"}}},"_key":"petstore_auth"}],  
+  }
+
+  const authBox = mount(<AuthBox {...props} securityTypes={securityTypes} />);
+  const popoverContent = shallow(<div>{authBox.find('Popover').prop('content')}</div>)
+
+  expect(popoverContent.find('TabPane').length).toBe(2);
+  expect(popoverContent.find('TabPane').map(pane => pane.prop('tab'))).toEqual(['OAuth2 Auth', 'Header Auth']);
 });
 
 test.skip('should display a dropdown for when multiple oauths are present', () => {
@@ -64,7 +78,22 @@ test('should hide authbox if open=false', () => {
 });
 
 test('should display multiple securities', () => {
-  const authBox = mount(<AuthBox {...props} />);
+  // This object is retrieved from OAS library while running in prod.
+  const securityTypes = {  
+    "Basic": [
+      {
+        "type": "http",
+        "scheme": "basic",
+        "_key": "basic"
+      }
+    ]
+  }
+  const authBox = mount(<AuthBox {...props} securityTypes={securityTypes} />);
+  const popoverContent = shallow(<div>{authBox.find('Popover').prop('content')}</div>)
 
-  expect(authBox.find('SecurityInput').length).toBe(2);
+  expect(popoverContent.find('Tabs').length).toBe(1);
+  expect(popoverContent.find('TabPane').prop('tab')).toBe('Basic');
+ 
+  expect(popoverContent.find('SecurityInput').length).toBe(1);
+  expect(popoverContent.find('SecurityInput').prop('scheme')).toEqual(securityTypes.Basic[0]);
 });
