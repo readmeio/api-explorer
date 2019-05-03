@@ -33,8 +33,14 @@ function renderButtonTry(loading, onSubmit, error){
   )
 }
 function renderOperationMethod(operation){
+  const tagStyle = {
+    textTransform: 'uppercase',
+    color: 'white',
+    fontWeight: 600,
+  }
+
   return(
-    <Tag color={colors[operation.method]}>{operation.method}</Tag>
+    <Tag color={colors[operation.method].border} style={tagStyle}>{operation.method}</Tag>
   )
 }
 

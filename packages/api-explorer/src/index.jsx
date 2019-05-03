@@ -132,8 +132,14 @@ class ApiExplorer extends React.Component {
     )
   }
 
-  renderHeaderPanel(doc){
-    const method = <Tag color={colors[doc.api.method]}>{doc.api.method}</Tag>
+  renderHeaderPanel(doc) {
+    const tagStyle = {
+      textTransform: 'uppercase',
+      color: 'white',
+      fontWeight: 600,
+    }
+
+    const method = <Tag color={colors[doc.api.method].border} style={tagStyle}>{doc.api.method}</Tag>
     return(
       <div>
         {method} <b style={{color: colors.bold}}>{this.getOas(doc).servers[0].url}{doc.swagger.path}</b> {doc.title}
@@ -143,14 +149,14 @@ class ApiExplorer extends React.Component {
 
   render() {
     const styleByMethod = (method) => ({
-        backgroundColor: colors[`${method}Light`], 
-        border: `1px solid ${colors[method]}`
+      backgroundColor: colors[method].bg, 
+      border: `1px solid ${colors[method].border}`,
     })
 
     const panelStyle = {
       margin: '5px 0px',
       borderRadius: 5,
-      overflow: 'hidden'
+      overflow: 'hidden',
     }
     return (
       <div className={`is-lang-${this.state.language}`}>
