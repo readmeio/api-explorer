@@ -18,9 +18,9 @@
 
 This repo consists of the following npm modules:
 - [@mia-platform/api-explorer][npmjs-apiexplorer] - the React components that make up the explorer;
-- [@mia-platform/markdown][npmjs-markdown] - the markdown parser
-- [@mia-platform/syntax-highlighter][npmjs-syntaxhighlighter] - the syntax highlighter in use on ReadMe
-- [@mia-platform/oas-extensions][npmjs-oasextensions] - an exported object of our [OAS extensions](https://readme.readme.io/v2.0/docs/swagger-extensions)
+- [@mia-platform/markdown][npmjs-markdown] - the markdown parser;
+- [@mia-platform/syntax-highlighter][npmjs-syntaxhighlighter] - the syntax highlighter in use on ReadMe;
+- [@mia-platform/oas-extensions][npmjs-oasextensions] - an exported object of Readme.io's [OAS extensions](https://readme.readme.io/v2.0/docs/swagger-extensions).
 
 ## Installation
 
@@ -62,20 +62,10 @@ To publish all modules to npm:
 ```sh
 npm run publish
 ```
-<!-- 
-## Fetching the latest stylesheet from ReadMe (for the demo site)
-```
-# Fetch the latest
-curl https://readme.readme.io/css/bundle-hub2.css -o example/bundle-hub2.css
-
-# Remove relative paths for gh-pages
-sed -i '' 's/\.\.\///g' example/bundle-hub2.css
-``` -->
 
 ## License
 
 MIT
-
 
 <!-- Links -->
 [travis-svg]: https://travis-ci.org/mia-platform/api-explorer.svg?branch=master

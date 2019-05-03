@@ -6,6 +6,8 @@ node_js:
   - "8"
 
 script:
+  - npm i
+  - npx lerna bootstrap
   - npm run test
 
 notifications:
