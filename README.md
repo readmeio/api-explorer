@@ -11,7 +11,6 @@
 [![NPM version][npmjs-syntaxhighlighter-svg]][npmjs-syntaxhighlighter]
 [![NPM version][npmjs-oasextensions-svg]][npmjs-oasextensions]
 
-
 [![lerna][lerna-svg]][lerna-link]
 
 </div>
