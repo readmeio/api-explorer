@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { mountWithIntl, shallowWithIntl } from './helpers/utility-enzyme-intl-extension';
 
 const extensions = require('@readme/oas-extensions');
@@ -37,9 +38,10 @@ function assertDocElements(component, doc) {
 }
 
 test('should output a div', () => {
-  const doc = mountWithIntl(<Doc {...props} />);
+  const docWithIntl = mountWithIntl(<Doc {...props} />);
+  docWithIntl.setState({ showEndpoint: true });
 
-  doc.setState({ showEndpoint: true });
+  const doc = docWithIntl.find('Doc')
 
   console.log(doc.debug())
   assertDocElements(doc, props.doc);

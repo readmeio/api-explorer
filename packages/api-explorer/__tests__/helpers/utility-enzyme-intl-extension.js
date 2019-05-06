@@ -17,7 +17,7 @@ import {
   shallow
 } from 'enzyme';
 
-const messages = require('../i18n/en.json');
+const messages = require('../../i18n/en.json');
 
 // Create the IntlProvider to retrieve context for wrapping around.
 const intlProvider = new IntlProvider({
