@@ -150,9 +150,10 @@ const apikeyTypes = PropTypes.shape({
 
 AuthBox.propTypes = {
   securityTypes: PropTypes.oneOfType([
-    oauth2Types,
-    basicTypes,
-    apikeyTypes,
+      oauth2Types,
+      basicTypes,
+      apikeyTypes,
+      PropTypes.shape({})
   ]),
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
