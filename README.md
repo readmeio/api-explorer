@@ -1,22 +1,30 @@
-# api-explorer
+<div align="center">
 
-Open source components that make up ReadMe's API explorer
+# API Explorer
 
-[![CircleCI](https://circleci.com/gh/readmeio/api-explorer.svg?style=svg&circle-token=2a91256819c6da2e388896859d4f7fbb34ec9d84)](https://circleci.com/gh/readmeio/api-explorer)
+[![Build Status][travis-svg]][travis-link]
+[![Coverage Status][coverall-svg]][coverall-io]
 
-[![](https://d3vv6lp55qjaqc.cloudfront.net/items/1M3C3j0I0s0j3T362344/Untitled-2.png)](https://readme.io)
+[![NPM version][npmjs-apiexplorer-svg]][npmjs-apiexplorer]
+[![NPM version][npmjs-markdown-svg]][npmjs-markdown]
+
+[![NPM version][npmjs-syntaxhighlighter-svg]][npmjs-syntaxhighlighter]
+[![NPM version][npmjs-oasextensions-svg]][npmjs-oasextensions]
+
+[![lerna][lerna-svg]][lerna-link]
+
+</div>
 
 This repo consists of the following npm modules:
-
-- [@readme/api-explorer](https://www.npmjs.com/package/@readme/api-explorer) - the React components that make up the explorer
-- [@readme/markdown](https://www.npmjs.com/package/@readme/markdown) - the markdown parser
-- [@readme/syntax-highlighter](https://www.npmjs.com/package/@readme/syntax-highlighter) - the syntax highlighter in use on ReadMe
-- [@readme/oas-extensions](https://www.npmjs.com/package/@readme/oas-extensions) - an exported object of our [OAS extensions](https://readme.readme.io/v2.0/docs/swagger-extensions)
+- [@mia-platform/api-explorer][npmjs-apiexplorer] - the React components that make up the explorer;
+- [@mia-platform/markdown][npmjs-markdown] - the markdown parser;
+- [@mia-platform/syntax-highlighter][npmjs-syntaxhighlighter] - the syntax highlighter in use on ReadMe;
+- [@mia-platform/oas-extensions][npmjs-oasextensions] - an exported object of Readme.io's [OAS extensions](https://readme.readme.io/v2.0/docs/swagger-extensions).
 
 ## Installation
 
 ```sh
-git clone git@github.com:readmeio/api-explorer.git
+git clone git@github.com:mia-platform/api-explorer.git
 cd api-explorer
 npm install
 npx lerna bootstrap
@@ -54,18 +62,23 @@ To publish all modules to npm:
 npm run publish
 ```
 
-## Fetching the latest stylesheet from ReadMe (for the demo site)
-```
-# Fetch the latest
-curl https://readme.readme.io/css/bundle-hub2.css -o example/bundle-hub2.css
-
-# Remove relative paths for gh-pages
-sed -i '' 's/\.\.\///g' example/bundle-hub2.css
-```
-
-## Credits
-[Dom Harrington](https://github.com/domharrington)
-
 ## License
 
-ISC
+MIT
+
+<!-- Links -->
+[travis-svg]: https://travis-ci.org/mia-platform/api-explorer.svg?branch=master
+[travis-link]: https://travis-ci.org/mia-platform/api-explorer
+[lerna-svg]: https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg
+[lerna-link]: https://lerna.js.org
+[coverall-svg]: https://coveralls.io/repos/github/mia-platform/api-explorer/badge.svg
+[coverall-io]: https://coveralls.io/github/mia-platform/api-explorer
+
+[npmjs-apiexplorer-svg]: https://img.shields.io/npm/v/@mia-platform/api-explorer.svg?logo=npm
+[npmjs-apiexplorer]: https://www.npmjs.com/package/@mia-platform/api-explorer
+[npmjs-markdown-svg]: https://img.shields.io/npm/v/@mia-platform/markdown.svg?logo=npm
+[npmjs-markdown]: https://www.npmjs.com/package/@mia-platform/markdown
+[npmjs-syntaxhighlighter-svg]: https://img.shields.io/npm/v/@mia-platform/syntax-highlighter.svg?logo=npm
+[npmjs-syntaxhighlighter]: https://www.npmjs.com/package/@mia-platform/syntax-highlighter
+[npmjs-oasextensions-svg]: https://img.shields.io/npm/v/@mia-platform/oas-extensions.svg?logo=npm
+[npmjs-oasextensions]: https://www.npmjs.com/package/@mia-platform/oas-extensions

@@ -1,10 +1,13 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-unused-prop-types */
 import React from 'react'
 import { Collapse, Tag } from 'antd';
 import get from 'lodash.get'
 
 import colors from './colors'
 
-const {Panel} = Collapse
+const Panel = Collapse.Panel
 
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
@@ -23,6 +26,7 @@ const getAuth = require('./lib/get-auth');
 function getDescription(oasFiles){
   return get(oasFiles, 'api-setting.info.description')
 }
+
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -133,18 +137,24 @@ class ApiExplorer extends React.Component {
   }
 
   renderHeaderPanel(doc){
+    const oas = this.getOas(doc)
+    const swagger = doc.swagger
+
     const method = <Tag color={colors[doc.api.method]}>{doc.api.method}</Tag>
     return(
       <div>
-        {method} <b style={{color: colors.bold}}>{this.getOas(doc).servers[0].url}{doc.swagger.path}</b> {doc.title}
+        {method} <b style={{color: colors.bold}}>
+          {oas && oas.servers[0].url}
+          {swagger && swagger.path}
+        </b> {doc.title}
       </div>    
     )
   }
 
   render() {
     const styleByMethod = (method) => ({
-        backgroundColor: colors[`${method}Light`], 
-        border: `1px solid ${colors[method]}`
+      backgroundColor: colors[`${method}Light`], 
+      border: `1px solid ${colors[method]}`
     })
 
     const panelStyle = {
