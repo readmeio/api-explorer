@@ -47,7 +47,7 @@ function Description({doc, suggestedEdits, baseUrl, intl}) {
             </span><Icon type="edit" />
           </a>
         </div>
-        )} 
+      )} 
       <ContentWithTitle
         title={description}
         content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : decriptionNa}

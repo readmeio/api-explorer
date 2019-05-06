@@ -2,6 +2,8 @@
 import { mountWithIntl } from 'enzyme-react-intl';
 import { IntlProvider } from 'react-intl';
 
+import {mount} from 'enzyme';
+
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
 
@@ -291,18 +293,12 @@ describe('suggest edits', () => {
   test('should not show if suggestedEdits is false', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} suggestedEdits={false} /></IntlProvider>)
     const doc = wrapper.find('Doc')
-
     doc.setState({showEndpoint: true})
-    const description = mountWithIntl(<div>{doc.find('Description')}</div>)
-    expect(description.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
+
+    expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
   });
 
   test('should show icon if suggested edits is true', () => {
-    // const wrapper = mountWithIntl(<IntlProvider><Doc {...props} suggestedEdits /></IntlProvider>)
-    // const doc = wrapper.find('Doc')
-    // console.log(doc.debug())
-    // doc.setState({showEndpoint: true})
-
     const wrapper = mountWithIntl(
       <IntlProvider>
         <Doc {...props} suggestedEdits />
@@ -311,12 +307,7 @@ describe('suggest edits', () => {
     const doc = wrapper.find('Doc')
     doc.setState({ showEndpoint: true });
 
-    console.log(doc.debug())
-
-
-
-    const description = mountWithIntl(<div>{doc.find('Description')}</div>)
-    expect(description.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
+    expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 
   test('should have child project if baseUrl is set', () => {
@@ -328,38 +319,41 @@ describe('suggest edits', () => {
     const doc = wrapper.find('Doc')
     doc.setState({showEndpoint: true})
 
-    const description = mountWithIntl(<div>{doc.find('Description')}</div>)
-    expect(description.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
+    // const description = mountWithIntl(<div>{doc.find('Description')}</div>)
+    expect(wrapper.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 });
 
 describe('Response Schema', () => {
   test('should render Response Schema if endpoint does have a response', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
+    const wrapper = mount(<IntlProvider><Doc {...props} /></IntlProvider>);
     const doc = wrapper.find('Doc')
-
     doc.setState({ showEndpoint: true });
-    expect(doc.find('ResponseSchema').length).toBe(1);
+
+    expect(wrapper.find('ResponseSchema').length).toBe(1);
   });
 
   test('should not render Response Schema if endpoint does not have a response', () => {
     const wrapper = mountWithIntl(
-      <IntlProvider><Doc
-        {...props}
-        doc={{
-          title: 'Title',
-          slug: 'slug',
-          type: 'endpoint',
-          swagger: { path: '/unknown-scheme' },
-          api: { method: 'post' },
-          onSubmit: () => {},
-        }}
-        oas={multipleSecurities}
-      /></IntlProvider>,
+      <IntlProvider>
+        <Doc
+          {...props}
+          doc={{
+            title: 'Title',
+            slug: 'slug',
+            type: 'endpoint',
+            swagger: { path: '/unknown-scheme' },
+            api: { method: 'post' },
+            onSubmit: () => {},
+          }}
+          oas={multipleSecurities}
+        />
+      </IntlProvider>
     );    
     const doc = wrapper.find('Doc')
+    doc.setState({ showEndpoint: true });
 
-    expect(doc.find('ResponseSchema').length).toBe(0);
+    expect(wrapper.find('ResponseSchema').length).toBe(0);
   });
 });
 
@@ -377,17 +371,19 @@ test('should output with an error message if the endpoint fails to load', () => 
   };
 
   const wrapper = mountWithIntl(
-    <IntlProvider><Doc
-      {...props}
-      oas={brokenOas}
-      doc={{
-        title: 'title',
-        slug: 'slug',
-        type: 'endpoint',
-        swagger: { path: '/path' },
-        api: { method: 'post' },
-      }}
-    /></IntlProvider>,
+    <IntlProvider>
+      <Doc
+        {...props}
+        oas={brokenOas}
+        doc={{
+          title: 'title',
+          slug: 'slug',
+          type: 'endpoint',
+          swagger: { path: '/path' },
+          api: { method: 'post' },
+        }}
+      />
+    </IntlProvider>
   );
   const doc = wrapper.find('Doc')
 
