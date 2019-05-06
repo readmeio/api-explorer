@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { mountWithIntl } from 'enzyme-react-intl';
 import { IntlProvider } from 'react-intl';
 
