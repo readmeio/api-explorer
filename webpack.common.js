@@ -18,7 +18,7 @@ module.exports = {
     rules: [
       {
         test: /\.js(x?)$/,
-        exclude: /node_modules\/(?!(@readme\/syntax-highlighter|swagger2openapi|fetch-har))/,
+        exclude: /node_modules\/(?!(@mia-platform\/syntax-highlighter|swagger2openapi|fetch-har))/,
         use: {
           loader: 'babel-loader',
           options: {

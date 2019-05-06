@@ -4,7 +4,7 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
 const exampleResults = require('./fixtures/example-results/oas');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 const Example = require('../src/Example');
 const Oas = require('../src/lib/Oas');

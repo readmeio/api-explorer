@@ -4,7 +4,7 @@ import colors from '../../colors'
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
 const ReactJson = require('react-json-view').default;
 const contentTypeIsJson = require('../../lib/content-type-is-json');
 const oauthHref = require('../../lib/oauth-href');

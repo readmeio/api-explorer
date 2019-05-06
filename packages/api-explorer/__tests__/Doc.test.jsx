@@ -3,7 +3,7 @@ import { IntlProvider } from 'react-intl';
 
 import {mount} from 'enzyme';
 
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 const { Request, Response } = require('node-fetch');
 
 global.Request = Request;

@@ -1,6 +1,6 @@
 const CodeMirror = require('codemirror');
 const React = require('react');
-const Variable = require('@readme/variable');
+const Variable = require('@mia-platform/variable');
 const modes = require('./modes');
 
 const { VARIABLE_REGEXP } = Variable;

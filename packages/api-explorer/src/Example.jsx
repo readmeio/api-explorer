@@ -7,8 +7,8 @@ const showCodeResults = require('./lib/show-code-results');
 const contentTypeIsJson = require('./lib/content-type-is-json');
 
 // const { replaceVars } = require('./lib/replace-vars');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
-const extensions = require('@readme/oas-extensions');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
+const extensions = require('@mia-platform/oas-extensions');
 
 const ExampleTabs = require('./ExampleTabs');
 

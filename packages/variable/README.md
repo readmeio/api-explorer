@@ -1,11 +1,11 @@
-# @readme/variable
+# @mia-platform/variable
 
 React component for Variables
 
 ## Installation
 
 ```
-npm install --save @readme/variable
+npm install --save @mia-platform/variable
 ```
 
 ## Usage

@@ -5,7 +5,7 @@ import BlockWithTab from './components/BlockWithTab'
 import colors from './colors';
 
 const PropTypes = require('prop-types');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;

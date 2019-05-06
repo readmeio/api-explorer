@@ -1,6 +1,6 @@
 const querystring = require('querystring');
 
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 const oasToHar = require('../../src/lib/oas-to-har');
 
 const Oas = require('../../src/lib/Oas');

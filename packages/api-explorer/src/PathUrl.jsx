@@ -10,7 +10,7 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 function splitPath(path) {
   return path

@@ -9,6 +9,7 @@
     "watch": "lerna run watch --stream",
     "deploy": "npx gh-pages --dotfiles -d example/dist",
     "publish": "lerna publish",
+    "boot": "npx lerna bootstrap",
     "version": "auto-changelog -v $(node -e \"console.log('v' + require('./lerna.json').version)\") && git add CHANGELOG.md"
   },
   "publishConfig": {

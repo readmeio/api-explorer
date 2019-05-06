@@ -27,7 +27,7 @@ This repo consists of the following npm modules:
 git clone git@github.com:mia-platform/api-explorer.git
 cd api-explorer
 npm install
-npx lerna bootstrap
+npm run boot # Installs all packages using lerna
 ```
 
 ## Running the tests

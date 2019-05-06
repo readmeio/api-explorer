@@ -1,7 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react');
 const classNames = require('classnames');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
 
 const CodeElement = require('./CodeElement');
 const statusCodes = require('../lib/statuscodes');

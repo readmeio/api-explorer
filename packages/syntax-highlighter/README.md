@@ -1,4 +1,4 @@
-# @readme/syntax-highlighter
+# @mia-platform/syntax-highlighter
 
 Syntax highlighter used on ReadMe.io
 
@@ -7,7 +7,7 @@ Syntax highlighter used on ReadMe.io
 ## Installation
 
 ```
-npm install --save @readme/syntax-highlighter
+npm install --save @mia-platform/syntax-highlighter
 ```
 
 ## Credits
