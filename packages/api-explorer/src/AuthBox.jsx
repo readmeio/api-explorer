@@ -116,8 +116,38 @@ class AuthBox extends Component {
   }
 }
 
+const oauth2Types = PropTypes.shape({
+  OAuth2: PropTypes.arrayOf(PropTypes.shape({
+    _key: PropTypes.string,
+    type: PropTypes.string
+  }))
+})
+
+const basicTypes = PropTypes.shape({
+  Basic: PropTypes.arrayOf(PropTypes.shape({
+    _key: PropTypes.string,
+    scheme: PropTypes.string,
+    type: PropTypes.string
+  }))
+})
+
+const apikeyTypes = PropTypes.shape({
+  Query: PropTypes.arrayOf(PropTypes.shape({
+    _key: PropTypes.string,
+    in: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string
+  }))
+})
+
 AuthBox.propTypes = {
-  securityTypes: PropTypes.shape({}).isRequired,
+  securityTypes: PropTypes.shape(
+    PropTypes.oneOfType([
+      oauth2Types,
+      basicTypes,
+      apikeyTypes,
+    ]),
+  ),
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
@@ -138,7 +168,7 @@ AuthBox.defaultProps = {
   onSubmit: () => {},
   onReset: () => {},
   showReset: true,
-  securityTypes: {}
+  securityTypes: {},
 };
 
 module.exports = AuthBox;
