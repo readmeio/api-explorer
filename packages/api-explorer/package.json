@@ -16,7 +16,6 @@
     "lodash.get": "^4.4.2",
     "lodash.kebabcase": "^4.1.1",
     "prop-types": "^15.5.10",
-    "react": "^16.8.6",
     "react-copy-to-clipboard": "^5.0.1",
     "react-debounce-input": "^3.2.0",
     "react-intl": "^2.8.0",
@@ -67,6 +66,7 @@
     "webpack-merge": "^4.1.1"
   },
   "peerDependencies": {
+    "react": "^16.8.6",
     "antd": "3.16.x"
   }
 }
