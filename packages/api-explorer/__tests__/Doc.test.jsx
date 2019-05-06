@@ -265,23 +265,26 @@ describe('state.loading', () => {
 
 describe('suggest edits', () => {
   test('should not show if suggestedEdits is false', () => {
-    const doc = mount(<Doc {...props} suggestedEdits={false} />);
+    const doc = shallow(<Doc  {...props} suggestedEdits={false} />)
     doc.setState({showEndpoint: true})
-    expect(doc.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
+    const description = mount(<div>{doc.find('Description')}</div>)
+    expect(description.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
   });
 
   test('should show icon if suggested edits is true', () => {
-    const doc = mount(<Doc {...props} suggestedEdits />);
+    const doc = shallow(<Doc  {...props} suggestedEdits />)
     doc.setState({showEndpoint: true})
-    expect(doc.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
+    const description = mount(<div>{doc.find('Description')}</div>)
+    expect(description.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 
   test('should have child project if baseUrl is set', () => {
-    const doc = mount(
+    const doc = shallow(
       <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
     );
     doc.setState({showEndpoint: true})
-    expect(doc.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
+    const description = mount(<div>{doc.find('Description')}</div>)
+    expect(description.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 });
 
