@@ -32,9 +32,16 @@ function renderButtonTry(loading, onSubmit, error){
     </Button>
   )
 }
+
 function renderOperationMethod(operation){
+  const tagStyle = {
+    textTransform: 'uppercase',
+    color: colors.defaultTag,
+    fontWeight: 600,
+  }
+
   return(
-    <Tag color={colors[operation.method]}>{operation.method}</Tag>
+    <Tag color={colors[operation.method].border} style={tagStyle}>{operation.method}</Tag>
   )
 }
 
@@ -68,6 +75,7 @@ function renderUrl(oas, operation){
       )
   )
 }
+
 function PathUrl({
   oas,
   operation,
