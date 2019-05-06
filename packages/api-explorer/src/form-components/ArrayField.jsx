@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 const BaseArrayField = require('react-jsonschema-form/lib/components/fields/ArrayField').default;
 

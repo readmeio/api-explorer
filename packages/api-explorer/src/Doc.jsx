@@ -9,7 +9,7 @@ import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
 
 import {get} from 'lodash'
-import extensions from '@readme/oas-extensions'
+import extensions from '@mia-platform/oas-extensions'
 
 import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
@@ -24,7 +24,7 @@ const CodeSample = require('./CodeSample');
 const Response = require('./components/Response');
 const ResponseSchema = require('./ResponseSchema');
 const ErrorBoundary = require('./ErrorBoundary');
-const markdown = require('@readme/markdown');
+const markdown = require('@mia-platform/markdown');
 
 const Oas = require('./lib/Oas');
 const parseResponse = require('./lib/parse-response');

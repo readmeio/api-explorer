@@ -1,11 +1,11 @@
-# @readme/markdown
+# @mia-platform/markdown
 
 ReadMe's React-based Markdown parser
 
 ## Installation
 
 ```
-npm install --save @readme/markdown
+npm install --save @mia-platform/markdown
 ```
 
 ## Usage

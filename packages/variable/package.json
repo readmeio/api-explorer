@@ -1,5 +1,5 @@
 {
-  "name": "@readme/variable",
+  "name": "@mia-platform/variable",
   "description": "React component for Variables",
   "version": "4.0.0",
   "main": "index.jsx",

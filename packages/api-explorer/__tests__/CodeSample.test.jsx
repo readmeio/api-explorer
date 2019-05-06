@@ -1,6 +1,6 @@
 const React = require('react');
 const { shallow } = require('enzyme');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 const CodeSample = require('../src/CodeSample');
 const Oas = require('../src/lib/Oas');

@@ -1,4 +1,4 @@
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWidget').default;
 

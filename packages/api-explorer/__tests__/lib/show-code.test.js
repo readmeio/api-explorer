@@ -1,4 +1,4 @@
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 const showCode = require('../../src/lib/show-code');
 

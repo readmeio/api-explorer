@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 const WrappedApiExplorer = require('../src');
 
 const { ApiExplorer } = WrappedApiExplorer;

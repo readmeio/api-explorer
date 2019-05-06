@@ -11,12 +11,12 @@ const Panel = Collapse.Panel
 
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
-const extensions = require('@readme/oas-extensions');
-const VariablesContext = require('@readme/variable/contexts/Variables');
-const OauthContext = require('@readme/variable/contexts/Oauth');
-const GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
-const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
-const markdown = require('@readme/markdown');
+const extensions = require('@mia-platform/oas-extensions');
+const VariablesContext = require('@mia-platform/variable/contexts/Variables');
+const OauthContext = require('@mia-platform/variable/contexts/Oauth');
+const GlossaryTermsContext = require('@mia-platform/markdown/contexts/GlossaryTerms');
+const SelectedAppContext = require('@mia-platform/variable/contexts/SelectedApp');
+const markdown = require('@mia-platform/markdown');
 
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');

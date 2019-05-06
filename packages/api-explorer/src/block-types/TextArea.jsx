@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@mia-platform/markdown');
 
 const Textarea = ({ block, flags, baseUrl }) => {
   const combined = Object.assign(

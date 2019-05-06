@@ -1,4 +1,4 @@
-# @readme/oas-extensions
+# @mia-platform/oas-extensions
 
 A list of extensions that ReadMe has added to the OAS spec https://readme.readme.io/v2.0/docs/swagger-extensions
 
@@ -7,7 +7,7 @@ A list of extensions that ReadMe has added to the OAS spec https://readme.readme
 ## Installation
 
 ```
-npm install --save @readme/oas-extensions
+npm install --save @mia-platform/oas-extensions
 ```
 
 ## Credits
