@@ -1,5 +1,5 @@
 /**
- * Took from yahoo/react-intl [wiki](https://github.com/yahoo/react-intl/wiki/Testing-with-React-Intl).
+ * Took from yahoo/react-intl [wiki](https://github.com/yahoo/react-intl/wiki/Testing-with-React-Intl#helper-function-1).
  * 
  * Components using the react-intl module require access to the intl context.
  * This is not available when mounting single components in Enzyme.
