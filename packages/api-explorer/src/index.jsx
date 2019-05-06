@@ -5,7 +5,18 @@ import React from 'react'
 import { Collapse, Tag } from 'antd';
 import get from 'lodash.get'
 
+import { IntlProvider, addLocaleData } from 'react-intl';
+import itLocale from 'react-intl/locale-data/it';
+import enLocale from 'react-intl/locale-data/en';
+import it from "../i18n/it.json";
+import en from "../i18n/en.json";
+
 import colors from './colors'
+
+addLocaleData([...itLocale, ...enLocale]);
+const messages = {
+  it, en,
+}
 
 const Panel = Collapse.Panel
 
@@ -68,6 +79,7 @@ class ApiExplorer extends React.Component {
       return 'curl';
     }
   }
+
   getOas(doc) {
     // Get the apiSetting id from the following places:
     // - category.apiSetting if set and populated
@@ -106,33 +118,40 @@ class ApiExplorer extends React.Component {
     )
   }
 
-  renderDoc(doc){
-    return(
-      <VariablesContext.Provider value={this.props.variables}>
-        <OauthContext.Provider value={this.props.oauth}>
-          <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
-            <SelectedAppContext.Provider value={this.state.selectedApp}>
-              <Doc
-                key={doc._id}
-                doc={doc}
-                oas={this.getOas(doc)}
-                setLanguage={this.setLanguage}
-                flags={this.props.flags}
-                user={this.props.variables.user}
-                Logs={this.props.Logs}
-                baseUrl={this.props.baseUrl.replace(/\/$/, '')}
-                appearance={this.props.appearance}
-                language={this.state.language}
-                oauth={this.props.oauth}
-                suggestedEdits={false}
-                tryItMetrics={this.props.tryItMetrics}
-                auth={this.state.auth}
-                onAuthChange={this.onAuthChange}
-              />
-            </SelectedAppContext.Provider>
-          </GlossaryTermsContext.Provider>
-        </OauthContext.Provider>
-      </VariablesContext.Provider>
+  renderDoc(doc) {
+    const localizedMessages = messages[this.props.i18n.locale] || messages[this.props.i18n.defaultLocale]
+    return (
+      <IntlProvider
+        locale={this.props.i18n.locale}
+        defaultLocale={this.props.i18n.defaultLocale}
+        messages={localizedMessages}
+      >
+        <VariablesContext.Provider value={this.props.variables}>
+          <OauthContext.Provider value={this.props.oauth}>
+            <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
+              <SelectedAppContext.Provider value={this.state.selectedApp}>
+                <Doc
+                  key={doc._id}
+                  doc={doc}
+                  oas={this.getOas(doc)}
+                  setLanguage={this.setLanguage}
+                  flags={this.props.flags}
+                  user={this.props.variables.user}
+                  Logs={this.props.Logs}
+                  baseUrl={this.props.baseUrl.replace(/\/$/, '')}
+                  appearance={this.props.appearance}
+                  language={this.state.language}
+                  oauth={this.props.oauth}
+                  suggestedEdits={false}
+                  tryItMetrics={this.props.tryItMetrics}
+                  auth={this.state.auth}
+                  onAuthChange={this.onAuthChange}
+                />
+              </SelectedAppContext.Provider>
+            </GlossaryTermsContext.Provider>
+          </OauthContext.Provider>
+        </VariablesContext.Provider>
+      </IntlProvider>
     )
   }
 
@@ -219,6 +238,10 @@ ApiExplorer.propTypes = {
   glossaryTerms: PropTypes.arrayOf(
     PropTypes.shape({ term: PropTypes.string.isRequired, definition: PropTypes.string.isRequired }),
   ).isRequired,
+  i18n: PropTypes.shape({
+    locale: PropTypes.string,
+    defaultLocale: PropTypes.string,
+  }), 
 };
 
 ApiExplorer.defaultProps = {
@@ -229,6 +252,10 @@ ApiExplorer.defaultProps = {
   tryItMetrics: () => {},
   Logs: undefined,
   baseUrl: '/',
+  i18n: {
+    locale: 'en',
+    defaultLocale: 'en',
+  },
 };
 
 module.exports = props => (

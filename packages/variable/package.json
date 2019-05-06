@@ -5,8 +5,7 @@
   "main": "index.jsx",
   "dependencies": {
     "classnames": "^2.2.6",
-    "prop-types": "^15.6.2",
-    "react": "^16.4.2"
+    "prop-types": "^15.6.2"
   },
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
@@ -32,5 +31,8 @@
     "jest": "^23.4.2",
     "jsinspect": "^0.12.7",
     "prettier": "^1.14.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
   }
 }

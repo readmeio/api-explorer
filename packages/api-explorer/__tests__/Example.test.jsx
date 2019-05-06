@@ -1,5 +1,7 @@
+import {IntlProvider} from 'react-intl';
+
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
 const exampleResults = require('./fixtures/example-results/oas');
 const extensions = require('@mia-platform/oas-extensions');
@@ -18,20 +20,22 @@ const props = {
 };
 
 test('should show no examples if endpoint does not any', () => {
-  const example = shallow(<Example {...props} />);
+  const example = mount(<IntlProvider><Example {...props} /></IntlProvider>);
 
-  expect(example.containsMatchingElement(<div>Try the API to see Results</div>)).toEqual(true);
+  expect(example.contains('Try the API to see Results')).toEqual(true);
 });
 
 test('should notify about no examples being available if explorer disabled', () => {
-  const example = shallow(
-    <Example
-      {...props}
-      oas={new Oas(Object.assign({}, petstore, { [extensions.EXPLORER_ENABLED]: false }))}
-    />,
+  const example = mount(
+    <IntlProvider>
+      <Example
+        {...props}
+        oas={new Oas(Object.assign({}, petstore, { [extensions.EXPLORER_ENABLED]: false }))}
+      />
+    </IntlProvider>
   );
 
-  expect(example.containsMatchingElement(<div>No response examples available</div>)).toEqual(true);
+  expect(example.contains('No response examples available')).toEqual(true);
 });
 
 test('should show each example', () => {

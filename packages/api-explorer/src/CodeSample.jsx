@@ -1,4 +1,5 @@
 import React from 'react'
+import {FormattedMessage} from 'react-intl';
 
 import BlockWithTab from './components/BlockWithTab'
 import colors from './colors';
@@ -141,7 +142,14 @@ class CodeSample extends React.Component {
         {(() => {
           // if (examples.length) return this.renderSelected(examples, setLanguage); I think we don't need this (Riccardo Di Benedetto)
           if (!oas[extensions.SAMPLES_ENABLED]) {
-            return <div className="hub-no-code">No code samples available</div>;
+            return (
+              <div className="hub-no-code">
+                <FormattedMessage
+                  id="code.sample.na"
+                  defaultMessage="No code samples available"
+                />
+              </div>
+            );
           }
           const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language, selectedContentType);
           const languagesList = oas[extensions.SAMPLES_LANGUAGES]

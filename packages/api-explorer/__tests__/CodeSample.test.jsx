@@ -1,5 +1,7 @@
+import {IntlProvider} from 'react-intl';
+
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 const extensions = require('@mia-platform/oas-extensions');
 
 const CodeSample = require('../src/CodeSample');
@@ -38,16 +40,18 @@ describe('tabs', () => {
   });
 
   test('should display a message if no code samples', () => {
-    const codeSample = shallow(
-      <CodeSample
-        {...props}
-        oas={
-          new Oas({
-            [extensions.SAMPLES_ENABLED]: false,
-            [extensions.SAMPLES_LANGUAGES]: ['node'],
-          })
-        }
-      />,
+    const codeSample = mount(
+      <IntlProvider>
+        <CodeSample
+          {...props}
+          oas={
+            new Oas({
+              [extensions.SAMPLES_ENABLED]: false,
+              [extensions.SAMPLES_LANGUAGES]: ['node'],
+            })
+          }
+        />
+      </IntlProvider>
     );
 
     expect(codeSample.find('.hub-no-code').text()).toBe('No code samples available');

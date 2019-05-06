@@ -4,8 +4,7 @@
   "version": "4.1.1",
   "dependencies": {
     "@mia-platform/variable": "^4.0.0",
-    "codemirror": "^5.31.0",
-    "react": "^16.4.2"
+    "codemirror": "^5.31.0"
   },
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
@@ -28,5 +27,8 @@
     "jest": "^23.4.2",
     "jsinspect": "^0.12.6",
     "prettier": "^1.6.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
   }
 }

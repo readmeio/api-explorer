@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import {Icon, Popover, Alert, Tabs, Button} from 'antd'
+import { injectIntl, FormattedMessage} from 'react-intl';
 
 const PropTypes = require('prop-types');
 const SecurityInput = require('./SecurityInput')
@@ -33,21 +34,24 @@ function getSecurityTabs(securityTypes, config, onChange,onSubmit) {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class AuthBox extends Component {
-  
-  renderIconLock(){
+
+  renderIconLock() {
     const {toggle, open} = this.props
     return(
       <Icon type={open ? 'unlock' : 'lock'} onClick={toggle} />
     )
   }
   
-  renderAuthAlert(){
-    const {needsAuth} = this.props
+  renderAuthAlert() {
+    const {needsAuth, intl} = this.props
+
+    const message = intl.formatMessage({id:'warning', defaultMessage: 'Warning'})
+    const description = intl.formatMessage({id:'api.auth.required', defaultMessage: 'Authentication is required for this endpoint'})
     return(
       needsAuth ? 
         <Alert
-          message="Warning"
-          description="Authentication is required for this endpoint"
+          message={message}
+          description={description}
           type="warning"
           showIcon
         /> : 
@@ -55,7 +59,7 @@ class AuthBox extends Component {
     )
   }
 
-  renderSecurityBox(){
+  renderSecurityBox() {
     const {
       securityTypes,
       onSubmit,
@@ -66,6 +70,7 @@ class AuthBox extends Component {
       showReset,
       onReset
     } = this.props
+  
     return(
       <Fragment>
         <Tabs defaultActiveKey={'security-0'}>
@@ -90,7 +95,10 @@ class AuthBox extends Component {
                 type={'danger'}
                 size={'small'}
               >
-                Reset
+                <FormattedMessage
+                  id="reset"
+                  defaultMessage="Reset"
+                />
               </Button>
             </div>
           : null
@@ -156,7 +164,8 @@ AuthBox.propTypes = {
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
   onReset: PropTypes.func,
-  showReset: PropTypes.bool
+  showReset: PropTypes.bool,
+  intl: PropTypes.shape({}).isRequired,
 };
 
 AuthBox.defaultProps = {
@@ -170,4 +179,4 @@ AuthBox.defaultProps = {
   securityTypes: {},
 };
 
-module.exports = AuthBox;
+module.exports = injectIntl(AuthBox);
