@@ -3,7 +3,7 @@
 /* eslint-disable react/no-unused-prop-types */
 import React, {Fragment} from 'react'
 import Waypoint from 'react-waypoint'
-import {injectIntl} from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
@@ -31,7 +31,9 @@ const parseResponse = require('./lib/parse-response');
 const getContentTypeFromOperation = require('./lib/get-content-type')
 
 
-function Description({doc, suggestedEdits, baseUrl}){
+function Description({doc, suggestedEdits, baseUrl, intl}) {
+  const description = intl.formatMessage({id: 'doc.description', defaultMessage: 'Description'})
+  const decriptionNa = intl.formatMessage({id: 'doc.description.na', defaultMessage: 'Description not available'})
   return(
     <div style={{display: 'flex', flexDirection: 'column'}}>
       {suggestedEdits && (
@@ -40,13 +42,15 @@ function Description({doc, suggestedEdits, baseUrl}){
             style={{fontSize: 14, color: colors.suggestEdit, textTransform: 'uppercase'}}
             href={`${baseUrl}/reference-edit/${doc.slug}`}
           >
-            <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+            <span style={{marginRight: 5}}>
+              <FormattedMessage id="doc.suggest.edits" defaultMessage='Suggest Edits' />
+            </span><Icon type="edit" />
           </a>
         </div>
         )} 
       <ContentWithTitle
-        title={'Description'}
-        content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : 'Description not available'}
+        title={description}
+        content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : decriptionNa}
         showDivider={false}
         theme={'dark'}
         showBorder={false}
@@ -271,7 +275,7 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc, suggestedEdits, baseUrl } = this.props
+    const { doc, suggestedEdits, baseUrl, intl } = this.props
     return (
         doc.type === 'endpoint' ? (
           <Fragment>
@@ -281,6 +285,7 @@ class Doc extends React.Component {
                 doc={doc} 
                 suggestedEdits={suggestedEdits}  
                 baseUrl={baseUrl}
+                intl={intl}
               />
               {this.renderLogs()}
               {this.renderParams()}

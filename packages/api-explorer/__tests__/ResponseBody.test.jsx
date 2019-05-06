@@ -1,3 +1,4 @@
+import { IntlProvider } from 'react-intl';
 import ResponseBody from '../src/components/Response';
 
 const React = require('react');
@@ -35,7 +36,7 @@ beforeEach(async () => {
 
 describe('Response body', () => {
   test('should display json viewer if response is json', () => {
-    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...props} oas={oas} /></IntlProvider>);
 
     expect(responseBody.find('.react-json-view').length).toBe(1);
   });
@@ -56,7 +57,7 @@ describe('Response body', () => {
       }),
     );
 
-    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...props} oas={oas} /></IntlProvider>);
 
     expect(responseBody.find('.react-json-view').length).toBe(1);
   });
@@ -77,7 +78,7 @@ describe('Response body', () => {
       }),
     );
 
-    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...props} oas={oas} /></IntlProvider>);
 
     expect(responseBody.find('.react-json-view').length).toBe(0);
     expect(responseBody.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
@@ -102,7 +103,7 @@ describe('Response body', () => {
       ),
     );
 
-    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...props} oas={oas} /></IntlProvider>);
 
     expect(responseBody.find('.react-json-view').length).toBe(0);
     expect(responseBody.find('.cm-s-tomorrow-night.codemirror-highlight').length).toBe(1);
@@ -129,11 +130,10 @@ describe('Response body', () => {
       operation: new Operation({}, '/pet', 'post'),
       oauth: false,
     };
-    const responseBody = mount(<ResponseBody {...binaryResponse} oas={oas} />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...binaryResponse} oas={oas} /></IntlProvider>);
 
-    expect(responseBody.containsMatchingElement(<div>A binary file was returned</div>)).toEqual(
-      true,
-    );
+    const message = responseBody.find('FormattedMessage');
+    expect(message.prop('id')).toEqual('api.response.binary');
   });
 
   let oauthInvalidResponse;
@@ -162,16 +162,16 @@ describe('Response body', () => {
   });
 
   test('should display message if OAuth is incorrect or expired without oauth', () => {
-    const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...oauthInvalidResponse} oas={oas} /></IntlProvider>);
 
     expect(responseBody.find('.hub-expired-token').length).toEqual(1);
-    expect(
-      responseBody.containsMatchingElement(<p>Your OAuth2 token is incorrect or has expired</p>),
-    ).toEqual(true);
+
+    const message = responseBody.find('FormattedMessage');
+    expect(message.prop('id')).toEqual('api.oauth2.invalid');
   });
 
   test('should display message if OAuth is expired with oauth', () => {
-    const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} oauth />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...oauthInvalidResponse} oas={oas} oauth /></IntlProvider>);
 
     expect(responseBody.find('p').text()).toBe('Your OAuth2 token has expired');
     expect(responseBody.find('a.btn.btn-primary').text()).toBe('Reauthenticate via OAuth2');
@@ -202,10 +202,9 @@ describe('Response body', () => {
       operation: oas.operation('/pet/{petId}', 'get'),
       oauth: false,
     };
-    const responseBody = mount(<ResponseBody {...nonOAuthInvalidResponse} oas={oas} />);
+    const responseBody = mount(<IntlProvider><ResponseBody {...nonOAuthInvalidResponse} oas={oas} /></IntlProvider>);
 
-    expect(responseBody.containsMatchingElement(<p>You couldn&apos;t be authenticated</p>)).toEqual(
-      true,
-    );
+    const message = responseBody.find('FormattedMessage');
+    expect(message.prop('id')).toEqual('api.auth.failed');
   });
 });

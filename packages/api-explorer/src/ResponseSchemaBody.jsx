@@ -67,8 +67,8 @@ function flattenObject(obj, parent, level, oas) {
     }),
   );
 }
-/* eslint-enable no-use-before-define */
 
+/* eslint-enable no-use-before-define */
 function flattenResponseSchema(obj, oas, parent = '', level = 0) {
   if (level > 2) {
     return [];
@@ -123,7 +123,7 @@ function ResponseSchemaBody({ schema, oas }) {
       {schema &&
       schema.type && (
         <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
-          <FormattedMessage id="api.response.schematype" defaultMessage="Response schema type:" /> {' '}
+          <FormattedMessage id="api.response.schematype" defaultMessage="Response schema type:" />{' '}
           <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
         </p>
       )}

@@ -1,3 +1,5 @@
+import {IntlProvider} from 'react-intl';
+
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
@@ -53,20 +55,24 @@ describe('exampleTab', () => {
 });
 
 test('should show different component tabs based on state', () => {
-  const doc = mount(
-    <Response
-      {...props}
-      result={{
-        status: 200,
-        responseBody: JSON.stringify({ a: 1 }),
-        requestBody: JSON.stringify({ b: 2 }),
-        requestHeaders: [],
-        method: 'post',
-        responseHeaders: [],
-      }}
-    />,
+  const wrapper = mount(
+    <IntlProvider>
+      <Response
+        {...props}
+        result={{
+          status: 200,
+          responseBody: JSON.stringify({ a: 1 }),
+          requestBody: JSON.stringify({ b: 2 }),
+          requestHeaders: [],
+          method: 'post',
+          responseHeaders: [],
+        }}
+      />
+    </IntlProvider>
   );
-  expect(doc.find('ResponseBody').length).toBe(1);
+  expect(wrapper.find('ResponseBody').length).toBe(1);
+
+  const doc = wrapper.find('Response');  
   doc.instance().setTab('metadata');
 
   // I want to do the below assertion instead, but it's not working
