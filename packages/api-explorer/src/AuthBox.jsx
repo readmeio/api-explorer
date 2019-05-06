@@ -1,17 +1,17 @@
 import React, {Component, Fragment} from 'react'
 import {Icon, Popover, Alert, Tabs, Button} from 'antd'
 
-const {TabPane} = Tabs
-
 const PropTypes = require('prop-types');
 const SecurityInput = require('./SecurityInput')
 
+const TabPane = Tabs.TabPane
+
 function getSecurityTabs(securityTypes, config, onChange,onSubmit) {
   const {authInputRef, oauth, auth} = config
- 
   return Object.keys(securityTypes).map((type, index) => {
     const securities = securityTypes[type];
     return (
+      // eslint-disable-next-line react/no-array-index-key
       <TabPane tab={type} key={`security-${index}`} >
         <form onSubmit={onSubmit}>
           <div style={{padding: '15px 17px'}}>
@@ -54,6 +54,7 @@ class AuthBox extends Component {
       null
     )
   }
+
   renderSecurityBox(){
     const {
       securityTypes,
@@ -79,8 +80,8 @@ class AuthBox extends Component {
               }
             )
           }
-        
         </Tabs>
+
         {
           showReset ? 
             <div style={{padding: 5}}>
@@ -92,8 +93,8 @@ class AuthBox extends Component {
                 Reset
               </Button>
             </div>
-        : null
-      }
+          : null
+        }
         {this.renderAuthAlert()}
       </Fragment>
     )
@@ -101,7 +102,6 @@ class AuthBox extends Component {
 
   render() {
     const {securityTypes} = this.props
-
     if (Object.keys(securityTypes).length === 0) return null;
     
     return (
@@ -116,8 +116,38 @@ class AuthBox extends Component {
   }
 }
 
+const oauth2Types = PropTypes.shape({
+  OAuth2: PropTypes.arrayOf(PropTypes.shape({
+    _key: PropTypes.string,
+    type: PropTypes.string
+  }))
+})
+
+const basicTypes = PropTypes.shape({
+  Basic: PropTypes.arrayOf(PropTypes.shape({
+    _key: PropTypes.string,
+    scheme: PropTypes.string,
+    type: PropTypes.string
+  }))
+})
+
+const apikeyTypes = PropTypes.shape({
+  Query: PropTypes.arrayOf(PropTypes.shape({
+    _key: PropTypes.string,
+    in: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string
+  }))
+})
+
 AuthBox.propTypes = {
-  securityTypes: PropTypes.object.isRequired,
+  securityTypes: PropTypes.shape(
+    PropTypes.oneOfType([
+      oauth2Types,
+      basicTypes,
+      apikeyTypes,
+    ]),
+  ),
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
@@ -138,7 +168,7 @@ AuthBox.defaultProps = {
   onSubmit: () => {},
   onReset: () => {},
   showReset: true,
-  securityTypes: {}
+  securityTypes: {},
 };
 
 module.exports = AuthBox;

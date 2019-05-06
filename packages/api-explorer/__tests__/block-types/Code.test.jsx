@@ -1,6 +1,7 @@
-const React = require('react');
-const { mount } = require('enzyme');
-const Code = require('../../src/block-types/Code');
+import React from 'react';
+import { mount } from 'enzyme';
+
+import Code from '../../src/block-types/Code';
 
 const block = {
   type: 'code',

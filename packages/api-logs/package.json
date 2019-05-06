@@ -21,9 +21,9 @@
     "registry": "http://registry.npmjs.org",
     "access": "public"
   },
-  "author": "sean dokko <github.com/dok>",
+  "author": "Mia Platform Core Team<core@mia-platform.eu>",
   "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-logs",
+  "repository": "https://github.com/mia-platform/api-explorer/tree/master/packages/api-logs",
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",

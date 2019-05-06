@@ -61,10 +61,12 @@ function ResponseMetadata({ result }) {
       </Meta>
 
       {
-        result.requestData ? (<Meta label="Request Data">
-          {result.requestBody}
-        </Meta>) : null
-    }
+        result.requestBody ? (
+          <Meta label="Request Data">
+            {result.requestBody}
+          </Meta>
+        ) : null
+      }
 
       <Meta label="Status">
         <span className="httpstatus">

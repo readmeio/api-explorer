@@ -25,7 +25,6 @@ class Params extends Component{
   
   renderParam(schema) {
     const {
-      operation,
       formData,
       onChange,
       onSubmit,
@@ -91,7 +90,7 @@ class Params extends Component{
         />)
       })
     )
-    }
+  }
 }
 
 Params.propTypes = {

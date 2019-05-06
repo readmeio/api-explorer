@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/require-default-props */
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -9,7 +11,6 @@ export default function ContentWithTitle({
   theme, 
   showBorder,
   titleUpperCase,
-  titleWithBorder
 }) {
     const style = {
       light: {
@@ -58,5 +59,4 @@ ContentWithTitle.defaultProps = {
   theme: 'light',
   showBorder: true,
   titleUpperCase: false,
-  titleWithBorder: false
 }

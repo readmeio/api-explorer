@@ -1,9 +1,9 @@
+import colors from './colors'
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
 const statusCodes = require('./lib/statuscodes')
-
-import colors from './colors'
 
 const style = {
   circle: {
