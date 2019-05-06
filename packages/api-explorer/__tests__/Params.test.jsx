@@ -24,20 +24,6 @@ const props = {
 
 const Params = createParams(oas);
 
-describe('form id attribute', () => {
-  test('should be set to the operationId', () => {
-    expect(
-      mount(
-        <div>
-          <Params {...props} />
-        </div>,
-      )
-        .html()
-        .match(new RegExp(`form-${operation.operationId}`, 'g')).length,
-    ).toBe(1);
-  });
-});
-
 test('should use custom description component', () => {
   const params = mount(
     <div>
@@ -58,8 +44,8 @@ test('boolean should render as <select>', () => {
   const select = params.find('.field-boolean select');
 
   expect(select.length).toBe(1);
-  expect(select.find('option').length).toBe(3);
-  expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
+  expect(select.find('option').length).toBe(2);
+  expect(select.find('option').map(el => el.text())).toEqual(['true', 'false']);
 });
 
 const jsonOperation = new Operation(oas, '/path', 'post', {
@@ -219,18 +205,6 @@ describe('x-explorer-enabled', () => {
         />,
       ).find('input[type="file"]').length,
     ).toBe(0);
-  });
-});
-
-describe('readOnly', () => {
-  test('should make `readOnly` properties hidden', () => {
-    expect(
-      mount(
-        <div>
-          <Params {...props} operation={oas.operation('/pet', 'post')} />
-        </div>,
-      ).find('input#addPet_id[type="hidden"]').length,
-    ).toBe(1);
   });
 });
 

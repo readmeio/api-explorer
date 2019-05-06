@@ -1,16 +1,18 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unused-prop-types */
 import React, {Fragment} from 'react'
 import Waypoint from 'react-waypoint'
 import {injectIntl} from 'react-intl'
-
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
 import extensions from '@readme/oas-extensions'
+import {get} from 'lodash'
+
 
 import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
-
-import {get} from 'lodash'
 
 import ContentWithTitle from './components/ContentWithTitle'
 import Select from './components/Select'
@@ -21,7 +23,7 @@ const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./components/Response');
 const ResponseSchema = require('./ResponseSchema');
-const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const ErrorBoundary = require('./ErrorBoundary');
 const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
@@ -113,7 +115,7 @@ class Doc extends React.Component {
         result: await parseResponse(har, res),
         error: false
       });
-    }).catch(e => {
+    }).catch(() => {
       this.setState({
         loading: false,
         error: true
@@ -121,6 +123,18 @@ class Doc extends React.Component {
     });
   }
 
+  onAuthChange(auth) {
+    this.setState(prevState => {
+      return {
+        auth: {...prevState.auth, ...auth}
+      }
+    })
+  }
+
+  onAuthReset(){
+    this.setState({auth: null})
+  }
+  
   getOperation() {
     if (this.operation) return this.operation;
 
@@ -130,7 +144,7 @@ class Doc extends React.Component {
     return operation;
   }
 
-  getCurrentAuth(){
+  getCurrentAuth() {
     return this.state.auth || this.props.auth
   }
 
@@ -182,9 +196,11 @@ class Doc extends React.Component {
           title={this.props.intl.formatMessage({id:'doc.definition', defaultMessage: 'Definition'})} 
           showBorder={false}
           content={
-            <span style={definitionStyle}>
-              {this.oas.servers[0].url}{this.getOperation().path}
-            </span>
+            this.oas.servers && (
+              <span style={definitionStyle}>
+                {this.oas.servers[0].url}{this.getOperation().path}
+              </span>
+            )
           } 
         />
         <ContentWithTitle
@@ -218,7 +234,7 @@ class Doc extends React.Component {
     );
   }
 
-  renderResponse() {    
+  renderResponse() {
     return (
       <Response
         result={this.state.result}
@@ -251,30 +267,6 @@ class Doc extends React.Component {
         showBorder={false}
         titleUpperCase
       />
-    )
-  }
-
-  renderDescription() {
-    const {doc} = this.props
-    const descriptionUpperTitle = this.props.intl.formatMessage({id:'doc.description', defaultMessage: 'Description'})
-    const descriptionNotAvailable = this.props.intl.formatMessage({id:'doc.description.na', defaultMessage: 'Description not available'})
-    return(
-      <Fragment>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          {this.props.suggestedEdits && (
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
-          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <a
-              style={{fontSize: 14, color: '#aaaaaa', textTransform: 'uppercase'}}
-              href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
-            >
-              <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
-            </a>
-          </div>
-          )}
-          {this.renderContentWithUpperTitle(descriptionUpperTitle, doc.excerpt ? <div className="excerpt">{markdown(doc.excerpt)}</div> : descriptionNotAvailable)}
-        </div>
-      </Fragment>
     )
   }
 
@@ -340,18 +332,6 @@ class Doc extends React.Component {
     );
   }
 
-  onAuthChange(auth){
-    this.setState(prevState => {
-      return {
-        auth: {...prevState.auth, ...auth}
-      }
-    })
-  }
-
-  onAuthReset(){
-    this.setState({auth: null})
-  }
-  
   renderPathUrl() {
     const {error} = this.state
     return (
@@ -366,7 +346,10 @@ class Doc extends React.Component {
         oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
-        authInputRef={el => (this.authInput = el)}
+        authInputRef={el => {
+          // eslint-disable-next-line no-return-assign
+          return (this.authInput = el);
+        }}
         auth={this.getCurrentAuth()}
         error={error}
         onReset={this.onAuthReset}
@@ -389,7 +372,7 @@ class Doc extends React.Component {
     };
 
     return (
-      <EndpointErrorBoundary>
+      <ErrorBoundary>
         <div id={`page-${doc.slug}`}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
             {renderEndpoint()}
@@ -404,7 +387,7 @@ class Doc extends React.Component {
             value={oas[extensions.SEND_DEFAULTS]}
           />
         </div>
-      </EndpointErrorBoundary>
+      </ErrorBoundary>
     );
   }
 }

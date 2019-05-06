@@ -15,7 +15,7 @@ require('../../packages/api-explorer/api-explorer.css');
 require('../../packages/api-logs/main.css');
 
 function Demo({ fetchSwagger, status, docs, oas, oauth }) {
-  const lang = navigator.language.substring(0, 2) || 'en'
+  const lang = navigator.language.substring(0, 2) || 'en';
 
   return (
     <div>

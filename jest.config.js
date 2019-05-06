@@ -1,5 +1,7 @@
 const path = require('path');
 
+const esModules = ['antd', 'rc-*', 'css-animation'].join('|');
+
 module.exports = {
   testURL: 'http://localhost',
   coverageThreshold: {
@@ -27,4 +29,5 @@ module.exports = {
   transform: {
     '^.+\\.jsx?$': path.join(__dirname, '/lib/babel-jest'),
   },
+  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
 };

@@ -1,3 +1,5 @@
+import { injectIntl } from 'react-intl';
+
 import colors from '../../colors'
 
 const React = require('react');
@@ -45,42 +47,45 @@ Meta.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-function ResponseMetadata({ result }) {
+function ResponseMetadata({ result, intl }) {
   return (
     <div style={{ display: 'block' }}>
-      <Meta label="Method">
+      <Meta label={intl.formatMessage({id: 'api.method', defaultMessage: 'Method'})}>
         {result.method.toString()}
       </Meta>
 
-      <Meta label="URL">
+      <Meta label={intl.formatMessage({id: 'api.url', defaultMessage: 'URL'})}>
         {result.url}
       </Meta>
 
-      <Meta label="Request Headers">
+      <Meta label={intl.formatMessage({id: 'api.request.headers', defaultMessage: 'Request Headers'})}>
         {result.requestHeaders.join('\n')}
       </Meta>
 
       {
-        result.requestBody ? (<Meta label="Request Data">
-          {result.requestBody}
-        </Meta>) : null
+        result.requestBody ? (
+          <Meta label={intl.formatMessage({id: 'api.request.data', defaultMessage: 'Request Data'})}>
+            {result.requestBody}
+          </Meta>
+        ) : null
       }
 
-      <Meta label="Status">
+      <Meta label={intl.formatMessage({id: 'api.response.status', defaultMessage: 'Status'})}>
         <span className="httpstatus">
           <IconStatus status={result.status} />
         </span>
       </Meta>
 
-      <Meta label="Response Headers">
+      <Meta label={intl.formatMessage({id: 'api.response.headers', defaultMessage: 'Response Headers'})}>
         {result.responseHeaders.join('\n')}
       </Meta>
     </div>
   );
 }
 
-module.exports = ResponseMetadata;
+module.exports = injectIntl(ResponseMetadata);
 
 ResponseMetadata.propTypes = {
   result: PropTypes.shape({}).isRequired,
+  intl: PropTypes.func.isRequired,
 };

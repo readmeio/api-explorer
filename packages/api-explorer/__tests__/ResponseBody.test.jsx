@@ -1,3 +1,5 @@
+import ResponseBody from '../src/components/Response';
+
 const React = require('react');
 const { mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
@@ -5,7 +7,6 @@ const petstore = require('./fixtures/petstore/oas');
 const parseResponse = require('../src/lib/parse-response');
 const FetchResponse = require('node-fetch').Response;
 
-const ResponseBody = require('../src/ResponseBody');
 const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
@@ -173,8 +174,8 @@ describe('Response body', () => {
     const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} oauth />);
 
     expect(responseBody.find('p').text()).toBe('Your OAuth2 token has expired');
-    expect(responseBody.find('a').text()).toBe('Reauthenticate via OAuth2');
-    expect(responseBody.find('a').prop('href')).toBe(`/oauth?redirect=${window.location.pathname}`);
+    expect(responseBody.find('a.btn.btn-primary').text()).toBe('Reauthenticate via OAuth2');
+    expect(responseBody.find('a.btn.btn-primary').prop('href')).toBe(`/oauth?redirect=${window.location.pathname}`);
   });
 
   test('should display message authentication message if endpoint does not use oAuth', async () => {

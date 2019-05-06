@@ -8,7 +8,6 @@ const Oauth2 = require('./security-input-types/Oauth2');
 const ApiKey = require('./security-input-types/ApiKey');
 const Basic = require('./security-input-types/Basic');
 
-
 const types = {
   oauth2: Oauth2,
   apiKey: ApiKey,

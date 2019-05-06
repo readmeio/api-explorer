@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+  - "node"
+  - "lts/*"
+  - "lts/carbon"
+
+script:
+  - npm i
+  - npx lerna bootstrap
+  - npm run test
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always

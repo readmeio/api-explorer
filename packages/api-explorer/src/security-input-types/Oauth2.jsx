@@ -6,8 +6,7 @@ const PropTypes = require('prop-types');
 
 const oauthHref = require('../lib/oauth-href');
 
-
-const style={
+const style = {
   container: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, minmax(50px, min-content))',
@@ -16,6 +15,7 @@ const style={
     fontSize: 12
   }
 }
+
 function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
   if (!apiKey && oauth) {
     return (

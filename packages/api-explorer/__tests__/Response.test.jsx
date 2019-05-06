@@ -2,7 +2,7 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
 
-const Response = require('../src/Response');
+const Response = require('../src/components/Response');
 const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
@@ -74,5 +74,6 @@ test('should show different component tabs based on state', () => {
   expect(doc.html().includes('Response Headers')).toBe(true);
 
   // Should include request body in HTML
+  expect(doc.html().includes('Request Data')).toBe(true);
   expect(doc.html().includes(JSON.stringify({ b: 2 }))).toBe(true);
 });

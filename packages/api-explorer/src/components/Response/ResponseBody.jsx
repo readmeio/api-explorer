@@ -1,13 +1,13 @@
 import {FormattedMessage} from 'react-intl';
 
+import colors from '../../colors'
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const ReactJson = require('react-json-view').default;
 const contentTypeIsJson = require('../../lib/content-type-is-json');
 const oauthHref = require('../../lib/oauth-href');
-
-import colors from '../../colors'
 
 function Authorized({ result }) {
   const isJson =
@@ -23,8 +23,8 @@ function Authorized({ result }) {
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-all',
     color: colors.notJson
-
   }
+
   return (
     <div>
       {result.isBinary && <div><FormattedMessage id="api.response.binary" defaultMessage="A binary file was returned" /></div>}
@@ -96,6 +96,7 @@ Unauthorized.defaultProps = {
   isOauth: false,
 };
 
+// eslint-disable-next-line react/prop-types
 function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div style={{ display: 'block'}}>
