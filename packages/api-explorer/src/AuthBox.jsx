@@ -70,6 +70,7 @@ class AuthBox extends Component {
       showReset,
       onReset
     } = this.props
+  
     return(
       <Fragment>
         <Tabs defaultActiveKey={'security-0'}>
@@ -148,13 +149,12 @@ const apikeyTypes = PropTypes.shape({
 })
 
 AuthBox.propTypes = {
-  securityTypes: PropTypes.shape(
-    PropTypes.oneOfType([
-      oauth2Types,
-      basicTypes,
-      apikeyTypes,
-    ]),
-  ),
+  securityTypes: PropTypes.oneOfType([
+    // () => {},
+    oauth2Types,
+    basicTypes,
+    apikeyTypes,
+  ]),
   authInputRef: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,

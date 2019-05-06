@@ -1,10 +1,13 @@
+import { mountWithIntl, shallowWithIntl } from './helpers/utility-enzyme-intl-extension';
+
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
 
 global.Request = Request;
 
 const React = require('react');
-const { shallow, mount } = require('enzyme');
+// const { shallow, mount } = require('enzyme');
+
 const Doc = require('../src/Doc');
 const oas = require('./fixtures/petstore/circular-oas');
 const multipleSecurities = require('./fixtures/multiple-securities/oas');
@@ -34,10 +37,11 @@ function assertDocElements(component, doc) {
 }
 
 test('should output a div', () => {
-  const doc = mount(<Doc {...props} />);
+  const doc = mountWithIntl(<Doc {...props} />);
 
   doc.setState({ showEndpoint: true });
 
+  console.log(doc.debug())
   assertDocElements(doc, props.doc);
   expect(doc.find(`div#page-${props.doc.slug}`).length).toBe(1);
   expect(doc.find('PathUrl').length).toBe(1);
@@ -51,7 +55,7 @@ test('should output a div', () => {
 });
 
 test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
-  const doc = mount(
+  const doc = mountWithIntl(
     <Doc
       {...props}
       appearance={{
@@ -65,7 +69,7 @@ test('should render straight away if `appearance.splitReferenceDocs` is true', (
 
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
-  const docComponent = shallow(
+  const docComponent = shallowWithIntl(
     <Doc
       doc={doc}
       setLanguage={() => {}}
@@ -87,7 +91,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
 
 test('should still display `Content` with column-style layout', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
-  const docComponent = shallow(
+  const docComponent = shallowWithIntl(
     <Doc
       doc={doc}
       setLanguage={() => {}}
@@ -108,13 +112,13 @@ test('should still display `Content` with column-style layout', () => {
 
 describe('state.dirty', () => {
   test('should default to false', () => {
-    const doc = shallow(<Doc {...props} />);
+    const doc = shallowWithIntl(<Doc {...props} />);
 
     expect(doc.state('dirty')).toBe(false);
   });
 
   test('should switch to true on form change', () => {
-    const doc = shallow(<Doc {...props} />);
+    const doc = shallowWithIntl(<Doc {...props} />);
     doc.instance().onChange({ a: 1 });
 
     expect(doc.state('dirty')).toBe(true);
@@ -125,7 +129,7 @@ describe('onSubmit', () => {
   test('should display authentication warning if auth is required for endpoint', () => {
     jest.useFakeTimers();
 
-    const doc = mount(<Doc {...props} />);
+    const doc = mountWithIntl(<Doc {...props} />);
 
     // mock authInput focus function.
     doc.instance().authInput = {focus: () => {}}
@@ -171,7 +175,7 @@ describe('onSubmit', () => {
       );
     };
 
-    const doc = mount(<Doc {...props} {...props2} />);
+    const doc = mountWithIntl(<Doc {...props} {...props2} />);
 
     doc
       .instance()
@@ -201,7 +205,7 @@ describe('onSubmit', () => {
       },
     };
 
-    const doc = mount(<Doc {...props} oas={proxyOas} />);
+    const doc = mountWithIntl(<Doc {...props} oas={proxyOas} />);
 
     const fetch = window.fetch;
 
@@ -218,7 +222,7 @@ describe('onSubmit', () => {
   test('should call `tryItMetrics` on success', async () => {
     let called = false;
 
-    const doc = mount(
+    const doc = mountWithIntl(
       <Doc
         {...props}
         tryItMetrics={() => {
@@ -241,7 +245,7 @@ describe('onSubmit', () => {
 
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {
-    const doc = shallow(<Doc {...props} />);
+    const doc = shallowWithIntl(<Doc {...props} />);
 
     expect(doc.state('showAuthBox')).toBe(false);
 
@@ -257,7 +261,7 @@ describe('toggleAuth', () => {
 
 describe('state.loading', () => {
   test('should default to false', () => {
-    const doc = shallow(<Doc {...props} />);
+    const doc = shallowWithIntl(<Doc {...props} />);
 
     expect(doc.state('loading')).toBe(false);
   });
@@ -265,37 +269,38 @@ describe('state.loading', () => {
 
 describe('suggest edits', () => {
   test('should not show if suggestedEdits is false', () => {
-    const doc = shallow(<Doc  {...props} suggestedEdits={false} />)
+    const doc = shallowWithIntl(<Doc  {...props} suggestedEdits={false} />)
     doc.setState({showEndpoint: true})
-    const description = mount(<div>{doc.find('Description')}</div>)
+    const description = mountWithIntl(<div>{doc.find('Description')}</div>)
     expect(description.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
   });
 
   test('should show icon if suggested edits is true', () => {
-    const doc = shallow(<Doc  {...props} suggestedEdits />)
+    const doc = shallowWithIntl(<Doc  {...props} suggestedEdits />)
     doc.setState({showEndpoint: true})
-    const description = mount(<div>{doc.find('Description')}</div>)
+    const description = mountWithIntl(<div>{doc.find('Description')}</div>)
     expect(description.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 
   test('should have child project if baseUrl is set', () => {
-    const doc = shallow(
+    const doc = shallowWithIntl(
       <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
     );
     doc.setState({showEndpoint: true})
-    const description = mount(<div>{doc.find('Description')}</div>)
+    const description = mountWithIntl(<div>{doc.find('Description')}</div>)
     expect(description.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 });
 
 describe('Response Schema', () => {
   test('should render Response Schema if endpoint does have a response', () => {
-    const doc = mount(<Doc {...props} />);
+    const doc = mountWithIntl(<Doc {...props} />);
     doc.setState({ showEndpoint: true });
     expect(doc.find('ResponseSchema').length).toBe(1);
   });
+
   test('should not render Response Schema if endpoint does not have a response', () => {
-    const doc = shallow(
+    const doc = shallowWithIntl(
       <Doc
         {...props}
         doc={{
@@ -326,7 +331,7 @@ test('should output with an error message if the endpoint fails to load', () => 
     },
   };
 
-  const doc = mount(
+  const doc = mountWithIntl(
     <Doc
       {...props}
       oas={brokenOas}
