@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
