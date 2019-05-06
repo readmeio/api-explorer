@@ -6,6 +6,7 @@ export default {
   patch: {color: 'cyan', bg: '#e6fffb', border: '#13c2c2'},
   head: {color: 'purple', bg: '#f9f0ff', border: '#d3adf7'},
   options: {color: 'geekblue', bg: '#f0f5ff', border: '#adc6ff'},
+  defaultTag: '#fff',
   bold: '#666666',
   pathUrl: '#a8a7a7',
   pathVariable: '#5a5a5a',

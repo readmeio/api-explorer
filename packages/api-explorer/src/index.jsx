@@ -23,6 +23,7 @@ const getAuth = require('./lib/get-auth');
 function getDescription(oasFiles){
   return get(oasFiles, 'api-setting.info.description')
 }
+
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -135,7 +136,7 @@ class ApiExplorer extends React.Component {
   renderHeaderPanel(doc) {
     const tagStyle = {
       textTransform: 'uppercase',
-      color: 'white',
+      color: colors.defaultTag,
       fontWeight: 600,
     }
 
