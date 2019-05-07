@@ -16,3 +16,10 @@ notifications:
   email:
     on_success: never
     on_failure: always
+
+after_success:
+  - 'cat ./packages/api-explorer/coverage/lcov.info | ./node_modules/.bin/coveralls'
+  - 'cat ./packages/api-logs/coverage/lcov.info | ./node_modules/.bin/coveralls'
+  - 'cat ./packages/markdown/coverage/lcov.info | ./node_modules/.bin/coveralls'
+  - 'cat ./packages/syntax-highlighter/coverage/lcov.info | ./node_modules/.bin/coveralls'
+  - 'cat ./packages/variable/coverage/lcov.info | ./node_modules/.bin/coveralls'

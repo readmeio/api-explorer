@@ -1,8 +1,12 @@
+<div align="center">
+
 # @mia-platform/syntax-highlighter
 
-Syntax highlighter used on ReadMe.io
+Syntax highlighter based on ReadMe.io
 
-[![](https://d3vv6lp55qjaqc.cloudfront.net/items/1M3C3j0I0s0j3T362344/Untitled-2.png)](https://readme.io)
+[![NPM version][npmjs-syntaxhighlighter-svg]][npmjs-syntaxhighlighter]
+
+</div>
 
 ## Installation
 
@@ -10,9 +14,9 @@ Syntax highlighter used on ReadMe.io
 npm install --save @mia-platform/syntax-highlighter
 ```
 
-## Credits
-[Dom Harrington](https://github.com/domharrington/)
-
 ## License
 
 ISC
+
+[npmjs-syntaxhighlighter-svg]: https://img.shields.io/npm/v/@mia-platform/syntax-highlighter.svg?logo=npm
+[npmjs-syntaxhighlighter]: https://www.npmjs.com/package/@mia-platform/syntax-highlighter

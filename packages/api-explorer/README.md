@@ -1,8 +1,12 @@
+<div align="center">
+
 # @mia-platform/api-explorer
 
 UI components for the API explorer
 
-[![](https://d3vv6lp55qjaqc.cloudfront.net/items/1M3C3j0I0s0j3T362344/Untitled-2.png)](https://readme.io)
+[![NPM version][npmjs-apiexplorer-svg]][npmjs-apiexplorer]
+
+</div>
 
 ## Installation
 
@@ -51,11 +55,9 @@ npm install --save @mia-platform/api-explorer
 - `variables.defaults` - default project variables
 - `glossaryTerms` - glossary terms defined in the ReadMe project
 
-## Credits
-[Dom Harrington](https://github.com/domharrington)
-
-[Sanjeet Uppal](https://github.com/uppal101)
-
 ## License
 
 ISC
+
+[npmjs-apiexplorer-svg]: https://img.shields.io/npm/v/@mia-platform/api-explorer.svg?logo=npm
+[npmjs-apiexplorer]: https://www.npmjs.com/package/@mia-platform/api-explorer

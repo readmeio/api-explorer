@@ -6,20 +6,25 @@
 [![Coverage Status][coverall-svg]][coverall-io]
 
 [![NPM version][npmjs-apiexplorer-svg]][npmjs-apiexplorer]
-[![NPM version][npmjs-markdown-svg]][npmjs-markdown]
+[![NPM version][npmjs-apilogs-svg]][npmjs-apilogs]
 
+[![NPM version][npmjs-markdown-svg]][npmjs-markdown]
 [![NPM version][npmjs-syntaxhighlighter-svg]][npmjs-syntaxhighlighter]
+
 [![NPM version][npmjs-oasextensions-svg]][npmjs-oasextensions]
+[![NPM version][npmjs-variable-svg]][npmjs-variable]
+
 
 [![lerna][lerna-svg]][lerna-link]
 
 </div>
 
 This repo consists of the following npm modules:
-- [@mia-platform/api-explorer][npmjs-apiexplorer] - the React components that make up the explorer;
-- [@mia-platform/markdown][npmjs-markdown] - the markdown parser;
-- [@mia-platform/syntax-highlighter][npmjs-syntaxhighlighter] - the syntax highlighter in use on ReadMe;
-- [@mia-platform/oas-extensions][npmjs-oasextensions] - an exported object of Readme.io's [OAS extensions](https://readme.readme.io/v2.0/docs/swagger-extensions).
+- [@mia-platform/api-explorer][npmjs-apiexplorer]: the React components that make up the explorer;
+- [@mia-platform/markdown][npmjs-markdown]: the markdown parser;
+- [@mia-platform/syntax-highlighter][npmjs-syntaxhighlighter]: the syntax highlighter in use on ReadMe;
+- [@mia-platform/oas-extensions][npmjs-oasextensions]: an exported object of Readme.io's [OAS extensions](https://readme.readme.io/v2.0/docs/swagger-extensions);
+- [@mia-platform/variable][npmjs-variable].
 
 ## Installation
 
@@ -76,9 +81,18 @@ MIT
 
 [npmjs-apiexplorer-svg]: https://img.shields.io/npm/v/@mia-platform/api-explorer.svg?logo=npm
 [npmjs-apiexplorer]: https://www.npmjs.com/package/@mia-platform/api-explorer
+
+[npmjs-apilogs-svg]: https://img.shields.io/npm/v/@mia-platform/api-logs.svg?logo=npm
+[npmjs-apilogs]: https://www.npmjs.com/package/@mia-platform/api-logs
+
 [npmjs-markdown-svg]: https://img.shields.io/npm/v/@mia-platform/markdown.svg?logo=npm
 [npmjs-markdown]: https://www.npmjs.com/package/@mia-platform/markdown
+
 [npmjs-syntaxhighlighter-svg]: https://img.shields.io/npm/v/@mia-platform/syntax-highlighter.svg?logo=npm
 [npmjs-syntaxhighlighter]: https://www.npmjs.com/package/@mia-platform/syntax-highlighter
+
 [npmjs-oasextensions-svg]: https://img.shields.io/npm/v/@mia-platform/oas-extensions.svg?logo=npm
 [npmjs-oasextensions]: https://www.npmjs.com/package/@mia-platform/oas-extensions
+
+[npmjs-variable-svg]: https://img.shields.io/npm/v/@mia-platform/variable.svg?logo=npm
+[npmjs-variable]: https://www.npmjs.com/package/@mia-platform/variable
