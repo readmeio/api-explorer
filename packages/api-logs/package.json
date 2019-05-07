@@ -1,7 +1,7 @@
 {
   "name": "@mia-platform/api-logs",
   "description": "React component for Api Logs",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "main": "dist/index.js",
   "dependencies": {
     "prop-types": "^15.6.2",

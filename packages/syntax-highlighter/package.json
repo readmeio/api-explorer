@@ -1,9 +1,9 @@
 {
   "name": "@mia-platform/syntax-highlighter",
   "description": "Syntax highlighter used on API Explorer",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "dependencies": {
-    "@mia-platform/variable": "^4.0.0",
+    "@mia-platform/variable": "^5.0.0",
     "codemirror": "^5.31.0"
   },
   "scripts": {

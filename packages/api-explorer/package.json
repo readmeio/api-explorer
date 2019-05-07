@@ -1,13 +1,13 @@
 {
   "name": "@mia-platform/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "main": "dist/index.js",
   "dependencies": {
-    "@mia-platform/markdown": "^4.1.1",
-    "@mia-platform/oas-extensions": "^4.0.0",
-    "@mia-platform/syntax-highlighter": "^4.1.1",
-    "@mia-platform/variable": "^4.0.0",
+    "@mia-platform/markdown": "^5.0.0",
+    "@mia-platform/oas-extensions": "^5.0.0",
+    "@mia-platform/syntax-highlighter": "^5.0.0",
+    "@mia-platform/variable": "^5.0.0",
     "classnames": "^2.2.5",
     "fetch-har": "^2.0.0",
     "hast-util-sanitize": "^1.2.0",
@@ -66,7 +66,7 @@
     "webpack-merge": "^4.1.1"
   },
   "peerDependencies": {
-    "react": "^16.8.6",
-    "antd": "3.16.x"
+    "antd": "3.16.x",
+    "react": "^16.8.6"
   }
 }
