@@ -1,3 +1,5 @@
+import {IntlProvider} from 'react-intl';
+
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 
@@ -267,9 +269,10 @@ test('should show "string" response type', () => {
     type: 'string',
   };
 
-  expect(shallow(<ResponseSchemaBody oas={oas} schema={schema} />).text()).toBe(
-    'Response schema type: string',
-  );
+  expect(
+    mount(<IntlProvider><ResponseSchemaBody oas={oas} schema={schema} /></IntlProvider>)
+      .text()
+  ).toBe('Response schema type: string');
 });
 
 test('should show "string" response type', () => {
@@ -283,7 +286,7 @@ test('should show "string" response type', () => {
   };
 
   expect(
-    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
+    mount(<IntlProvider><ResponseSchemaBody oas={oas} schema={schema} /></IntlProvider>)
       .find('p')
       .text(),
   ).toBe('Response schema type: object');
@@ -303,7 +306,7 @@ test('should show "array" response schema type', () => {
   };
 
   expect(
-    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
+    mount(<IntlProvider><ResponseSchemaBody oas={oas} schema={schema} /></IntlProvider>)
       .find('p')
       .text(),
   ).toBe('Response schema type: array of objects');

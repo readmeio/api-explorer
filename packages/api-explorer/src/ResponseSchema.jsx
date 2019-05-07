@@ -71,6 +71,7 @@ class ResponseSchema extends React.Component {
       </div>
     )
   }
+
   renderContent(){
     const { operation, oas } = this.props;
     const schema = this.getSchema(operation);

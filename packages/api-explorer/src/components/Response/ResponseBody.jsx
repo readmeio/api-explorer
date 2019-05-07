@@ -1,8 +1,10 @@
+import {FormattedMessage} from 'react-intl';
+
 import colors from '../../colors'
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
 const ReactJson = require('react-json-view').default;
 const contentTypeIsJson = require('../../lib/content-type-is-json');
 const oauthHref = require('../../lib/oauth-href');
@@ -25,7 +27,7 @@ function Authorized({ result }) {
 
   return (
     <div>
-      {result.isBinary && <div>A binary file was returned</div>}
+      {result.isBinary && <div><FormattedMessage id="api.response.binary" defaultMessage="A binary file was returned" /></div>}
       {!result.isBinary &&
       isJson && (
         <ReactJson
@@ -65,13 +67,13 @@ Authorized.propTypes = {
 };
 
 function hasOauth(oauth) {
-  if (!oauth) return <p>Your OAuth2 token is incorrect or has expired</p>;
+  if (!oauth) return <p><FormattedMessage id="api.oauth2.invalid" defaultMessage="Your OAuth2 token is incorrect or has expired" /></p>;
 
   return (
     <div>
-      <p>Your OAuth2 token has expired</p>
+      <p><FormattedMessage id="api.oauth2.expired" defaultMessage="Your OAuth2 token has expired" /></p>
       <a className="btn btn-primary" href={oauthHref()} target="_self">
-        Reauthenticate via OAuth2
+        <FormattedMessage id="api.oauth2.reauthenticate" defaultMessage="Reauthenticate via OAuth2" />
       </a>
     </div>
   );
@@ -80,7 +82,7 @@ function hasOauth(oauth) {
 function Unauthorized({ isOauth, oauth }) {
   return (
     <div className="text-center hub-expired-token">
-      {isOauth ? hasOauth(oauth) : <p>You couldn&apos;t be authenticated</p>}
+      {isOauth ? hasOauth(oauth) : <p><FormattedMessage id="api.auth.failed" defaultMessage="You couldn't be authenticated" /></p>}
     </div>
   );
 }

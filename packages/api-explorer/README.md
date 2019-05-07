@@ -1,4 +1,4 @@
-# @readme/api-explorer
+# @mia-platform/api-explorer
 
 UI components for the API explorer
 
@@ -7,7 +7,7 @@ UI components for the API explorer
 ## Installation
 
 ```sh
-npm install --save @readme/api-explorer
+npm install --save @mia-platform/api-explorer
 ```
 
 ## Usage

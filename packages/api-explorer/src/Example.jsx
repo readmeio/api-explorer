@@ -1,3 +1,5 @@
+import {FormattedMessage} from 'react-intl';
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
@@ -5,8 +7,8 @@ const showCodeResults = require('./lib/show-code-results');
 const contentTypeIsJson = require('./lib/content-type-is-json');
 
 // const { replaceVars } = require('./lib/replace-vars');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
-const extensions = require('@readme/oas-extensions');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
+const extensions = require('@mia-platform/oas-extensions');
 
 const ExampleTabs = require('./ExampleTabs');
 
@@ -61,9 +63,9 @@ function Example({ operation, result, oas, selected, setExampleTab, exampleRespo
       {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
           {oas[extensions.EXPLORER_ENABLED] ? (
-            'Try the API to see Results'
+            <FormattedMessage id="code.example.try" defaultMessage="Try the API to see Results" />
           ) : (
-            'No response examples available'
+            <FormattedMessage id="code.example.na" defaultMessage="No response examples available" />
           )}
         </div>
       )}

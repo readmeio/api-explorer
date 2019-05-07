@@ -1,6 +1,6 @@
 const React = require('react');
 const { mount } = require('enzyme');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 const Description = require('../src/form-components/DescriptionField');
 

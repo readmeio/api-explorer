@@ -3,13 +3,13 @@
 /* eslint-disable react/no-unused-prop-types */
 import React, {Fragment} from 'react'
 import Waypoint from 'react-waypoint'
-
+import {FormattedMessage, injectIntl} from 'react-intl'
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
 
 import {get} from 'lodash'
-import extensions from '@readme/oas-extensions'
+import extensions from '@mia-platform/oas-extensions'
 
 import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
@@ -24,14 +24,16 @@ const CodeSample = require('./CodeSample');
 const Response = require('./components/Response');
 const ResponseSchema = require('./ResponseSchema');
 const ErrorBoundary = require('./ErrorBoundary');
-const markdown = require('@readme/markdown');
+const markdown = require('@mia-platform/markdown');
 
 const Oas = require('./lib/Oas');
 const parseResponse = require('./lib/parse-response');
 const getContentTypeFromOperation = require('./lib/get-content-type')
 
 
-function Description({doc, suggestedEdits, baseUrl}){
+function Description({doc, suggestedEdits, baseUrl, intl}) {
+  const description = intl.formatMessage({id: 'doc.description', defaultMessage: 'Description'})
+  const decriptionNa = intl.formatMessage({id: 'doc.description.na', defaultMessage: 'Description not available'})
   return(
     <div style={{display: 'flex', flexDirection: 'column'}}>
       {suggestedEdits && (
@@ -40,13 +42,15 @@ function Description({doc, suggestedEdits, baseUrl}){
             style={{fontSize: 14, color: colors.suggestEdit, textTransform: 'uppercase'}}
             href={`${baseUrl}/reference-edit/${doc.slug}`}
           >
-            <span style={{marginRight: 5}}>Suggest Edits</span><Icon type="edit" />
+            <span style={{marginRight: 5}}>
+              <FormattedMessage id="doc.suggest.edits" defaultMessage='Suggest Edits' />
+            </span><Icon type="edit" />
           </a>
         </div>
-        )} 
+      )} 
       <ContentWithTitle
-        title={'Description'}
-        content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : 'Description not available'}
+        title={description}
+        content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : decriptionNa}
         showDivider={false}
         theme={'dark'}
         showBorder={false}
@@ -193,7 +197,7 @@ class Doc extends React.Component {
     return(
       <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%'}}>
         <ContentWithTitle 
-          title={'Definition'} 
+          title={this.props.intl.formatMessage({id:'doc.definition', defaultMessage: 'Definition'})} 
           showBorder={false}
           content={
             this.oas.servers && (
@@ -203,14 +207,14 @@ class Doc extends React.Component {
             )
           } 
         />
-        <ContentWithTitle 
-          title={'Examples'} 
-          subheader={this.renderContentTypeSelect()} 
-          content={this.renderCodeSample()} 
+        <ContentWithTitle
+          title={this.props.intl.formatMessage({id:'doc.examples', defaultMessage: 'Examples'})}
+          subheader={this.renderContentTypeSelect()}
+          content={this.renderCodeSample()}
         />
-        <ContentWithTitle 
-          title={'Results'}  
-          content={this.renderResponse()} 
+        <ContentWithTitle
+          title={this.props.intl.formatMessage({id:'doc.results', defaultMessage: 'Results'})}
+          content={this.renderResponse()}
         />
       </div>
     )
@@ -271,7 +275,7 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc, suggestedEdits, baseUrl } = this.props
+    const { doc, suggestedEdits, baseUrl, intl } = this.props
     return (
         doc.type === 'endpoint' ? (
           <Fragment>
@@ -281,6 +285,7 @@ class Doc extends React.Component {
                 doc={doc} 
                 suggestedEdits={suggestedEdits}  
                 baseUrl={baseUrl}
+                intl={intl}
               />
               {this.renderLogs()}
               {this.renderParams()}
@@ -361,7 +366,6 @@ class Doc extends React.Component {
   render() {
     const { doc } = this.props;
     const oas = this.oas;
-
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
 
@@ -379,8 +383,8 @@ class Doc extends React.Component {
             {renderEndpoint()}
           </div>
           {
-          // TODO maybe we dont need to do this with a hidden input now
-          // cos we can just pass it around?
+            // TODO maybe we dont need to do this with a hidden input now
+            // cos we can just pass it around?
           }
           <input
             type="hidden"
@@ -393,7 +397,7 @@ class Doc extends React.Component {
   }
 }
 
-module.exports = Doc;
+module.exports = injectIntl(Doc);
 
 Doc.propTypes = {
   doc: PropTypes.shape({
@@ -439,6 +443,9 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Doc.defaultProps = {

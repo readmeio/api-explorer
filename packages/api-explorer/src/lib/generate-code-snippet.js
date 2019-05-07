@@ -1,6 +1,6 @@
 const HTTPSnippet = require('httpsnippet');
 const generateHar = require('./oas-to-har');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
 
 const supportedLanguages = {
   node: {

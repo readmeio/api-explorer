@@ -4,7 +4,7 @@ module.exports = {
     rules: [
       {
         test: /\.js(x?)$/,
-        exclude: /node_modules\/(?!(@readme\/syntax-highlighter|fetch-har))/,
+        exclude: /node_modules\/(?!(@mia-platform\/syntax-highlighter|fetch-har))/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -15,13 +15,6 @@ module.exports = {
       {
         test: /\.css$/,
         use:['style-loader','css-loader'],
-        // loader: "style-loader!css-loader?modules=true"
-        // use: {
-        //   loader: 'babel-loader',
-        //   options: {
-        //     extends: '../../.babelrc',
-        //   },
-        // },
       },
     ],
   },

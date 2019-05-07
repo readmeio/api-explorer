@@ -1,3 +1,4 @@
+import { FormattedMessage } from 'react-intl';
 import {Button, Tag} from 'antd'
 
 import colors from './colors'
@@ -9,7 +10,7 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 function splitPath(path) {
   return path
@@ -28,7 +29,7 @@ function renderButtonTry(loading, onSubmit, error){
       type={error ? 'danger' : 'primary'}
       loading={loading}
     >
-      {error ? 'Error' : 'Try It'}
+      {error ? <FormattedMessage id="error" defaultMessage="Error" /> : <FormattedMessage id="api.try" defaultMessage="Try It" />}
     </Button>
   )
 }

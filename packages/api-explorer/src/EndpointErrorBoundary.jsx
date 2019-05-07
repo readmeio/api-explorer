@@ -5,7 +5,7 @@ const PropTypes = require('prop-types');
 
 const BoundaryStackTrace = require('./BoundaryStackTrace');
 
-class ErrorBoundary extends React.Component {
+class EndpointErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { error: false };
@@ -24,8 +24,8 @@ class ErrorBoundary extends React.Component {
         <Fragment>
           <h3>
             <FormattedMessage
-              id="error.explorer.render"
-              defaultMessage="There was an error rendering the API Explorer."
+              id="error.endpoint.render"
+              defaultMessage="There was an error rendering this endpoint."
             />
           </h3>
           <BoundaryStackTrace error={this.state.error} info={this.state.info} />
@@ -36,8 +36,8 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-ErrorBoundary.propTypes = {
+EndpointErrorBoundary.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-module.exports = ErrorBoundary;
+module.exports = EndpointErrorBoundary;
