@@ -10,6 +10,8 @@ script:
   - npx lerna bootstrap
   - npm run test
 
+cache: npm
+
 notifications:
   email:
     on_success: never
