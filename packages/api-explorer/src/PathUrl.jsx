@@ -1,12 +1,16 @@
+import { FormattedMessage } from 'react-intl';
+import {Button, Tag} from 'antd'
+
+import colors from './colors'
+
 const React = require('react');
-const PropTypes = require('prop-types');
-const classNames = require('classnames');
+const PropTypes = require('prop-types')
 const AuthBox = require('./AuthBox');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 
 function splitPath(path) {
   return path
@@ -16,12 +20,68 @@ function splitPath(path) {
       return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
     });
 }
+
+function renderButtonTry(loading, onSubmit, error){
+  return(
+    <Button 
+      disabled={loading}
+      onClick={onSubmit}
+      type={error ? 'danger' : 'primary'}
+      loading={loading}
+    >
+      {error ? <FormattedMessage id="error" defaultMessage="Error" /> : <FormattedMessage id="api.try" defaultMessage="Try It" />}
+    </Button>
+  )
+}
+
+function renderOperationMethod(operation){
+  const tagStyle = {
+    textTransform: 'uppercase',
+    color: colors.defaultTag,
+    fontWeight: 600,
+  }
+
+  return(
+    <Tag color={colors[operation.method].border} style={tagStyle}>{operation.method}</Tag>
+  )
+}
+
+function renderUrl(oas, operation){
+  const style = {
+    container: {
+      color: colors.pathUrl,
+      fontSize: 15,
+      wordBreak: 'break-all'
+    },
+    baseUrl: {
+
+    },
+    text: {},
+    variable: {
+      color: colors.pathVariable,
+      borderBottom: `1px solid ${colors.pathVariableBorder}`
+    }
+  }
+  return(
+    oas.servers &&
+      oas.servers.length > 0 && (
+        <div style={style.container}>
+          <span>{oas.url()}</span>
+          {splitPath(operation.path).map(part => (
+            <span key={part.value} style={style[part.type]}>
+              {part.value}
+            </span>
+          ))}
+        </div>
+      )
+  )
+}
+
 function PathUrl({
   oas,
   operation,
   authInputRef,
   loading,
-  dirty,
   onChange,
   showAuthBox,
   needsAuth,
@@ -29,15 +89,32 @@ function PathUrl({
   onSubmit,
   oauth,
   auth,
+  onReset,
+  showReset,
+  error
 }) {
+  const containerStyle = {
+    background: colors.pathUrlBackground,
+    padding: '8px 18px',
+    borderRadius: 10,
+    boxShadow:  `0 1px 0 ${colors.pathUrlShadow}`,
+    color: colors.pathUrl
+  }
   return (
-    <div className="api-definition-parent">
-      <div className="api-definition">
-        <div className="api-definition-container">
-          {oas[extensions.EXPLORER_ENABLED] && (
-            <div className="api-definition-actions">
+    <div style={containerStyle}>
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+  
+        <div style={{display: 'flex'}}>
+          {renderOperationMethod(operation)}
+
+          {renderUrl(oas, operation)}
+        </div>
+          
+        {oas[extensions.EXPLORER_ENABLED] && (
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{marginRight: 10}}>
               <AuthBox
-                operation={operation}
+                securityTypes={operation.prepareSecurity()}
                 onChange={onChange}
                 onSubmit={onSubmit}
                 open={showAuthBox}
@@ -46,40 +123,15 @@ function PathUrl({
                 authInputRef={authInputRef}
                 oauth={oauth}
                 auth={auth}
+                onReset={onReset}
+                showReset={showReset}
               />
-
-              <button
-                className={classNames('api-try-it-out', { active: dirty })}
-                type="submit"
-                disabled={loading}
-                onClick={onSubmit}
-              >
-                {!loading && (
-                  <span className="try-it-now-btn">
-                    <span className="fa fa-compass" />&nbsp;
-                    <span>Try It</span>
-                  </span>
-                )}
-
-                {loading && <i className="fa fa-circle-o-notch fa-spin" />}
-              </button>
             </div>
+
+            {renderButtonTry(loading, onSubmit, error)}
+          </div>
           )}
 
-          <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
-
-          {oas.servers &&
-          oas.servers.length > 0 && (
-            <span className="definition-url">
-              <span className="url">{oas.url()}</span>
-              {splitPath(operation.path).map(part => (
-                <span key={part.value} className={`api-${part.type}`}>
-                  {part.value}
-                </span>
-              ))}
-            </span>
-          )}
-        </div>
       </div>
     </div>
   );
@@ -89,7 +141,6 @@ PathUrl.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   authInputRef: PropTypes.func,
-  dirty: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   toggleAuth: PropTypes.func.isRequired,
@@ -98,6 +149,9 @@ PathUrl.propTypes = {
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   auth: PropTypes.shape({}),
+  showReset: PropTypes.bool,
+  onReset: PropTypes.func,
+  error: PropTypes.bool
 };
 
 PathUrl.defaultProps = {
@@ -105,6 +159,9 @@ PathUrl.defaultProps = {
   needsAuth: false,
   authInputRef: () => {},
   auth: {},
+  showReset: true,
+  error: false,
+  onReset: () => {}
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

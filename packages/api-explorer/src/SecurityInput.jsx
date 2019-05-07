@@ -1,3 +1,5 @@
+import colors from './colors'
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const DebounceInput = require('react-debounce-input');
@@ -13,11 +15,22 @@ const types = {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Input extends React.Component {
+  
   render() {
+    const style = {
+      border: `1px solid ${colors.inputBorder}`,
+      borderRadius: 2,
+      padding: '5px 7px',
+      width: '100%',
+      fontSize: '13px',
+      color: colors.inputColor,
+      minWidth: 100
+    }
     return (
       <DebounceInput
         {...this.props}
         minLength={0}
+        style={style}
         debounceTimeout={process.env.NODE_ENV === 'test' ? 0 : 300}
       />
     );

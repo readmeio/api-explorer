@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
 
 const ResponseSchema = require('../src/ResponseSchema');
 const Oas = require('../src/lib/Oas');
@@ -14,10 +14,9 @@ const props = {
 };
 
 test('should display a header with a dropdown', () => {
-  const responseSchema = shallow(<ResponseSchema {...props} />);
-
-  expect(responseSchema.find('h3').text()).toContain('Response');
-  expect(responseSchema.find('select option').map(el => el.text())).toEqual(['200', '400', '404']);
+  const responseSchema = mount(<ResponseSchema {...props} />);
+  expect(responseSchema.find('ContentWithTitle').text()).toContain('Response');
+  expect(responseSchema.find('Select').at(0).prop('options')).toEqual(['200', '400', '404']);
 });
 
 test('selectedStatus should change state of selectedStatus', () => {
@@ -30,11 +29,11 @@ test('selectedStatus should change state of selectedStatus', () => {
 });
 
 test('should display response schema description', () => {
-  const responseSchema = shallow(<ResponseSchema {...props} />);
+  const responseSchema = mount(<ResponseSchema {...props} />);
 
   expect(
     responseSchema
-      .find('p.desc')
+      .find('p')
       .first()
       .text(),
   ).toBe(props.operation.responses['200'].description);
@@ -79,7 +78,8 @@ test('should work if responses is an empty object', () => {
 
 test('should contain ResponseSchemaBody element if $ref exist for "application/json"', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
-  expect(responseSchema.text()).toContain('ResponseSchemaBody');
+  const content = shallow(<div>{responseSchema.find('ContentWithTitle').prop('content')}</div>)
+  expect(content.text()).toContain('ResponseSchemaBody')
 });
 
 test('should not contain ResponseSchemaBody element if $ref not exist', () => {
@@ -121,7 +121,8 @@ test('should render schema from "application/json"', () => {
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
-  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
+  const content = shallow(<div>{responseSchema.find('ContentWithTitle').prop('content')}</div>)
+  expect(content.find('ResponseSchemaBody').length).toBe(1);
 });
 
 test('should contain ResponseSchemaBody element if $ref exist for "application/xml"', () => {
@@ -149,7 +150,8 @@ test('should contain ResponseSchemaBody element if $ref exist for "application/x
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
-  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
+  const content = shallow(<div>{responseSchema.find('ContentWithTitle').prop('content')}</div>)
+  expect(content.find('ResponseSchemaBody').length).toBe(1);
 });
 
 test('should allow $ref lookup at the responses object level', () => {
@@ -187,7 +189,8 @@ test('should allow $ref lookup at the responses object level', () => {
       operation={testOas.operation('/ref-responses', 'get')}
     />,
   );
-  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
+  const content = shallow(<div>{responseSchema.find('ContentWithTitle').prop('content')}</div>)
+  expect(content.find('ResponseSchemaBody').length).toBe(1);
 });
 
 test('should change selectedStatus in component', () => {
@@ -195,7 +198,7 @@ test('should change selectedStatus in component', () => {
 
   const selectedStatus = responseSchema.state().selectedStatus;
 
-  responseSchema.instance().changeHandler({ target: { value: '404' } });
+  responseSchema.instance().changeHandler('404');
   const newSelectedStatus = responseSchema.state().selectedStatus;
   expect(selectedStatus).toEqual('200');
   expect(newSelectedStatus).toEqual('404');

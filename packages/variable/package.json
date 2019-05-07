@@ -1,12 +1,11 @@
 {
-  "name": "@readme/variable",
+  "name": "@mia-platform/variable",
   "description": "React component for Variables",
   "version": "4.0.0",
   "main": "index.jsx",
   "dependencies": {
     "classnames": "^2.2.6",
-    "prop-types": "^15.6.2",
-    "react": "^16.4.2"
+    "prop-types": "^15.6.2"
   },
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
@@ -19,9 +18,9 @@
     "registry": "http://registry.npmjs.org",
     "access": "public"
   },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "author": "Mia Platform Core Team<core@mia-platform.eu>",
   "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/variable",
+  "repository": "https://github.com/mia-platform/api-explorer/tree/master/packages/variable",
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
@@ -32,5 +31,8 @@
     "jest": "^23.4.2",
     "jsinspect": "^0.12.7",
     "prettier": "^1.14.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
   }
 }

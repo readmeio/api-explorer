@@ -1,10 +1,15 @@
-const extensions = require('@readme/oas-extensions');
+import { mountWithIntl } from 'enzyme-react-intl';
+import { IntlProvider } from 'react-intl';
+
+import {mount} from 'enzyme';
+
+const extensions = require('@mia-platform/oas-extensions');
 const { Request, Response } = require('node-fetch');
 
 global.Request = Request;
 
 const React = require('react');
-const { shallow, mount } = require('enzyme');
+
 const Doc = require('../src/Doc');
 const oas = require('./fixtures/petstore/circular-oas');
 const multipleSecurities = require('./fixtures/multiple-securities/oas');
@@ -31,35 +36,39 @@ const props = {
 
 function assertDocElements(component, doc) {
   expect(component.find(`#page-${doc.slug}`).length).toBe(1);
-  expect(component.find('a.anchor-page-title').length).toBe(1);
-  expect(component.find('h2').text()).toBe(doc.title);
 }
 
 test('should output a div', () => {
-  const doc = shallow(<Doc {...props} />);
-
+  const wrapper = mountWithIntl(
+    <IntlProvider>
+      <Doc {...props} />
+    </IntlProvider>
+  );
+  const doc = wrapper.find('Doc')
   doc.setState({ showEndpoint: true });
 
-  assertDocElements(doc, props.doc);
-  expect(doc.find('.hub-api').length).toBe(1);
-  expect(doc.find('PathUrl').length).toBe(1);
-  expect(doc.find('CodeSample').length).toBe(1);
+  assertDocElements(wrapper, props.doc);
+  expect(wrapper.find(`div#page-${props.doc.slug}`).length).toBe(1);
+  expect(wrapper.find('PathUrl').length).toBe(1);
+  expect(wrapper.find('CodeSample').length).toBe(1);
   // This test needs the component to be `mount()`ed
   // but for some reason when I mount in this test
   // it makes the test below that uses `jest.useFakeTimers()`
   // fail ¯\_(ツ)_/¯. Skipping for now
-  // expect(doc.find('Params').length).toBe(1);
-  expect(doc.find('Content').length).toBe(1);
+  expect(wrapper.find('Params').length).toBe(1);
+  expect(wrapper.find('ContentWithTitle').length).toBe(6);
 });
 
 test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
-  const doc = mount(
-    <Doc
-      {...props}
-      appearance={{
-        splitReferenceDocs: true,
-      }}
-    />,
+  const doc = mountWithIntl(
+    <IntlProvider>
+      <Doc
+        {...props}
+        appearance={{
+          splitReferenceDocs: true,
+        }}
+      />
+    </IntlProvider>
   );
 
   expect(doc.find('Waypoint').length).toBe(0);
@@ -67,57 +76,62 @@ test('should render straight away if `appearance.splitReferenceDocs` is true', (
 
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
-  const docComponent = shallow(
-    <Doc
-      doc={doc}
-      setLanguage={() => {}}
-      language="node"
-      suggestedEdits
-      oauth={false}
-      tryItMetrics={() => {}}
-      onAuthChange={() => {}}
-      auth={{}}
-    />,
+  const docComponent = mountWithIntl(
+    <IntlProvider>
+      <Doc
+        doc={doc}
+        setLanguage={() => {}}
+        language="node"
+        suggestedEdits
+        oauth={false}
+        tryItMetrics={() => {}}
+        onAuthChange={() => {}}
+        auth={{}}
+      />
+    </IntlProvider>
   );
   expect(docComponent.find('Waypoint').length).toBe(1);
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
-  expect(docComponent.find('.hub-api').length).toBe(0);
-  expect(docComponent.find('Content').length).toBe(1);
+  expect(docComponent.find(`div#page-${props.doc.slug}`).length).toBe(1);
+  expect(docComponent.find('ContentWithTitle').length).toBe(0);
 });
 
 test('should still display `Content` with column-style layout', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
-  const docComponent = shallow(
-    <Doc
-      doc={doc}
-      setLanguage={() => {}}
-      language="node"
-      suggestedEdits
-      appearance={{ referenceLayout: 'column' }}
-      oauth={false}
-      tryItMetrics={() => {}}
-      onAuthChange={() => {}}
-      auth={{}}
-    />,
+  const docComponent = mountWithIntl(
+    <IntlProvider>
+      <Doc
+        doc={doc}
+        setLanguage={() => {}}
+        language="node"
+        suggestedEdits
+        appearance={{ referenceLayout: 'column' }}
+        oauth={false}
+        tryItMetrics={() => {}}
+        onAuthChange={() => {}}
+        auth={{}}
+      />
+    </IntlProvider>
   );
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
-  expect(docComponent.find('.hub-api').length).toBe(1);
-  expect(docComponent.find('Content').length).toBe(2);
+  expect(docComponent.find('ContentWithTitle').length).toBe(0);
 });
 
 describe('state.dirty', () => {
   test('should default to false', () => {
-    const doc = shallow(<Doc {...props} />);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
 
     expect(doc.state('dirty')).toBe(false);
   });
 
   test('should switch to true on form change', () => {
-    const doc = shallow(<Doc {...props} />);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
     doc.instance().onChange({ a: 1 });
 
     expect(doc.state('dirty')).toBe(true);
@@ -128,8 +142,11 @@ describe('onSubmit', () => {
   test('should display authentication warning if auth is required for endpoint', () => {
     jest.useFakeTimers();
 
-    const doc = mount(<Doc {...props} />);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
 
+    // mock authInput focus function.
+    doc.instance().authInput = {focus: () => {}}
     doc.instance().onSubmit();
     expect(doc.state('showAuthBox')).toBe(true);
 
@@ -172,7 +189,8 @@ describe('onSubmit', () => {
       );
     };
 
-    const doc = mount(<Doc {...props} {...props2} />);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} {...props2} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
 
     doc
       .instance()
@@ -185,7 +203,7 @@ describe('onSubmit', () => {
       });
   });
 
-  test('should make request to the proxy url if necessary', () => {
+  test('should not make request to the proxy url if necessary (proxy feature has been removed)', () => {
     const proxyOas = {
       servers: [{ url: 'http://example.com' }],
       [extensions.PROXY_ENABLED]: true,
@@ -202,15 +220,16 @@ describe('onSubmit', () => {
       },
     };
 
-    const doc = mount(<Doc {...props} oas={proxyOas} />);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} oas={proxyOas} /></IntlProvider>);
 
     const fetch = window.fetch;
 
     window.fetch = request => {
-      expect(request.url).toContain(`https://try.readme.io/${proxyOas.servers[0].url}`);
+      expect(request.url).toContain(`${proxyOas.servers[0].url}`);
       return Promise.resolve(new Response());
     };
 
+    const doc = wrapper.find('Doc')
     doc.instance().onSubmit();
 
     window.fetch = fetch;
@@ -219,14 +238,16 @@ describe('onSubmit', () => {
   test('should call `tryItMetrics` on success', async () => {
     let called = false;
 
-    const doc = mount(
-      <Doc
-        {...props}
-        tryItMetrics={() => {
-          called = true;
-        }}
-        auth={{ api_key: 'api-key' }}
-      />,
+    const wrapper = mountWithIntl(
+      <IntlProvider>
+        <Doc
+          {...props}
+          tryItMetrics={() => {
+            called = true;
+          }}
+          auth={{ api_key: 'api-key' }}
+        />
+      </IntlProvider>
     );
 
     const fetch = window.fetch;
@@ -234,6 +255,7 @@ describe('onSubmit', () => {
       return Promise.resolve(new Response());
     };
 
+    const doc = wrapper.find('Doc')
     await doc.instance().onSubmit();
     expect(called).toBe(true);
     window.fetch = fetch;
@@ -242,7 +264,8 @@ describe('onSubmit', () => {
 
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {
-    const doc = shallow(<Doc {...props} />);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
+    const doc = wrapper.find('Doc') 
 
     expect(doc.state('showAuthBox')).toBe(false);
 
@@ -258,7 +281,8 @@ describe('toggleAuth', () => {
 
 describe('state.loading', () => {
   test('should default to false', () => {
-    const doc = shallow(<Doc {...props} />);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
 
     expect(doc.state('loading')).toBe(false);
   });
@@ -266,57 +290,69 @@ describe('state.loading', () => {
 
 describe('suggest edits', () => {
   test('should not show if suggestedEdits is false', () => {
-    const doc = shallow(<Doc {...props} suggestedEdits={false} />);
-    expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(0);
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} suggestedEdits={false} /></IntlProvider>)
+    const doc = wrapper.find('Doc')
+    doc.setState({showEndpoint: true})
+
+    expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
   });
 
   test('should show icon if suggested edits is true', () => {
-    const doc = shallow(<Doc {...props} suggestedEdits />);
-    expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
+    const wrapper = mountWithIntl(
+      <IntlProvider>
+        <Doc {...props} suggestedEdits />
+      </IntlProvider>
+    );
+    const doc = wrapper.find('Doc')
+    doc.setState({ showEndpoint: true });
+
+    expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 
   test('should have child project if baseUrl is set', () => {
-    const doc = shallow(
-      <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
+    const wrapper = mountWithIntl(
+      <IntlProvider>
+        <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />
+      </IntlProvider>
     );
-    expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(
-      `/child/reference-edit/${props.doc.slug}`,
-    );
+    const doc = wrapper.find('Doc')
+    doc.setState({showEndpoint: true})
+
+    // const description = mountWithIntl(<div>{doc.find('Description')}</div>)
+    expect(wrapper.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 });
 
 describe('Response Schema', () => {
   test('should render Response Schema if endpoint does have a response', () => {
-    const doc = mount(<Doc {...props} />);
+    const wrapper = mount(<IntlProvider><Doc {...props} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
     doc.setState({ showEndpoint: true });
-    expect(doc.find('ResponseSchema').length).toBe(1);
+
+    expect(wrapper.find('ResponseSchema').length).toBe(1);
   });
+
   test('should not render Response Schema if endpoint does not have a response', () => {
-    const doc = shallow(
-      <Doc
-        {...props}
-        doc={{
-          title: 'Title',
-          slug: 'slug',
-          type: 'endpoint',
-          swagger: { path: '/unknown-scheme' },
-          api: { method: 'post' },
-          onSubmit: () => {},
-        }}
-        oas={multipleSecurities}
-      />,
-    );
-    expect(doc.find('ResponseSchema').length).toBe(0);
-  });
-});
-
-describe('themes', () => {
-  test('should output code samples and responses in the right column', () => {
-    const doc = mount(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);
+    const wrapper = mountWithIntl(
+      <IntlProvider>
+        <Doc
+          {...props}
+          doc={{
+            title: 'Title',
+            slug: 'slug',
+            type: 'endpoint',
+            swagger: { path: '/unknown-scheme' },
+            api: { method: 'post' },
+            onSubmit: () => {},
+          }}
+          oas={multipleSecurities}
+        />
+      </IntlProvider>
+    );    
+    const doc = wrapper.find('Doc')
     doc.setState({ showEndpoint: true });
 
-    expect(doc.find('.hub-reference-right').find('CodeSample').length).toBe(1);
-    expect(doc.find('.hub-reference-right').find('Response').length).toBe(1);
+    expect(wrapper.find('ResponseSchema').length).toBe(0);
   });
 });
 
@@ -333,21 +369,24 @@ test('should output with an error message if the endpoint fails to load', () => 
     },
   };
 
-  const doc = mount(
-    <Doc
-      {...props}
-      oas={brokenOas}
-      doc={{
-        title: 'title',
-        slug: 'slug',
-        type: 'endpoint',
-        swagger: { path: '/path' },
-        api: { method: 'post' },
-      }}
-    />,
+  const wrapper = mountWithIntl(
+    <IntlProvider>
+      <Doc
+        {...props}
+        oas={brokenOas}
+        doc={{
+          title: 'title',
+          slug: 'slug',
+          type: 'endpoint',
+          swagger: { path: '/path' },
+          api: { method: 'post' },
+        }}
+      />
+    </IntlProvider>
   );
+  const doc = wrapper.find('Doc')
 
   doc.setState({ showEndpoint: true });
 
-  expect(doc.find('EndpointErrorBoundary').length).toBe(1);
+  expect(doc.find('ErrorBoundary').length).toBe(1);
 });

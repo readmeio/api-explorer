@@ -1,6 +1,6 @@
 const HTTPSnippet = require('httpsnippet');
 const generateHar = require('./oas-to-har');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
 
 const supportedLanguages = {
   node: {
@@ -60,9 +60,9 @@ const supportedLanguages = {
   },
 };
 
-module.exports = (oas, operation, values, auth, lang) => {
-  const har = generateHar(oas, operation, values, auth);
-
+module.exports = (oas, operation, values, auth, lang, contentType) => {
+  const har = generateHar(oas, operation, values, auth, undefined, contentType);
+  // har Reference: http://www.softwareishard.com/blog/har-12-spec/
   const snippet = new HTTPSnippet(har);
 
   const language = supportedLanguages[lang];

@@ -1,13 +1,16 @@
-const React = require('react');
+import React from 'react'
+import {FormattedMessage} from 'react-intl';
+
+import BlockWithTab from './components/BlockWithTab'
+import colors from './colors';
+
 const PropTypes = require('prop-types');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-const CopyCode = require('./CopyCode');
-
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const CopyCode = require('./components/CopyCode');
 
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
@@ -36,6 +39,9 @@ class CodeSample extends React.Component {
     this.setState({ selectedExample: example });
   }
 
+  /*  I think we don't need this (Riccardo Di Benedetto)
+  *
+  *
   renderSelected(examples, setLanguage) {
     const examplesWithLanguages = examples.filter(example => example.language);
     return (
@@ -84,47 +90,71 @@ class CodeSample extends React.Component {
       </div>
     );
   }
+  */
+
+  renderCodeWithListSection(snippet, code, languagesList, setLanguage){
+    const {language} = this.props
+    const ctaContainerStyle = {
+      borderTop: '2px solid #fff',
+      display: 'flex',
+      flexDirection: 'row-reverse',
+      padding: '5px',
+      paddingRight: '10px',
+      paddingBottom: '0px',
+    }
+    const snippetStyle = {
+      fontSize: 12,
+      fontFamily: 'Monaco, "Lucida Console", monospace',
+      border: 0,
+      background: 'transparent',
+      padding: '0 30px',
+      overflow: 'visible',
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-all',
+      color: colors.snippet
+    }
+    const langItems = languagesList.map(lang => ({value: lang, label: generateCodeSnippet.getLangName(lang)}))
+    return(
+      <BlockWithTab
+        items={langItems}
+        selected={language}
+        onClick={setLanguage}
+      >
+        <div style={ctaContainerStyle}>
+          <CopyCode code={code} />
+        </div>
+        {
+          snippet && (
+          <div>
+            <pre className={`tomorrow-night hub-lang hub-lang-${language}`} style={snippetStyle}>{snippet}</pre>
+          </div>
+          )
+        }
+      </BlockWithTab>
+    )
+  }
 
   render() {
-    const { oas, setLanguage, operation, formData, language, examples, auth } = this.props;
-
+    // eslint-disable-next-line no-unused-vars
+    const { oas, setLanguage, operation, formData, language, examples, auth,  selectedContentType} = this.props;
     return (
-      <div className="code-sample tabber-parent">
+      <div className="tabber-parent">
         {(() => {
-          if (examples.length) return this.renderSelected(examples, setLanguage);
+          // if (examples.length) return this.renderSelected(examples, setLanguage); I think we don't need this (Riccardo Di Benedetto)
           if (!oas[extensions.SAMPLES_ENABLED]) {
-            return <div className="hub-no-code">No code samples available</div>;
+            return (
+              <div className="hub-no-code">
+                <FormattedMessage
+                  id="code.sample.na"
+                  defaultMessage="No code samples available"
+                />
+              </div>
+            );
           }
-          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language);
+          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language, selectedContentType);
+          const languagesList = oas[extensions.SAMPLES_LANGUAGES]
           return (
-            <div>
-              <ul className="code-sample-tabs">
-                {// TODO add `is-lang-${lang}` class, to body?
-                oas[extensions.SAMPLES_LANGUAGES].map(lang => (
-                  <li key={lang}>
-                    {
-                      // eslint-disable-next-line jsx-a11y/href-no-hash
-                      <a
-                        href="#"
-                        className={`hub-lang-switch-${lang}`}
-                        onClick={e => {
-                          e.preventDefault();
-                          setLanguage(lang);
-                        }}
-                      >
-                        {generateCodeSnippet.getLangName(lang)}
-                      </a>
-                    }
-                  </li>
-                ))}
-              </ul>
-              {snippet && (
-                <div className="hub-code-auto">
-                  <CopyCode code={code} />
-                  <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
-                </div>
-              )}
-            </div>
+            this.renderCodeWithListSection(snippet, code, languagesList, setLanguage)
           );
         })()}
       </div>
@@ -145,10 +175,12 @@ CodeSample.propTypes = {
     }),
   ),
   language: PropTypes.string.isRequired,
+  selectedContentType: PropTypes.string
 };
 
 CodeSample.defaultProps = {
   examples: [],
+  selectedContentType: '',
 };
 
 module.exports = CodeSample;

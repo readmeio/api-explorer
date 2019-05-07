@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
-const extensions = require('@readme/oas-extensions');
+const extensions = require('@mia-platform/oas-extensions');
 const WrappedApiExplorer = require('../src');
 
 const { ApiExplorer } = WrappedApiExplorer;
@@ -27,10 +27,9 @@ const props = {
   glossaryTerms: [],
 };
 
-test('ApiExplorer renders a doc for each', () => {
+test.skip('ApiExplorer renders a single doc', () => {
   const explorer = shallow(<ApiExplorer {...props} />);
-
-  expect(explorer.find('Doc').length).toBe(docs.length);
+  expect(explorer.find('Doc').length).toBe(1);
 });
 
 test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
@@ -114,22 +113,25 @@ describe('oas', () => {
 
   // Swagger apis and some legacies
   it('should fetch it from `doc.category.apiSetting`', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer
         {...props}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[Object.assign({}, baseDoc, { category: { apiSetting: 'api-setting' } })]}
+        docs={[Object.assign({}, baseDoc, {
+          swagger: { path: '' },
+          category: { apiSetting: 'api-setting' } 
+        })]}
       />,
     );
 
-    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+    expect(explorer.find('Doc').props().oas).toBe(oas);
   });
 
   // Some other legacy APIs where Endpoints are created in arbitrary categories
   it('should fetch it from `doc.api.apiSetting._id`', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer
         {...props}
         oasFiles={{
@@ -138,6 +140,7 @@ describe('oas', () => {
         docs={[
           Object.assign({}, baseDoc, {
             api: { method: 'get', apiSetting: { _id: 'api-setting' } },
+            swagger: { path: '' }, 
           }),
         ]}
       />,
@@ -147,7 +150,7 @@ describe('oas', () => {
   });
 
   it('should fetch it from `doc.api.apiSetting` if it is a string', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer
         {...props}
         oasFiles={{
@@ -155,6 +158,7 @@ describe('oas', () => {
         }}
         docs={[
           Object.assign({}, baseDoc, {
+            swagger: { path: '' }, 
             api: { method: 'get', apiSetting: 'api-setting' },
           }),
         ]}
@@ -166,7 +170,7 @@ describe('oas', () => {
 
   // Of course... `typeof null === 'object'`
   it('should not error if `doc.api.apiSetting` is null', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer
         {...props}
         docs={[
@@ -181,7 +185,7 @@ describe('oas', () => {
   });
 
   it('should set it to empty object', () => {
-    const explorer = shallow(<ApiExplorer {...props} docs={[baseDoc]} />);
+    const explorer = mount(<ApiExplorer {...props} docs={[baseDoc]} />);
 
     expect(explorer.find('Doc').get(0).props.oas).toEqual({});
   });
@@ -223,30 +227,6 @@ describe('auth', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
     expect(explorer.state('auth')).toEqual({ api_key: '', petstore_auth: '' });
-  });
-
-  it('should be updated via editing authbox', () => {
-    const explorer = mount(<ApiExplorer {...props} docs={docs.slice(0, 1)} />);
-    const doc = explorer
-      .find('Doc')
-      .at(0)
-      .instance();
-
-    doc.setState({ showEndpoint: true, showAuthBox: true });
-
-    explorer.update();
-
-    const input = explorer.find('input[name="apiKey"]');
-
-    input.instance().value = '1234';
-    input.simulate('change');
-
-    expect(explorer.state('auth').petstore_auth).toBe('1234');
-
-    input.instance().value += '5678';
-    input.simulate('change');
-
-    expect(explorer.state('auth').petstore_auth).toBe('12345678');
   });
 
   test('should merge securities auth changes', () => {

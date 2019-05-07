@@ -1,8 +1,10 @@
+import {IntlProvider} from 'react-intl';
+
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
 
-const Response = require('../src/Response');
+const Response = require('../src/components/Response');
 const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
@@ -53,20 +55,24 @@ describe('exampleTab', () => {
 });
 
 test('should show different component tabs based on state', () => {
-  const doc = mount(
-    <Response
-      {...props}
-      result={{
-        status: 200,
-        responseBody: JSON.stringify({ a: 1 }),
-        requestBody: JSON.stringify({ b: 2 }),
-        requestHeaders: [],
-        method: 'post',
-        responseHeaders: [],
-      }}
-    />,
+  const wrapper = mount(
+    <IntlProvider>
+      <Response
+        {...props}
+        result={{
+          status: 200,
+          responseBody: JSON.stringify({ a: 1 }),
+          requestBody: JSON.stringify({ b: 2 }),
+          requestHeaders: [],
+          method: 'post',
+          responseHeaders: [],
+        }}
+      />
+    </IntlProvider>
   );
-  expect(doc.find('ResponseBody').length).toBe(1);
+  expect(wrapper.find('ResponseBody').length).toBe(1);
+
+  const doc = wrapper.find('Response');  
   doc.instance().setTab('metadata');
 
   // I want to do the below assertion instead, but it's not working
@@ -74,5 +80,6 @@ test('should show different component tabs based on state', () => {
   expect(doc.html().includes('Response Headers')).toBe(true);
 
   // Should include request body in HTML
+  expect(doc.html().includes('Request Data')).toBe(true);
   expect(doc.html().includes(JSON.stringify({ b: 2 }))).toBe(true);
 });

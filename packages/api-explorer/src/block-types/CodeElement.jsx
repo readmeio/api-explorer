@@ -1,8 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const CopyCode = require('../CopyCode');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const CopyCode = require('../components/CopyCode');
+const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
 
 /*
  * This component is used internally by Code

@@ -1,6 +1,9 @@
-const React = require('react');
+import React, { Fragment } from 'react';
+
+import ContentWithTitle from './components/ContentWithTitle'
+import Select from './components/Select'
+
 const PropTypes = require('prop-types');
-const classNames = require('classnames');
 
 const Oas = require('./lib/Oas');
 const findSchemaDefinition = require('./lib/find-schema-definition');
@@ -51,63 +54,56 @@ class ResponseSchema extends React.Component {
     return response.content;
   }
 
-  changeHandler(e) {
-    this.selectedStatus(e.target.value);
+  changeHandler(status) {
+    this.selectedStatus(status);
   }
 
   selectedStatus(selected) {
     this.setState({ selectedStatus: selected });
   }
 
-  renderHeader() {
+  renderHeader(){
     const keys = Object.keys(this.props.operation.responses);
+    return(
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <span>Response</span>
+        <Select options={keys} onChange={this.changeHandler} value={this.state.selectedStatus} />
+      </div>
+    )
+  }
 
-    return (
-      <h3>
-        <div className="pull-right">
-          <select
-            className="switcher-switch"
-            value={this.state.selectedStatus}
-            onChange={this.changeHandler}
-          >
-            {keys.map(status => (
-              <option value={status} key={status}>
-                {status}
-              </option>
-            ))}
-          </select>
-        </div>
-        Response
-      </h3>
-    );
+  renderContent(){
+    const { operation, oas } = this.props;
+    const schema = this.getSchema(operation);
+    return(
+      <Fragment>
+        {operation.responses[this.state.selectedStatus].description && (
+          <p>{operation.responses[this.state.selectedStatus].description}</p>
+        )}
+        { schema && <ResponseSchemaBody schema={schema} oas={oas} />}
+      </Fragment>
+    )
   }
 
   render() {
-    const { operation, oas } = this.props;
+    const { operation } = this.props;
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
-    const schema = this.getSchema(operation);
     return (
-      <div
-        className={classNames('hub-reference-response-definitions', {
-          dark: this.props.theme === 'dark',
-        })}
-      >
-        {this.renderHeader()}
-        <div className="response-schema">
-          {operation.responses[this.state.selectedStatus].description && (
-            <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
-          )}
-          {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
-        </div>
-      </div>
+      <ContentWithTitle
+        title={this.renderHeader()}
+        content={this.renderContent()}
+        showDivider={false}
+        theme={'dark'}
+        showBorder={false}
+        titleUpperCase
+      />
     );
   }
 }
 
 ResponseSchema.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  theme: PropTypes.string.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired
 };
 
 module.exports = ResponseSchema;

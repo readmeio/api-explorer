@@ -32,6 +32,11 @@
                   }
                 }
               }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              }
             }
           }
         }

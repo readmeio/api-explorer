@@ -1,11 +1,10 @@
 {
-  "name": "@readme/syntax-highlighter",
-  "description": "Syntax highlighter used on ReadMe.io",
+  "name": "@mia-platform/syntax-highlighter",
+  "description": "Syntax highlighter used on API Explorer",
   "version": "4.1.1",
   "dependencies": {
-    "@readme/variable": "^4.0.0",
-    "codemirror": "^5.31.0",
-    "react": "^16.4.2"
+    "@mia-platform/variable": "^4.0.0",
+    "codemirror": "^5.31.0"
   },
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
@@ -18,9 +17,9 @@
     "registry": "http://registry.npmjs.org",
     "access": "public"
   },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "author": "Mia Platform Core Team<core@mia-platform.eu>",
   "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/syntax-highlighter",
+  "repository": "https://github.com/mia-platform/api-explorer/tree/master/packages/syntax-highlighter",
   "devDependencies": {
     "eslint": "^4.4.1",
     "eslint-config-airbnb-base": "^11.3.1",
@@ -28,5 +27,8 @@
     "jest": "^23.4.2",
     "jsinspect": "^0.12.6",
     "prettier": "^1.6.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
   }
 }

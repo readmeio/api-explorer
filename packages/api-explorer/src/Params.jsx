@@ -1,4 +1,7 @@
-const React = require('react');
+import React, {Component} from 'react'
+import './params.css'
+import ContentWithTitle from './components/ContentWithTitle'
+
 const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
@@ -18,66 +21,76 @@ const Oas = require('./lib/Oas');
 const { Operation } = Oas;
 const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
-function Params({
-  oas,
-  operation,
-  formData,
-  onChange,
-  onSubmit,
-  BaseInput,
-  SelectWidget,
-  ArrayField,
-  SchemaField,
-  TextareaWidget,
-  FileWidget,
-}) {
-  const jsonSchema = parametersToJsonSchema(operation, oas);
+class Params extends Component{
+  
+  renderParam(schema) {
+    const {
+      formData,
+      onChange,
+      onSubmit,
+      BaseInput,
+      SelectWidget,
+      ArrayField,
+      SchemaField,
+      TextareaWidget,
+      FileWidget,
+    } = this.props
 
-  return (
-    jsonSchema &&
-    jsonSchema.map(schema => {
-      return [
-        <div className="param-type-header" key={`${schema.type}-header`}>
-          <h3>{schema.label}</h3>
-          <div className="param-header-border" />
-        </div>,
-        <Form
-          key={`${schema.type}-form`}
-          id={`form-${operation.operationId}`}
-          idPrefix={operation.operationId}
-          schema={schema.schema}
-          widgets={{
-            int64: UpDownWidget,
-            int32: UpDownWidget,
-            double: UpDownWidget,
-            float: UpDownWidget,
-            binary: FileWidget,
-            byte: TextWidget,
-            string: TextWidget,
-            uuid: TextWidget,
-            duration: TextWidget,
-            dateTime: DateTimeWidget,
-            integer: UpDownWidget,
-            json: TextareaWidget,
-            BaseInput,
-            SelectWidget,
-          }}
-          onSubmit={onSubmit}
-          formData={formData[schema.type]}
-          onChange={form => {
-            return onChange({ [schema.type]: form.formData });
-          }}
-          fields={{
-            DescriptionField,
-            ArrayField,
-            SchemaField,
-          }}
-        >
-          <button type="submit" style={{ display: 'none' }} />
-        </Form>,
-      ];
-    })
-  );
+    return (
+      <Form
+        key={`${schema.type}-form`}
+        id={"form-params"}
+        idPrefix={'form-id'}
+        schema={schema.schema}
+        style={{margin: 0}}
+        widgets={{
+          int64: UpDownWidget,
+          int32: UpDownWidget,
+          double: UpDownWidget,
+          float: UpDownWidget,
+          binary: FileWidget,
+          byte: TextWidget,
+          string: TextWidget,
+          uuid: TextWidget,
+          duration: TextWidget,
+          dateTime: DateTimeWidget,
+          integer: UpDownWidget,
+          json: TextareaWidget,
+          BaseInput,
+          SelectWidget,
+        }}
+        onSubmit={onSubmit}
+        formData={formData[schema.type]}
+        onChange={form => onChange({ [schema.type]: form.formData })}
+        fields={{
+          DescriptionField,
+          ArrayField,
+          SchemaField,
+        }}
+      >
+        <button type="submit" style={{ display: 'none' }} />
+      </Form>
+    )
+  }
+
+  render() {
+    const {oas, operation} = this.props
+    const jsonSchema = parametersToJsonSchema(operation, oas);
+    return (
+      jsonSchema &&
+      jsonSchema.map((schema) => {
+        return (<ContentWithTitle
+          key={schema.label+schema.schema.ref}
+          title={schema.label}
+          content={this.renderParam(schema)}
+          showDivider={false}
+          theme={'dark'}
+          showBorder={false}
+          titleUpperCase
+        />)
+      })
+    )
+  }
 }
 
 Params.propTypes = {

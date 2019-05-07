@@ -1,5 +1,5 @@
 {
-  "name": "@readme/oas-extensions",
+  "name": "@mia-platform/oas-extensions",
   "description": "A list of extensions that ReadMe has added to the OAS spec",
   "version": "4.0.0",
   "scripts": {
@@ -9,9 +9,9 @@
     "registry": "http://registry.npmjs.org",
     "access": "public"
   },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "author": "Mia Platform Core Team<core@mia-platform.eu>",
   "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/oas-extensions",
+  "repository": "https://github.com/mia-platform/api-explorer/tree/master/packages/oas-extensions",
   "devDependencies": {
     "eslint": "^4.2.0",
     "eslint-config-airbnb-base": "^11.2.0",

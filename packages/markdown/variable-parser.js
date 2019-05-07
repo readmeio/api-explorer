@@ -1,4 +1,4 @@
-const { VARIABLE_REGEXP } = require('@readme/variable');
+const { VARIABLE_REGEXP } = require('@mia-platform/variable');
 
 function tokenizeVariable(eat, value, silent) {
   // Modifies the regular expression to match from
