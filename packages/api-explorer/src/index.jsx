@@ -13,6 +13,8 @@ import en from "../i18n/en.json";
 
 import colors from './colors'
 
+require('./code-mirror.css')
+
 addLocaleData([...itLocale, ...enLocale]);
 const messages = {
   it, en,
