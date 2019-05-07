@@ -7,6 +7,8 @@ import get from 'lodash.get'
 
 import colors from './colors'
 
+require('./code-mirror.css')
+
 const Panel = Collapse.Panel
 
 const Cookie = require('js-cookie');
