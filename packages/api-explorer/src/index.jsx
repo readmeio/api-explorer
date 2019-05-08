@@ -171,7 +171,7 @@ class ApiExplorer extends React.Component {
     return(
       <div>
         {method} <b style={{color: colors.bold}}>
-          {oas && oas.servers[0].url}
+          {oas && oas.servers && oas.servers[0].url}
           {swagger && swagger.path}
         </b> {doc.title}
       </div>    
