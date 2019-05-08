@@ -1,0 +1,13 @@
+__tests__
+node_modules
+.editorconfig
+.eslintignore
+.eslintrc
+.jsinspectrc
+.prettierignore
+.prettierrc
+example.js
+jest.config.js
+webpack.config.js
+webpack.prod.js
+coverage
