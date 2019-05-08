@@ -1,3 +1,11 @@
+form.rjsf {
+  --field-tag-color: #efefef;
+  --field-border-color: #d1d1d1;
+  --custom-border-color: #e8e8e8;
+  --antd-primary-color: #40a9ff;
+  --trash-bin-red: #f5222d;
+}
+
 /* Add margin to left- and right-sides of RJSF component. */
 form.rjsf {
   margin: 0% 3%;
@@ -52,14 +60,14 @@ form.rjsf legend {
 
 /* Style input fields similar to current explorer. */
 form.rjsf input {
-  border: 1px solid #eaeaea !important;
+  border: 1px solid var(--field-border-color) !important;
   border-radius: 2px;
   padding: 8px 10px;
   margin-left: 5px;
 }
 
 form.rjsf textarea {
-  border: 1px solid #eaeaea !important;
+  border: 1px solid var(--field-border-color) !important;
   border-radius: 2px;
   padding: 8px 10px;
   margin-left: 5px;
@@ -67,7 +75,7 @@ form.rjsf textarea {
 
 /* Prevent input fields from becoming too wide. */
 form.rjsf .form-group .form-control {
-  max-width: 250px;
+  max-width: 100%;
   flex: 1 1 150px;
 }
 
@@ -84,7 +92,7 @@ form.rjsf fieldset fieldset .form-group.field .field-description {
 form.rjsf .form-group .form-group {
   padding-top: 10px;
   padding-bottom: 10px;
-  border-top: 1px solid #f2f2f2;
+  border-top: 1px solid var(--custom-border-color);
 }
 
 /* Hide border for first form-group in an object. */
@@ -128,7 +136,7 @@ form.rjsf .field-description {
 
 /* Add thick left border to nested params (show hierarchy). */
 form.rjsf fieldset fieldset .form-group {
-  border-left: 10px solid #f8f8f8;
+  border-left: 10px solid var(--custom-border-color);
 }
 
 /* Add margin to label for nested params. */
@@ -141,9 +149,8 @@ form.rjsf .form-group.field select {
 }
 
 /* Style select boxes. */
-
 form.rjsf .field .form-group select {
-  border: 1px solid #eaeaea !important;
+  border: 1px solid var(--field-border-color) !important;
   border-radius: 2px;
   padding: 0px 10px;
   margin-left: 15px;
@@ -167,11 +174,14 @@ form.rjsf .field .form-group select {
 
 /* For each nested object in an array, add border. */
 .array-item fieldset {
-  border-left: 10px solid #f8f8f8;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.025);
+  /* border-left: 10px solid #f8f8f8; */
+  border-left: 10px solid var(--field-tag-color);
+  box-shadow: -4px 5px 15px -2px rgba(0, 0, 0, 0.10);
   padding-left: 1em;
   padding-right: 1em;
   margin-left: 1em;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
 
  /* For each nested object in an array, unset max-width for description. */
@@ -257,15 +267,17 @@ form.rjsf .btn.btn-default:hover {
 form.rjsf .btn.btn-add {
   transform: rotate(45deg);
   font-weight: bold;
-  font-size: 11px;
-  color: rgb(76, 85, 90);
-  background: rgba(255, 255, 255, 0);
+  font-size: 12px;
+  color: white;
+  background: var(--antd-primary-color);
   margin-bottom: 1em;
+  border-radius: 100% !important;
+  padding: 2px 7px !important;
 }
 
 form.rjsf .btn.btn-add::after {
   content: '✕';
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
 }
 
@@ -290,7 +302,7 @@ form.rjsf button[disabled] {
 .field.field-array-of-string legend::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'array of strings';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -302,7 +314,7 @@ form.rjsf button[disabled] {
 .field.field-array-of-integer legend::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'array of integers';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -314,7 +326,7 @@ form.rjsf button[disabled] {
 .field.field-array-of-object legend::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'array of objects';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -326,7 +338,7 @@ form.rjsf button[disabled] {
 .field.field-array-of-boolean legend::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'array of booleans';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -338,7 +350,7 @@ form.rjsf button[disabled] {
 .field.field-integer.field-int32 label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'integer: int32';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -350,7 +362,7 @@ form.rjsf button[disabled] {
 .field.field-integer.field-int64 label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'integer: int64';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -362,7 +374,7 @@ form.rjsf button[disabled] {
 .field.field-number.field-float label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'number: float';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -374,7 +386,7 @@ form.rjsf button[disabled] {
 .field.field-number.field-double label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'number: double';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -386,7 +398,7 @@ form.rjsf button[disabled] {
 .field.field-string:not(.field-json):not(.field-file) label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'string';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -398,7 +410,7 @@ form.rjsf button[disabled] {
 .field.field-json label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'json';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -410,7 +422,7 @@ form.rjsf button[disabled] {
 .field.field-file label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'file';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -422,7 +434,7 @@ form.rjsf button[disabled] {
 .field.field-boolean label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'boolean';
-  background: #f2f2f2;
+  background: var(--field-tag-color);
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -476,4 +488,26 @@ form.rjsf fieldset {
 .hub-reference-response-definitions.dark th,
 .hub-reference-response-definitions.dark td {
   color: rgba(255,255,255,0.7);
+}
+
+form.rjsf .form-group .array-item-add {
+  padding-left: 10px;
+}
+
+/* Remove x button icon. */
+form.rjsf .form-group .btn.array-item-remove::after {
+  content: ''
+}
+
+/* Add delete icon substituting all glyphicon remove with the trash bin. */
+form.rjsf .form-group button i.glyphicon.glyphicon-remove::after {
+  margin-top: 4px;
+  border: 1px solid var(--trash-bin-red);
+  padding: 8px 6px 4px 6px;
+  border-radius: 100%;
+  content: url('./assets/delete.svg') !important; 
+}
+
+form.rjsf .form-group select {
+  background: white;
 }

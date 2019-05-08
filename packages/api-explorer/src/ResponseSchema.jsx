@@ -62,12 +62,16 @@ class ResponseSchema extends React.Component {
     this.setState({ selectedStatus: selected });
   }
 
-  renderHeader(){
+  renderHeader() {
+    const selectStyle = {
+      marginBottom: '5px',
+    }
+
     const keys = Object.keys(this.props.operation.responses);
     return(
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <span>Response</span>
-        <Select options={keys} onChange={this.changeHandler} value={this.state.selectedStatus} />
+        <Select options={keys} onChange={this.changeHandler} value={this.state.selectedStatus} style={selectStyle} />
       </div>
     )
   }
