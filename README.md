@@ -7,10 +7,9 @@
 
 [![NPM version][npmjs-apiexplorer-svg]][npmjs-apiexplorer]
 [![NPM version][npmjs-apilogs-svg]][npmjs-apilogs]
-
 [![NPM version][npmjs-markdown-svg]][npmjs-markdown]
-[![NPM version][npmjs-syntaxhighlighter-svg]][npmjs-syntaxhighlighter]
 
+[![NPM version][npmjs-syntaxhighlighter-svg]][npmjs-syntaxhighlighter]
 [![NPM version][npmjs-oasextensions-svg]][npmjs-oasextensions]
 [![NPM version][npmjs-variable-svg]][npmjs-variable]
 
