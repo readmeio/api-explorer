@@ -248,3 +248,80 @@ describe('auth', () => {
     expect(explorer.state('auth')).toEqual({ api_key: '7890', petstore_auth: '123456' });
   });
 });
+
+describe('showOnlyAPI', () => {
+  it('should render description if property is not provided (default behaviour)', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+    expect(explorer.exists('div#oas-initial-description')).toBe(true);
+  })
+
+  it('should not render description if property is provided', () => {
+    const explorer = mount(<ApiExplorer {...props} showOnlyAPI />);
+    expect(explorer.exists('div#oas-initial-description')).toBe(false);
+  })
+
+  it('should render description if property is provided with false value', () => {
+    const explorer = mount(<ApiExplorer {...props} showOnlyAPI={false} />);
+    expect(explorer.exists('div#oas-initial-description')).toBe(true);
+  })
+})
+
+describe('defaultOpen', () => {
+  it('should pass defaultActiveKey a value (default behaviour)', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+    const collapse = explorer.find('Collapse')
+    expect(collapse.at(1).prop('defaultActiveKey')).toEqual(['0']);
+  })
+
+  it('should pass null to defaultActiveKey a value if property is false', () => {
+    const explorer = mount(<ApiExplorer {...props} defaultOpen={false} />);
+    const collapse = explorer.find('Collapse')
+    expect(collapse.at(1).prop('defaultActiveKey')).toEqual(null);
+  })
+
+  it('should pass a value to defaultActiveKey a value if property is true', () => {
+    const explorer = mount(<ApiExplorer {...props} defaultOpen />);
+    const collapse = explorer.find('Collapse')
+    expect(collapse.at(1).prop('defaultActiveKey')).toEqual(['0']);
+  })
+})
+
+describe('defaultOpenDoc', () => {
+  it('should open panel 0 if none is provided (default behaviour)', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+    const collapse = explorer.find('Collapse')
+    expect(collapse.at(1).state().activeKey).toEqual(['0']);
+  })
+
+  it('should open specified panel', () => {
+    const explorer = mount(<ApiExplorer {...props} defaultOpenDoc="3" />);
+    const collapse = explorer.find('Collapse')
+    expect(collapse.at(1).state().activeKey).toEqual(['3']);
+  })
+
+  it('should open specified panel', () => {
+    const explorer = mount(<ApiExplorer {...props} defaultOpenDoc="5" />);
+    const collapse = explorer.find('Collapse')
+    expect(collapse.at(1).state().activeKey).toEqual(['5']);
+  })
+
+  it('should not open if defaultOpen is false', () => {
+    const explorer = mount(<ApiExplorer {...props} defaultOpen={false} defaultOpenDoc="1" />);
+    const collapse = explorer.find('Collapse')
+    expect(collapse.at(1).state().activeKey).toEqual([]);
+  })
+})
+
+describe('onDocChange', () => {
+  it('should be call if collapse#onChange is called', () => {
+    const mock = jest.fn()
+    const explorer = mount(<ApiExplorer {...props} onDocChange={mock} />);
+    const collapse = explorer.find('Collapse').at(1)
+
+    // Simulate click by calling antd property.
+    collapse.props().onChange(4)
+
+    expect(mock).toBeCalled()
+    expect(mock).toBeCalledWith(4)
+  })
+})

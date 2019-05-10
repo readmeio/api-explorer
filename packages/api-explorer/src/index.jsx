@@ -126,7 +126,7 @@ class ApiExplorer extends React.Component {
     const {description} = this.state
     return(
       description ?
-        <div style={style}>{markdown(description)}</div> :
+        <div id="oas-initial-description" style={style}>{markdown(description)}</div> :
         null
     )
   }
@@ -200,19 +200,22 @@ class ApiExplorer extends React.Component {
       borderRadius: 5,
       overflow: 'hidden',
     }
+
+    const defaultOpenDoc = this.props.defaultOpenDoc ? this.props.defaultOpenDoc : '0'
+    const defaultOpen = this.props.defaultOpen ? [defaultOpenDoc] : null
     return (
       <div className={`is-lang-${this.state.language}`}>
-        {this.renderDescription()}
+        {this.props.showOnlyAPI ? null : this.renderDescription()}
         <div
           id="hub-reference"
-          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
-            .referenceLayout}`}
+          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
           style={{padding: 16}}
         >
           <Collapse
-            defaultActiveKey={['0']}
+            defaultActiveKey={defaultOpen}
             style={{background: 'none', border: 'none'}}
             accordion
+            onChange={this.props.onDocChange}
           >
             {this.props.docs.map((doc, index) => (
               <Panel header={this.renderHeaderPanel(doc)} style={{...styleByMethod(doc.api.method), ...panelStyle}} key={index}>
@@ -254,7 +257,11 @@ ApiExplorer.propTypes = {
   i18n: PropTypes.shape({
     locale: PropTypes.string,
     defaultLocale: PropTypes.string,
-  }), 
+  }),
+  showOnlyAPI: PropTypes.bool,
+  defaultOpen: PropTypes.bool,
+  defaultOpenDoc: PropTypes.string,
+  onDocChange: PropTypes.func,
 };
 
 ApiExplorer.defaultProps = {
@@ -269,6 +276,10 @@ ApiExplorer.defaultProps = {
     locale: 'en',
     defaultLocale: 'en',
   },
+  showOnlyAPI: false,
+  defaultOpen: true,
+  defaultOpenDoc: '',
+  onDocChange: () => {},
 };
 
 module.exports = props => (
