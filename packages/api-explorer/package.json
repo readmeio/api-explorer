@@ -1,11 +1,11 @@
 {
   "name": "@mia-platform/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "5.0.5",
+  "version": "5.1.0",
   "main": "dist/index.js",
   "dependencies": {
     "@mia-platform/markdown": "^5.0.4",
-    "@mia-platform/oas-extensions": "^5.0.4",
+    "@mia-platform/oas-extensions": "^5.1.0",
     "@mia-platform/syntax-highlighter": "^5.0.4",
     "@mia-platform/variable": "^5.0.4",
     "classnames": "^2.2.5",
