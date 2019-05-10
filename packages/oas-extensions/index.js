@@ -12,7 +12,7 @@ module.exports = {
 module.exports.defaults = {
   'x-explorer-enabled': true,
   'x-samples-enabled': true,
-  'x-samples-languages': ['curl', 'node', 'ruby', 'javascript', 'python'],
+  'x-samples-languages': ['curl', 'node', 'javascript', 'java'],
   'x-proxy-enabled': true,
   'x-headers': undefined,
   'x-send-defaults': false,

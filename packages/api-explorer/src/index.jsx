@@ -4,6 +4,7 @@
 import React from 'react'
 import { Collapse, Tag } from 'antd';
 import get from 'lodash.get'
+import extensions from '@mia-platform/oas-extensions'
 
 import { IntlProvider, addLocaleData } from 'react-intl';
 import itLocale from 'react-intl/locale-data/it';
@@ -24,7 +25,7 @@ const Panel = Collapse.Panel
 
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
-const extensions = require('@mia-platform/oas-extensions');
+
 const VariablesContext = require('@mia-platform/variable/contexts/Variables');
 const OauthContext = require('@mia-platform/variable/contexts/Oauth');
 const GlossaryTermsContext = require('@mia-platform/markdown/contexts/GlossaryTerms');
@@ -92,8 +93,18 @@ class ApiExplorer extends React.Component {
       doc.category.apiSetting ||
       (typeof doc.api.apiSetting === 'string' && doc.api.apiSetting) ||
       (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
-
-    return this.props.oasFiles[apiSetting];
+    
+    const oasFromProps = this.props.oasFiles[apiSetting]
+    let oas
+    if (oasFromProps) {
+      const extensionDefault = Object.assign({}, extensions.defaults)
+      const xSampleLanguages = extensionDefault[extensions.SAMPLES_LANGUAGES]
+      oas = {
+        ...oasFromProps,
+        [extensions.SAMPLES_LANGUAGES]: xSampleLanguages
+      }
+    }
+    return oas;
   }
 
   changeSelected(selected) {

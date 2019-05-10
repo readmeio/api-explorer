@@ -51,7 +51,7 @@ class Preview extends React.Component {
             <ApiExplorer
               docs={docs}
               oasFiles={{
-                'api-setting': Object.assign(extensions.defaults, oas),
+                'api-setting': { ...extensions.defaults, ...oas },
               }}
               appearance={{ referenceLayout: 'row' }}
               suggestedEdits={false}

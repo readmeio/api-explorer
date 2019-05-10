@@ -13,6 +13,7 @@ const createDocs = require('../lib/create-docs');
 const docs = createDocs(oas, 'api-setting');
 
 const languages = ['node', 'curl'];
+const expectedSampleLanguages = {'x-samples-languages': ['curl', 'node', 'javascript', 'java']}
 const props = {
   docs,
   oasFiles: {
@@ -125,8 +126,11 @@ describe('oas', () => {
         })]}
       />,
     );
-
-    expect(explorer.find('Doc').props().oas).toBe(oas);
+    const expectedOas = {
+      ...oas,
+      ...expectedSampleLanguages
+    }
+    expect(explorer.find('Doc').props().oas).toEqual(expectedOas);
   });
 
   // Some other legacy APIs where Endpoints are created in arbitrary categories
@@ -145,8 +149,11 @@ describe('oas', () => {
         ]}
       />,
     );
-
-    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+    const expectedOas = {
+      ...oas,
+      ...expectedSampleLanguages
+    }
+    expect(explorer.find('Doc').get(0).props.oas).toEqual(expectedOas);
   });
 
   it('should fetch it from `doc.api.apiSetting` if it is a string', () => {
@@ -164,8 +171,11 @@ describe('oas', () => {
         ]}
       />,
     );
-
-    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+    const expectedOas = {
+      ...oas,
+      ...expectedSampleLanguages
+    }
+    expect(explorer.find('Doc').get(0).props.oas).toEqual(expectedOas);
   });
 
   // Of course... `typeof null === 'object'`

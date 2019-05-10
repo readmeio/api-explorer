@@ -33,7 +33,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
             // docs={[null, null]}
             docs={docs}
             oasFiles={{
-              'api-setting': Object.assign(extensions.defaults, oas),
+              'api-setting': { ...extensions.defaults, ...oas },
             }}
             baseUrl={'/'}
             // Uncomment this if you want to test enterprise-structured URLs
