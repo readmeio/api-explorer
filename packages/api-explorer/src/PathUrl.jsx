@@ -21,7 +21,7 @@ function splitPath(path) {
     });
 }
 
-function renderButtonTry(loading, onSubmit, error){
+function renderButtonTry(loading, onSubmit, error) {
   return(
     <Button 
       disabled={loading}
@@ -46,7 +46,7 @@ function renderOperationMethod(operation){
   )
 }
 
-function renderUrl(oas, operation){
+function renderUrl(oas, operation) {
   const style = {
     container: {
       color: colors.pathUrl,
@@ -62,18 +62,18 @@ function renderUrl(oas, operation){
       borderBottom: `1px solid ${colors.pathVariableBorder}`
     }
   }
-  return(
-    oas.servers &&
-      oas.servers.length > 0 && (
-        <div style={style.container}>
-          <span>{oas.url()}</span>
-          {splitPath(operation.path).map(part => (
-            <span key={part.value} style={style[part.type]}>
-              {part.value}
-            </span>
-          ))}
-        </div>
-      )
+
+  return (
+    oas.servers && oas.servers.length > 0 && (
+      <div style={style.container}>
+        <span>{oas.url()}</span>
+        {splitPath(operation.path).map(part => (
+          <span key={part.value} style={style[part.type]}>
+            {part.value}
+          </span>
+      ))}
+      </div>
+    )
   )
 }
 
@@ -91,7 +91,7 @@ function PathUrl({
   auth,
   onReset,
   showReset,
-  error
+  error,
 }) {
   const containerStyle = {
     background: colors.pathUrlBackground,
@@ -103,13 +103,13 @@ function PathUrl({
   return (
     <div style={containerStyle}>
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-  
+
         <div style={{display: 'flex'}}>
           {renderOperationMethod(operation)}
 
-          {renderUrl(oas, operation)}
+          {renderUrl(oas, operation)} 
         </div>
-          
+
         {oas[extensions.EXPLORER_ENABLED] && (
           <div style={{display: 'flex', alignItems: 'center'}}>
             <div style={{marginRight: 10}}>
@@ -151,7 +151,7 @@ PathUrl.propTypes = {
   auth: PropTypes.shape({}),
   showReset: PropTypes.bool,
   onReset: PropTypes.func,
-  error: PropTypes.bool
+  error: PropTypes.bool,
 };
 
 PathUrl.defaultProps = {
@@ -161,7 +161,7 @@ PathUrl.defaultProps = {
   auth: {},
   showReset: true,
   error: false,
-  onReset: () => {}
+  onReset: () => {},
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

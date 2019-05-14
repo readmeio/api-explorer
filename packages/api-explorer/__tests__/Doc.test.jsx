@@ -390,3 +390,31 @@ test('should output with an error message if the endpoint fails to load', () => 
 
   expect(doc.find('ErrorBoundary').length).toBe(1);
 });
+
+describe('fallbackUrl', () => {
+  it('should default to empty string', () => {
+    const doc = mountWithIntl(
+      <IntlProvider>
+        <Doc {...props} />
+      </IntlProvider>
+    ).find('Doc');
+    expect(doc.prop('fallbackUrl')).toBe('')
+  })
+
+  it('should inject servers in oas if it has no server', () => {
+    const fallback = 'https://somexample.com/';
+    const clonedOas = Object.assign({}, oas);
+    delete clonedOas.servers;
+
+    const doc = mountWithIntl(
+      <IntlProvider>
+        <Doc
+          {...props}
+          oas={clonedOas}
+          fallbackUrl={fallback}
+        />
+      </IntlProvider>
+    ).find('Doc');
+    expect(doc.instance().oas.servers).toEqual([{url: fallback}])
+  })
+})

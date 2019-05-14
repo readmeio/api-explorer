@@ -325,3 +325,58 @@ describe('onDocChange', () => {
     expect(mock).toBeCalledWith(4)
   })
 })
+
+describe('fallbackUrl', () => {
+  const fallback = 'https://example.com'
+
+  it('should default to empty string', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+    expect(explorer.prop('fallbackUrl')).toBe('')
+  })
+
+  it('should be provided to Doc children', () => {
+    const baseDoc = {
+      _id: 1,
+      title: 'title',
+      slug: 'slug',
+      type: 'endpoint',
+      category: {},
+      api: { method: 'get' },
+    };
+
+    const explorer = mount(
+      <ApiExplorer 
+        {...props}
+        fallbackUrl={fallback}
+        docs={[Object.assign({}, baseDoc, {
+          swagger: { path: '' },
+          category: { apiSetting: 'api-setting' } 
+        })]}
+      />
+    );
+    const renderDocs = explorer.find('Doc')
+    expect(renderDocs.prop('fallbackUrl')).toEqual(fallback)
+  })
+})
+
+describe('CollapsePanel', () => {
+  it('should only show URI path', () => {
+    const explorer = mount(
+      <ApiExplorer
+        {...props}
+        docs={[{
+          _id: 1,
+          title: 'title',
+          slug: 'slug',
+          type: 'endpoint',
+          api: { method: 'get' },
+          swagger: { path: '/some-path' },
+          category: { apiSetting: 'api-setting' }
+        }]}
+      />
+    );
+
+    const panel = explorer.find('CollapsePanel div.ant-collapse-header b')
+    expect(panel.text()).toEqual('/some-path')
+  })
+})

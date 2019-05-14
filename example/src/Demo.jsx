@@ -60,6 +60,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
               user: { keys: [{ name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' }, { name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' }] },
               defaults: [],
             }}
+            fallbackUrl="https://example.test.com"
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
           />
         )

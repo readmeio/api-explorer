@@ -23,13 +23,15 @@ const props = {
   apiKey: '',
 };
 
-test('should display the path', () => {
-  const pathUrl = shallow(<PathUrl {...props} />);
+describe('PathUrl endpoint', () => {
+  test('should display the oas path', () => {
+    const pathUrl = shallow(<PathUrl {...props} />);
 
-  expect(pathUrl.findWhere((node) => {
-    return node.type() === 'span' && node.text() === oas.servers[0].url;
-  }).length).toBe(1);
-});
+    expect(pathUrl.findWhere((node) => {
+      return node.type() === 'span' && node.text() === oas.servers[0].url;
+    }).length).toBe(1);
+  });
+})
 
 describe('loading prop', () => {
   test('should disable submit button when loading', () => {

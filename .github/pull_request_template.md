@@ -10,6 +10,6 @@ correct behavior and avoid possible regressions in the future.
 - [ ] your branch will not cause merge conflict with `master`
 - [ ] run `npm test`
 - [ ] tests are included
-- [ ] the documentation is updated or intregrated accordingly with your changes
+- [ ] the documentation is updated or integrated accordingly with your changes
 - [ ] the code will follow the lint rules and style of the project
 - [ ] you are not committing extraneous files or sensible data
