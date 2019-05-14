@@ -23,6 +23,13 @@ describe('operation()', () => {
   test('should return a default when no operation', () => {
     expect(new Oas({}).operation('/unknown', 'get')).toMatchSnapshot();
   });
+
+  test('should not strip trailing slashes from path if provided with boolean', () => {
+    const oas = { paths: { '/path/': { get: { a: 1 } } } };
+    const operation = new Oas(oas).operation('/path/', 'get', false);
+    expect(operation).toBeInstanceOf(Operation);
+    expect(operation.path).toBe('/path/');
+  });
 });
 
 test('should remove end slash from the server URL', () => {
@@ -342,3 +349,21 @@ describe('operation.prepareSecurity()', () => {
     expect(Object.keys(operation.prepareSecurity()).length).toBe(0);
   });
 });
+
+describe('Operation', () => {
+  it('should strip slash by default', () => {
+    const oas = { paths: { '/path/': { get: { a: 1 } } } };
+    const operation = new Operation(oas, '/path/', 'get', oas);
+    expect(operation).toBeInstanceOf(Operation);
+    expect(operation.path).toBe('/path');
+    expect(operation.method).toBe('get');
+  })
+
+  it('should not strip slash if provided argument is false', () => {
+    const oas = { paths: { '/path/': { get: { a: 1 } } } };
+    const operation = new Operation(oas, '/path/', 'get', oas, false);
+    expect(operation).toBeInstanceOf(Operation);
+    expect(operation.path).toBe('/path/');
+    expect(operation.method).toBe('get');
+  })
+})

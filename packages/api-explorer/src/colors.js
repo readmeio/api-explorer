@@ -31,5 +31,6 @@ export default {
   reactJson: '#000',
   codeAndResponseBackground: 'rgb(51, 55, 58)',
   codeAndResponseBorder: '#0f0f0f',
-  notJson: '#fff'
+  notJson: '#fff',
+  white: '#fff'
 }

@@ -13,6 +13,7 @@ const React = require('react');
 const Doc = require('../src/Doc');
 const oas = require('./fixtures/petstore/circular-oas');
 const multipleSecurities = require('./fixtures/multiple-securities/oas');
+const oasWithSlashes = require('./fixtures/petstore/oas')
 
 const props = {
   doc: {
@@ -416,5 +417,63 @@ describe('fallbackUrl', () => {
       </IntlProvider>
     ).find('Doc');
     expect(doc.instance().oas.servers).toEqual([{url: fallback}])
+  })
+})
+
+describe('stripSlash', () => {
+  it('should default to true', () => {
+    const doc = mountWithIntl(
+      <IntlProvider>
+        <Doc {...props} />
+      </IntlProvider>
+    ).find('Doc');
+    expect(doc.prop('stripSlash')).toBe(true)
+  })
+
+  it('should strip operation path', () => {
+    const doc = mountWithIntl(
+      <IntlProvider>
+        <Doc 
+          {...props}
+          doc={{
+            title: 'Title',
+            slug: 'slug',
+            type: 'endpoint',
+            swagger: { path: '/store/inventory/' },
+            api: { method: 'get' },
+            formData: { path: { petId: '1' }, auth: { api_key: '' } },
+            onSubmit: () => {},
+          }}
+          oas={oasWithSlashes}
+        />
+      </IntlProvider>
+    ).find('Doc');
+
+    const operation = doc.instance().getOperation()
+    expect(operation.path).toBe('/store/inventory')
+  })
+
+  it('should not strip operation path', () => {
+    const doc = mountWithIntl(
+      <IntlProvider>
+        <Doc 
+          {...props}
+          doc={{
+            title: 'Title',
+            slug: 'slug',
+            type: 'endpoint',
+            swagger: { path: '/store/inventory/' },
+            api: { method: 'get' },
+            formData: { path: { petId: '1' }, auth: { api_key: '' } },
+            onSubmit: () => {},
+          }}
+          oas={oasWithSlashes}
+          stripSlash={false}
+        />
+      </IntlProvider>
+    ).find('Doc');
+
+    const operation = doc.instance().getOperation()
+    expect(operation.path).toBe('/store/inventory/')
   })
 })

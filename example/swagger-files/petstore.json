@@ -35,7 +35,7 @@
   }],
   "schemes": ["http"],
   "paths": {
-    "/pet": {
+    "/pet/": {
       "post": {
         "tags": ["pet"],
         "summary": "Add a new pet to the store",
@@ -312,7 +312,7 @@
         }]
       }
     },
-    "/store/inventory": {
+    "/store/inventory/": {
       "get": {
         "tags": ["store"],
         "summary": "Returns pet inventories by status",

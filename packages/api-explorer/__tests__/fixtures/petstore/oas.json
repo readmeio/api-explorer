@@ -383,7 +383,7 @@
         }
       }
     },
-    "/store/inventory": {
+    "/store/inventory/": {
       "get": {
         "tags": ["store"],
         "summary": "Returns pet inventories by status",

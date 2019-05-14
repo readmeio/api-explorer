@@ -34,7 +34,7 @@ function renderButtonTry(loading, onSubmit, error) {
   )
 }
 
-function renderOperationMethod(operation){
+function renderOperationMethod(operation) {
   const tagStyle = {
     textTransform: 'uppercase',
     color: colors.defaultTag,
@@ -51,7 +51,8 @@ function renderUrl(oas, operation) {
     container: {
       color: colors.pathUrl,
       fontSize: 15,
-      wordBreak: 'break-all'
+      wordBreak: 'break-all',
+      fontFamily: 'monospace',
     },
     baseUrl: {
 

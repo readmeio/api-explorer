@@ -1,7 +1,10 @@
+import {mountWithIntl} from 'enzyme-react-intl';
+
 import PathUrl from '../src/PathUrl';
 
 const React = require('react');
 const { shallow } = require('enzyme');
+
 const Oas = require('../src/lib/Oas');
 
 const { splitPath } = PathUrl;
@@ -31,6 +34,18 @@ describe('PathUrl endpoint', () => {
       return node.type() === 'span' && node.text() === oas.servers[0].url;
     }).length).toBe(1);
   });
+
+  it('should end with trailing slash if original URL has it', () => {
+    const clonedProps = {
+      ...props,
+      operation: oas.operation('/store/inventory/', 'get', false),
+    }
+    const pathUrl = mountWithIntl(<PathUrl {...clonedProps} />);
+
+    expect(pathUrl.findWhere((node) => {
+      return node.type() === 'div' && node.text() === `${oas.servers[0].url}/store/inventory/`;
+    }).length).toBe(1);
+  })
 })
 
 describe('loading prop', () => {

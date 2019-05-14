@@ -2,11 +2,12 @@ const getPathOperation = require('./get-path-operation');
 const getUserVariable = require('./get-user-variable');
 
 class Operation {
-  constructor(oas, path, method, operation) {
+  constructor(oas, path, method, operation, stripSlash = true) {
     Object.assign(this, operation);
     this.oas = oas;
     // strips trailing slash
-    this.path = path.endsWith('/') ? path.slice(0, -1) : path;
+    this.path = stripSlash && path.endsWith('/') ? path.slice(0, -1) : path;
+  
     this.method = method;
   }
 
@@ -122,9 +123,9 @@ class Oas {
     });
   }
 
-  operation(path, method) {
+  operation(path, method, stripSlash = true) {
     const operation = getPathOperation(this, { swagger: { path }, api: { method } });
-    return new Operation(this, path, method, operation);
+    return new Operation(this, path, method, operation, stripSlash);
   }
 }
 

@@ -147,8 +147,8 @@ class Doc extends React.Component {
   getOperation() {
     if (this.operation) return this.operation;
 
-    const { doc } = this.props;
-    const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    const { doc, stripSlash } = this.props;
+    const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method, stripSlash) : null;
     this.operation = operation;
     return operation;
   }
@@ -194,9 +194,10 @@ class Doc extends React.Component {
 
   renderCodeAndResponse() {
     const definitionStyle = {
-      color: 'white',
+      color: colors.white,
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
+      fontFamily: 'monospace',
     }
 
     return(
@@ -452,6 +453,7 @@ Doc.propTypes = {
     formatMessage: PropTypes.func.isRequired,
   }).isRequired,
   fallbackUrl: PropTypes.string,
+  stripSlash: PropTypes.bool,
 };
 
 Doc.defaultProps = {
@@ -467,4 +469,5 @@ Doc.defaultProps = {
   user: undefined,
   baseUrl: '/',
   fallbackUrl: '',
+  stripSlash: true,
 };

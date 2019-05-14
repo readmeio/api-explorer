@@ -380,3 +380,34 @@ describe('CollapsePanel', () => {
     expect(panel.text()).toEqual('/some-path')
   })
 })
+
+describe('stripSlash', () => {
+  it('should default to true', () => {
+    const explorer = mount(<ApiExplorer {...props} />)
+    expect(explorer.prop('stripSlash')).toBe(true)
+  })
+
+  it('should be provided to Doc children', () => {
+    const baseDoc = {
+      _id: 1,
+      title: 'title',
+      slug: 'slug',
+      type: 'endpoint',
+      category: {},
+      api: { method: 'get' },
+    };
+
+    const explorer = mount(
+      <ApiExplorer 
+        {...props}
+        stripSlash={false}
+        docs={[Object.assign({}, baseDoc, {
+          swagger: { path: '' },
+          category: { apiSetting: 'api-setting' } 
+        })]}
+      />
+    );
+    const renderDocs = explorer.find('Doc')
+    expect(renderDocs.prop('stripSlash')).toEqual(false)
+  })
+})
