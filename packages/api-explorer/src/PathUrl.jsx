@@ -91,6 +91,7 @@ function PathUrl({
   oauth,
   auth,
   onReset,
+  onVisibleChange,
   showReset,
   error,
 }) {
@@ -119,6 +120,7 @@ function PathUrl({
                 onChange={onChange}
                 onSubmit={onSubmit}
                 open={showAuthBox}
+                onVisibleChange={onVisibleChange}
                 needsAuth={needsAuth}
                 toggle={toggleAuth}
                 authInputRef={authInputRef}
@@ -152,6 +154,7 @@ PathUrl.propTypes = {
   auth: PropTypes.shape({}),
   showReset: PropTypes.bool,
   onReset: PropTypes.func,
+  onVisibleChange: PropTypes.func,
   error: PropTypes.bool,
 };
 
@@ -163,6 +166,7 @@ PathUrl.defaultProps = {
   showReset: true,
   error: false,
   onReset: () => {},
+  onVisibleChange: () => {},
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

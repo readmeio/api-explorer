@@ -109,14 +109,18 @@ class AuthBox extends Component {
   }
 
   render() {
-    const {securityTypes} = this.props
+    const {securityTypes, onVisibleChange} = this.props
     if (Object.keys(securityTypes).length === 0) return null;
-    
+
     return (
       <Popover
         content={this.renderSecurityBox()}
         style={{padding: 0}}
         trigger={'click'}
+        visible={this.props.open}
+        onVisibleChange={(visibility) => {
+          onVisibleChange(visibility)
+        }}
       >
         {this.renderIconLock()}
       </Popover>
@@ -166,6 +170,7 @@ AuthBox.propTypes = {
   onReset: PropTypes.func,
   showReset: PropTypes.bool,
   intl: PropTypes.shape({}).isRequired,
+  onVisibleChange: PropTypes.func,
 };
 
 AuthBox.defaultProps = {
@@ -177,6 +182,7 @@ AuthBox.defaultProps = {
   onReset: () => {},
   showReset: true,
   securityTypes: {},
+  onVisibleChange: () => {},
 };
 
 module.exports = injectIntl(AuthBox);

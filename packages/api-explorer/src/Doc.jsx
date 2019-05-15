@@ -101,7 +101,7 @@ class Doc extends React.Component {
   onSubmit() {
     const {auth} = this.state
     const operation = this.getOperation();
-    if (!isAuthReady(operation, this.props.auth)) {
+    if (!isAuthReady(operation, auth || this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         if (this.authInput && this.authInput.focus) {
@@ -354,6 +354,9 @@ class Doc extends React.Component {
         loading={this.state.loading}
         onChange={(auth) => this.onAuthChange(auth)}
         showAuthBox={this.state.showAuthBox}
+        onVisibleChange={(visibility) => {
+          this.setState({showAuthBox: visibility})
+        }}
         needsAuth={this.state.needsAuth}
         oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
