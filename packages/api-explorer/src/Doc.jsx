@@ -30,7 +30,6 @@ const Oas = require('./lib/Oas');
 const parseResponse = require('./lib/parse-response');
 const getContentTypeFromOperation = require('./lib/get-content-type')
 
-
 function Description({doc, suggestedEdits, baseUrl, intl}) {
   const description = intl.formatMessage({id: 'doc.description', defaultMessage: 'Description'})
   const decriptionNa = intl.formatMessage({id: 'doc.description.na', defaultMessage: 'Description not available'})
@@ -105,7 +104,9 @@ class Doc extends React.Component {
     if (!isAuthReady(operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
-        this.authInput.focus();
+        if (this.authInput && this.authInput.focus) {
+          this.authInput.focus();
+        }
         this.setState({ needsAuth: true });
       }, 600);
       return false;
@@ -358,8 +359,9 @@ class Doc extends React.Component {
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => {
-          // eslint-disable-next-line no-return-assign
-          return (this.authInput = el);
+          if (el) { 
+            this.authInput = el
+          }
         }}
         auth={this.getCurrentAuth()}
         error={error}

@@ -15,7 +15,6 @@ const types = {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Input extends React.Component {
-  
   render() {
     const style = {
       border: `1px solid ${colors.inputBorder}`,
