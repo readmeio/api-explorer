@@ -92,6 +92,7 @@ it('should return emptystring for anything else', () => {
   expect(getSingle(topLevelUser, { type: 'unknown' })).toBe('');
   expect(getSingle({}, { type: 'http', scheme: 'basic' })).toEqual({ user: '', pass: '' });
   expect(getSingle({}, { type: 'http', scheme: 'bearer' })).toEqual('');
+  expect(getSingle({}, { type: 'http', scheme: 'unknown' })).toEqual('');
   expect(getSingle(keysUser, { type: 'unknown' })).toBe('');
   expect(getSingle(keysUser, { type: 'unknown' }, 'app-2')).toBe('');
 });

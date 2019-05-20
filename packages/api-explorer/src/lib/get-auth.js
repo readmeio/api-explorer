@@ -11,7 +11,7 @@ function getKey(user, scheme) {
       if (scheme.scheme === 'bearer') {
         return user[scheme._key] || user.apiKey || '';
       }
-      break;
+      return '';
     default:
       return '';
   }
