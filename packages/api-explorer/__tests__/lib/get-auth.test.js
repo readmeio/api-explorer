@@ -77,12 +77,16 @@ it('should return selected app from keys array if app provided', () => {
 
 it('should return item by scheme name if no apiKey/user/pass', () => {
   expect(getSingle(topLevelSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key');
-  expect(getSingle(topLevelSchemeUser, { type: 'http', scheme: 'bearer', _key: 'schemeName' })).toBe('scheme-key');
+  expect(
+    getSingle(topLevelSchemeUser, { type: 'http', scheme: 'bearer', _key: 'schemeName' }),
+  ).toBe('scheme-key');
   expect(getSingle(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key-1');
   expect(getSingle(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' }, 'app-2')).toBe(
     'scheme-key-2',
   );
-  expect(getSingle(keysSchemeUser, { type: 'http', scheme: 'basic', _key: 'schemeName' }, 'app-3')).toEqual({
+  expect(
+    getSingle(keysSchemeUser, { type: 'http', scheme: 'basic', _key: 'schemeName' }, 'app-3'),
+  ).toEqual({
     user: 'user',
     pass: 'pass',
   });
