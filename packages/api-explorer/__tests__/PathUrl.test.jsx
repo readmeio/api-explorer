@@ -90,8 +90,8 @@ describe('splitPath()', () => {
   test('should create unique keys for duplicate values', () => {
     expect(splitPath('/{test}/')).toEqual([
       { key: '/-0', type: 'text', value: '/' },
-      { key: 'test-0', type: 'variable', value: 'test' },
-      { key: '/-1', type: 'text', value: '/' },
+      { key: 'test-1', type: 'variable', value: 'test' },
+      { key: '/-2', type: 'text', value: '/' },
     ]);
   });
 });

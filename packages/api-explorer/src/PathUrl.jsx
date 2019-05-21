@@ -9,20 +9,17 @@ const { Operation } = Oas;
 const extensions = require('@readme/oas-extensions');
 
 function splitPath(path) {
-  const keys = [];
   return path
     .split(/({.+?})/)
     .filter(Boolean)
-    .map(part => {
-      return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
-    })
-    .map(part => {
-      // To ensure unique keys, we're going to create a key with
-      // the value concatenated to the count of the value.
-      const keyCount = keys.filter(key => key === part.value).length;
-      keys.push(part.value);
-      part.key = `${part.value}-${keyCount}`;
-      return part;
+    .map((part, i) => {
+      return {
+        type: part.match(/[{}]/) ? 'variable' : 'text',
+        value: part.replace(/[{}]/g, ''),
+        // To ensure unique keys, we're going to create a key
+        // with the value concatenated to its index.
+        key: `${part.replace(/[{}]/g, '')}-${i}`,
+      };
     });
 }
 function PathUrl({
@@ -65,7 +62,8 @@ function PathUrl({
               >
                 {!loading && (
                   <span className="try-it-now-btn">
-                    <span className="fa fa-compass" />&nbsp;
+                    <span className="fa fa-compass" />
+                    &nbsp;
                     <span>Try It</span>
                   </span>
                 )}
@@ -77,8 +75,7 @@ function PathUrl({
 
           <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
 
-          {oas.servers &&
-          oas.servers.length > 0 && (
+          {oas.servers && oas.servers.length > 0 && (
             <span className="definition-url">
               <span className="url">{oas.url()}</span>
               {splitPath(operation.path).map(part => (
