@@ -751,6 +751,69 @@ describe('body values', () => {
     ).toEqual(JSON.stringify(true));
   });
 
+  it('should work for top level falsy primitives', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+        { body: '' },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(''));
+
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'integer',
+                  format: 'int64',
+                },
+              },
+            },
+          },
+        },
+        { body: 0 },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(0));
+
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+        },
+        { body: false },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(false));
+  });
+
   describe('`json` type', () => {
     it('should work for refs that require a lookup', () => {
       expect(
@@ -878,6 +941,38 @@ describe('body values', () => {
           },
         },
         { body: { a: { b: undefined, c: { d: undefined } } } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(undefined);
+  });
+
+  // When we first render the form, formData.body is undefined
+  // until something is typed into the form. When using anyOf/oneOf
+  // if we change the schema before typing anything into the form,
+  // then onChange is fired with `undefined` which causes
+  // this to error
+  it('should not error if `formData.body` is undefined', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: undefined },
       ).log.entries[0].request.postData.text,
     ).toEqual(undefined);
   });
