@@ -5,7 +5,6 @@
   "main": "index.jsx",
   "dependencies": {
     "classnames": "^2.2.6",
-    "prop-types": "^15.6.2",
     "react": "^16.4.2"
   },
   "scripts": {
@@ -31,6 +30,7 @@
     "eslint-plugin-react": "^7.10.0",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.7",
-    "prettier": "^1.14.0"
+    "prettier": "^1.14.0",
+    "prop-types": "^15.7.2"
   }
 }
