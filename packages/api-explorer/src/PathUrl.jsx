@@ -62,8 +62,7 @@ function PathUrl({
               >
                 {!loading && (
                   <span className="try-it-now-btn">
-                    <span className="fa fa-compass" />
-                    &nbsp;
+                    <span className="fa fa-compass" />&nbsp;
                     <span>Try It</span>
                   </span>
                 )}
@@ -75,7 +74,8 @@ function PathUrl({
 
           <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
 
-          {oas.servers && oas.servers.length > 0 && (
+          {oas.servers &&
+          oas.servers.length > 0 && (
             <span className="definition-url">
               <span className="url">{oas.url()}</span>
               {splitPath(operation.path).map(part => (
