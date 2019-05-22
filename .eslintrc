@@ -5,5 +5,10 @@
   },
   "rules": {
     "no-underscore-dangle": ["error", { "allow": ["_cache", "_id", "_key"] }]
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   }
 }

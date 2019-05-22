@@ -1,4 +1,5 @@
-const React = require('react');
+import React from 'react';
+
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@mia-platform/oas-extensions');
@@ -409,5 +410,60 @@ describe('stripSlash', () => {
     );
     const renderDocs = explorer.find('Doc')
     expect(renderDocs.prop('stripSlash')).toEqual(false)
+  })
+})
+
+describe('forcePanelRender', () => {
+  it('should default to false', () => {
+    const explorer = mount(<ApiExplorer {...props} />)
+    expect(explorer.prop('forcePanelRender')).toBe(false)
+  })
+
+  it('should provide false to Ant.d Collapse.Panel components', () => {
+    const baseDoc = {
+      _id: 1,
+      title: 'title',
+      slug: 'slug',
+      type: 'endpoint',
+      category: {},
+      api: { method: 'get' },
+    };
+
+    const explorer = mount(
+      <ApiExplorer 
+        {...props}
+        forcePanelRender={false}
+        docs={[Object.assign({}, baseDoc, {
+          swagger: { path: '' },
+          category: { apiSetting: 'api-setting' } 
+        })]}
+      />
+    );
+    
+    explorer.find('CollapsePanel').map(panel => expect(panel.prop('forceRender')).toEqual(false))
+  })
+
+  it('should provide true to Ant.d Collapse.Panel components', () => {
+    const baseDoc = {
+      _id: 1,
+      title: 'title',
+      slug: 'slug',
+      type: 'endpoint',
+      category: {},
+      api: { method: 'get' },
+    };
+
+    const explorer = mount(
+      <ApiExplorer 
+        {...props}
+        forcePanelRender
+        docs={[Object.assign({}, baseDoc, {
+          swagger: { path: '' },
+          category: { apiSetting: 'api-setting' } 
+        })]}
+      />
+    );
+    
+    explorer.find('CollapsePanel').map(panel => expect(panel.prop('forceRender')).toEqual(true))
   })
 })

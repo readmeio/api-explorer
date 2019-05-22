@@ -63,6 +63,8 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
             fallbackUrl={window.origin}
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
             stripSlash={false}
+            defaultOpen={false}
+            forcePanelRender
           />
         )
       }

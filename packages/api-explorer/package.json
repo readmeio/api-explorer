@@ -67,6 +67,7 @@
   },
   "peerDependencies": {
     "antd": "3.16.x",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "react": "^16.8.6"
   }
 }
