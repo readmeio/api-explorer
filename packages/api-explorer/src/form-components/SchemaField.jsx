@@ -12,7 +12,7 @@ function getDefaultNumFormat(type) {
 function doesFormatExist(widgets, type, format) {
   const availableFormats = Object.keys(widgets);
 
-  return type === 'string' && availableFormats.includes(format);
+  return typeof type === 'string' && availableFormats.includes(format);
 }
 
 function isNumType(schema, type, format) {

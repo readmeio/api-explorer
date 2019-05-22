@@ -178,10 +178,11 @@ function renderParams(schema, customProps) {
 }
 
 function testNumberClass(schema) {
+  const clonedSchema = JSON.parse(JSON.stringify(schema));
   test(`${JSON.stringify(schema)} should have correct class`, () => {
     const params = renderParams(schema);
 
-    expect(params.find(`.field-${schema.type}.field-${schema.format}`).length).toBe(1);
+    expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`).length).toBe(1);
   });
 }
 
