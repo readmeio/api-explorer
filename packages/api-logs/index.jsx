@@ -146,6 +146,7 @@ class Logs extends React.Component {
 
     return logs.map(log => {
       const entry = log.request.log.entries[0];
+      /* eslint-disable react/jsx-no-bind */
       return (
         <tr onClick={this.visitLogItem.bind(this, log)} key={log._id}>
           <td>{entry.request.method}</td>

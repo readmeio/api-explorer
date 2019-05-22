@@ -12,8 +12,14 @@ function splitPath(path) {
   return path
     .split(/({.+?})/)
     .filter(Boolean)
-    .map(part => {
-      return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
+    .map((part, i) => {
+      return {
+        type: part.match(/[{}]/) ? 'variable' : 'text',
+        value: part.replace(/[{}]/g, ''),
+        // To ensure unique keys, we're going to create a key
+        // with the value concatenated to its index.
+        key: `${part.replace(/[{}]/g, '')}-${i}`,
+      };
     });
 }
 function PathUrl({
@@ -73,7 +79,7 @@ function PathUrl({
             <span className="definition-url">
               <span className="url">{oas.url()}</span>
               {splitPath(operation.path).map(part => (
-                <span key={part.value} className={`api-${part.type}`}>
+                <span key={part.key} className={`api-${part.type}`}>
                   {part.value}
                 </span>
               ))}

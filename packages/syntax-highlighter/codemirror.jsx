@@ -26,7 +26,7 @@ function getMode(lang) {
     // lang = mode;
     if (Array.isArray(mode)) {
       // lang = mode[0];
-      mode = mode[1];
+      [, mode] = mode;
     }
   }
 

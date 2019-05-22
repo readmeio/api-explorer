@@ -4,7 +4,14 @@ function getKey(user, scheme) {
     case 'apiKey':
       return user[scheme._key] || user.apiKey || '';
     case 'http':
-      return user[scheme._key] || { user: user.user || '', pass: user.pass || '' };
+      if (scheme.scheme === 'basic') {
+        return user[scheme._key] || { user: user.user || '', pass: user.pass || '' };
+      }
+
+      if (scheme.scheme === 'bearer') {
+        return user[scheme._key] || user.apiKey || '';
+      }
+      return '';
     default:
       return '';
   }

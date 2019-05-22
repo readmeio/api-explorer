@@ -269,6 +269,7 @@ class Doc extends React.Component {
   }
 
   renderPathUrl() {
+    /* eslint-disable no-return-assign */
     return (
       <PathUrl
         oas={this.oas}
