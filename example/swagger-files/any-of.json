@@ -50,7 +50,7 @@
         }
       }
     },
-    "/anything//any-of-primitive": {
+    "/anything/any-of-primitive": {
       "post": {
         "summary": "anyOf primitive",
         "description": "",
