@@ -86,4 +86,12 @@ describe('splitPath()', () => {
       4,
     );
   });
+
+  test('should create unique keys for duplicate values', () => {
+    expect(splitPath('/{test}/')).toEqual([
+      { key: '/-0', type: 'text', value: '/' },
+      { key: 'test-1', type: 'variable', value: 'test' },
+      { key: '/-2', type: 'text', value: '/' },
+    ]);
+  });
 });

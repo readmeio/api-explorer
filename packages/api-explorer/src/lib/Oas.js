@@ -5,8 +5,7 @@ class Operation {
   constructor(oas, path, method, operation) {
     Object.assign(this, operation);
     this.oas = oas;
-    // strips trailing slash
-    this.path = path.endsWith('/') ? path.slice(0, -1) : path;
+    this.path = path;
     this.method = method;
   }
 
