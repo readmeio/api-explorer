@@ -1,7 +1,7 @@
 {
   "name": "@mia-platform/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "5.4.2",
+  "version": "5.5.0",
   "main": "dist/index.js",
   "dependencies": {
     "@mia-platform/markdown": "^5.0.4",
@@ -66,8 +66,8 @@
     "webpack-merge": "^4.1.1"
   },
   "peerDependencies": {
-    "antd": "3.16.x",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "antd": "3.16.x",
     "react": "^16.8.6"
   }
 }
