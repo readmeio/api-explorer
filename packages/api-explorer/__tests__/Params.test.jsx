@@ -178,7 +178,7 @@ function renderParams(schema, customProps) {
 }
 
 function testNumberClass(schema) {
-  const clonedSchema = JSON.parse(JSON.stringify(schema))
+  const clonedSchema = JSON.parse(JSON.stringify(schema));
   test(`${JSON.stringify(schema)} should have correct class`, () => {
     const params = renderParams(schema);
 
