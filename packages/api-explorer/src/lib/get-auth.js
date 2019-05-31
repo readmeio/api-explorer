@@ -17,7 +17,7 @@ function getKey(user, scheme) {
   }
 }
 
-function getSingle(user, scheme = {}, selectedApp = false) {
+function getSingle(user, scheme = {}, selectedApp) {
   if (user.keys) {
     if (selectedApp) return getKey(user.keys.find(key => key.name === selectedApp), scheme);
     return getKey(user.keys[0], scheme);
@@ -26,7 +26,7 @@ function getSingle(user, scheme = {}, selectedApp = false) {
   return getKey(user, scheme);
 }
 
-function getAuth(user, oasFiles) {
+function getAuth(user, oasFiles, selectedApp = false) {
   return Object.keys(oasFiles)
     .map(id => {
       const oas = oasFiles[id];
@@ -43,6 +43,7 @@ function getAuth(user, oasFiles) {
             [scheme]: getSingle(
               user,
               Object.assign({}, oas.components.securitySchemes[scheme], { _key: scheme }),
+              selectedApp,
             ),
           };
         })

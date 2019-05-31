@@ -28,7 +28,6 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      auth: getAuth(this.props.variables.user, this.props.oasFiles),
     };
   }
 
@@ -99,7 +98,7 @@ class ApiExplorer extends React.Component {
                         oauth={this.props.oauth}
                         suggestedEdits={this.props.suggestedEdits}
                         tryItMetrics={this.props.tryItMetrics}
-                        auth={this.state.auth}
+                        auth={getAuth(this.props.variables.user, this.props.oasFiles, this.state.selectedApp.selected)}
                         onAuthChange={this.onAuthChange}
                       />
                     </SelectedAppContext.Provider>

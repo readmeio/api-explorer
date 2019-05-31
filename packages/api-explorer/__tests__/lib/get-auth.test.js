@@ -15,6 +15,13 @@ it('should fetch all auths from the OAS files', () => {
   });
 });
 
+it('should fetch auths from selected app', () => {
+  const user = { keys: [{ oauthScheme: '111', name: 'app-1' }, { oauthScheme: '222', name: 'app-2' }] };
+  expect(
+    getAuth(user, { 'api-setting': oas }, 'app-2').oauthScheme,
+  ).toEqual('222');
+});
+
 it('should not error if oas.components is not set', () => {
   expect(() => {
     getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': {} });
