@@ -174,7 +174,7 @@ module.exports = (
 
   function stringify(json) {
     // Default to JSON.stringify
-    return JSON.stringify(
+    har.postData.text = JSON.stringify(
       removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json),
     );
   }
@@ -203,23 +203,20 @@ module.exports = (
           // We have to clone the body object, otherwise the form
           // will attempt to re-render with an object, which will
           // cause it to error!
-          let cloned = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
+          const cloned = JSON.parse(JSON.stringify(formData.body));
           jsonTypes.forEach(prop => {
             // Attempt to JSON parse each of the json properties
             // if this errors, it'll just get caught and stringify it normally
             cloned[prop] = JSON.parse(cloned[prop]);
           });
-          if (typeof cloned.RAW_BODY !== 'undefined') {
-            cloned = cloned.RAW_BODY;
-          }
-          har.postData.text = JSON.stringify(cloned);
+          stringify(cloned);
         } else {
-          har.postData.text = stringify(formData.body);
+          stringify(formData.body);
         }
       } catch (e) {
         // If anything goes wrong in the above, assume that it's invalid JSON
         // and stringify it
-        har.postData.text = stringify(formData.body);
+        stringify(formData.body);
       }
     }
   }
