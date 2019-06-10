@@ -903,6 +903,35 @@ describe('body values', () => {
         ).log.entries[0].request.postData.text,
       ).toEqual(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
     });
+
+    it('should leave user specified empty object JSON alone', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'post',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                        format: 'json',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: { a: '{}' } },
+        ).log.entries[0].request.postData.text,
+      ).toEqual(JSON.stringify({ a: {} }));
+    });
   });
 
   it('should not include objects with undefined sub properties', () => {
