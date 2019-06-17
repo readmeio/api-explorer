@@ -125,7 +125,7 @@ class CodeSample extends React.Component {
         </div>
         {
           snippet && (
-          <div>
+          <div style={{maxHeight: '400px', overflow: 'hidden scroll'}}>
             <pre className={`tomorrow-night hub-lang hub-lang-${language}`} style={snippetStyle}>{snippet}</pre>
           </div>
           )

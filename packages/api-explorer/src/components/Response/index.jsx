@@ -57,20 +57,22 @@ class Response extends React.Component {
 
     return (
       <div>
-        {result !== null ? (
-          <BlockWithTab
-            items={itemsResult}
-            selected={responseTab}
-            onClick={this.setTab} 
-          >
-            {responseTab === 'result' && (
-            <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
-              )}
-            {responseTab === 'metadata' && <ResponseMetadata result={result} />}
-          </BlockWithTab>
-        ) : (
-          <div style={placeholderStyle}>Try the API to see Results</div>
-        )}
+        {
+          result !== null ? (
+            <BlockWithTab
+              items={itemsResult}
+              selected={responseTab}
+              onClick={this.setTab} 
+            >
+              <div  style={{maxHeight: '400px', overflow: 'hidden scroll'}}>
+                {responseTab === 'result' && <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />}
+                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+              </div>
+            </BlockWithTab>
+          ) : (
+            <div style={placeholderStyle}>Try the API to see Results</div>
+          )
+        }
       </div>
     );
   }
