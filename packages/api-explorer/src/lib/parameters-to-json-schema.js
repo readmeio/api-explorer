@@ -16,7 +16,14 @@ function getBodyParam(pathOperation, oas) {
 
   if (!schema) return null;
 
-  const type = schema.type === 'application/x-www-form-urlencoded' ? 'formData' : 'body';
+  let type = 'body'
+  switch(schema.type) {
+    case 'application/x-www-form-urlencoded':
+    case 'multipart/form-data':
+      type = 'formData'
+      break
+    default:
+  }
 
   return {
     type,

@@ -1,3 +1,5 @@
+import MultipartFormData from './multipart-form-data'
+
 const querystring = require('querystring');
 
 const getSchema = require('./get-schema');
@@ -170,9 +172,38 @@ module.exports = (
   }
 
   if (schema.schema && Object.keys(schema.schema).length) {
-    // If there is formData, then the type is application/x-www-form-urlencoded
+    // If there is formData, then the type can be application/x-www-form-urlencoded or
+    // multipart/form-data. For the latter we're still going to generate the har information
+    // used in the code snippet but the actual request will be generated in another lib file.
     if (Object.keys(formData.formData).length) {
-      har.postData.text = querystring.stringify(formData.formData);
+      if (contentType === 'multipart/form-data') {
+        const data = new MultipartFormData()
+
+        Object.keys(formData.formData).forEach((key) => {
+          const dataString = formData.formData[key]
+          if (dataString) {
+            // Explode data string
+            const actualData = dataString.split('base64,')[1]
+            const type = dataString.split(';')[0].split('=')[1]
+            const filename = dataString.split(';')[1].split('=')[1]
+            data.append(key, {
+              data: actualData,
+              contentType: type,
+              filename,
+            })
+          }
+        })
+
+        const multipartData = data.generate()
+        har.postData.text = multipartData.body
+
+        // WARNING! I'm updating the provided contentType argument, this is bad practice
+        // but as of now it's the only way to push forward the updated Content-Type value
+        // featuring the boundary. 
+        contentType = multipartData.headers['Content-Type'] // eslint-disable-line
+      } else {
+        har.postData.text = querystring.stringify(formData.formData);
+      }
     } else if (isPrimitive(formData.body) || Object.keys(formData.body).length) {
       try {
         // Find all `{ type: string, format: json }` properties in the schema

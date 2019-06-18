@@ -92,7 +92,7 @@ class CodeSample extends React.Component {
   }
   */
 
-  renderCodeWithListSection(snippet, code, languagesList, setLanguage){
+  renderCodeWithListSection(snippet, code, languagesList, setLanguage) {
     const {language} = this.props
     const ctaContainerStyle = {
       borderTop: '2px solid #fff',

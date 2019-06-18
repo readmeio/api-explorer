@@ -1,3 +1,4 @@
+import {FormattedMessage} from 'react-intl'
 import BlockWithTab from '../BlockWithTab'
 import IconStatus from '../../IconStatus'
 
@@ -70,7 +71,9 @@ class Response extends React.Component {
               </div>
             </BlockWithTab>
           ) : (
-            <div style={placeholderStyle}>Try the API to see Results</div>
+            <div style={placeholderStyle}>
+              <FormattedMessage id="tryit" defaultMessage="Try the API to see Results" />
+            </div>
           )
         }
       </div>

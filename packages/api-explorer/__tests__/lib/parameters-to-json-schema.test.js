@@ -138,6 +138,38 @@ test('it should work for request body inline (formData)', () => {
   ]);
 });
 
+it('should work for multipart request body (formData)', () => {
+  expect(
+    parametersToJsonSchema(
+      {
+        requestBody: {
+          description: 'Form data description',
+          content: {
+            'multipart/form-data': {
+              schema: {
+                type: 'object',
+                properties: { a: { type: 'string' } },
+              },
+            },
+          },
+        },
+      },
+      {},
+    ),
+  ).toEqual([
+    {
+      label: 'Form Data',
+      type: 'formData',
+      schema: {
+        type: 'object',
+        properties: {
+          a: { type: 'string' },
+        },
+      },
+    },
+  ]);
+});
+
 test('should pass through enum', () => {
   expect(
     parametersToJsonSchema({

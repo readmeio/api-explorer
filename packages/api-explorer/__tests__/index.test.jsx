@@ -37,7 +37,7 @@ test.skip('ApiExplorer renders a single doc', () => {
 test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
   // Prompting an error with an array of nulls instead of Docs
   // This is to simulate some unknown error state during initial render
-  const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
+  const explorer = shallow(<WrappedApiExplorer {...props} docs={[null, null]} />);
 
   expect(explorer.find('ErrorBoundary').length).toBe(1);
 });
@@ -122,7 +122,7 @@ describe('oas', () => {
           'api-setting': oas,
         }}
         docs={[Object.assign({}, baseDoc, {
-          swagger: { path: '' },
+          swagger: { path: '/pet' },
           category: { apiSetting: 'api-setting' } 
         })]}
       />,
@@ -145,7 +145,7 @@ describe('oas', () => {
         docs={[
           Object.assign({}, baseDoc, {
             api: { method: 'get', apiSetting: { _id: 'api-setting' } },
-            swagger: { path: '' }, 
+            swagger: { path: '/pet' }, 
           }),
         ]}
       />,
@@ -166,7 +166,7 @@ describe('oas', () => {
         }}
         docs={[
           Object.assign({}, baseDoc, {
-            swagger: { path: '' }, 
+            swagger: { path: '/pet' }, 
             api: { method: 'get', apiSetting: 'api-setting' },
           }),
         ]}
@@ -350,7 +350,7 @@ describe('fallbackUrl', () => {
         {...props}
         fallbackUrl={fallback}
         docs={[Object.assign({}, baseDoc, {
-          swagger: { path: '' },
+          swagger: { path: '/pet' },
           category: { apiSetting: 'api-setting' } 
         })]}
       />
@@ -371,14 +371,14 @@ describe('CollapsePanel', () => {
           slug: 'slug',
           type: 'endpoint',
           api: { method: 'get' },
-          swagger: { path: '/some-path' },
+          swagger: { path: '/pet' },
           category: { apiSetting: 'api-setting' }
         }]}
       />
     );
 
     const panel = explorer.find('CollapsePanel div.ant-collapse-header b')
-    expect(panel.text()).toEqual('/some-path')
+    expect(panel.text()).toEqual('/pet')
   })
 })
 
@@ -403,7 +403,7 @@ describe('stripSlash', () => {
         {...props}
         stripSlash={false}
         docs={[Object.assign({}, baseDoc, {
-          swagger: { path: '' },
+          swagger: { path: '/pet' },
           category: { apiSetting: 'api-setting' } 
         })]}
       />
@@ -434,7 +434,7 @@ describe('forcePanelRender', () => {
         {...props}
         forcePanelRender={false}
         docs={[Object.assign({}, baseDoc, {
-          swagger: { path: '' },
+          swagger: { path: '/pet' },
           category: { apiSetting: 'api-setting' } 
         })]}
       />
@@ -458,7 +458,7 @@ describe('forcePanelRender', () => {
         {...props}
         forcePanelRender
         docs={[Object.assign({}, baseDoc, {
-          swagger: { path: '' },
+          swagger: { path: '/pet' },
           category: { apiSetting: 'api-setting' } 
         })]}
       />
