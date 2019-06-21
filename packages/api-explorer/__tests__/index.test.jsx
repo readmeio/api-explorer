@@ -219,6 +219,49 @@ describe('auth', () => {
     expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
   });
 
+  it('should disable lazy render first 5 projects', () => {
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const { lazyHash } = explorer.instance();
+    expect(lazyHash[0]).toEqual(false);
+    expect(lazyHash[1]).toEqual(false);
+    expect(lazyHash[2]).toEqual(false);
+    expect(lazyHash[3]).toEqual(false);
+    expect(lazyHash[4]).toEqual(false);
+  });
+
+  it('should disable lazy render middle 5 projects', () => {
+    // somewhere in the middle of props.docs
+    window.history.pushState({}, '', '/#user-createWithArray');
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const instance = explorer.instance();
+    const slugs = instance.props.docs.map(x => x.slug);
+    const centerIdx = slugs.indexOf('user-createWithArray');
+
+    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
+  });
+
+  it('should disable lazy render for last 5 projects', () => {
+    // last doc in props.docs
+    window.history.pushState({}, '', '/#user-username');
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const instance = explorer.instance();
+    const slugs = instance.props.docs.map(x => x.slug);
+    const centerIdx = slugs.indexOf('user-username');
+
+    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
+  });
+
   it('should default to empty string', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
