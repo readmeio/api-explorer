@@ -163,11 +163,26 @@ describe('Response body', () => {
 
   test('should display message if OAuth is incorrect or expired without oauth', () => {
     const responseBody = mount(<IntlProvider><ResponseBody {...oauthInvalidResponse} oas={oas} /></IntlProvider>);
+    expect(responseBody.findWhere(node => node.prop('id') === 'api.oauth2.invalid')).toHaveLength(1);
+  });
 
-    expect(responseBody.find('.hub-expired-token').length).toEqual(1);
+  test('should display Result result.responseBody is set', () => {
+    const responseBody = mount(<IntlProvider><ResponseBody {...oauthInvalidResponse} oas={oas} /></IntlProvider>);
+    expect(responseBody.find('Result')).toHaveLength(1);
+  });
 
-    const message = responseBody.find('FormattedMessage');
-    expect(message.prop('id')).toEqual('api.oauth2.invalid');
+  test('should not display Result result.responseBody is not set', () => {
+    const responseBody = mount(<IntlProvider><ResponseBody
+      operation={oas.operation('/pet', 'post')}
+      isOauth
+      oauth={false}
+      result={{
+        status: 401,
+        responseBody: null
+      }}
+      oas={oas}
+    /></IntlProvider>);
+    expect(responseBody.find('Result')).toHaveLength(0);
   });
 
   test('should display message if OAuth is expired with oauth', () => {

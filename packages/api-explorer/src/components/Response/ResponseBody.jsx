@@ -1,4 +1,5 @@
 import {FormattedMessage} from 'react-intl';
+import { Fragment } from 'react';
 
 import colors from '../../colors'
 
@@ -9,21 +10,21 @@ const ReactJson = require('react-json-view').default;
 const contentTypeIsJson = require('../../lib/content-type-is-json');
 const oauthHref = require('../../lib/oauth-href');
 
-function Authorized({ result }) {
+const notJsonStyle = {
+  fontSize: 12,
+  fontFamily: 'Monaco, "Lucida Console", monospace',
+  border: 0,
+  background: 'transparent',
+  padding: '0 30px',
+  overflow: 'visible',
+  whiteSpace: 'pre-wrap',
+  wordBreak: 'break-all',
+  color: colors.notJson
+}
+
+function Result({ result }) {
   const isJson =
     result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
-
-  const notJsonStyle = {
-    fontSize: 12,
-    fontFamily: 'Monaco, "Lucida Console", monospace',
-    border: 0,
-    background: 'transparent',
-    padding: '0 30px',
-    overflow: 'visible',
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-all',
-    color: colors.notJson
-  }
 
   return (
     <div>
@@ -62,7 +63,7 @@ function Authorized({ result }) {
   );
 }
 
-Authorized.propTypes = {
+Result.propTypes = {
   result: PropTypes.shape({}).isRequired,
 };
 
@@ -79,17 +80,23 @@ function hasOauth(oauth) {
   );
 }
 
-function Unauthorized({ isOauth, oauth }) {
+function Unauthorized({ result, isOauth, oauth }) {
   return (
-    <div className="text-center hub-expired-token">
-      {isOauth ? hasOauth(oauth) : <p><FormattedMessage id="api.auth.failed" defaultMessage="You couldn't be authenticated" /></p>}
-    </div>
+    <Fragment>
+      <div style={notJsonStyle}>
+        {isOauth ? hasOauth(oauth) : <p><FormattedMessage id="api.auth.failed" defaultMessage="You couldn't be authenticated" /></p>}
+      </div>
+      {
+        result.responseBody ? <Result result={result} /> : null
+      }
+    </Fragment>
   );
 }
 
 Unauthorized.propTypes = {
   isOauth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
+  result: PropTypes.shape({}).isRequired
 };
 
 Unauthorized.defaultProps = {
@@ -100,14 +107,14 @@ Unauthorized.defaultProps = {
 function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div style={{ display: 'block'}}>
-      {result.status !== 401 && <Authorized result={result} />}
-      {result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />}
+      {result.status !== 401 && <Result result={result} />}
+      {result.status === 401 && <Unauthorized result={result} isOauth={isOauth} oauth={oauth} />}
     </div>
   );
 }
 
 module.exports = ResponseBody;
 
-ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Authorized.propTypes);
+ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Result.propTypes);
 
 ResponseBody.defaultProps = Unauthorized.defaultProps;
