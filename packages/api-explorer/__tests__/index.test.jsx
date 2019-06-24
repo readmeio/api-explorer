@@ -220,16 +220,11 @@ describe('auth', () => {
   });
 
   it('should return nothing for lazy + `splitReferenceDocs`', () => {
-    const explorer = shallow(
-      <ApiExplorer
-        {...props}
-        appearance={{ splitReferenceDocs: true }}
-      />,
-    );
+    const explorer = shallow(<ApiExplorer {...props} appearance={{ splitReferenceDocs: true }} />);
 
     const { lazyHash } = explorer.instance();
     expect(lazyHash).toEqual({});
-  })
+  });
 
   it('should disable lazy render first 5 projects', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
