@@ -228,6 +228,7 @@ describe('auth', () => {
     expect(lazyHash[2]).toEqual(false);
     expect(lazyHash[3]).toEqual(false);
     expect(lazyHash[4]).toEqual(false);
+    expect(lazyHash[5]).toEqual(true);
   });
 
   it('should disable lazy render middle 5 projects', () => {
@@ -239,11 +240,13 @@ describe('auth', () => {
     const slugs = instance.props.docs.map(x => x.slug);
     const centerIdx = slugs.indexOf('user-createWithArray');
 
+    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
     expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
     expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
     expect(instance.lazyHash[centerIdx]).toEqual(false);
     expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
     expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 3]).toEqual(true);
   });
 
   it('should disable lazy render for last 5 projects', () => {
@@ -255,6 +258,7 @@ describe('auth', () => {
     const slugs = instance.props.docs.map(x => x.slug);
     const centerIdx = slugs.indexOf('user-username');
 
+    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
     expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
     expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
     expect(instance.lazyHash[centerIdx]).toEqual(false);
