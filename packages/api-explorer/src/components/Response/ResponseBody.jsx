@@ -80,15 +80,13 @@ function hasOauth(oauth) {
   );
 }
 
-function Unauthorized({ result, isOauth, oauth }) {
+function Unauthorized({ isOauth, oauth }) {
   return (
     <Fragment>
       <div style={notJsonStyle}>
         {isOauth ? hasOauth(oauth) : <p><FormattedMessage id="api.auth.failed" defaultMessage="You couldn't be authenticated" /></p>}
       </div>
-      {
-        result.responseBody ? <Result result={result} /> : null
-      }
+      
     </Fragment>
   );
 }
@@ -107,8 +105,14 @@ Unauthorized.defaultProps = {
 function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div style={{ display: 'block'}}>
-      {result.status !== 401 && <Result result={result} />}
-      {result.status === 401 && <Unauthorized result={result} isOauth={isOauth} oauth={oauth} />}
+      {
+        result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />
+      }
+      {
+        result.responseBody ? <Result result={result} /> 
+        : <FormattedMessage id={'response.noBody'} default={'The response has no body'} />
+      }
+      
     </div>
   );
 }

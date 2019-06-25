@@ -1,4 +1,5 @@
 {
   "doc.definition": "Definition",
-  "tryit": "Try the API to see Results"
+  "tryit": "Try the API to see Results",
+  "response.noBody": "The response has no body"
 }
