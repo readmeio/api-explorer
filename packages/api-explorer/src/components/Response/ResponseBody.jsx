@@ -86,7 +86,6 @@ function Unauthorized({ isOauth, oauth }) {
       <div style={notJsonStyle}>
         {isOauth ? hasOauth(oauth) : <p><FormattedMessage id="api.auth.failed" defaultMessage="You couldn't be authenticated" /></p>}
       </div>
-      
     </Fragment>
   );
 }
@@ -111,8 +110,7 @@ function ResponseBody({ result, isOauth, oauth }) {
       {
         result.responseBody ? <Result result={result} /> 
         : <FormattedMessage id={'response.noBody'} default={'The response has no body'} />
-      }
-      
+      } 
     </div>
   );
 }
