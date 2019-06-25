@@ -132,8 +132,14 @@ test('should return with null if postData is undefined', async () => {
 
 test('should return array for response headers', async () => {
   expect((await parseResponse(har, response)).responseHeaders).toEqual([
-    'content-type: application/json',
-    'x-custom-header: application/json',
+    {
+      name: 'content-type',
+      value: 'application/json'
+    },
+    {
+      name: 'x-custom-header',
+      value: 'application/json'
+    },
   ]);
 });
 
@@ -155,7 +161,10 @@ test('should remove x-final-url header set by the proxy', async () => {
         headers: { 'x-final-url': 'http://example.com' },
       }),
     )).responseHeaders,
-  ).toEqual(['content-type: text/plain;charset=UTF-8']);
+  ).toEqual([{
+    name:'content-type', 
+    value: 'text/plain;charset=UTF-8'
+  }]);
 });
 
 test('should pass through status', async () => {

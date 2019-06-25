@@ -47,7 +47,30 @@ Meta.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+
 function ResponseMetadata({ result, intl }) {
+
+  const style = {
+    headersContainer: {
+      display: 'grid',
+      gridGap: 5
+    },
+    headerName: {
+      fontStyle: 'italic',
+      paddingRight: 5,
+      fontSize: 10
+    },
+    headerValue: {
+      fontWeight: 'bold',
+      fontSize: 12,
+      wordBreak: 'break-all'
+    },
+    headerRow: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: '3px 5px'
+    }
+  }
   return (
     <div style={{ display: 'block' }}>
       <Meta label={intl.formatMessage({id: 'api.method', defaultMessage: 'Method'})}>
@@ -77,7 +100,17 @@ function ResponseMetadata({ result, intl }) {
       </Meta>
 
       <Meta label={intl.formatMessage({id: 'api.response.headers', defaultMessage: 'Response Headers'})}>
-        {result.responseHeaders.join('\n')}
+        <div style={style.headersContainer}>
+
+          {result.responseHeaders.map(header => {
+            return (
+              <div style={style.headerRow}>
+                <span style={style.headerName}>{header.name}</span>
+                <span style={style.headerValue}>{header.value}</span>
+              </div>
+            )
+          })}
+        </div>
       </Meta>
     </div>
   );

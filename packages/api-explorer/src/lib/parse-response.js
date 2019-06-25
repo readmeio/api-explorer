@@ -46,7 +46,6 @@ async function parseResponse(har, response) {
   const querystring = getQuerystring(har);
   const responseHeaders = Array.from(response.headers.entries());
   const type = responseHeaders.find(([header]) => header === 'content-type');
-
   return {
     method: har.log.entries[0].request.method,
     requestHeaders: har.log.entries[0].request.headers.map(
@@ -54,8 +53,8 @@ async function parseResponse(har, response) {
     ),
     requestBody: getRequestBody(har),
     responseHeaders: responseHeaders
-      .map(header => header.join(': '))
-      .filter(header => !header.match(/x-final-url/i)),
+      .filter(header => !header[0].match(/x-final-url/i))
+      .map(header => ({name: header[0], value: header[1]})),
     type: type ? type[1] : null,
     isBinary: !!(contentDisposition && contentDisposition.match(/attachment/)),
     url: har.log.entries[0].request.url.replace('https://try.readme.io/', '') + querystring,

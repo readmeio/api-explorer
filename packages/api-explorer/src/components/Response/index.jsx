@@ -55,7 +55,7 @@ class Response extends React.Component {
       fontStyle: 'italic',
       fontSize: '14px',
     }
-
+   
     return (
       <div>
         {
