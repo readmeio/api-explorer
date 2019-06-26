@@ -219,6 +219,25 @@ test('it should pass through type for non-body parameters', () => {
   ).toEqual('boolean');
 });
 
+test('it should pass through type for non-body parameters that are arrays', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'options',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+    })[0].schema.properties.options.type,
+  ).toEqual('array');
+});
+
 test('it should pass through format', () => {
   expect(
     parametersToJsonSchema({
@@ -395,4 +414,38 @@ test('it should fetch $ref parameters', () => {
       oas,
     )[0].schema.properties.param,
   ).toEqual(oas.components.parameters.Param.schema);
+});
+
+test('it should fetch parameters that have a child $ref', () => {
+  const oas = {
+    components: {
+      schemas: {
+        string_enum: {
+          name: 'string',
+          enum: ['available', 'pending', 'sold'],
+          type: 'string',
+        },
+      },
+    },
+  };
+
+  expect(
+    parametersToJsonSchema(
+      {
+        parameters: [
+          {
+            in: 'query',
+            name: 'param',
+            schema: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/string_enum',
+              },
+            },
+          },
+        ],
+      },
+      oas,
+    )[0].schema.properties.param.items,
+  ).toEqual(oas.components.schemas.string_enum);
 });

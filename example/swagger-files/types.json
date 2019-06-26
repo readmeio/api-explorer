@@ -59,12 +59,21 @@
                     "format": "string"
                   },
                   "string (format: url)": {
-                      "type": "string",
-                      "format": "url"
+                    "type": "string",
+                    "format": "url"
                   },
                   "string (format: unknown-format)": {
                     "type": "string",
                     "format": "unknown-format"
+                  },
+                  "string (enum)": {
+                    "type": "string",
+                    "enum": ["available", "pending", "sold"]
+                  },
+                  "string (enum, with default)": {
+                    "type": "string",
+                    "enum": ["available", "pending", "sold"],
+                    "default": "available"
                   },
                   "integer": {
                     "type": "integer",
@@ -103,6 +112,18 @@
                   },
                   "boolean without description": {
                     "type": "boolean"
+                  },
+                  "array (of strings)": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "array (with a $ref)": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/string_enum"
+                    }
                   },
                   "object": {
                     "type": "object",
@@ -400,6 +421,17 @@
   "x-samples-enabled": true,
   "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
   "components": {
+    "schemas": {
+      "string_enum": {
+        "name": "string",
+        "enum": [
+          "available",
+          "pending",
+          "sold"
+        ],
+        "type": "string"
+      }
+    },
     "requestBodies": {
       "Circular": {
         "type": "object",
