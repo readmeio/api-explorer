@@ -1,0 +1,70 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://httpbin.org"
+    }
+  ],
+  "info": {
+    "version": "1.0.0",
+    "title": "An example of how we render $ref usage on resource parameters"
+  },
+  "paths": {
+    "/anything": {
+      "get": {
+        "summary": "Query param with a child $ref",
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "array (with a $ref)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/string_enum"
+              }
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "summary": "Query param pointing to a $ref",
+        "description": "",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limitParam"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "limitParam": {
+        "in": "query",
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 20
+        },
+        "description": "The numbers of items to return."
+      }
+    },
+    "schemas": {
+      "string_enum": {
+        "name": "string",
+        "enum": [
+          "available",
+          "pending",
+          "sold"
+        ],
+        "type": "string"
+      }
+    }
+  }
+}

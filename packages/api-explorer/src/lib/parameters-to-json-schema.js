@@ -47,7 +47,15 @@ function getOtherParams(pathOperation, oas) {
       if (current.schema) {
         if (current.schema.type === 'array') {
           schema.type = 'array';
-          schema.items = current.schema.items;
+
+          if (
+            Object.keys(current.schema.items).length === 1 &&
+            typeof current.schema.items.$ref !== 'undefined'
+          ) {
+            schema.items = findSchemaDefinition(current.schema.items.$ref, oas);
+          } else {
+            schema.items = current.schema.items;
+          }
         }
 
         if (typeof current.schema.default !== 'undefined') schema.default = current.schema.default;
