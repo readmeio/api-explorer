@@ -60,6 +60,7 @@ test('anchors', () => {
 [doc](doc:slug)
 [ref](ref:slug)
 [blog](blog:slug)
+[changelog](changelog:slug)
 [page](page:slug)
   `),
     ).html(),
@@ -78,6 +79,7 @@ test('anchors with baseUrl', () => {
 [doc](doc:slug)
 [ref](ref:slug)
 [blog](blog:slug)
+[changelog](changelog:slug)
 [page](page:slug)
   `,
       ),
