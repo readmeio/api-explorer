@@ -289,17 +289,19 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc } = this.props;
+    const { doc, lazy } = this.props;
     const oas = this.oas;
 
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
-
-      return (
-        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
-          {this.state.showEndpoint && this.renderEndpoint()}
-        </Waypoint>
-      );
+      if (lazy) {
+        return (
+          <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
+            {this.state.showEndpoint && this.renderEndpoint()}
+          </Waypoint>
+        );
+      }
+      return this.renderEndpoint();
     };
 
     return (
@@ -391,6 +393,7 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  lazy: PropTypes.bool.isRequired,
 };
 
 Doc.defaultProps = {
@@ -398,6 +401,7 @@ Doc.defaultProps = {
   flags: {
     correctnewlines: false,
   },
+  lazy: true,
   appearance: {
     referenceLayout: 'row',
     splitReferenceDocs: false,

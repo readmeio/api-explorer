@@ -30,6 +30,8 @@ class ApiExplorer extends React.Component {
       },
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
     };
+
+    this.lazyHash = this.buildLazyHash();
   }
 
   onAuthChange(auth) {
@@ -53,6 +55,7 @@ class ApiExplorer extends React.Component {
       return 'curl';
     }
   }
+
   getOas(doc) {
     // Get the apiSetting id from the following places:
     // - category.apiSetting if set and populated
@@ -67,6 +70,43 @@ class ApiExplorer extends React.Component {
     return this.props.oasFiles[apiSetting];
   }
 
+  /**
+   * Be a bit more selective of that to lazy render
+   * @return {Object} Builds a hash of which indexes of this.props.docs should
+   * be lazy rendered.
+   */
+  buildLazyHash() {
+    const { splitReferenceDocs } = this.props.appearance;
+    if (splitReferenceDocs) return {};
+
+    const { docs } = this.props;
+    const range = num => [...Array(num).keys()];
+
+    const hash = range(docs.length).reduce((total, idx) => {
+      total[idx] = true;
+      return total;
+    }, {});
+
+    // there is no hash, disable lazy rendering for the first 5 docs
+    if (!window.location.hash) {
+      range(5).forEach(index => {
+        hash[index] = false;
+      });
+      return hash;
+    }
+
+    // if there is a hash in the URL, disable lazy rendering for the potential slug
+    // and its neighbors
+    const slug = window.location.hash.substr(1);
+    const slugs = this.props.docs.map(x => x.slug);
+    const indexOfSlug = slugs.indexOf(slug);
+    const startIndex = indexOfSlug <= 2 ? 0 : indexOfSlug - 2;
+    range(5).forEach(num => {
+      hash[startIndex + num] = false;
+    });
+    return hash;
+  }
+
   changeSelected(selected) {
     this.setState({ selectedApp: { selected, changeSelected: this.changeSelected } });
   }
@@ -79,7 +119,7 @@ class ApiExplorer extends React.Component {
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
             .referenceLayout}`}
         >
-          {this.props.docs.map(doc => (
+          {this.props.docs.map((doc, index) => (
             <VariablesContext.Provider value={this.props.variables}>
               <OauthContext.Provider value={this.props.oauth}>
                 <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
@@ -88,6 +128,7 @@ class ApiExplorer extends React.Component {
                       <Doc
                         key={doc._id}
                         doc={doc}
+                        lazy={this.lazyHash[index]}
                         oas={this.getOas(doc)}
                         setLanguage={this.setLanguage}
                         flags={this.props.flags}
@@ -119,6 +160,7 @@ ApiExplorer.propTypes = {
   oasFiles: PropTypes.shape({}).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
+    splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
