@@ -9,8 +9,6 @@ const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
 const ReactJson = require('react-json-view').default;
 const contentTypeIsJson = require('../../lib/content-type-is-json');
 
-
-
 export default function Result({ result }) {
     const isJson =
       result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
