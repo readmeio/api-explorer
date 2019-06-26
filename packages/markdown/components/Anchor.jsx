@@ -65,7 +65,7 @@ Anchor.defaultProps = {
 
 module.exports = sanitizeSchema => {
   // This is for our custom link formats
-  sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
+  sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'changelog', 'page');
 
   return props => (
     <BaseUrlContext.Consumer>
