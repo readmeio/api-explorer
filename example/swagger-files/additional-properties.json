@@ -37,12 +37,25 @@
                         "type": "integer"
                       }
                     }
+                  },
+                  "object with `additionalProperties: $ref` (this does not work)": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/ref"
+                    }
                   }
                 }
               }
             }
           }
         }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ref": {
+        "type": "integer"
       }
     }
   }
