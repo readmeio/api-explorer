@@ -1,5 +1,6 @@
 {
   "doc.definition": "Definition",
   "tryit": "Try the API to see Results",
-  "response.noBody": "The response has no body"
+  "response.noBody": "The response has no body",
+  "api.auth.failed": "You couldn't be authenticated"
 }

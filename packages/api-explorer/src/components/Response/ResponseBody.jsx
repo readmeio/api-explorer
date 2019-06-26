@@ -2,6 +2,7 @@ import {FormattedMessage} from 'react-intl'
 
 import Result from './Result'
 import {notJsonStyle} from './style'
+import colors from '../../colors';
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -20,10 +21,21 @@ function hasOauth(oauth) {
   );
 }
 
+function renderPlainText(id, defaultMessage) {
+  const style = {
+    color: colors.white,
+    padding: '5px 10px'
+  }
+  return (
+    <div style={style}>
+      <FormattedMessage id={id} defaultMessage={defaultMessage} />
+    </div>
+  )
+}
 function Unauthorized({ isOauth, oauth }) {
   return (
     <div style={notJsonStyle}>
-      {isOauth ? hasOauth(oauth) : <p><FormattedMessage id="api.auth.failed" defaultMessage="You couldn't be authenticated" /></p>}
+      {isOauth ? hasOauth(oauth) : renderPlainText("api.auth.failed", "You couldn't be authenticated")}
     </div>
   );
 }
@@ -46,7 +58,7 @@ function ResponseBody({ result, isOauth, oauth }) {
       }
       {
         result.responseBody ? <Result result={result} /> 
-        : <FormattedMessage id={'response.noBody'} default={'The response has no body'} />
+        : renderPlainText('response.noBody', 'The response has no body')
       } 
     </div>
   );
