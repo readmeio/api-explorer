@@ -1,5 +1,4 @@
 import { injectIntl } from 'react-intl';
-
 import colors from '../../colors'
 
 const React = require('react');
@@ -119,6 +118,6 @@ function ResponseMetadata({ result, intl }) {
 module.exports = injectIntl(ResponseMetadata);
 
 ResponseMetadata.propTypes = {
-  result: PropTypes.shape({}).isRequired,
+  result: PropTypes.object.isRequired,
   intl: PropTypes.func.isRequired,
 };

@@ -1,70 +1,11 @@
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl'
 
-import colors from '../../colors'
+import Result from './Result'
+import {notJsonStyle} from './style'
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
-const ReactJson = require('react-json-view').default;
-const contentTypeIsJson = require('../../lib/content-type-is-json');
 const oauthHref = require('../../lib/oauth-href');
-
-function Authorized({ result }) {
-  const isJson =
-    result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
-
-  const notJsonStyle = {
-    fontSize: 12,
-    fontFamily: 'Monaco, "Lucida Console", monospace',
-    border: 0,
-    background: 'transparent',
-    padding: '0 30px',
-    overflow: 'visible',
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-all',
-    color: colors.notJson
-  }
-
-  return (
-    <div>
-      {result.isBinary && <div><FormattedMessage id="api.response.binary" defaultMessage="A binary file was returned" /></div>}
-      {!result.isBinary &&
-      isJson && (
-        <ReactJson
-          src={result.responseBody}
-          collapsed={1}
-          collapseStringsAfterLength={100}
-          enableClipboard={false}
-          theme="tomorrow"
-          name={null}
-          displayDataTypes={false}
-          displayObjectSize={false}
-          style={{
-            padding: '20px 10px',
-            backgroundColor: 'transparent',
-            color: colors.reactJson,
-            fontSize: '12px',
-            overflow: 'visible',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-all'
-          }}
-        />
-      )}
-      {!result.isBinary &&
-      !isJson && (
-        <pre className="tomorrow-night" style={notJsonStyle}>
-          <div className="cm-s-tomorrow-night codemirror-highlight">
-            {syntaxHighlighter(result.responseBody, result.type)}
-          </div>
-        </pre>
-      )}
-    </div>
-  );
-}
-
-Authorized.propTypes = {
-  result: PropTypes.shape({}).isRequired,
-};
 
 function hasOauth(oauth) {
   if (!oauth) return <p><FormattedMessage id="api.oauth2.invalid" defaultMessage="Your OAuth2 token is incorrect or has expired" /></p>;
@@ -81,7 +22,7 @@ function hasOauth(oauth) {
 
 function Unauthorized({ isOauth, oauth }) {
   return (
-    <div className="text-center hub-expired-token">
+    <div style={notJsonStyle}>
       {isOauth ? hasOauth(oauth) : <p><FormattedMessage id="api.auth.failed" defaultMessage="You couldn't be authenticated" /></p>}
     </div>
   );
@@ -89,7 +30,7 @@ function Unauthorized({ isOauth, oauth }) {
 
 Unauthorized.propTypes = {
   isOauth: PropTypes.bool,
-  oauth: PropTypes.bool.isRequired,
+  oauth: PropTypes.bool.isRequired
 };
 
 Unauthorized.defaultProps = {
@@ -100,14 +41,19 @@ Unauthorized.defaultProps = {
 function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div style={{ display: 'block'}}>
-      {result.status !== 401 && <Authorized result={result} />}
-      {result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />}
+      {
+        result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />
+      }
+      {
+        result.responseBody ? <Result result={result} /> 
+        : <FormattedMessage id={'response.noBody'} default={'The response has no body'} />
+      } 
     </div>
   );
 }
 
 module.exports = ResponseBody;
 
-ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Authorized.propTypes);
+ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Result.propTypes);
 
 ResponseBody.defaultProps = Unauthorized.defaultProps;

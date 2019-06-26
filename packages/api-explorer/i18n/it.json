@@ -1,3 +1,5 @@
 {
-  "doc.definition": "Definizione"
+  "doc.definition": "Definizione",
+  "tryit": "Prova le Api per vedere il risultato",
+  "response.noBody": "La risposta non ha contenuto"
 }

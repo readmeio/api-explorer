@@ -74,6 +74,19 @@
           }
         ]
       }
+    },
+    "/status/401": {
+      "get": {
+        "summary": "Unauthorized path",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
     }
   },
   "components": {

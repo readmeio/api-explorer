@@ -1,5 +1,7 @@
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, FormattedMessage } from 'react-intl';
+
 import ResponseBody from '../src/components/Response';
+import Result from '../src/components/Response/Result'
 
 const React = require('react');
 const { mount } = require('enzyme');
@@ -132,7 +134,7 @@ describe('Response body', () => {
     };
     const responseBody = mount(<IntlProvider><ResponseBody {...binaryResponse} oas={oas} /></IntlProvider>);
 
-    const message = responseBody.find('FormattedMessage');
+    const message = responseBody.find(FormattedMessage);
     expect(message.prop('id')).toEqual('api.response.binary');
   });
 
@@ -163,11 +165,26 @@ describe('Response body', () => {
 
   test('should display message if OAuth is incorrect or expired without oauth', () => {
     const responseBody = mount(<IntlProvider><ResponseBody {...oauthInvalidResponse} oas={oas} /></IntlProvider>);
+    expect(responseBody.findWhere(node => node.prop('id') === 'api.oauth2.invalid')).toHaveLength(1);
+  });
 
-    expect(responseBody.find('.hub-expired-token').length).toEqual(1);
+  test('should display Result if result.responseBody is set', () => {
+    const responseBody = mount(<IntlProvider><ResponseBody {...oauthInvalidResponse} oas={oas} /></IntlProvider>);
+    expect(responseBody.find(Result)).toHaveLength(1);
+  });
 
-    const message = responseBody.find('FormattedMessage');
-    expect(message.prop('id')).toEqual('api.oauth2.invalid');
+  test('should not display Result if result.responseBody is not set', () => {
+    const responseBody = mount(<IntlProvider><ResponseBody
+      operation={oas.operation('/pet', 'post')}
+      isOauth
+      oauth={false}
+      result={{
+        status: 401,
+        responseBody: null
+      }}
+      oas={oas}
+    /></IntlProvider>);
+    expect(responseBody.find(Result)).toHaveLength(0);
   });
 
   test('should display message if OAuth is expired with oauth', () => {
@@ -204,7 +221,7 @@ describe('Response body', () => {
     };
     const responseBody = mount(<IntlProvider><ResponseBody {...nonOAuthInvalidResponse} oas={oas} /></IntlProvider>);
 
-    const message = responseBody.find('FormattedMessage');
+    const message = responseBody.find(FormattedMessage);
     expect(message.prop('id')).toEqual('api.auth.failed');
   });
 });

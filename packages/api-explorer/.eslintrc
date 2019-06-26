@@ -2,6 +2,7 @@
   "extends": ["airbnb", "prettier"],
   "rules": {
     "arrow-body-style": 0,
+    "react/forbid-prop-types": 0,
     "no-underscore-dangle": ["error", { "allow": ["_cache", "_id", "_key"] }],
     "no-param-reassign": ["error", { "props": false }]
   }
