@@ -5,7 +5,8 @@ exports[`anchors 1`] = `
 <a href=\\"\\" target=\\"_self\\">xss</a><br/>
 <a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
 <a href=\\"/reference-link/slug\\" target=\\"_self\\">ref</a><br/>
-<a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br/>
+<a href=\\"/changelog/slug\\" target=\\"_self\\">blog</a><br/>
+<a href=\\"/changelog/slug\\" target=\\"_self\\">changelog</a><br/>
 <a href=\\"/page/slug\\" target=\\"_self\\">page</a><br/>
 </p>"
 `;
@@ -13,7 +14,8 @@ exports[`anchors 1`] = `
 exports[`anchors with baseUrl 1`] = `
 "<p><a href=\\"/child/v1.0/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br>
 <a href=\\"/child/v1.0/reference-link/slug\\" target=\\"_self\\">ref</a><br>
-<a href=\\"/child/v1.0/blog/slug\\" target=\\"_self\\">blog</a><br>
+<a href=\\"/child/v1.0/changelog/slug\\" target=\\"_self\\">blog</a><br>
+<a href=\\"/child/v1.0/changelog/slug\\" target=\\"_self\\">changelog</a><br>
 <a href=\\"/child/v1.0/page/slug\\" target=\\"_self\\">page</a><br>
 </p>"
 `;

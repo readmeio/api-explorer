@@ -17,9 +17,13 @@ function getHref(href, baseUrl) {
     return `${base}/reference-link/${ref[1]}`;
   }
 
+  // we need to perform two matches for changelogs in case
+  // of legacy links that use 'blog' instead of 'changelog'
   const blog = href.match(/^blog:([-_a-zA-Z0-9#]*)$/);
-  if (blog) {
-    return `${base}/blog/${blog[1]}`;
+  const changelog = href.match(/^changelog:([-_a-zA-Z0-9#]*)$/);
+  const changelogMatch = blog || changelog;
+  if (changelogMatch) {
+    return `${base}/changelog/${changelogMatch[1]}`;
   }
 
   const custompage = href.match(/^page:([-_a-zA-Z0-9#]*)$/);
@@ -61,7 +65,7 @@ Anchor.defaultProps = {
 
 module.exports = sanitizeSchema => {
   // This is for our custom link formats
-  sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
+  sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'changelog', 'page');
 
   return props => (
     <BaseUrlContext.Consumer>
