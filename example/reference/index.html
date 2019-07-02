@@ -11,78 +11,260 @@
   <!-- Custom CSS-->
   <style>
     a{color:#2283c9}a:hover{color:#134a72}a.text-muted:hover{color:#2283c9}.btn.btn-primary{background-color:#2283c9}.btn.btn-primary:hover{background-color:#134a72}.theme-line #hub-landing-top h2{color:#2283c9}#hub-landing-top .btn:hover{color:#2283c9}.theme-line #hub-landing-top .btn:hover{color:#fff}.theme-solid header#hub-header #header-top{background-color:#2283c9}.theme-solid.header-gradient header#hub-header #header-top{background:linear-gradient(to bottom,#2283c9,#175888)}.theme-solid.header-custom header#hub-header #header-top{background-image:url(undefined)}.theme-line header#hub-header #header-top{border-bottom-color:#2283c9}.theme-line header#hub-header #header-top .btn{background-color:#2283c9}header#hub-header #header-top #header-logo{width:146px;height:40px;margin-top:0;background-image:url(https://files.readme.io/1e0e8cc-white-logo.png)}nav#hub-sidebar ul a.active{background-color:#2283c9}#hub-subheader-parent #hub-subheader .hub-subheader-breadcrumbs .dropdown-menu a:hover{background-color:#2283c9}.discussion .submit-vote.submit-vote-parent.voted a.submit-vote-button{background-color:#2283c9}section#hub-discuss .discussion a .discuss-body h4{color:#2283c9}section#hub-discuss .discussion a:hover .discuss-body h4{color:#134a72}#hub-subheader-parent #hub-subheader.sticky-header.sticky{border-bottom-color:#2283c9}#hub-subheader-parent #hub-subheader.sticky-header.sticky .search-box{border-bottom-color:#2283c9}#hub-search-results h3 em{color:#2283c9}.main_background,.tag-item{background:#2283c9!important}.main_background:hover{background:#134a72!important}.main_color{color:#2283c9!important}.main_color_hover:hover{color:#2283c9!important}section#hub-discuss h1{color:#2283c9}#hub-reference .hub-api .api-manager .param-table .param-item .param-item-info .param-item-table .param-item-input input[type=number]:focus,#hub-reference .hub-api .api-manager .param-table .param-item .param-item-info .param-item-table .param-item-input input[type=text]:focus,#hub-reference .hub-api .api-manager .param-table .param-item .param-item-info .param-item-table .param-item-input textarea:focus{border:1px solid #2283c9}#hub-reference .hub-api .api-definition .api-try-it-out.active{border-color:#2283c9;background-color:#2283c9}#hub-reference .hub-api .api-definition .api-try-it-out.active:hover{background-color:#134a72;border-color:#134a72}#hub-reference .hub-api .api-definition .api-try-it-out:hover{border-color:#2283c9;color:#2283c9}#hub-reference .hub-reference .hub-reference-section .hub-reference-left header .hub-reference-edit:hover{color:#2283c9}.main-color-accent{border-bottom:3px solid #2283c9;padding-bottom:8px}
+
+    #main {
+      display: none;
+    }
+
+    #main.is-loaded {
+      display: block;
+    }
+
+    #hub-reference-loading-error {
+      margin-right: 246px;
+      padding-top: 25px;
+    }
+
+    #hub-reference-loading-error .hub-reference-loading-error-box {
+      background-color: #f0f7fd;
+      border-left: 4px solid #2283c9;
+      padding: 13px 13px 13px 23px;
+      position: relative;
+      margin-bottom: 1em;
+    }
+
+    #hub-reference-loading-error .hub-reference-loading-error-header {
+      color: #2283c9;
+    }
+
+    #hub-reference-loading-error pre {
+      padding: 23px 23px 23px 23px;
+      background-color: #F9F9F9;
+    }
+
+    #loading-screen {
+      position: fixed;
+      top: 200px;
+      left: 0;
+      width: 100%;
+      z-index: 10000;
+      width: 300px;
+      height: 120px;
+      left: 50%;
+      margin-left: -150px;
+      text-align: center;
+      color: #fff;
+    }
+
+    #loading-screen svg path {
+      fill: #e3e3e3;
+    }
+
+    /** Loading bar styles pulled from bundle-dash.css */
+    #loading-screen .loaderbar {
+      background-color: #fff;
+      border-radius: 2px;
+      position: absolute;
+      width: 38px;
+      height: 7px;
+      -webkit-transform-origin: 0 0;
+      -moz-transform-origin: 0 0;
+      -o-transform-origin: 0 0;
+      -ms-transform-origin: 0 0;
+      transform-origin: 0 0
+    }
+
+    #loading-screen .loaderbar.loaderbar0 {
+      top: 28px;
+      left: 101px;
+      -webkit-animation: remove-loaderbar0 2s infinite;
+      -moz-animation: remove-loaderbar0 2s infinite;
+      -o-animation: remove-loaderbar0 2s infinite;
+      -ms-animation: remove-loaderbar0 2s infinite;
+      animation: remove-loaderbar0 2s infinite
+    }
+
+    @-moz-keyframes remove-loaderbar0 {0%{width:0}0%{width:0}20%{width:38px}100%{width:38px}}
+    @-webkit-keyframes remove-loaderbar0 {0%{width:0}0%{width:0}20%{width:38px}100%{width:38px}}
+    @-o-keyframes remove-loaderbar0{0%{width:0}0%{width:0}20%{width:38px}100%{width:38px}}
+    @keyframes remove-loaderbar0{0%{width:0}0%{width:0}20%{width:38px}100%{width:38px}}
+
+    #loading-screen .loaderbar.loaderbar1 {
+      top: 42px;
+      left: 101px;
+      -webkit-animation:remove-loaderbar1 2s infinite;
+      -moz-animation: remove-loaderbar1 2s infinite;
+      -o-animation: remove-loaderbar1 2s infinite;
+      -ms-animation: remove-loaderbar1 2s infinite;
+      animation: remove-loaderbar1 2s infinite
+    }
+
+    @-moz-keyframes remove-loaderbar1{0%{width:0}10%{width:0}30%{width:38px}100%{width:38px}}
+    @-webkit-keyframes remove-loaderbar1{0%{width:0}10%{width:0}30%{width:38px}100%{width:38px}}
+    @-o-keyframes remove-loaderbar1{0%{width:0}10%{width:0}30%{width:38px}100%{width:38px}}
+    @keyframes remove-loaderbar1{0%{width:0}10%{width:0}30%{width:38px}100%{width:38px}}
+
+    #loading-screen .loaderbar.loaderbar2 {
+      top: 56px;
+      left: 101px;
+      -webkit-animation: remove-loaderbar2 2s infinite;
+      -moz-animation: remove-loaderbar2 2s infinite;
+      -o-animation: remove-loaderbar2 2s infinite;
+      -ms-animation: remove-loaderbar2 2s infinite;
+      animation: remove-loaderbar2 2s infinite
+    }
+
+    @-moz-keyframes remove-loaderbar2{0%{width:0}20%{width:0}40%{width:38px}100%{width:38px}}
+    @-webkit-keyframes remove-loaderbar2{0%{width:0}20%{width:0}40%{width:38px}100%{width:38px}}
+    @-o-keyframes remove-loaderbar2{0%{width:0}20%{width:0}40%{width:38px}100%{width:38px}}
+    @keyframes remove-loaderbar2{0%{width:0}20%{width:0}40%{width:38px}100%{width:38px}}
+
+    #loading-screen .loaderbar.loaderbar3 {
+      top: 28px;
+      left: 158px;
+      -webkit-animation: remove-loaderbar3 2s infinite;
+      -moz-animation: remove-loaderbar3 2s infinite;
+      -o-animation: remove-loaderbar3 2s infinite;
+      -ms-animation: remove-loaderbar3 2s infinite;
+      animation: remove-loaderbar3 2s infinite
+    }
+
+    @-moz-keyframes remove-loaderbar3{0%{width:0}30%{width:0}50%{width:38px}100%{width:38px}}
+    @-webkit-keyframes remove-loaderbar3{0%{width:0}30%{width:0}50%{width:38px}100%{width:38px}}
+    @-o-keyframes remove-loaderbar3{0%{width:0}30%{width:0}50%{width:38px}100%{width:38px}}
+    @keyframes remove-loaderbar3{0%{width:0}30%{width:0}50%{width:38px}100%{width:38px}}
+
+    #loading-screen .loaderbar.loaderbar4 {
+      top: 42px;
+      left: 158px;
+      -webkit-animation: remove-loaderbar4 2s infinite;
+      -moz-animation: remove-loaderbar4 2s infinite;
+      -o-animation: remove-loaderbar4 2s infinite;
+      -ms-animation: remove-loaderbar4 2s infinite;
+      animation: remove-loaderbar4 2s infinite
+    }
+
+    @-moz-keyframes remove-loaderbar4{0%{width:0}40%{width:0}60%{width:38px}100%{width:38px}}
+    @-webkit-keyframes remove-loaderbar4{0%{width:0}40%{width:0}60%{width:38px}100%{width:38px}}
+    @-o-keyframes remove-loaderbar4{0%{width:0}40%{width:0}60%{width:38px}100%{width:38px}}
+    @keyframes remove-loaderbar4{0%{width:0}40%{width:0}60%{width:38px}100%{width:38px}}
+
+    #loading-screen .loaderbar.loaderbar5 {
+      top: 56px;
+      left: 158px;
+      -webkit-animation: remove-loaderbar5 2s infinite;
+      -moz-animation: remove-loaderbar5 2s infinite;
+      -o-animation: remove-loaderbar5 2s infinite;
+      -ms-animation: remove-loaderbar5 2s infinite;
+      animation: remove-loaderbar5 2s infinite
+    }
+
+    @-moz-keyframes remove-loaderbar5{0%{width:0}50%{width:0}70%{width:38px}100%{width:38px}}
+    @-webkit-keyframes remove-loaderbar5{0%{width:0}50%{width:0}70%{width:38px}100%{width:38px}}
+    @-o-keyframes remove-loaderbar5{0%{width:0}50%{width:0}70%{width:38px}100%{width:38px}}
+    @keyframes remove-loaderbar5{0%{width:0}50%{width:0}70%{width:38px}100%{width:38px}}
+
+    #loading-screen p {
+      margin-top: 20px;
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    #loading-screen #loading-screen-brandmark {
+      margin: auto;
+    }
+
+    #loading-screen.is-loaded {
+      display: none;
+    }
   </style>
 </head>
 
 <body class="body-none theme-solid header-solid header-bg-size-auto header-bg-pos-tl header-overlay-triangles lumosity-normal hub-full is-lang-curl">
-  <header id="hub-header">
-    <div id="header-top">
-      <div class="hub-container">
-        <div class="clearfix">
-          <a href="#" class="header-link">
-            <h1 id="header-logo">Swagger Preview</h1>
-          </a>
+  <div id="loading-screen">
+    <div class="loaderbar loaderbar0"></div>
+    <div class="loaderbar loaderbar1"></div>
+    <div class="loaderbar loaderbar2"></div>
+    <div class="loaderbar loaderbar3"></div>
+    <div class="loaderbar loaderbar4"></div>
+    <div class="loaderbar loaderbar5"></div>
+    <svg id="loading-screen-brandmark" viewBox="0 0 60.1 43.7" width="130px" height="100px">
+      <path fill="#eee" class="path1" d="M55.1,0H40.5c-5,0-9.4,3.5-10.5,8.4C28.9,3.5,24.6,0,19.6,0H5C2.3,0,0,2.2,0,5v25.6c0,2.8,2.2,5,5,5h9.3 c10.6,0,13.8,2.6,15.3,7.8c0,0.1,0.1,0.2,0.3,0.2h0.1c0.1,0,0.2-0.1,0.3-0.2c1.5-5.3,4.7-7.8,15.3-7.8H55c2.8,0,5-2.2,5-5V5 C60,2.3,57.8,0,55.1,0z" />
+    </svg>
+    <p>Reticulating splines...</p>
+  </div>
+  <div id="main">
+    <header id="hub-header">
+      <div id="header-top">
+        <div class="hub-container">
+          <div class="clearfix">
+            <a href="#" class="header-link">
+              <h1 id="header-logo">Swagger Preview</h1>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-    <div id="hub-subheader-parent">
-      <div id="hub-subheader">
-        <div class="hub-container">
-          <nav id="header-bottom-nav">
-            <div id="header-icon-nav">
-              <div class="icons">
-                <div class="hub-subheader-breadcrumbs">
-                  <span class="hub-breadcrumb-item"><span id="oas-version"></span></span>
+      <div id="hub-subheader-parent">
+        <div id="hub-subheader">
+          <div class="hub-container">
+            <nav id="header-bottom-nav">
+              <div id="header-icon-nav">
+                <div class="icons">
+                  <div class="hub-subheader-breadcrumbs">
+                    <span class="hub-breadcrumb-item"><span id="oas-version"></span></span>
+                  </div>
                 </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="hub-loading-indicator"></div>
+    <div id="hub-container">
+      <div class="hub-container">
+        <style type="text/css">
+          #hub-sidebar-parent {
+            position: sticky;
+          }
+          nav#hub-sidebar {
+            position: initial;
+            padding-bottom: 0px;
+          }
+          section#hub-content {
+            border-left: 1px solid #ddd;
+            margin-left: 246px;
+            padding-left: 0px;
+            width: unset;
+          }
+          section#hub-content.with-errors {
+            border-left: none;
+          }
+          @media (max-width: 768px) {
+            section#hub-content {
+              margin-left: 0 !important;
+            }
+          }
+        </style>
+        <div id="hub-sidebar-parent" class="hub-sidebar-sticky">
+          <nav id="hub-sidebar">
+            <div class="scrollable-parent">
+              <div id="hub-sidebar-content">
               </div>
             </div>
           </nav>
         </div>
+        <section id="hub-content">
+        </section>
       </div>
     </div>
-  </header>
-  <div class="hub-loading-indicator"></div>
-  <div id="hub-container">
-    <div class="hub-container">
-      <style type="text/css">
-        #hub-sidebar-parent {
-          position: sticky;
-        }
-        nav#hub-sidebar {
-          position: initial;
-          padding-bottom: 0px;
-        }
-        section#hub-content {
-          border-left: 1px solid #ddd;
-          margin-left: 246px;
-          padding-left: 0px;
-          width: unset;
-        }
-        @media (max-width: 768px) {
-          section#hub-content {
-            margin-left: 0 !important;
-          }
-        }
-      </style>
-      <div id="hub-sidebar-parent" class="hub-sidebar-sticky">
-        <nav id="hub-sidebar">
-          <div class="scrollable-parent">
-            <div id="hub-sidebar-content">
-            </div>
-          </div>
-        </nav>
+    <footer>
+      <div class="hub-container">
+        <div id="readmeLogo">
+          <a href="https://readme.io/?ref_src=hub&amp;project=swagger" class="icon icon-readme"></a>
+        </div>
       </div>
-      <section id="hub-content">
-      </section>
-    </div>
+    </footer>
   </div>
-  <footer>
-    <div class="hub-container">
-      <div id="readmeLogo">
-        <a href="https://readme.io/?ref_src=hub&amp;project=swagger" class="icon icon-readme"></a>
-      </div>
-    </div>
-  </footer>
 </body>
 
 <script src="../example/reference-bundle.js"></script>
