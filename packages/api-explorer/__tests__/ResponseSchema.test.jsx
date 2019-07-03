@@ -1,3 +1,5 @@
+import ContentWithTitle from '../src/components/ContentWithTitle'
+
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 
@@ -15,7 +17,7 @@ const props = {
 
 test('should display a header with a dropdown', () => {
   const responseSchema = mount(<ResponseSchema {...props} />);
-  expect(responseSchema.find('ContentWithTitle').text()).toContain('Response');
+  expect(responseSchema.find(ContentWithTitle).prop('title')).toBeUndefined()
   expect(responseSchema.find('Select').at(0).prop('options')).toEqual(['200', '400', '404']);
 });
 
@@ -26,17 +28,6 @@ test('selectedStatus should change state of selectedStatus', () => {
   responseSchema.instance().selectedStatus('400');
 
   expect(responseSchema.state('selectedStatus')).toBe('400');
-});
-
-test('should display response schema description', () => {
-  const responseSchema = mount(<ResponseSchema {...props} />);
-
-  expect(
-    responseSchema
-      .find('p')
-      .first()
-      .text(),
-  ).toBe(props.operation.responses['200'].description);
 });
 
 test('should work if there are no responses', () => {

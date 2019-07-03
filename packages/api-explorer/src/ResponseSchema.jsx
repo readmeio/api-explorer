@@ -69,8 +69,7 @@ class ResponseSchema extends React.Component {
 
     const keys = Object.keys(this.props.operation.responses);
     return(
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        <span>Response</span>
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <Select options={keys} onChange={this.changeHandler} value={this.state.selectedStatus} style={selectStyle} />
       </div>
     )
@@ -81,9 +80,7 @@ class ResponseSchema extends React.Component {
     const schema = this.getSchema(operation);
     return(
       <Fragment>
-        {operation.responses[this.state.selectedStatus].description && (
-          <p>{operation.responses[this.state.selectedStatus].description}</p>
-        )}
+        {this.renderHeader()}
         { schema && <ResponseSchemaBody schema={schema} oas={oas} />}
       </Fragment>
     )
@@ -94,7 +91,6 @@ class ResponseSchema extends React.Component {
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
     return (
       <ContentWithTitle
-        title={this.renderHeader()}
         content={this.renderContent()}
         showDivider={false}
         theme={'dark'}

@@ -2,5 +2,7 @@
   "doc.definition": "Definizione",
   "tryit": "Prova le Api per vedere il risultato",
   "response.noBody": "La risposta non ha contenuto",
-  "api.auth.failed": "Non sei autenticato"
+  "api.auth.failed": "Non sei autenticato",
+  "schemaTabs.missing.response": "Response schema non trovato",
+  "schemaTabs.missing.request": "Request schema non trovato"
 }

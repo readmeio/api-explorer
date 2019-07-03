@@ -7,7 +7,6 @@ import {FormattedMessage, injectIntl} from 'react-intl'
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
-
 import {get} from 'lodash'
 import extensions from '@mia-platform/oas-extensions'
 
@@ -16,6 +15,7 @@ import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
 
 import ContentWithTitle from './components/ContentWithTitle'
+import SchemaTabs from './components/SchemaTabs'
 import Select from './components/Select'
 import colors from './colors';
 
@@ -23,7 +23,6 @@ const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./components/Response');
-const ResponseSchema = require('./ResponseSchema');
 const ErrorBoundary = require('./ErrorBoundary');
 const markdown = require('@mia-platform/markdown');
 
@@ -271,17 +270,6 @@ class Doc extends React.Component {
     );
   }
 
-  renderResponseSchema(theme = 'light') {
-    const operation = this.getOperation();
-
-    return (
-      operation &&
-      operation.responses && (
-        <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />
-      )
-    )
-  }
-
   // eslint-disable-next-line class-methods-use-this
   renderContentWithUpperTitle(title, content) {
     return(
@@ -296,6 +284,15 @@ class Doc extends React.Component {
     )
   }
 
+  renderSchemaTab() {
+    const operation = this.getOperation()
+    if(!operation){
+      return null
+    }
+    return(
+      <SchemaTabs operation={this.getOperation()} oas={this.oas} />
+    )
+  }
   renderEndpoint() {
     const { doc, suggestedEdits, baseUrl, intl } = this.props
     return (
@@ -312,7 +309,7 @@ class Doc extends React.Component {
               {this.renderLogs()}
               {this.renderParams()}
               {this.renderContentTypeSelect(true)}
-              {this.renderResponseSchema()}
+              {this.renderSchemaTab()}
             </div>
             <div
               style={{

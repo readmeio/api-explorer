@@ -2,5 +2,7 @@
   "doc.definition": "Definition",
   "tryit": "Try the API to see Results",
   "response.noBody": "The response has no body",
-  "api.auth.failed": "You couldn't be authenticated"
+  "api.auth.failed": "You couldn't be authenticated",
+  "schemaTabs.missing.response": "Response schema not set",
+  "schemaTabs.missing.request": "Request schema not set"
 }

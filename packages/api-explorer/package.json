@@ -16,6 +16,7 @@
     "lodash.get": "^4.4.2",
     "lodash.kebabcase": "^4.1.1",
     "prop-types": "^15.5.10",
+    "ramda": "^0.26.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-debounce-input": "^3.2.0",
     "react-intl": "^2.8.0",

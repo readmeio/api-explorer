@@ -1,7 +1,8 @@
 import { mountWithIntl } from 'enzyme-react-intl';
 import { IntlProvider } from 'react-intl';
 
-import {mount} from 'enzyme';
+import ContentWithTitle from '../src/components/ContentWithTitle'
+import SchemaTabs from '../src/components/SchemaTabs'
 
 const extensions = require('@mia-platform/oas-extensions');
 const { Request, Response } = require('node-fetch');
@@ -12,7 +13,6 @@ const React = require('react');
 
 const Doc = require('../src/Doc');
 const oas = require('./fixtures/petstore/circular-oas');
-const multipleSecurities = require('./fixtures/multiple-securities/oas');
 const oasWithSlashes = require('./fixtures/petstore/oas')
 
 const props = {
@@ -39,7 +39,7 @@ function assertDocElements(component, doc) {
   expect(component.find(`#page-${doc.slug}`).length).toBe(1);
 }
 
-test('should output a div', () => {
+test('should output correct components', () => {
   const wrapper = mountWithIntl(
     <IntlProvider>
       <Doc {...props} />
@@ -57,7 +57,8 @@ test('should output a div', () => {
   // it makes the test below that uses `jest.useFakeTimers()`
   // fail ¯\_(ツ)_/¯. Skipping for now
   expect(wrapper.find('Params').length).toBe(1);
-  expect(wrapper.find('ContentWithTitle').length).toBe(6);
+  expect(wrapper.find(ContentWithTitle)).toHaveLength(5);
+  expect(wrapper.find(SchemaTabs)).toHaveLength(1)
 });
 
 test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
@@ -321,39 +322,6 @@ describe('suggest edits', () => {
 
     // const description = mountWithIntl(<div>{doc.find('Description')}</div>)
     expect(wrapper.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
-  });
-});
-
-describe('Response Schema', () => {
-  test('should render Response Schema if endpoint does have a response', () => {
-    const wrapper = mount(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
-    doc.setState({ showEndpoint: true });
-
-    expect(wrapper.find('ResponseSchema').length).toBe(1);
-  });
-
-  test('should not render Response Schema if endpoint does not have a response', () => {
-    const wrapper = mountWithIntl(
-      <IntlProvider>
-        <Doc
-          {...props}
-          doc={{
-            title: 'Title',
-            slug: 'slug',
-            type: 'endpoint',
-            swagger: { path: '/unknown-scheme' },
-            api: { method: 'post' },
-            onSubmit: () => {},
-          }}
-          oas={multipleSecurities}
-        />
-      </IntlProvider>
-    );    
-    const doc = wrapper.find('Doc')
-    doc.setState({ showEndpoint: true });
-
-    expect(wrapper.find('ResponseSchema').length).toBe(0);
   });
 });
 

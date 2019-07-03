@@ -33,9 +33,12 @@ export default function ContentWithTitle({
     }
     return(
       <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%', gridTemplateRows: 'min-content'}}>
-        <div style={titleStyle}>
-          {title}
-        </div>
+        {
+          title ? 
+            <div style={titleStyle}>
+              {title}
+            </div> : null
+        }
         <div>{subheader}</div>
         <div style={showBorder ? {border: `2px solid ${colors.borderContent}`} : {}}>
           {content}
