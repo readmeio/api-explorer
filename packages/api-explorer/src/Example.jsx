@@ -49,7 +49,7 @@ function showExamples(examples, setResponseType, responseType) {
   return (
     <div>
       <select
-        style={{ backgroundColor: '#3d434a' }}
+        className="example-response-select"
         onChange={e => setResponseType(e.target.value)}
         value={responseTypeCopy}
       >
