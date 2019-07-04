@@ -87,11 +87,17 @@ export default class SchemaTabs extends Component {
           })
         }}
       >
-        {
-          selected === 'request' ?
-            this.renderRequestSchema() :
-            this.renderResponseSchema()
-        }
+        <div style={{
+          paddingTop: 10
+        }}
+        >
+
+          {
+            selected === 'request' ?
+              this.renderRequestSchema() :
+              this.renderResponseSchema()
+          }
+        </div>
       </BlockWithTab>
     )
   }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import colors from '../../colors'
@@ -32,7 +32,7 @@ export default function BlockWithTab({
   }
   const styleSelected = { ...style.selected, ...styleSelectedItem }
   return (
-    <Fragment>
+    <div>
       <ul style={{ ...style.ul, ...styleList }}>
         {items.map(item => {
           return (
@@ -55,7 +55,7 @@ export default function BlockWithTab({
         })}
       </ul>
       {children}
-    </Fragment>
+    </div>
   )
 }
 BlockWithTab.propTypes = {
