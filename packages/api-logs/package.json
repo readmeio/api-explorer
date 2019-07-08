@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "main": "dist/index.js",
   "dependencies": {
     "prop-types": "^15.7.2",
