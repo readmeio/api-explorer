@@ -83,7 +83,14 @@ function SchemaField(props) {
   }
 
   const customType = getCustomType(props.schema);
-  if (customType) return <BaseSchemaField {...props} />;
+  if (customType) {
+    return (
+      <BaseSchemaField
+        {...props}
+        uiSchema={Object.assign({}, props.uiSchema, { classNames: `field-${customType}` })}
+      />
+    );
+  }
 
   if (props.schema.type === 'boolean') {
     props.schema.enumNames = ['true', 'false'];
