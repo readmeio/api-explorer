@@ -49,7 +49,7 @@ function CustomTemplate(props) {
   const { id, classNames, label, help, required, description, errors, children, schema } = props
 
   return (
-    <div className={classNames + ' param'}>
+    <div className={`${classNames} param`}>
       <span className="label">
         <label className="label-name" htmlFor={id}>
           {label}{required && <span className="label-required">*</span>}
@@ -68,7 +68,7 @@ function SchemaField(props) {
   if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
     props.schema.format = undefined;
 
-  if('name' in props) props.registry['FieldTemplate'] = CustomTemplate;
+  if('name' in props) props.registry.FieldTemplate = CustomTemplate;
 
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
@@ -122,6 +122,7 @@ SchemaField.propTypes = {
   }).isRequired,
   registry: PropTypes.shape({
     widgets: PropTypes.object,
+    FieldTemplate: PropTypes.func
   }).isRequired,
   uiSchema: PropTypes.shape({}),
 };
