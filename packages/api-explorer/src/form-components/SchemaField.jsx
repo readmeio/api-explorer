@@ -45,7 +45,7 @@ function getTypeLabel(schema){
   return type
 }
 
-function CustomFieldTemplate(props) {
+function CustomTemplate(props) {
   const { id, classNames, label, help, required, description, errors, children, schema } = props
 
   return (
@@ -68,7 +68,7 @@ function SchemaField(props) {
   if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
     props.schema.format = undefined;
 
-  if('name' in props) props.registry['FieldTemplate'] = CustomFieldTemplate;
+  if('name' in props) props.registry['FieldTemplate'] = CustomTemplate;
 
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
@@ -101,7 +101,19 @@ function SchemaField(props) {
   return <BaseSchemaField {...props} />;
 }
 
-SchemaField.propTypes = { 
+CustomTemplate.propTypes = {
+  id: PropTypes.node.isRequired,
+  classNames: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  help: PropTypes.node.isRequired,
+  required: PropTypes.node.isRequired,
+  description: PropTypes.node.isRequired,
+  errors: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  schema: PropTypes.shape({}).isRequired
+}
+
+SchemaField.propTypes = {
   schema: PropTypes.shape({
     type: PropTypes.string,
     format: PropTypes.string,
