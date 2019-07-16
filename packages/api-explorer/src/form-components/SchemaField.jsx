@@ -46,17 +46,7 @@ function getTypeLabel(schema){
 }
 
 function CustomFieldTemplate(props) {
-  const
-  { id,
-    classNames,
-    label,
-    help,
-    required,
-    description,
-    errors,
-    children,
-    schema
-  } = props
+  const { id, classNames, label, help, required, description, errors, children, schema } = props
 
   return (
     <div className={classNames + ' param'}>
