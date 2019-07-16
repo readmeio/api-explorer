@@ -36,23 +36,23 @@ function getCustomType(schema) {
   return false;
 }
 
-function getTypeLabel(schema){
-  let type = getCustomType(schema) || schema.type
+function getTypeLabel(schema) {
+  let type = getCustomType(schema) || schema.type;
 
-  if('items' in schema && 'type' in schema.items)
-    type += ` of ${schema.items.type}s`
-    
-  return type
+  if ('items' in schema && 'type' in schema.items) type += ` of ${schema.items.type}s`;
+
+  return type;
 }
 
 function CustomTemplate(props) {
-  const { id, classNames, label, help, required, description, errors, children, schema } = props
+  const { id, classNames, label, help, required, description, errors, children, schema } = props;
 
   return (
     <div className={`${classNames} param`}>
       <span className="label">
         <label className="label-name" htmlFor={id}>
-          {label}{required && <span className="label-required">*</span>}
+          {label}
+          {required && <span className="label-required">*</span>}
         </label>
         <span className="label-type">{getTypeLabel(schema)}</span>
         {description && <div className="description">{description}</div>}
@@ -68,7 +68,7 @@ function SchemaField(props) {
   if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
     props.schema.format = undefined;
 
-  if('name' in props) props.registry.FieldTemplate = CustomTemplate;
+  if ('name' in props) props.registry.FieldTemplate = CustomTemplate;
 
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
@@ -83,8 +83,7 @@ function SchemaField(props) {
   }
 
   const customType = getCustomType(props.schema);
-  if (customType)
-    return <BaseSchemaField {...props} />;
+  if (customType) return <BaseSchemaField {...props} />;
 
   if (props.schema.type === 'boolean') {
     props.schema.enumNames = ['true', 'false'];
@@ -110,8 +109,8 @@ CustomTemplate.propTypes = {
   description: PropTypes.node.isRequired,
   errors: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
-  schema: PropTypes.shape({}).isRequired
-}
+  schema: PropTypes.shape({}).isRequired,
+};
 
 SchemaField.propTypes = {
   schema: PropTypes.shape({
@@ -122,7 +121,7 @@ SchemaField.propTypes = {
   }).isRequired,
   registry: PropTypes.shape({
     widgets: PropTypes.object,
-    FieldTemplate: PropTypes.func
+    FieldTemplate: PropTypes.func,
   }).isRequired,
   uiSchema: PropTypes.shape({}),
 };
