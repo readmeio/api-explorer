@@ -49,7 +49,7 @@ function showExamples(examples, setResponseType, responseType) {
   return (
     <div>
       <select
-        className="example-response-select"
+        className="response-select"
         onChange={e => setResponseType(e.target.value)}
         value={responseTypeCopy}
       >

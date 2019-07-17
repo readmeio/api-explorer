@@ -2965,7 +2965,7 @@ img.mfp-img {
   -webkit-user-select:none;
   -moz-user-select:none;
   user-select:none;
-    
+
   /* Styles */
   background: #fff;
   border-radius: 7px;
@@ -9346,6 +9346,9 @@ body.page-password footer,
 #hub-reference .hub-api .code-sample .hub-code-auto .copy-code-button {
   margin-right: 30px;
 }
+#hub-reference .hub-api .code-sample .code-sample-body .response-select {
+  background-color: #3d434a;
+}
 #hub-reference .hub-api .code-sample .hub-code-auto i.icon-sync {
   position: absolute;
   top: -2px;
@@ -10773,7 +10776,7 @@ div.simple-dropdown.open > div {
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  
+
   /* Enable Ligatures ================ */
   letter-spacing: 0;
   -webkit-font-feature-settings: "liga";
@@ -11928,7 +11931,4 @@ div.simple-dropdown.open > div {
 }
 .cm-s-tomorrow-night span.cm-operator {
   color: #7c7c7c;
-}
-.example-response-select {
-  background-color: #3d434a;
 }
