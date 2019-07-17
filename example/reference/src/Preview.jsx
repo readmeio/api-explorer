@@ -56,9 +56,7 @@ class Preview extends React.Component {
                       <h3 className="hub-reference-loading-error-header">
                         Couldn&apos;t be loaded
                       </h3>
-                      <p>
-                        TKTK Lorem ipsum dolor sit amet, consectetur adipiscing elit TKTK
-                      </p>
+                      <p>There was an error fetching your API Specification.</p>
                     </div>
 
                     <pre>{status.join('\n')}</pre>
