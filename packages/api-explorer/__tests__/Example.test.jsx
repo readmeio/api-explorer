@@ -74,3 +74,16 @@ test('should correctly highlight XML syntax', () => {
       .find('.cm-tag').length,
   ).toBe(25);
 });
+
+test('should show select for multiple response types', () => {
+  const exampleOas = new Oas(exampleResults);
+  const example = shallow(
+    <Example
+      {...props}
+      oas={exampleOas}
+      operation={exampleOas.operation('/multi-results', 'get')}
+    />,
+  );
+
+  expect(example.html().includes('<select')).toBe(true);
+});

@@ -20,6 +20,7 @@ class Response extends React.Component {
     };
     this.setTab = this.setTab.bind(this);
     this.setExampleTab = this.setExampleTab.bind(this);
+    this.setResponseType = this.setResponseType.bind(this);
   }
 
   setTab(selected) {
@@ -27,7 +28,11 @@ class Response extends React.Component {
   }
 
   setExampleTab(index) {
-    this.setState({ exampleTab: index });
+    this.setState({ exampleTab: index, responseType: undefined });
+  }
+
+  setResponseType(index) {
+    this.setState({ responseType: index });
   }
 
   render() {
@@ -66,7 +71,9 @@ class Response extends React.Component {
             result={result}
             oas={oas}
             selected={this.state.exampleTab}
+            responseType={this.state.responseType}
             setExampleTab={this.setExampleTab}
+            setResponseType={this.setResponseType}
             exampleResponses={exampleResponses}
           />
         </div>
