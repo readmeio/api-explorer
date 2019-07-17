@@ -139,5 +139,6 @@ Example.propTypes = {
 
 Example.defaultProps = {
   result: {},
+  responseType: null,
   exampleResponses: [],
 };
