@@ -6,6 +6,10 @@
   padding: 0 !important;
 }
 
+.form-group:not(.field) + .form-group.field {
+  border-top: none !important;
+}
+
 .children input {
   line-height: 1 !important;
   padding: 6px !important;
@@ -102,11 +106,11 @@ fieldset {
   padding: 0;
   background: #f2f2f2;
   border-radius: 6px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .param.field-object > .children {
-  padding: 0 .75em;
+  padding: 0 1em;
 }
 
 .param.field-array > .children {
@@ -171,14 +175,55 @@ fieldset {
   padding: 0;
 }
 
-.param .row .btn.btn-add,
-.param.field-array > .children .array-item-add, .param.field-array > .children .array-item-add .btn {
-  margin: 0 0 0 0.5em;
+.param .row .btn.btn-add {
+  margin: 0;
 }
 
-.param.field-object > .children legend,
+.param.field-array > .children .array-item-add, .param.field-array > .children .array-item-add .btn {
+  margin: 0 0 0 5px;
+}
+
+.field fieldset {
+  position: relative;
+}
+
+.field-object > .children legend,
+.field-array > .children legend {
+  flex: auto;
+  font-size: .8em;
+  /* font-weight: 300; */
+  text-align: right;
+  background: linear-gradient(to bottom, white 25%, #f2f2f2 75%);
+  margin: 0 0 0 !important;
+  transform: translate(4px, -50%);
+  padding: 4px;
+  /* color: #888; */
+}
+
+.field-object > .children legend:not(:only-child),
+.field-array > .children legend:not(:only-child) {
+  position: absolute;
+  right: 0;
+}
+
+.field-array > .children legend {
+  transform: translate(-4px, -50%);
+}
+
+.children legend {
+  display: none;
+}
+
+.children .children legend {
+  display: inline-block;
+  background: #f2f2f2 !important;
+}
+
+.children legend:after {
+  display: none !important;
+}
+
 .param.field-object > .children .field-description,
-.param.field-array > .children legend,
 .param.field-array > .children .field-description {
   display: none;
 }
@@ -213,13 +258,13 @@ fieldset {
   border-left: 0;  
 }
 
-.field-object .field-object .children .label {
+/* .field-object .field-object .children .label {
   display: none;
 }
 
-.field-array-of-object .label {
+.children .field-array-of-object .label {
   display: none !important;
-}
+} */
 
 .param.field-object > .children .label {
   display: flex !important;
@@ -240,4 +285,32 @@ fieldset {
 .field-object .field-array  > .children,
 .field-array  .field-array  > .children {
   border: 1px solid #ddd;
+}
+
+select[id*="_anyof_"] {
+  margin: 1em 0 .5em !important;
+}
+
+.field-array > .children legend {
+  transform: translate(-4px, -50%);
+}
+
+.children .children legend {
+  background: #f2f2f2 !important;
+}
+
+.children legend:after {
+  display: none !important;
+}
+
+.field .children .field-array {
+  padding-top: 0 !important;
+}
+
+.field .children .field-array > .label {
+  display: none !important;
+}
+
+.children:hover {
+  border-color: #ccc !important;
 }
