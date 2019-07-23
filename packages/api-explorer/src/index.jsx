@@ -70,6 +70,11 @@ class ApiExplorer extends React.Component {
     return this.props.oasFiles[apiSetting];
   }
 
+  isLazy(index) {
+    if (this.props.dontLazyLoad) return false;
+    return this.lazyHash[index];
+  }
+
   /**
    * Be a bit more selective of that to lazy render
    * @return {Object} Builds a hash of which indexes of this.props.docs should
@@ -128,7 +133,7 @@ class ApiExplorer extends React.Component {
                       <Doc
                         key={doc._id}
                         doc={doc}
-                        lazy={this.lazyHash[index]}
+                        lazy={this.isLazy(index)}
                         oas={this.getOas(doc)}
                         setLanguage={this.setLanguage}
                         flags={this.props.flags}
@@ -158,6 +163,7 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
+  dontLazyLoad: PropTypes.bool.isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
     splitReferenceDocs: PropTypes.bool,
@@ -191,6 +197,7 @@ ApiExplorer.defaultProps = {
   tryItMetrics: () => {},
   Logs: undefined,
   baseUrl: '/',
+  dontLazyLoad: false,
 };
 
 module.exports = props => (
