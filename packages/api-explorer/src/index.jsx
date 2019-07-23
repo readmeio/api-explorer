@@ -56,11 +56,6 @@ class ApiExplorer extends React.Component {
     }
   }
 
-  isLazy(index) {
-    if (this.props.dontLazyLoad) return false;
-    return this.lazyHash[index];
-  }
-
   getOas(doc) {
     // Get the apiSetting id from the following places:
     // - category.apiSetting if set and populated
@@ -73,6 +68,11 @@ class ApiExplorer extends React.Component {
       (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
 
     return this.props.oasFiles[apiSetting];
+  }
+
+  isLazy(index) {
+    if (this.props.dontLazyLoad) return false;
+    return this.lazyHash[index];
   }
 
   /**
