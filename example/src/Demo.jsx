@@ -34,6 +34,10 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
             // Uncomment this if you want to test enterprise-structured URLs
             // baseUrl={'/child/v1.0'}
             Logs={Logs}
+
+            // We only really set this to `true` for testing sites for errors using puppeteer
+            dontLazyLoad={false}
+
             flags={{ correctnewlines: false }}
             // Uncomment this in for column layout
             // appearance={{ referenceLayout: 'column' }}
