@@ -20,7 +20,8 @@ class Response extends React.Component {
     };
     this.setTab = this.setTab.bind(this);
     this.setExampleTab = this.setExampleTab.bind(this);
-    this.setResponseType = this.setResponseType.bind(this);
+    this.setResponseExample = this.setResponseExample.bind(this);
+    this.setResponseMediaType = this.setResponseMediaType.bind(this);
   }
 
   setTab(selected) {
@@ -28,11 +29,15 @@ class Response extends React.Component {
   }
 
   setExampleTab(index) {
-    this.setState({ exampleTab: index, responseType: undefined });
+    this.setState({ exampleTab: index, responseMediaType: undefined, responseExample: undefined });
   }
 
-  setResponseType(index) {
-    this.setState({ responseType: index });
+  setResponseExample(index) {
+    this.setState({ responseExample: index });
+  }
+
+  setResponseMediaType(example, index) {
+    this.setState({ responseMediaType: index, responseMediaTypeExample: example });
   }
 
   render() {
@@ -66,14 +71,18 @@ class Response extends React.Component {
               </span>
             )}
           </div>
+
           <Example
             operation={operation}
             result={result}
             oas={oas}
             selected={this.state.exampleTab}
-            responseType={this.state.responseType}
+            responseExample={this.state.responseExample}
+            responseMediaType={this.state.responseMediaType}
+            responseMediaTypeExample={this.state.responseMediaTypeExample}
             setExampleTab={this.setExampleTab}
-            setResponseType={this.setResponseType}
+            setResponseExample={this.setResponseExample}
+            setResponseMediaType={this.setResponseMediaType}
             exampleResponses={exampleResponses}
           />
         </div>

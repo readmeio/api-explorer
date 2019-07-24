@@ -2,6 +2,14 @@ function getLanguage(response) {
   return response.content ? Object.keys(response.content)[0] : '';
 }
 
+function getLanguages(response) {
+  return response.content ? Object.keys(response.content) : '';
+}
+
+function hasMultipleLanguages(response) {
+  return response.content ? Object.keys(response.content).length > 1 : false;
+}
+
 function getExample(response, lang) {
   return response.content[lang].examples && response.content[lang].examples.response
     ? response.content[lang].examples.response.value
@@ -9,7 +17,7 @@ function getExample(response, lang) {
 }
 
 function getMultipleExamples(response, lang) {
-  if (!response.content[lang].examples || response.content[lang].examples.response) return '';
+  if (!response.content[lang].examples || response.content[lang].examples.response) return false;
 
   const examples = response.content[lang].examples;
   return Object.keys(examples).map(key => {
@@ -36,18 +44,44 @@ module.exports = type => {
       .map(status => {
         const response = pathOperation.responses[status];
 
-        const language = response.language || getLanguage(response);
-        if (!language) return false;
+        const languages = [];
+        if (hasMultipleLanguages(response)) {
+          getLanguages(response).forEach(language => {
+            if (!language) return false;
 
-        const example = response.code || getExample(response, language);
-        const multipleExamples = getMultipleExamples(response, language);
-        if (!example && !multipleExamples) return false;
+            const langResponse = response.content[language];
+            const example = langResponse.code || getExample(response, language);
+            const multipleExamples = getMultipleExamples(response, language);
+            if (!example && !multipleExamples) return false;
+
+            languages.push({
+              language,
+              code: typeof example === 'object' ? JSON.stringify(example, undefined, 2) : example,
+              multipleExamples,
+            });
+
+            return true;
+          });
+
+          if (languages.length === 0) return false;
+        } else {
+          const language = response.language || getLanguage(response);
+          if (!language) return false;
+
+          const example = response.code || getExample(response, language);
+          const multipleExamples = getMultipleExamples(response, language);
+          if (!example && !multipleExamples) return false;
+
+          languages.push({
+            language,
+            code: typeof example === 'object' ? JSON.stringify(example, undefined, 2) : example,
+            multipleExamples,
+          });
+        }
 
         return {
-          code: typeof example === 'object' ? JSON.stringify(example, undefined, 2) : example,
-          multipleExamples,
-          language,
           status,
+          languages,
         };
       })
       .filter(Boolean);

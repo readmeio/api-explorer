@@ -14,13 +14,13 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function isDisplayable(example, responseTypeCopy) {
-  if (!responseTypeCopy) return true;
+function isDisplayable(example, responseExampleCopy) {
+  if (!responseExampleCopy) return true;
 
-  return example.label === responseTypeCopy;
+  return example.label === responseExampleCopy;
 }
 
-function getReactJson(example, responseTypeCopy) {
+function getReactJson(example, responseExampleCopy) {
   return (
     <ReactJson
       src={JSON.parse(example.code)}
@@ -35,23 +35,24 @@ function getReactJson(example, responseTypeCopy) {
       style={{
         padding: '20px 10px',
         backgroundColor: 'transparent',
-        display: isDisplayable(example, responseTypeCopy) ? 'block' : 'none',
+        display: isDisplayable(example, responseExampleCopy) ? 'block' : 'none',
         fontSize: '12px',
       }}
     />
   );
 }
 
-function showExamples(examples, setResponseType, responseType) {
-  let responseTypeCopy = responseType;
-  if (!responseTypeCopy && examples[0]) responseTypeCopy = examples[0].label;
+function showExamples(examples, setResponseExample, responseExample) {
+  let responseExampleCopy = responseExample;
+  if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
 
   return (
     <div>
+      <h3>Examples</h3>
       <select
         className="response-select"
-        onChange={e => setResponseType(e.target.value)}
-        value={responseTypeCopy}
+        onChange={e => setResponseExample(e.target.value)}
+        value={responseExampleCopy}
       >
         {examples.map(example => (
           <option value={example.label} key={example.label}>
@@ -60,8 +61,35 @@ function showExamples(examples, setResponseType, responseType) {
         ))}
       </select>
       {examples.map(example => {
-        return getReactJson(example, responseTypeCopy);
+        return getReactJson(example, responseExampleCopy);
       })}
+    </div>
+  );
+}
+
+function showMediaTypes(example, setResponseMediaType, responseMediaType) {
+  const mediaTypes = example.languages;
+  if (mediaTypes.length <= 1) {
+    return false;
+  }
+
+  let responseMediaTypeCopy = responseMediaType;
+  if (!responseMediaTypeCopy && mediaTypes[0]) responseMediaTypeCopy = mediaTypes[0].languages;
+
+  return (
+    <div>
+      <h3>Media Types</h3>
+      <select
+        className="response-select"
+        onChange={e => setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
+        value={responseMediaTypeCopy}
+      >
+        {mediaTypes.map((l, idx) => (
+          <option value={idx} key={l.language}>
+            {l.language}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
@@ -73,11 +101,18 @@ function Example({
   selected,
   setExampleTab,
   exampleResponses,
-  setResponseType,
-  responseType,
+  setResponseExample,
+  setResponseMediaType,
+  responseExample,
+  responseMediaType,
+  responseMediaTypeExample,
 }) {
   const examples = exampleResponses.length ? exampleResponses : showCodeResults(operation);
-  const hasExamples = examples.find(e => e.code && e.code !== '{}');
+  // @fixme this doesn't seem to pick up results if there is just one example?
+  const hasExamples = examples.find(e => {
+    return e.languages.find(ee => ee.code && ee.code !== '{}');
+  });
+
   return (
     <div className="hub-reference-results-examples code-sample">
       {examples &&
@@ -86,31 +121,52 @@ function Example({
         <span>
           <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
-            {examples.map((example, index) => {
-              const isJson = example.language && contentTypeIsJson(example.language);
+            {examples.map((ex, index) => {
+              let example;
+              let isJson;
+              const mediaTypes = ex.languages;
+
+              if (mediaTypes.length > 1) {
+                example = responseMediaTypeExample || mediaTypes[0];
+                isJson = example.language && contentTypeIsJson(example.language);
+              } else {
+                example = mediaTypes[0];
+                isJson = example.language && contentTypeIsJson(example.language);
+              }
+
               return (
-                <pre
-                  className={`tomorrow-night tabber-body tabber-body-${index}`}
-                  style={{ display: index === selected ? 'block' : '' }}
-                  key={index} // eslint-disable-line react/no-array-index-key
-                >
-                  {example.multipleExamples &&
-                    showExamples(example.multipleExamples, setResponseType, responseType)}
-                  {isJson && !example.multipleExamples ? (
-                    getReactJson(example)
-                  ) : (
-                    <div>
-                      {syntaxHighlighter(example.code, example.language, {
-                        dark: true,
-                      })}
-                    </div>
-                  )}
-                </pre>
+                <div>
+                  <pre
+                    className={`tomorrow-night tabber-body tabber-body-${index}`}
+                    style={{ display: index === selected ? 'block' : '' }}
+                    key={index} // eslint-disable-line react/no-array-index-key
+                  >
+                    {mediaTypes.length > 1 &&
+                      showMediaTypes(ex, setResponseMediaType, responseMediaType)}
+
+                    {example.multipleExamples &&
+                      showExamples(example.multipleExamples, setResponseExample, responseExample)}
+
+                    {isJson && !example.multipleExamples ? (
+                      <div>{getReactJson(example)}</div>
+                    ) : (
+                      // json + multiple examples is already handled in `showExamples`.
+                      <div>
+                        {isJson && example.multipleExamples ? null : (
+                          syntaxHighlighter(example.code, example.language, {
+                            dark: true,
+                          })
+                        )}
+                      </div>
+                    )}
+                  </pre>
+                </div>
               );
             })}
           </div>
         </span>
       )}
+
       {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
           {oas[extensions.EXPLORER_ENABLED] ? (
@@ -131,14 +187,19 @@ Example.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   selected: PropTypes.number.isRequired,
-  responseType: PropTypes.string,
+  responseExample: PropTypes.string,
+  responseMediaType: PropTypes.string,
+  responseMediaTypeExample: PropTypes.shape({}),
   setExampleTab: PropTypes.func.isRequired,
-  setResponseType: PropTypes.func.isRequired,
+  setResponseExample: PropTypes.func.isRequired,
+  setResponseMediaType: PropTypes.func.isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Example.defaultProps = {
   result: {},
-  responseType: null,
+  responseExample: null,
+  responseMediaType: null,
+  responseMediaTypeExample: null,
   exampleResponses: [],
 };

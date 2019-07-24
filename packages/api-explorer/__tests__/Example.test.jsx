@@ -81,9 +81,29 @@ test('should show select for multiple response types', () => {
     <Example
       {...props}
       oas={exampleOas}
+      operation={exampleOas.operation('/multi-media-types', 'get')}
+    />,
+  );
+
+  const html = example.html();
+
+  expect(html.includes('>Media Types')).toBe(true);
+  // is false because the first media type shown is just a text/plain with a single example
+  expect(html.includes('>Examples')).toBe(false);
+});
+
+test('should show select for multiple response type examples', () => {
+  const exampleOas = new Oas(exampleResults);
+  const example = shallow(
+    <Example
+      {...props}
+      oas={exampleOas}
       operation={exampleOas.operation('/multi-results', 'get')}
     />,
   );
 
-  expect(example.html().includes('<select')).toBe(true);
+  const html = example.html();
+
+  expect(html.includes('>Examples')).toBe(true);
+  expect(html.includes('>Media Types')).toBe(false);
 });

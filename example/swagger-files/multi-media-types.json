@@ -12,19 +12,40 @@
   "paths": {
     "/results": {
       "get": {
+        "summary": "Get results",
         "description": "",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "examples": {
                   "response": {
+                    "value": "OK"
+                  }
+                }
+              },
+              "application/json": {
+                "examples": {
+                  "cat" : {
+                    "summary": "An example of a cat",
+                    "value":
+                    {
+                      "name": "Fluffy",
+                      "petType": "Cat",
+                      "color": "White",
+                      "gender": "male",
+                      "breed": "Persian"
+                    }
+                  },
+                  "dog": {
+                    "summary": "An example of a dog with a cat's name",
                     "value": {
-                      "user": {
-                        "email": "test@example.com",
-                        "name": "Test user name"
-                      }
+                      "name": "Puma",
+                      "petType": "Dog",
+                      "color": "Black",
+                      "gender": "Female",
+                      "breed": "Mixed"
                     }
                   }
                 }
@@ -44,12 +65,12 @@
               }
             }
           }
-        },
-        "summary": "Update Password"
+        }
       }
     },
-    "/multi-results": {
+    "/results/popular": {
       "get": {
+        "summary": "Get only popular results",
         "description": "",
         "responses": {
           "200": {
@@ -57,18 +78,25 @@
             "content": {
               "application/json": {
                 "examples": {
-                  "cat": {
+                  "cat" : {
                     "summary": "An example of a cat",
-                    "value": {
+                    "value":
+                    {
                       "name": "Fluffy",
-                      "petType": "Cat"
+                      "petType": "Cat",
+                      "color": "White",
+                      "gender": "male",
+                      "breed": "Persian"
                     }
                   },
                   "dog": {
                     "summary": "An example of a dog with a cat's name",
                     "value": {
                       "name": "Puma",
-                      "petType": "Dog"
+                      "petType": "Dog",
+                      "color": "Black",
+                      "gender": "Female",
+                      "breed": "Mixed"
                     }
                   }
                 }
@@ -82,81 +110,15 @@
                 "examples": {
                   "response": {
                     "value":
-                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
                   }
                 }
               }
             }
           }
-        },
-        "summary": "Update Password"
-      }
-    },
-    "/multi-media-types": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "examples": {
-                  "response": {
-                    "value": "OK"
-                  }
-                }
-              },
-              "application/json": {
-                "examples": {
-                  "cat": {
-                    "summary": "An example of a cat",
-                    "value": {
-                      "name": "Fluffy",
-                      "petType": "Cat"
-                    }
-                  },
-                  "dog": {
-                    "summary": "An example of a dog with a cat's name",
-                    "value": {
-                      "name": "Puma",
-                      "petType": "Dog"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation failed",
-            "content": {
-              "application/xml": {
-                "examples": {
-                  "response": {
-                    "value":
-                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "Update Password"
-      }
-    },
-    "/nolang": {
-      "get": {
-        "description": ""
+        }
       }
     }
-  },
-  "components": {
-    "schemas": {},
-    "responses": {},
-    "parameters": {},
-    "examples": {},
-    "requestBodies": {},
-    "securitySchemes": {},
-    "headers": {}
   },
   "x-explorer-enabled": true,
   "x-samples-enabled": true,
