@@ -477,3 +477,21 @@ form.rjsf fieldset {
 .hub-reference-response-definitions.dark td {
   color: rgba(255,255,255,0.7);
 }
+
+.tabber-example-row {
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.tabber-example-row > * + * {
+  margin-left: 1rem;
+}
+.tabber-example-row > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.tabber-body .react-json-view {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
