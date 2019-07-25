@@ -39,7 +39,7 @@ function withSpecFetching(Component) {
             return res.json();
           })
           .then((json) => {
-            if (json.swagger) return this.convertSwagger(json);
+            if (json.swagger) return this.convertSwagger(url, json);
 
             return this.dereference(json);
           }).catch((e) => {
@@ -59,12 +59,12 @@ function withSpecFetching(Component) {
       });
     }
 
-    convertSwagger(swagger) {
+    convertSwagger(url, swagger) {
       this.updateStatus('Converting Swagger file to OAS 3', () => {
         swagger2openapi.convertObj(swagger, {})
           .then(({ openapi }) => this.dereference(openapi))
           .catch((e) => {
-            this.setState({ isLoading: false });
+            this.setState({ isLoading: false, invalidSpec: e.message, invalidSpecPath: url });
             this.updateStatus(`There was an error fetching your specification:\n\n${e.message}`);
           });
       });

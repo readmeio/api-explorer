@@ -32,7 +32,7 @@ class Preview extends React.Component {
   }
 
   render() {
-    const { status, docs, oas, oauth } = this.props;
+    const { status, docs, invalidSpec, invalidSpecPath, oas, oauth } = this.props;
 
     return (
       <div>
@@ -53,13 +53,25 @@ class Preview extends React.Component {
                 <div className="hub-reference-section">
                   <div id="hub-reference-loading-error">
                     <div className="hub-reference-loading-error-box">
-                      <h3 className="hub-reference-loading-error-header">
-                        Couldn&apos;t be loaded
-                      </h3>
-                      <p>There was an error fetching your API Specification.</p>
+                      {invalidSpec ? (
+                        <div>
+                          <h3 className="hub-reference-loading-error-header">
+                            Invalid API Specification
+                          </h3>
+                          <p>{invalidSpec}</p>
+                          <p>
+                            <a className="btn btn-primary btn-lg" href={`http://openap.is/validate?url=${invalidSpecPath}`}>View Validation Report</a>
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <h3 className="hub-reference-loading-error-header">
+                            Couldn&apos;t be loaded
+                          </h3>
+                          <p>There was an error fetching your API Specification.</p>
+                        </div>
+                      )}
                     </div>
-
-                    <pre>{status.join('\n')}</pre>
                   </div>
                 </div>
               )}
@@ -92,6 +104,8 @@ class Preview extends React.Component {
 }
 
 Preview.propTypes = {
+  invalidSpec: PropTypes.string,
+  invalidSpecPath: PropTypes.string,
   isLoading: PropTypes.bool,
   oauth: PropTypes.bool,
   oas: PropTypes.shape({}).isRequired,
@@ -101,6 +115,8 @@ Preview.propTypes = {
 };
 
 Preview.defaultProps = {
+  invalidSpec: null,
+  invalidSpecPath: null,
   isLoading: true,
   oauth: false,
 };
