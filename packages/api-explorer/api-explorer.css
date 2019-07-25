@@ -478,16 +478,16 @@ form.rjsf fieldset {
   color: rgba(255,255,255,0.7);
 }
 
-.tabber-example-row {
+.tabber-select-row {
   display: flex;
   flex-flow: nowrap row;
   justify-content: flex-start;
   align-items: center;
 }
-.tabber-example-row > * + * {
+.tabber-select-row > * + * {
   margin-left: 1rem;
 }
-.tabber-example-row > * {
+.tabber-select-row > * {
   margin-top: 0;
   margin-bottom: 0;
 }
