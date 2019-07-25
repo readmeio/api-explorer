@@ -48,18 +48,20 @@ function showExamples(examples, setResponseExample, responseExample) {
 
   return (
     <div>
-      <h3>Examples</h3>
-      <select
-        className="response-select"
-        onChange={e => setResponseExample(e.target.value)}
-        value={responseExampleCopy}
-      >
-        {examples.map(example => (
-          <option value={example.label} key={example.label}>
-            {example.label}
-          </option>
-        ))}
-      </select>
+      <span className="tabber-select-row">
+        <h3>Examples</h3>
+        <select
+          className="response-select"
+          onChange={e => setResponseExample(e.target.value)}
+          value={responseExampleCopy}
+        >
+          {examples.map(example => (
+            <option value={example.label} key={example.label}>
+              {example.label}
+            </option>
+          ))}
+        </select>
+      </span>
       {examples.map(example => {
         return getReactJson(example, responseExampleCopy);
       })}
@@ -78,18 +80,20 @@ function showMediaTypes(example, setResponseMediaType, responseMediaType) {
 
   return (
     <div>
-      <h3>Media Types</h3>
-      <select
-        className="response-select"
-        onChange={e => setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
-        value={responseMediaTypeCopy}
-      >
-        {mediaTypes.map((l, idx) => (
-          <option value={idx} key={l.language}>
-            {l.language}
-          </option>
-        ))}
-      </select>
+      <span className="tabber-select-row">
+        <h3>Media Types</h3>
+        <select
+          className="response-select"
+          onChange={e => setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
+          value={responseMediaTypeCopy}
+        >
+          {mediaTypes.map((l, idx) => (
+            <option value={idx} key={l.language}>
+              {l.language}
+            </option>
+          ))}
+        </select>
+      </span>
     </div>
   );
 }
