@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 const React = require('react');
 const ReactDOM = require('react-dom');
 const PropTypes = require('prop-types');

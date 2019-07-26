@@ -8,11 +8,14 @@ import PropTypes from 'prop-types'
 import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
 import {get} from 'lodash'
+import {clone} from 'ramda'
+
 import extensions from '@mia-platform/oas-extensions'
 
 import fetchMultipart from './lib/fetch-multipart'
 import oasToHar from './lib/oas-to-har'
 import isAuthReady from './lib/is-auth-ready'
+import filterEmptyFormData from './lib/filter-empty-formdata';
 
 import ContentWithTitle from './components/ContentWithTitle'
 import SchemaTabs from './components/SchemaTabs'
@@ -94,10 +97,12 @@ class Doc extends React.Component {
     }
   }
 
-  onChange(formData) {
+  onChange(data) {
     this.setState(previousState => {
+      const { schema, formData } = data
+      const filtered = filterEmptyFormData(clone(formData), schema ? schema.schema : {})
       return {
-        formData: Object.assign({}, previousState.formData, formData),
+        formData: Object.assign({}, previousState.formData, filtered),
         dirty: true,
       };
     });

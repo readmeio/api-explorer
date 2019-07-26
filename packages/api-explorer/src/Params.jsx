@@ -61,7 +61,7 @@ class Params extends Component{
         }}
         onSubmit={onSubmit}
         formData={formData[schema.type]}
-        onChange={form => onChange({ [schema.type]: form.formData })}
+        onChange={form => onChange({ schema, formData: { [schema.type]: form.formData } })}
         fields={{
           DescriptionField,
           ArrayField,

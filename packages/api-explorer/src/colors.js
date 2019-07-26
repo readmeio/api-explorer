@@ -7,6 +7,8 @@ export default {
   head: {color: 'purple', bg: '#f9f0ff', border: '#d3adf7'},
   options: {color: 'geekblue', bg: '#f0f5ff', border: '#adc6ff'},
   defaultTag: '#fff',
+  defaultBackground: '#fff',
+  defaultBorder: '#a8a7a7',
   bold: '#666666',
   pathUrl: '#a8a7a7',
   pathVariable: '#5a5a5a',

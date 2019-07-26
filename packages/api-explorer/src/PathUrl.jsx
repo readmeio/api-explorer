@@ -41,8 +41,13 @@ function renderOperationMethod(operation) {
     fontWeight: 600,
   }
 
-  return(
-    <Tag color={colors[operation.method].border} style={tagStyle}>{operation.method}</Tag>
+  return (
+    <Tag 
+      color={colors[operation.method] ? colors[operation.method].border: colors.defaultBorder}
+      style={tagStyle}
+    >
+      {operation.method}
+    </Tag>
   )
 }
 
@@ -68,11 +73,12 @@ function renderUrl(oas, operation) {
     oas.servers && oas.servers.length > 0 && (
       <div style={style.container}>
         <span>{oas.url()}</span>
-        {splitPath(operation.path).map(part => (
-          <span key={part.value} style={style[part.type]}>
+        {splitPath(operation.path).map((part, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <span key={`${part.value}-${part.type}-${i}`} style={style[part.type]}>
             {part.value}
           </span>
-      ))}
+        ))}
       </div>
     )
   )
