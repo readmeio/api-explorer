@@ -311,9 +311,21 @@ form.rjsf button[disabled] {
   padding: 3px 6px;
 }
 
-.field.field-array-of-object legend::after {
+.field.field-array-of-object > legend::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'array of objects';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+fieldset[id^='root_array of objects_'] > legend::after {
+  content: 'object';
+  color: rgba(0, 0, 0, 0.6);
   background: #f2f2f2;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;

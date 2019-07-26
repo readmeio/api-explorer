@@ -220,6 +220,14 @@
                         },
                         "name": {
                           "type": "string"
+                        },
+                        "object": {
+                          "type": "object",
+                          "properties": {
+                            "a": {
+                              "type": "string"
+                            }
+                          }
                         }
                       }
                     }
