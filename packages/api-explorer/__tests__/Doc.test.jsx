@@ -65,6 +65,37 @@ test('should render straight away if `appearance.splitReferenceDocs` is true', (
   expect(doc.find('Waypoint').length).toBe(0);
 });
 
+test('should render a manual endpoint', () => {
+  const myProps = JSON.parse(JSON.stringify(props));
+  myProps.doc.swagger.path = '/nonexistant';
+  myProps.doc.api.examples = {
+    codes: [],
+  };
+  myProps.doc.api.params = [
+    {
+      default: 'test',
+      desc: 'test',
+      in: 'path',
+      name: 'test',
+      ref: '',
+      required: false,
+      type: 'string',
+    },
+  ];
+
+  const doc = mount(
+    <Doc
+      {...myProps}
+      appearance={{
+        splitReferenceDocs: true,
+      }}
+    />,
+  );
+
+  assertDocElements(doc, props.doc);
+  expect(doc.find('Params').length).toBe(1);
+});
+
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
