@@ -1,7 +1,7 @@
 {
   "name": "@mia-platform/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "5.8.5",
+  "version": "5.8.6",
   "main": "dist/index.js",
   "dependencies": {
     "@mia-platform/markdown": "^5.0.4",
