@@ -57,8 +57,9 @@ function ResponseBody({ result, isOauth, oauth }) {
         result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />
       }
       {
-        result.responseBody ? <Result result={result} /> 
-        : renderPlainText('response.noBody', 'The response has no body')
+        result.responseBody ? 
+          <Result result={result} /> :
+          renderPlainText('response.noBody', 'The response has no body')
       } 
     </div>
   );

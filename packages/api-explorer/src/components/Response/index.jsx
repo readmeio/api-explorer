@@ -65,7 +65,7 @@ class Response extends React.Component {
               selected={responseTab}
               onClick={this.setTab} 
             >
-              <div  style={{maxHeight: '400px', overflow: 'hidden scroll'}}>
+              <div style={{maxHeight: '400px', padding: '10px', overflow: 'hidden scroll'}}>
                 {responseTab === 'result' && <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />}
                 {responseTab === 'metadata' && <ResponseMetadata result={result} />}
               </div>
