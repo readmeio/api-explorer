@@ -15,37 +15,41 @@ export default function Result({ result }) {
   
     return (
       <div>
-        {result.isBinary && <div><FormattedMessage id="api.response.binary" defaultMessage="A binary file was returned" /></div>}
-        {!result.isBinary &&
-        isJson && (
-          <ReactJson
-            src={result.responseBody}
-            collapsed={1}
-            collapseStringsAfterLength={100}
-            enableClipboard={false}
-            theme="tomorrow"
-            name={null}
-            displayDataTypes={false}
-            displayObjectSize={false}
-            style={{
-              padding: '20px 10px',
-              backgroundColor: 'transparent',
-              color: colors.reactJson,
-              fontSize: '12px',
-              overflow: 'visible',
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-all'
-            }}
-          />
-        )}
-        {!result.isBinary &&
-        !isJson && (
-          <pre className="tomorrow-night" style={notJsonStyle}>
-            <div className="cm-s-tomorrow-night codemirror-highlight">
-              {syntaxHighlighter(result.responseBody, result.type)}
-            </div>
-          </pre>
-        )}
+        {
+          result.isBinary && <div><FormattedMessage id="api.response.binary" defaultMessage="A binary file was returned" /></div>
+        }
+        {
+          !result.isBinary && isJson && (
+            <ReactJson
+              src={result.responseBody}
+              collapsed={1}
+              collapseStringsAfterLength={100}
+              enableClipboard={false}
+              theme="tomorrow"
+              name={null}
+              displayDataTypes={false}
+              displayObjectSize={false}
+              style={{
+                padding: '20px 10px',
+                backgroundColor: 'transparent',
+                color: colors.reactJson,
+                fontSize: '12px',
+                overflow: 'visible',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-all'
+              }}
+            />
+          )
+        }
+        {
+          !result.isBinary && !isJson && (
+            <pre className="tomorrow-night" style={notJsonStyle}>
+              <div className="cm-s-tomorrow-night codemirror-highlight">
+                {syntaxHighlighter(`${result.responseBody}`, result.type)}
+              </div>
+            </pre>
+          )
+        }
       </div>
     );
   }
