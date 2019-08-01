@@ -42,33 +42,6 @@ function getReactJson(example, responseExampleCopy) {
   );
 }
 
-function showExamples(examples, setResponseExample, responseExample) {
-  let responseExampleCopy = responseExample;
-  if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
-
-  return (
-    <div>
-      <span className="tabber-select-row">
-        <h3>Examples</h3>
-        <select
-          className="response-select"
-          onChange={e => setResponseExample(e.target.value)}
-          value={responseExampleCopy}
-        >
-          {examples.map(example => (
-            <option value={example.label} key={example.label}>
-              {example.label}
-            </option>
-          ))}
-        </select>
-      </span>
-      {examples.map(example => {
-        return getReactJson(example, responseExampleCopy);
-      })}
-    </div>
-  );
-}
-
 function showMediaTypes(example, setResponseMediaType, responseMediaType) {
   const mediaTypes = example.languages;
   if (mediaTypes.length <= 1) {
@@ -94,6 +67,37 @@ function showMediaTypes(example, setResponseMediaType, responseMediaType) {
           ))}
         </select>
       </span>
+    </div>
+  );
+}
+
+function showExamples(examples, setResponseExample, responseExample, mediaTypes, ex, setResponseMediaType, responseMediaType) {
+  let responseExampleCopy = responseExample;
+  if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
+
+  return (
+    <div>
+      <div className="tabber-bar">
+        {mediaTypes.length > 1 &&
+          showMediaTypes(ex, setResponseMediaType, responseMediaType)}
+        <span className="tabber-select-row">
+          <h3>Examples</h3>
+          <select
+            className="response-select"
+            onChange={e => setResponseExample(e.target.value)}
+            value={responseExampleCopy}
+          >
+            {examples.map(example => (
+              <option value={example.label} key={example.label}>
+                {example.label}
+              </option>
+            ))}
+          </select>
+        </span>
+      </div>
+      {examples.map(example => {
+        return getReactJson(example, responseExampleCopy);
+      })}
     </div>
   );
 }
@@ -145,17 +149,31 @@ function Example({
                     style={{ display: index === selected ? 'block' : '' }}
                     key={index} // eslint-disable-line react/no-array-index-key
                   >
-                    {mediaTypes.length > 1 &&
-                      showMediaTypes(ex, setResponseMediaType, responseMediaType)}
+                    
+                    {!example.multipleExamples && (
+                      <div className="tabber-bar">{showMediaTypes(
+                        ex,
+                        setResponseMediaType,
+                        responseMediaType
+                      )}</div>
+                    )}
 
-                    {example.multipleExamples &&
-                      showExamples(example.multipleExamples, setResponseExample, responseExample)}
+                    { example.multipleExamples
+                      && showExamples(
+                        example.multipleExamples,
+                        setResponseExample,
+                        responseExample,
+                        mediaTypes,
+                        ex,
+                        setResponseMediaType,
+                        responseMediaType,
+                      )}
 
                     {isJson && !example.multipleExamples ? (
-                      <div>{getReactJson(example)}</div>
+                      <div className="example example_json">{getReactJson(example)}</div>
                     ) : (
                       // json + multiple examples is already handled in `showExamples`.
-                      <div>
+                      <div className="example">
                         {isJson && example.multipleExamples ? null : (
                           syntaxHighlighter(example.code, example.language, {
                             dark: true,

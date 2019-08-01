@@ -478,18 +478,38 @@ form.rjsf fieldset {
   color: rgba(255,255,255,0.7);
 }
 
-.tabber-select-row {
+.tabber-bar {
   display: flex;
   flex-flow: nowrap row;
+}
+.tabber-bar > * {
+  flex: 0 50%;
+  max-width: 50%;
+}
+.tabber-bar > * + * {
+  margin-left: 0.75rem;
+}
+.tabber-bar + .example:not(.example_json) {
+  margin-top: 20px;
+}
+.tabber-select-row {
+  display: flex;
+  flex-flow: nowrap column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  padding: 1rem;
+  background: rgba(255, 255, 255, .1);
+  border-radius: 4px;
 }
 .tabber-select-row > * + * {
-  margin-left: 1rem;
+  margin-top: .5em;
 }
 .tabber-select-row > * {
   margin-top: 0;
   margin-bottom: 0;
+}
+.tabber-select-row select {
+  margin: 4px 0 0 -2px;
 }
 .tabber-body .react-json-view {
   padding-left: 0 !important;
