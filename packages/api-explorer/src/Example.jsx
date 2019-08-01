@@ -71,15 +71,22 @@ function showMediaTypes(example, setResponseMediaType, responseMediaType) {
   );
 }
 
-function showExamples(examples, setResponseExample, responseExample, mediaTypes, ex, setResponseMediaType, responseMediaType) {
+function showExamples(
+  examples,
+  setResponseExample,
+  responseExample,
+  mediaTypes,
+  ex,
+  setResponseMediaType,
+  responseMediaType,
+) {
   let responseExampleCopy = responseExample;
   if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
 
   return (
     <div>
       <div className="tabber-bar">
-        {mediaTypes.length > 1 &&
-          showMediaTypes(ex, setResponseMediaType, responseMediaType)}
+        {mediaTypes.length > 1 && showMediaTypes(ex, setResponseMediaType, responseMediaType)}
         <span className="tabber-select-row">
           <h3>Examples</h3>
           <select
@@ -149,17 +156,14 @@ function Example({
                     style={{ display: index === selected ? 'block' : '' }}
                     key={index} // eslint-disable-line react/no-array-index-key
                   >
-                    
                     {!example.multipleExamples && (
-                      <div className="tabber-bar">{showMediaTypes(
-                        ex,
-                        setResponseMediaType,
-                        responseMediaType
-                      )}</div>
+                      <div className="tabber-bar">
+                        {showMediaTypes(ex, setResponseMediaType, responseMediaType)}
+                      </div>
                     )}
 
-                    { example.multipleExamples
-                      && showExamples(
+                    {example.multipleExamples &&
+                      showExamples(
                         example.multipleExamples,
                         setResponseExample,
                         responseExample,
