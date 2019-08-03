@@ -26,7 +26,10 @@ function getCustomType(schema) {
     if (schema.format === 'binary') return 'file';
   }
 
-  if (isNumType(schema, 'integer', /int32|int64/) || isNumType(schema, 'number', /float|double/)) {
+  if (
+    isNumType(schema, 'integer', /int8|int16|int32|int64/) ||
+    isNumType(schema, 'number', /float|double/)
+  ) {
     return schema.format;
   }
 

@@ -84,13 +84,37 @@
                     "type": "integer",
                     "format": "int64"
                   },
+                  "integer (format: int8)": {
+                    "type": "integer",
+                    "format": "int8"
+                  },
+                  "integer (format: uint8)": {
+                    "type": "integer",
+                    "format": "uint8"
+                  },
+                  "integer (format: int16)": {
+                    "type": "integer",
+                    "format": "int16"
+                  },
+                  "integer (format: uint16)": {
+                    "type": "integer",
+                    "format": "uint16"
+                  },
                   "integer (format: int32)": {
                     "type": "integer",
                     "format": "int32"
                   },
+                  "integer (format: uint32)": {
+                    "type": "integer",
+                    "format": "uint32"
+                  },
                   "integer (format: int64)": {
                     "type": "integer",
                     "format": "int64"
+                  },
+                  "integer (format: uint64)": {
+                    "type": "integer",
+                    "format": "uint64"
                   },
                   "integer without `format`": {
                     "type": "integer"
