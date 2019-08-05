@@ -2,7 +2,7 @@ function getKey(user, scheme) {
   switch (scheme.type) {
     case 'oauth2':
     case 'apiKey':
-      return user[scheme._key] || user.apiKey || '';
+      return user[scheme._key] || user.apiKey || scheme['x-default'] || '';
     case 'http':
       if (scheme.scheme === 'basic') {
         return user[scheme._key] || { user: user.user || '', pass: user.pass || '' };

@@ -56,6 +56,10 @@ it('should return apiKey property for apiKey', () => {
   expect(getSingle(topLevelUser, { type: 'oauth2' })).toBe('123456');
 });
 
+it('should return a default value if scheme is sec0 and default auth provided', () => {
+  expect(getSingle({}, { type: 'apiKey', _key: 'sec0', 'x-default': 'default' })).toBe('default');
+});
+
 it('should return apiKey property for bearer', () => {
   expect(getSingle(topLevelUser, { type: 'http', scheme: 'bearer' })).toBe('123456');
 });
