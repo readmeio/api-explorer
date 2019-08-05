@@ -49,8 +49,14 @@ function Params({
           idPrefix={operation.operationId}
           schema={schema.schema}
           widgets={{
-            int64: UpDownWidget,
+            int8: UpDownWidget,
+            uint8: UpDownWidget,
+            int16: UpDownWidget,
+            uint16: UpDownWidget,
             int32: UpDownWidget,
+            uint32: UpDownWidget,
+            int64: UpDownWidget,
+            uint64: UpDownWidget,
             double: UpDownWidget,
             float: UpDownWidget,
             binary: FileWidget,

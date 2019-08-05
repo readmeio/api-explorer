@@ -186,8 +186,14 @@ function testNumberClass(schema) {
   });
 }
 
+testNumberClass({ type: 'integer', format: 'int8' });
+testNumberClass({ type: 'integer', format: 'uint8' });
+testNumberClass({ type: 'integer', format: 'int16' });
+testNumberClass({ type: 'integer', format: 'uint16' });
 testNumberClass({ type: 'integer', format: 'int32' });
+testNumberClass({ type: 'integer', format: 'uint32' });
 testNumberClass({ type: 'integer', format: 'int64' });
+testNumberClass({ type: 'integer', format: 'uint64' });
 testNumberClass({ type: 'number', format: 'float' });
 testNumberClass({ type: 'number', format: 'double' });
 
