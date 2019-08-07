@@ -43,6 +43,21 @@
                       }
                     }
                   },
+                  "object with `additionalProperties: { type: object, properties: ... }` and custom title": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer"
+                        },
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "title": "This is a custom title"
+                    }
+                  },
                   "object with `additionalProperties: { type: array, items: { type: integer } }`": {
                     "type": "object",
                     "additionalProperties": {
