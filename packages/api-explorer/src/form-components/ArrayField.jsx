@@ -10,14 +10,32 @@ function createArrayField(oas) {
   function ArrayField(props) {
     let uiSchema;
     if (!explorerEnabled) {
-      uiSchema = Object.assign(props.uiSchema, { 'ui:options': { readOnly: true } });
+      const uiOptions = {
+        readOnly: true,
+        addable: true,
+      };
+
+      // If the user has added a new entry within this ArrayField, disable any future entries from
+      // being added while the explorer is in readOnly mode.
+      // https://github.com/readmeio/api-explorer/pull/259#pullrequestreview-272110359
+      if (props.formData.length > 0) {
+        uiOptions.addable = false;
+      }
+
+      uiSchema = Object.assign(props.uiSchema, { 'ui:options': uiOptions });
     }
 
     return <BaseArrayField {...props} uiSchema={uiSchema || props.uiSchema} />;
   }
 
   ArrayField.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    formData: PropTypes.any,
     uiSchema: PropTypes.shape({}).isRequired,
+  };
+
+  ArrayField.defaultProps = {
+    formData: [],
   };
 
   return ArrayField;
