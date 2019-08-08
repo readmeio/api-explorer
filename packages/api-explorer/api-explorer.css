@@ -489,3 +489,7 @@ form.rjsf fieldset {
 .hub-reference-response-definitions.dark td {
   color: rgba(255,255,255,0.7);
 }
+
+.string-value {
+  word-break: break-all;
+}
