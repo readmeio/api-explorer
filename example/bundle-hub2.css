@@ -9360,52 +9360,16 @@ body.page-password footer,
   -ms-animation-duration: 2s;
   animation-duration: 2s;
 }
-.is-lang-curl #hub-reference .hub-api .code-sample .hub-lang-curl {
+.is-lang-c #hub-reference .hub-api .code-sample .hub-lang-c {
   display: block;
 }
-.is-lang-curl #hub-reference .hub-api .code-sample .hub-lang-switch-curl {
+.is-lang-c #hub-reference .hub-api .code-sample .hub-lang-switch-c {
   color: #fff;
 }
-.is-lang-node #hub-reference .hub-api .code-sample .hub-lang-node {
+.is-lang-cplusplus #hub-reference .hub-api .code-sample .hub-lang-cplusplus {
   display: block;
 }
-.is-lang-node #hub-reference .hub-api .code-sample .hub-lang-switch-node {
-  color: #fff;
-}
-.is-lang-ruby #hub-reference .hub-api .code-sample .hub-lang-ruby {
-  display: block;
-}
-.is-lang-ruby #hub-reference .hub-api .code-sample .hub-lang-switch-ruby {
-  color: #fff;
-}
-.is-lang-javascript #hub-reference .hub-api .code-sample .hub-lang-javascript {
-  display: block;
-}
-.is-lang-javascript #hub-reference .hub-api .code-sample .hub-lang-switch-javascript {
-  color: #fff;
-}
-.is-lang-python #hub-reference .hub-api .code-sample .hub-lang-python {
-  display: block;
-}
-.is-lang-python #hub-reference .hub-api .code-sample .hub-lang-switch-python {
-  color: #fff;
-}
-.is-lang-php #hub-reference .hub-api .code-sample .hub-lang-php {
-  display: block;
-}
-.is-lang-php #hub-reference .hub-api .code-sample .hub-lang-switch-php {
-  color: #fff;
-}
-.is-lang-swift #hub-reference .hub-api .code-sample .hub-lang-swift {
-  display: block;
-}
-.is-lang-swift #hub-reference .hub-api .code-sample .hub-lang-switch-swift {
-  color: #fff;
-}
-.is-lang-objectivec #hub-reference .hub-api .code-sample .hub-lang-objectivec {
-  display: block;
-}
-.is-lang-objectivec #hub-reference .hub-api .code-sample .hub-lang-switch-objectivec {
+.is-lang-cplusplus #hub-reference .hub-api .code-sample .hub-lang-switch-cplusplus {
   color: #fff;
 }
 .is-lang-csharp #hub-reference .hub-api .code-sample .hub-lang-csharp {
@@ -9414,16 +9378,76 @@ body.page-password footer,
 .is-lang-csharp #hub-reference .hub-api .code-sample .hub-lang-switch-csharp {
   color: #fff;
 }
-.is-lang-java #hub-reference .hub-api .code-sample .hub-lang-java {
+.is-lang-curl #hub-reference .hub-api .code-sample .hub-lang-curl {
   display: block;
 }
-.is-lang-java #hub-reference .hub-api .code-sample .hub-lang-switch-java {
+.is-lang-curl #hub-reference .hub-api .code-sample .hub-lang-switch-curl {
   color: #fff;
 }
 .is-lang-go #hub-reference .hub-api .code-sample .hub-lang-go {
   display: block;
 }
 .is-lang-go #hub-reference .hub-api .code-sample .hub-lang-switch-go {
+  color: #fff;
+}
+.is-lang-java #hub-reference .hub-api .code-sample .hub-lang-java {
+  display: block;
+}
+.is-lang-java #hub-reference .hub-api .code-sample .hub-lang-switch-java {
+  color: #fff;
+}
+.is-lang-javascript #hub-reference .hub-api .code-sample .hub-lang-javascript {
+  display: block;
+}
+.is-lang-javascript #hub-reference .hub-api .code-sample .hub-lang-switch-javascript {
+  color: #fff;
+}
+.is-lang-kotlin #hub-reference .hub-api .code-sample .hub-lang-kotlin {
+  display: block;
+}
+.is-lang-kotlin #hub-reference .hub-api .code-sample .hub-lang-switch-kotlin {
+  color: #fff;
+}
+.is-lang-node #hub-reference .hub-api .code-sample .hub-lang-node {
+  display: block;
+}
+.is-lang-node #hub-reference .hub-api .code-sample .hub-lang-switch-node {
+  color: #fff;
+}
+.is-lang-objectivec #hub-reference .hub-api .code-sample .hub-lang-objectivec {
+  display: block;
+}
+.is-lang-objectivec #hub-reference .hub-api .code-sample .hub-lang-switch-objectivec {
+  color: #fff;
+}
+.is-lang-php #hub-reference .hub-api .code-sample .hub-lang-php {
+  display: block;
+}
+.is-lang-php #hub-reference .hub-api .code-sample .hub-lang-switch-php {
+  color: #fff;
+}
+.is-lang-powershell #hub-reference .hub-api .code-sample .hub-lang-powershell {
+  display: block;
+}
+.is-lang-powershell #hub-reference .hub-api .code-sample .hub-lang-switch-powershell {
+  color: #fff;
+}
+.is-lang-python #hub-reference .hub-api .code-sample .hub-lang-python {
+  display: block;
+}
+.is-lang-python #hub-reference .hub-api .code-sample .hub-lang-switch-python {
+  color: #fff;
+}
+.is-lang-ruby #hub-reference .hub-api .code-sample .hub-lang-ruby {
+  display: block;
+}
+.is-lang-ruby #hub-reference .hub-api .code-sample .hub-lang-switch-ruby {
+  color: #fff;
+}
+.is-lang-swift #hub-reference .hub-api .code-sample .hub-lang-swift {
+  display: block;
+}
+.is-lang-swift #hub-reference .hub-api .code-sample .hub-lang-switch-swift {
   color: #fff;
 }
 #hub-reference .hub-api .code-sample .docs-right {
