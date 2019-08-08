@@ -79,6 +79,12 @@ describe('specific languages', () => {
     expect(shallow(syntaxHighlighter('echo "Hello World";', 'php')).html()).toContain('cm-keyword');
   });
 
+  test('should work for dockerfiles', () => {
+    expect(shallow(syntaxHighlighter('FROM alpine:3.4', 'dockerfile')).html()).toContain(
+      'cm-keyword',
+    );
+  });
+
   test('should work for kotlin', () => {
     expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain(
       'cm-variable',
