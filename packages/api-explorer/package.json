@@ -51,7 +51,7 @@
     "jest": "^24.8.0",
     "jsinspect": "^0.12.6",
     "node-fetch": "^2.0.0-alpha.9",
-    "nyc": "^11.0.3",
+    "nyc": "^14.1.1",
     "prettier": "^1.6.1",
     "raf": "^3.4.0",
     "react-test-renderer": "^16.0.0",
