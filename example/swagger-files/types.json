@@ -181,6 +181,19 @@
                       }
                     }
                   },
+                  "object without type": {
+                    "description": "Updated status of the pet",
+                    "properties": {
+                      "property1": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "property2": {
+                        "type": "integer",
+                        "format": "int64"
+                      }
+                    }
+                  },
                   "object with `additionalProperties: true`": {
                     "type": "object",
                     "additionalProperties": true

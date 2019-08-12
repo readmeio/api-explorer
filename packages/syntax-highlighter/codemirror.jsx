@@ -8,14 +8,16 @@ const { VARIABLE_REGEXP } = Variable;
 require('codemirror/addon/runmode/runmode');
 require('codemirror/mode/meta.js');
 
-require('codemirror/mode/shell/shell');
-require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/ruby/ruby');
-require('codemirror/mode/python/python');
 require('codemirror/mode/clike/clike');
-require('codemirror/mode/htmlmixed/htmlmixed');
-require('codemirror/mode/php/php');
+require('codemirror/mode/dockerfile/dockerfile');
 require('codemirror/mode/go/go');
+require('codemirror/mode/htmlmixed/htmlmixed');
+require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/php/php');
+require('codemirror/mode/powershell/powershell');
+require('codemirror/mode/python/python');
+require('codemirror/mode/ruby/ruby');
+require('codemirror/mode/shell/shell');
 require('codemirror/mode/swift/swift');
 
 function getMode(lang) {

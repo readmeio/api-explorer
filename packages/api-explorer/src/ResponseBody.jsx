@@ -11,8 +11,7 @@ function Authorized({ result }) {
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
-      {!result.isBinary &&
-      isJson && (
+      {!result.isBinary && isJson && (
         <ReactJson
           src={result.responseBody}
           collapsed={1}
@@ -29,8 +28,7 @@ function Authorized({ result }) {
           }}
         />
       )}
-      {!result.isBinary &&
-      !isJson && (
+      {!result.isBinary && !isJson && (
         <pre className="tomorrow-night">
           <div className="cm-s-tomorrow-night codemirror-highlight">
             {syntaxHighlighter(result.responseBody, result.type)}

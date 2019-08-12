@@ -8,8 +8,7 @@ const ApiHeader = ({ block }) => {
       <h1 className="header-scroll is-api-header">
         <span id={slug(block.data.title)} />
         <div className="anchor waypoint" id={`section-${slug(block.data.title)}`} />
-        {block.data.type &&
-        block.data.type !== 'basic' && (
+        {block.data.type && block.data.type !== 'basic' && (
           <span className={`pg-type-big pg-type type-${slug(block.data.type)}`} />
         )}
         {block.data.title}
