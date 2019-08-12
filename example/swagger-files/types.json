@@ -143,10 +143,21 @@
                       "type": "string"
                     }
                   },
-                  "array (with a $ref)": {
+                  "array (of strings, loaded via a $ref)": {
                     "type": "array",
                     "items": {
                       "$ref": "#/components/schemas/string_enum"
+                    }
+                  },
+                  "array (of objects)": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "string": {
+                          "type": "string"
+                        }
+                      }
                     }
                   },
                   "object": {
