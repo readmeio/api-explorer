@@ -161,8 +161,7 @@ class Doc extends React.Component {
             </div>
 
             <div className="hub-reference-right">
-              {doc.type === 'endpoint' &&
-              this.shouldShowCode() && (
+              {doc.type === 'endpoint' && this.shouldShowCode() && (
                 <div className="hub-reference-section-code">
                   {this.renderCodeSample()}
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
@@ -235,11 +234,9 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        {this.props.appearance.referenceLayout === 'column' ? (
-          this.columnTheme(doc)
-        ) : (
-          this.mainTheme(doc)
-        )}
+        {this.props.appearance.referenceLayout === 'column'
+          ? this.columnTheme(doc)
+          : this.mainTheme(doc)}
       </EndpointErrorBoundary>
     );
   }

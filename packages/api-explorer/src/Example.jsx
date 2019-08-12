@@ -79,9 +79,7 @@ function Example({
   const hasExamples = examples.find(e => e.code && e.code !== '{}');
   return (
     <div className="hub-reference-results-examples code-sample">
-      {examples &&
-      examples.length > 0 &&
-      hasExamples && (
+      {examples && examples.length > 0 && hasExamples && (
         <span>
           <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
@@ -123,11 +121,9 @@ function Example({
       )}
       {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
-          {oas[extensions.EXPLORER_ENABLED] ? (
-            'Try the API to see Results'
-          ) : (
-            'No response examples available'
-          )}
+          {oas[extensions.EXPLORER_ENABLED]
+            ? 'Try the API to see Results'
+            : 'No response examples available'}
         </div>
       )}
     </div>

@@ -121,8 +121,7 @@ class ApiExplorer extends React.Component {
       <div className={`is-lang-${this.state.language}`}>
         <div
           id="hub-reference"
-          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
-            .referenceLayout}`}
+          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
         >
           {this.props.docs.map((doc, index) => (
             <VariablesContext.Provider value={this.props.variables}>
