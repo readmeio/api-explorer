@@ -3,9 +3,18 @@ const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 
 const BaseArrayField = require('react-jsonschema-form/lib/components/fields/ArrayField').default;
+const { getDefaultRegistry, retrieveSchema } = require('react-jsonschema-form/lib/utils');
 
 function createArrayField(oas) {
   const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
+
+  function hasPrimitives(props) {
+    const { schema, registry = getDefaultRegistry() } = props;
+    const { definitions } = registry;
+    const itemsSchema = retrieveSchema(schema.items, definitions);
+
+    return itemsSchema.type !== 'array' && itemsSchema.type !== 'object';
+  }
 
   function ArrayField(props) {
     let uiSchema;
@@ -15,10 +24,20 @@ function createArrayField(oas) {
         addable: true,
       };
 
-      // If the user has added a new entry within this ArrayField, disable any future entries from
-      // being added while the explorer is in readOnly mode.
+      // Two scenarios are accounted for here: if the array contains only primitives, and if the
+      // user has added a new entry within this ArrayField. For both scenarios, we want to disable
+      // any future entires from being added while the explorer is in readOnly mode.
+      //
+      // Why? If the array contains only primitives, expanding the array will result in a less than
+      // ideal UX of empty whitespace being added into view. As for if the user has already added
+      // an item into view, we want to disable further items from being added as since the explorer
+      // is in read-only mode, adding more items into view will just clutter up the view for the
+      // user.
+      //
       // https://github.com/readmeio/api-explorer/pull/259#pullrequestreview-272110359
-      if (props.formData.length > 0) {
+      if (hasPrimitives(props)) {
+        uiOptions.addable = false;
+      } else if (props.formData.length > 0) {
         uiOptions.addable = false;
       }
 

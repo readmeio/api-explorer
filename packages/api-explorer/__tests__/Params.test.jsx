@@ -228,7 +228,7 @@ describe('x-explorer-enabled', () => {
       />,
     );
 
-    expect(elem.find('.field-array .array-item-add').length).toBe(4);
+    expect(elem.find('.field-array .array-item-add').length).toBe(2);
 
     elem
       .find('.field-array .array-item-add')
