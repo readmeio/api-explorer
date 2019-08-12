@@ -5,14 +5,14 @@ const getAuth = require('../../src/lib/get-auth');
 const oas = new Oas(multipleSecurities);
 
 it('should fetch all auths from the OAS files', () => {
-  expect(
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas }),
-  ).toEqual({
-    oauthScheme: 'oauth',
-    oauthDiff: '',
-    apiKeyScheme: 'apikey',
-    unknownAuthType: '',
-  });
+  expect(getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas })).toEqual(
+    {
+      oauthScheme: 'oauth',
+      oauthDiff: '',
+      apiKeyScheme: 'apikey',
+      unknownAuthType: '',
+    },
+  );
 });
 
 it('should not error if oas.components is not set', () => {

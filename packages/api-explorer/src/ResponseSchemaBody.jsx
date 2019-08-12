@@ -118,8 +118,7 @@ function ResponseSchemaBody({ schema, oas }) {
 
   return (
     <div>
-      {schema &&
-      schema.type && (
+      {schema && schema.type && (
         <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
           {`Response schema type: `}
           <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
