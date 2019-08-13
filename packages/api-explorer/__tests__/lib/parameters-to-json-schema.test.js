@@ -474,7 +474,7 @@ test('it should add common parameter to path params', () => {
   ).toEqual(oas.paths['/pet/{petId}'].parameters[0].description);
 });
 
-test('it should overrides path-level parameters on the operation level', () => {
+test('it should override path-level parameters on the operation level', () => {
   const oas = {
     paths: {
       '/pet/{petId}': {
