@@ -3,6 +3,8 @@ const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
 const getSchema = require('./get-schema');
 const configureSecurity = require('./configure-security');
+const removeUndefinedObjects = require('./remove-undefined-objects');
+const findSchemaDefinition = require('./find-schema-definition');
 
 // const format = {
 //   value: v => `__START_VALUE__${v}__END__`,
@@ -29,11 +31,12 @@ function formatter(values, param, type, onlyIfExists) {
   return format.key(param.name);
 }
 
-const defaultValues = Object.keys(
-  require('./parameters-to-json-schema').types,
-).reduce((prev, curr) => {
-  return Object.assign(prev, { [curr]: {} });
-}, {});
+const defaultValues = Object.keys(require('./parameters-to-json-schema').types).reduce(
+  (prev, curr) => {
+    return Object.assign(prev, { [curr]: {} });
+  },
+  {},
+);
 
 // If you pass in types, it either uses a default, or favors
 // anything JSON.
@@ -78,6 +81,7 @@ module.exports = (
   oas,
   pathOperation = { path: '', method: '' },
   values = {},
+  auth = {},
   opts = { proxyUrl: false },
 ) => {
   const formData = Object.assign({}, defaultValues, values);
@@ -86,26 +90,20 @@ module.exports = (
     queryString: [],
     postData: {},
     method: pathOperation.method.toUpperCase(),
-    url: `${oas.servers ? oas.servers[0].url : 'https://example.com'}${pathOperation.path}`.replace(
-      /\s/g,
-      '%20',
-    ),
+    url: `${oas.url()}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
 
-  // Add protocol to urls starting with // e.g. //example.com
-  // This is because httpsnippet throws a HARError when it doesnt have a protocol
-  if (har.url.match(/^\/\//)) {
-    har.url = `https:${har.url}`;
-  }
-
-  // Add protocol to urls with no // within them
-  // This is because httpsnippet throws a HARError when it doesnt have a protocol
-  if (!har.url.match(/\/\//)) {
-    har.url = `https://${har.url}`;
-  }
-
+  // TODO look to move this to Oas class as well
   if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
+  }
+
+  if (pathOperation.parameters) {
+    pathOperation.parameters.forEach((param, i, params) => {
+      if (param.$ref) {
+        params[i] = findSchemaDefinition(param.$ref, oas);
+      }
+    });
   }
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
@@ -141,6 +139,9 @@ module.exports = (
     Object.keys(pathOperation.responses).some(response => {
       if (!pathOperation.responses[response].content) return false;
 
+      // if there is an Accept header specified in the form, we'll use that instead.
+      if (formData.header.Accept) return true;
+
       har.headers.push({
         name: 'Accept',
         value: getResponseContentType(pathOperation.responses[response].content),
@@ -174,14 +175,24 @@ module.exports = (
 
   function stringify(json) {
     // Default to JSON.stringify
-    har.postData.text = JSON.stringify(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json);
+    return JSON.stringify(
+      removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json),
+    );
   }
 
   if (schema.schema && Object.keys(schema.schema).length) {
     // If there is formData, then the type is application/x-www-form-urlencoded
     if (Object.keys(formData.formData).length) {
       har.postData.text = querystring.stringify(formData.formData);
-    } else if (isPrimitive(formData.body) || Object.keys(formData.body).length) {
+      // formData.body can be one of the following:
+      // - `undefined` - if the form hasn't been touched yet because of formData.body on:
+      // https://github.com/readmeio/api-explorer/blob/b32a2146737c11813bd1b222a137de61854414b3/packages/api-explorer/src/Doc.jsx#L28
+      // - a primitive type
+      // - an object
+    } else if (
+      typeof formData.body !== 'undefined' &&
+      (isPrimitive(formData.body) || Object.keys(formData.body).length)
+    ) {
       try {
         // Find all `{ type: string, format: json }` properties in the schema
         // because we need to manually JSON.parse them before submit, otherwise
@@ -193,20 +204,23 @@ module.exports = (
           // We have to clone the body object, otherwise the form
           // will attempt to re-render with an object, which will
           // cause it to error!
-          const cloned = JSON.parse(JSON.stringify(formData.body));
+          let cloned = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
           jsonTypes.forEach(prop => {
             // Attempt to JSON parse each of the json properties
             // if this errors, it'll just get caught and stringify it normally
             cloned[prop] = JSON.parse(cloned[prop]);
           });
-          stringify(cloned);
+          if (typeof cloned.RAW_BODY !== 'undefined') {
+            cloned = cloned.RAW_BODY;
+          }
+          har.postData.text = JSON.stringify(cloned);
         } else {
-          stringify(formData.body);
+          har.postData.text = stringify(formData.body);
         }
       } catch (e) {
         // If anything goes wrong in the above, assume that it's invalid JSON
         // and stringify it
-        stringify(formData.body);
+        har.postData.text = stringify(formData.body);
       }
     }
   }
@@ -227,7 +241,7 @@ module.exports = (
     // TODO pass these values through the formatter?
     securityRequirements.forEach(schemes => {
       Object.keys(schemes).forEach(security => {
-        const securityValue = configureSecurity(oas, formData, security);
+        const securityValue = configureSecurity(oas, auth, security);
 
         if (!securityValue) return;
         har[securityValue.type].push(securityValue.value);

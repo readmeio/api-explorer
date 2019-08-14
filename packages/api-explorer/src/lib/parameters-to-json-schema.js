@@ -1,4 +1,5 @@
 const getSchema = require('./get-schema');
+const findSchemaDefinition = require('./find-schema-definition');
 
 // https://github.com/OAI/OpenAPI-Specification/blob/4875e02d97048d030de3060185471b9f9443296c/versions/3.0.md#parameterObject
 const types = {
@@ -26,10 +27,33 @@ function getBodyParam(pathOperation, oas) {
   };
 }
 
-function getOtherParams(pathOperation) {
+function hasCommonParameters(pathOperation) {
+  const path = (pathOperation || {}).path;
+  const commonParams = ((((pathOperation || {}).oas || {}).paths || {})[path] || {}).parameters;
+  return !!(commonParams && commonParams.length !== 0);
+}
+
+function getOtherParams(pathOperation, oas) {
+  let pathParameters = pathOperation.parameters || [];
+
+  if (hasCommonParameters(pathOperation)) {
+    const path = pathOperation.path;
+    const commonParams = pathOperation.oas.paths[path].parameters;
+    const commonParamsNotInParams = commonParams.filter(
+      param => !pathParameters.find(param2 => param2.name === param.name && param2.in === param.in),
+    );
+    pathParameters = pathParameters.concat(commonParamsNotInParams || []);
+  }
+
+  const resolvedParameters = pathParameters.map(param => {
+    if (param.$ref) return findSchemaDefinition(param.$ref, oas);
+    return param;
+  });
+
   return Object.keys(types).map(type => {
     const required = [];
-    const parameters = (pathOperation.parameters || []).filter(param => param.in === type);
+
+    const parameters = resolvedParameters.filter(param => param.in === type);
     if (parameters.length === 0) return null;
 
     const properties = parameters.reduce((prev, current) => {
@@ -40,7 +64,15 @@ function getOtherParams(pathOperation) {
       if (current.schema) {
         if (current.schema.type === 'array') {
           schema.type = 'array';
-          schema.items = current.schema.items;
+
+          if (
+            Object.keys(current.schema.items).length === 1 &&
+            typeof current.schema.items.$ref !== 'undefined'
+          ) {
+            schema.items = findSchemaDefinition(current.schema.items.$ref, oas);
+          } else {
+            schema.items = current.schema.items;
+          }
         }
 
         if (typeof current.schema.default !== 'undefined') schema.default = current.schema.default;
@@ -76,11 +108,10 @@ function getOtherParams(pathOperation) {
 module.exports = (pathOperation, oas) => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
-
-  if (!hasParameters && !hasRequestBody) return null;
+  if (!hasParameters && !hasRequestBody && !hasCommonParameters(pathOperation)) return null;
 
   return [getBodyParam(pathOperation, oas)]
-    .concat(...getOtherParams(pathOperation))
+    .concat(...getOtherParams(pathOperation, oas))
     .filter(Boolean);
 };
 

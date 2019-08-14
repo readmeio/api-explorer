@@ -2,13 +2,14 @@ require('isomorphic-fetch');
 
 const React = require('react');
 const { shallow } = require('enzyme');
+const nock = require('nock');
 
 const { Logs, LogsEmitter } = require('../index.jsx');
 const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
 
-const baseUrl = '/';
+const baseUrl = 'https://metrics.readme.io/';
 
 class LogTest extends Logs {
   // eslint-disable-next-line class-methods-use-this
@@ -21,8 +22,10 @@ class LogTest extends Logs {
 
 describe('Logs', () => {
   const props = {
-    oas,
-    operation,
+    query: {
+      url: `${oas.servers[0].url}${operation.path}`,
+      method: operation.method,
+    },
     user: {
       name: 'Gilfoyle',
       email: 'gilfoyle@piedpiper.com',
@@ -33,7 +36,7 @@ describe('Logs', () => {
   };
 
   test('should not render if user_data does not have id or keys.id', () => {
-    const noUser = { oas, operation, baseUrl };
+    const noUser = { baseUrl, query: {} };
     const comp = shallow(<LogTest {...noUser} />);
 
     expect(comp.html()).toBe(null);
@@ -58,6 +61,51 @@ describe('Logs', () => {
     comp.setState({ loading: true });
 
     expect(comp.find('.loading-container').length).toBe(1);
+  });
+
+  test('should fetch based on query with page/limit', async () => {
+    const comp = shallow(<Logs {...props} />);
+
+    const mock = nock('https://metrics.readme.io:443', { encodedQueryParams: true })
+      .get('/api/logs')
+      .query({
+        url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
+        id: null,
+        method: 'delete',
+        limit: 5,
+        page: 0,
+      })
+      .reply(200, [requestmodel]);
+
+    await comp.instance().getData();
+
+    mock.done();
+  });
+
+  test('should fetch with group if passed', async () => {
+    const comp = shallow(<Logs {...props} />);
+
+    const mock = nock('https://metrics.readme.io:443', { encodedQueryParams: true })
+      .get('/api/logs')
+      .query({
+        url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
+        id: 'someid',
+        method: 'delete',
+        limit: 5,
+        page: 0,
+      })
+      .reply(200, [requestmodel]);
+
+    await comp.instance().getData('someid');
+
+    mock.done();
+  });
+
+  test('should render a "view more" button', () => {
+    const comp = shallow(<LogTest {...props} />);
+    expect(comp.find('a[target="_blank"]').prop('href')).toBe(
+      'https://metrics.readme.io/logs?url=https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D&method=delete&id=someid',
+    );
   });
 
   test('should render with id', () => {

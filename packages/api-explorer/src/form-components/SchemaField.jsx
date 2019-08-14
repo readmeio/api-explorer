@@ -9,6 +9,12 @@ function getDefaultNumFormat(type) {
   return '';
 }
 
+function doesFormatExist(widgets, type, format) {
+  const availableFormats = Object.keys(widgets);
+
+  return typeof type === 'string' && availableFormats.includes(format);
+}
+
 function isNumType(schema, type, format) {
   schema.format = schema.format || getDefaultNumFormat(schema.type);
   return schema.type === type && schema.format.match(format);
@@ -20,7 +26,10 @@ function getCustomType(schema) {
     if (schema.format === 'binary') return 'file';
   }
 
-  if (isNumType(schema, 'integer', /int32|int64/) || isNumType(schema, 'number', /float|double/)) {
+  if (
+    isNumType(schema, 'integer', /int8|int16|int32|int64/) ||
+    isNumType(schema, 'number', /float|double/)
+  ) {
     return schema.format;
   }
 
@@ -28,6 +37,9 @@ function getCustomType(schema) {
 }
 
 function SchemaField(props) {
+  if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
+    props.schema.format = undefined;
+
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
     // Though that just sets `input[readonly]` which still shows
@@ -63,6 +75,9 @@ SchemaField.propTypes = {
     format: PropTypes.string,
     enumNames: PropTypes.array,
     readOnly: PropTypes.bool,
+  }).isRequired,
+  registry: PropTypes.shape({
+    widgets: PropTypes.object,
   }).isRequired,
   uiSchema: PropTypes.shape({}),
 };

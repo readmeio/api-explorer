@@ -1,15 +1,16 @@
 {
   "name": "@readme/syntax-highlighter",
   "description": "Syntax highlighter used on ReadMe.io",
-  "version": "2.3.0",
+  "version": "4.7.2",
   "dependencies": {
-    "@readme/variable": "^2.3.0",
-    "codemirror": "^5.31.0",
+    "@readme/variable": "^4.7.2",
+    "codemirror": "^5.48.2",
     "react": "^16.4.2"
   },
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
+    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "test": "jest --coverage --runInBand"
@@ -22,10 +23,11 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/syntax-highlighter",
   "devDependencies": {
-    "eslint": "^4.4.1",
-    "eslint-config-airbnb-base": "^11.3.1",
-    "eslint-plugin-import": "^2.7.0",
-    "jest": "^23.4.2",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-import": "^2.17.2",
+    "jest": "^24.8.0",
     "jsinspect": "^0.12.6",
     "prettier": "^1.6.1"
   }

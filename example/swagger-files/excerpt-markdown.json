@@ -1,0 +1,38 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://httpbin.org"
+    }
+  ],
+  "info": {
+    "title": "response schemas",
+    "version": "1.0"
+  },
+  "paths": {
+    "/anything/markdown": {
+      "get": {
+        "summary": "Markdown in Excerpt",
+        "description": "# Markdown"
+      }
+    },
+    "/anything/html": {
+      "get": {
+        "summary": "HTML in Excerpt",
+        "description": "<h3>This is HTML</h3>"
+      }
+    },
+    "/anything/mixed": {
+      "get": {
+        "summary": "HTML/Markdown in Excerpt",
+        "description": "#### markdown \n<p>html</p> "
+      }
+    },
+    "/anything/escaping": {
+      "get": {
+        "summary": "Escaping bad HTML",
+        "description": "<img src=\"x\" onerror=\"alert('charlie')\">"
+      }
+    }
+  }
+}

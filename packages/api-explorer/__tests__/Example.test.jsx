@@ -1,6 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const petstore = require('./fixtures/petstore/oas');
+const string = require('./fixtures/string/oas.json');
 const exampleResults = require('./fixtures/example-results/oas');
 const extensions = require('@readme/oas-extensions');
 
@@ -59,6 +60,23 @@ test('should display json viewer', () => {
   ).toBe(1);
 });
 
+test('should not fail to parse invalid json and instead show the standard syntax highlighter', () => {
+  const exampleOas = new Oas(string);
+  const example = shallow(
+    <Example {...props} oas={exampleOas} operation={exampleOas.operation('/format-uuid', 'get')} />,
+  );
+
+  // Asserting that instead of failing with the invalid JSON we attempted to render, we fallback
+  // to just rendering the string in our standard syntax highlighter.
+  expect(
+    example
+      .find('pre')
+      .at(0)
+      .render()
+      .find('.cm-number').length,
+  ).toBe(4);
+});
+
 test('should correctly highlight XML syntax', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
@@ -73,4 +91,17 @@ test('should correctly highlight XML syntax', () => {
       .render()
       .find('.cm-tag').length,
   ).toBe(25);
+});
+
+test('should show select for multiple response types', () => {
+  const exampleOas = new Oas(exampleResults);
+  const example = shallow(
+    <Example
+      {...props}
+      oas={exampleOas}
+      operation={exampleOas.operation('/multi-results', 'get')}
+    />,
+  );
+
+  expect(example.html().includes('<select')).toBe(true);
 });

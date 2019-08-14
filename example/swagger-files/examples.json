@@ -31,6 +31,36 @@
               }
             }
           },
+          "202": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "cat" : {
+                    "summary": "An example of a cat",
+                    "value":
+                    {
+                      "name": "Fluffy",
+                      "petType": "Cat",
+                      "color": "White",
+                      "gender": "male",
+                      "breed": "Persian"
+                    }
+                  },
+                  "dog": {
+                    "summary": "An example of a dog with a cat's name",
+                    "value": {
+                      "name": "Puma",
+                      "petType": "Dog",
+                      "color": "Black",
+                      "gender": "Female",
+                      "breed": "Mixed"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400": {
             "description": "Validation failed",
             "content": {
@@ -60,5 +90,21 @@
   },
   "x-explorer-enabled": true,
   "x-samples-enabled": true,
-  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
+  "x-samples-languages": [
+    "c",
+    "cplusplus",
+    "csharp",
+    "curl",
+    "go",
+    "java",
+    "javascript",
+    "kotlin",
+    "node",
+    "objectivec",
+    "php",
+    "powershell",
+    "python",
+    "ruby",
+    "swift"
+  ]
 }

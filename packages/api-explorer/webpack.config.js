@@ -4,7 +4,6 @@ module.exports = {
     rules: [
       {
         test: /\.js(x?)$/,
-        exclude: /node_modules\/(?!(@readme\/syntax-highlighter|fetch-har))/,
         use: {
           loader: 'babel-loader',
           options: {

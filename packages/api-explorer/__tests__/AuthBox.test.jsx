@@ -4,18 +4,17 @@ const AuthBox = require('../src/AuthBox');
 
 const Oas = require('../src/lib/Oas.js');
 const multipleSecurities = require('./fixtures/multiple-securities/oas');
-const authTypes = require('./fixtures/auth-types/oas');
 
 const oas = new Oas(multipleSecurities);
 
 const props = {
-  operation: oas.operation('/things', 'post'),
+  operation: oas.operation('/or-security', 'post'),
   onChange: () => {},
   onSubmit: () => {},
   toggle: () => {},
   open: false,
   oauth: false,
-  apiKey: '',
+  auth: {},
 };
 
 test('should not display if no auth', () => {
@@ -67,38 +66,4 @@ test('should display multiple securities', () => {
   const authBox = mount(<AuthBox {...props} />);
 
   expect(authBox.find('SecurityInput').length).toBe(2);
-});
-
-test('should merge securities auth changes', () => {
-  const onChange = jest.fn();
-  const authBox = mount(<AuthBox {...props} onChange={onChange} />);
-
-  authBox
-    .find('ApiKey')
-    .props()
-    .change('auth');
-  authBox
-    .find('Oauth2')
-    .props()
-    .change('auth');
-
-  expect(onChange.mock.calls[0][0]).toEqual({ auth: { apiKey: 'auth' } });
-  expect(onChange.mock.calls[1][0]).toEqual({ auth: { apiKey: 'auth', oauth: 'auth' } });
-});
-
-test("should work for Basic (Basic has it's own state)", () => {
-  const authTypesOas = new Oas(authTypes);
-  const onChange = jest.fn();
-  const authBox = mount(
-    <AuthBox {...props} operation={authTypesOas.operation('/basic', 'post')} onChange={onChange} />,
-  );
-  const basic = authBox.find('Basic').instance();
-
-  basic.inputChange('user', 'user');
-  basic.inputChange('password', 'password');
-
-  expect(onChange.mock.calls[0][0]).toEqual({ auth: { basic: { user: 'user', password: '' } } });
-  expect(onChange.mock.calls[1][0]).toEqual({
-    auth: { basic: { user: 'user', password: 'password' } },
-  });
 });

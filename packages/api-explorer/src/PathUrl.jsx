@@ -12,8 +12,14 @@ function splitPath(path) {
   return path
     .split(/({.+?})/)
     .filter(Boolean)
-    .map(part => {
-      return { type: part.match(/[{}]/) ? 'variable' : 'text', value: part.replace(/[{}]/g, '') };
+    .map((part, i) => {
+      return {
+        type: part.match(/[{}]/) ? 'variable' : 'text',
+        value: part.replace(/[{}]/g, ''),
+        // To ensure unique keys, we're going to create a key
+        // with the value concatenated to its index.
+        key: `${part.replace(/[{}]/g, '')}-${i}`,
+      };
     });
 }
 function PathUrl({
@@ -28,7 +34,7 @@ function PathUrl({
   toggleAuth,
   onSubmit,
   oauth,
-  apiKey,
+  auth,
 }) {
   return (
     <div className="api-definition-parent">
@@ -45,7 +51,7 @@ function PathUrl({
                 toggle={toggleAuth}
                 authInputRef={authInputRef}
                 oauth={oauth}
-                apiKey={apiKey}
+                auth={auth}
               />
 
               <button
@@ -56,7 +62,8 @@ function PathUrl({
               >
                 {!loading && (
                   <span className="try-it-now-btn">
-                    <span className="fa fa-compass" />&nbsp;
+                    <span className="fa fa-compass" />
+                    &nbsp;
                     <span>Try It</span>
                   </span>
                 )}
@@ -68,12 +75,11 @@ function PathUrl({
 
           <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
 
-          {oas.servers &&
-          oas.servers.length > 0 && (
+          {oas.servers && oas.servers.length > 0 && (
             <span className="definition-url">
-              <span className="url">{oas.servers[0].url}</span>
+              <span className="url">{oas.url()}</span>
               {splitPath(operation.path).map(part => (
-                <span key={part.value} className={`api-${part.type}`}>
+                <span key={part.key} className={`api-${part.type}`}>
                   {part.value}
                 </span>
               ))}
@@ -97,14 +103,14 @@ PathUrl.propTypes = {
   showAuthBox: PropTypes.bool,
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string,
+  auth: PropTypes.shape({}),
 };
 
 PathUrl.defaultProps = {
   showAuthBox: false,
   needsAuth: false,
   authInputRef: () => {},
-  apiKey: undefined,
+  auth: {},
 };
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

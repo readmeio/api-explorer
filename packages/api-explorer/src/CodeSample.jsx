@@ -25,7 +25,10 @@ class CodeSample extends React.Component {
 
   getKey(example, index) {
     const key = `${example.language}-${index}`;
-    const selected = this.state.selectedExample === example;
+    let selected = this.state.selectedExample === example;
+    if (!this.state.selectedExample && index === 0) {
+      selected = true;
+    }
     return { key, selected };
   }
 
@@ -70,7 +73,7 @@ class CodeSample extends React.Component {
                 <pre
                   className="tomorrow-night tabber-body"
                   key={key} // eslint-disable-line react/no-array-index-key
-                  style={{ display: this.state.selectedExample === example ? 'block' : '' }}
+                  style={{ display: selected ? 'block' : '' }}
                 >
                   {syntaxHighlighter(example.code || '', example.language, { dark: true })}
                 </pre>
@@ -83,7 +86,7 @@ class CodeSample extends React.Component {
   }
 
   render() {
-    const { oas, setLanguage, operation, formData, language, examples } = this.props;
+    const { oas, setLanguage, operation, formData, language, examples, auth } = this.props;
 
     return (
       <div className="code-sample tabber-parent">
@@ -92,7 +95,7 @@ class CodeSample extends React.Component {
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }
-          const { snippet, code } = generateCodeSnippet(oas, operation, formData, language);
+          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language);
           return (
             <div>
               <ul className="code-sample-tabs">
@@ -134,6 +137,7 @@ CodeSample.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   formData: PropTypes.shape({}).isRequired,
+  auth: PropTypes.shape({}).isRequired,
   examples: PropTypes.arrayOf(
     PropTypes.shape({
       language: PropTypes.string.isRequired,

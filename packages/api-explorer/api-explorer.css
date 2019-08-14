@@ -311,9 +311,21 @@ form.rjsf button[disabled] {
   padding: 3px 6px;
 }
 
-.field.field-array-of-object legend::after {
+.field.field-array-of-object > legend::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'array of objects';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+fieldset[id^='root_array of objects_'] > legend::after {
+  content: 'object';
+  color: rgba(0, 0, 0, 0.6);
   background: #f2f2f2;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
@@ -335,6 +347,54 @@ form.rjsf button[disabled] {
   padding: 3px 6px;
 }
 
+.field.field-integer.field-int8 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: int8';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-uint8 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint8';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-int16 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: int16';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-uint16 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint16';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
 .field.field-integer.field-int32 label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'integer: int32';
@@ -347,9 +407,33 @@ form.rjsf button[disabled] {
   padding: 3px 6px;
 }
 
+.field.field-integer.field-uint32 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint32';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
 .field.field-integer.field-int64 label::after {
   color: rgba(0, 0, 0, 0.6);
   content: 'integer: int64';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-uint64 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint64';
   background: #f2f2f2;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
@@ -469,5 +553,15 @@ form.rjsf fieldset {
 
 .response-schema {
   overflow-y: auto;
-  max-height: 600px;
+}
+
+.hub-reference-response-definitions.dark p,
+.hub-reference-response-definitions.dark h3,
+.hub-reference-response-definitions.dark th,
+.hub-reference-response-definitions.dark td {
+  color: rgba(255,255,255,0.7);
+}
+
+.string-value {
+  word-break: break-all;
 }

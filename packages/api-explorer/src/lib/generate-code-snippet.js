@@ -1,67 +1,73 @@
 const HTTPSnippet = require('httpsnippet');
 const generateHar = require('./oas-to-har');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
+const uppercase = require('@readme/syntax-highlighter/uppercase');
 
 const supportedLanguages = {
-  node: {
-    httpsnippet: ['node', 'request'],
-    highlight: 'javascript',
-    name: 'Node',
+  c: {
+    httpsnippet: ['c'],
+    highlight: 'text/x-csrc',
   },
-  curl: {
-    httpsnippet: ['shell', 'curl'],
-    highlight: 'shell',
-    name: 'cURL',
-  },
-  ruby: {
-    httpsnippet: ['ruby'],
-    highlight: 'ruby',
-    name: 'Ruby',
-  },
-  javascript: {
-    httpsnippet: ['javascript', 'xhr', { cors: false }],
-    highlight: 'javascript',
-    name: 'JavaScript',
-  },
-  objectivec: {
-    httpsnippet: ['objc', 'NSURLSession'],
-    highlight: 'objectivec',
-    name: 'Objective-C',
-  },
-  python: {
-    httpsnippet: ['python', 'requests'],
-    highlight: 'python',
-    name: 'Python',
-  },
-  java: {
-    httpsnippet: ['java', 'okhttp'],
-    highlight: 'java',
-    name: 'Java',
-  },
-  php: {
-    httpsnippet: ['php', 'curl'],
-    highlight: 'php',
-    name: 'PHP',
+  cplusplus: {
+    httpsnippet: ['c'],
+    highlight: 'text/x-c++src',
   },
   csharp: {
     httpsnippet: ['csharp', 'restsharp'],
     highlight: 'text/x-csharp',
-    name: 'C#',
   },
-  swift: {
-    httpsnippet: ['swift', 'nsurlsession'],
-    highlight: 'swift',
-    name: 'Swift',
+  curl: {
+    httpsnippet: ['shell', 'curl'],
+    highlight: 'shell',
   },
   go: {
     httpsnippet: ['go', 'native'],
     highlight: 'go',
-    name: 'Go',
+  },
+  java: {
+    httpsnippet: ['java', 'okhttp'],
+    highlight: 'java',
+  },
+  javascript: {
+    httpsnippet: ['javascript', 'xhr', { cors: false }],
+    highlight: 'javascript',
+  },
+  kotlin: {
+    httpsnippet: ['java', 'okhttp'],
+    highlight: 'java',
+  },
+  node: {
+    httpsnippet: ['node', 'request'],
+    highlight: 'javascript',
+  },
+  objectivec: {
+    httpsnippet: ['objc', 'NSURLSession'],
+    highlight: 'objectivec',
+  },
+  php: {
+    httpsnippet: ['php', 'curl'],
+    highlight: 'php',
+  },
+  powershell: {
+    httpsnippet: ['powershell'],
+    highlight: 'powershell',
+  },
+  python: {
+    httpsnippet: ['python', 'requests'],
+    highlight: 'python',
+  },
+  ruby: {
+    httpsnippet: ['ruby'],
+    highlight: 'ruby',
+  },
+  swift: {
+    httpsnippet: ['swift', 'nsurlsession'],
+    highlight: 'swift',
   },
 };
 
-module.exports = (oas, operation, values, lang) => {
-  const har = generateHar(oas, operation, values);
+module.exports = (oas, operation, values, auth, lang) => {
+  const har = generateHar(oas, operation, values, auth);
 
   const snippet = new HTTPSnippet(har);
 
@@ -76,8 +82,10 @@ module.exports = (oas, operation, values, lang) => {
 
   const code = snippet.convert(...language.httpsnippet);
 
-  return { snippet: syntaxHighlighter(code, language.highlight, { dark: true }), code };
+  return {
+    snippet: syntaxHighlighter(code, language.highlight, { dark: true }),
+    code,
+  };
 };
 
-module.exports.getLangName = lang =>
-  supportedLanguages[lang] ? supportedLanguages[lang].name : lang;
+module.exports.getLangName = lang => (supportedLanguages[lang] ? uppercase(lang) : lang);

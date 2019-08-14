@@ -4,7 +4,7 @@ const classNames = require('classnames');
 const SecurityInput = require('./SecurityInput');
 const { Operation } = require('./lib/Oas');
 
-function Securities({ authInputRef, operation, onChange, oauth, apiKey, onSubmit }) {
+function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }) {
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -27,7 +27,7 @@ function Securities({ authInputRef, operation, onChange, oauth, apiKey, onSubmit
             }
             {securities.map(security => (
               <SecurityInput
-                {...{ apiKey, onChange, authInputRef, oauth }}
+                {...{ auth, onChange, authInputRef, oauth }}
                 key={security._key}
                 scheme={security}
               />
@@ -39,64 +39,46 @@ function Securities({ authInputRef, operation, onChange, oauth, apiKey, onSubmit
   });
 }
 
-class AuthBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.onChange = this.onChange.bind(this);
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.auth !== this.state.auth) this.props.onChange({ auth: this.state.auth });
-  }
-  onChange(auth) {
-    this.setState(previousState => {
-      return {
-        auth: Object.assign({}, previousState.auth, auth),
-      };
-    });
-  }
-  render() {
-    const {
-      authInputRef,
-      operation,
-      onSubmit,
-      open,
-      needsAuth,
-      toggle,
-      oauth,
-      apiKey,
-    } = this.props;
+function AuthBox({
+  authInputRef,
+  operation,
+  onSubmit,
+  onChange,
+  open,
+  needsAuth,
+  toggle,
+  oauth,
+  auth,
+}) {
+  if (Object.keys(operation.prepareSecurity()).length === 0) return null;
 
-    if (Object.keys(operation.prepareSecurity()).length === 0) return null;
-
-    return (
-      <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
-        {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/href-no-hash
-          <a href="#" className="icon icon-user-lock" onClick={toggle} />
-        }
-        <div className="nopad">
-          <div className="triangle" />
-          <div>
-            <Securities
-              {...{ authInputRef, operation, oauth, apiKey }}
-              onChange={this.onChange}
-              onSubmit={e => {
-                e.preventDefault();
-                onSubmit();
-              }}
-            />
-          </div>
-          <div className={classNames('hub-authrequired', { active: needsAuth })}>
-            <div className="hub-authrequired-slider">
-              <i className="icon icon-notification" />
-              Authentication is required for this endpoint
-            </div>
+  return (
+    <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
+      {
+        // eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/href-no-hash
+        <a href="#" className="icon icon-user-lock" onClick={toggle} />
+      }
+      <div className="nopad">
+        <div className="triangle" />
+        <div>
+          <Securities
+            {...{ authInputRef, operation, oauth, auth }}
+            onChange={onChange}
+            onSubmit={e => {
+              e.preventDefault();
+              onSubmit();
+            }}
+          />
+        </div>
+        <div className={classNames('hub-authrequired', { active: needsAuth })}>
+          <div className="hub-authrequired-slider">
+            <i className="icon icon-notification" />
+            Authentication is required for this endpoint
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 AuthBox.propTypes = {
@@ -108,14 +90,14 @@ AuthBox.propTypes = {
   needsAuth: PropTypes.bool,
   open: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string,
+  auth: PropTypes.shape({}),
 };
 
 AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
   authInputRef: () => {},
-  apiKey: undefined,
+  auth: {},
 };
 
 module.exports = AuthBox;

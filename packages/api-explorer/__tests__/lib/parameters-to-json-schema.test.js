@@ -219,6 +219,25 @@ test('it should pass through type for non-body parameters', () => {
   ).toEqual('boolean');
 });
 
+test('it should pass through type for non-body parameters that are arrays', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'query',
+          name: 'options',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+    })[0].schema.properties.options.type,
+  ).toEqual('array');
+});
+
 test('it should pass through format', () => {
   expect(
     parametersToJsonSchema({
@@ -389,4 +408,122 @@ test('it should display object type', () => {
       ],
     })[0].schema.properties.check,
   ).toEqual({ properties: { firstName: { title: 'First name', type: 'string' } }, type: 'object' });
+});
+
+test('it should fetch $ref parameters', () => {
+  const oas = {
+    components: {
+      parameters: {
+        Param: {
+          name: 'param',
+          in: 'query',
+          schema: {
+            type: 'string',
+          },
+        },
+      },
+    },
+  };
+  expect(
+    parametersToJsonSchema(
+      {
+        parameters: [
+          {
+            $ref: '#/components/parameters/Param',
+          },
+        ],
+      },
+      oas,
+    )[0].schema.properties.param,
+  ).toEqual(oas.components.parameters.Param.schema);
+});
+
+test('it should fetch parameters that have a child $ref', () => {
+  const oas = {
+    components: {
+      schemas: {
+        string_enum: {
+          name: 'string',
+          enum: ['available', 'pending', 'sold'],
+          type: 'string',
+        },
+      },
+    },
+  };
+
+  expect(
+    parametersToJsonSchema(
+      {
+        parameters: [
+          {
+            in: 'query',
+            name: 'param',
+            schema: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/string_enum',
+              },
+            },
+          },
+        ],
+      },
+      oas,
+    )[0].schema.properties.param.items,
+  ).toEqual(oas.components.schemas.string_enum);
+});
+
+test('it should add common parameter to path params', () => {
+  const oas = {
+    paths: {
+      '/pet/{petId}': {
+        parameters: [
+          {
+            name: 'petId',
+            in: 'path',
+            description: 'ID of pet to return',
+            required: true,
+          },
+        ],
+      },
+    },
+  };
+
+  expect(
+    parametersToJsonSchema({
+      path: '/pet/{petId}',
+      oas,
+    })[0].schema.properties.petId.description,
+  ).toEqual(oas.paths['/pet/{petId}'].parameters[0].description);
+});
+
+test('it should override path-level parameters on the operation level', () => {
+  const oas = {
+    paths: {
+      '/pet/{petId}': {
+        parameters: [
+          {
+            name: 'petId',
+            in: 'path',
+            description: 'ID of pet to return',
+            required: true,
+          },
+        ],
+      },
+    },
+  };
+
+  expect(
+    parametersToJsonSchema({
+      path: '/pet/{petId}',
+      parameters: [
+        {
+          name: 'petId',
+          in: 'path',
+          description: 'A comma-separated list of pet IDs',
+          required: true,
+        },
+      ],
+      oas,
+    })[0].schema.properties.petId.description,
+  ).toEqual('A comma-separated list of pet IDs');
 });

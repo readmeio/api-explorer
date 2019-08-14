@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 
 const oauthHref = require('../lib/oauth-href');
 
-function Oauth2({ apiKey, authInputRef, oauth, change }) {
+function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
   if (!apiKey && oauth) {
     return (
       <section>
@@ -40,11 +40,11 @@ function Oauth2({ apiKey, authInputRef, oauth, change }) {
           </div>
         </div>
         <div className="col-xs-6">
-          <input
-            ref={authInputRef}
+          <Input
+            inputRef={authInputRef}
             disabled={oauth}
             type="text"
-            onChange={e => change(e.currentTarget.value)}
+            onChange={e => change(e.target.value)}
             name="apiKey"
             value={apiKey}
           />
@@ -59,6 +59,7 @@ Oauth2.propTypes = {
   oauth: PropTypes.bool.isRequired,
   change: PropTypes.func.isRequired,
   authInputRef: PropTypes.func,
+  Input: PropTypes.func.isRequired,
 };
 
 Oauth2.defaultProps = {

@@ -24,7 +24,8 @@ const props = {
   language: 'node',
   suggestedEdits: false,
   oauth: false,
-  apiKey: '',
+  onAuthChange: () => {},
+  auth: {},
   tryItMetrics: () => {},
 };
 
@@ -51,6 +52,50 @@ test('should output a div', () => {
   expect(doc.find('Content').length).toBe(1);
 });
 
+test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
+  const doc = mount(
+    <Doc
+      {...props}
+      appearance={{
+        splitReferenceDocs: true,
+      }}
+    />,
+  );
+
+  expect(doc.find('Waypoint').length).toBe(0);
+});
+
+test('should render a manual endpoint', () => {
+  const myProps = JSON.parse(JSON.stringify(props));
+  myProps.doc.swagger.path = '/nonexistant';
+  myProps.doc.api.examples = {
+    codes: [],
+  };
+  myProps.doc.api.params = [
+    {
+      default: 'test',
+      desc: 'test',
+      in: 'path',
+      name: 'test',
+      ref: '',
+      required: false,
+      type: 'string',
+    },
+  ];
+
+  const doc = mount(
+    <Doc
+      {...myProps}
+      appearance={{
+        splitReferenceDocs: true,
+      }}
+    />,
+  );
+
+  assertDocElements(doc, props.doc);
+  expect(doc.find('Params').length).toBe(1);
+});
+
 test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
@@ -60,10 +105,12 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       language="node"
       suggestedEdits
       oauth={false}
-      apiKey=""
       tryItMetrics={() => {}}
+      onAuthChange={() => {}}
+      auth={{}}
     />,
   );
+  expect(docComponent.find('Waypoint').length).toBe(1);
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
@@ -81,8 +128,9 @@ test('should still display `Content` with column-style layout', () => {
       suggestedEdits
       appearance={{ referenceLayout: 'column' }}
       oauth={false}
-      apiKey=""
       tryItMetrics={() => {}}
+      onAuthChange={() => {}}
+      auth={{}}
     />,
   );
   docComponent.setState({ showEndpoint: true });
@@ -141,6 +189,7 @@ describe('onSubmit', () => {
       setLanguage: () => {},
       language: 'node',
       oauth: false,
+      auth: { petstore_auth: 'api-key' },
     };
 
     const fetch = window.fetch;
@@ -155,7 +204,6 @@ describe('onSubmit', () => {
     };
 
     const doc = mount(<Doc {...props} {...props2} />);
-    doc.instance().onChange({ auth: { petstore_auth: 'api-key' } });
 
     doc
       .instance()
@@ -208,9 +256,9 @@ describe('onSubmit', () => {
         tryItMetrics={() => {
           called = true;
         }}
+        auth={{ api_key: 'api-key' }}
       />,
     );
-    doc.instance().onChange({ auth: { api_key: 'api-key' } });
 
     const fetch = window.fetch;
     window.fetch = () => {
@@ -257,6 +305,15 @@ describe('suggest edits', () => {
     const doc = shallow(<Doc {...props} suggestedEdits />);
     expect(doc.find('a.hub-reference-edit.pull-right').length).toBe(1);
   });
+
+  test('should have child project if baseUrl is set', () => {
+    const doc = shallow(
+      <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
+    );
+    expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(
+      `/child/reference-edit/${props.doc.slug}`,
+    );
+  });
 });
 
 describe('Response Schema', () => {
@@ -291,16 +348,6 @@ describe('themes', () => {
 
     expect(doc.find('.hub-reference-right').find('CodeSample').length).toBe(1);
     expect(doc.find('.hub-reference-right').find('Response').length).toBe(1);
-  });
-});
-
-describe('`apiKey`', () => {
-  test('should set apiKey in formData if passed in', () => {
-    const apiKey = '123456';
-
-    const doc = mount(<Doc {...props} apiKey={apiKey} />);
-
-    expect(doc.state('formData').auth).toEqual({ api_key: apiKey });
   });
 });
 

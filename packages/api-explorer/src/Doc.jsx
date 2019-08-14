@@ -14,8 +14,11 @@ const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
+const { Operation } = require('./lib/Oas');
+const getPath = require('./lib/get-path');
 // const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
@@ -33,14 +36,12 @@ class Doc extends React.Component {
       showEndpoint: false,
     };
     this.onChange = this.onChange.bind(this);
-    this.oas = new Oas(this.props.oas);
+    this.oas = new Oas(this.props.oas, this.props.user);
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
     this.Params = createParams(this.oas);
-
-    this.setApiKey();
   }
 
   onChange(formData) {
@@ -54,7 +55,7 @@ class Doc extends React.Component {
   onSubmit() {
     const operation = this.getOperation();
 
-    if (!isAuthReady(operation, this.state.formData.auth)) {
+    if (!isAuthReady(operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.authInput.focus();
@@ -65,7 +66,9 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, operation, this.state.formData, { proxyUrl: true });
+    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, {
+      proxyUrl: true,
+    });
 
     return fetchHar(har).then(async res => {
       this.props.tryItMetrics(har, res);
@@ -77,27 +80,16 @@ class Doc extends React.Component {
     });
   }
 
-  setApiKey() {
-    if (!this.props.apiKey) return;
-
-    const operation = this.getOperation();
-
-    if (!operation) return;
-
-    try {
-      const firstSecurity = this.operation.getSecurity()[0];
-
-      this.state.formData.auth = { [Object.keys(firstSecurity)[0]]: this.props.apiKey };
-    } catch (e) {
-      // console.warn('There was a problem setting the api key on', operation.operationId, 'This probably just means there is no auth on this endpoint'); // eslint-disable-line no-console
-    }
-  }
-
   getOperation() {
     if (this.operation) return this.operation;
 
     const { doc } = this.props;
-    const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    let operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    if (!getPath(this.oas, doc)) {
+      operation = new Operation(this.oas, doc.swagger.path, doc.api.method, {
+        parameters: doc.api.params,
+      });
+    }
     this.operation = operation;
     return operation;
   }
@@ -169,13 +161,15 @@ class Doc extends React.Component {
             </div>
 
             <div className="hub-reference-right">
-              {doc.type === 'endpoint' &&
-              this.shouldShowCode() && (
+              {doc.type === 'endpoint' && this.shouldShowCode() && (
                 <div className="hub-reference-section-code">
                   {this.renderCodeSample()}
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
                 </div>
               )}
+              <div className="hub-reference-right switcher">
+                {this.renderResponseSchema('dark')}
+              </div>
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
             </div>
           </Fragment>
@@ -198,6 +192,7 @@ class Doc extends React.Component {
         setLanguage={this.props.setLanguage}
         operation={this.getOperation()}
         formData={this.state.formData}
+        auth={this.props.auth}
         language={this.props.language}
         examples={examples}
       />
@@ -223,10 +218,15 @@ class Doc extends React.Component {
     );
   }
 
-  renderResponseSchema() {
+  renderResponseSchema(theme = 'light') {
     const operation = this.getOperation();
 
-    return operation.responses && <ResponseSchema operation={this.getOperation()} oas={this.oas} />;
+    return (
+      operation &&
+      operation.responses && (
+        <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />
+      )
+    );
   }
 
   renderEndpoint() {
@@ -234,11 +234,9 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        {this.props.appearance.referenceLayout === 'column' ? (
-          this.columnTheme(doc)
-        ) : (
-          this.mainTheme(doc)
-        )}
+        {this.props.appearance.referenceLayout === 'column'
+          ? this.columnTheme(doc)
+          : this.mainTheme(doc)}
       </EndpointErrorBoundary>
     );
   }
@@ -246,16 +244,18 @@ class Doc extends React.Component {
   renderLogs() {
     if (!this.props.Logs) return null;
     const { Logs } = this.props;
+    const operation = this.getOperation();
+    const { method } = operation;
+    const url = `${this.oas.url()}${operation.path}`;
+
     return (
       <Logs
-        apiKey={this.props.apiKey}
-        oas={this.oas}
         user={this.props.user}
         baseUrl={this.props.baseUrl}
-        operation={this.getOperation()}
-        formData={this.state.formData}
-        onChange={this.onChange}
-        onSubmit={this.onSubmit}
+        query={{
+          url,
+          method,
+        }}
       />
     );
   }
@@ -273,27 +273,40 @@ class Doc extends React.Component {
   }
 
   renderPathUrl() {
+    /* eslint-disable no-return-assign */
     return (
       <PathUrl
         oas={this.oas}
         operation={this.getOperation()}
         dirty={this.state.dirty}
         loading={this.state.loading}
-        onChange={this.onChange}
+        onChange={this.props.onAuthChange}
         showAuthBox={this.state.showAuthBox}
         needsAuth={this.state.needsAuth}
         oauth={this.props.oauth}
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => (this.authInput = el)}
-        apiKey={this.props.apiKey}
+        auth={this.props.auth}
       />
     );
   }
 
   render() {
-    const { doc } = this.props;
+    const { doc, lazy } = this.props;
     const oas = this.oas;
+
+    const renderEndpoint = () => {
+      if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
+      if (lazy) {
+        return (
+          <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
+            {this.state.showEndpoint && this.renderEndpoint()}
+          </Waypoint>
+        );
+      }
+      return this.renderEndpoint();
+    };
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
@@ -307,28 +320,22 @@ class Doc extends React.Component {
             <header>
               {this.props.suggestedEdits && (
                 // eslint-disable-next-line jsx-a11y/href-no-hash
-                <a className="hub-reference-edit pull-right" href={`reference-edit/${doc.slug}`}>
+                <a
+                  className="hub-reference-edit pull-right"
+                  href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
+                >
                   <i className="icon icon-register" />
                   Suggest Edits
                 </a>
               )}
               <h2>{doc.title}</h2>
-              {doc.excerpt && (
-                <div className="excerpt">
-                  {
-                    // eslint-disable-next-line react/no-danger
-                    <p dangerouslySetInnerHTML={{ __html: doc.excerpt }} />
-                  }
-                </div>
-              )}
+              {doc.excerpt && <div className="excerpt">{markdown(doc.excerpt)}</div>}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
-        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
-          {this.state.showEndpoint && this.renderEndpoint()}
-        </Waypoint>
+        {renderEndpoint()}
 
         {
           // TODO maybe we dont need to do this with a hidden input now
@@ -373,6 +380,7 @@ Doc.propTypes = {
     }),
   }).isRequired,
   user: PropTypes.shape({}),
+  auth: PropTypes.shape({}).isRequired,
   Logs: PropTypes.func,
   oas: PropTypes.shape({}),
   setLanguage: PropTypes.func.isRequired,
@@ -381,13 +389,15 @@ Doc.propTypes = {
   }).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
+    splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   language: PropTypes.string.isRequired,
   baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
-  apiKey: PropTypes.string,
   tryItMetrics: PropTypes.func.isRequired,
+  onAuthChange: PropTypes.func.isRequired,
+  lazy: PropTypes.bool.isRequired,
 };
 
 Doc.defaultProps = {
@@ -395,10 +405,11 @@ Doc.defaultProps = {
   flags: {
     correctnewlines: false,
   },
+  lazy: true,
   appearance: {
     referenceLayout: 'row',
+    splitReferenceDocs: false,
   },
-  apiKey: undefined,
   Logs: undefined,
   user: undefined,
   baseUrl: '/',

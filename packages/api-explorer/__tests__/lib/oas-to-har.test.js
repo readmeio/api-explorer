@@ -3,8 +3,12 @@ const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
 const oasToHar = require('../../src/lib/oas-to-har');
 
+const Oas = require('../../src/lib/Oas');
+
+const oas = new Oas();
+
 test('should output a har format', () => {
-  expect(oasToHar({})).toEqual({
+  expect(oasToHar(oas)).toEqual({
     log: {
       entries: [
         {
@@ -22,119 +26,64 @@ test('should output a har format', () => {
 });
 
 test('should uppercase the method', () => {
-  expect(oasToHar({}, { path: '/', method: 'get' }).log.entries[0].request.method).toBe('GET');
+  expect(oasToHar(oas, { path: '/', method: 'get' }).log.entries[0].request.method).toBe('GET');
 });
 
 describe('url', () => {
-  test('should default to "https://example.com"', () => {
-    expect(oasToHar({}, { path: '', method: '' }).log.entries[0].request.url).toBe(
-      'https://example.com',
-    );
-    expect(oasToHar({}, { path: '/path', method: '' }).log.entries[0].request.url).toBe(
-      'https://example.com/path',
-    );
+  test('should be constructed from oas.url()', () => {
+    expect(oasToHar(oas, { path: '', method: 'get' }).log.entries[0].request.url).toBe(oas.url());
   });
 
-  test('should be constructed from servers[0]', () => {
-    expect(
-      oasToHar(
-        {
-          servers: [{ url: 'http://example.com' }],
-        },
-        { path: '/path', method: 'get' },
-      ).log.entries[0].request.url,
-    ).toBe('http://example.com/path');
-  });
-
-  test('should add https:// if url starts with //', () => {
-    expect(
-      oasToHar(
-        {
-          servers: [{ url: '//example.com' }],
-        },
-        { path: '/', method: 'get' },
-      ).log.entries[0].request.url,
-    ).toBe('https://example.com/');
-  });
-
-  test('should add https:// if url does not start with a protocol', () => {
-    expect(
-      oasToHar(
-        {
-          servers: [{ url: 'example.com' }],
-        },
-        { path: '/', method: 'get' },
-      ).log.entries[0].request.url,
-    ).toBe('https://example.com/');
-  });
-
+  // TODO this should probably happen within the Operation class
   test('should replace whitespace with %20', () => {
     expect(
-      oasToHar(
-        {
-          servers: [{ url: 'http://example.com' }],
-        },
-        { path: '/path with spaces', method: '' },
-      ).log.entries[0].request.url,
-    ).toBe('http://example.com/path%20with%20spaces');
+      oasToHar(oas, { path: '/path with spaces', method: '' }).log.entries[0].request.url,
+    ).toBe('https://example.com/path%20with%20spaces');
   });
 
   describe('proxy url', () => {
+    const proxyOas = new Oas({
+      [extensions.PROXY_ENABLED]: true,
+    });
     test('should not be prefixed with without option', () => {
-      expect(
-        oasToHar(
-          {
-            servers: [{ url: 'http://example.com' }],
-            [extensions.PROXY_ENABLED]: true,
-          },
-          { path: '/path', method: 'get' },
-        ).log.entries[0].request.url,
-      ).toBe('http://example.com/path');
+      expect(oasToHar(proxyOas, { path: '/path', method: 'get' }).log.entries[0].request.url).toBe(
+        'https://example.com/path',
+      );
     });
 
     test('should be prefixed with try.readme.io with option', () => {
       expect(
-        oasToHar(
-          {
-            servers: [{ url: 'http://example.com' }],
-            [extensions.PROXY_ENABLED]: true,
-          },
-          { path: '/path', method: 'get' },
-          {},
-          { proxyUrl: true },
-        ).log.entries[0].request.url,
-      ).toBe('https://try.readme.io/http://example.com/path');
+        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log
+          .entries[0].request.url,
+      ).toBe('https://try.readme.io/https://example.com/path');
     });
   });
 });
 
 describe('path values', () => {
   test('should pass through unknown path params', () => {
-    expect(oasToHar({}, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
+    expect(oasToHar(oas, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
       'https://example.com/param-path/id',
     );
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/param-path/{id}',
-          method: 'get',
-          parameters: [
-            {
-              name: 'something-else',
-              in: 'path',
-              required: true,
-            },
-          ],
-        },
-      ).log.entries[0].request.url,
+      oasToHar(oas, {
+        path: '/param-path/{id}',
+        method: 'get',
+        parameters: [
+          {
+            name: 'something-else',
+            in: 'path',
+            required: true,
+          },
+        ],
+      }).log.entries[0].request.url,
     ).toBe('https://example.com/param-path/id');
   });
 
   test('should not error if empty object passed in for values', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/param-path/{id}',
           method: 'get',
@@ -153,28 +102,25 @@ describe('path values', () => {
 
   test('should use example if no value', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/param-path/{id}',
-          method: 'get',
-          parameters: [
-            {
-              name: 'id',
-              in: 'path',
-              required: true,
-              example: '123',
-            },
-          ],
-        },
-      ).log.entries[0].request.url,
+      oasToHar(oas, {
+        path: '/param-path/{id}',
+        method: 'get',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            example: '123',
+          },
+        ],
+      }).log.entries[0].request.url,
     ).toBe('https://example.com/param-path/123');
   });
 
   test('should add path values to the url', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/param-path/{id}',
           method: 'get',
@@ -194,7 +140,7 @@ describe('path values', () => {
   test('should add falsy values to the url', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/param-path/{id}',
           method: 'get',
@@ -215,46 +161,40 @@ describe('path values', () => {
 describe('query values', () => {
   it('should not add on empty unrequired values', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/query',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'query',
-            },
-          ],
-        },
-      ).log.entries[0].request.queryString,
+      oasToHar(oas, {
+        path: '/query',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'query',
+          },
+        ],
+      }).log.entries[0].request.queryString,
     ).toEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/query',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'query',
-              required: true,
-              example: 'value',
-            },
-          ],
-        },
-      ).log.entries[0].request.queryString,
+      oasToHar(oas, {
+        path: '/query',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'query',
+            required: true,
+            example: 'value',
+          },
+        ],
+      }).log.entries[0].request.queryString,
     ).toEqual([{ name: 'a', value: 'value' }]);
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/query',
           method: 'get',
@@ -275,7 +215,7 @@ describe('query values', () => {
   test('should add falsy values to the querystring', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/param-path',
           method: 'get',
@@ -295,46 +235,40 @@ describe('query values', () => {
 describe('header values', () => {
   it('should not add on empty unrequired values', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-            },
-          ],
-        },
-      ).log.entries[0].request.headers,
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'header',
+          },
+        ],
+      }).log.entries[0].request.headers,
     ).toEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-              required: true,
-              example: 'value',
-            },
-          ],
-        },
-      ).log.entries[0].request.headers,
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'header',
+            required: true,
+            example: 'value',
+          },
+        ],
+      }).log.entries[0].request.headers,
     ).toEqual([{ name: 'a', value: 'value' }]);
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/header',
           method: 'get',
@@ -354,57 +288,78 @@ describe('header values', () => {
 
   it('should pass accept header if endpoint expects a content back from response', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-              required: true,
-              example: 'value',
-            },
-          ],
-          responses: {
-            200: {
-              content: {
-                'application/xml': {
-                  type: 'array',
-                },
-                'application/json': {
-                  type: 'array',
-                },
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'header',
+            required: true,
+            example: 'value',
+          },
+        ],
+        responses: {
+          200: {
+            content: {
+              'application/xml': {
+                type: 'array',
+              },
+              'application/json': {
+                type: 'array',
               },
             },
           },
         },
-      ).log.entries[0].request.headers,
+      }).log.entries[0].request.headers,
     ).toEqual([{ name: 'Accept', value: 'application/xml' }, { name: 'a', value: 'value' }]);
   });
 
   it('should only add one accept header', () => {
     expect(
+      oasToHar(oas, {
+        path: '/header',
+        method: 'get',
+        parameters: [],
+        responses: {
+          200: {
+            content: {
+              'application/xml': {},
+            },
+          },
+          400: {
+            content: {
+              'application/json': {},
+            },
+          },
+        },
+      }).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+  });
+
+  it('should only receive one accept header if specified in values', () => {
+    expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/header',
           method: 'get',
-          parameters: [],
+          parameters: [
+            {
+              name: 'Accept',
+              in: 'header',
+            },
+          ],
           responses: {
             200: {
               content: {
-                'application/xml': {},
-              },
-            },
-            400: {
-              content: {
                 'application/json': {},
+                'application/xml': {},
               },
             },
           },
         },
+        { header: { Accept: 'application/xml' } },
       ).log.entries[0].request.headers,
     ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
@@ -412,7 +367,7 @@ describe('header values', () => {
   test('should add falsy values to the headers', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/param-path',
           method: 'get',
@@ -450,41 +405,38 @@ const pathOperation = {
 
 describe('body values', () => {
   it('should not add on empty unrequired values', () => {
-    expect(oasToHar({}, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
+    expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
   });
 
   // TODO extensions[SEND_DEFAULTS]
   it.skip('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  required: ['a'],
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+      oasToHar(oas, {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
               },
             },
           },
         },
-      ).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text,
     ).toEqual(JSON.stringify({ a: 'value' }));
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -512,7 +464,7 @@ describe('body values', () => {
   it('should work for RAW_BODY primitives', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -539,7 +491,7 @@ describe('body values', () => {
   it('should work for RAW_BODY json', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -567,7 +519,7 @@ describe('body values', () => {
   it('should return empty for falsy RAW_BODY primitives', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -594,7 +546,7 @@ describe('body values', () => {
   it('should work for RAW_BODY objects', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -626,7 +578,7 @@ describe('body values', () => {
   it('should return empty for RAW_BODY objects', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -652,13 +604,13 @@ describe('body values', () => {
         },
         { body: { RAW_BODY: {} } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({}));
+    ).toEqual(undefined);
   });
 
   it('should return nothing for undefined body property', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -679,13 +631,13 @@ describe('body values', () => {
         },
         { body: { a: undefined } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({}));
+    ).toEqual(undefined);
   });
 
   it('should work for schemas that require a lookup', () => {
     expect(
       oasToHar(
-        {
+        new Oas({
           components: {
             requestBodies: {
               schema: {
@@ -697,7 +649,7 @@ describe('body values', () => {
               },
             },
           },
-        },
+        }),
         {
           path: '/body',
           method: 'get',
@@ -710,10 +662,36 @@ describe('body values', () => {
     ).toEqual(JSON.stringify({ a: 123 }));
   });
 
+  it('should work for schemas that require a parameters lookup', () => {
+    expect(
+      oasToHar(
+        new Oas({
+          components: {
+            parameters: {
+              authorization: {
+                name: 'Authorization',
+                in: 'header',
+              },
+            },
+          },
+        }),
+        {
+          method: 'get',
+          parameters: [
+            {
+              $ref: '#/components/parameters/authorization',
+            },
+          ],
+        },
+        { header: { Authorization: 'test' } },
+      ).log.entries[0].request.headers[0].value,
+    ).toEqual('test');
+  });
+
   it('should work for top level primitives', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'post',
@@ -733,7 +711,7 @@ describe('body values', () => {
 
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'post',
@@ -754,7 +732,7 @@ describe('body values', () => {
 
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'post',
@@ -773,11 +751,74 @@ describe('body values', () => {
     ).toEqual(JSON.stringify(true));
   });
 
+  it('should work for top level falsy primitives', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+        { body: '' },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(''));
+
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'integer',
+                  format: 'int64',
+                },
+              },
+            },
+          },
+        },
+        { body: 0 },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(0));
+
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'post',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+        },
+        { body: false },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(JSON.stringify(false));
+  });
+
   describe('`json` type', () => {
     it('should work for refs that require a lookup', () => {
       expect(
         oasToHar(
-          {
+          new Oas({
             components: {
               requestBodies: {
                 schema: {
@@ -792,7 +833,7 @@ describe('body values', () => {
                 },
               },
             },
-          },
+          }),
           {
             path: '/body',
             method: 'get',
@@ -808,7 +849,7 @@ describe('body values', () => {
     it('should leave invalid JSON as strings', () => {
       expect(
         oasToHar(
-          {},
+          oas,
           {
             path: '/body',
             method: 'post',
@@ -837,7 +878,7 @@ describe('body values', () => {
     it('should parse valid JSON as an object', () => {
       expect(
         oasToHar(
-          {},
+          oas,
           {
             path: '/body',
             method: 'post',
@@ -862,69 +903,164 @@ describe('body values', () => {
         ).log.entries[0].request.postData.text,
       ).toEqual(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
     });
+
+    it('should leave user specified empty object JSON alone', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'post',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                        format: 'json',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: { a: '{}' } },
+        ).log.entries[0].request.postData.text,
+      ).toEqual(JSON.stringify({ a: {} }));
+    });
+  });
+
+  it('should not include objects with undefined sub properties', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: {
+                      type: 'object',
+                      properties: {
+                        b: {
+                          type: 'string',
+                        },
+                        c: {
+                          type: 'object',
+                          properties: {
+                            d: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: { a: { b: undefined, c: { d: undefined } } } },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(undefined);
+  });
+
+  // When we first render the form, formData.body is undefined
+  // until something is typed into the form. When using anyOf/oneOf
+  // if we change the schema before typing anything into the form,
+  // then onChange is fired with `undefined` which causes
+  // this to error
+  it('should not error if `formData.body` is undefined', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/body',
+          method: 'get',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    a: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        { body: undefined },
+      ).log.entries[0].request.postData.text,
+    ).toEqual(undefined);
   });
 });
 
 describe('formData values', () => {
   it('should not add on empty unrequired values', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/x-www-form-urlencoded': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+      oasToHar(oas, {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'application/x-www-form-urlencoded': {
+              schema: {
+                type: 'object',
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
               },
             },
           },
         },
-      ).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text,
     ).toEqual(undefined);
   });
 
   // TODO extensions[SEND_DEFAULTS]
   it.skip('should set defaults if no value provided but is required', () => {
     expect(
-      oasToHar(
-        {},
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/x-www-form-urlencoded': {
-                schema: {
-                  type: 'object',
-                  required: ['a'],
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+      oasToHar(oas, {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'application/x-www-form-urlencoded': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
-                example: { a: 'value' },
               },
+              example: { a: 'value' },
             },
           },
         },
-      ).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text,
     ).toEqual(querystring.stringify({ a: 'value' }));
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -954,7 +1090,7 @@ describe('auth', () => {
   test('should work for header', () => {
     expect(
       oasToHar(
-        {
+        new Oas({
           components: {
             securitySchemes: {
               'auth-header': {
@@ -964,16 +1100,15 @@ describe('auth', () => {
               },
             },
           },
-        },
+        }),
         {
           path: '/security',
           method: 'get',
           security: [{ 'auth-header': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-header': 'value',
-          },
+          'auth-header': 'value',
         },
       ).log.entries[0].request.headers,
     ).toEqual([
@@ -987,7 +1122,7 @@ describe('auth', () => {
   test('should work for query', () => {
     expect(
       oasToHar(
-        {
+        new Oas({
           components: {
             securitySchemes: {
               'auth-query': {
@@ -997,16 +1132,15 @@ describe('auth', () => {
               },
             },
           },
-        },
+        }),
         {
           path: '/security',
           method: 'get',
           security: [{ 'auth-query': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-query': 'value',
-          },
+          'auth-query': 'value',
         },
       ).log.entries[0].request.queryString,
     ).toEqual([
@@ -1020,7 +1154,7 @@ describe('auth', () => {
   test('should work for multiple (||)', () => {
     expect(
       oasToHar(
-        {
+        new Oas({
           components: {
             securitySchemes: {
               'auth-header': {
@@ -1035,17 +1169,16 @@ describe('auth', () => {
               },
             },
           },
-        },
+        }),
         {
           path: '/security',
           method: 'get',
           security: [{ 'auth-header': [] }, { 'auth-header2': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-header': 'value',
-            'auth-header2': 'value',
-          },
+          'auth-header': 'value',
+          'auth-header2': 'value',
         },
       ).log.entries[0].request.headers,
     ).toEqual([
@@ -1063,7 +1196,7 @@ describe('auth', () => {
   test('should work for multiple (&&)', () => {
     expect(
       oasToHar(
-        {
+        new Oas({
           components: {
             securitySchemes: {
               'auth-header': {
@@ -1078,17 +1211,16 @@ describe('auth', () => {
               },
             },
           },
-        },
+        }),
         {
           path: '/security',
           method: 'get',
           security: [{ 'auth-header': [], 'auth-header2': [] }],
         },
+        {},
         {
-          auth: {
-            'auth-header': 'value',
-            'auth-header2': 'value',
-          },
+          'auth-header': 'value',
+          'auth-header2': 'value',
         },
       ).log.entries[0].request.headers,
     ).toEqual([
@@ -1106,7 +1238,7 @@ describe('auth', () => {
   test('should not set non-existent values', () => {
     expect(
       oasToHar(
-        {
+        new Oas({
           components: {
             securitySchemes: {
               'auth-header': {
@@ -1116,13 +1248,14 @@ describe('auth', () => {
               },
             },
           },
-        },
+        }),
         {
           path: '/security',
           method: 'get',
           security: [{ 'auth-header': [] }],
         },
-        { auth: {} },
+        {},
+        {},
       ).log.entries[0].request.headers,
     ).toEqual([]);
   });
@@ -1151,30 +1284,30 @@ describe('content-type & accept header', () => {
   };
 
   it('should be sent through if there are no body values but there is a requestBody', () => {
-    expect(oasToHar({}, operation, {}).log.entries[0].request.headers).toEqual([
+    expect(oasToHar(oas, operation, {}).log.entries[0].request.headers).toEqual([
       { name: 'Content-Type', value: 'application/json' },
     ]);
-    expect(oasToHar({}, operation, { query: { a: 1 } }).log.entries[0].request.headers).toEqual([
+    expect(oasToHar(oas, operation, { query: { a: 1 } }).log.entries[0].request.headers).toEqual([
       { name: 'Content-Type', value: 'application/json' },
     ]);
   });
 
   it('should be sent through if there are any body values', () => {
     expect(
-      oasToHar({}, operation, { body: { a: 'test' } }).log.entries[0].request.headers,
+      oasToHar(oas, operation, { body: { a: 'test' } }).log.entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should be sent through if there are any formData values', () => {
     expect(
-      oasToHar({}, operation, { formData: { a: 'test' } }).log.entries[0].request.headers,
+      oasToHar(oas, operation, { formData: { a: 'test' } }).log.entries[0].request.headers,
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -1204,7 +1337,7 @@ describe('content-type & accept header', () => {
   it('should prioritise json if it exists', () => {
     expect(
       oasToHar(
-        {},
+        oas,
         {
           path: '/body',
           method: 'get',
@@ -1246,14 +1379,16 @@ describe('content-type & accept header', () => {
 describe('x-headers', () => {
   it('should append any static headers to the request', () => {
     expect(
-      oasToHar({
-        'x-headers': [
-          {
-            key: 'x-api-key',
-            value: '123456',
-          },
-        ],
-      }).log.entries[0].request.headers,
+      oasToHar(
+        new Oas({
+          'x-headers': [
+            {
+              key: 'x-api-key',
+              value: '123456',
+            },
+          ],
+        }),
+      ).log.entries[0].request.headers,
     ).toEqual([{ name: 'x-api-key', value: '123456' }]);
   });
 });

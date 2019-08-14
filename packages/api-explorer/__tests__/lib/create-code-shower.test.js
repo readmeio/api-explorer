@@ -25,12 +25,14 @@ describe('createCodeShower', () => {
           2,
         ),
         language: 'application/json',
+        multipleExamples: '',
         status: '200',
       },
       {
         code:
           '<?xml version="1.0" encoding="UTF-8"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>',
         language: 'application/xml',
+        multipleExamples: '',
         status: '400',
       },
     ]);

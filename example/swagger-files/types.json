@@ -33,6 +33,10 @@
                   "string without description": {
                     "type": "string"
                   },
+                  "string with default value": {
+                    "type": "string",
+                    "default": "default value"
+                  },
                   "string (format: binary) (not sure this will work)": {
                     "type": "string",
                     "format": "binary"
@@ -50,6 +54,27 @@
                     "type": "string",
                     "format": "date-time"
                   },
+                  "string (format: string)": {
+                    "type": "string",
+                    "format": "string"
+                  },
+                  "string (format: url)": {
+                    "type": "string",
+                    "format": "url"
+                  },
+                  "string (format: unknown-format)": {
+                    "type": "string",
+                    "format": "unknown-format"
+                  },
+                  "string (enum)": {
+                    "type": "string",
+                    "enum": ["available", "pending", "sold"]
+                  },
+                  "string (enum, with default)": {
+                    "type": "string",
+                    "enum": ["available", "pending", "sold"],
+                    "default": "available"
+                  },
                   "integer": {
                     "type": "integer",
                     "format": "int64",
@@ -59,13 +84,37 @@
                     "type": "integer",
                     "format": "int64"
                   },
+                  "integer (format: int8)": {
+                    "type": "integer",
+                    "format": "int8"
+                  },
+                  "integer (format: uint8)": {
+                    "type": "integer",
+                    "format": "uint8"
+                  },
+                  "integer (format: int16)": {
+                    "type": "integer",
+                    "format": "int16"
+                  },
+                  "integer (format: uint16)": {
+                    "type": "integer",
+                    "format": "uint16"
+                  },
                   "integer (format: int32)": {
                     "type": "integer",
                     "format": "int32"
                   },
+                  "integer (format: uint32)": {
+                    "type": "integer",
+                    "format": "uint32"
+                  },
                   "integer (format: int64)": {
                     "type": "integer",
                     "format": "int64"
+                  },
+                  "integer (format: uint64)": {
+                    "type": "integer",
+                    "format": "uint64"
                   },
                   "integer without `format`": {
                     "type": "integer"
@@ -87,6 +136,29 @@
                   },
                   "boolean without description": {
                     "type": "boolean"
+                  },
+                  "array (of strings)": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "array (of strings, loaded via a $ref)": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/string_enum"
+                    }
+                  },
+                  "array (of objects)": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "string": {
+                          "type": "string"
+                        }
+                      }
+                    }
                   },
                   "object": {
                     "type": "object",
@@ -119,6 +191,26 @@
                         "type": "string"
                       }
                     }
+                  },
+                  "object without type": {
+                    "description": "Updated status of the pet",
+                    "properties": {
+                      "property1": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "property2": {
+                        "type": "integer",
+                        "format": "int64"
+                      }
+                    }
+                  },
+                  "object with `additionalProperties: true`": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "object without `properties`": {
+                    "type": "object"
                   }
                 }
               }
@@ -176,6 +268,14 @@
                         },
                         "name": {
                           "type": "string"
+                        },
+                        "object": {
+                          "type": "object",
+                          "properties": {
+                            "a": {
+                              "type": "string"
+                            }
+                          }
                         }
                       }
                     }
@@ -377,6 +477,17 @@
   "x-samples-enabled": true,
   "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
   "components": {
+    "schemas": {
+      "string_enum": {
+        "name": "string",
+        "enum": [
+          "available",
+          "pending",
+          "sold"
+        ],
+        "type": "string"
+      }
+    },
     "requestBodies": {
       "Circular": {
         "type": "object",

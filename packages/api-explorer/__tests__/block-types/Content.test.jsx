@@ -7,18 +7,11 @@ test('should output one of each block type', () => {
   const body = fs.readFileSync(`${__dirname}/blocks.txt`, 'utf8');
   const content = mount(<Content body={body} isThreeColumn />);
 
-  [
-    'textarea',
-    'html',
-    'embed',
-    'api-header',
-    'code',
-    'callout',
-    'parameters',
-    'image',
-  ].forEach(type => {
-    expect(content.find(`.magic-block-${type}`).length).toBe(1);
-  });
+  ['textarea', 'html', 'embed', 'api-header', 'code', 'callout', 'parameters', 'image'].forEach(
+    type => {
+      expect(content.find(`.magic-block-${type}`).length).toBe(1);
+    },
+  );
 });
 
 const body = `

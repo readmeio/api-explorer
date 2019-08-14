@@ -2,19 +2,16 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const ReactJson = require('react-json-view').default;
-
+const contentTypeIsJson = require('./lib/content-type-is-json');
 const oauthHref = require('./lib/oauth-href');
 
 function Authorized({ result }) {
   const isJson =
-    result.type &&
-    result.type.includes('application/json') &&
-    typeof result.responseBody === 'object';
+    result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
-      {!result.isBinary &&
-      isJson && (
+      {!result.isBinary && isJson && (
         <ReactJson
           src={result.responseBody}
           collapsed={1}
@@ -31,8 +28,7 @@ function Authorized({ result }) {
           }}
         />
       )}
-      {!result.isBinary &&
-      !isJson && (
+      {!result.isBinary && !isJson && (
         <pre className="tomorrow-night">
           <div className="cm-s-tomorrow-night codemirror-highlight">
             {syntaxHighlighter(result.responseBody, result.type)}
@@ -77,6 +73,7 @@ Unauthorized.defaultProps = {
   isOauth: false,
 };
 
+/* eslint-disable react/prop-types */
 function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div className="tabber-body tabber-body-result" style={{ display: 'block' }}>

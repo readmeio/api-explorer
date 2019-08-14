@@ -1,4 +1,5 @@
 const getPathOperation = require('./get-path-operation');
+const getUserVariable = require('./get-user-variable');
 
 class Operation {
   constructor(oas, path, method, operation) {
@@ -34,8 +35,9 @@ class Operation {
 
           if (!security) return false;
           let type = security.type;
-          if (security.type === 'http' && security.scheme === 'basic') {
-            type = 'Basic';
+          if (security.type === 'http') {
+            if (security.scheme === 'basic') type = 'Basic';
+            if (security.scheme === 'bearer') type = 'Bearer';
           } else if (security.type === 'oauth2') {
             type = 'OAuth2';
           } else if (security.type === 'apiKey' && security.in === 'query') {
@@ -63,21 +65,61 @@ class Operation {
   }
 }
 
-class Oas {
-  constructor(oas) {
-    // Setting up a default server url
-    oas.servers = oas.servers || [];
-    oas.servers[0] = oas.servers[0] || {};
-    oas.servers[0].url = oas.servers[0].url || 'https://example.com';
+function ensureProtocol(url) {
+  // Add protocol to urls starting with // e.g. //example.com
+  // This is because httpsnippet throws a HARError when it doesnt have a protocol
+  if (url.match(/^\/\//)) {
+    return `https:${url}`;
+  }
 
-    let url = oas.servers[0].url;
+  // Add protocol to urls with no // within them
+  // This is because httpsnippet throws a HARError when it doesnt have a protocol
+  if (!url.match(/\/\//)) {
+    return `https://${url}`;
+  }
+
+  return url;
+}
+
+function normalizedUrl(oas) {
+  let url;
+  try {
+    url = oas.servers[0].url;
+    // This is to catch the case where servers = [{}]
+    if (!url) throw Error('no url');
+
     // Stripping the '/' off the end
     if (url[url.length - 1] === '/') {
       url = url.slice(0, -1);
     }
+  } catch (e) {
+    url = 'https://example.com';
+  }
 
-    oas.servers[0].url = url;
+  return ensureProtocol(url);
+}
+
+class Oas {
+  constructor(oas, user) {
     Object.assign(this, oas);
+    this.user = user || {};
+  }
+
+  url() {
+    const url = normalizedUrl(this);
+
+    let variables;
+    try {
+      variables = this.servers[0].variables;
+      if (!variables) throw Error('no variables');
+    } catch (e) {
+      variables = {};
+    }
+
+    return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
+      if (getUserVariable(this.user, key)) return getUserVariable(this.user, key);
+      return variables[key] ? variables[key].default : original;
+    });
   }
 
   operation(path, method) {

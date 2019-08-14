@@ -4,9 +4,19 @@ exports[`anchors 1`] = `
 "<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
 <a href=\\"\\" target=\\"_self\\">xss</a><br/>
 <a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
-<a href=\\"/reference#slug\\" target=\\"_self\\">ref</a><br/>
-<a href=\\"/blog/slug\\" target=\\"_self\\">blog</a><br/>
+<a href=\\"/reference-link/slug\\" target=\\"_self\\">ref</a><br/>
+<a href=\\"/changelog/slug\\" target=\\"_self\\">blog</a><br/>
+<a href=\\"/changelog/slug\\" target=\\"_self\\">changelog</a><br/>
 <a href=\\"/page/slug\\" target=\\"_self\\">page</a><br/>
+</p>"
+`;
+
+exports[`anchors with baseUrl 1`] = `
+"<p><a href=\\"/child/v1.0/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br>
+<a href=\\"/child/v1.0/reference-link/slug\\" target=\\"_self\\">ref</a><br>
+<a href=\\"/child/v1.0/changelog/slug\\" target=\\"_self\\">blog</a><br>
+<a href=\\"/child/v1.0/changelog/slug\\" target=\\"_self\\">changelog</a><br>
+<a href=\\"/child/v1.0/page/slug\\" target=\\"_self\\">page</a><br>
 </p>"
 `;
 
@@ -55,10 +65,32 @@ exports[`list items 1`] = `
 exports[`should strip out inputs 1`] = `""`;
 
 exports[`tables 1`] = `
-"<div class=\\"marked-table\\"><table>
-<thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead>
-<tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody>
-</table></div>"
+"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class=\\"marked-table\\"><table><thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody></table></div>"
 `;
 
 exports[`variables 1`] = `"<p><span>APIKEY</span></p>"`;

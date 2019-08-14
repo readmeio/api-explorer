@@ -91,7 +91,7 @@ function flattenResponseSchema(obj, oas, parent = '', level = 0) {
 
 function ResponseSchemaBody({ schema, oas }) {
   const rows = flatten(flattenResponseSchema(schema, oas)).map(row => (
-    <tr key={Math.random().toString(10)} style={{ overflow: 'hidden' }}>
+    <tr key={Math.random().toString(10)}>
       <th
         style={{
           whiteSpace: 'nowrap',
@@ -108,7 +108,6 @@ function ResponseSchemaBody({ schema, oas }) {
           width: '70%',
           overflow: 'hidden',
           paddingLeft: '15px',
-          whiteSpace: 'nowrap',
         }}
       >
         {row.name}
@@ -119,8 +118,7 @@ function ResponseSchemaBody({ schema, oas }) {
 
   return (
     <div>
-      {schema &&
-      schema.type && (
+      {schema && schema.type && (
         <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
           {`Response schema type: `}
           <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>

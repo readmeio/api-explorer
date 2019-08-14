@@ -187,33 +187,13 @@ describe('oas', () => {
   });
 });
 
-describe('apiKey', () => {
-  afterEach(() => Cookie.remove('user_data'));
-
-  it('should read apiKey from `user_data.apiKey` cookie', () => {
-    const apiKey = '123456';
-    Cookie.set('user_data', JSON.stringify({ apiKey }));
-
-    const explorer = shallow(<ApiExplorer {...props} />);
-
-    expect(explorer.state('apiKey')).toBe(apiKey);
-  });
-
+describe('auth', () => {
   it('should read apiKey from `variables.user.apiKey`', () => {
     const apiKey = '123456';
 
     const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
 
-    expect(explorer.state('apiKey')).toBe(apiKey);
-  });
-
-  it('should read apiKey from `user_data.keys[].apiKey`', () => {
-    const apiKey = '123456';
-    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', apiKey }] }));
-
-    const explorer = shallow(<ApiExplorer {...props} />);
-
-    expect(explorer.state('apiKey')).toBe(apiKey);
+    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
@@ -223,16 +203,7 @@ describe('apiKey', () => {
       <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
     );
 
-    expect(explorer.state('apiKey')).toBe(apiKey);
-  });
-
-  it('should read apiKey from `user_data.keys[].api_key`', () => {
-    const apiKey = '123456';
-    Cookie.set('user_data', JSON.stringify({ keys: [{ name: 'project1', api_key: apiKey }] }));
-
-    const explorer = shallow(<ApiExplorer {...props} />);
-
-    expect(explorer.state('apiKey')).toBe(apiKey);
+    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `user_data.keys[].api_key`', () => {
@@ -245,13 +216,67 @@ describe('apiKey', () => {
       />,
     );
 
-    expect(explorer.state('apiKey')).toBe(apiKey);
+    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
   });
 
-  it('should default to undefined', () => {
+  it('should return nothing for lazy + `splitReferenceDocs`', () => {
+    const explorer = shallow(<ApiExplorer {...props} appearance={{ splitReferenceDocs: true }} />);
+
+    const { lazyHash } = explorer.instance();
+    expect(lazyHash).toEqual({});
+  });
+
+  it('should disable lazy render first 5 projects', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
-    expect(explorer.state('apiKey')).toBe(undefined);
+    const { lazyHash } = explorer.instance();
+    expect(lazyHash[0]).toEqual(false);
+    expect(lazyHash[1]).toEqual(false);
+    expect(lazyHash[2]).toEqual(false);
+    expect(lazyHash[3]).toEqual(false);
+    expect(lazyHash[4]).toEqual(false);
+    expect(lazyHash[5]).toEqual(true);
+  });
+
+  it('should disable lazy render middle 5 projects', () => {
+    // somewhere in the middle of props.docs
+    window.history.pushState({}, '', '/#user-createWithArray');
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const instance = explorer.instance();
+    const slugs = instance.props.docs.map(x => x.slug);
+    const centerIdx = slugs.indexOf('user-createWithArray');
+
+    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
+    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 3]).toEqual(true);
+  });
+
+  it('should disable lazy render for last 5 projects', () => {
+    // last doc in props.docs
+    window.history.pushState({}, '', '/#user-username');
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const instance = explorer.instance();
+    const slugs = instance.props.docs.map(x => x.slug);
+    const centerIdx = slugs.indexOf('user-username');
+
+    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
+    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
+  });
+
+  it('should default to empty string', () => {
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    expect(explorer.state('auth')).toEqual({ api_key: '', petstore_auth: '' });
   });
 
   it('should be updated via editing authbox', () => {
@@ -270,11 +295,20 @@ describe('apiKey', () => {
     input.instance().value = '1234';
     input.simulate('change');
 
-    expect(doc.state.formData.auth.petstore_auth).toBe('1234');
+    expect(explorer.state('auth').petstore_auth).toBe('1234');
 
     input.instance().value += '5678';
     input.simulate('change');
 
-    expect(doc.state.formData.auth.petstore_auth).toBe('12345678');
+    expect(explorer.state('auth').petstore_auth).toBe('12345678');
+  });
+
+  test('should merge securities auth changes', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+
+    explorer.instance().onAuthChange({ api_key: '7890' });
+    explorer.instance().onAuthChange({ petstore_auth: '123456' });
+
+    expect(explorer.state('auth')).toEqual({ api_key: '7890', petstore_auth: '123456' });
   });
 });

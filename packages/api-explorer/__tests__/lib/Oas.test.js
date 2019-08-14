@@ -19,21 +19,84 @@ describe('operation()', () => {
 });
 
 test('should remove end slash from the server URL', () => {
-  expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).servers[0].url).toBe(
-    'http://example.com',
-  );
+  expect(new Oas({ servers: [{ url: 'http://example.com/' }] }).url()).toBe('http://example.com');
 });
 
 test('should default missing servers array to example.com', () => {
-  expect(new Oas({}).servers[0].url).toBe('https://example.com');
+  expect(new Oas({}).url()).toBe('https://example.com');
 });
 
 test('should default empty servers array to example.com', () => {
-  expect(new Oas({ servers: [] }).servers[0].url).toBe('https://example.com');
+  expect(new Oas({ servers: [] }).url()).toBe('https://example.com');
 });
 
 test('should default empty server object to example.com', () => {
-  expect(new Oas({ servers: [{}] }).servers[0].url).toBe('https://example.com');
+  expect(new Oas({ servers: [{}] }).url()).toBe('https://example.com');
+});
+
+test('should add https:// if url starts with //', () => {
+  expect(new Oas({ servers: [{ url: '//example.com' }] }).url()).toBe('https://example.com');
+});
+
+test('should add https:// if url does not start with a protocol', () => {
+  expect(new Oas({ servers: [{ url: 'example.com' }] }).url()).toBe('https://example.com');
+});
+
+describe('server variables', () => {
+  it('should use defaults', () => {
+    expect(
+      new Oas({
+        servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
+      }).url(),
+    ).toBe('https://example.com/path');
+  });
+
+  it('should use user variables over defaults', () => {
+    expect(
+      new Oas(
+        {
+          servers: [
+            { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+          ],
+        },
+        { username: 'domh' },
+      ).url(),
+    ).toBe('https://domh.example.com');
+  });
+
+  it('should fetch user variables from keys array', () => {
+    expect(
+      new Oas(
+        {
+          servers: [
+            { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+          ],
+        },
+        { keys: [{ name: 1, username: 'domh' }] },
+      ).url(),
+    ).toBe('https://domh.example.com');
+  });
+
+  it.skip('should fetch user variables from selected app', () => {
+    expect(
+      new Oas(
+        {
+          servers: [
+            { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+          ],
+        },
+        { keys: [{ name: 1, username: 'domh' }, { name: 2, username: 'readme' }] },
+        2,
+      ).url(),
+    ).toBe('https://readme.example.com');
+  });
+
+  // Test encodeURI
+  it('should pass through if no default set', () => {
+    expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).url()).toBe(
+      'https://example.com/{path}',
+    );
+  });
 });
 
 describe('operation.getSecurity()', () => {
@@ -169,7 +232,7 @@ describe('operation.prepareSecurity()', () => {
     });
   }
 
-  test('http: should return with a type of Basic', () => {
+  test('http/basic: should return with a type of Basic', () => {
     const oas = createSecurityOas({
       securityScheme: {
         type: 'http',
@@ -180,6 +243,20 @@ describe('operation.prepareSecurity()', () => {
 
     expect(operation.prepareSecurity()).toEqual({
       Basic: [oas.components.securitySchemes.securityScheme],
+    });
+  });
+
+  test('http/bearer: should return with a type of Bearer', () => {
+    const oas = createSecurityOas({
+      securityScheme: {
+        type: 'http',
+        scheme: 'bearer',
+      },
+    });
+    const operation = oas.operation(path, method);
+
+    expect(operation.prepareSecurity()).toEqual({
+      Bearer: [oas.components.securitySchemes.securityScheme],
     });
   });
 
@@ -218,7 +295,7 @@ describe('operation.prepareSecurity()', () => {
   });
 
   test('should work for multiple securities (||)', () => {
-    const operation = new Oas(multipleSecurities).operation('/things', 'post');
+    const operation = new Oas(multipleSecurities).operation('/or-security', 'post');
 
     expect(Object.keys(operation.prepareSecurity()).length).toBe(2);
   });

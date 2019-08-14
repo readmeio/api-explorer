@@ -13,6 +13,7 @@ const createArrayField = require('./form-components/ArrayField');
 const createSchemaField = require('./form-components/SchemaField');
 const createTextareaWidget = require('./form-components/TextareaWidget');
 const createFileWidget = require('./form-components/FileWidget');
+const createURLWidget = require('./form-components/URLWidget');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
@@ -30,6 +31,7 @@ function Params({
   SchemaField,
   TextareaWidget,
   FileWidget,
+  URLWidget,
 }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
 
@@ -47,17 +49,25 @@ function Params({
           idPrefix={operation.operationId}
           schema={schema.schema}
           widgets={{
-            int64: UpDownWidget,
+            int8: UpDownWidget,
+            uint8: UpDownWidget,
+            int16: UpDownWidget,
+            uint16: UpDownWidget,
             int32: UpDownWidget,
+            uint32: UpDownWidget,
+            int64: UpDownWidget,
+            uint64: UpDownWidget,
             double: UpDownWidget,
             float: UpDownWidget,
             binary: FileWidget,
             byte: TextWidget,
+            string: TextWidget,
             uuid: TextWidget,
             duration: TextWidget,
             dateTime: DateTimeWidget,
             integer: UpDownWidget,
             json: TextareaWidget,
+            url: URLWidget,
             BaseInput,
             SelectWidget,
           }}
@@ -100,6 +110,7 @@ function createParams(oas) {
   const SchemaField = createSchemaField();
   const TextareaWidget = createTextareaWidget(oas);
   const FileWidget = createFileWidget(oas);
+  const URLWidget = createURLWidget(oas);
 
   return props => {
     return (
@@ -111,6 +122,7 @@ function createParams(oas) {
         SchemaField={SchemaField}
         TextareaWidget={TextareaWidget}
         FileWidget={FileWidget}
+        URLWidget={URLWidget}
       />
     );
   };

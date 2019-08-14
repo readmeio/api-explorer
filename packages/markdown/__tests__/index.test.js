@@ -1,4 +1,6 @@
-const { shallow } = require('enzyme');
+const { shallow, mount } = require('enzyme');
+const React = require('react');
+const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../');
 
@@ -58,10 +60,32 @@ test('anchors', () => {
 [doc](doc:slug)
 [ref](ref:slug)
 [blog](blog:slug)
+[changelog](changelog:slug)
 [page](page:slug)
   `),
     ).html(),
   ).toMatchSnapshot();
+});
+
+test('anchors with baseUrl', () => {
+  const wrapper = mount(
+    React.createElement(
+      BaseUrlContext.Provider,
+      {
+        value: '/child/v1.0',
+      },
+      markdown(
+        `
+[doc](doc:slug)
+[ref](ref:slug)
+[blog](blog:slug)
+[changelog](changelog:slug)
+[page](page:slug)
+  `,
+      ),
+    ),
+  );
+  expect(wrapper.html()).toMatchSnapshot();
 });
 
 test('emojis', () => {
@@ -138,4 +162,16 @@ describe.skip('`stripHtml` option', () => {
   test('should escape everything if `stripHtml=true`', () => {
     expect(markdown('<p>Test</p>', { stripHtml: true })).toBe('<p>&lt;p&gt;Test&lt;/p&gt;</p>\n');
   });
+});
+
+test('should strip dangerous iframe tag', () => {
+  expect(
+    shallow(markdown('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>')).html(),
+  ).toBe('<p></p>');
+});
+
+test('should strip dangerous img attributes', () => {
+  expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
+    '<img src="x"/>',
+  );
 });

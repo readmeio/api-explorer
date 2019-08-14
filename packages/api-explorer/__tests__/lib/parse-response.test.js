@@ -169,7 +169,12 @@ test('isBinary should be true if there is a content-disposition response header'
   );
 });
 
-test('should parse json response', async () => {
+test('should parse application/json response as json', async () => {
+  expect((await parseResponse(har, response)).responseBody).toEqual(JSON.parse(responseBody));
+});
+
+test('should parse application/vnd.api+json as json', async () => {
+  response.headers['Content-Type'] = 'application/vnd.api+json';
   expect((await parseResponse(har, response)).responseBody).toEqual(JSON.parse(responseBody));
 });
 

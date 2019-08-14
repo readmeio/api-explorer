@@ -1,0 +1,68 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://example.com"
+    }
+  ],
+  "info": {
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/format-url": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "url"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-unknown": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string": {
+                    "type": "string",
+                    "format": "some-unknown-format"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-uuid": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application\/json": {
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "examples": {
+                  "response": {
+                    "value": "96fab4bb-ff68-43e2-94d8-7046f3173d9c"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
