@@ -14,6 +14,29 @@
       "get": {
         "summary": "Get results",
         "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string (format: date)": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "string (format: date-time)": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "string (format: string)": {
+                    "type": "string",
+                    "format": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -80,8 +103,7 @@
                 "examples": {
                   "cat" : {
                     "summary": "An example of a cat",
-                    "value":
-                    {
+                    "value": {
                       "name": "Fluffy",
                       "petType": "Cat",
                       "color": "White",
