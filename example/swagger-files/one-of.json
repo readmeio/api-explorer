@@ -73,6 +73,56 @@
           }
         }
       }
+    },
+    "/anything/one-of-object-ref": {
+      "post": {
+        "summary": "oneOf object with $ref pointers (does not work)",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/object1"
+                  },
+                  {
+                    "$ref": "#/components/schemas/object2"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "object1": {
+        "title": "First type of object",
+        "type": "object",
+        "properties": {
+          "a": {
+            "type": "string"
+          },
+          "b": {
+            "type": "string"
+          }
+        }
+      },
+      "object2": {
+        "title": "Second type of object",
+        "type": "object",
+        "properties": {
+          "c": {
+            "type": "string"
+          },
+          "d": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
