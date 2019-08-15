@@ -1,6 +1,5 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
-  "files": "./**/**.{js,jsx}",
   "printWidth": 100,
 }

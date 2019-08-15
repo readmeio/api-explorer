@@ -186,8 +186,14 @@ function testNumberClass(schema) {
   });
 }
 
+testNumberClass({ type: 'integer', format: 'int8' });
+testNumberClass({ type: 'integer', format: 'uint8' });
+testNumberClass({ type: 'integer', format: 'int16' });
+testNumberClass({ type: 'integer', format: 'uint16' });
 testNumberClass({ type: 'integer', format: 'int32' });
+testNumberClass({ type: 'integer', format: 'uint32' });
 testNumberClass({ type: 'integer', format: 'int64' });
+testNumberClass({ type: 'integer', format: 'uint64' });
 testNumberClass({ type: 'number', format: 'float' });
 testNumberClass({ type: 'number', format: 'double' });
 
@@ -213,16 +219,31 @@ describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
 
-  test('array should not show add button', () => {
+  test('array should still show add button, but sub-elements should not be editable', () => {
+    const elem = mount(
+      <ParamsWithExplorerDisabled
+        {...props}
+        oas={new Oas(oasWithExplorerDisabled)}
+        operation={oas.operation('/pet', 'post')}
+      />,
+    );
+
+    expect(elem.find('.field-array .array-item-add').length).toBe(2);
+
+    elem
+      .find('.field-array .array-item-add')
+      .at(0)
+      .simulate('click');
+
+    // Assert that after we've clicked to add array items into the view, everything is still in
+    // readOnly mode.
+    expect(elem.find('input').length).toBe(1);
     expect(
-      mount(
-        <ParamsWithExplorerDisabled
-          {...props}
-          oas={new Oas(oasWithExplorerDisabled)}
-          operation={oas.operation('/pet', 'post')}
-        />,
-      ).find('.field-array .array-item-add').length,
-    ).toBe(0);
+      elem
+        .find('input')
+        .at(0)
+        .props().type,
+    ).toBe('hidden');
   });
 
   test('should not render any <input>', () => {

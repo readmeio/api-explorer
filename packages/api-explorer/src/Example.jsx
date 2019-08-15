@@ -4,7 +4,6 @@ const ReactJson = require('react-json-view').default;
 const showCodeResults = require('./lib/show-code-results');
 const contentTypeIsJson = require('./lib/content-type-is-json');
 
-// const { replaceVars } = require('./lib/replace-vars');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const extensions = require('@readme/oas-extensions');
 
@@ -130,9 +129,7 @@ function Example({
 
   return (
     <div className="hub-reference-results-examples code-sample">
-      {examples &&
-      examples.length > 0 &&
-      hasExamples && (
+      {examples && examples.length > 0 && hasExamples && (
         <span>
           <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
@@ -148,6 +145,20 @@ function Example({
                 example = mediaTypes[0];
                 isJson = example.language && contentTypeIsJson(example.language);
               }
+
+              const getHighlightedExample = exx => {
+                return syntaxHighlighter(exx.code, exx.language, {
+                  dark: true,
+                });
+              };
+
+              const transformExampleIntoReactJson = exx => {
+                try {
+                  return getReactJson(exx);
+                } catch (e) {
+                  return getHighlightedExample(exx);
+                }
+              };
 
               return (
                 <div>
@@ -174,15 +185,11 @@ function Example({
                       )}
 
                     {isJson && !example.multipleExamples ? (
-                      <div className="example example_json">{getReactJson(example)}</div>
+                      <div className="example example_json">{transformExampleIntoReactJson(example)}</div>
                     ) : (
                       // json + multiple examples is already handled in `showExamples`.
                       <div className="example">
-                        {isJson && example.multipleExamples ? null : (
-                          syntaxHighlighter(example.code, example.language, {
-                            dark: true,
-                          })
-                        )}
+                        {isJson && example.multipleExamples ? null : getHighlightedExample(example)}
                       </div>
                     )}
                   </pre>
@@ -195,11 +202,9 @@ function Example({
 
       {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
-          {oas[extensions.EXPLORER_ENABLED] ? (
-            'Try the API to see Results'
-          ) : (
-            'No response examples available'
-          )}
+          {oas[extensions.EXPLORER_ENABLED]
+            ? 'Try the API to see Results'
+            : 'No response examples available'}
         </div>
       )}
     </div>

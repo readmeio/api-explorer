@@ -27,8 +27,25 @@ function getBodyParam(pathOperation, oas) {
   };
 }
 
+function hasCommonParameters(pathOperation) {
+  const path = (pathOperation || {}).path;
+  const commonParams = ((((pathOperation || {}).oas || {}).paths || {})[path] || {}).parameters;
+  return !!(commonParams && commonParams.length !== 0);
+}
+
 function getOtherParams(pathOperation, oas) {
-  const resolvedParameters = (pathOperation.parameters || []).map(param => {
+  let pathParameters = pathOperation.parameters || [];
+
+  if (hasCommonParameters(pathOperation)) {
+    const path = pathOperation.path;
+    const commonParams = pathOperation.oas.paths[path].parameters;
+    const commonParamsNotInParams = commonParams.filter(
+      param => !pathParameters.find(param2 => param2.name === param.name && param2.in === param.in),
+    );
+    pathParameters = pathParameters.concat(commonParamsNotInParams || []);
+  }
+
+  const resolvedParameters = pathParameters.map(param => {
     if (param.$ref) return findSchemaDefinition(param.$ref, oas);
     return param;
   });
@@ -88,8 +105,7 @@ function getOtherParams(pathOperation, oas) {
 module.exports = (pathOperation, oas) => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
-
-  if (!hasParameters && !hasRequestBody) return null;
+  if (!hasParameters && !hasRequestBody && !hasCommonParameters(pathOperation)) return null;
 
   return [getBodyParam(pathOperation, oas)]
     .concat(...getOtherParams(pathOperation, oas))

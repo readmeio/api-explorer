@@ -31,11 +31,12 @@ function formatter(values, param, type, onlyIfExists) {
   return format.key(param.name);
 }
 
-const defaultValues = Object.keys(
-  require('./parameters-to-json-schema').types,
-).reduce((prev, curr) => {
-  return Object.assign(prev, { [curr]: {} });
-}, {});
+const defaultValues = Object.keys(require('./parameters-to-json-schema').types).reduce(
+  (prev, curr) => {
+    return Object.assign(prev, { [curr]: {} });
+  },
+  {},
+);
 
 // If you pass in types, it either uses a default, or favors
 // anything JSON.

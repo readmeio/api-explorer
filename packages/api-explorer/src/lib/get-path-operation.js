@@ -2,7 +2,8 @@ const getPath = require('./get-path');
 
 module.exports = function getPathOperation(swagger, doc) {
   if (swagger.paths && doc.swagger) {
-    return getPath(swagger, doc)[doc.api.method];
+    const path = getPath(swagger, doc);
+    if (path) return path[doc.api.method];
   }
 
   return { parameters: [] };

@@ -1,6 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
+const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
 const findSchemaDefinition = require('./lib/find-schema-definition');
@@ -95,7 +96,9 @@ class ResponseSchema extends React.Component {
         {this.renderHeader()}
         <div className="response-schema">
           {operation.responses[this.state.selectedStatus].description && (
-            <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
+            <p className="desc">
+              {markdown(operation.responses[this.state.selectedStatus].description)}
+            </p>
           )}
           {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
         </div>

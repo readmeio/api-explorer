@@ -1,3 +1,6 @@
 module.exports = function getPath(swagger, doc) {
-  return doc.swagger ? swagger.paths[doc.swagger.path] : { parameters: [] };
+  if (!swagger.paths || !doc.swagger) {
+    return { parameters: [] };
+  }
+  return swagger.paths[doc.swagger.path];
 };

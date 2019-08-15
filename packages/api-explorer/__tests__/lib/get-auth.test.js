@@ -5,14 +5,14 @@ const getAuth = require('../../src/lib/get-auth');
 const oas = new Oas(multipleSecurities);
 
 it('should fetch all auths from the OAS files', () => {
-  expect(
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas }),
-  ).toEqual({
-    oauthScheme: 'oauth',
-    oauthDiff: '',
-    apiKeyScheme: 'apikey',
-    unknownAuthType: '',
-  });
+  expect(getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas })).toEqual(
+    {
+      oauthScheme: 'oauth',
+      oauthDiff: '',
+      apiKeyScheme: 'apikey',
+      unknownAuthType: '',
+    },
+  );
 });
 
 it('should not error if oas.components is not set', () => {
@@ -54,6 +54,10 @@ it('should return apiKey property for oauth', () => {
 
 it('should return apiKey property for apiKey', () => {
   expect(getSingle(topLevelUser, { type: 'oauth2' })).toBe('123456');
+});
+
+it('should return a default value if scheme is sec0 and default auth provided', () => {
+  expect(getSingle({}, { type: 'apiKey', _key: 'sec0', 'x-default': 'default' })).toBe('default');
 });
 
 it('should return apiKey property for bearer', () => {

@@ -17,6 +17,8 @@ const EndpointErrorBoundary = require('./EndpointErrorBoundary');
 const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
+const { Operation } = require('./lib/Oas');
+const getPath = require('./lib/get-path');
 // const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
@@ -82,7 +84,12 @@ class Doc extends React.Component {
     if (this.operation) return this.operation;
 
     const { doc } = this.props;
-    const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    let operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    if (!getPath(this.oas, doc)) {
+      operation = new Operation(this.oas, doc.swagger.path, doc.api.method, {
+        parameters: doc.api.params,
+      });
+    }
     this.operation = operation;
     return operation;
   }
@@ -154,8 +161,7 @@ class Doc extends React.Component {
             </div>
 
             <div className="hub-reference-right">
-              {doc.type === 'endpoint' &&
-              this.shouldShowCode() && (
+              {doc.type === 'endpoint' && this.shouldShowCode() && (
                 <div className="hub-reference-section-code">
                   {this.renderCodeSample()}
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
@@ -228,11 +234,9 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        {this.props.appearance.referenceLayout === 'column' ? (
-          this.columnTheme(doc)
-        ) : (
-          this.mainTheme(doc)
-        )}
+        {this.props.appearance.referenceLayout === 'column'
+          ? this.columnTheme(doc)
+          : this.mainTheme(doc)}
       </EndpointErrorBoundary>
     );
   }

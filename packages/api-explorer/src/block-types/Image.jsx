@@ -10,9 +10,7 @@ const ImageBlock = ({ block, flags }) => {
     return (
       // eslint-disable-next-line react/no-array-index-key
       <div className="magic-block-image" key={i}>
-        {image &&
-        image.image &&
-        image.image.length && (
+        {image && image.image && image.image.length && (
           <div>
             <figure>
               <a

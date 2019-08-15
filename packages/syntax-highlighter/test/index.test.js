@@ -60,38 +60,56 @@ test('should keep enclosing characters around the variable', () => {
   ).toEqual("'APIKEY'");
 });
 
-test('should work for modes with an array like java', () => {
-  expect(shallow(syntaxHighlighter('service = client.service().messaging();', 'java')).html()).toBe(
-    '<span class="cm-s-neo"><span class="cm-variable">service</span> <span class="cm-operator">=</span> <span class="cm-variable">client</span>.<span class="cm-variable">service</span>().<span class="cm-variable">messaging</span>();</span>',
-  );
-});
+describe('specific languages', () => {
+  test('should work for modes with an array like java', () => {
+    expect(
+      shallow(syntaxHighlighter('service = client.service().messaging();', 'java')).html(),
+    ).toBe(
+      '<span class="cm-s-neo"><span class="cm-variable">service</span> <span class="cm-operator">=</span> <span class="cm-variable">client</span>.<span class="cm-variable">service</span>().<span class="cm-variable">messaging</span>();</span>',
+    );
+  });
 
-test('should work for html', () => {
-  expect(shallow(syntaxHighlighter('<p>test</p>', 'html')).html()).toBe(
-    '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span></span>',
-  );
-});
+  test('should work for html', () => {
+    expect(shallow(syntaxHighlighter('<p>test</p>', 'html')).html()).toBe(
+      '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span></span>',
+    );
+  });
 
-test('should work for php without opening tag', () => {
-  expect(shallow(syntaxHighlighter('echo "Hello World";', 'php')).html()).toContain('cm-keyword');
-});
+  test('should work for php without opening tag', () => {
+    expect(shallow(syntaxHighlighter('echo "Hello World";', 'php')).html()).toContain('cm-keyword');
+  });
 
-test('should work for kotlin', () => {
-  expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain(
-    'cm-variable',
-  );
-});
+  test('should work for dockerfiles', () => {
+    expect(shallow(syntaxHighlighter('FROM alpine:3.4', 'dockerfile')).html()).toContain(
+      'cm-keyword',
+    );
+  });
 
-test('should work for go', () => {
-  expect(shallow(syntaxHighlighter('func main() {}', 'go')).html()).toContain('cm-variable');
-});
+  test('should work for kotlin', () => {
+    expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain(
+      'cm-variable',
+    );
+  });
 
-test('should work for typescript', () => {
-  expect(
-    shallow(syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript')).html(),
-  ).toContain('cm-variable');
-});
+  test('should work for go', () => {
+    expect(shallow(syntaxHighlighter('func main() {}', 'go')).html()).toContain('cm-variable');
+  });
 
-test('should work for swift', () => {
-  expect(shallow(syntaxHighlighter('var x = 0;', 'swift')).html()).toContain('cm-def');
+  test('should work for powershell', () => {
+    expect(
+      shallow(syntaxHighlighter('$headers.Add("accept", "application/json")', 'powershell')).html(),
+    ).toContain('cm-variable');
+  });
+
+  test('should work for typescript', () => {
+    expect(
+      shallow(
+        syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript'),
+      ).html(),
+    ).toContain('cm-variable');
+  });
+
+  test('should work for swift', () => {
+    expect(shallow(syntaxHighlighter('var x = 0;', 'swift')).html()).toContain('cm-def');
+  });
 });

@@ -11,6 +11,8 @@ const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
 
+const methods = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'];
+
 const getAuth = require('./lib/get-auth');
 
 class ApiExplorer extends React.Component {
@@ -117,14 +119,15 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
+    const docs = this.props.docs.filter(doc => methods.includes(((doc || {}).api || {}).method));
+
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
           id="hub-reference"
-          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance
-            .referenceLayout}`}
+          className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
         >
-          {this.props.docs.map((doc, index) => (
+          {docs.map((doc, index) => (
             <VariablesContext.Provider value={this.props.variables}>
               <OauthContext.Provider value={this.props.oauth}>
                 <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
