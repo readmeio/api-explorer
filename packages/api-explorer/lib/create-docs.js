@@ -44,7 +44,9 @@ module.exports = (oas, apiSetting) => {
         // If the method present isn't an HTTP method that we're aware of, ignore it. This can
         // happen in the case of an API definition using something like common parameters.
         // https://swagger.io/docs/specification/describing-parameters
-        if (!['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'].includes(method)) {
+        if (
+          !['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'].includes(method)
+        ) {
           return;
         }
 
