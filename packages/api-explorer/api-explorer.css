@@ -41,10 +41,14 @@ form.rjsf .form-group .control-label {
   font-weight: 400;
   text-align: left;
   min-width: 100px;
-  padding-right: unset;
   float: left;
   font-weight: bold;
   flex: 1 1 150px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding-right: 5px;
+  word-break: break-all;
 }
 
 /* Make required asterisks red */
@@ -443,6 +447,10 @@ form.rjsf button[disabled] {
   padding: 3px 6px;
 }
 
+.field label::after {
+  display: inline-block;
+  width: fit-content;
+}
 /* Fix spacing on input fields. */
 form.rjsf input[type='file'] {
   font-size: 0.8em;
