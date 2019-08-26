@@ -117,13 +117,24 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
+    // const docs = this.props.docs.filter(doc => methods.includes(((doc || {}).api || {}).method));
+    const docs = this.props.docs.filter(doc => {
+      // If the HTTP method is `parameters`, then it represents common parameters and we shouldn't
+      // attempt to render it as a normal API operation.
+      if (typeof doc.api !== 'undefined' && doc.api.method === 'parameters') {
+        return false;
+      }
+
+      return true;
+    });
+
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
           id="hub-reference"
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
         >
-          {this.props.docs.map((doc, index) => (
+          {docs.map((doc, index) => (
             <VariablesContext.Provider value={this.props.variables}>
               <OauthContext.Provider value={this.props.oauth}>
                 <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>

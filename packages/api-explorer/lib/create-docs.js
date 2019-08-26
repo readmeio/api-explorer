@@ -41,15 +41,6 @@ module.exports = (oas, apiSetting) => {
 
       const tag = operation.tags && operation.tags.length ? operation.tags[0] : path;
       if (!docs.find(category => category.slug === tag && category.type === 'basic')) {
-        // If the method present isn't an HTTP method that we're aware of, ignore it. This can
-        // happen in the case of an API definition using something like common parameters.
-        // https://swagger.io/docs/specification/describing-parameters
-        if (
-          !['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'].includes(method)
-        ) {
-          return;
-        }
-
         docs.push({
           _id: Math.random().toString(16),
           title: operation.summary || path || tag,
