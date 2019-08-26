@@ -141,8 +141,10 @@ test('should return `type` from content-type header', async () => {
   expect((await parseResponse(har, response)).type).toEqual('application/json');
 });
 
-test('should return null for `type` if content-type header missing', async () => {
-  expect((await parseResponse(har, new Response(responseBody))).type).toEqual(null);
+test('should autodetect a content-type if content-type header missing', async () => {
+  expect((await parseResponse(har, new Response(responseBody))).type).toEqual(
+    'text/plain;charset=UTF-8',
+  );
 });
 
 test('should remove x-final-url header set by the proxy', async () => {
@@ -153,7 +155,7 @@ test('should remove x-final-url header set by the proxy', async () => {
         headers: { 'x-final-url': 'http://example.com' },
       }),
     )).responseHeaders,
-  ).toEqual([]);
+  ).toEqual(['content-type: text/plain;charset=UTF-8']);
 });
 
 test('should pass through status', async () => {
