@@ -7,6 +7,7 @@ const WrappedApiExplorer = require('../src');
 const { ApiExplorer } = WrappedApiExplorer;
 
 const oas = require('./fixtures/petstore/oas');
+const oasCommon = require('./fixtures/parameters/common');
 
 const createDocs = require('../lib/create-docs');
 
@@ -31,6 +32,20 @@ test('ApiExplorer renders a doc for each', () => {
   const explorer = shallow(<ApiExplorer {...props} />);
 
   expect(explorer.find('Doc').length).toBe(docs.length);
+});
+
+test('ApiExplorer should not render a common parameter OAS operation method', () => {
+  const docsCommon = createDocs(oasCommon, 'api-setting');
+  const propsCommon = Object.assign({}, props, {
+    docs: docsCommon,
+    oasFiles: {
+      'api-setting': oasCommon,
+    },
+  });
+
+  const explorer = shallow(<ApiExplorer {...propsCommon} />);
+
+  expect(explorer.find('Doc').length).toBe(docsCommon.length - 1);
 });
 
 test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
