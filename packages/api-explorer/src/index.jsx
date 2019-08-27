@@ -11,8 +11,6 @@ const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
 
-const methods = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'];
-
 const getAuth = require('./lib/get-auth');
 
 class ApiExplorer extends React.Component {
@@ -119,7 +117,15 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
-    const docs = this.props.docs.filter(doc => methods.includes(((doc || {}).api || {}).method));
+    const docs = this.props.docs.filter(doc => {
+      // If the HTTP method is `parameters`, then it represents common parameters and we shouldn't
+      // attempt to render it as a normal API operation.
+      if (typeof doc.api !== 'undefined' && doc.api.method === 'parameters') {
+        return false;
+      }
+
+      return true;
+    });
 
     return (
       <div className={`is-lang-${this.state.language}`}>
