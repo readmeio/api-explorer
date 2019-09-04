@@ -98,7 +98,7 @@ class Logs extends React.Component {
     const { query, baseUrl } = this.props;
     this.setState({ loading: true });
 
-    const reqUrl = `${baseUrl}api/logs?${querystring.stringify(
+    const reqUrl = `${baseUrl}/api/logs?${querystring.stringify(
       Object.assign({}, query, { id: group || null, limit: 5, page: 0 }),
     )}`;
 
@@ -221,7 +221,7 @@ class Logs extends React.Component {
     const { query, baseUrl } = this.props;
     if (!group) return null;
 
-    const url = `${baseUrl}logs?${querystring.stringify(Object.assign({}, query, { id: group }))}`;
+    const url = `${baseUrl}/logs?${querystring.stringify(Object.assign({}, query, { id: group }))}`;
 
     return (
       <VisibilitySensor onChange={this.onVisible}>
