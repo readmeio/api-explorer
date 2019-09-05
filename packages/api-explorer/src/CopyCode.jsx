@@ -33,7 +33,7 @@ class CopyCode extends React.Component {
     return (
       <CopyToClipboard text={this.state.code} onCopy={this.onCopy}>
         <button className="copy-code-button">
-          {this.state.copied ? <span className="fa fa-check"></span> : <span className="fa fa-clipboard"></span>}
+          {this.state.copied ? <span className="fa fa-check" /> : <span className="fa fa-clipboard" />}
         </button>
       </CopyToClipboard>
     );
