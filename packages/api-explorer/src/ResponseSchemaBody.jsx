@@ -134,7 +134,11 @@ function ResponseSchemaBody({ schema, oas }) {
 module.exports = ResponseSchemaBody;
 
 ResponseSchemaBody.propTypes = {
-  schema: PropTypes.shape({}).isRequired,
+  schema: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    items: PropTypes.object,
+    properties: PropTypes.object,
+  }).isRequired,
   oas: PropTypes.shape({}).isRequired,
 };
 

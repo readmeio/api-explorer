@@ -61,7 +61,7 @@ Parameters.propTypes = {
     data: PropTypes.shape({
       cols: PropTypes.number.isRequired,
       rows: PropTypes.number.isRequired,
-      data: PropTypes.shape({}).isRequired,
+      data: PropTypes.object.isRequired,
     }),
   }).isRequired,
   flags: PropTypes.shape({}),

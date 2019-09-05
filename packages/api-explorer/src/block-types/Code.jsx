@@ -77,6 +77,7 @@ BlockCode.propTypes = {
     }),
   }),
   opts: PropTypes.shape({
+    hideHeaderOnOne: PropTypes.bool,
     label: PropTypes.string,
   }),
   dark: PropTypes.bool,
