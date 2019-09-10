@@ -1,14 +1,32 @@
+/* eslint-disable */
 const React = require('react');
 const ReactDOM = require('react-dom');
-const { AppContainer } = require('react-hot-loader');
+const SlateEditor = require('./editor').default;
 
-function render(Component) {
-  ReactDOM.render(<AppContainer><Component /></AppContainer>, document.getElementById('hub-content'));
+const DOCBODY = require('../packages/markdown/fixtures');
+const Markdown = require('../packages/markdown');
+
+function render(Component = 'div', props = {}) {
+  ReactDOM.render(
+    <Component {...props} />,
+    document.getElementById('root')
+  );
 }
 
-render(require('./src/Demo'));
+const style = {
+  maxWidth: '42em',
+  margin: '1em auto',
+  padding: '0 1em',
+};
+// render('div', {
+//   children: Markdown.render.hub(DOCBODY),
+//   className: 'markdown-body',
+//   style,
+// })
+render(SlateEditor, {
+  value: Markdown.render.markdown(DOCBODY, {gfm: true}),
+  className: 'markdown-body',
+  style,
+});
 
-// Webpack Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept('./src/Demo', () => render(require('./src/Demo'))); // eslint-disable-line global-require
-}
+console.log(Markdown.render.TEST(DOCBODY))

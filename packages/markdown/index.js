@@ -6,8 +6,15 @@ const remarkRehype = require('remark-rehype');
 const rehypeRaw = require('rehype-raw');
 const remarkParse = require('remark-parse');
 const rehypeSanitize = require('rehype-sanitize');
+const rehypeStringify = require('rehype-stringify');
 const rehypeReact = require('rehype-react');
+const rehypeRemark = require('rehype-remark');
+const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
+
+const slateConverter = require('./slate-converter')
+const magicBlockParser = require('./flavored/magic-block-parser');
+const multiCodeBlock = require('./flavored/multi-code-block');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
@@ -41,17 +48,22 @@ const GlossaryItem = require('./GlossaryItem');
  * - Sanitize and remove any disallowed attributes
  * - Output the hast to a React vdom with our custom components
  */
-module.exports = function markdown(text, opts = {}) {
+function convertMarkdown(text, opts = {}) {
   if (!text) return null;
 
   return unified()
     .use(remarkParse)
+    .use(magicBlockParser)
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkRehype, { allowDangerousHTML: true })
     .use(rehypeRaw)
     .use(rehypeSanitize)
+};
+
+module.exports = function markdown(text, opts) {
+  return convertMarkdown(text, opts)
     .use(rehypeReact, {
       createElement: React.createElement,
       components: {
@@ -64,12 +76,50 @@ module.exports = function markdown(text, opts = {}) {
         h4: heading('h4', sanitize),
         h5: heading('h5', sanitize),
         h6: heading('h6', sanitize),
-        a: anchor(sanitize),
+        a:  anchor(sanitize),
         code: code(sanitize),
-        // Remove enclosing <div>
-        // https://github.com/mapbox/remark-react/issues/54
         div: props => React.createElement(React.Fragment, props),
       },
     })
     .processSync(text).contents;
+};
+
+module.exports.parse = convertMarkdown;
+
+module.exports.render = {
+  hub: (text, opts) => convertMarkdown(text, opts)
+    .use(rehypeReact, {
+      createElement: React.createElement,
+      components: {
+        'readme-variable': Variable,
+        'readme-glossary-item': GlossaryItem,
+        table: table(sanitize),
+        h1: heading('h1', sanitize),
+        h2: heading('h2', sanitize),
+        h3: heading('h3', sanitize),
+        h4: heading('h4', sanitize),
+        h5: heading('h5', sanitize),
+        h6: heading('h6', sanitize),
+        a:  anchor(sanitize),
+        code: code(sanitize),
+        div: props => React.createElement(React.Fragment, props),
+      },
+    })
+    .processSync(text).contents,
+
+  markdown: (text, opts) => convertMarkdown(text, opts)
+    .use(rehypeRemark)
+    .use(remarkStringify)
+    .processSync(text).contents,
+
+  TEST: (text, opts) => convertMarkdown(text, opts)
+    // .use(slateConverter)
+    .use(rehypeRemark)
+    .use(remarkStringify)
+    .parse(text),
+    // .processSync(text).contents,
+
+  html: (text, opts) => convertMarkdown(text, opts)
+    .use(rehypeStringify)
+    .processSync(text).contents,
 };
