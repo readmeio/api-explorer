@@ -67,7 +67,7 @@ function parser() {
 
   methods.splice(methods.indexOf('text'), 0, 'gemoji');
 }
-
+  
 module.exports = parser;
 
 module.exports.sanitize = sanitizeSchema => {
