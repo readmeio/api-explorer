@@ -64,55 +64,99 @@ class App extends Component {
   }
   renderNode(props, editor, next) {
     const { attributes, children, node } = props;
+    var rendered;
+    console.groupCollapsed(node.type)
     switch (node.type) {
+      case 'p':
       case 'paragraph':
-        return <p {...attributes}>{children}</p>;
+        rendered = <p {...attributes}>{children}</p>;
+        break;
+      case 'blockquote':
       case 'block-quote':
-        return <blockquote {...attributes}>{children}</blockquote>;
+        rendered = <blockquote {...attributes}>{children}</blockquote>;
+        break;
+      case 'ul':
       case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>;
+        rendered = <ul {...attributes}>{children}</ul>;
+        break;
+      case 'ol':
       case 'ordered-list':
-        return <ol {...attributes}>{children}</ol>;
+        rendered = <ol {...attributes}>{children}</ol>;
+        break;
       case 'todo-list':
-        return <ul {...attributes} className="todo">{children}</ul>;
+        rendered = <ul {...attributes} className="todo">{children}</ul>;
+        break;
       case 'table':
-        return (<table {...attributes}>
+        rendered = (<table {...attributes}>
           <tbody>{children}</tbody>
         </table>);
+        break;
+      case 'tr':
       case 'table-row':
-        return <tr {...attributes}>{children}</tr>;
+        rendered = <tr {...attributes}>{children}</tr>;
+        break;
+      case 'th':
       case 'table-head':
-        return <th {...attributes}>{children}</th>;
+        rendered = <th {...attributes}>{children}</th>;
+        break;
+      case 'td':
       case 'table-cell':
-        return <td {...attributes}>{children}</td>;
+        rendered = <td {...attributes}>{children}</td>;
+        break;
+      case 'li':
       case 'list-item':
-        return <li {...attributes}>{children}</li>;
+        rendered = <li {...attributes}>{children}</li>;
+        break;
+      case 'hr':
       case 'horizontal-rule':
-        return <hr />;
+        rendered = <hr />;
+        break;
       case 'code':
-        return (<div>
-          <pre {...attributes} data-lang={node.data.get('language')}>{children}</pre>
-        </div>);
+      case 'pre': {
+        console.log(node.data.get('language'))
+        rendered = <pre {...attributes} data-lang={node.data.get('language')}>{children}</pre>;
+        break;
+      }
+      case 'img':
       case 'image':
-        return <img src={node.data.get('src')} alt={node.data.get('title')} />;
+        rendered = <img src={node.data.get('src')} alt={node.data.get('title')} />;
+        break;
+      case 'a':
+      case 'anchor':
       case 'link':
-        return <a {...attributes} href={node.data.get('href')}>{children}</a>;
+        rendered = <a {...attributes} href={node.data.get('href')}>{children}</a>;
+        break;
+      case 'h1':
       case 'heading1':
-        return <h1 {...attributes}>{children}</h1>;
+        rendered = <h1 {...attributes}>{children}</h1>;
+        break;
+      case 'h2':
       case 'heading2':
-        return <h2 {...attributes}>{children}</h2>;
+        rendered = <h2 {...attributes}>{children}</h2>;
+        break;
+      case 'h3':
       case 'heading3':
-        return <h3 {...attributes}>{children}</h3>;
+        rendered = <h3 {...attributes}>{children}</h3>;
+        break;
+      case 'h4':
       case 'heading4':
-        return <h4 {...attributes}>{children}</h4>;
+        rendered = <h4 {...attributes}>{children}</h4>;
+        break;
+      case 'h5':
       case 'heading5':
-        return <h5 {...attributes}>{children}</h5>;
+        rendered = <h5 {...attributes}>{children}</h5>;
+        break;
+      case 'h6':
       case 'heading6':
-        return <h6 {...attributes}>{children}</h6>;
+        rendered = <h6 {...attributes}>{children}</h6>;
+        break;
       default:
-        return next();
+        rendered = next();
+        break;
     }
-  }  
+    console.groupEnd();
+    return rendered
+  }
   renderMark(props, editor, next) {
     switch (props.mark.type) {
       case 'bold':
