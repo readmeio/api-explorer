@@ -1,16 +1,59 @@
-module.exports = `[block:api-header]
+module.exports = `# ReadMe Flavored Markdown
+
+[block:api-header]
 {
-  "title": "ReadMe MagicBlock Conversion"
+  "title": "ReadMe MagicBlock Conversion",
+  "level": 2
 }
 [/block]
 
-The above header was auto-converted to markdown from the \`[block:type]\` syntax!
+[block:callout]
+{
+  "type": "success",
+  "title": "YES",
+  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
+}
+[/block]
 
-# ReadMe Flavored Markdown
+[block:callout]
+{
+  "type": "info",
+  "title": "OK",
+  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
+}
+[/block]
 
-\`\`\`markdown
-Use a <<variable>> or show a <<glossary:term>> directly in your markdown.
-\`\`\`
+[block:callout]
+{
+  "type": "warning",
+  "title": "WARN",
+  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
+}
+[/block]
+
+[block:callout]
+{
+  "type": "danger",
+  "title": "UHOH",
+  "body": ""
+}
+[/block]
+
+[block:code]
+{
+  "codes": [
+    {
+      "code": "$http.post('/someUrl', data).success(successCallback);\\n\\nalert('test');",
+      "language": "javascript"
+    },
+    {
+      "code": "second tab",
+      "language": "text",
+      "name": "custom title"
+    }
+  ]
+}
+[/block]
 
 ### Code Samples
 
@@ -57,9 +100,9 @@ This text is **bold**. This is _italic_. This is an \`inline code block\`. You c
 #### To Do Lists
 
 - [ ] This
-- [ ] Is A
+- [x] Is A
 - [ ] To Do
-- [ ] List
+- [x] List
 
 #### Unordered Lists
 

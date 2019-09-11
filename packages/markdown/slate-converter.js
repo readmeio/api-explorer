@@ -4,6 +4,7 @@ const flat = require('lodash/flatten');
 const toSlate = node => {
   node.children = node.children || [];
   // console.log(node.type, node)
+  // console.log("%O isMark %o", node, phrasing(node))
   if (phrasing(node)) {
     const parentMark = {
       object: 'mark',
@@ -21,11 +22,10 @@ const toSlate = node => {
       };
     }));
   }
-  if (node.type === 'text')
-    return {
-      object: 'text',
-      text: node.value,
-    };
+  if (node.type === 'text' && node.value.trim()) return {
+    object: 'text',
+    text: node.value,
+  };
   return {
     object: 'block',
     type: node.tagName || node.type,

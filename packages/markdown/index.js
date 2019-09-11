@@ -14,7 +14,6 @@ const breaks = require('remark-breaks');
 
 const slateConverter = require('./slate-converter')
 const magicBlockParser = require('./flavored/magic-block-parser');
-const multiCodeBlock = require('./flavored/multi-code-block');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
@@ -52,7 +51,7 @@ function convertMarkdown(text, opts = {}) {
   if (!text) return null;
 
   return unified()
-    .use(remarkParse)
+    .use(remarkParse, opts.markdownSettings)
     .use(magicBlockParser)
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
@@ -87,6 +86,26 @@ module.exports = function markdown(text, opts) {
 module.exports.parse = convertMarkdown;
 
 module.exports.render = {
+  dash: (text, opts) => convertMarkdown(text, opts)
+    .use(rehypeReact, {
+      createElement: React.createElement,
+      components: {
+        'readme-variable': Variable,
+        'readme-glossary-item': GlossaryItem,
+        table: table(sanitize),
+        h1: heading('h1', sanitize),
+        h2: heading('h2', sanitize),
+        h3: heading('h3', sanitize),
+        h4: heading('h4', sanitize),
+        h5: heading('h5', sanitize),
+        h6: heading('h6', sanitize),
+        a:  anchor(sanitize),
+        code: code(sanitize),
+        div: props => React.createElement(React.Fragment, props),
+      },
+    })
+    .processSync(text).contents,
+
   hub: (text, opts) => convertMarkdown(text, opts)
     .use(rehypeReact, {
       createElement: React.createElement,
@@ -112,12 +131,14 @@ module.exports.render = {
     .use(remarkStringify)
     .processSync(text).contents,
 
-  TEST: (text, opts) => convertMarkdown(text, opts)
-    // .use(slateConverter)
+  ast: (text, opts) => convertMarkdown(text, opts)
     .use(rehypeRemark)
     .use(remarkStringify)
     .parse(text),
-    // .processSync(text).contents,
+  
+  slate: (text, opts) => convertMarkdown(text, opts)
+    .use(slateConverter)
+    .processSync(text).contents,
 
   html: (text, opts) => convertMarkdown(text, opts)
     .use(rehypeStringify)
