@@ -10,32 +10,8 @@ module.exports = `# ReadMe Flavored Markdown
 [block:callout]
 {
   "type": "success",
-  "title": "YES",
+  "title": "Callout Title",
   "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
-}
-[/block]
-
-[block:callout]
-{
-  "type": "info",
-  "title": "OK",
-  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
-}
-[/block]
-
-[block:callout]
-{
-  "type": "warning",
-  "title": "WARN",
-  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
-}
-[/block]
-
-[block:callout]
-{
-  "type": "danger",
-  "title": "UHOH",
-  "body": ""
 }
 [/block]
 
@@ -111,4 +87,11 @@ This text is **bold**. This is _italic_. This is an \`inline code block\`. You c
 
 ### Links
 
-This is an [internal link](#error-code-definitions), this is an [external link](http://google.com).`;
+This is an [internal link](#error-code-definitions), this is an [external link](http://google.com).
+
+### Various
+
+#### Horizontal Rule
+
+---
+`;
