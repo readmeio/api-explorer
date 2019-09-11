@@ -18,23 +18,48 @@ function tokenize(eat, value, silent) {
   if (!type) return;
 
   match = match.trim();
-  json = json && JSON.parse(json);
+  json = json && JSON.parse(json) || {};
     
-  if (type=='code') return eat(match)({
-    type: 'div',
-    children: json.codes.map(obj => ({type: 'code', value: obj.code, language: obj.language }))
-  })
-  if (type=='api-header') return eat(match)({
-    type: 'heading',
-    depth: json.level,
-    children: this.tokenizeInline(json.title, eat.now())
-  })
-  if (type=='callout') {
+  switch (type) {
+  case 'code':
+    return eat(match)({
+      type: 'rdme-wrap',
+      className: 'tabs',
+      data: {
+        hName: 'rdme-wrap',
+        hProperties: {test: 'val'},
+      },
+      children: json.codes.map(obj => ({
+        type: 'code',
+        value: obj.code,
+        language: obj.language,
+      })),
+    });
+    break;
+  case 'api-header':
+    return eat(match)({
+      type: 'heading',
+      depth: json.level,
+      children: this.tokenizeInline(json.title, eat.now())
+    });
+    break;
+  case 'callout':
+    const map = {
+      success: '👍',
+      info: 'ℹ',
+      warning: '⚠️',
+      danger: '🛑',
+    };
+    json.title = `${map[json.type]} **${json.title}**`;
     return eat(match)({
       type: 'blockquote',
       className: json.type,
-      children: this.tokenizeInline(json.title, eat.now())
-    })
+      children: [
+        ...this.tokenizeBlock(json.title, eat.now()),
+        ...this.tokenizeBlock(json.body, eat.now())
+      ]
+    });
+    break;
   }
 }
 
@@ -49,3 +74,15 @@ function parser() {
 }
 
 module.exports = parser;
+
+module.exports.sanitize = sanitizeSchema => {
+  console.log({sanitizeSchema})
+
+  const tags = sanitizeSchema.tagNames;
+  const attr = sanitizeSchema.attributes;
+  
+  tags.push('rdme-wrap');
+  attr['rdme-wrap'] = ['className', 'test'];
+  
+  return parser;
+}
