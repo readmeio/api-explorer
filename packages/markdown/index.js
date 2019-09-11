@@ -51,7 +51,7 @@ function parseMarkdown(text, opts = {}) {
   if (!text) return null;
 
   return unified()
-    .use(remarkParse, opts.markdownSettings)
+    .use(remarkParse, opts.markdownOptions)
     .use(magicBlockParser.sanitize(sanitize))
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
@@ -121,8 +121,14 @@ module.exports.render = {
     .processSync(text).contents,
 
   ast: (text, opts) => parseMarkdown(text, opts)
-    .use(rehypeRemark)
-    .use(remarkStringify)
+    .use(rehypeReact, {
+      createElement: React.createElement,
+      components: {
+        'readme-variable': Variable,
+        'readme-glossary-item': GlossaryItem,
+        'rdme-wrap': props => <div className="red" {...props} />,
+      },
+    })
     .parse(text),
   
   slate: (text, opts) => parseMarkdown(text, opts)

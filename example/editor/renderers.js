@@ -10,11 +10,24 @@ const renderNode = (props, editor, next) => {
       render = <p {...attributes}>{children}</p>;
       break;
     case 'rdme-wrap':
-      render = <div className={node.className} {...attributes}>{children}</div>;
+      render = (
+        <div active={0} className={node.data.get('className')} {...attributes}>
+          {children.map((kid, i) => (<button onClick={(...args) => {
+            document.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
+            document.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
+          }}>
+            { kid.props.node.get('data').get('meta') || `(${kid.props.node.get('data').get('lang')})` }
+          </button>))}
+          {children}
+        </div>
+      );
       break;
     case 'blockquote':
     case 'block-quote':
       render = <blockquote {...attributes}>{children}</blockquote>;
+      break;
+    case 'figure':
+      render = <figure {...attributes}>{children}</figure>;
       break;
     case 'ul':
     case 'bulleted-list':
@@ -55,13 +68,15 @@ const renderNode = (props, editor, next) => {
       break;
     case 'code':
     case 'pre': {
-      console.log(node.data.get('language'))
-      render = <pre {...attributes} data-lang={node.data.get('language')}>{children}</pre>;
+      render = (<pre {...attributes} className={node.data.get('className')} data-lang={node.data.get('lang')}>
+        {children}
+      </pre>);
       break;
     }
     case 'img':
     case 'image':
-      render = <img src={node.data.get('src')} alt={node.data.get('title')} />;
+      console.log(node)
+      render = <img src={node.data.get('src')} title={node.data.get('title')} alt={node.data.get('alt')} />;
       break;
     case 'a':
     case 'anchor':
