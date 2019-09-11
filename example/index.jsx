@@ -13,7 +13,8 @@ function render(Component = 'div', props = {}) {
   );
 }
 
-const 
+const
+value = Markdown.render.ast(DOCBODY, mdOpt),
 mdOpt = {
   correctnewlines: true,
   markdownOptions: {
@@ -28,23 +29,15 @@ style = {
   padding: '0 1em',
 };
 
-console.dir(Markdown.render.ast(DOCBODY, mdOpt));
-
-// render('div', {
-//   children: Markdown.render.dash(DOCBODY, mdOpt),
-//   className: 'markdown-body',
-//   style,
-// });
-
+console.dir(value);
 render(SlateEditor, {
   value: Markdown.render.ast(DOCBODY, mdOpt),
   className: 'markdown-body',
   style,
 });
 
-/* render(SlateEditor, {
-  value: Markdown.render.slate(DOCBODY, mdOpt),
-  className: 'markdown-body',
-  style,
-}); */
-
+// render('div', {
+//   children: Markdown.render.dash(DOCBODY, mdOpt),
+//   className: 'markdown-body',
+//   style,
+// });

@@ -3,16 +3,14 @@ import React from 'react';
 const renderNode = (props, editor, next) => {
   const { attributes, children, node } = props;
 
-  let render;
   switch (node.type) {
     case 'p':
     case 'paragraph':
-      render = <p {...attributes}>{children}</p>;
-      break;
+      return <p {...attributes}>{children}</p>;
     case 'rdme-wrap':
-      render = (
+      return (
         <div active={0} className={node.data.get('className')} {...attributes}>
-          {children.map((kid, i) => (<button onClick={(...args) => {
+          {children.map((kid, i) => (<button key={`tab-toggle-${kid.key}`} onClick={(...args) => {
             document.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
             document.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
           }}>
@@ -21,98 +19,78 @@ const renderNode = (props, editor, next) => {
           {children}
         </div>
       );
-      break;
     case 'blockquote':
     case 'block-quote':
-      render = <blockquote {...attributes}>{children}</blockquote>;
-      break;
+      return <blockquote {...attributes}>{children}</blockquote>;
     case 'figure':
-      render = <figure {...attributes}>{children}</figure>;
-      break;
+      return <figure {...attributes}>{children}</figure>;
     case 'ul':
     case 'bulleted-list':
-      render = <ul {...attributes}>{children}</ul>;
-      break;
+      return <ul {...attributes}>{children}</ul>;
     case 'ol':
     case 'ordered-list':
-      render = <ol {...attributes}>{children}</ol>;
-      break;
+      return <ol {...attributes}>{children}</ol>;
     case 'todo-list':
-      render = <ul {...attributes} className="todo">{children}</ul>;
-      break;
+      return <ul {...attributes} className="todo">{children}</ul>;
     case 'table':
-      render = (<table {...attributes}>
+      return (<table {...attributes}>
         <tbody>{children}</tbody>
       </table>);
-      break;
     case 'tr':
+    case 'tableRow':
     case 'table-row':
-      render = <tr {...attributes}>{children}</tr>;
-      break;
+      return <tr {...attributes}>{children}</tr>;
     case 'th':
+    case 'tableHead':
     case 'table-head':
-      render = <th {...attributes}>{children}</th>;
-      break;
+      console.log('Table Head: %O', {children, attributes})
+      return <th {...attributes}>{children}</th>;
     case 'td':
+    case 'tableCell':
     case 'table-cell':
-      render = <td {...attributes}>{children}</td>;
-      break;
+      console.log('Table Cell: %O', {children, attributes})
+      return <td {...attributes}>{children}</td>;
     case 'li':
     case 'list-item':
-      render = <li {...attributes}>{children}</li>;
-      break;
+      return <li {...attributes}>{children}</li>;
     case 'hr':
     case 'horizontal-rule':
     case 'break':
-      render = <hr />;
-      break;
+      return <hr />;
     case 'code':
     case 'pre': {
-      render = (<pre {...attributes} className={node.data.get('className')} data-lang={node.data.get('lang')}>
+      return (<pre {...attributes} className={node.data.get('className')} data-lang={node.data.get('lang')}>
         {children}
       </pre>);
-      break;
     }
     case 'img':
     case 'image':
-      console.log(node)
-      render = <img src={node.data.get('src')} title={node.data.get('title')} alt={node.data.get('alt')} />;
-      break;
+      return <img src={node.data.get('src')} title={node.data.get('title')} alt={node.data.get('alt')} />;
     case 'a':
     case 'anchor':
     case 'link':
-      render = <a {...attributes} href={node.data.get('href')}>{children}</a>;
-      break;
+      return <a {...attributes} href={node.data.get('href')}>{children}</a>;
     case 'h1':
     case 'heading1':
-      render = <h1 {...attributes}>{children}</h1>;
-      break;
+      return <h1 {...attributes}>{children}</h1>;
     case 'h2':
     case 'heading2':
-      render = <h2 {...attributes}>{children}</h2>;
-      break;
+      return <h2 {...attributes}>{children}</h2>;
     case 'h3':
     case 'heading3':
-      render = <h3 {...attributes}>{children}</h3>;
-      break;
+      return <h3 {...attributes}>{children}</h3>;
     case 'h4':
     case 'heading4':
-      render = <h4 {...attributes}>{children}</h4>;
-      break;
+      return <h4 {...attributes}>{children}</h4>;
     case 'h5':
     case 'heading5':
-      render = <h5 {...attributes}>{children}</h5>;
-      break;
+      return <h5 {...attributes}>{children}</h5>;
     case 'h6':
     case 'heading6':
-      render = <h6 {...attributes}>{children}</h6>;
-      break;
+      return <h6 {...attributes}>{children}</h6>;
     default:
-      render = next();
-      break;
+      return next();
   }
-
-  return render;
 };
 
 const renderMark = (props, editor, next) => {

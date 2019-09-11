@@ -220,14 +220,56 @@ const codeBlock = {
 
 const table = {
   match: node => node.object === 'block' && node.type === 'table',
-  matchMdast: node => node.type === 'code',
+  matchMdast: node => node.type === 'table',
+  fromMdast: (node, _index, _parent, { visitChildren }) => {
+    console.log(node)
+    return {
+      object: 'block',
+      type: 'table',
+      nodes: visitChildren(node),
+    }
+  },
+  toMdast: (node, _index, _parent, { visitChildren }) => ({
+    type: 'table',
+    value: visitChildren(node),
+  }),
+};
+const tableRow = {
+  match: node => node.object === 'block' && node.type === 'tableRow',
+  matchMdast: node => node.type === 'tableRow',
   fromMdast: (node, _index, _parent, { visitChildren }) => ({
     object: 'block',
-    type: 'table',
+    type: 'tableRow',
     nodes: visitChildren(node),
   }),
   toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'table',
+    type: 'tableRow',
+    value: visitChildren(node),
+  }),
+};
+const tableHead = {
+  match: node => node.object === 'block' && node.type === 'tableHead',
+  matchMdast: node => node.type === 'tableHead',
+  fromMdast: (node, _index, _parent, { visitChildren }) => ({
+    object: 'block',
+    type: 'tableHead',
+    nodes: visitChildren(node),
+  }),
+  toMdast: (node, _index, _parent, { visitChildren }) => ({
+    type: 'tableHead',
+    value: visitChildren(node),
+  }),
+};
+const tableCell = {
+  match: node => node.object === 'block' && node.type === 'tableCell',
+  matchMdast: node => node.type === 'tableCell',
+  fromMdast: (node, _index, _parent, { visitChildren }) => ({
+    object: 'block',
+    type: 'tableCell',
+    nodes: visitChildren(node),
+  }),
+  toMdast: (node, _index, _parent, { visitChildren }) => ({
+    type: 'tableCell',
     value: visitChildren(node),
   }),
 };
@@ -330,6 +372,9 @@ export default [
   blockQuote,
   codeBlock,
   table,
+  tableHead,
+  tableRow,
+  tableCell,
   figure,
   image,
   link,
