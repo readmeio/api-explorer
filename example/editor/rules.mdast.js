@@ -221,16 +221,13 @@ const codeBlock = {
 const table = {
   match: node => node.object === 'block' && node.type === 'table',
   matchMdast: node => node.type === 'code',
-  fromMdast: (node, _index, _parent, { visitChildren }) => {
-    const { lang, meta, className } = node;
-    return {
-      object: 'block',
-      type: 'table',
-      nodes: visitChildren(node),
-    };
-  },
+  fromMdast: (node, _index, _parent, { visitChildren }) => ({
+    object: 'block',
+    type: 'table',
+    nodes: visitChildren(node),
+  }),
   toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'code',
+    type: 'table',
     value: visitChildren(node),
   }),
 };
