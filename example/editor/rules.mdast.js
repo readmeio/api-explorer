@@ -1,19 +1,43 @@
 const paragraph = {
   match: node => node.object === 'block' && node.type === 'paragraph',
   matchMdast: node => node.type === 'paragraph',
-  fromMdast: (node, _index, parent, { visitChildren }) => {
-    return {
-      object: 'block',
-      type: 'paragraph',
-      nodes: visitChildren(node),
-    };
-  },
-  toMdast: (object, _index, parent, { visitChildren }) => {
-    return {
-      type: 'paragraph',
-      children: visitChildren(object),
-    };
-  },
+  fromMdast: (node, _index, parent, { visitChildren }) => ({
+    object: 'block',
+    type: 'paragraph',
+    nodes: visitChildren(node),
+  }),
+  toMdast: (object, _index, parent, { visitChildren }) => ({
+    type: 'paragraph',
+    children: visitChildren(object),
+  }),
+};
+
+const figure = {
+  match: node => node.object === 'block' && node.type === 'figure',
+  matchMdast: node => node.type === 'figure',
+  fromMdast: (node, _index, parent, { visitChildren }) => ({
+    object: 'block',
+    type: 'figure',
+    nodes: visitChildren(node),
+  }),
+  toMdast: (object, _index, parent, { visitChildren }) => ({
+    type: 'figure',
+    children: visitChildren(object),
+  }),
+};
+
+const div = {
+  match: node => node.object === 'block' && node.type === 'div',
+  matchMdast: node => node.type === 'div',
+  fromMdast: (node, _index, parent, { visitChildren }) => ({
+    object: 'block',
+    type: 'div',
+    nodes: visitChildren(node),
+  }),
+  toMdast: (object, _index, parent, { visitChildren }) => ({
+    type: 'div',
+    children: visitChildren(object),
+  }),
 };
 
 const br = {
@@ -36,6 +60,7 @@ const image = {
     data: {
       alt: node.alt,
       src: node.url,
+      title: node.title,
     },
     nodes: [],
   }),
@@ -175,30 +200,39 @@ const bold = {
 const codeBlock = {
   match: node => node.object === 'block' && node.type === 'pre',
   matchMdast: node => node.type === 'code',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'pre',
-    nodes: [
-      {
-        object: 'text',
-        leaves: [
-          {
-            object: 'leaf',
-            text: node.value,
-          },
-        ],
-      },
-    ],
-  }),
-  toMdast: (node, _index, _parent, { visitChildren }) => {
+  fromMdast: (node, _index, _parent, { visitChildren }) => {
+    const { lang, meta, className } = node;
     return {
-      type: 'code',
-      value: visitChildren(node)
-        .map(childNode => childNode.value)
-        .filter(Boolean)
-        .join('\n'),
+      object: 'block',
+      type: 'pre',
+      nodes: [{ object: 'text', text: node.value }],
+      data: { lang, meta, className },
     };
   },
+  toMdast: (node, _index, _parent, { visitChildren }) => ({
+    type: 'code',
+    value: visitChildren(node)
+      .map(childNode => childNode.value)
+      .filter(Boolean)
+      .join('\n'),
+  }),
+};
+
+const table = {
+  match: node => node.object === 'block' && node.type === 'table',
+  matchMdast: node => node.type === 'code',
+  fromMdast: (node, _index, _parent, { visitChildren }) => {
+    const { lang, meta, className } = node;
+    return {
+      object: 'block',
+      type: 'table',
+      nodes: visitChildren(node),
+    };
+  },
+  toMdast: (node, _index, _parent, { visitChildren }) => ({
+    type: 'code',
+    value: visitChildren(node),
+  }),
 };
 
 const code = {
@@ -273,22 +307,17 @@ const rdmeWrap = {
     node.object === 'block' && node.type === 'rdme-wrap',
   matchMdast: node =>
     node.type === 'rdme-wrap',
-  fromMdast: (node, index, parent, { visitChildren }) => {
-    const slate = {
-      object: 'block',
-      type: 'rdme-wrap',
-      nodes: visitChildren(node),
-      data: {
-        ...node.data.hProperties,
-        className: node.className,
-      },
-    };
-    console.log({mdast: node, slate });
-    return slate;
-  },
-  toMdast: (mark, index, parent, { visitChildren }) => ({
+  fromMdast: (node, index, parent, { visitChildren }) => ({
+    object: 'block',
     type: 'rdme-wrap',
-    children: visitChildren(mark),
+    nodes: visitChildren(node),
+    data: {
+      className: node.className,
+    },
+  }),
+  toMdast: (node, index, parent, { visitChildren }) => ({
+    type: 'rdme-wrap',
+    children: visitChildren(node),
   }),
 };
 
@@ -296,12 +325,15 @@ export default [
   listItemChild,
   paragraph,
   rdmeWrap,
+  div,
   br,
   bold,
   code,
   italic,
   blockQuote,
   codeBlock,
+  table,
+  figure,
   image,
   link,
   bulletedList,

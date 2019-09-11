@@ -31,6 +31,27 @@ module.exports = `# ReadMe Flavored Markdown
 }
 [/block]
 
+[block:image]
+{
+  "images": [
+    {
+      "image": [
+        "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
+        "White Center Blue BG.svg",
+        240,
+        150,
+        "#000000"
+        ],
+      "caption": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+      "sizing": "80",
+      "border": true
+    }
+  ]
+}
+[/block]
+
+## Standard Markdown
+
 ### Code Samples
 
 \`\`\`php
