@@ -19,20 +19,19 @@ function tokenize(eat, value, silent) {
 
   match = match.trim();
   json = json && JSON.parse(json) || {};
-    
+
   switch (type) {
   case 'code':
     return eat(match)({
       type: 'rdme-wrap',
       className: 'tabs',
-      data: {
-        hName: 'rdme-wrap',
-        hProperties: {test: 'val'},
-      },
+      data: {hName: 'rdme-wrap'},
       children: json.codes.map(obj => ({
         type: 'code',
         value: obj.code,
-        language: obj.language,
+        meta: obj.name || null,
+        lang: obj.language,
+        className: 'tab-panel',
       })),
     });
     break;
@@ -43,6 +42,21 @@ function tokenize(eat, value, silent) {
       children: this.tokenizeInline(json.title, eat.now())
     });
     break;
+  case 'image':
+    return eat(match)({
+      type: 'figure',
+      className: 'test',
+      children: json.images.map(img => {
+        const [url, alt] = img.image
+        return {
+          type: 'image',
+          title: img.caption, // this.tokenizeInline(img.caption, eat.now()),
+          url,
+          alt,
+        }
+      })
+    })
+    break;
   case 'callout':
     const map = {
       success: '👍',
@@ -50,7 +64,7 @@ function tokenize(eat, value, silent) {
       warning: '⚠️',
       danger: '🛑',
     };
-    json.title = `${map[json.type]} **${json.title}**`;
+    json.title = `${map[json.type]||'👋'} **${json.title}**`;
     return eat(match)({
       type: 'blockquote',
       className: json.type,
@@ -76,11 +90,11 @@ function parser() {
 module.exports = parser;
 
 module.exports.sanitize = sanitizeSchema => {
-  console.log({sanitizeSchema})
-
   const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
   
+  // console.log(sanitizeSchema)
+
   tags.push('rdme-wrap');
   attr['rdme-wrap'] = ['className', 'test'];
   
