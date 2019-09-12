@@ -1,5 +1,12 @@
 import React from 'react';
 
+const handleClicks = (kid) => {
+  const tabsWrap = document.querySelectorAll('.tabs_initialState')[0];
+  if (tabsWrap) tabsWrap.classList.remove('tabs_initialState');
+  document.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
+  document.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
+};
+
 const renderNode = (props, editor, next) => {
   const { attributes, children, node } = props;
 
@@ -9,11 +16,8 @@ const renderNode = (props, editor, next) => {
       return <p {...attributes}>{children}</p>;
     case 'rdme-wrap':
       return (
-        <div active={0} className={node.data.get('className')} {...attributes}>
-          {children.map((kid, i) => (<button key={`tab-toggle-${kid.key}`} onClick={(...args) => {
-            document.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
-            document.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
-          }}>
+        <div className={`tabs_initialState ${node.data.get('className')}`} {...attributes}>
+          {children.map(kid => (<button key={`tab-toggle-${kid.key}`} onClick={() => handleClicks(kid)}>
             { kid.props.node.get('data').get('meta') || `(${kid.props.node.get('data').get('lang')})` }
           </button>))}
           {children}
@@ -26,12 +30,12 @@ const renderNode = (props, editor, next) => {
       return <figure {...attributes}>{children}</figure>;
     case 'ul':
     case 'bulleted-list':
-      return <ul {...attributes}>{children}</ul>;
+      return <ul className="bulleted-list" {...attributes}>{children}</ul>;
     case 'ol':
     case 'ordered-list':
-      return <ol {...attributes}>{children}</ol>;
+      return <ol className="ordered-list" {...attributes}>{children}</ol>;
     case 'todo-list':
-      return <ul {...attributes} className="todo">{children}</ul>;
+      return <ul className="todo-list" {...attributes}>{children}</ul>;
     case 'table':
       return (<table {...attributes}>
         <tbody>{children}</tbody>
@@ -43,16 +47,14 @@ const renderNode = (props, editor, next) => {
     case 'th':
     case 'tableHead':
     case 'table-head':
-      console.log('Table Head: %O', {children, attributes})
       return <th {...attributes}>{children}</th>;
     case 'td':
     case 'tableCell':
     case 'table-cell':
-      console.log('Table Cell: %O', {children, attributes})
       return <td {...attributes}>{children}</td>;
     case 'li':
     case 'list-item':
-      return <li {...attributes}>{children}</li>;
+      return <li className="list-item" {...attributes}>{children}</li>;
     case 'hr':
     case 'horizontal-rule':
     case 'break':
@@ -112,4 +114,4 @@ const renderMark = (props, editor, next) => {
   }
 };
 
-export default { renderNode, renderMark };
+export { renderNode, renderMark };
