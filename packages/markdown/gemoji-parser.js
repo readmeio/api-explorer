@@ -59,7 +59,7 @@ function locate(value, fromIndex) {
 tokenize.locator = locate;
 
 function parser() {
-  const { Parser } = this;
+  const Parser = this.Parser;
   const tokenizers = Parser.prototype.inlineTokenizers;
   const methods = Parser.prototype.inlineMethods;
 
@@ -67,7 +67,7 @@ function parser() {
 
   methods.splice(methods.indexOf('text'), 0, 'gemoji');
 }
-  
+
 module.exports = parser;
 
 module.exports.sanitize = sanitizeSchema => {

@@ -126,6 +126,8 @@ Preview.propTypes = {
     }),
   }).isRequired,
   oauth: PropTypes.bool,
+  oas: PropTypes.shape().isRequired,
+  docs: PropTypes.arrayOf(PropTypes.shape).isRequired,
   status: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
