@@ -1,34 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Editor } from 'slate-react';
 import { Value } from 'slate'
 
-// import SlateMarkdown from '@scottge/slate-markdown-serializer';
-import SlateMarkdown from 'slate-mdast-serializer';
+import Markdown from 'slate-mdast-serializer';
 import markdownRules from './rules.mdast';
-import TablePlugin from 'slate-edit-table';
-import renderers from './renderers'
+import {renderNode, renderMark} from './renderers'
+const markdown = new Markdown({ rules: markdownRules });
 
-const markdown = new SlateMarkdown({ rules: markdownRules });
+const plugins = [];
 
-const plugins = [
-  TablePlugin({
-    typeTable: 'table',
-    typeRow: 'table-row',
-    typeCell: 'table-cell',
-  }),
-];
-
-
-
-class App extends Component {
+class App extends React.Component {
   constructor(props){
     super(props);
-
     this.state = {
-      // value: Value.fromJSON(props.value),
-      value: markdown.deserialize(props.value || '# Write some markdown')
+      value: markdown.deserialize(props.value || 'Write some markdown to start documenting your API!')
     }
-    
     this.editor = React.createRef();
   }
   onChange = ({ value }) => {
@@ -70,19 +56,19 @@ class App extends Component {
     }
   }
   render() {
-    return (
+    return (<div id="ReadMeEditor">
       <Editor
         {...this.props}
-        pugins={plugins}
+        plugins={plugins}
         value={this.state.value}
-        renderNode={renderers.renderNode}
-        renderMark={renderers.renderMark}
+        renderNode={renderNode}
+        renderMark={renderMark}
         onContextMenu={this.onContextMenu}
         onKeyDown={this.onKeyDown}
         onChange={this.onChange}
         spellCheck={false}
       />
-    )
+    </div>)
   }
 }
 

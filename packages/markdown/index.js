@@ -12,8 +12,7 @@ const rehypeRemark = require('rehype-remark');
 const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
 
-const slateConverter = require('./flavored/slate-converter')
-const magicBlockParser = require('./flavored/magic-block-parser');
+const magicBlockParser = require('./magic-block-parser');
 
 const variableParser = require('./variable-parser');
 const gemojiParser = require('./gemoji-parser');
@@ -127,10 +126,6 @@ module.exports.render = {
       },
     })
     .parse(text),
-  
-  slate: (text, opts) => parseMarkdown(text, opts)
-    .use(slateConverter)
-    .processSync(text).contents,
 
   markdown: (text, opts) => parseMarkdown(text, opts)
     .use(rehypeRemark)
