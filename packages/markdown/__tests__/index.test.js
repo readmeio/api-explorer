@@ -3,6 +3,7 @@ const React = require('react');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../');
+const settings = require('./options.md.json');
 
 test('image', () => {
   expect(shallow(markdown('![Image](http://example.com/image.png)')).html()).toMatchSnapshot();
@@ -184,4 +185,67 @@ test('should strip dangerous img attributes', () => {
   expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
     '<img src="x"/>',
   );
+});
+
+describe('export multiple Markdown renderers', () => {
+  const { dash, hub, ast, md, html } = markdown.render;
+  const text = `# Hello World`;
+  const xpct = {
+    dash: {
+      type: 'root',
+      children: [
+        {
+          type: 'heading',
+          depth: 1,
+          children: [
+            {
+              type: 'text',
+              value: 'Hello World',
+            },
+          ],
+        },
+      ],
+    },
+    hub: {
+      key: 'h-1',
+      ref: null,
+      props: {
+        children: ['Hello World'],
+      },
+      _owner: null,
+      _store: {},
+    },
+    ast: {
+      type: 'root',
+      children: [
+        {
+          type: 'heading',
+          depth: 1,
+          children: [
+            {
+              type: 'text',
+              value: 'Hello World',
+            },
+          ],
+        },
+      ],
+    },
+    md: '# Hello World\n',
+    html: '<h1>Hello World</h1>',
+  };
+  test('dash', () => {
+    expect(dash(text, settings)).toMatchObject(xpct.dash);
+  });
+  test('hub', () => {
+    expect(hub(text, settings)).toMatchObject(xpct.hub);
+  });
+  test('ast', () => {
+    expect(ast(text, settings)).toMatchObject(xpct.ast);
+  });
+  test('md', () => {
+    expect(md(text, settings)).toBe(xpct.md);
+  });
+  test('html', () => {
+    expect(html(text, settings)).toBe(xpct.html);
+  });
 });
