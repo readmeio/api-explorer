@@ -24,7 +24,7 @@ function createHeading(level) {
 
 Heading.propTypes = {
   level: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.string).isRequired,
+  children: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
 };
 
 module.exports = level => createHeading(level);

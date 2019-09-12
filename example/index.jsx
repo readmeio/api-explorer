@@ -29,8 +29,6 @@ style = {
   padding: '0 1em',
 };
 
-console.dir({AST: value});
-
 render(SlateEditor, {
   value: Markdown.render.ast(DOCBODY, mdopt),
   className: 'markdown-body',

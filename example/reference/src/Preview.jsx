@@ -108,7 +108,7 @@ Preview.propTypes = {
   invalidSpecPath: PropTypes.string,
   isLoading: PropTypes.bool,
   oauth: PropTypes.bool,
-  oas: PropTypes.shape({}).isRequired,
+  oas: PropTypes.shape().isRequired,
   docs: PropTypes.arrayOf(PropTypes.shape).isRequired,
   status: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchSwagger: PropTypes.func.isRequired,
