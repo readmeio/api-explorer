@@ -1,3 +1,7 @@
+/* TODO
+ - [ ] extract conversion from render (parse/processSync) methods
+   (so you can get the AST or final text from any conversion)
+ */
 const React = require('react');
 const unified = require('unified');
 const sanitize = require('hast-util-sanitize/lib/github.json');
@@ -48,7 +52,6 @@ const GlossaryItem = require('./GlossaryItem');
  */
 function parseMarkdown(text, opts = {}) {
   if (!text) return null;
-
   return unified()
     .use(remarkParse, opts.markdownOptions)
     .use(magicBlockParser.sanitize(sanitize))
@@ -57,85 +60,74 @@ function parseMarkdown(text, opts = {}) {
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkRehype, { allowDangerousHTML: true })
     .use(rehypeRaw)
-    .use(rehypeSanitize)
-};
+    .use(rehypeSanitize);
+}
 
-module.exports = function markdown(text, opts) {
-  return parseMarkdown(text, opts)
-    .use(rehypeReact, {
-      createElement: React.createElement,
-      components: {
-        'readme-variable': Variable,
-        'readme-glossary-item': GlossaryItem,
-        table: table(sanitize),
-        h1: heading('h1', sanitize),
-        h2: heading('h2', sanitize),
-        h3: heading('h3', sanitize),
-        h4: heading('h4', sanitize),
-        h5: heading('h5', sanitize),
-        h6: heading('h6', sanitize),
-        a:  anchor(sanitize),
-        code: code(sanitize),
-        // Remove enclosing <div>
-        // https://github.com/mapbox/remark-react/issues/54
-        // eslint-disable-next-line react/display-name
-        div: props => React.createElement(React.Fragment, props),
-      },
-    })
-    .processSync(text).contents;
-};
-
+// for backwards compatibility we have to
+// export the Hub renderer as the default,
+// but we will probably want to expose
+// Unified parsing process in the future.
+module.exports = (text, opts) => module.exports.render.hub(text, opts);
 module.exports.parse = parseMarkdown;
 
 module.exports.render = {
-  dash: (text, opts) => parseMarkdown(text, opts)
-    .use(rehypeReact, {
-      createElement: React.createElement,
-      components: {
-        'readme-variable': Variable,
-        'readme-glossary-item': GlossaryItem,
-        'rdme-wrap': props => <div className="red" {...props} />,
-      },
-    })
-    .processSync(text).contents,
+  dash: (text, opts) =>
+    parseMarkdown(text, opts)
+      .use(rehypeReact, {
+        createElement: React.createElement,
+        components: {
+          'readme-variable': Variable,
+          'readme-glossary-item': GlossaryItem,
+          // 'rdme-wrap': props => <div className="red" {...props} />,
+          'rdme-wrap': props => React.createElement(React.Fragment, props),
+        },
+      })
+      .processSync(text).contents,
 
-  hub: (text, opts) => parseMarkdown(text, opts)
-    .use(rehypeReact, {
-      createElement: React.createElement,
-      components: {
-        'readme-variable': Variable,
-        'readme-glossary-item': GlossaryItem,
-        table: table(sanitize),
-        h1: heading('h1', sanitize),
-        h2: heading('h2', sanitize),
-        h3: heading('h3', sanitize),
-        h4: heading('h4', sanitize),
-        h5: heading('h5', sanitize),
-        h6: heading('h6', sanitize),
-        a:  anchor(sanitize),
-        code: code(sanitize),
-        div: props => React.createElement(React.Fragment, props),
-      },
-    })
-    .processSync(text).contents,
+  hub: (text, opts) =>
+    !text
+      ? null
+      : parseMarkdown(text, opts)
+          .use(rehypeReact, {
+            createElement: React.createElement,
+            components: {
+              'readme-variable': Variable,
+              'readme-glossary-item': GlossaryItem,
+              table: table(sanitize),
+              h1: heading('h1', sanitize),
+              h2: heading('h2', sanitize),
+              h3: heading('h3', sanitize),
+              h4: heading('h4', sanitize),
+              h5: heading('h5', sanitize),
+              h6: heading('h6', sanitize),
+              a: anchor(sanitize),
+              code: code(sanitize),
+              div: props => React.createElement(React.Fragment, props),
+            },
+          })
+          .processSync(text).contents,
 
-  ast: (text, opts) => parseMarkdown(text, opts)
-    .use(rehypeReact, {
-      createElement: React.createElement,
-      components: {
-        'readme-variable': Variable,
-        'readme-glossary-item': GlossaryItem,
-        'rdme-wrap': props => <div className="red" {...props} />,
-      },
-    })
-    .parse(text),
+  ast: (text, opts) =>
+    parseMarkdown(text, opts)
+      .use(rehypeReact, {
+        createElement: React.createElement,
+        components: {
+          'readme-variable': Variable,
+          'readme-glossary-item': GlossaryItem,
+          // 'rdme-wrap': props => <div className="red" {...props} />,
+          'rdme-wrap': props => React.createElement(React.Fragment, props),
+        },
+      })
+      .parse(text),
 
-  markdown: (text, opts) => parseMarkdown(text, opts)
-    .use(rehypeRemark)
-    .use(remarkStringify)
-    .processSync(text).contents,
+  markdown: (text, opts) =>
+    parseMarkdown(text, opts)
+      .use(rehypeRemark)
+      .use(remarkStringify)
+      .processSync(text).contents,
 
-  html: (text, opts) => parseMarkdown(text, opts)
-    .use(rehypeStringify)
-    .processSync(text).contents,
+  html: (text, opts) =>
+    parseMarkdown(text, opts)
+      .use(rehypeStringify)
+      .processSync(text).contents,
 };

@@ -18,6 +18,7 @@ Doc.propTypes = {
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
     }),
+    title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
