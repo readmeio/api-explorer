@@ -64,7 +64,8 @@ function tokenize(eat, value) {
     default:
       return eat(match)({
         type: 'div',
-        children: this.tokenizeBlock(match, eat.now()),
+        children: this.tokenizeBlock(json.body, eat.now()),
+        data: json,
       });
   }
 }
