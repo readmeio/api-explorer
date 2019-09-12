@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-const RGXP = /^\[block:(.*)\]([^]+?)\[\/block\]\s/g;
+const RGXP = /^\[block:(.*)\]([^]+?)\[\/block\]/;
 
 function tokenize(eat, value) {
   let [match, type, json] = RGXP.exec(value) || [];
@@ -27,7 +27,7 @@ function tokenize(eat, value) {
     case 'api-header':
       return eat(match)({
         type: 'heading',
-        depth: json.level,
+        depth: json.level || 1,
         children: this.tokenizeInline(json.title, eat.now()),
       });
     case 'image':
