@@ -16,10 +16,11 @@ const rehypeRemark = require('rehype-remark');
 const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
 
-const magicBlockParser = require('./magic-block-parser');
+const magicBlockParser = require('./remark/parsers/magic-block-parser');
+const variableParser = require('./remark/parsers/variable-parser');
+const gemojiParser = require('./remark/parsers/gemoji-parser');
 
-const variableParser = require('./variable-parser');
-const gemojiParser = require('./gemoji-parser');
+const testCompiler = require('./remark/compilers/test');
 
 const table = require('./components/Table');
 const heading = require('./components/Heading');
@@ -51,7 +52,6 @@ const GlossaryItem = require('./GlossaryItem');
  * - Output the hast to a React vdom with our custom components
  */
 function parseMarkdown(text, opts = {}) {
-  if (!text) return null;
   return unified()
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
@@ -67,23 +67,25 @@ function parseMarkdown(text, opts = {}) {
 // for backwards compatibility we have to
 // export the Hub renderer as the default,
 // but we will probably want to expose
-// Unified parsing process in the future.
+// the ~parser~ by default going forwards.
 module.exports = (text, opts) => module.exports.render.hub(text, opts);
 module.exports.parse = parseMarkdown;
 
 module.exports.render = {
   dash: (text, opts) =>
-    parseMarkdown(text, opts)
-      .use(rehypeReact, {
-        createElement: React.createElement,
-        components: {
-          'readme-variable': Variable,
-          'readme-glossary-item': GlossaryItem,
-          // 'rdme-wrap': props => <div className="red" {...props} />,
-          'rdme-wrap': props => React.createElement(React.Fragment, props),
-        },
-      })
-      .parse(text), // .processSync(text).contents,
+    !text
+      ? null
+      : parseMarkdown(text, opts)
+        .use(rehypeReact, {
+          createElement: React.createElement,
+          components: {
+            'readme-variable': Variable,
+            'readme-glossary-item': GlossaryItem,
+            // 'rdme-wrap': props => <div className="red" {...props} />,
+            'rdme-wrap': props => React.createElement(React.Fragment, props),
+          },
+        })
+        .parse(text), // .processSync(text).contents,
 
   hub: (text, opts) =>
     !text
@@ -109,19 +111,25 @@ module.exports.render = {
           .processSync(text).contents,
 
   ast: (text, opts) =>
-    parseMarkdown(text, opts)
-      .use(rehypeRemark)
-      .use(remarkStringify)
-      .parse(text),
+    !text
+      ? null
+      : parseMarkdown(text, opts)
+        // .use(rehypeRemark)
+        .use(remarkStringify)
+        .parse(text),
 
-  md: (text, opts) =>
-    parseMarkdown(text, opts)
-      .use(rehypeRemark)
-      .use(remarkStringify)
-      .processSync(text).contents,
+  md: (tree, opts) =>
+    !tree
+      ? null
+      : parseMarkdown('', opts)
+        .use(remarkStringify)
+        .use(testCompiler)
+        .stringify(tree),
 
   html: (text, opts) =>
-    parseMarkdown(text, opts)
-      .use(rehypeStringify)
-      .processSync(text).contents,
+    !text
+      ? null
+      : parseMarkdown(text, opts)
+        .use(rehypeStringify)
+        .processSync(text).contents,
 };
