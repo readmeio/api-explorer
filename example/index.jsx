@@ -24,6 +24,13 @@ const mdOpt = {
     padding: "0 1em"
   };
 
+window.test = function test(){
+  var
+  AST = Markdown.render.ast('# Hello World', mdOpt),
+  MDX = Markdown.render.md(AST, mdOpt);
+  return {AST, MDX};
+}
+
 render(SlateEditor, {
   value: Markdown.render.dash(DOCBODY.magicBlocks, mdOpt),
   className: "markdown-body",
@@ -35,3 +42,4 @@ render(SlateEditor, {
 //   className: 'markdown-body',
 //   style,
 // });
+
