@@ -1,5 +1,5 @@
 // Inspiration from https://github.com/remarkjs/remark-gemoji/blob/01b33f7f1536e6491ff0aefe859695b2639594dc/index.js
-const Emoji = require('./emojis.js').emoji;
+const Emoji = require('../../emojis.js').emoji;
 
 const emojis = new Emoji();
 
