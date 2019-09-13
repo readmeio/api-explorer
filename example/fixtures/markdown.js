@@ -1,6 +1,6 @@
 module.exports = {
 
-simplified: `# Markdown Test
+  simplified: `# Markdown Test
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quos quaerat harum ducimus. Quod laborum earum, amet voluptatum quos maiores deserunt officia voluptate repudiandae eum ex facere unde iusto, similique quasi ducimus, veniam sapiente cum. Voluptates distinctio expedita magnam ullam in fugit veritatis nisi voluptas at aspernatur reiciendis, nobis odio quia ipsa omnis delectus et?
 
@@ -18,7 +18,7 @@ Autem error fugiat molestias magnam quam minus molestiae quasi nobis vel exercit
 
 Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea, impedit eligendi maxime reprehenderit qui maiores soluta blanditiis deleniti numquam illo, alias a sapiente eveniet voluptatibus ipsam quaerat facere architecto! Atque, deserunt harum odit officia aut voluptates repellat, rerum necessitatibus totam ex veritatis numquam. Enim commodi quas earum atque. Repellat qui quae deleniti veniam?`,
 
-magicBlocks: `# ReadMe Flavored Markdown
+  magicBlocks: `# ReadMe Flavored Markdown
 
 [block:api-header]
 {
