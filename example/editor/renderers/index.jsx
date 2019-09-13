@@ -1,11 +1,14 @@
 import React from 'react';
 
-const handleClicks = (kid) => {
-  const tabsWrap = document.querySelectorAll('.tabs_initialState')[0];
-  if (tabsWrap) tabsWrap.classList.remove('tabs_initialState');
-  document.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
-  document.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
-};
+// Blocks
+import RdmeWrap from './blocks/rdme-wrap';
+// Marks
+import Bold from './marks/bold';
+import Code from './marks/code';
+import Italic from './marks/italic';
+import Underlined from './marks/underlined';
+import Deleted from './marks/deleted';
+import Added from './marks/added';
 
 const renderNode = (props, editor, next) => {
   const { attributes, children, node } = props;
@@ -15,14 +18,7 @@ const renderNode = (props, editor, next) => {
     case 'paragraph':
       return <p {...attributes}>{children}</p>;
     case 'rdme-wrap':
-      return (
-        <div className={`tabs_initialState ${node.data.get('className')}`} {...attributes}>
-          {children.map(kid => (<button key={`tab-toggle-${kid.key}`} onClick={() => handleClicks(kid)}>
-            { kid.props.node.get('data').get('meta') || `(${kid.props.node.get('data').get('lang')})` }
-          </button>))}
-          {children}
-        </div>
-      );
+      return RdmeWrap(props, node, attributes);
     case 'blockquote':
     case 'block-quote':
       return <blockquote {...attributes}>{children}</blockquote>;
@@ -97,20 +93,13 @@ const renderNode = (props, editor, next) => {
 
 const renderMark = (props, editor, next) => {
   switch (props.mark.type) {
-    case 'bold':
-      return <strong>{props.children}</strong>;
-    case 'code':
-      return <code>{props.children}</code>;
-    case 'italic':
-      return <em>{props.children}</em>;
-    case 'underlined':
-      return <u>{props.children}</u>;
-    case 'deleted':
-      return <del>{props.children}</del>;
-    case 'added':
-      return <mark>{props.children}</mark>;
-    default:
-      return next();
+    case 'bold': return Bold(props);
+    case 'code': return Code(props);
+    case 'italic': return Italic(props);
+    case 'underlined': return Underlined(props);
+    case 'deleted': return Deleted(props);
+    case 'added': return Added(props);
+    default: return next();
   }
 };
 
