@@ -101,7 +101,7 @@ const bulletedList = {
 };
 
 const orderedList = {
-  match: node => node.object === 'block' && node.type === 'numbered-list',
+  match: node => node.object === 'block' && node.type === 'ordered-list',
   matchMdast: node => node.type === 'list' && node.ordered,
   fromMdast: (node, _index, _parent, { visitChildren }) => ({
     object: 'block',
@@ -334,6 +334,8 @@ const rdmeWrap = {
   toMdast: (node, _index, _parent, { visitChildren }) => ({
     type: 'rdme-wrap',
     children: visitChildren(node),
+    className: node.data.className,
+    data: { hName: 'rdme-wrap' },
   }),
 };
 
