@@ -2,11 +2,12 @@ import React from 'react';
 import { Editor } from 'slate-react';
 import { Value } from 'slate'
 
-import Markdown from 'slate-mdast-serializer';
-import markdownRules from './rules.mdast';
 import {renderNode, renderMark} from './renderers'
-const markdown = new Markdown({ rules: markdownRules });
 
+import Serial from 'slate-mdast-serializer';
+import markdownRules from './rules.mdast';
+
+const markdown = new Serial({ rules: markdownRules });
 const plugins = [];
 
 class App extends React.Component {
@@ -49,7 +50,25 @@ class App extends React.Component {
         break
       }
       case 'S':
-        console.log({value: editor.value, serialized: markdown.serialize(editor.value)});
+        const ast = markdown.serialize(editor.value);
+        /*now we have an ^AST object and can
+          stringify the tree to Markdown via
+          the render.md() method:
+         */ 
+        // const mdx = MD.render.md(ast, {
+        //   correctnewlines: true,
+        //   markdownOptions: {
+        //     fences: true,
+        //     commonmark: true,
+        //     gfm: true
+        //   },
+        //   settings: {
+        //     position: false
+        //   }
+        // })
+        // console.log({ast, mdx});
+        console.log({ast, mdx: 'SEE example/editor/index.js:53-70 IN THE api-explorer REPO'});
+        
         break;
       default:
         return next();
