@@ -12,7 +12,7 @@ const remarkParse = require('remark-parse');
 const rehypeSanitize = require('rehype-sanitize');
 const rehypeStringify = require('rehype-stringify');
 const rehypeReact = require('rehype-react');
-const rehypeRemark = require('rehype-remark');
+// const rehypeRemark = require('rehype-remark');
 const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
 
@@ -20,7 +20,7 @@ const magicBlockParser = require('./remark/parsers/magic-block-parser');
 const variableParser = require('./remark/parsers/variable-parser');
 const gemojiParser = require('./remark/parsers/gemoji-parser');
 
-const testCompiler = require('./remark/compilers/test');
+const exampleCompiler = require('./remark/compilers/example');
 
 const table = require('./components/Table');
 const heading = require('./components/Heading');
@@ -76,16 +76,16 @@ module.exports.render = {
     !text
       ? null
       : parseMarkdown(text, opts)
-        .use(rehypeReact, {
-          createElement: React.createElement,
-          components: {
-            'readme-variable': Variable,
-            'readme-glossary-item': GlossaryItem,
-            // 'rdme-wrap': props => <div className="red" {...props} />,
-            'rdme-wrap': props => React.createElement(React.Fragment, props),
-          },
-        })
-        .parse(text), // .processSync(text).contents,
+          .use(rehypeReact, {
+            createElement: React.createElement,
+            components: {
+              'readme-variable': Variable,
+              'readme-glossary-item': GlossaryItem,
+              // 'rdme-wrap': props => <div className="red" {...props} />,
+              'rdme-wrap': props => React.createElement(React.Fragment, props),
+            },
+          })
+          .parse(text), // .processSync(text).contents,
 
   hub: (text, opts) =>
     !text
@@ -114,22 +114,22 @@ module.exports.render = {
     !text
       ? null
       : parseMarkdown(text, opts)
-        // .use(rehypeRemark)
-        .use(remarkStringify)
-        .parse(text),
+          // .use(rehypeRemark)
+          .use(remarkStringify)
+          .parse(text),
 
   md: (tree, opts) =>
     !tree
       ? null
       : parseMarkdown('', opts)
-        .use(remarkStringify)
-        .use(testCompiler)
-        .stringify(tree),
+          .use(remarkStringify)
+          .use(exampleCompiler)
+          .stringify(tree),
 
   html: (text, opts) =>
     !text
       ? null
       : parseMarkdown(text, opts)
-        .use(rehypeStringify)
-        .processSync(text).contents,
+          .use(rehypeStringify)
+          .processSync(text).contents,
 };
