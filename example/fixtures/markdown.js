@@ -1,4 +1,24 @@
-module.exports = `# ReadMe Flavored Markdown
+module.exports = {
+
+simplified: `# Markdown Test
+
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quos quaerat harum ducimus. Quod laborum earum, amet voluptatum quos maiores deserunt officia voluptate repudiandae eum ex facere unde iusto, similique quasi ducimus, veniam sapiente cum. Voluptates distinctio expedita magnam ullam in fugit veritatis nisi voluptas at aspernatur reiciendis, nobis odio quia ipsa omnis delectus et?
+
+## Section 1
+
+Quisquam, quia nisi exercitationem vel natus expedita reiciendis quis quos soluta laborum ex distinctio nam excepturi maxime laboriosam velit possimus cumque hic dolores aliquam? Incidunt ullam numquam minima quis amet. Officiis, ducimus modi. Nostrum repellat modi cupiditate dolor magni illo est, sit iure vel suscipit? Nostrum expedita quam voluptatibus error porro, vel a eum et?
+
+###### Sub-Section A
+
+Dolor dolore aut animi ea praesentium iusto sit quod autem, ad architecto esse. Quidem, eum culpa. Sequi porro neque iusto ullam odit cum in dolore inventore enim atque, aliquam eius magni ut cupiditate magnam illo id exercitationem molestias repudiandae totam. Harum possimus vitae alias dolor pariatur nobis minima! Iste reiciendis laudantium, commodi hic ipsa porro.
+
+###### Sub-Section B
+
+Autem error fugiat molestias magnam quam minus molestiae quasi nobis vel exercitationem cum recusandae doloribus ab aspernatur libero dolor qui tenetur, corrupti aliquid facilis dolores. Totam, molestias similique. Modi perferendis explicabo quaerat maxime vel, molestias aspernatur cumque inventore beatae ut recusandae, placeat quas commodi, eum ipsa velit fugiat eius. Voluptates ad voluptatum atque. Illo, assumenda!
+
+Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea, impedit eligendi maxime reprehenderit qui maiores soluta blanditiis deleniti numquam illo, alias a sapiente eveniet voluptatibus ipsam quaerat facere architecto! Atque, deserunt harum odit officia aut voluptates repellat, rerum necessitatibus totam ex veritatis numquam. Enim commodi quas earum atque. Repellat qui quae deleniti veniam?`,
+
+magicBlocks: `# ReadMe Flavored Markdown
 
 [block:api-header]
 {
@@ -115,4 +135,5 @@ This is an [internal link](#error-code-definitions), this is an [external link](
 #### Horizontal Rule
 
 ---
-`;
+`,
+};
