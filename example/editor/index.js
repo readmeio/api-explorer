@@ -3,12 +3,24 @@ import { Editor } from 'slate-react';
 import { Value } from 'slate'
 
 import {renderNode, renderMark} from './renderers'
+import BlockCommands from './commands/convert-blocks'
 
 import Serial from 'slate-mdast-serializer';
 import markdownRules from './rules.mdast';
 
 const markdown = new Serial({ rules: markdownRules });
-const plugins = [];
+const plugins = [
+  ...BlockCommands(
+    ['>', 'space', 'blockquote'],
+    ['#', 'space', 'heading1'],
+    ['##', 'space', 'heading2'],
+    ['###', 'space', 'heading3'],
+    ['####', 'space', 'heading4'],
+    ['#####', 'space', 'heading5'],
+    ['######', 'space', 'heading6'],
+    [/^(```([\w-\.]+)?(\s[\w-\.]+)?)$/, 'enter', 'code'],
+  ),
+];
 
 class App extends React.Component {
   constructor(props){
