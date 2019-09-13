@@ -25,7 +25,7 @@ const mdOpt = {
   };
 
 render(SlateEditor, {
-  value: Markdown.render.dash(DOCBODY, mdOpt),
+  value: Markdown.render.dash(DOCBODY.magicBlocks, mdOpt),
   className: "markdown-body",
   style
 });
