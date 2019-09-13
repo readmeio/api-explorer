@@ -190,6 +190,34 @@ test('should strip dangerous img attributes', () => {
 describe('export multiple Markdown renderers', () => {
   const { dash, hub, ast, md, html } = markdown.render;
   const text = `# Hello World`;
+  const tree = {
+    type: 'root',
+    children: [
+      {
+        type: 'heading',
+        depth: 1,
+        children: [
+          {
+            type: 'text',
+            value: 'Hello World',
+            position: {
+              start: {
+                line: 1,
+                column: 3,
+                offset: 2,
+              },
+              end: {
+                line: 1,
+                column: 14,
+                offset: 13,
+              },
+              indent: [],
+            },
+          },
+        ],
+      },
+    ],
+  };
   const xpct = {
     dash: {
       type: 'root',
@@ -243,7 +271,7 @@ describe('export multiple Markdown renderers', () => {
     expect(ast(text, settings)).toMatchObject(xpct.ast);
   });
   test('md', () => {
-    expect(md(text, settings)).toBe(xpct.md);
+    expect(md(tree, settings)).toBe(xpct.md);
   });
   test('html', () => {
     expect(html(text, settings)).toBe(xpct.html);
