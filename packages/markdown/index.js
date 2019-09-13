@@ -51,7 +51,7 @@ const GlossaryItem = require('./GlossaryItem');
  * - Sanitize and remove any disallowed attributes
  * - Output the hast to a React vdom with our custom components
  */
-function parseMarkdown(text, opts = {}) {
+function parseMarkdown(opts = {}) {
   return unified()
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
@@ -65,9 +65,9 @@ function parseMarkdown(text, opts = {}) {
 }
 
 // for backwards compatibility we have to
-// export the Hub renderer as the default,
-// but we will probably want to expose
-// the ~parser~ by default going forwards.
+// export the Hub renderer as the default
+// but we'll probably want to expose the
+// processor by default in the future.
 module.exports = (text, opts) => module.exports.render.hub(text, opts);
 module.exports.parse = parseMarkdown;
 
@@ -75,7 +75,7 @@ module.exports.render = {
   dash: (text, opts) =>
     !text
       ? null
-      : parseMarkdown(text, opts)
+      : parseMarkdown(opts)
           .use(rehypeReact, {
             createElement: React.createElement,
             components: {
@@ -90,7 +90,7 @@ module.exports.render = {
   hub: (text, opts) =>
     !text
       ? null
-      : parseMarkdown(text, opts)
+      : parseMarkdown(opts)
           .use(rehypeReact, {
             createElement: React.createElement,
             components: {
@@ -113,7 +113,7 @@ module.exports.render = {
   ast: (text, opts) =>
     !text
       ? null
-      : parseMarkdown(text, opts)
+      : parseMarkdown(opts)
           // .use(rehypeRemark)
           .use(remarkStringify)
           .parse(text),
@@ -121,7 +121,7 @@ module.exports.render = {
   md: (tree, opts) =>
     !tree
       ? null
-      : parseMarkdown('', opts)
+      : parseMarkdown(opts)
           .use(remarkStringify)
           .use(exampleCompiler)
           .stringify(tree),
@@ -129,7 +129,7 @@ module.exports.render = {
   html: (text, opts) =>
     !text
       ? null
-      : parseMarkdown(text, opts)
+      : parseMarkdown(opts)
           .use(rehypeStringify)
           .processSync(text).contents,
 };
