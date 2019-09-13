@@ -14,7 +14,7 @@ const mdOpt = {
     correctnewlines: true,
     markdownOptions: {
       fences: true,
-      commonmark: true,
+      commonmark: false,
       gfm: true
     }
   },

@@ -55,20 +55,19 @@ class App extends React.Component {
           stringify the tree to Markdown via
           the render.md() method:
          */ 
-        // const mdx = MD.render.md(ast, {
-        //   correctnewlines: true,
-        //   markdownOptions: {
-        //     fences: true,
-        //     commonmark: true,
-        //     gfm: true
-        //   },
-        //   settings: {
-        //     position: false
-        //   }
-        // })
-        // console.log({ast, mdx});
-        console.log({ast, mdx: 'SEE example/editor/index.js:53-70 IN THE api-explorer REPO'});
-        
+        const mdx = require('../../packages/markdown').render.md(ast, {
+          correctnewlines: true,
+          markdownOptions: {
+            fences: true,
+            commonmark: false,
+            gfm: true
+          },
+          settings: {
+            position: false
+          }
+        })
+        console.warn('SEE example/editor/index.js:53-70 IN THE api-explorer REPO', {ast, mdx});
+        // console.log({ast, mdx: 'SEE example/editor/index.js:53-70 IN THE api-explorer REPO'});
         break;
       default:
         return next();
