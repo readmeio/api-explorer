@@ -12,16 +12,17 @@ const paragraph = {
   }),
 };
 
-const figure = {
-  match: node => node.object === 'block' && node.type === 'figure',
-  matchMdast: node => node.type === 'figure',
+const rdmeFigure = {
+  match: node => node.object === 'block' && node.type === 'rdme-figure',
+  matchMdast: node => node.type === 'rdme-figure',
   fromMdast: (node, _index, _parent, { visitChildren }) => ({
     object: 'block',
-    type: 'figure',
+    type: 'rdme-figure',
+    isVoid: true,
     nodes: visitChildren(node),
   }),
   toMdast: (object, _index, _parent, { visitChildren }) => ({
-    type: 'figure',
+    type: 'rdme-figure',
     children: visitChildren(object),
   }),
 };
@@ -72,11 +73,11 @@ const image = {
 };
 
 const blockQuote = {
-  match: node => node.object === 'block' && node.type === 'block-quote',
+  match: node => node.object === 'block' && node.type === 'blockquote',
   matchMdast: node => node.type === 'blockquote',
   fromMdast: (node, _index, _parent, { visitChildren }) => ({
     object: 'block',
-    type: 'block-quote',
+    type: 'blockquote',
     nodes: visitChildren(node),
   }),
   toMdast: (object, _index, _parent, { visitChildren }) => ({
@@ -184,7 +185,7 @@ const bold = {
 };
 
 const codeBlock = {
-  match: node => node.object === 'block' && ['pre', 'code'].indexOf(node.type),
+  match: node => node.object === 'block' && node.type === 'code',
   matchMdast: node => node.type === 'code',
   fromMdast: (node) => {
     const { lang, meta, className } = node;
@@ -215,6 +216,7 @@ const table = {
   toMdast: (node, _index, _parent, { visitChildren }) => ({
     type: 'table',
     value: visitChildren(node),
+    children: visitChildren(node),
   }),
 };
 const tableRow = {
@@ -228,6 +230,7 @@ const tableRow = {
   toMdast: (node, _index, _parent, { visitChildren }) => ({
     type: 'tableRow',
     value: visitChildren(node),
+    children: visitChildren(node),
   }),
 };
 const tableHead = {
@@ -239,8 +242,9 @@ const tableHead = {
     nodes: visitChildren(node),
   }),
   toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'tableHead',
+    type: 'tableCell',
     value: visitChildren(node),
+    children: visitChildren(node),
   }),
 };
 const tableCell = {
@@ -254,6 +258,7 @@ const tableCell = {
   toMdast: (node, _index, _parent, { visitChildren }) => ({
     type: 'tableCell',
     value: visitChildren(node),
+    children: visitChildren(node),
   }),
 };
 
@@ -342,7 +347,6 @@ const rdmeWrap = {
 export default [
   listItemChild,
   paragraph,
-  rdmeWrap,
   div,
   br,
   bold,
@@ -354,11 +358,12 @@ export default [
   tableHead,
   tableRow,
   tableCell,
-  figure,
+  rdmeFigure,
   image,
   link,
   bulletedList,
   orderedList,
   listItem,
   ...headings,
+  rdmeWrap,
 ];

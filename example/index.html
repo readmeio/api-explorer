@@ -8,6 +8,20 @@
   <link rel="stylesheet" href="https://unpkg.com/codemirror@5.48.4/lib/codemirror.css">
   <link rel="stylesheet" href="https://unpkg.com/codemirror@5.48.4/theme/neo.css">
   <style>
+    #note {
+      display: block;
+      background: #fff;
+      position: sticky;
+      bottom: 0;
+      margin: 3em auto 1.5em;
+      padding: .6em;
+      font-family: sans-serif;
+      text-align: center;
+      width: 100vw;
+      max-width: 88vw;
+      border-top: 1px solid rgba(0,0,0,.15);
+      color: #bbb;
+    }
     .tabs > .tab-panel:not(.tab_active) {
       display: none;
     }
@@ -19,5 +33,6 @@
 <body>
   <div id="root"></div>
   <script src="example/demo-bundle.js"></script>
+  <span id=note>try hitting <key>ctrl+s</key> and check the console to see the serialized mdast tree</span>
 </body>
 </html>

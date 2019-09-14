@@ -32,7 +32,7 @@ function tokenize(eat, value) {
       });
     case 'image':
       return eat(match)({
-        type: 'figure',
+        type: 'rdme-figure',
         className: 'test',
         children: json.images.map(img => {
           const [url, alt] = img.image;
@@ -85,10 +85,12 @@ module.exports.sanitize = sanitizeSchema => {
   const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
 
-  // console.log(sanitizeSchema)
+  console.log(sanitizeSchema)
 
   tags.push('rdme-wrap');
   attr['rdme-wrap'] = ['className', 'test'];
+
+  tags.push('rdme-figure');
 
   return parser;
 };
