@@ -33,7 +33,19 @@ class App extends React.Component {
   onChange = ({ value }) => {
     this.setState({ value })
   }
+  onContextMenu(event, editor, next) {
+    event.preventDefault()
+    const blocks = editor.value.blocks;
+    const isCode = blocks.some(block => console.log(block) | block.type=='code');
+    console.log({blocks, isCode})
+    // editor.setBlocks(isCode ? 'paragraph' : 'code');
+    return false
+  }
   onKeyDown(event, editor, next) {
+    switch (event.key) {
+      case 'Backspace':
+        break;
+    }
     if (!event.ctrlKey) return next()
     switch (event.key) {
       case 'b': {
@@ -59,6 +71,12 @@ class App extends React.Component {
       case '.': {
         event.preventDefault()
         editor.setBlocks('block-quote')
+        break
+      }
+      case '\\': {
+        event.preventDefault();
+        console.dir(editor)
+        editor.unwrapBlock().setBlocks('paragraph');
         break
       }
       case 'S':

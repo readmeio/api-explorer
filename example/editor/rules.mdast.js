@@ -184,13 +184,13 @@ const bold = {
 };
 
 const codeBlock = {
-  match: node => node.object === 'block' && node.type === 'pre',
+  match: node => node.object === 'block' && ['pre', 'code'].indexOf(node.type),
   matchMdast: node => node.type === 'code',
   fromMdast: (node) => {
     const { lang, meta, className } = node;
     return {
       object: 'block',
-      type: 'pre',
+      type: 'code',
       nodes: [{ object: 'text', text: node.value }],
       data: { lang, meta, className },
     };
