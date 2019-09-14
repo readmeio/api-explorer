@@ -18,6 +18,8 @@ const plugins = [
     ['####', 'space', 'heading4'],
     ['#####', 'space', 'heading5'],
     ['######', 'space', 'heading6'],
+    ['-', 'space', 'bulleted-list'],
+    ['\d\.', 'space', 'ordered-list'],
     [/^(```([\w-\.]+)?(\s[\w-\.]+)?)$/, 'enter', 'code'],
   ),
 ];
@@ -30,24 +32,98 @@ class App extends React.Component {
     }
     this.editor = React.createRef();
   }
+  editorHasSelection() {
+    const {editor} = this;
+    const anchor = editor.value.selection.get('anchor');
+    const focus = editor.value.selection.get('focus');
+    // console.log({anchor, focus})
+    if (anchor.get('offset') === focus.get('offset')) return false;
+    return true
+  }
   onChange = ({ value }) => {
     this.setState({ value })
   }
   onContextMenu(event, editor, next) {
     event.preventDefault()
     const blocks = editor.value.blocks;
-    const isCode = blocks.some(block => console.log(block) | block.type=='code');
+    const isCode = blocks.some(block => block.type=='code');
     console.log({blocks, isCode})
     // editor.setBlocks(isCode ? 'paragraph' : 'code');
     return false
   }
-  onKeyDown(event, editor, next) {
-    switch (event.key) {
+  onKeyDown = (event, editor, next) => {
+    const {key} = event
+    const {blocks} = this.editor.value
+    const hasSelection = this.editorHasSelection();
+    // console.log(key)
+    switch (key) {
       case 'Backspace':
         break;
+      /* case 'ArrowUp':
+      case 'ArrowDown':
+        const direction = {
+          ArrowUp: 'moveAnchorToEndOfPreviousBlock',
+          ArrowDown: 'moveFocusToStartOfNextBlock',
+        }
+        if (hasSelection && event.shiftKey) event.preventDefault() | editor.moveStartToStartOfBlock().moveEndToEndOfBlock()[direction[key]]();
+        break; */
+      case '>':
+        if (hasSelection) event.preventDefault() | editor.wrapBlock('blockquote');
+        break;
+      case '<':
+        const match = blocks.some(block => block.get('type')=='paragraph');
+        if (hasSelection && match)
+          event.preventDefault() | event.preventDefault() | this.editor.unwrapBlock('blockquote').setBlocks('paragraph');
+        break;
+      case '`':
+      case "*":
+      case "+":
+      case "_":
+      case "~": {
+        if (hasSelection) {
+          event.preventDefault()
+          const {key} = event;
+          const methods = {
+            '`': 'code',
+            '~': 'deleted',
+            '*': 'bold',
+            '_': 'italic',
+            '+': 'added',
+          };
+          key in methods && editor.toggleMark(methods[key]);
+        }
+        break
+      }
+      case "(":
+      case "{":
+      case "[":
+      case "'":
+      case "‘":
+      case "“":
+      case '"': {
+        if (hasSelection) {
+          event.preventDefault()
+          const {key} = event;
+          const map = {
+            '(': ')',
+            '[': ']',
+            '{': '}',
+            '“': '”',
+            '‘': '’',
+          };
+          editor.wrapText(key, key in map ? map[key] : key).moveStartBackward().moveEndForward();
+        }
+        break;
+      }
     }
-    if (!event.ctrlKey) return next()
+    if (!(event.ctrlKey || event.metaKey)) return next()
     switch (event.key) {
+      case 'a':
+        if (!hasSelection) {
+          event.preventDefault()
+          editor.moveStartToStartOfBlock().moveEndToEndOfBlock();
+        }
+        break;
       case 'b': {
         event.preventDefault()
         editor.toggleMark('bold')
@@ -58,24 +134,8 @@ class App extends React.Component {
         editor.toggleMark('italic')
         break
       }
-      case '`': {
-        event.preventDefault()
-        editor.toggleMark('code')
-        break
-      }
-      case ']': {
-        event.preventDefault()
-        editor.setBlocks('code')
-        break
-      }
-      case '.': {
-        event.preventDefault()
-        editor.setBlocks('block-quote')
-        break
-      }
       case '\\': {
         event.preventDefault();
-        console.dir(editor)
         editor.unwrapBlock().setBlocks('paragraph');
         break
       }
@@ -85,17 +145,17 @@ class App extends React.Component {
           stringify the tree to Markdown via
           the render.md() method:
          */ 
-        const mdx = require('../../packages/markdown').render.md(ast, {
+        const mdx = require("../../packages/markdown").render.md(ast, {
           correctnewlines: true,
           markdownOptions: {
             fences: true,
-            commonmark: false,
-            gfm: true
-          },
-          settings: {
-            position: false
+            commonmark: true,
+            gfm: true,
+            ruleSpaces: false,
+            listItemIndent: 'mixed',
+            spacedTable: false
           }
-        })
+        });
         console.warn('SEE example/editor/index.js:53-70 IN THE api-explorer REPO', {ast, mdx});
         // console.log({ast, mdx: 'SEE example/editor/index.js:53-70 IN THE api-explorer REPO'});
         break;
@@ -115,6 +175,7 @@ class App extends React.Component {
         onKeyDown={this.onKeyDown}
         onChange={this.onChange}
         spellCheck={false}
+        ref={editor => this.editor = editor}
       />
     </div>)
   }

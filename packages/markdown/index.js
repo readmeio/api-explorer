@@ -16,11 +16,12 @@ const rehypeReact = require('rehype-react');
 const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
 
-const magicBlockParser = require('./remark/parsers/magic-block-parser');
-const variableParser = require('./remark/parsers/variable-parser');
-const gemojiParser = require('./remark/parsers/gemoji-parser');
+const magicBlockParser = require('./processor/parse/magic-block-parser');
+const variableParser = require('./processor/parse/variable-parser');
+const gemojiParser = require('./processor/parse/gemoji-parser');
 
-const exampleCompiler = require('./remark/compilers/example');
+const rdmeFigureCompiler = require('./processor/compile/rdme-figure');
+const rdmeWrapCompiler = require('./processor/compile/rdme-wrap');
 
 const table = require('./components/Table');
 const heading = require('./components/Heading');
@@ -115,15 +116,15 @@ module.exports.render = {
       ? null
       : parseMarkdown(opts)
           // .use(rehypeRemark)
-          .use(remarkStringify)
+          .use(remarkStringify, opts.markdownOptions)
           .parse(text),
 
   md: (tree, opts) =>
     !tree
       ? null
       : parseMarkdown(opts)
-          .use(remarkStringify)
-          .use(exampleCompiler)
+          .use(remarkStringify, opts.markdownOptions)
+          .use([rdmeWrapCompiler, rdmeFigureCompiler])
           .stringify(tree),
 
   html: (text, opts) =>

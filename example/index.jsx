@@ -7,15 +7,21 @@ const DOCBODY = require("./fixtures/markdown");
 const Markdown = require("../packages/markdown");
 
 function render(Component = "div", props = {}) {
-  ReactDOM.render(<Component {...props} />, document.getElementById("root"));
+  return ReactDOM.render(
+    <Component {...props} />,
+    document.getElementById("root")
+  );
 }
 
 const mdOpt = {
     correctnewlines: true,
     markdownOptions: {
       fences: true,
-      commonmark: false,
-      gfm: true
+      commonmark: true,
+      gfm: true,
+      ruleSpaces: false,
+      listItemIndent: 'mixed',
+      spacedTable: false
     }
   },
   style = {
@@ -24,18 +30,12 @@ const mdOpt = {
     padding: "0 1em"
   };
 
-window.test = function test(){
-  var
-  AST = Markdown.render.ast('# Hello World', mdOpt),
-  MDX = Markdown.render.md(AST, mdOpt);
-  return {AST, MDX};
-}
-
-render(SlateEditor, {
+const app = render(SlateEditor, {
   value: Markdown.render.dash(DOCBODY.magicBlocks, mdOpt),
   className: "markdown-body",
   style
 });
+window.app = app;
 
 // render('div', {
 //   children: Markdown.render.dash(DOCBODY, mdOpt),
