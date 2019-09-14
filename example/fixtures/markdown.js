@@ -1,3 +1,7 @@
+const table = ['FIX TABLE MDAST SERIALIZER RULE/UNIFIED REMARK COMPILER', `|Foo|Bar|
+|:-:|---|
+|Baz|Qux|`];
+
 module.exports = {
 
   simplified: `# Markdown Test
@@ -96,10 +100,7 @@ window.load(function(){
 
 ### Tables
 
-| Col 1 | Col 2 | Col 3 | Col 4 |
-|:----|:---:|:---:|----:|
-| \`R1\`,\`C1\` | \`R1\`,\`C2\` | \`R1\`,\`C3\` | \`R1\`,\`C4\` |
-| \`R2\`,\`C1\` | \`R2\`,\`C2\` | \`R2\`,\`C3\` | \`R2\`,\`C4\` |
+${table[1]}
 
 ### Formatted Text
 

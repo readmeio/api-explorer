@@ -2,8 +2,11 @@
   "correctnewlines": true,
   "markdownOptions": {
     "fences": true,
-    "commonmark": false,
-    "gfm": true
+    "commonmark": true,
+    "gfm": true,
+    "ruleSpaces": false,
+    "listItemIndent": "mixed",
+    "spacedTable": false
   },
   "settings": {
     "position": false

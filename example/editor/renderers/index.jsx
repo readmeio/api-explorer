@@ -20,12 +20,12 @@ const renderNode = (props, editor, next) => {
     case 'rdme-wrap':
       return RdmeWrap(props, node, attributes);
     case 'blockquote':
-    case 'block-quote':
       return <blockquote {...attributes}>{children}</blockquote>;
-    case 'figure':
+    case 'rdme-figure':
       return <figure {...attributes}>{children}</figure>;
     case 'ul':
     case 'bulleted-list':
+    case 'unordered-list':
       return <ul className="bulleted-list" {...attributes}>{children}</ul>;
     case 'ol':
     case 'ordered-list':
@@ -50,7 +50,7 @@ const renderNode = (props, editor, next) => {
       return <td {...attributes}>{children}</td>;
     case 'li':
     case 'list-item':
-      return <li className="list-item" {...attributes}>{children}</li>;
+      return <li {...attributes} className="list-item">{children}</li>;
     case 'hr':
     case 'horizontal-rule':
     case 'break':
@@ -63,7 +63,7 @@ const renderNode = (props, editor, next) => {
     }
     case 'img':
     case 'image':
-      return <img src={node.data.get('src')} title={node.data.get('title')} alt={node.data.get('alt')} />;
+      return <img {...attributes} src={node.data.get('src')} title={node.data.get('title')} alt={node.data.get('alt')} />;
     case 'a':
     case 'anchor':
     case 'link':
