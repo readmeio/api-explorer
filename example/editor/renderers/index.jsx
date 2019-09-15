@@ -1,8 +1,11 @@
 import React from 'react';
 
 // Blocks
+import { render as List } from '../blocks/list';
+import { render as ListItem } from '../blocks/list/item';
 import RdmeWrap from './blocks/rdme-wrap';
 import CodeBlock from './blocks/code';
+
 // Marks
 import Bold from './marks/bold';
 import Code from './marks/code';
@@ -18,21 +21,28 @@ const renderNode = (props, editor, next) => {
     case 'p':
     case 'paragraph':
       return <p {...attributes}>{children}</p>;
+
     case 'rdme-wrap':
       return RdmeWrap(props, node, attributes);
+
     case 'blockquote':
       return <blockquote {...attributes}>{children}</blockquote>;
-    case 'rdme-figure':
-      return <figure {...attributes}>{children}</figure>;
+
     case 'ul':
-    case 'bulleted-list':
-    case 'unordered-list':
-      return <ul className="bulleted-list" {...attributes}>{children}</ul>;
     case 'ol':
-    case 'ordered-list':
-      return <ol className="ordered-list" {...attributes}>{children}</ol>;
+    case 'list':
     case 'todo-list':
-      return <ul className="todo-list" {...attributes}>{children}</ul>;
+    case 'ordered-list':
+    case 'bulleted-list':
+    case 'numbered-list':
+    case 'unordered-list':
+      return List(props);
+    case 'li':
+    case 'list-item':
+      return ListItem(props);
+    case 'list-item-child':
+      return <span {...attributes}>{children}</span>;
+
     case 'table':
       return (<table {...attributes}>
         <tbody>{children}</tbody>
@@ -49,24 +59,28 @@ const renderNode = (props, editor, next) => {
     case 'tableCell':
     case 'table-cell':
       return <td {...attributes}>{children}</td>;
-    case 'li':
-    case 'list-item':
-      return <li {...attributes} className="list-item">{children}</li>;
+
     case 'hr':
     case 'horizontal-rule':
     case 'break':
       return <hr />;
+
     case 'code':
     case 'pre': {
       return CodeBlock(props, node, attributes);
     }
+
+    case 'rdme-figure':
+      return <figure {...attributes} className={node.data.get('className')}>{children}</figure>;
     case 'img':
     case 'image':
       return <img {...attributes} src={node.data.get('src')} title={node.data.get('title')} alt={node.data.get('alt')} />;
+
     case 'a':
     case 'anchor':
     case 'link':
       return <a {...attributes} href={node.data.get('href')}>{children}</a>;
+
     case 'h1':
     case 'heading1':
       return <h1 {...attributes}>{children}</h1>;
@@ -85,6 +99,7 @@ const renderNode = (props, editor, next) => {
     case 'h6':
     case 'heading6':
       return <h6 {...attributes}>{children}</h6>;
+
     default:
       return next();
   }

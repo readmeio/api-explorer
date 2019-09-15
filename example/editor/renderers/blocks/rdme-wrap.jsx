@@ -14,6 +14,7 @@ const handleClicks = (event, kid) => {
 
 export default function RdmeWrap(props) {
   const { attributes, children, node } = props;
+  console.log({props, node: [...node], attributes, data: [...node.data]});
   return (
     <div className={`tabs_initialState ${node.data.get('className')}`} {...attributes}>
       {children.map(kid => (
