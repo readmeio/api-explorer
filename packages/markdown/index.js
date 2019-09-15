@@ -16,6 +16,8 @@ const rehypeReact = require('rehype-react');
 const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
 
+const options = require('./processor/options.json');
+
 const magicBlockParser = require('./processor/parse/magic-block-parser');
 const variableParser = require('./processor/parse/variable-parser');
 const gemojiParser = require('./processor/parse/gemoji-parser');
@@ -70,7 +72,10 @@ function parseMarkdown(opts = {}) {
 // but we'll probably want to expose the
 // processor by default in the future.
 module.exports = (text, opts) => module.exports.render.hub(text, opts);
+
 module.exports.parse = parseMarkdown;
+
+module.exports.options = options;
 
 module.exports.render = {
   dash: (text, opts) =>
