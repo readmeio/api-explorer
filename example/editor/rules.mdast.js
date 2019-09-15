@@ -1,3 +1,6 @@
+import { rule as List } from './blocks/list';
+import { rule as ListItem } from './blocks/list/item';
+
 const paragraph = {
   match: node => node.object === 'block' && node.type === 'paragraph',
   matchMdast: node => node.type === 'paragraph',
@@ -18,11 +21,14 @@ const rdmeFigure = {
   fromMdast: (node, _index, _parent, { visitChildren }) => ({
     object: 'block',
     type: 'rdme-figure',
-    isVoid: true,
+    data: {
+      className: node.className,
+    },
     nodes: visitChildren(node),
   }),
   toMdast: (object, _index, _parent, { visitChildren }) => ({
     type: 'rdme-figure',
+    className: object.data.className,
     children: visitChildren(object),
   }),
 };
@@ -86,50 +92,6 @@ const blockQuote = {
   }),
 };
 
-const bulletedList = {
-  match: node => node.object === 'block' && node.type === 'bulleted-list',
-  matchMdast: node => node.type === 'list' && !node.ordered,
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'bulleted-list',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (object, _index, _parent, { visitChildren }) => ({
-    type: 'list',
-    ordered: false,
-    children: visitChildren(object),
-  }),
-};
-
-const orderedList = {
-  match: node => node.object === 'block' && node.type === 'ordered-list',
-  matchMdast: node => node.type === 'list' && node.ordered,
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'ordered-list',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (object, _index, _parent, { visitChildren }) => ({
-    type: 'list',
-    ordered: true,
-    children: visitChildren(object),
-  }),
-};
-
-const listItem = {
-  match: node => node.object === 'block' && node.type === 'list-item',
-  matchMdast: node => node.type === 'listItem',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'list-item',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (object, _index, _parent, { visitChildren }) => ({
-    type: 'listItem',
-    children: visitChildren(object),
-  }),
-};
-
 const listItemChild = {
   match: node => node.object === 'block' && node.type === 'list-item-child',
   matchMdast: (node, _index, parent) =>
@@ -188,7 +150,7 @@ const codeBlock = {
   match: node => node.object === 'block' && node.type === 'code',
   matchMdast: node => node.type === 'code',
   fromMdast: (node) => {
-    const highlight = require('@readme/syntax-highlighter');
+    // const highlight = require('@readme/syntax-highlighter');
     const { lang, meta, className } = node;
     return {
       object: 'block',
@@ -200,17 +162,15 @@ const codeBlock = {
       data: { lang, meta, className },
     };
   },
-  toMdast: (node, _index, _parent, { visitChildren }) => {
-    return ({
-      type: 'code',
-      lang: node.data.lang,
-      meta: node.data.meta,
-      value: visitChildren(node)
-        .map(childNode => childNode.value)
-        .filter(Boolean)
-        .join('\n'),
-    });
-  },
+  toMdast: (node, _index, _parent, { visitChildren }) => ({
+    type: 'code',
+    lang: node.data.lang,
+    meta: node.data.meta,
+    value: visitChildren(node)
+      .map(childNode => childNode.value)
+      .filter(Boolean)
+      .join('\n'),
+  }),
 };
 
 const table = {
@@ -369,9 +329,10 @@ export default [
   rdmeFigure,
   image,
   link,
-  bulletedList,
-  orderedList,
-  listItem,
+
+  List,
+  ListItem,
+
   ...headings,
   rdmeWrap,
 ];
