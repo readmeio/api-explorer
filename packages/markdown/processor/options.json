@@ -5,7 +5,7 @@
     "commonmark": true,
     "gfm": true,
     "ruleSpaces": false,
-    "listItemIndent": "mixed",
+    "listItemIndent": "1",
     "spacedTable": false
   },
   "settings": {

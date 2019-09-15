@@ -18,8 +18,14 @@ const plugins = [
     ['####', 'space', 'heading4'],
     ['#####', 'space', 'heading5'],
     ['######', 'space', 'heading6'],
-    ['-', 'space', 'bulleted-list'],
-    ['\d\.', 'space', 'ordered-list'],
+    ['#1', 'space', 'heading1'],
+    ['#2', 'space', 'heading2'],
+    ['#3', 'space', 'heading3'],
+    ['#4', 'space', 'heading4'],
+    ['#5', 'space', 'heading5'],
+    ['#6', 'space', 'heading6'],
+    [/^(-|\+|\*)$/, 'space', 'list-item'],
+    [/^(\d\.)$/, 'space', 'list-item'],
     [/^(```([\w-\.]+)?(\s[\w-\.]+)?)$/, 'enter', 'code'],
   ),
 ];
@@ -115,9 +121,15 @@ class App extends React.Component {
         }
         break;
       }
+      default:
+        // console.log({...event});
+        break;
     }
     if (!(event.ctrlKey || event.metaKey)) return next()
     switch (event.key) {
+      case 'Enter':
+        event.preventDefault() | editor.insertBlock('paragraph').unwrapBlock();
+        break;
       case 'a':
         if (!hasSelection) {
           event.preventDefault()
@@ -152,7 +164,7 @@ class App extends React.Component {
             commonmark: true,
             gfm: true,
             ruleSpaces: false,
-            listItemIndent: 'mixed',
+            listItemIndent: '1',
             spacedTable: false
           }
         });
