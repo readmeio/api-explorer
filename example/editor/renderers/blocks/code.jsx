@@ -9,10 +9,10 @@ export default function Code({ attributes, children, node }) {
   return (
     <pre {...attributes} className={classes} data-lang={lang}>
       {
-        // highlight(node.nodes.get(0).text, 'php', { tokenizeVariables: false })
+        highlight(node.nodes.get(0).text, 'php', { tokenizeVariables: false })
         //^using our syntax higlighter breaks Slate serialization
       } 
-      {children}
+      {/* {children} */}
     </pre>
   );
 }
