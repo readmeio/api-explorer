@@ -9,7 +9,7 @@ module.exports = function gap() {
     // // node.children.map(kid=> {});
     console.log()
 
-    return this.block(node);
+    return ['<RdmeFigure>', this.block(node), '</RdmeFigure>'].join('\n\n');
   }
 
   visitors['rdme-figure'] = rdmeFigure;
