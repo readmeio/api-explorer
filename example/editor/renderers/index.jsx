@@ -2,6 +2,7 @@ import React from 'react';
 
 // Blocks
 import RdmeWrap from './blocks/rdme-wrap';
+import CodeBlock from './blocks/code';
 // Marks
 import Bold from './marks/bold';
 import Code from './marks/code';
@@ -57,9 +58,7 @@ const renderNode = (props, editor, next) => {
       return <hr />;
     case 'code':
     case 'pre': {
-      return (<pre {...attributes} className={node.data.get('className')} data-lang={node.data.get('lang')}>
-        {children}
-      </pre>);
+      return CodeBlock(props, node, attributes);
     }
     case 'img':
     case 'image':
