@@ -20,7 +20,7 @@ const mdOpt = {
       commonmark: true,
       gfm: true,
       ruleSpaces: false,
-      listItemIndent: 'mixed',
+      listItemIndent: '1',
       spacedTable: false
     }
   },
@@ -36,6 +36,8 @@ const app = render(SlateEditor, {
   style
 });
 window.app = app;
+window.md = require("../packages/markdown");
+
 
 // render('div', {
 //   children: Markdown.render.dash(DOCBODY, mdOpt),
