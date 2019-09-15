@@ -43,13 +43,13 @@ Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea,
 {
   "codes": [
     {
-      "code": "$http.post('/someUrl', data).success(successCallback);\\n\\nalert('test');",
+      "code": "window.load(function(){\\n  console.log('Hello world!')\\n});",
       "language": "javascript"
     },
     {
-      "code": "second tab",
-      "language": "text",
-      "name": "custom title"
+      "code": "$name = 'World';\\necho \\"Hello {$name}!\\";",
+      "language": "php",
+      "name": "say-hello.php"
     }
   ]
 }
@@ -79,9 +79,8 @@ Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea,
 ### Code Samples
 
 \`\`\`php
-<?
-echo "Hello world!";
-?>
+$name = 'World';
+echo "Hello {$name}!";
 \`\`\`
 \`\`\`javascript
 window.load(function(){
