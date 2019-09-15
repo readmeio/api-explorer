@@ -188,21 +188,29 @@ const codeBlock = {
   match: node => node.object === 'block' && node.type === 'code',
   matchMdast: node => node.type === 'code',
   fromMdast: (node) => {
+    const highlight = require('@readme/syntax-highlighter');
     const { lang, meta, className } = node;
     return {
       object: 'block',
       type: 'code',
-      nodes: [{ object: 'text', text: node.value }],
+      nodes: [{
+        object: 'text',
+        text: node.value,
+      }],
       data: { lang, meta, className },
     };
   },
-  toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'code',
-    value: visitChildren(node)
-      .map(childNode => childNode.value)
-      .filter(Boolean)
-      .join('\n'),
-  }),
+  toMdast: (node, _index, _parent, { visitChildren }) => {
+    return ({
+      type: 'code',
+      lang: node.data.lang,
+      meta: node.data.meta,
+      value: visitChildren(node)
+        .map(childNode => childNode.value)
+        .filter(Boolean)
+        .join('\n'),
+    });
+  },
 };
 
 const table = {

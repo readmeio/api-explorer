@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "@hundred5/slate-unist-serializer": "^0.1.2",
+    "@readme/syntax-highlighter": "^4.8.4",
     "@scottge/slate-markdown-serializer": "^1.0.2",
     "acorn": "^6.1.1",
     "babel-polyfill": "^6.26.0",
