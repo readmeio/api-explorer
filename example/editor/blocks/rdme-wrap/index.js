@@ -1,0 +1,10 @@
+import rule from './rule';
+import render from './render';
+
+export default {
+  type: 'rdme-wrap',
+  rule,
+  render,
+};
+
+export { rule, render };

@@ -5,6 +5,15 @@ import { Value } from 'slate'
 import {renderNode, renderMark} from './renderers'
 import BlockCommands from './commands/convert-blocks'
 
+import Block from './blocks';
+const blocks = [
+  new Block(Block.List),
+  new Block(Block.ListItem),
+  new Block(Block.RdmeWrap),
+  new Block(Block.Code),
+];
+console.dir(blocks);
+
 import Serial from 'slate-mdast-serializer';
 import markdownRules from './rules.mdast';
 
@@ -28,6 +37,7 @@ const plugins = [
     [/^(\d\.)$/, 'space', 'list-item'],
     [/^(```([\w-\.]+)?(\s[\w-\.]+)?)$/, 'enter', 'code'],
   ),
+  ...blocks,
 ];
 
 class App extends React.Component {

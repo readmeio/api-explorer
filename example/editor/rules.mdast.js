@@ -1,5 +1,7 @@
 import { rule as List } from './blocks/list';
 import { rule as ListItem } from './blocks/list/item';
+import { rule as RdmeWrap } from './blocks/rdme-wrap';
+import { rule as CodeBlock } from './blocks/code';
 
 const paragraph = {
   match: node => node.object === 'block' && node.type === 'paragraph',
@@ -146,33 +148,6 @@ const bold = {
   }),
 };
 
-const codeBlock = {
-  match: node => node.object === 'block' && node.type === 'code',
-  matchMdast: node => node.type === 'code',
-  fromMdast: (node) => {
-    // const highlight = require('@readme/syntax-highlighter');
-    const { lang, meta, className } = node;
-    return {
-      object: 'block',
-      type: 'code',
-      nodes: [{
-        object: 'text',
-        text: node.value,
-      }],
-      data: { lang, meta, className },
-    };
-  },
-  toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'code',
-    lang: node.data.lang,
-    meta: node.data.meta,
-    value: visitChildren(node)
-      .map(childNode => childNode.value)
-      .filter(Boolean)
-      .join('\n'),
-  }),
-};
-
 const table = {
   match: node => node.object === 'block' && node.type === 'table',
   matchMdast: node => node.type === 'table',
@@ -293,25 +268,6 @@ const link = {
   }),
 };
 
-const rdmeWrap = {
-  match: node => node.object === 'block' && node.type === 'rdme-wrap',
-  matchMdast: node => node.type === 'rdme-wrap',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'rdme-wrap',
-    nodes: visitChildren(node),
-    data: {
-      className: node.className,
-    },
-  }),
-  toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'rdme-wrap',
-    children: visitChildren(node),
-    className: node.data.className,
-    data: { hName: 'rdme-wrap' },
-  }),
-};
-
 export default [
   listItemChild,
   paragraph,
@@ -321,7 +277,7 @@ export default [
   code,
   italic,
   blockQuote,
-  codeBlock,
+  CodeBlock,
   table,
   tableHead,
   tableRow,
@@ -334,5 +290,5 @@ export default [
   ListItem,
 
   ...headings,
-  rdmeWrap,
+  RdmeWrap,
 ];
