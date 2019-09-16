@@ -6,6 +6,8 @@ const SlateEditor = require("./editor").default;
 const DOCBODY = require("./fixtures/markdown");
 const Markdown = require("../packages/markdown");
 
+require('./editor/blocks');
+
 function render(Component = "div", props = {}) {
   return ReactDOM.render(
     <Component {...props} />,

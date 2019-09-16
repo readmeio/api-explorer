@@ -4,6 +4,7 @@ import render from './render';
 export default {
   rule,
   render,
+  match: ['item', 'list-item', 'listItem', 'li'],
   schema: {
     list: {
       nodes: [{

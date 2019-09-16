@@ -1,11 +1,5 @@
 import React from 'react';
 
-// Blocks
-import { render as List } from '../blocks/list';
-import { render as ListItem } from '../blocks/list/item';
-import RdmeWrap from './blocks/rdme-wrap';
-import CodeBlock from './blocks/code';
-
 // Marks
 import Bold from './marks/bold';
 import Code from './marks/code';
@@ -22,24 +16,9 @@ const renderNode = (props, editor, next) => {
     case 'paragraph':
       return <p {...attributes}>{children}</p>;
 
-    case 'rdme-wrap':
-      return RdmeWrap(props, node, attributes);
-
     case 'blockquote':
       return <blockquote {...attributes}>{children}</blockquote>;
 
-    case 'ul':
-    case 'ol':
-    case 'list':
-    case 'todo-list':
-    case 'ordered-list':
-    case 'bulleted-list':
-    case 'numbered-list':
-    case 'unordered-list':
-      return List(props);
-    case 'li':
-    case 'list-item':
-      return ListItem(props);
     case 'list-item-child':
       return <span {...attributes}>{children}</span>;
 
@@ -64,11 +43,6 @@ const renderNode = (props, editor, next) => {
     case 'horizontal-rule':
     case 'break':
       return <hr />;
-
-    case 'code':
-    case 'pre': {
-      return CodeBlock(props, node, attributes);
-    }
 
     case 'rdme-figure':
       return <figure {...attributes} className={node.data.get('className')}>{children}</figure>;
