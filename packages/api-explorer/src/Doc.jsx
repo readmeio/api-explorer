@@ -263,7 +263,7 @@ class Doc extends React.Component {
           method,
         }}
         tryItRequestFired={this.state.tryItRequestFired}
-        onReset={this.resetTryItRequest()}
+        onReset={this.resetTryItRequest}
       />
     );
   }
