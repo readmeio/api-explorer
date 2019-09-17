@@ -1,9 +1,10 @@
-/* eslint-disable consistent-return */
-const RGXP = /^(```[^]*```)\n\n/;
+/* eslint-disable */
+const RGXP = /^(```([^]+?)(?=```\n\n)```)\n\n/g // code blocks
 
-function tokenize(eat, value) {
+function tokenizer(eat, value) {
   const [match] = RGXP.exec(value) || [];
-  if (!match) return;
+
+  if (!match) return true;
   const kids = match
     .split('```')
     .filter(val => val.trim())
@@ -18,6 +19,8 @@ function tokenize(eat, value) {
         lang,
       };
     });
+
+  if (kids.length == 1) return eat(match)(kids[0]);
   return eat(match)({
     type: 'rdme-wrap',
     className: 'tabs',
@@ -31,8 +34,8 @@ function parser() {
   const tokenizers = Parser.prototype.blockTokenizers;
   const methods = Parser.prototype.blockMethods;
 
-  tokenizers.closeCodeBlocks = tokenize;
-  methods.splice(methods.indexOf('newline'), 0, 'closeCodeBlocks');
+  tokenizers.AdjacentCodeBlocks = tokenizer;
+  methods.splice(methods.indexOf('newline'), 0, 'AdjacentCodeBlocks');
 }
 
 module.exports = parser;
