@@ -57,5 +57,12 @@ function ResponseMetadata({ result }) {
 module.exports = ResponseMetadata;
 
 ResponseMetadata.propTypes = {
-  result: PropTypes.shape({}).isRequired,
+  result: PropTypes.shape({
+    method: PropTypes.string,
+    requestBody: PropTypes.string,
+    requestHeaders: PropTypes.array,
+    responseHeaders: PropTypes.array,
+    status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    url: PropTypes.string,
+  }).isRequired,
 };

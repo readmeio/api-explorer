@@ -361,6 +361,7 @@ Doc.propTypes = {
     type: PropTypes.string.isRequired,
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
+      params: PropTypes.object,
       examples: PropTypes.shape({
         codes: PropTypes.arrayOf(
           PropTypes.shape({
