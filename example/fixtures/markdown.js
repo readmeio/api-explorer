@@ -82,47 +82,46 @@ Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea,
 }
 [/block]
 
-## Standard Markdown
+## ReadMe Flavored Markdown
 
-### Code Samples
+### Adjacent Code Samples
 
+\`\`\`php
+$name = 'World';
+echo "Hello {$name}!";
+\`\`\`
 \`\`\`javascript test.js
 window.load(function(){
   console.log('Hello world!')
 });
 \`\`\`
 
-### AdjacentCode Samples
+## Standard Markdown
+
+### Subsequent Code Samples
+
+\`\`\`javascript test.js
+window.load(function(){
+  console.log('Hello world!')
+});
+\`\`\`
 
 \`\`\`php
 $name = 'World';
 echo "Hello {$name}!";
 \`\`\`
 
-\`\`\`javascript test.js
-window.load(function(){
-  console.log('Hello world!')
-});
-\`\`\`
-
 ### Images
 
-![alt](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo%20Title%20Text%201")
-
+![Alt text](https://edit.co.uk/uploads/2016/12/Image-2-Alternatives-to-stock-photography-Thinkstock.jpg (image-title, right, 50%, auto))
 
 ### Blockquotes
 
 > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus **libero**, rutrum eu ornare ut, molestie vel nunc. Morbi sed iaculis metus.
 
-### Tables
+### Text Formatting
 
-${table[1]}
-
-
-![Alt text](https://edit.co.uk/uploads/2016/12/Image-2-Alternatives-to-stock-photography-Thinkstock.jpg (image-title, right, 50%, auto))
-### Formatted Text
-
-This text is **bold**. This is _italic_. This is an \`inline code block\`. You can use those formatting rules in tables, paragraphs, lists, wherever (although they'll appear verbatim in code blocks.)
+This text is **bold**. This text is [linked](http://google.com). This is _italic_. This is an \`inline code block\`. You can use those formatting rules in tables, paragraphs, lists, wherever (although they'll appear verbatim in code blocks.)
 
 ### Lists
 
@@ -133,26 +132,37 @@ This text is **bold**. This is _italic_. This is an \`inline code block\`. You c
 3. Ordered
 4. List
 
-#### To Do Lists
-
-- [ ] This
-- [x] Is A
-- [ ] To Do
-- [x] List
-
 #### Unordered Lists
 
 * This is a
 * Bulleted list
 
-### Links
+### Sectioning
 
-This is an [internal link](#error-code-definitions), this is an [external link](http://google.com).
+#### Headings
 
-### Various
+> ###### Heading 6
+> ##### Heading 5
+> #### Heading 4
+> ### Heading 3
+> ## Heading 2
+> # Heading 1
 
 #### Horizontal Rule
 
 ---
+
+## GitHub Flavored Markdown
+
+### Tables
+
+${table[1]}
+
+### To Do Lists
+
+- [ ] This
+- [x] Is A
+- [ ] To Do
+- [x] List
 `,
 };
