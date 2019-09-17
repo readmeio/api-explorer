@@ -5,7 +5,7 @@ const PropTypes = require('prop-types');
 const ResponseTabs = require('./ResponseTabs');
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
-const Example = require('./Example');
+const ResponseExample = require('./ResponseExample');
 
 const Oas = require('./lib/Oas');
 
@@ -66,7 +66,8 @@ class Response extends React.Component {
               </span>
             )}
           </div>
-          <Example
+
+          <ResponseExample
             operation={operation}
             result={result}
             oas={oas}
