@@ -48,7 +48,9 @@ function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
 module.exports = ResponseTabs;
 
 ResponseTabs.propTypes = {
-  result: PropTypes.shape({}),
+  result: PropTypes.shape({
+    status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  }),
   operation: PropTypes.instanceOf(Operation).isRequired,
   responseTab: PropTypes.string.isRequired,
   setTab: PropTypes.func.isRequired,

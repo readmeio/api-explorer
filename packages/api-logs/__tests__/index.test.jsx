@@ -9,7 +9,7 @@ const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
 
-const baseUrl = 'https://metrics.readme.io/';
+const baseUrl = 'https://docs.readme.com';
 
 class LogTest extends Logs {
   // eslint-disable-next-line class-methods-use-this
@@ -66,7 +66,7 @@ describe('Logs', () => {
   test('should fetch based on query with page/limit', async () => {
     const comp = shallow(<Logs {...props} />);
 
-    const mock = nock('https://metrics.readme.io:443', { encodedQueryParams: true })
+    const mock = nock('https://docs.readme.com:443', { encodedQueryParams: true })
       .get('/api/logs')
       .query({
         url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
@@ -85,7 +85,7 @@ describe('Logs', () => {
   test('should fetch with group if passed', async () => {
     const comp = shallow(<Logs {...props} />);
 
-    const mock = nock('https://metrics.readme.io:443', { encodedQueryParams: true })
+    const mock = nock('https://docs.readme.com', { encodedQueryParams: true })
       .get('/api/logs')
       .query({
         url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
@@ -104,7 +104,7 @@ describe('Logs', () => {
   test('should render a "view more" button', () => {
     const comp = shallow(<LogTest {...props} />);
     expect(comp.find('a[target="_blank"]').prop('href')).toBe(
-      'https://metrics.readme.io/logs?url=https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D&method=delete&id=someid',
+      'https://docs.readme.com/logs?url=https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D&method=delete&id=someid',
     );
   });
 
@@ -197,5 +197,25 @@ describe('Logs', () => {
     requestmodel.request.log.entries[0].request.headers[0].value = 'IE4.0';
     comp.setState({ logs: [requestmodel] });
     expect(comp.contains(<td>IE4.0</td>)).toBe(true);
+  });
+
+  test('should always return a absolute url', async () => {
+    props.baseUrl = 'https://docs.readme.com/subdomain';
+    const comp = shallow(<Logs {...props} />);
+
+    const mock = nock('https://docs.readme.com/subdomain', { encodedQueryParams: true })
+      .get('/api/logs')
+      .query({
+        url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
+        id: 'someid',
+        method: 'delete',
+        limit: 5,
+        page: 0,
+      })
+      .reply(200, [requestmodel]);
+
+    await comp.instance().getData('someid');
+
+    mock.done();
   });
 });

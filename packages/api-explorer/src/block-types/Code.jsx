@@ -28,10 +28,11 @@ class BlockCode extends React.Component {
           {(!opts.hideHeaderOnOne || codes.length > 1) && (
             <ul className="block-code-header">
               {codes.map((code, i) => (
+                /* eslint-disable jsx-a11y/href-no-hash */
                 // eslint-disable-next-line react/no-array-index-key
                 <li key={i}>
                   <a
-                    href=""
+                    href="#"
                     onClick={e => {
                       e.preventDefault();
                       this.showCode(i);
@@ -76,6 +77,7 @@ BlockCode.propTypes = {
     }),
   }),
   opts: PropTypes.shape({
+    hideHeaderOnOne: PropTypes.bool,
     label: PropTypes.string,
   }),
   dark: PropTypes.bool,

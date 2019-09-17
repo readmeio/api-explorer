@@ -1,10 +1,10 @@
 {
   "name": "@readme/markdown",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "4.7.2",
+  "version": "4.8.4",
   "dependencies": {
-    "@readme/syntax-highlighter": "^4.7.2",
-    "@readme/variable": "^4.7.2",
+    "@readme/syntax-highlighter": "^4.8.4",
+    "@readme/variable": "^4.8.1",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
@@ -33,7 +33,7 @@
   "devDependencies": {
     "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-prettier": "^6.2.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.13.0",
