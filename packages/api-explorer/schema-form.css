@@ -1,4 +1,7 @@
-.field label:after {
+/* 
+ */
+
+ .field label:after {
   display: none !important;
 }
 
@@ -81,7 +84,7 @@ fieldset {
   margin: 2px 0 0 .5em;
   color: rgba(0, 0, 0, 0.6);
   content: 'string';
-  background: #f2f2f2;
+  background: #f8f8f8;
   border-radius: 3px;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 11px;
@@ -104,7 +107,7 @@ fieldset {
 .param.field-object > .children {
   margin: 0 0;
   padding: 0;
-  background: #f2f2f2;
+  background: #f8f8f8;
   border-radius: 6px;
   /* overflow: hidden; */
 }
@@ -143,11 +146,15 @@ fieldset {
 .param.field-array > .children .row:last-child,
 .param.field-object > .children .row:last-child {
   margin: 0;
-  padding: .5em 0;
+  padding: .75em 0;
 }
 
+/* .param.field-array > .children .row:not(:empty) + .row:last-child,
+.param.field-object > .children .row:not(:empty) + .row:last-child {background: rgba(0, 0, 0, .05);} */
 .param.field-array > .children .row:not(:empty) + .row:last-child,
-.param.field-object > .children .row:not(:empty) + .row:last-child {background: rgba(0, 0, 0, .05);}
+.param.field-object > .children .row:not(:empty) + .row:last-child {
+  padding-top: 0;
+}
 
 .param.field-array > .children .array-item,
 .param.field-object .object-property-expand
@@ -166,13 +173,13 @@ fieldset {
 }
 
 .param.field-array > .children .array-item + .array-item {
-  border-top: 1px solid #DDD;
+  border-top: 1px solid #e3e3e3;
 }
 
 .param.field-object .form-group + .row:last-child,
 .param.field-object .object-property-expand,
 .param.field-array > .children .array-item-add {
-  padding: 0;
+  /* padding: 0; */
 }
 
 .param .row .btn.btn-add {
@@ -193,7 +200,7 @@ fieldset {
   font-size: .8em;
   /* font-weight: 300; */
   text-align: right;
-  background: linear-gradient(to bottom, white 25%, #f2f2f2 75%);
+  background: linear-gradient(to bottom, white 25%, #f8f8f8 75%);
   margin: 0 0 0 !important;
   transform: translate(4px, -50%);
   padding: 4px;
@@ -204,6 +211,8 @@ fieldset {
 .field-array > .children legend:not(:only-child) {
   position: absolute;
   right: 0;
+  font-weight: normal;
+  color: #999;
 }
 
 .field-array > .children legend {
@@ -216,7 +225,7 @@ fieldset {
 
 .children .children legend {
   display: inline-block;
-  background: #f2f2f2 !important;
+  background: #f8f8f8 !important;
 }
 
 .children legend:after {
@@ -280,11 +289,11 @@ fieldset {
   flex:  0 100%;
   margin-top: .5em;
 }
-.field-object .field-object > .children,
-.field-array  .field-object > .children,
-.field-object .field-array  > .children,
-.field-array  .field-array  > .children {
-  border: 1px solid #ddd;
+.field-object .children .field-object > .children,
+.field-array  .children .field-object > .children,
+.field-object .children .field-array  > .children,
+.field-array  .children .field-array  > .children {
+  border: 1px solid #e3e3e3;
 }
 
 select[id*="_anyof_"] {
@@ -296,7 +305,7 @@ select[id*="_anyof_"] {
 }
 
 .children .children legend {
-  background: #f2f2f2 !important;
+  background: #f8f8f8 !important;
 }
 
 .children legend:after {
@@ -311,6 +320,59 @@ select[id*="_anyof_"] {
   display: none !important;
 }
 
-.children:hover {
-  border-color: #ccc !important;
+.form-group.field-object > .children > [id^="root_object"] > .form-group:first-of-type {
+  margin-top: 4px;
+}
+.form-group.field-object > .children > [id^="root_object"] > .form-group ~ .row:last-child {
+  margin-bottom: .5rem;
+}
+
+form.rjsf .row button.btn-add {
+  background: #1FC79F;
+  color: #fff;
+  transform: none !important;
+  padding: .25em .9em !important;
+  line-height: 1.25;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0);
+  transition: .2s ease-out;
+}
+form.rjsf .row button.btn-add:focus,
+form.rjsf .row button.btn-add:hover {
+  border: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 1px 3px -1px rgba(0,0,0,.2);
+}
+form.rjsf .row button.btn-add:active {
+  border: 1px solid rgba(0,0,0,.15);
+  box-shadow: inset 1px 1px 3px -1px rgba(0,0,0,.15);
+}
+form.rjsf .row button.btn-add:after {
+  content: 'Add' !important;
+}
+form.rjsf .row button.btn-add .glyphicon {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: .9em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  margin-right: .3em;
+}
+form.rjsf .row button.btn-add .glyphicon:before {
+  content: "\f067";
+}
+
+.children .row:empty + :last-child > p[class*="item-add"],
+.children .row:only-of-type:last-child > p[class*="item-add"] {
+  /* center add button when only visible child */
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  margin: -.75em auto;
+  padding: .75em 0;
+}
+
+.row:last-child > p[class*="item-add"] button.btn {
+  margin-left: 0 !important;
 }
