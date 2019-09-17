@@ -181,9 +181,7 @@ class Doc extends React.Component {
   }
 
   resetTryItRequest(e) {
-    this.setState({
-      tryItRequestFired: e,
-    });
+    this.state.tryItRequestFired = e;
   }
 
   renderCodeSample() {
