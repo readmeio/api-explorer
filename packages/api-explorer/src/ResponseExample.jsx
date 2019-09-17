@@ -47,17 +47,20 @@ function showExamples(examples, setResponseType, responseType) {
 
   return (
     <div>
-      <select
-        className="response-select"
-        onChange={e => setResponseType(e.target.value)}
-        value={responseTypeCopy}
-      >
-        {examples.map(example => (
-          <option value={example.label} key={example.label}>
-            {example.label}
-          </option>
-        ))}
-      </select>
+      {examples.length > 1 && (
+        <select
+          className="response-select"
+          onChange={e => setResponseType(e.target.value)}
+          value={responseTypeCopy}
+        >
+          {examples.map(example => (
+            <option value={example.label} key={example.label}>
+              {example.label}
+            </option>
+          ))}
+        </select>
+      )}
+
       {examples.map(example => {
         return getReactJson(example, responseTypeCopy);
       })}
@@ -108,6 +111,7 @@ function Example({
                 >
                   {example.multipleExamples &&
                     showExamples(example.multipleExamples, setResponseType, responseType)}
+
                   {isJson && !example.multipleExamples ? (
                     transformExampleIntoReactJson(example)
                   ) : (
@@ -119,6 +123,7 @@ function Example({
           </div>
         </span>
       )}
+
       {(examples.length === 0 || (!hasExamples && result === null)) && (
         <div className="hub-no-code">
           {oas[extensions.EXPLORER_ENABLED]

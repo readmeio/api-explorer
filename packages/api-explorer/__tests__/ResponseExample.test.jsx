@@ -16,6 +16,7 @@ const props = {
   operation: oas.operation('/pet', 'post'),
   selected: 0,
   setExampleTab: () => {},
+  setResponseType: () => {},
 };
 
 test('should show no examples if endpoint does not any', () => {
@@ -109,15 +110,28 @@ test('should correctly highlight XML syntax', () => {
   ).toBe(25);
 });
 
-test('should show select for multiple response types', () => {
+test('should show select for multiple examples on a single media type', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
     <ResponseExample
       {...props}
       oas={exampleOas}
-      operation={exampleOas.operation('/multi-results', 'get')}
+      operation={exampleOas.operation('/single-media-type-multiple-examples', 'get')}
     />,
   );
 
   expect(example.html().includes('<select')).toBe(true);
+});
+
+test('should not show a select if a media type has a single example', () => {
+  const exampleOas = new Oas(exampleResults);
+  const example = shallow(
+    <ResponseExample
+      {...props}
+      oas={exampleOas}
+      operation={exampleOas.operation('/single-media-type-single-example', 'get')}
+    />,
+  );
+
+  expect(example.html().includes('<select')).toBe(false);
 });
