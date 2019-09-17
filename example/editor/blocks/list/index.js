@@ -15,6 +15,15 @@ export default {
     'numbered-list',
     'unordered-list',
   ],
+  schema: {
+    nodes: [{
+      match: { type: 'list-item' },
+      min: 1,
+    }],
+    normalize: (editor, error) => {
+      console.warn(error.code)
+    },
+  },
 };
 
 export { rule, render };

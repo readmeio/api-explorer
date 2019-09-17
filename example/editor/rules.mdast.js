@@ -1,6 +1,7 @@
 import { rule as List } from './blocks/list';
 import { rule as ListItem } from './blocks/list/item';
 import { rule as RdmeWrap } from './blocks/rdme-wrap';
+import { rule as RdmeFigure } from './blocks/rdme-figure';
 import { rule as CodeBlock } from './blocks/code';
 
 const paragraph = {
@@ -13,24 +14,6 @@ const paragraph = {
   }),
   toMdast: (object, _index, _parent, { visitChildren }) => ({
     type: 'paragraph',
-    children: visitChildren(object),
-  }),
-};
-
-const rdmeFigure = {
-  match: node => node.object === 'block' && node.type === 'rdme-figure',
-  matchMdast: node => node.type === 'rdme-figure',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'rdme-figure',
-    data: {
-      className: node.className,
-    },
-    nodes: visitChildren(node),
-  }),
-  toMdast: (object, _index, _parent, { visitChildren }) => ({
-    type: 'rdme-figure',
-    className: object.data.className,
     children: visitChildren(object),
   }),
 };
@@ -73,11 +56,15 @@ const image = {
     },
     nodes: [],
   }),
-  toMdast: object => ({
-    type: 'image',
-    alt: object.data.alt,
-    url: object.data.src,
-  }),
+  toMdast: (object) => {
+    const { alt, src, title } = object.data;
+    return ({
+      type: 'image',
+      alt,
+      url: src,
+      title,
+    });
+  },
 };
 
 const blockQuote = {
@@ -276,13 +263,16 @@ export default [
   bold,
   code,
   italic,
+  
   blockQuote,
   CodeBlock,
+  
   table,
   tableHead,
   tableRow,
   tableCell,
-  rdmeFigure,
+  
+  RdmeFigure,
   image,
   link,
 

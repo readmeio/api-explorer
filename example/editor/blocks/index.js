@@ -1,6 +1,7 @@
 import List from './list';
 import ListItem from './list/item';
 import RdmeWrap from './rdme-wrap';
+import RdmeFigure from './rdme-figure';
 import Code from './code';
 
 function SlateBlock(config) {
@@ -17,13 +18,15 @@ function SlateBlock(config) {
   return this;
 }
 
-// const createBlock = config => new SlateBlock(config);
-
-Object.assign(SlateBlock, {
+SlateBlock.types = {
   List,
   ListItem,
   RdmeWrap,
+  RdmeFigure,
   Code,
-});
+};
+
+const createBlocks = configs => configs.map(cnf => new SlateBlock(cnf));
 
 export default SlateBlock;
+export { createBlocks };

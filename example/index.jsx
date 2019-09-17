@@ -40,7 +40,6 @@ const app = render(SlateEditor, {
 window.app = app;
 window.md = require("../packages/markdown");
 
-
 // render('div', {
 //   children: Markdown.render.dash(DOCBODY, mdOpt),
 //   className: 'markdown-body',

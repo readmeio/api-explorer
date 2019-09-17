@@ -8,6 +8,24 @@
   <link rel="stylesheet" href="https://unpkg.com/codemirror@5.48.4/lib/codemirror.css">
   <link rel="stylesheet" href="https://unpkg.com/codemirror@5.48.4/theme/neo.css">
   <style>
+    .markdown-body .paragraph {
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+    .markdown-body img[align=left] {
+      margin-right: 20px;
+    }
+    .markdown-body img[align=right] {
+      margin-left: 20px;
+    }
+    .markdown-body img[align=center] {
+      display: block;
+      margin: 20px auto;
+    }
+    .markdown-body .task-list-item input {
+      margin: 0 .5em .25em -1.25em;
+    }
+    
     #note {
       display: block;
       background: #fff;
