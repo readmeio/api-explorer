@@ -185,7 +185,9 @@ function Example({
                       )}
 
                     {isJson && !example.multipleExamples ? (
-                      <div className="example example_json">{transformExampleIntoReactJson(example)}</div>
+                      <div className="example example_json">
+                        {transformExampleIntoReactJson(example)}
+                      </div>
                     ) : (
                       // json + multiple examples is already handled in `showExamples`.
                       <div className="example">

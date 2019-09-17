@@ -5,7 +5,7 @@ const string = require('./fixtures/string/oas.json');
 const exampleResults = require('./fixtures/example-results/oas');
 const extensions = require('@readme/oas-extensions');
 
-const Example = require('../src/Example');
+const ResponseExample = require('../src/ResponseExample');
 const Oas = require('../src/lib/Oas');
 
 const oas = new Oas(petstore);
@@ -19,14 +19,14 @@ const props = {
 };
 
 test('should show no examples if endpoint does not any', () => {
-  const example = shallow(<Example {...props} />);
+  const example = shallow(<ResponseExample {...props} />);
 
   expect(example.containsMatchingElement(<div>Try the API to see Results</div>)).toEqual(true);
 });
 
 test('should notify about no examples being available if explorer disabled', () => {
   const example = shallow(
-    <Example
+    <ResponseExample
       {...props}
       oas={new Oas(Object.assign({}, petstore, { [extensions.EXPLORER_ENABLED]: false }))}
     />,
@@ -38,7 +38,11 @@ test('should notify about no examples being available if explorer disabled', () 
 test('should show each example', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <Example {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />,
+    <ResponseExample
+      {...props}
+      oas={exampleOas}
+      operation={exampleOas.operation('/results', 'get')}
+    />,
   );
 
   expect(example.find('pre').length).toEqual(2);
@@ -47,7 +51,11 @@ test('should show each example', () => {
 test('should display json viewer', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <Example {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />,
+    <ResponseExample
+      {...props}
+      oas={exampleOas}
+      operation={exampleOas.operation('/results', 'get')}
+    />,
   );
 
   // Asserting all JSON examples are displayed with JSON viewer from the example oas.json
@@ -63,7 +71,11 @@ test('should display json viewer', () => {
 test('should not fail to parse invalid json and instead show the standard syntax highlighter', () => {
   const exampleOas = new Oas(string);
   const example = shallow(
-    <Example {...props} oas={exampleOas} operation={exampleOas.operation('/format-uuid', 'get')} />,
+    <ResponseExample
+      {...props}
+      oas={exampleOas}
+      operation={exampleOas.operation('/format-uuid', 'get')}
+    />,
   );
 
   // Asserting that instead of failing with the invalid JSON we attempted to render, we fallback
@@ -80,7 +92,11 @@ test('should not fail to parse invalid json and instead show the standard syntax
 test('should correctly highlight XML syntax', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <Example {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />,
+    <ResponseExample
+      {...props}
+      oas={exampleOas}
+      operation={exampleOas.operation('/results', 'get')}
+    />,
   );
 
   // Asserting that there are XML tags
@@ -96,7 +112,7 @@ test('should correctly highlight XML syntax', () => {
 test('should show select for multiple response types', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <Example
+    <ResponseExample
       {...props}
       oas={exampleOas}
       operation={exampleOas.operation('/multi-media-types', 'get')}
@@ -113,7 +129,7 @@ test('should show select for multiple response types', () => {
 test('should show select for multiple response type examples', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <Example
+    <ResponseExample
       {...props}
       oas={exampleOas}
       operation={exampleOas.operation('/multi-results', 'get')}
