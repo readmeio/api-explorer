@@ -9,8 +9,7 @@ import Deleted from './marks/deleted';
 import Added from './marks/added';
 
 const renderNode = (props, editor, next) => {
-  const { attributes, children, node } = props;
-
+  const { attributes, children, node, isFocused } = props;
   switch (node.type) {
     case 'p':
     case 'paragraph':
@@ -44,12 +43,23 @@ const renderNode = (props, editor, next) => {
     case 'break':
       return <hr />;
 
-    case 'rdme-figure':
-      return <figure {...attributes} className={node.data.get('className')}>{children}</figure>;
     case 'img':
-    case 'image':
-      return <img {...attributes} src={node.data.get('src')} title={node.data.get('title')} alt={node.data.get('alt')} />;
-
+    case 'image': {
+      const [title, align, width='auto', height='auto'] = node.data.get('title').split(', ');
+      console.log({ title, width, height });
+      return (<img
+        src={node.data.get('src')}
+        title={title}
+        align={align}
+        width={width}
+        height={height}
+        alt={node.data.get('alt')}
+        style={{
+          boxShadow: isFocused ? '0 0 0 2px white, 0 0 0 4px dodgerblue' : 'none',
+        }}
+        {...attributes}
+      />);
+    }
     case 'a':
     case 'anchor':
     case 'link':
