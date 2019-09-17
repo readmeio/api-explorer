@@ -34,7 +34,7 @@ test('should display response schema description', () => {
 
   expect(
     responseSchema
-      .find('p.desc')
+      .find('div.desc')
       .first()
       .text(),
   ).toBe(props.operation.responses['200'].description);
