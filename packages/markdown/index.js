@@ -18,6 +18,7 @@ const breaks = require('remark-breaks');
 
 const options = require('./processor/options.json');
 
+const readmeFlavoredParser = require('./processor/parse/readme-flavored-parser');
 const magicBlockParser = require('./processor/parse/magic-block-parser');
 const variableParser = require('./processor/parse/variable-parser');
 const gemojiParser = require('./processor/parse/gemoji-parser');
@@ -59,6 +60,7 @@ function parseMarkdown(opts = {}) {
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
+    .use(readmeFlavoredParser)
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
