@@ -5,40 +5,47 @@ import { Value } from 'slate'
 import {renderNode, renderMark} from './renderers'
 import BlockCommands from './commands/convert-blocks'
 
-import Block from './blocks';
-const blocks = [
-  new Block(Block.List),
-  new Block(Block.ListItem),
-  new Block(Block.RdmeWrap),
-  new Block(Block.Code),
-];
-console.dir(blocks);
+import Block, {createBlocks} from './blocks';
 
 import Serial from 'slate-mdast-serializer';
 import markdownRules from './rules.mdast';
 
-const markdown = new Serial({ rules: markdownRules });
+const schema = {
+  blocks: {
+    image: {
+      isVoid: true,
+    },
+  },
+};
+
+for (const key in Block.types) {
+  const block = Block.types[key];
+  if (block.schema) schema.blocks[block.type] = block.schema
+};
+console.log(schema)
+
 const plugins = [
+  ...createBlocks(Object.values(Block.types)),
   ...BlockCommands(
     ['>', 'space', 'blockquote'],
-    ['#', 'space', 'heading1'],
-    ['##', 'space', 'heading2'],
-    ['###', 'space', 'heading3'],
-    ['####', 'space', 'heading4'],
-    ['#####', 'space', 'heading5'],
-    ['######', 'space', 'heading6'],
-    ['#1', 'space', 'heading1'],
-    ['#2', 'space', 'heading2'],
-    ['#3', 'space', 'heading3'],
-    ['#4', 'space', 'heading4'],
-    ['#5', 'space', 'heading5'],
-    ['#6', 'space', 'heading6'],
+    ['#', 'space', 'h1'],
+    ['##', 'space', 'h2'],
+    ['###', 'space', 'h3'],
+    ['####', 'space', 'h4'],
+    ['#####', 'space', 'h5'],
+    ['######', 'space', 'h6'],
+    ['#1', 'space', 'h1'],
+    ['#2', 'space', 'h2'],
+    ['#3', 'space', 'h3'],
+    ['#4', 'space', 'h4'],
+    ['#5', 'space', 'h5'],
+    ['#6', 'space', 'h6'],
     [/^(-|\+|\*)$/, 'space', 'list-item'],
-    [/^(\d\.)$/, 'space', 'list-item'],
+    [/^(\d\.)$/, 'space', 'list'],
     [/^(```([\w-\.]+)?(\s[\w-\.]+)?)$/, 'enter', 'code'],
   ),
-  ...blocks,
 ];
+const markdown = new Serial({ rules: markdownRules });
 
 class App extends React.Component {
   constructor(props){
@@ -47,6 +54,9 @@ class App extends React.Component {
       value: markdown.deserialize(props.value || 'Write some markdown to start documenting your API!')
     }
     this.editor = React.createRef();
+  }
+  componentDidMount(){
+    console.log('mounted')
   }
   editorHasSelection() {
     const {editor} = this;
@@ -68,29 +78,37 @@ class App extends React.Component {
     return false
   }
   onKeyDown = (event, editor, next) => {
-    const {key} = event
+    const {key, shiftKey, ctrlKey, metaKey} = event
     const {blocks} = this.editor.value
     const hasSelection = this.editorHasSelection();
-    // console.log(key)
     switch (key) {
       case 'Backspace':
-        break;
-      /* case 'ArrowUp':
-      case 'ArrowDown':
-        const direction = {
-          ArrowUp: 'moveAnchorToEndOfPreviousBlock',
-          ArrowDown: 'moveFocusToStartOfNextBlock',
+        if (blocks.size === 1 && blocks.some(b => b.get('type')==='image')) {
+          event.preventDefault();
+          this.editor.delete()
+          return;
         }
-        if (hasSelection && event.shiftKey) event.preventDefault() | editor.moveStartToStartOfBlock().moveEndToEndOfBlock()[direction[key]]();
-        break; */
-      case '>':
-        if (hasSelection) event.preventDefault() | editor.wrapBlock('blockquote');
+      case 'Enter':
+        if(shiftKey){
+          event.preventDefault();
+          editor.command('insertText', '\n');
+          return;
+        }
+      case '>': {
+        if (hasSelection) {
+          event.preventDefault();
+          editor.wrapBlock('blockquote');
+        }
         break;
-      case '<':
-        const match = blocks.some(block => block.get('type')=='paragraph');
-        if (hasSelection && match)
-          event.preventDefault() | event.preventDefault() | this.editor.unwrapBlock('blockquote').setBlocks('paragraph');
+      }
+      case '<': {
+        // const match = blocks.some(block => block.get('type')=='paragraph' || block.get('type')=='blockquote');
+        if (hasSelection /* && match */) {
+          event.preventDefault();
+          this.editor.unwrapBlock('blockquote')//.setBlocks('paragraph');
+        }
         break;
+      }
       case '`':
       case "*":
       case "+":
@@ -108,8 +126,8 @@ class App extends React.Component {
           };
           key in methods && editor.toggleMark(methods[key]);
         }
-        break
-      }
+        break;
+      };
       case "(":
       case "{":
       case "[":
@@ -130,11 +148,8 @@ class App extends React.Component {
           editor.wrapText(key, key in map ? map[key] : key).moveStartBackward().moveEndForward();
         }
         break;
-      }
-      default:
-        // console.log({...event});
-        break;
-    }
+      };
+    };
     if (!(event.ctrlKey || event.metaKey)) return next()
     switch (event.key) {
       case 'Enter':
@@ -161,7 +176,7 @@ class App extends React.Component {
         editor.unwrapBlock().setBlocks('paragraph');
         break
       }
-      case 'S':
+      case 'S': {
         const ast = markdown.serialize(editor.value);
         /*now we have an ^AST object and can
           stringify the tree to Markdown via
@@ -181,6 +196,7 @@ class App extends React.Component {
         console.warn('SEE example/editor/index.js:53-70 IN THE api-explorer REPO', {ast, mdx});
         // console.log({ast, mdx: 'SEE example/editor/index.js:53-70 IN THE api-explorer REPO'});
         break;
+      }
       default:
         return next();
     }
@@ -189,6 +205,7 @@ class App extends React.Component {
     return (<div id="ReadMeEditor">
       <Editor
         {...this.props}
+        schema={schema}
         plugins={plugins}
         value={this.state.value}
         renderNode={renderNode}

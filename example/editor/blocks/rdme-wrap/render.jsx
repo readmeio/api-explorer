@@ -2,19 +2,19 @@
 import React from 'react';
 
 const handleClicks = (event, kid) => {
-  const tabsWrap = document.querySelectorAll('.tabs_initialState')[0];
-  if (tabsWrap) tabsWrap.classList.remove('tabs_initialState');
+  const $btn = event.target;
+  const $tabs = $btn.closest('.tabs');
   
-  document.querySelectorAll('.active_tab').forEach(el => el.classList.remove('active_tab'));
-  event.target.classList.add('active_tab');
+  $tabs.classList.remove('tabs_initialState');
+  $tabs.querySelectorAll('.active_tab').forEach(el => el.classList.remove('active_tab'));
+  $btn.classList.add('active_tab');
 
-  document.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
-  document.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
+  $tabs.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
+  $tabs.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
 };
 
 export default function RdmeWrap(props) {
   const { attributes, children, node } = props;
-  console.log({props, node: [...node], attributes, data: [...node.data]});
   return (
     <div className={`tabs_initialState ${node.data.get('className')}`} {...attributes}>
       {children.map(kid => (

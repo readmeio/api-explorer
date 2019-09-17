@@ -1,9 +1,16 @@
-const table = ['FIX TABLE MDAST SERIALIZER RULE/UNIFIED REMARK COMPILER', `|Foo|Bar|
+const table = [
+  'FIX TABLE MDAST SERIALIZER RULE/UNIFIED REMARK COMPILER',
+  `|Foo|Bar|
 |:-:|---|
 |Baz|Qux|`];
 
-module.exports = {
+const codeBlocks = [
+  '```javascript\nwindow.load(e => {\n\tconsole.log("hello world");\n});\n```\n```php test-script.php\n$name = "world";\necho "hello $name");\n```',
+  '```javascript\nwindow.load(e => {\n\tconsole.log("hello world");\n});\n```\n\n```php test-script.php\n$name = "world";\necho "hello $name");\n```',
+];
 
+module.exports = {
+  
   simplified: `# Markdown Test
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quos quaerat harum ducimus. Quod laborum earum, amet voluptatum quos maiores deserunt officia voluptate repudiandae eum ex facere unde iusto, similique quasi ducimus, veniam sapiente cum. Voluptates distinctio expedita magnam ullam in fugit veritatis nisi voluptas at aspernatur reiciendis, nobis odio quia ipsa omnis delectus et?
@@ -31,11 +38,12 @@ Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea,
 }
 [/block]
 
+
 [block:callout]
 {
   "type": "success",
   "title": "Callout Title",
-  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
+  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum."
 }
 [/block]
 
@@ -78,11 +86,20 @@ Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea,
 
 ### Code Samples
 
+\`\`\`javascript test.js
+window.load(function(){
+  console.log('Hello world!')
+});
+\`\`\`
+
+### AdjacentCode Samples
+
 \`\`\`php
 $name = 'World';
 echo "Hello {$name}!";
 \`\`\`
-\`\`\`javascript
+
+\`\`\`javascript test.js
 window.load(function(){
   console.log('Hello world!')
 });
@@ -101,6 +118,8 @@ window.load(function(){
 
 ${table[1]}
 
+
+![Alt text](https://edit.co.uk/uploads/2016/12/Image-2-Alternatives-to-stock-photography-Thinkstock.jpg (image-title, right, 50%, auto))
 ### Formatted Text
 
 This text is **bold**. This is _italic_. This is an \`inline code block\`. You can use those formatting rules in tables, paragraphs, lists, wherever (although they'll appear verbatim in code blocks.)
