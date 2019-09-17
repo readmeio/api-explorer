@@ -341,6 +341,24 @@ describe('Response Schema', () => {
   });
 });
 
+describe('RenderLogs', () => {
+  test('should return a log component', () => {
+    const doc = mount(<Doc {...props} />);
+    doc.setProps({ Logs: {} });
+    const res = doc.instance().renderLogs();
+    expect(res).toBeTruthy();
+  });
+
+  test('should set state when resetTryItRequest callback fires', () => {
+    const doc = mount(<Doc {...props} />);
+    doc.setState({ tryItRequestFired: true });
+    doc.setProps({ Logs: {} });
+    doc.instance().resetTryItRequest(false);
+
+    expect(doc.instance().state.tryItRequestFired).toBe(false);
+  });
+});
+
 describe('themes', () => {
   test('should output code samples and responses in the right column', () => {
     const doc = mount(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);

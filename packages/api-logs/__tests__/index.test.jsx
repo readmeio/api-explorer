@@ -33,6 +33,8 @@ describe('Logs', () => {
       id: 'someid',
     },
     baseUrl,
+    onReset: jest.fn(),
+    tryItRequestFired: false,
   };
 
   test('should not render if user_data does not have id or keys.id', () => {
@@ -61,6 +63,22 @@ describe('Logs', () => {
     comp.setState({ loading: true });
 
     expect(comp.find('.loading-container').length).toBe(1);
+  });
+
+  test('should invoke callback', () => {
+    const comp = shallow(<LogTest {...props} />);
+    comp.instance().resetTryItRequest();
+    expect(comp.instance().props.onReset).toHaveBeenCalledWith(false);
+  });
+
+  test('should call refresh and set state when props are updated via Doc parent', done => {
+    const comp = shallow(<LogTest {...props} />);
+    comp.instance().refresh = jest.fn();
+    comp.setProps({ tryItRequestFired: true });
+
+    expect(comp.instance().refresh).toHaveBeenCalledTimes(1);
+    expect(comp.instance().state.initialLoad).toBe(false);
+    done();
   });
 
   test('should fetch based on query with page/limit', async () => {

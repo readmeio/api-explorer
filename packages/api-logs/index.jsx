@@ -56,6 +56,7 @@ class Logs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      initialLoad: true,
       loading: false,
       stale: false,
       logs: [],
@@ -75,6 +76,17 @@ class Logs extends React.Component {
     const { group } = this.state;
     emitter.on('changeGroup', this.changeGroup);
     this.refresh(group);
+  }
+
+  componentDidUpdate(prevProp) {
+    if (
+      this.props.tryItRequestFired &&
+      this.props.tryItRequestFired !== prevProp.tryItRequestFired
+    ) {
+      const { group } = this.state;
+      this.refresh(group);
+      this.state.initialLoad = false;
+    }
   }
 
   componentWillUnmount() {
@@ -136,6 +148,10 @@ class Logs extends React.Component {
       });
   }
 
+  resetTryItRequest() {
+    this.props.onReset(false);
+  }
+
   visitLogItem(log) {
     const { baseUrl } = this.props;
     window.open(`${baseUrl}logs/${log._id}`);
@@ -183,7 +199,7 @@ class Logs extends React.Component {
 
   renderTable() {
     const { loading, logs } = this.state;
-    if (loading) {
+    if (this.state.initialLoad && loading) {
       return (
         <div className="loading-container">
           {React.createElement(LoadingSvg, { className: 'normal' })}
@@ -251,10 +267,14 @@ Logs.propTypes = {
     keys: PropTypes.array,
     id: PropTypes.string,
   }),
+  tryItRequestFired: PropTypes.bool,
+  onReset: PropTypes.func,
 };
 
 Logs.defaultProps = {
   user: {},
+  tryItRequestFired: false,
+  onReset: () => {},
 };
 
 module.exports = Logs;
