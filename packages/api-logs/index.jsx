@@ -2,7 +2,6 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const querystring = require('querystring');
 const VisibilitySensor = require('react-visibility-sensor');
-const EventsEmitter = require('events');
 
 const LoadingSvg = props => (
   <svg
@@ -37,31 +36,12 @@ function getLanguage(log) {
   return '-';
 }
 
-function getGroup(userData) {
-  if (userData.keys && userData.keys[0].id) {
-    return userData.keys[0].id;
-  }
-
-  if (userData.id) {
-    return userData.id;
-  }
-
-  return undefined;
-}
-
-const emitter = new EventsEmitter();
-let selectedGroup;
-
 class Logs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      initialLoad: true,
       loading: false,
-      stale: false,
       logs: [],
-      group: selectedGroup || getGroup(props.user),
-      groups: props.user.keys && props.user.keys.map(key => ({ id: key.id, name: key.name })),
     };
 
     this.renderSelect = this.renderSelect.bind(this);
@@ -69,45 +49,33 @@ class Logs extends React.Component {
     this.renderTable = this.renderTable.bind(this);
     this.visitLogItem = this.visitLogItem.bind(this);
     this.changeGroup = this.changeGroup.bind(this);
-    this.onVisible = this.onVisible.bind(this);
   }
 
   componentDidMount() {
-    const { group } = this.state;
-    emitter.on('changeGroup', this.changeGroup);
-    this.refresh(group);
+    this.refresh();
   }
 
-  componentDidUpdate(prevProp) {
-    if (
-      this.props.tryItRequestFired &&
-      this.props.tryItRequestFired !== prevProp.tryItRequestFired
-    ) {
-      const { group } = this.state;
-      this.refresh(group);
-      this.state.initialLoad = false;
+  componentDidUpdate(prevProps) {
+    // Refresh if the group has changed
+    if (this.props.group !== prevProps.group) {
+      // Setting logs to [] means we show the loading icon
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ logs: [] })
+      this.refresh();
     }
-  }
 
-  componentWillUnmount() {
-    emitter.removeListener('changeGroup', this.changeGroup);
+    // Refresh if the result has changed (this means has "try it now" been called?)
+    if (this.props.result !== prevProps.result) {
+      this.refresh();
+    }
   }
 
   onSelect(event) {
-    emitter.emit('changeGroup', event.target.value);
-    // this.changeGroup(event.target.value);
-    this.refresh(event.target.value);
+    this.changeGroup(event.target.value);
   }
 
-  onVisible() {
-    const { stale, group } = this.state;
-    if (stale) {
-      this.refresh(group);
-    }
-  }
-
-  getData(group) {
-    const { query, baseUrl } = this.props;
+  getData() {
+    const { query, baseUrl, group } = this.props;
     this.setState({ loading: true });
 
     const reqUrl = `${baseUrl}/api/logs?${querystring.stringify(
@@ -128,28 +96,17 @@ class Logs extends React.Component {
   }
 
   changeGroup(group) {
-    selectedGroup = group;
-    this.setState({
-      group,
-      stale: true,
-    });
+    this.props.changeGroup(group)
   }
 
-  refresh(group) {
-    this.setState({
-      stale: false,
-    });
-    this.getData(group)
+  refresh() {
+    this.getData()
       .then(logs => {
         this.setState({ logs });
       })
       .catch(() => {
         // TODO HANDLE ERROR
       });
-  }
-
-  resetTryItRequest() {
-    this.props.onReset(false);
   }
 
   visitLogItem(log) {
@@ -185,7 +142,7 @@ class Logs extends React.Component {
   }
 
   renderSelect() {
-    const { groups, group } = this.state;
+    const { groups, group } = this.props;
 
     if (groups && groups.length > 1) {
       return (
@@ -199,10 +156,10 @@ class Logs extends React.Component {
 
   renderTable() {
     const { loading, logs } = this.state;
-    if (this.state.initialLoad && loading) {
+    if (loading && logs.length === 0) {
       return (
         <div className="loading-container">
-          {React.createElement(LoadingSvg, { className: 'normal' })}
+          <LoadingSvg className="normal" />
         </div>
       );
     }
@@ -233,29 +190,26 @@ class Logs extends React.Component {
   }
 
   render() {
-    const { group } = this.state;
-    const { query, baseUrl } = this.props;
+    const { query, baseUrl, group } = this.props;
     if (!group) return null;
 
     const url = `${baseUrl}/logs?${querystring.stringify(Object.assign({}, query, { id: group }))}`;
 
     return (
-      <VisibilitySensor onChange={this.onVisible}>
-        <div className="logs">
-          <div className="log-header">
-            <h3>Logs</h3>
-            <div className="select-container">
-              <div>
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  View More
-                </a>
-                {this.renderSelect()}
-              </div>
+      <div className="logs">
+        <div className="log-header">
+          <h3>Logs</h3>
+          <div className="select-container">
+            <div>
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                View More
+              </a>
+              {this.renderSelect()}
             </div>
           </div>
-          <div className="logs-list">{this.renderTable()}</div>
         </div>
-      </VisibilitySensor>
+        <div className="logs-list">{this.renderTable()}</div>
+      </div>
     );
   }
 }
@@ -263,20 +217,20 @@ class Logs extends React.Component {
 Logs.propTypes = {
   query: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string.isRequired,
-  user: PropTypes.shape({
-    keys: PropTypes.array,
+  group: PropTypes.string,
+  groups: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
-  }),
-  tryItRequestFired: PropTypes.bool,
-  onReset: PropTypes.func,
+    name: PropTypes.string,
+  })),
+  changeGroup: PropTypes.func.isRequired,
+  result: PropTypes.shape({}),
 };
 
 Logs.defaultProps = {
-  user: {},
-  tryItRequestFired: false,
-  onReset: () => {},
+  group: '',
+  groups: [],
+  result: null,
 };
 
 module.exports = Logs;
 module.exports.Logs = Logs;
-module.exports.LogsEmitter = emitter;

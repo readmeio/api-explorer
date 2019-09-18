@@ -34,7 +34,6 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
-      tryItRequestFired: false,
     };
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
@@ -77,7 +76,6 @@ class Doc extends React.Component {
       this.setState({
         loading: false,
         result: await parseResponse(har, res),
-        tryItRequestFired: true,
       });
     });
   }
@@ -180,10 +178,6 @@ class Doc extends React.Component {
     );
   }
 
-  resetTryItRequest(e) {
-    this.state.tryItRequestFired = e;
-  }
-
   renderCodeSample() {
     let examples;
     try {
@@ -262,8 +256,10 @@ class Doc extends React.Component {
           url,
           method,
         }}
-        tryItRequestFired={this.state.tryItRequestFired}
-        onReset={this.resetTryItRequest}
+        result={this.state.result}
+        group={this.props.group}
+        groups={this.props.groups}
+        changeGroup={this.props.changeGroup}
       />
     );
   }
@@ -406,6 +402,12 @@ Doc.propTypes = {
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
   lazy: PropTypes.bool.isRequired,
+  group: PropTypes.string,
+  groups: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  })),
+  changeGroup: PropTypes.func.isRequired,
 };
 
 Doc.defaultProps = {
@@ -419,6 +421,8 @@ Doc.defaultProps = {
     splitReferenceDocs: false,
   },
   Logs: undefined,
-  user: undefined,
+  user: {},
   baseUrl: '/',
+  group: '',
+  groups: [],
 };
