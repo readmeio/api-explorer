@@ -33,7 +33,9 @@ class ApiExplorer extends React.Component {
     };
 
     this.changeGroup = this.changeGroup.bind(this);
-    this.groups = this.props.variables.user.keys && this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
+    this.groups =
+      this.props.variables.user.keys &&
+      this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
 
     this.lazyHash = this.buildLazyHash();
   }

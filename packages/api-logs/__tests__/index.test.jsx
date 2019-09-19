@@ -4,7 +4,7 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const nock = require('nock');
 
-const { Logs, LogsEmitter } = require('../index.jsx');
+const { Logs } = require('../index.jsx');
 const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
@@ -26,18 +26,23 @@ describe('Logs', () => {
       url: `${oas.servers[0].url}${operation.path}`,
       method: operation.method,
     },
-    user: {
-      name: 'Gilfoyle',
-      email: 'gilfoyle@piedpiper.com',
-      isAdmin: true,
-      id: 'someid',
-    },
     baseUrl,
-    onReset: jest.fn(),
-    tryItRequestFired: false,
+    group: 'someid',
+    groups: [
+      {
+        id: '1',
+        name: 'someid',
+      },
+      {
+        id: '2',
+        name: 'anotherId',
+      },
+    ],
+    changeGroup: jest.fn(),
+    result: {},
   };
 
-  test('should not render if user_data does not have id or keys.id', () => {
+  test('should not render if groups are not populated', () => {
     const noUser = { baseUrl, query: {} };
     const comp = shallow(<LogTest {...noUser} />);
 
@@ -65,20 +70,20 @@ describe('Logs', () => {
     expect(comp.find('.loading-container').length).toBe(1);
   });
 
-  test('should invoke callback', () => {
-    const comp = shallow(<LogTest {...props} />);
-    comp.instance().resetTryItRequest();
-    expect(comp.instance().props.onReset).toHaveBeenCalledWith(false);
-  });
-
-  test('should call refresh and set state when props are updated via Doc parent', done => {
+  test('should call refresh and set state when group props are updated via parent', done => {
     const comp = shallow(<LogTest {...props} />);
     comp.instance().refresh = jest.fn();
-    comp.setProps({ tryItRequestFired: true });
-
+    comp.setProps({ group: 'testnew' });
     expect(comp.instance().refresh).toHaveBeenCalledTimes(1);
-    expect(comp.instance().state.initialLoad).toBe(false);
+    expect(comp.instance().state.logs).toMatchObject([]);
     done();
+  });
+
+  test('should call refresh when result props are updated via parent', () => {
+    const comp = shallow(<LogTest {...props} />);
+    comp.instance().refresh = jest.fn();
+    comp.setProps({ result: { newResult: true } });
+    expect(comp.instance().refresh).toHaveBeenCalledTimes(1);
   });
 
   test('should fetch based on query with page/limit', async () => {
@@ -88,7 +93,7 @@ describe('Logs', () => {
       .get('/api/logs')
       .query({
         url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
-        id: null,
+        id: 'someid',
         method: 'delete',
         limit: 5,
         page: 0,
@@ -130,24 +135,7 @@ describe('Logs', () => {
     const comp = shallow(<LogTest {...props} />);
     comp.setState({ logs: [requestmodel] });
 
-    expect(comp.instance().state.group).toBe('someid');
-    expect(comp.find('table').length).toBe(1);
-  });
-
-  test('should render with key', () => {
-    const userData = {
-      name: 'Gilfoyle',
-      email: 'gilfoyle@piedpiper.com',
-      isAdmin: true,
-      keys: [{ id: 'one', name: 'one' }, { id: 'two', name: 'two' }],
-    };
-    props.user = userData;
-
-    const comp = shallow(<LogTest {...props} />);
-    comp.setState({ logs: [requestmodel] });
-
-    expect(comp.instance().state.group).toBe('one');
-    expect(comp.instance().state.groups.length).toBe(2);
+    expect(comp.instance().props.group).toBe('someid');
     expect(comp.find('table').length).toBe(1);
   });
 
@@ -182,7 +170,7 @@ describe('Logs', () => {
         value: '1230',
       },
     });
-    expect(instance.state.group).toBe('1230');
+    expect(instance.props.changeGroup).toHaveBeenCalledWith('1230');
   });
 
   test('open window on log visit', () => {
@@ -191,23 +179,6 @@ describe('Logs', () => {
     const instance = comp.instance();
     instance.visitLogItem(requestmodel);
     expect(global.open).toBeCalled();
-  });
-
-  test('on stale call refresh', () => {
-    const comp = shallow(<Logs {...props} />);
-    comp.setState({ stale: true });
-    const instance = comp.instance();
-    jest.spyOn(instance, 'refresh');
-    instance.onVisible();
-    expect(instance.refresh).toHaveBeenCalledWith('1230');
-  });
-
-  test('remove listener on component unmount', () => {
-    const comp = shallow(<Logs {...props} />);
-    comp.setState({ stale: true });
-    const instance = comp.instance();
-    instance.componentWillUnmount();
-    expect(LogsEmitter.listeners().length).toBe(0);
   });
 
   test('when parsed agent is not Other', () => {

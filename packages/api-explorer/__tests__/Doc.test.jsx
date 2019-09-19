@@ -348,15 +348,6 @@ describe('RenderLogs', () => {
     const res = doc.instance().renderLogs();
     expect(res).toBeTruthy();
   });
-
-  test('should set state when resetTryItRequest callback fires', () => {
-    const doc = mount(<Doc {...props} />);
-    doc.setState({ tryItRequestFired: true });
-    doc.setProps({ Logs: {} });
-    doc.instance().resetTryItRequest(false);
-
-    expect(doc.instance().state.tryItRequestFired).toBe(false);
-  });
 });
 
 describe('themes', () => {

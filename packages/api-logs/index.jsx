@@ -1,7 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const querystring = require('querystring');
-const VisibilitySensor = require('react-visibility-sensor');
 
 const LoadingSvg = props => (
   <svg
@@ -60,7 +59,7 @@ class Logs extends React.Component {
     if (this.props.group !== prevProps.group) {
       // Setting logs to [] means we show the loading icon
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ logs: [] })
+      this.setState({ logs: [] });
       this.refresh();
     }
 
@@ -96,7 +95,7 @@ class Logs extends React.Component {
   }
 
   changeGroup(group) {
-    this.props.changeGroup(group)
+    this.props.changeGroup(group);
   }
 
   refresh() {
@@ -218,10 +217,12 @@ Logs.propTypes = {
   query: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string.isRequired,
   group: PropTypes.string,
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  })),
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
   changeGroup: PropTypes.func.isRequired,
   result: PropTypes.shape({}),
 };

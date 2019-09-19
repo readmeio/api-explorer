@@ -403,10 +403,12 @@ Doc.propTypes = {
   onAuthChange: PropTypes.func.isRequired,
   lazy: PropTypes.bool.isRequired,
   group: PropTypes.string,
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  })),
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
   changeGroup: PropTypes.func.isRequired,
 };
 
