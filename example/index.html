@@ -5,86 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" type="text/css" href="markdown.css">
+  <link rel="stylesheet" type="text/css" href="editor/index.css">
   <link rel="stylesheet" href="https://unpkg.com/codemirror@5.48.4/lib/codemirror.css">
   <link rel="stylesheet" href="https://unpkg.com/codemirror@5.48.4/theme/neo.css">
-  <style>
-    .markdown-body h6 {
-      font-size: .875em;
-      font-weight: normal;
-    }
-    .markdown-body img[align=left] {
-      margin-right: 20px;
-    }
-    .markdown-body img[align=right] {
-      margin-left: 20px;
-    }
-    .markdown-body img[align=center] {
-      display: block;
-      margin: 20px auto;
-    }
-    .markdown-body .task-list-item input {
-      margin: 0 .5em .25em -1.25em;
-    }
-    
-    #note {
-      display: block;
-      background: #fff;
-      position: sticky;
-      bottom: 0;
-      margin: 3em auto 1.5em;
-      padding: .6em;
-      font-family: sans-serif;
-      text-align: center;
-      width: 100vw;
-      max-width: 88vw;
-      border-top: 1px solid rgba(0,0,0,.15);
-      color: #bbb;
-    }
-    
-    .tabs > .tab-panel:not(.tab_active) {
-      display: none;
-    }
-    
-    .tabs.tabs_initialState > .tab-panel:first-of-type {
-      display: block;
-    }
-    
-    .tabs > button {
-      -webkit-appearance: none;
-      border: 1px solid #DDD;
-      margin: 0 0 -1px;
-      position: relative;
-      z-index: 4;
-      padding: 4px 8px;
-      font: inherit;
-      font-size: .75em;
-    }
-
-    .tabs > button.active_tab,
-    .tabs.tabs_initialState > button:first-of-type {
-      background: #f6f8fa;
-      box-shadow: 1px 2px 0 -2px #ddd, 1px 2px 0 0 #f6f8fa;
-      border-bottom-color: #f6f8fa;
-    }
-
-    .tabs > button + button {
-      margin-left: -1px;
-    }
-
-    .tabs {
-      /* background: #f6f8fa; */
-      display: flex;
-      flex-flow: wrap row;
-      align-items: center;
-    }
-
-    .tabs > pre {
-      margin-bottom: 0;
-      flex: 0 100%;
-      border: 1px solid #DDD;
-      position: relative;
-    }
-  </style>
 </head>
 <body>
   <div id="root"></div>

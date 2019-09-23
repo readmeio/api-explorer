@@ -3,20 +3,12 @@ import { rule as ListItem } from './blocks/list/item';
 import { rule as RdmeWrap } from './blocks/rdme-wrap';
 import { rule as RdmeFigure } from './blocks/rdme-figure';
 import { rule as CodeBlock } from './blocks/code';
-
-const paragraph = {
-  match: node => node.object === 'block' && node.type === 'paragraph',
-  matchMdast: node => node.type === 'paragraph',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'paragraph',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (object, _index, _parent, { visitChildren }) => ({
-    type: 'paragraph',
-    children: visitChildren(object),
-  }),
-};
+import { rule as Image } from './blocks/image';
+import { rule as Table } from './blocks/table';
+import { rule as TableRow } from './blocks/table/row';
+import { rule as TableHead } from './blocks/table/head';
+import { rule as TableCell } from './blocks/table/cell';
+import { rule as Paragraph } from './blocks/paragraph';
 
 const div = {
   match: node => node.object === 'block' && node.type === 'div',
@@ -40,31 +32,6 @@ const br = {
     type: 'break',
   }),
   toMdast: () => ({ type: 'thematicBreak' }),
-};
-
-const image = {
-  match: node => node.object === 'block' && node.type === 'image',
-  matchMdast: node => node.type === 'image',
-  fromMdast: node => ({
-    object: 'block',
-    type: 'image',
-    isVoid: true,
-    data: {
-      alt: node.alt,
-      src: node.url,
-      title: node.title,
-    },
-    nodes: [],
-  }),
-  toMdast: (object) => {
-    const { alt, src, title } = object.data;
-    return ({
-      type: 'image',
-      alt,
-      url: src,
-      title,
-    });
-  },
 };
 
 const blockQuote = {
@@ -135,63 +102,6 @@ const bold = {
   }),
 };
 
-const table = {
-  match: node => node.object === 'block' && node.type === 'table',
-  matchMdast: node => node.type === 'table',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'table',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'table',
-    value: visitChildren(node),
-    children: visitChildren(node),
-  }),
-};
-const tableRow = {
-  match: node => node.object === 'block' && node.type === 'tableRow',
-  matchMdast: node => node.type === 'tableRow',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'tableRow',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'tableRow',
-    value: visitChildren(node),
-    children: visitChildren(node),
-  }),
-};
-const tableHead = {
-  match: node => node.object === 'block' && node.type === 'tableHead',
-  matchMdast: node => node.type === 'tableHead',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'tableHead',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'tableCell',
-    value: visitChildren(node),
-    children: visitChildren(node),
-  }),
-};
-const tableCell = {
-  match: node => node.object === 'block' && node.type === 'tableCell',
-  matchMdast: node => node.type === 'tableCell',
-  fromMdast: (node, _index, _parent, { visitChildren }) => ({
-    object: 'block',
-    type: 'tableCell',
-    nodes: visitChildren(node),
-  }),
-  toMdast: (node, _index, _parent, { visitChildren }) => ({
-    type: 'tableCell',
-    value: visitChildren(node),
-    children: visitChildren(node),
-  }),
-};
-
 const code = {
   match: node => node.object === 'mark' && node.type === 'code',
   matchMdast: node => node.type === 'inlineCode',
@@ -255,30 +165,28 @@ const link = {
   }),
 };
 
-export default [
+const rules = {
   listItemChild,
-  paragraph,
+  Paragraph,
   div,
   br,
   bold,
   code,
   italic,
-  
   blockQuote,
   CodeBlock,
-  
-  table,
-  tableHead,
-  tableRow,
-  tableCell,
-  
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
   RdmeFigure,
-  image,
+  Image,
   link,
-
   List,
   ListItem,
-
   ...headings,
   RdmeWrap,
-];
+};
+
+export default Object.values(rules);
+export { rules };

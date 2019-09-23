@@ -11,6 +11,33 @@ import Serial from 'slate-mdast-serializer';
 import markdownRules from './rules.mdast';
 
 const schema = {
+  document: {
+    nodes: [{
+      match: [
+        {type: 'paragraph'},
+        {type: 'div'},
+        {type: 'break'},
+        {type: 'blockquote'},
+        {type: 'code'},
+        {type: 'table'},
+        {type: 'rdme-figure'},
+        {type: 'image'},
+        {type: 'list'},
+        {type: 'h1'},
+        {type: 'h2'},
+        {type: 'h3'},
+        {type: 'h4'},
+        {type: 'h5'},
+        {type: 'h6'},
+        {type: 'rdme-wrap'},
+        {type: 'slash-search'},
+      ]
+    }],
+    normalize: (editor, error) => {
+      console.error(error)
+      console.dir({block: error.node.toJSON(), child: error.child.toJSON()})
+    },
+  },
   blocks: {
     image: {
       isVoid: true,
@@ -27,7 +54,10 @@ console.log(schema)
 const plugins = [
   ...createBlocks(Object.values(Block.types)),
   ...BlockCommands(
+    ['/', 'space', 'slash-search'],
     ['>', 'space', 'blockquote'],
+    ['---', 'space', 'break'],
+    ['---', 'enter', 'break'],
     ['#', 'space', 'h1'],
     ['##', 'space', 'h2'],
     ['###', 'space', 'h3'],
@@ -71,23 +101,53 @@ class App extends React.Component {
   }
   onContextMenu(event, editor, next) {
     event.preventDefault()
-    const blocks = editor.value.blocks;
-    const isCode = blocks.some(block => block.type=='code');
-    console.log({blocks, isCode})
-    // editor.setBlocks(isCode ? 'paragraph' : 'code');
     return false
   }
   onKeyDown = (event, editor, next) => {
     const {key, shiftKey, ctrlKey, metaKey} = event
     const {blocks} = this.editor.value
     const hasSelection = this.editorHasSelection();
+
     switch (key) {
-      case 'Backspace':
-        if (blocks.size === 1 && blocks.some(b => b.get('type')==='image')) {
-          event.preventDefault();
-          this.editor.delete()
-          return;
+      case 'Enter':
+        if (metaKey || ctrlKey) {
+          event.preventDefault() | editor.insertBlock('paragraph').unwrapBlock();
+          break;
         }
+      case 'a':
+        if (/* !hasSelection && */ (metaKey || ctrlKey)) {
+          event.preventDefault()
+          editor.moveStartToStartOfBlock().moveEndToEndOfBlock();
+          break;
+        }  
+    }
+
+    if (editor.inCodeBlock()) switch (key) {
+      case "(":
+      case "{":
+      case "[":
+      case "`":
+      case "'":
+      case "‘":
+      case "“":
+      case '"': {
+        if (hasSelection) {
+          event.preventDefault()
+          const {key} = event;
+          const map = {
+            '(': ')',
+            '[': ']',
+            '{': '}',
+            '“': '”',
+            '‘': '’',
+          };
+          editor.wrapText(key, key in map ? map[key] : key).moveStartBackward().moveEndForward();
+        }
+      };
+      default: return next();
+    }
+
+    switch (key) {
       case 'Enter':
         if(shiftKey){
           event.preventDefault();
@@ -128,39 +188,13 @@ class App extends React.Component {
         }
         break;
       };
-      case "(":
-      case "{":
-      case "[":
-      case "'":
-      case "‘":
-      case "“":
-      case '"': {
-        if (hasSelection) {
-          event.preventDefault()
-          const {key} = event;
-          const map = {
-            '(': ')',
-            '[': ']',
-            '{': '}',
-            '“': '”',
-            '‘': '’',
-          };
-          editor.wrapText(key, key in map ? map[key] : key).moveStartBackward().moveEndForward();
-        }
-        break;
-      };
     };
-    if (!(event.ctrlKey || event.metaKey)) return next()
-    switch (event.key) {
-      case 'Enter':
-        event.preventDefault() | editor.insertBlock('paragraph').unwrapBlock();
-        break;
-      case 'a':
-        if (!hasSelection) {
-          event.preventDefault()
-          editor.moveStartToStartOfBlock().moveEndToEndOfBlock();
-        }
-        break;
+
+    if (!(event.ctrlKey || event.metaKey)) return next();
+
+    else switch (event.key) {
+      // case 'Backspace':
+      //   break;
       case 'b': {
         event.preventDefault()
         editor.toggleMark('bold')
@@ -173,7 +207,7 @@ class App extends React.Component {
       }
       case '\\': {
         event.preventDefault();
-        editor.unwrapBlock().setBlocks('paragraph');
+        editor.setBlocks('paragraph').unwrapBlock();
         break
       }
       case 'S': {
@@ -193,8 +227,9 @@ class App extends React.Component {
             spacedTable: false
           }
         });
-        console.warn('SEE example/editor/index.js:53-70 IN THE api-explorer REPO', {ast, mdx});
-        // console.log({ast, mdx: 'SEE example/editor/index.js:53-70 IN THE api-explorer REPO'});
+        console.log('from an AST (%O) object to markdown', ast);
+        console.log('%s', mdx);
+        // console.warn('SEE example/editor/index.js:53-70 IN THE api-explorer REPO', {ast, mdx});
         break;
       }
       default:

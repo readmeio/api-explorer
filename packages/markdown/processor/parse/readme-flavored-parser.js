@@ -3,8 +3,9 @@ const RGXP = /^(```([^]+?)(?=```\n\n)```)\n\n/g // code blocks
 
 function tokenizer(eat, value) {
   const [match] = RGXP.exec(value) || [];
-
   if (!match) return true;
+  
+  // construct children code blocks
   const kids = match
     .split('```')
     .filter(val => val.trim())
@@ -20,7 +21,11 @@ function tokenizer(eat, value) {
       };
     });
 
-  if (kids.length == 1) return eat(match)(kids[0]);
+  // return a single code block
+  if (kids.length == 1)
+    return eat(match)(kids[0]);
+
+  // return the tabbed code block editor
   return eat(match)({
     type: 'rdme-wrap',
     className: 'tabs',
@@ -43,9 +48,6 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
-
-  // tags.push('rdme-wrap');
-  // attr['rdme-wrap'] = ['className'];
 
   return parser;
 };

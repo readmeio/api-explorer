@@ -6,14 +6,14 @@ export default {
   rule,
   render,
   match: ['item', 'listItem', 'li'],
-  schema: {
-    parent: { type: 'list' },
-    normalize: (editor, error) => {
-      if (error.code === 'parent_type_invalid') {
-        editor.wrapBlock('list');
-      }
-    }
-  },
+  // schema: {
+  //   parent: { type: 'list' },
+  //   normalize: (editor, error) => {
+  //     if (error.code === 'parent_type_invalid') {
+  //       editor.wrapBlock('list');
+  //     }
+  //   },
+  // },
 };
 
 export { rule, render };
