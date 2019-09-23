@@ -96,6 +96,18 @@ window.load(function(){
 });
 \`\`\`
 
+\`\`\`scss style.scss
+.root {
+  $b: #{&};
+  &-elem {
+    color: red;
+    #{$b}_on & {
+      color: green;
+    }
+  }
+}
+\`\`\`
+
 ## Standard Markdown
 
 ### Subsequent Code Samples

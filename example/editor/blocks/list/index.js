@@ -15,15 +15,23 @@ export default {
     'numbered-list',
     'unordered-list',
   ],
-  schema: {
-    nodes: [{
-      match: { type: 'list-item' },
-      min: 1,
-    }],
-    normalize: (editor, error) => {
-      console.warn(error.code)
-    },
-  },
+  // schema: {
+  //   nodes: [{
+  //     match: { type: 'list-item' },
+  //     min: 1,
+  //   }],
+  //   normalize: (editor, error) => {
+  //     if (error.code === 'child_type_invalid') {
+  //       return editor
+  //         .setBlocks('list-item')
+  //         .unwrapBlock()
+  //         .wrapBlock({
+  //           type: 'list',
+  //           data: { ordered: true },
+  //         });
+  //     }
+  //   },
+  // },
 };
 
 export { rule, render };

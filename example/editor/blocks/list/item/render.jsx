@@ -6,7 +6,7 @@ const repair = pairs => require('lodash/fromPairs')([...pairs])
 export default ({attributes, children, node}) => {
   // console.log({attributes, node})
   return (
-    <li {...attributes} className={node.data.size>0 ? 'task-list-item' : ''}>
+    <li className={node.data.size>0 ? 'task-list-item' : ''} {...attributes}>
       {node.data.size>0 && <input
         type="checkbox"
         defaultChecked={node.data.get('checked')}

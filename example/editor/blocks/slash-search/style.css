@@ -1,0 +1,75 @@
+#SlashSearch {
+  --line: calc(1.5em + (.6em * 2));
+  --height: calc(var(--line) * 4.75);
+  position: relative;
+  margin: 15px auto;
+}
+
+#SlashSearch > .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 9;
+  display: flex;
+  flex-flow: nowrap column;
+  background: #ffffff;
+  border: 1px solid dodgerblue;
+  border-top: 0;
+  max-height: 33vh;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  max-height: var(--height);
+  box-shadow:
+    0 -2px 0 dodgerblue,
+    0 .4em 1em -.8em rgba(0, 0, 0, 0.35);
+  border-radius: 0 0 5px 5px;
+  transition: .3s .15s ease-out;
+}
+#SlashSearch > .dropdown.dropdown_hidden {
+  opacity: 0;
+  max-height: 0;
+}
+#SlashSearch > .dropdown:before {
+  content: '';
+  display: block;
+  position: sticky;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+  margin-bottom: calc(-1 * var(--height));
+  max-height: calc(var(--height));
+  height: 100%;
+  min-height: calc(var(--height));
+
+  background: transparent;
+  pointer-events: none;
+  box-shadow:
+    inset 0 -.9em .75em -.225em white,
+    inset 0  .9em .75em -.225em white;
+}
+
+#SlashSearch > .dropdown > * {
+  padding: .6em .3em;
+  color: #303030;
+}
+
+#SlashSearch > .dropdown > .hover {
+  background: #1e90ff1c;
+  position: relative;
+  z-index: 9999;
+}
+
+#SlashSearch input {
+  width: 100%;
+  padding: .6em .3em;
+  font: inherit;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  outline: none;
+}
+
+#SlashSearch input:focus {
+  border-bottom: 2px solid dodgerblue;
+}
