@@ -7,7 +7,7 @@ const serialize = {
       object: 'block',
       type: 'list-item',
       nodes: visitChildren(node),
-      checked: typeof checked === 'boolean' ? { checked } : {},
+      // checked: typeof checked === 'boolean' ? checked : {},
       data: typeof checked === 'boolean' ? { checked } : {},
     });
   },
