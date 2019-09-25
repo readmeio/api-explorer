@@ -90,7 +90,7 @@ module.exports = (
     queryString: [],
     postData: {},
     method: pathOperation.method.toUpperCase(),
-    url: `${oas.url()}${pathOperation.path}`.replace(/\s/g, '%20'),
+    url: `${oas.url(formData.server)}${pathOperation.path}`.replace(/\s/g, '%20'),
   };
 
   // TODO look to move this to Oas class as well

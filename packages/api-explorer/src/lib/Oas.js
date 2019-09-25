@@ -105,7 +105,7 @@ class Oas {
     this.user = user || {};
   }
 
-  url() {
+  url(values = {}) {
     const url = normalizedUrl(this);
 
     let variables;
@@ -117,7 +117,7 @@ class Oas {
     }
 
     return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
-      if (getUserVariable(this.user, key)) return getUserVariable(this.user, key);
+      if (values[key]) return values[key];
       return variables[key] ? variables[key].default : original;
     });
   }
@@ -125,6 +125,25 @@ class Oas {
   operation(path, method) {
     const operation = getPathOperation(this, { swagger: { path }, api: { method } });
     return new Operation(this, path, method, operation);
+  }
+
+  variables() {
+    let variables;
+    try {
+      variables = this.servers[0].variables;
+      if (!variables) throw Error('no variables');
+    } catch (e) {
+      variables = {};
+    }
+
+    return Object.keys(variables)
+      .map(k => {
+        return {
+          [k]: Object.assign({ type: 'string' }, variables[k], { default: getUserVariable(this.user, k) || variables[k].default
+          })
+        }
+      })
+      .reduce((prev, next) => Object.assign(prev, next), {})
   }
 }
 

@@ -3,6 +3,7 @@ const findSchemaDefinition = require('./find-schema-definition');
 
 // https://github.com/OAI/OpenAPI-Specification/blob/4875e02d97048d030de3060185471b9f9443296c/versions/3.0.md#parameterObject
 const types = {
+  server: 'Server Variables',
   path: 'Path Params',
   query: 'Query Params',
   body: 'Body Params',
@@ -102,12 +103,28 @@ function getOtherParams(pathOperation, oas) {
   });
 }
 
+function getServerVariables(variables) {
+  if (Object.keys(variables).length === 0) return null;
+  return {
+    type: 'server',
+    label: types.server,
+    schema: {
+      type: 'object',
+      properties: Object.keys(variables)
+        .map(k => { return { [k]: Object.assign({ type: 'string'}, variables[k]) } })
+        .reduce((prev, next) => Object.assign(prev, next), {}),
+    }
+  }
+}
+// TODO make sure server variables are returned when there's no body
 module.exports = (pathOperation, oas) => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
-  if (!hasParameters && !hasRequestBody && !hasCommonParameters(pathOperation)) return null;
+  const hasServerVariables = Object.keys(oas.variables()).length > 0;
 
-  return [getBodyParam(pathOperation, oas)]
+  if (!hasParameters && !hasRequestBody && !hasCommonParameters(pathOperation) && !hasServerVariables) return null;
+
+  return [getServerVariables(oas.variables()), getBodyParam(pathOperation, oas)]
     .concat(...getOtherParams(pathOperation, oas))
     .filter(Boolean);
 };
