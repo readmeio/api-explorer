@@ -139,8 +139,11 @@ class Oas {
     return Object.keys(variables)
       .map(k => {
         return {
-          [k]: Object.assign({ type: 'string' }, variables[k], { default: getUserVariable(this.user, k) || variables[k].default
-          })
+          [k]: {
+            ...variables[k],
+            type: 'string',
+            default: getUserVariable(this.user, k) || variables[k].default,
+          },
         }
       })
       .reduce((prev, next) => Object.assign(prev, next), {})

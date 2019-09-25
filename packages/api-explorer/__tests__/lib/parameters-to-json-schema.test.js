@@ -1,4 +1,5 @@
 const parametersToJsonSchema = require('../../src/lib/parameters-to-json-schema');
+const Oas = require('../../src/lib/Oas.js');
 
 test('it should return with null if there are no parameters', async () => {
   expect(parametersToJsonSchema({ parameters: [] })).toBe(null);
@@ -16,7 +17,6 @@ test('it should return with a json schema for each parameter type', () => {
           { in: 'cookie', name: 'cookie parameter' },
         ],
       },
-      {},
     ),
   ).toEqual([
     {
@@ -90,7 +90,6 @@ test('it should work for request body inline (json)', () => {
           },
         },
       },
-      {},
     ),
   ).toEqual([
     {
@@ -122,7 +121,6 @@ test('it should work for request body inline (formData)', () => {
           },
         },
       },
-      {},
     ),
   ).toEqual([
     {
@@ -136,6 +134,35 @@ test('it should work for request body inline (formData)', () => {
       },
     },
   ]);
+});
+
+test('should work for server variables', () => {
+  expect(
+    parametersToJsonSchema({}, new Oas(
+      {
+        servers: [
+          {
+            url: 'https://{username}.example.com',
+            variables: { username: { default: 'demo' } },
+          },
+        ],
+      },
+    )),
+  ).toEqual([
+    {
+      label: 'Server Variables',
+      type: 'server',
+      schema: {
+        type: 'object',
+        properties: {
+          'username': {
+            default: 'demo',
+            type: 'string',
+          },
+        },
+      },
+    }
+  ])
 });
 
 test('should pass through enum', () => {
@@ -295,7 +322,7 @@ test('it should work for top-level request body $ref', () => {
           $ref: '#/components/schemas/Pet',
         },
       },
-      {
+      new Oas({
         components: {
           schemas: {
             Pet: {
@@ -303,7 +330,7 @@ test('it should work for top-level request body $ref', () => {
             },
           },
         },
-      },
+      }),
     ),
   ).toEqual([
     {
@@ -326,7 +353,7 @@ test('it should work for top-level request body $ref', () => {
 });
 
 test('it should pull out schemas from `components/requestBodies`', () => {
-  const oas = {
+  const oas = new Oas({
     components: {
       requestBodies: {
         Pet: {
@@ -345,7 +372,7 @@ test('it should pull out schemas from `components/requestBodies`', () => {
         },
       },
     },
-  };
+  });
   expect(
     parametersToJsonSchema(
       {
@@ -389,7 +416,7 @@ test('it should pass false value as default parameter', () => {
 });
 
 test('it should fetch $ref parameters', () => {
-  const oas = {
+  const oas = new Oas({
     components: {
       parameters: {
         Param: {
@@ -401,7 +428,7 @@ test('it should fetch $ref parameters', () => {
         },
       },
     },
-  };
+  });
   expect(
     parametersToJsonSchema(
       {
@@ -417,7 +444,7 @@ test('it should fetch $ref parameters', () => {
 });
 
 test('it should fetch parameters that have a child $ref', () => {
-  const oas = {
+  const oas = new Oas({
     components: {
       schemas: {
         string_enum: {
@@ -427,7 +454,7 @@ test('it should fetch parameters that have a child $ref', () => {
         },
       },
     },
-  };
+  });
 
   expect(
     parametersToJsonSchema(

@@ -103,28 +103,27 @@ function getOtherParams(pathOperation, oas) {
   });
 }
 
-function getServerVariables(variables) {
-  if (Object.keys(variables).length === 0) return null;
+function getServerVariables(properties) {
+  if (Object.keys(properties).length === 0) return null;
   return {
     type: 'server',
     label: types.server,
     schema: {
       type: 'object',
-      properties: Object.keys(variables)
-        .map(k => { return { [k]: Object.assign({ type: 'string'}, variables[k]) } })
-        .reduce((prev, next) => Object.assign(prev, next), {}),
+      properties,
     }
   }
 }
-// TODO make sure server variables are returned when there's no body
-module.exports = (pathOperation, oas) => {
+
+module.exports = (pathOperation, oas = { variables: () => ({}) }) => {
   const hasRequestBody = !!pathOperation.requestBody;
   const hasParameters = !!(pathOperation.parameters && pathOperation.parameters.length !== 0);
-  const hasServerVariables = Object.keys(oas.variables()).length > 0;
+  const serverVariables = oas.variables();
+  const hasServerVariables = Object.keys(serverVariables).length > 0;
 
   if (!hasParameters && !hasRequestBody && !hasCommonParameters(pathOperation) && !hasServerVariables) return null;
 
-  return [getServerVariables(oas.variables()), getBodyParam(pathOperation, oas)]
+  return [getServerVariables(serverVariables), getBodyParam(pathOperation, oas)]
     .concat(...getOtherParams(pathOperation, oas))
     .filter(Boolean);
 };

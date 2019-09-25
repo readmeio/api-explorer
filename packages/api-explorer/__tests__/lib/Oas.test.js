@@ -43,59 +43,94 @@ test('should add https:// if url does not start with a protocol', () => {
 });
 
 describe('server variables', () => {
-  it('should use defaults', () => {
-    expect(
-      new Oas({
-        servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
-      }).url(),
-    ).toBe('https://example.com/path');
+  describe('oas.url()', () => {
+    it('should use defaults', () => {
+      expect(
+        new Oas({
+          servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
+        }).url(),
+      ).toBe('https://example.com/path');
+    });
+
+    it('should use provided values over defaults', () => {
+      expect(
+        new Oas(
+          {
+            servers: [
+              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+            ],
+          },
+        ).url({ username: 'domh' }),
+      ).toBe('https://domh.example.com');
+    });
+
+    it.skip('should fetch user variables from selected app', () => {
+      expect(
+        new Oas(
+          {
+            servers: [
+              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+            ],
+          },
+          { keys: [{ name: 1, username: 'domh' }, { name: 2, username: 'readme' }] },
+          2,
+        ).url(),
+      ).toBe('https://readme.example.com');
+    });
+
+    // Test encodeURI
+    it('should pass through if no default set', () => {
+      expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).url()).toBe(
+        'https://example.com/{path}',
+      );
+    });
   });
 
-  it('should use user variables over defaults', () => {
-    expect(
-      new Oas(
-        {
-          servers: [
-            { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
-          ],
-        },
-        { username: 'domh' },
-      ).url(),
-    ).toBe('https://domh.example.com');
-  });
+  describe('oas.variables()', () => {
+    it('should handle no variables', () => {
+      expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).variables()).toEqual({})
+    });
 
-  it('should fetch user variables from keys array', () => {
-    expect(
-      new Oas(
-        {
-          servers: [
-            { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
-          ],
-        },
-        { keys: [{ name: 1, username: 'domh' }] },
-      ).url(),
-    ).toBe('https://domh.example.com');
-  });
+    it('should set default from spec file', () => {
+      expect(
+        new Oas(
+          {
+            servers: [
+              {
+                url: 'https://{username}.example.com',
+                variables: { username: { default: 'demo' } },
+              },
+            ],
+          },
+        ).variables(),
+      ).toEqual({ username: { default: 'demo', type: 'string' }});
+    });
 
-  it.skip('should fetch user variables from selected app', () => {
-    expect(
-      new Oas(
-        {
-          servers: [
-            { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
-          ],
-        },
-        { keys: [{ name: 1, username: 'domh' }, { name: 2, username: 'readme' }] },
-        2,
-      ).url(),
-    ).toBe('https://readme.example.com');
-  });
+    it('should set default to user variable', () => {
+      expect(
+        new Oas(
+          {
+            servers: [
+              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+            ],
+          },
+          { username: 'domh' }
+        ).variables(),
+      ).toEqual({ username: { default: 'domh', type: 'string' }});
+    });
 
-  // Test encodeURI
-  it('should pass through if no default set', () => {
-    expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).url()).toBe(
-      'https://example.com/{path}',
-    );
+    it('should set default to user with keys', () => {
+      expect(
+        new Oas(
+          {
+            servers: [
+              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+            ],
+          },
+          { keys: [{ name: 1, username: 'domh' }] },
+        ).variables(),
+      ).toEqual({ username: { default: 'domh', type: 'string' } });
+    });
   });
 });
 
