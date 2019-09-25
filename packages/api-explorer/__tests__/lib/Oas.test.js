@@ -86,6 +86,16 @@ describe('server variables', () => {
     });
   });
 
+  describe('oas.untransformedUrl()', () => {
+    it('should return an unmodified server url', () => {
+      expect(
+        new Oas({
+          servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
+        }).untransformedUrl(),
+      ).toBe('https://example.com/{path}');
+    });
+  });
+
   describe('oas.variables()', () => {
     it('should handle no variables', () => {
       expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).variables()).toEqual({})

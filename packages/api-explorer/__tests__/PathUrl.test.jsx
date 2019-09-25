@@ -25,9 +25,19 @@ const props = {
 test('should display the path', () => {
   const pathUrl = shallow(<PathUrl {...props} />);
 
-  expect(pathUrl.find('span.url').text()).toBe(oas.servers[0].url);
-  expect(pathUrl.find('span.api-text').text()).toBe('/pet/');
-  expect(pathUrl.find('span.api-variable').text()).toBe('petId');
+  expect(pathUrl.find('span.url').text()).toBe(oas.url());
+  expect(pathUrl.find('span.path span.api-text').text()).toBe('/pet/');
+  expect(pathUrl.find('span.path span.api-variable').text()).toBe('petId');
+});
+
+test('should display the url with variables', () => {
+  const serverVariablesOas = new Oas({
+    servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
+  });
+
+  const pathUrl = shallow(<PathUrl {...props} oas={serverVariablesOas} />);
+  expect(pathUrl.find('span.url span.api-text').text()).toBe('https://example.com/');
+  expect(pathUrl.find('span.url span.api-variable').text()).toBe('path');
 });
 
 describe('loading prop', () => {

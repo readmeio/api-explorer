@@ -105,6 +105,10 @@ class Oas {
     this.user = user || {};
   }
 
+  untransformedUrl() {
+    return normalizedUrl(this);
+  }
+
   url(values = {}) {
     const url = normalizedUrl(this);
 
