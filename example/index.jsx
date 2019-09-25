@@ -1,8 +1,6 @@
-/* eslint-disable */
 const React = require('react');
 const ReactDOM = require('react-dom');
-const SlateEditor = require('./editor').default;
-const Markdown = require('../packages/markdown');
+const { AppContainer } = require('react-hot-loader');
 
 function render(Component) {
   ReactDOM.render(
