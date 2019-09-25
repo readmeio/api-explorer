@@ -5,6 +5,7 @@ const serialize = {
     object: 'block',
     type: 'rdme-wrap',
     nodes: visitChildren(node),
+    className: node.className,
     data: {
       className: node.className,
     },

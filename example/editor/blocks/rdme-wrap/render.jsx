@@ -2,6 +2,9 @@
 import React from 'react';
 
 const handleClicks = (event, kid) => {
+  event.preventDefault();
+  event.stopPropagation();
+  
   const $btn = event.target;
   const $tabs = $btn.closest('.tabs');
   
@@ -11,6 +14,8 @@ const handleClicks = (event, kid) => {
 
   $tabs.querySelectorAll('.tab_active').forEach(el => el.classList.remove('tab_active'));
   $tabs.querySelectorAll(`[data-key="${kid.key}"]`)[0].classList.add('tab_active');
+
+  return false;
 };
 
 export default function RdmeWrap(props) {

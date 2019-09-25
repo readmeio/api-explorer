@@ -2,40 +2,43 @@ import React from 'react';
 import { Editor } from 'slate-react';
 import { Value } from 'slate'
 
-import {renderNode, renderMark} from './renderers'
+import renderMark from './marks' /** @todo: convert mark renderers to use the Slate plugin base */
 import BlockCommands from './commands/convert-blocks'
 
-import Block, {createBlocks} from './blocks';
+import Block, {createBlocks, types} from './blocks'; /** @todo: simplify createBlocks method implementation */
 
 import Serial from 'slate-mdast-serializer';
-import markdownRules from './rules.mdast';
+import markdownRules from './rules.mdast'; /** @todo: move this logic in to ./blocks/index */
 
+/**
+ * @todo:
+ *  move this schema stuff in to the block plugin creator Class
+ */
 const schema = {
   document: {
-    nodes: [{
-      match: [
-        {type: 'paragraph'},
-        {type: 'div'},
-        {type: 'break'},
-        {type: 'blockquote'},
-        {type: 'code'},
-        {type: 'table'},
-        {type: 'rdme-figure'},
-        {type: 'image'},
-        {type: 'list'},
-        {type: 'h1'},
-        {type: 'h2'},
-        {type: 'h3'},
-        {type: 'h4'},
-        {type: 'h5'},
-        {type: 'h6'},
-        {type: 'rdme-wrap'},
-        {type: 'slash-search'},
-      ]
-    }],
+    // nodes: [{
+    //   match: [
+    //     {type: 'paragraph'},
+    //     {type: 'div'},
+    //     {type: 'break'},
+    //     {type: 'blockquote'},
+    //     {type: 'code'},
+    //     {type: 'table'},
+    //     {type: 'rdme-figure'},
+    //     {type: 'image'},
+    //     {type: 'list'},
+    //     {type: 'h1'},
+    //     {type: 'h2'},
+    //     {type: 'h3'},
+    //     {type: 'h4'},
+    //     {type: 'h5'},
+    //     {type: 'h6'},
+    //     {type: 'rdme-wrap'},
+    //     {type: 'slash-search'},
+    //   ]
+    // }],
     normalize: (editor, error) => {
       console.error(error)
-      console.dir({block: error.node.toJSON(), child: error.child.toJSON()})
     },
   },
   blocks: {
@@ -44,20 +47,18 @@ const schema = {
     },
   },
 };
-
 for (const key in Block.types) {
   const block = Block.types[key];
   if (block.schema) schema.blocks[block.type] = block.schema
 };
-console.log(schema)
+// console.log(schema)
 
 const plugins = [
-  ...createBlocks(Object.values(Block.types)),
+  ...createBlocks(Object.values(Block.types)), /** @todo: set args as default in the creator class itself */
   ...BlockCommands(
+    /** @todo: figure out how to encapsulate this within each block spec */
     ['/', 'space', 'slash-search'],
     ['>', 'space', 'blockquote'],
-    ['---', 'space', 'break'],
-    ['---', 'enter', 'break'],
     ['#', 'space', 'h1'],
     ['##', 'space', 'h2'],
     ['###', 'space', 'h3'],
@@ -75,19 +76,21 @@ const plugins = [
     [/^(```([\w-\.]+)?(\s[\w-\.]+)?)$/, 'enter', 'code'],
   ),
 ];
-const markdown = new Serial({ rules: markdownRules });
+
+const markdown = new Serial({ rules: markdownRules }); /** @todo: export this from the block creator class */
 
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      value: markdown.deserialize(props.value || 'Write some markdown to start documenting your API!')
+      value: markdown.deserialize(props.value || 'Write some markdown to start documenting your API!'),
+      dirty: false,
     }
     this.editor = React.createRef();
   }
-  componentDidMount(){
-    console.log('mounted')
-  }
+  /* componentDidMount(){
+    // console.log('mounted')
+  } */
   editorHasSelection() {
     const {editor} = this;
     const anchor = editor.value.selection.get('anchor');
@@ -97,7 +100,7 @@ class App extends React.Component {
     return true
   }
   onChange = ({ value }) => {
-    this.setState({ value })
+    this.setState({ value, dirty: false, })
   }
   onContextMenu(event, editor, next) {
     event.preventDefault()
@@ -123,6 +126,10 @@ class App extends React.Component {
     }
 
     if (editor.inCodeBlock()) switch (key) {
+      case 'Enter':
+        event.preventDefault();
+        editor.command('insertText', '\n');
+        return;
       case "(":
       case "{":
       case "[":
@@ -142,9 +149,9 @@ class App extends React.Component {
             '‘': '’',
           };
           editor.wrapText(key, key in map ? map[key] : key).moveStartBackward().moveEndForward();
+          return;
         }
       };
-      default: return next();
     }
 
     switch (key) {
@@ -211,26 +218,14 @@ class App extends React.Component {
         break
       }
       case 'S': {
-        const ast = markdown.serialize(editor.value);
-        /*now we have an ^AST object and can
-          stringify the tree to Markdown via
-          the render.md() method:
-         */ 
-        const mdx = require("../../packages/markdown").render.md(ast, {
-          correctnewlines: true,
-          markdownOptions: {
-            fences: true,
-            commonmark: true,
-            gfm: true,
-            ruleSpaces: false,
-            listItemIndent: '1',
-            spacedTable: false
-          }
-        });
-        console.log('from an AST (%O) object to markdown', ast);
-        console.log('%s', mdx);
-        // console.warn('SEE example/editor/index.js:53-70 IN THE api-explorer REPO', {ast, mdx});
-        break;
+        event.preventDefault();
+        event.stopPropagation();
+        const AST = markdown.serialize(editor.value);
+        const {saveHandler} = this.props;
+        console.log(saveHandler)
+        const method = (saveHandler || new Function)
+        method(AST)
+        return false;
       }
       default:
         return next();
@@ -243,7 +238,6 @@ class App extends React.Component {
         schema={schema}
         plugins={plugins}
         value={this.state.value}
-        renderNode={renderNode}
         renderMark={renderMark}
         onContextMenu={this.onContextMenu}
         onKeyDown={this.onKeyDown}
