@@ -2,13 +2,14 @@
   "name": "@readme/variable",
   "description": "React component for Variables",
   "version": "4.8.1",
-  "main": "index.jsx",
+  "main": "./dist/main.js",
   "dependencies": {
     "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.4.2"
   },
   "scripts": {
+    "build": "webpack --config webpack.config.js",
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",

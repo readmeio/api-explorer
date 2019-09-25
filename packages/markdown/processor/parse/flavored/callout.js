@@ -32,15 +32,9 @@ function tokenizer(eat, value) {
       },  
     },
     children: [
-      { type: 'heading',
-        depth: 3,
+      { type: 'paragraph',
         children: [
-          // {
-          //   type: 'element',
-          //   tagName: 'div',
-          //   children: [{type: 'text', value: icon}],
-          // },
-          {type: 'text', value: icon},
+          { type: 'text', value: `${icon} ` },
           {
             type: 'strong',
             children: this.tokenizeInline(title, eat.now())

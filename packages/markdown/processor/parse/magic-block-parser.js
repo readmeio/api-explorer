@@ -46,21 +46,37 @@ function tokenize(eat, value) {
         }),
       });
     case 'callout': {
-      const map = {
-        success: '👍',
-        info: 'ℹ',
-        warning: '⚠️',
-        danger: '🛑',
-      };
-      json.title = `${map[json.type] || '👋'} **${json.title}**`;
+      json.type = {
+        success: ['👍', 'okay' ],
+        info:    ['ℹ',  'info' ],
+        warning: ['⚠️', 'warn' ],
+        danger:  ['❗️', 'error'],
+      }[json.type];
+      const [icon, theme] = json.type;
       return eat(match)({
-        type: 'blockquote',
-        className: json.type,
+        type: 'rdme-callout',
+        data: {
+          hName: 'rdme-callout',
+          hProperties: {
+            theme,
+            icon,
+            title: json.title,
+            value: json.body,
+          },  
+        },
         children: [
-          ...this.tokenizeBlock(json.title, eat.now()),
-          ...this.tokenizeBlock(json.body, eat.now()),
-        ],
-      });
+          { type: 'paragraph',
+            children: [
+              { type: 'text', value: `${icon} ` },
+              {
+                type: 'strong',
+                children: this.tokenizeInline(json.title, eat.now())
+              }
+            ]
+          },
+          ...this.tokenizeBlock(json.body, eat.now())
+        ],  
+      })
     }
     default:
       return eat(match)({
