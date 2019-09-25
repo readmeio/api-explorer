@@ -5,7 +5,6 @@
 const React = require('react');
 const unified = require('unified');
 const sanitize = require('hast-util-sanitize/lib/github.json');
-const Variable = require('@readme/variable');
 const remarkRehype = require('remark-rehype');
 const rehypeRaw = require('rehype-raw');
 const remarkParse = require('remark-parse');
@@ -32,7 +31,8 @@ const rdmeCalloutCompiler = require('./processor/compile/callout');
 sanitize.tagNames.push('input');
 sanitize.ancestors.input = ['li'];
 
-const GlossaryItem = require('./GlossaryItem');
+// const Variable = require('@readme/variable');
+// const GlossaryItem = require('./GlossaryItem');
 
 /*
  * This is kinda complicated. Our "markdown" within ReadMe
@@ -84,10 +84,9 @@ module.exports.render = {
           .use(rehypeReact, {
             createElement: React.createElement,
             components: {
-              'readme-variable': Variable,
-              'readme-glossary-item': GlossaryItem,
-              // 'rdme-wrap': props => <div className="red" {...props} />,
-              'rdme-wrap': props => React.createElement(React.Fragment, props),
+              'readme-variable': props => <span style={{color:'red'}}>Variable</span>,
+              'readme-glossary-item': props => <span style={{color:'red'}}>Term</span>,
+              // div: props => React.createElement(React.Fragment, props),
             },
           })
           .parse(text), // .processSync(text).contents,
@@ -105,8 +104,8 @@ module.exports.render = {
             createElement: React.createElement,
             components: {
               'rdme-callout': callout(sanitize),
-              'readme-variable': Variable,
-              'readme-glossary-item': GlossaryItem,
+              'readme-variable': props => <span style={{color:'red'}} {...props}>Variable</span>,
+              'readme-glossary-item': props => <span style={{color:'red'}} {...props}>Term</span>,
               table: table(sanitize),
               // h1: heading('h1', sanitize),
               // h2: heading('h2', sanitize),

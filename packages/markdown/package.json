@@ -1,5 +1,6 @@
 {
   "name": "@readme/markdown",
+  "main": "./dist/main.js",
   "description": "ReadMe's React-based Markdown parser",
   "version": "4.15.0",
   "dependencies": {
@@ -21,7 +22,8 @@
     "unified": "^8.4.0"
   },
   "scripts": {
-    "lint": "eslint . --ext .jsx --ext .js",
+    "build": "webpack --config webpack.config.js",
+    "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
@@ -39,6 +41,7 @@
     "eslint": "^6.5.0",
     "jest": "^25.1.0",
     "jsinspect": "^0.12.7",
-    "prettier": "^1.18.2"
+    "prettier": "^1.14.0",
+    "webpack": "^3.10.0"
   }
 }
