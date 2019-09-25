@@ -1,4 +1,4 @@
-const { VARIABLE_REGEXP } = require('@readme/variable');
+const VARIABLE_REGEXP = /(?:\\)?<<([-\w:\s]+)(?:\\)?>>/.source;
 
 function tokenizeVariable(eat, value, silent) {
   // Modifies the regular expression to match from
