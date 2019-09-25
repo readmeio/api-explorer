@@ -1,10 +1,17 @@
 /* eslint-disable */
-const React = require("react");
-const ReactDOM = require("react-dom");
-const SlateEditor = require("./editor").default;
+const React = require('react');
+const ReactDOM = require('react-dom');
+const SlateEditor = require('./editor').default;
+const Markdown = require('../packages/markdown');
 
-const DOCBODY = require("./fixtures/markdown");
-const Markdown = require("../packages/markdown");
+// const DOCBODY = require('./fixtures/markdown');
+const DOCBODY = {
+  magic: require('./fixtures/markdown.magic').default,
+  pure: require('./fixtures/markdown.pure').default,
+  rdmd: {
+    callouts: require('./fixtures/rdmd.callouts').default,
+  }
+};
 
 window.Slate = require('slate'); // @todo remove this
 require('./editor/blocks');
@@ -16,10 +23,8 @@ function render(Component = "div", props = {}) {
   );
 }
 
-const SlateUtils = window.SlateUtils = require('slate-react');
-
 const
-value = DOCBODY.magicBlocks,
+value = DOCBODY.pure,
 mdOpt = {
   correctnewlines: true,
   markdownOptions: {
@@ -37,19 +42,30 @@ style = {
   padding: "0 1em"
 };
 
-console.log({markdown: value});
+const loPair = require('lodash/fromPairs');
+const query = loPair(location.search.split(/[\?\&]/).filter(s=> s).map(pair => pair.split('=')))
 
-const app = render(SlateEditor, {
-  value: Markdown.render.ast(value, mdOpt),
-  className: "markdown-body",
-  style
-});
+require('./editor/styles/main.scss')
+let app;
+switch (query.as) {
+  case 'react': {
+    app = render('div', {
+      children: Markdown.render.hub(value, mdOpt),
+      className: 'markdown-body',
+      style,
+    });      
+    break;
+  }
+  default: {
+    app = render(SlateEditor, {
+      value: Markdown.render.ast(value, mdOpt),
+      className: 'markdown-body',
+      style,
+      saveHandler: ast => {
+        const md = Markdown.render.md(ast, Markdown.options);
+      },
+    });
+    break;
+  }
+}
 window.app = app;
-window.md = require("../packages/markdown");
-
-// render('div', {
-//   children: Markdown.render.dash(DOCBODY, mdOpt),
-//   className: 'markdown-body',
-//   style,
-// });
-

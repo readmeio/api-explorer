@@ -9,6 +9,7 @@ function generateHeadingId(e) {
 }
 
 function Heading(props) {
+  // console.log('Heading', props);
   const id = `section-${generateHeadingId(props.children[0])}`;
   return React.createElement(props.level, { className: 'header-scroll' }, [
     <div className="anchor waypoint" id={id} key={`anchor-${id}`} />,

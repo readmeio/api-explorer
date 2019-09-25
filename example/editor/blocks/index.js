@@ -1,15 +1,21 @@
+import Link from './link';
 import Image from './image';
 import List from './list';
 import ListItem from './list/item';
+import ListItemChild from './list/item/child';
+import RdmeCallout from './rdme-callout';
 import RdmeWrap from './rdme-wrap';
 import RdmeFigure from './rdme-figure';
-import Code from './code';
+import Codeblock from './codeblock';
 import Paragraph from './paragraph';
 import SlashSearch from './slash-search';
 import Table from './table';
 import TableRow from './table/row';
 import TableHead from './table/head';
 import TableCell from './table/cell';
+import Blockquote from './blockquote';
+import Heading from './heading';
+import Break from './break';
 
 function SlateBlock(config) {
   // infer match for `type` blocks
@@ -30,22 +36,30 @@ function SlateBlock(config) {
   return this;
 }
 
-SlateBlock.types = {
+const createBlocks = configs => configs.map(cnf => new SlateBlock(cnf));
+
+const types = {
   Paragraph,
+  Break,
+  Link,
   Image,
   List,
   ListItem,
+  ListItemChild,
   Table,
   TableRow,
   TableHead,
   TableCell,
+  RdmeCallout,
   RdmeWrap,
   RdmeFigure,
-  Code,
+  Codeblock,
+  Blockquote,
+  Heading,
   SlashSearch,
 };
 
-const createBlocks = configs => configs.map(cnf => new SlateBlock(cnf));
+Object.assign(SlateBlock, {types});
 
 export default SlateBlock;
-export { createBlocks };
+export { createBlocks, types };

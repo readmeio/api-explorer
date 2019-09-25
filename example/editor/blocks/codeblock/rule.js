@@ -2,7 +2,6 @@ const serialize = {
   match: node => node.object === 'block' && node.type === 'code',
   matchMdast: node => node.type === 'code',
   fromMdast: (node) => {
-    // const highlight = require('@readme/syntax-highlighter');
     const { lang, meta, className } = node;
     return {
       object: 'block',

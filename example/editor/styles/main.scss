@@ -1,31 +1,7 @@
-@import './blocks/slash-search/style.css';
+@import './gfm.scss';
+@import './gfm.overrides.scss';
 
-.markdown-body > pre {
-  margin-top: 16px;
-  margin-bottom: 16px;
-  
-}
-.markdown-body blockquote h1:last-child,
-.markdown-body blockquote h2:last-child {
-  border-bottom: 0;
-}
-.markdown-body h5,
-.markdown-body h6 {
-  font-size: .9em;
-}
-.markdown-body img[align=left] {
-  margin-right: 20px;
-}
-.markdown-body img[align=right] {
-  margin-left: 20px;
-}
-.markdown-body img[align=center] {
-  display: block;
-  margin: 20px auto;
-}
-.markdown-body .task-list-item input {
-  margin: 0 .5em .25em -1.25em;
-}
+@import '../blocks/slash-search/style.css';
 
 .tabs > .tab-panel:not(.tab_active) {
   display: none;

@@ -1,13 +1,19 @@
+/* eslint-disable */
 const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 
-function Code({ className, children }) {
-  const language = className.replace('language-', '');
+function Code(props) {
+  const { className, children } = props;
+  const language = (className||'').replace('language-', '');
 
   return (
     <code className={language ? `lang-${language}` : null}>
-      {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
+      {syntaxHighlighter(
+        children[0],
+        language,
+        { tokenizeVariables: true },
+      )}
     </code>
   );
 }

@@ -1,5 +1,5 @@
 const table = [
-  'FIX TABLE MDAST SERIALIZER RULE/UNIFIED REMARK COMPILER',
+  '',
   `|Foo|Bar|
 |:-:|---|
 |Baz|Qux|`];
@@ -7,15 +7,39 @@ const table = [
 const codeBlocks = [
   '```javascript\nwindow.load(e => {\n\tconsole.log("hello world");\n});\n```\n```php test-script.php\n$name = "world";\necho "hello $name");\n```',
   '```javascript\nwindow.load(e => {\n\tconsole.log("hello world");\n});\n```\n\n```php test-script.php\n$name = "world";\necho "hello $name");\n```',
+  `\`\`\`php
+  $name = 'World';
+  echo "Hello {$name}!";
+  \`\`\`
+  \`\`\`javascript test.js
+  window.load(function(){
+    console.log('Hello world!')
+  });
+  \`\`\`
+  
+  \`\`\`scss style.scss
+  .root {
+    $b: #{&};
+    &-elem {
+      color: red;
+      #{$b}_on & {
+        color: green;
+      }
+    }
+  }
+  \`\`\`
+  `,
 ];
 
 module.exports = {
-  
+
   simplified: `# Markdown Test
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste quos quaerat harum ducimus. Quod laborum earum, amet voluptatum quos maiores deserunt officia voluptate repudiandae eum ex facere unde iusto, similique quasi ducimus, veniam sapiente cum. Voluptates distinctio expedita magnam ullam in fugit veritatis nisi voluptas at aspernatur reiciendis, nobis odio quia ipsa omnis delectus et?
 
 ## Section 1
+
+${codeBlocks[2]}
 
 Quisquam, quia nisi exercitationem vel natus expedita reiciendis quis quos soluta laborum ex distinctio nam excepturi maxime laboriosam velit possimus cumque hic dolores aliquam? Incidunt ullam numquam minima quis amet. Officiis, ducimus modi. Nostrum repellat modi cupiditate dolor magni illo est, sit iure vel suscipit? Nostrum expedita quam voluptatibus error porro, vel a eum et?
 
@@ -43,7 +67,7 @@ Maiores, expedita doloribus tempore at dolorem odit nisi temporibus. Debitis ea,
 {
   "type": "success",
   "title": "Callout Title",
-  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum."
+  "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec **massa** tristique arcu fermentum dapibus. Integer \`orci\` turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum."
 }
 [/block]
 
@@ -168,7 +192,9 @@ This text is **bold**. This text is [linked](http://google.com). This is _italic
 
 ### Tables
 
-${table[1]}
+|Foo|Bar|
+|:-:|---|
+|Baz|Qux|
 
 ### To Do Lists
 
