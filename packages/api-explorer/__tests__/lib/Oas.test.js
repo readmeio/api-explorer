@@ -47,20 +47,20 @@ describe('server variables', () => {
     it('should use defaults', () => {
       expect(
         new Oas({
-          servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
+          servers: [
+            { url: 'https://example.com/{path}', variables: { path: { default: 'path' } } },
+          ],
         }).url(),
       ).toBe('https://example.com/path');
     });
 
     it('should use provided values over defaults', () => {
       expect(
-        new Oas(
-          {
-            servers: [
-              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
-            ],
-          },
-        ).url({ username: 'domh' }),
+        new Oas({
+          servers: [
+            { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+          ],
+        }).url({ username: 'domh' }),
       ).toBe('https://domh.example.com');
     });
 
@@ -69,7 +69,10 @@ describe('server variables', () => {
         new Oas(
           {
             servers: [
-              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+              {
+                url: 'https://{username}.example.com',
+                variables: { username: { default: 'demo' } },
+              },
             ],
           },
           { keys: [{ name: 1, username: 'domh' }, { name: 2, username: 'readme' }] },
@@ -90,7 +93,9 @@ describe('server variables', () => {
     it('should return an unmodified server url', () => {
       expect(
         new Oas({
-          servers: [{ url: 'https://example.com/{path}', variables: { path: { default: 'path' } } }],
+          servers: [
+            { url: 'https://example.com/{path}', variables: { path: { default: 'path' } } },
+          ],
         }).untransformedUrl(),
       ).toBe('https://example.com/{path}');
     });
@@ -98,10 +103,23 @@ describe('server variables', () => {
 
   describe('oas.variables()', () => {
     it('should handle no variables', () => {
-      expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).variables()).toEqual({})
+      expect(new Oas({ servers: [{ url: 'https://example.com/{path}' }] }).variables()).toEqual({});
     });
 
     it('should set default from spec file', () => {
+      expect(
+        new Oas({
+          servers: [
+            {
+              url: 'https://{username}.example.com',
+              variables: { username: { default: 'demo' } },
+            },
+          ],
+        }).variables(),
+      ).toEqual({ username: { default: 'demo', type: 'string' } });
+    });
+
+    it('should set default to user variable', () => {
       expect(
         new Oas(
           {
@@ -112,21 +130,9 @@ describe('server variables', () => {
               },
             ],
           },
+          { username: 'domh' },
         ).variables(),
-      ).toEqual({ username: { default: 'demo', type: 'string' }});
-    });
-
-    it('should set default to user variable', () => {
-      expect(
-        new Oas(
-          {
-            servers: [
-              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
-            ],
-          },
-          { username: 'domh' }
-        ).variables(),
-      ).toEqual({ username: { default: 'domh', type: 'string' }});
+      ).toEqual({ username: { default: 'domh', type: 'string' } });
     });
 
     it('should set default to user with keys', () => {
@@ -134,7 +140,10 @@ describe('server variables', () => {
         new Oas(
           {
             servers: [
-              { url: 'https://{username}.example.com', variables: { username: { default: 'demo' } } },
+              {
+                url: 'https://{username}.example.com',
+                variables: { username: { default: 'demo' } },
+              },
             ],
           },
           { keys: [{ name: 1, username: 'domh' }] },

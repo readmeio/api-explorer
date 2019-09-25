@@ -8,16 +8,14 @@ test('it should return with null if there are no parameters', async () => {
 
 test('it should return with a json schema for each parameter type', () => {
   expect(
-    parametersToJsonSchema(
-      {
-        parameters: [
-          { in: 'path', name: 'path parameter' },
-          { in: 'query', name: 'query parameter' },
-          { in: 'header', name: 'header parameter' },
-          { in: 'cookie', name: 'cookie parameter' },
-        ],
-      },
-    ),
+    parametersToJsonSchema({
+      parameters: [
+        { in: 'path', name: 'path parameter' },
+        { in: 'query', name: 'query parameter' },
+        { in: 'header', name: 'header parameter' },
+        { in: 'cookie', name: 'cookie parameter' },
+      ],
+    }),
   ).toEqual([
     {
       label: 'Path Params',
@@ -76,21 +74,19 @@ test('it should return with a json schema for each parameter type', () => {
 
 test('it should work for request body inline (json)', () => {
   expect(
-    parametersToJsonSchema(
-      {
-        requestBody: {
-          description: 'Body description',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: { a: { type: 'string' } },
-              },
+    parametersToJsonSchema({
+      requestBody: {
+        description: 'Body description',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: { a: { type: 'string' } },
             },
           },
         },
       },
-    ),
+    }),
   ).toEqual([
     {
       label: 'Body Params',
@@ -107,21 +103,19 @@ test('it should work for request body inline (json)', () => {
 
 test('it should work for request body inline (formData)', () => {
   expect(
-    parametersToJsonSchema(
-      {
-        requestBody: {
-          description: 'Form data description',
-          content: {
-            'application/x-www-form-urlencoded': {
-              schema: {
-                type: 'object',
-                properties: { a: { type: 'string' } },
-              },
+    parametersToJsonSchema({
+      requestBody: {
+        description: 'Form data description',
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: { a: { type: 'string' } },
             },
           },
         },
       },
-    ),
+    }),
   ).toEqual([
     {
       label: 'Form Data',
@@ -138,16 +132,17 @@ test('it should work for request body inline (formData)', () => {
 
 test('should work for server variables', () => {
   expect(
-    parametersToJsonSchema({}, new Oas(
-      {
+    parametersToJsonSchema(
+      {},
+      new Oas({
         servers: [
           {
             url: 'https://{username}.example.com',
             variables: { username: { default: 'demo' } },
           },
         ],
-      },
-    )),
+      }),
+    ),
   ).toEqual([
     {
       label: 'Server Variables',
@@ -155,14 +150,14 @@ test('should work for server variables', () => {
       schema: {
         type: 'object',
         properties: {
-          'username': {
+          username: {
             default: 'demo',
             type: 'string',
           },
         },
       },
-    }
-  ])
+    },
+  ]);
 });
 
 test('should pass through enum', () => {

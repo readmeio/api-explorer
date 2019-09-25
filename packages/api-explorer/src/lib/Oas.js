@@ -148,9 +148,9 @@ class Oas {
             type: 'string',
             default: getUserVariable(this.user, k) || variables[k].default,
           },
-        }
+        };
       })
-      .reduce((prev, next) => Object.assign(prev, next), {})
+      .reduce((prev, next) => Object.assign(prev, next), {});
   }
 }
 

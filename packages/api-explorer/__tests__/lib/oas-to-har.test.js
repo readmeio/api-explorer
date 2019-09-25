@@ -35,15 +35,20 @@ describe('url', () => {
   });
 
   test('should pass server variables through to oas.url()', () => {
-    expect(oasToHar(new Oas(
-      {
-        servers: [
-          {
-            url: 'https://{username}.example.com',
-            variables: { username: { default: 'demo' } },
-          },
-        ],
-      }), { path: '', method: '' }, { server: { username: 'domh' } }).log.entries[0].request.url).toBe('https://domh.example.com');
+    expect(
+      oasToHar(
+        new Oas({
+          servers: [
+            {
+              url: 'https://{username}.example.com',
+              variables: { username: { default: 'demo' } },
+            },
+          ],
+        }),
+        { path: '', method: '' },
+        { server: { username: 'domh' } },
+      ).log.entries[0].request.url,
+    ).toBe('https://domh.example.com');
   });
 
   // TODO this should probably happen within the Operation class

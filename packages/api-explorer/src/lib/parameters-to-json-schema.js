@@ -111,8 +111,8 @@ function getServerVariables(properties) {
     schema: {
       type: 'object',
       properties,
-    }
-  }
+    },
+  };
 }
 
 module.exports = (pathOperation, oas = { variables: () => ({}) }) => {
@@ -121,7 +121,13 @@ module.exports = (pathOperation, oas = { variables: () => ({}) }) => {
   const serverVariables = oas.variables();
   const hasServerVariables = Object.keys(serverVariables).length > 0;
 
-  if (!hasParameters && !hasRequestBody && !hasCommonParameters(pathOperation) && !hasServerVariables) return null;
+  if (
+    !hasParameters &&
+    !hasRequestBody &&
+    !hasCommonParameters(pathOperation) &&
+    !hasServerVariables
+  )
+    return null;
 
   return [getServerVariables(serverVariables), getBodyParam(pathOperation, oas)]
     .concat(...getOtherParams(pathOperation, oas))
