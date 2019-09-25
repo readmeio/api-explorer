@@ -71,10 +71,9 @@ module.exports = sanitizeSchema => {
   // This is for our custom link formats
   sanitizeSchema.protocols.href.push('doc', 'target', 'ref', 'blog', 'changelog', 'page');
 
-  // eslint-disable-next-line react/display-name
-  return props => (
-    <BaseUrlContext.Consumer>
+  return props => {
+    return (<BaseUrlContext.Consumer>
       {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
-    </BaseUrlContext.Consumer>
-  );
+    </BaseUrlContext.Consumer>)
+  };
 };

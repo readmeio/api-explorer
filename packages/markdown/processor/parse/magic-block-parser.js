@@ -88,10 +88,12 @@ module.exports.sanitize = sanitizeSchema => {
 
 
   attr.li = ['checked'];
+  attr.pre = ['className'];
+  attr.code = ['className'];
 
   tags.push('rdme-wrap');
   attr['rdme-wrap'] = ['className'];
-  
+
   tags.push('rdme-figure');
   // attr['rdme-figure'] = ['className'];
 

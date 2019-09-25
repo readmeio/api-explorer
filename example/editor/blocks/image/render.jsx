@@ -1,13 +1,13 @@
 /* eslint-disable */
 import React from 'react';
 
-export default function RdmeWrap({node, attributes, children, isFocused}) {
+export default function Image({node, attributes, children, isFocused}) {
   const [
     title,
     align,
     width='auto',
     height='auto'
-  ] = node.data.get('title').split(', ');
+  ] = node.data.get('title') ? node.data.get('title').split(', ') : [];
 
   return (<img
     src={node.data.get('src')}

@@ -2,11 +2,16 @@
 import React from 'react';
 // const highlight = require('@readme/syntax-highlighter');
 
-export default function Code({ attributes, children, node }) {
+export default function Code(props) {
+  console.log(props)
+  const { attributes, children, node } = props;
   const lang = node.data.get('lang') || '';
-  const classes = [node.data.get('className'), `lang-${lang}`].join(' ');
-  console.log(arguments[0])
-
+  const classes = [
+    'tab-panel',
+    node.data.get('className'),
+    `lang-${lang}`
+  ].join(' ');
+  
   return (
     <pre {...attributes} className={classes} data-lang={lang}>
       {

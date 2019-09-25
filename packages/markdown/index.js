@@ -18,18 +18,15 @@ const breaks = require('remark-breaks');
 
 const options = require('./processor/options.json');
 
-const readmeFlavoredParser = require('./processor/parse/readme-flavored-parser');
+const flavorRdmeWrap = require('./processor/parse/readme-flavored-parser');
+const flavorCallout = require('./processor/parse/flavored/callout');
 const magicBlockParser = require('./processor/parse/magic-block-parser');
 const variableParser = require('./processor/parse/variable-parser');
 const gemojiParser = require('./processor/parse/gemoji-parser');
 
 const rdmeFigureCompiler = require('./processor/compile/rdme-figure');
 const rdmeWrapCompiler = require('./processor/compile/rdme-wrap');
-
-const table = require('./components/Table');
-const heading = require('./components/Heading');
-const anchor = require('./components/Anchor');
-const code = require('./components/Code');
+const rdmeCalloutCompiler = require('./processor/compile/callout');
 
 // This is for checklists in <li>
 sanitize.tagNames.push('input');
@@ -60,7 +57,7 @@ function parseMarkdown(opts = {}) {
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
-    .use(readmeFlavoredParser)
+    .use([flavorRdmeWrap, flavorCallout.sanitize(sanitize)])
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
@@ -77,7 +74,7 @@ module.exports = (text, opts) => module.exports.render.hub(text, opts);
 
 module.exports.parse = parseMarkdown;
 
-module.exports.options = options;
+module.exports.options = options; /** @todo: make exporting default options more coherent */
 
 module.exports.render = {
   dash: (text, opts) =>
@@ -95,28 +92,68 @@ module.exports.render = {
           })
           .parse(text), // .processSync(text).contents,
 
-  hub: (text, opts) =>
-    !text
+  hub: (text, opts) => {
+    const callout = require('./components/Callout');
+    const table = require('./components/Table');
+    const heading = require('./components/Heading');
+    const anchor = require('./components/Anchor');
+    const code = require('./components/Code');
+    return !text
       ? null
       : parseMarkdown(opts)
           .use(rehypeReact, {
             createElement: React.createElement,
             components: {
+              'rdme-callout': callout(sanitize),
               'readme-variable': Variable,
               'readme-glossary-item': GlossaryItem,
               table: table(sanitize),
-              h1: heading('h1', sanitize),
-              h2: heading('h2', sanitize),
-              h3: heading('h3', sanitize),
-              h4: heading('h4', sanitize),
-              h5: heading('h5', sanitize),
-              h6: heading('h6', sanitize),
+              // h1: heading('h1', sanitize),
+              // h2: heading('h2', sanitize),
+              // h3: heading('h3', sanitize),
+              // h4: heading('h4', sanitize),
+              // h5: heading('h5', sanitize),
+              // h6: heading('h6', sanitize),
               a: anchor(sanitize),
               code: code(sanitize),
+              img: props => {
+                const [
+                  title,
+                  align,
+                  width='auto',
+                  height='auto'
+                ] = props.title ? props.title.split(', ') : [];
+                const extras = {title, align, width, height};
+
+                return <img {...props} {...extras} />;
+              },
+              'rdme-wrap': ({attributes, children}) => {
+                function test({target}, index) {
+                  const $wrap = target.parentElement;
+                  $wrap
+                    .querySelectorAll('.RdmeWrap_active')
+                    .forEach(el => el.classList.remove('RdmeWrap_active'));
+                  $wrap.classList.remove('RdmeWrap_initial');
+
+                  const codeblocks = $wrap.querySelectorAll('pre');
+                  codeblocks[index].classList.add('RdmeWrap_active');
+                  
+                  target.classList.add('RdmeWrap_active');
+                }
+                return (<div {...attributes} className="RdmeWrap RdmeWrap_initial">
+                  {children.map((block, i) => {
+                    return <button onClick={e => test(e, i)}>Tab {i}</button>
+                  })}
+                  <div className="RdmeWrap-inner">
+                    {children}
+                  </div>
+                </div>);
+              },
               div: props => React.createElement(React.Fragment, props),
             },
           })
-          .processSync(text).contents,
+          .processSync(text).contents;
+  },
 
   ast: (text, opts) =>
     !text
@@ -131,7 +168,7 @@ module.exports.render = {
       ? null
       : parseMarkdown(opts)
           .use(remarkStringify, opts.markdownOptions)
-          .use([rdmeWrapCompiler, rdmeFigureCompiler])
+          .use([rdmeWrapCompiler, rdmeFigureCompiler, rdmeCalloutCompiler])
           .stringify(tree),
 
   html: (text, opts) =>
