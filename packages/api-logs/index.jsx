@@ -37,8 +37,10 @@ function getLanguage(log) {
 }
 
 function checkFreshness(existingLogs, incomingLogs) {
-  if (existingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id
-      || !existingLogs.length) {
+  if (
+    (existingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id) ||
+    !existingLogs.length
+  ) {
     return incomingLogs;
   }
   throw new Error('Requested logs are not up-to-date.');
@@ -90,11 +92,14 @@ class Logs extends React.Component {
       Object.assign({}, query, { id: group || null, limit: 5, page: 0 }),
     )}`;
 
-    return retry(async () => {
-      const res = await fetch(reqUrl);
-      const parsedLogs = await this.handleData(res);
-      return checkFreshness(this.state.logs, parsedLogs);
-    }, { minTimeout: 50 });
+    return retry(
+      async () => {
+        const res = await fetch(reqUrl);
+        const parsedLogs = await this.handleData(res);
+        return checkFreshness(this.state.logs, parsedLogs);
+      },
+      { minTimeout: 50 },
+    );
   }
 
   async handleData(res) {
