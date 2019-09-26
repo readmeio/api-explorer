@@ -2,7 +2,7 @@
 const React = require('react');
 // const PropTypes = require('prop-types');
 
-// require('./style.scss');
+require('./style.scss');
 
 const Callout = (props, ...rest) => {
   const {attributes, children, node} = props;
@@ -11,8 +11,14 @@ const Callout = (props, ...rest) => {
     // methods of passing props btwn
     // the hast-util's hProps and our 
     // slate-mdast-serializer.
+  const content = children.splice(1)
+  const heading = children[0].props.children; // eek...
   return (<blockquote {...attributes} className={`callout callout_${theme}`}>
-    {children}
+    <h3>
+      <span>{heading[0]}</span>
+      {heading[1]}
+    </h3>
+    {content}
   </blockquote>);
 };
 
