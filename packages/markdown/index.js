@@ -2,6 +2,7 @@
  - [ ] extract conversion from render (parse/processSync) methods
    (so you can get the AST or final text from any conversion)
  */
+ 
 const React = require('react');
 const unified = require('unified');
 const sanitize = require('hast-util-sanitize/lib/github.json');
@@ -23,8 +24,9 @@ const magicBlockParser = require('./processor/parse/magic-block-parser');
 const variableParser = require('./processor/parse/variable-parser');
 const gemojiParser = require('./processor/parse/gemoji-parser');
 
-const rdmeFigureCompiler = require('./processor/compile/rdme-figure');
+const rdmeDivCompiler = require('./processor/compile/div');
 const rdmeWrapCompiler = require('./processor/compile/rdme-wrap');
+const rdmeFigureCompiler = require('./processor/compile/rdme-figure');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
 
 // This is for checklists in <li>
@@ -57,7 +59,10 @@ function parseMarkdown(opts = {}) {
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
-    .use([flavorRdmeWrap, flavorCallout.sanitize(sanitize)])
+    .use([
+      flavorRdmeWrap,
+      flavorCallout.sanitize(sanitize),
+    ])
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
@@ -167,7 +172,12 @@ module.exports.render = {
       ? null
       : parseMarkdown(opts)
           .use(remarkStringify, opts.markdownOptions)
-          .use([rdmeWrapCompiler, rdmeFigureCompiler, rdmeCalloutCompiler])
+          .use([
+            rdmeDivCompiler,
+            rdmeWrapCompiler,
+            rdmeFigureCompiler,
+            rdmeCalloutCompiler
+          ])
           .stringify(tree),
 
   html: (text, opts) =>

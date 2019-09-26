@@ -1,7 +1,7 @@
 /* eslint-disable */
 const React = require('react');
 const PropTypes = require('prop-types');
-// const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 function Code(props) {
   const { className, children } = props;
@@ -9,12 +9,12 @@ function Code(props) {
 
   return (
     <code className={language ? `lang-${language}` : null}>
-      {/* {syntaxHighlighter(
+      {syntaxHighlighter(
         children[0],
         language,
         { tokenizeVariables: true },
-      )} */}
-      {children}
+      )}
+      {/* {children} */}
     </code>
   );
 }

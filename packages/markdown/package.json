@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "watch": "webpack -w",
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
