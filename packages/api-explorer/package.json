@@ -8,6 +8,7 @@
     "@readme/oas-extensions": "^4.8.1",
     "@readme/syntax-highlighter": "^4.8.4",
     "@readme/variable": "^4.8.1",
+    "api-explorer": "github:readmeio/api-explorer#beta/editor-hacking",
     "classnames": "^2.2.5",
     "fetch-har": "^2.0.0",
     "hast-util-sanitize": "^1.2.0",

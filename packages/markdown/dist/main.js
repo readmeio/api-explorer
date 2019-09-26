@@ -4214,11 +4214,11 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(371)(ReactIs.isElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(372)(ReactIs.isElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(372)();
+  module.exports = __webpack_require__(373)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -9051,9 +9051,9 @@ function label(node) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(369);
-} else {
   module.exports = __webpack_require__(370);
+} else {
+  module.exports = __webpack_require__(371);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -9118,13 +9118,13 @@ var variableParser = __webpack_require__(356);
 
 var gemojiParser = __webpack_require__(357);
 
-var rdmeDivCompiler = __webpack_require__(378);
+var rdmeDivCompiler = __webpack_require__(359);
 
 var rdmeWrapCompiler = __webpack_require__(360);
 
-var rdmeFigureCompiler = __webpack_require__(359);
+var rdmeFigureCompiler = __webpack_require__(361);
 
-var rdmeCalloutCompiler = __webpack_require__(361); // This is for checklists in <li>
+var rdmeCalloutCompiler = __webpack_require__(362); // This is for checklists in <li>
 
 
 sanitize.tagNames.push('input');
@@ -9194,15 +9194,15 @@ module.exports.render = {
   },
   // .processSync(text).contents,
   hub: function hub(text, opts) {
-    var callout = __webpack_require__(362);
+    var callout = __webpack_require__(363);
 
-    var table = __webpack_require__(368);
+    var table = __webpack_require__(369);
 
-    var heading = __webpack_require__(373);
+    var heading = __webpack_require__(374);
 
-    var anchor = __webpack_require__(374);
+    var anchor = __webpack_require__(375);
 
-    var code = __webpack_require__(376);
+    var code = __webpack_require__(377);
 
     return !text ? null : parseMarkdown(opts).use(rehypeReact, {
       createElement: React.createElement,
@@ -32728,15 +32728,14 @@ exports.emoji = Emoji;
 /* 359 */
 /***/ (function(module, exports) {
 
-module.exports = function CompileRdmeFigure() {
+/* div blocks directly alias the paragraph container; use for display only! */
+module.exports = function div() {
   var Compiler = this.Compiler;
   var visitors = Compiler.prototype.visitors;
 
-  function rdmeFigure(node) {
-    return ['<RdmeFigure>', this.block(node), '</RdmeFigure>'].join('\n\n');
-  }
-
-  visitors['rdme-figure'] = rdmeFigure;
+  visitors.div = function compiler(node) {
+    return visitors.paragraph.call(this, node);
+  };
 };
 
 /***/ }),
@@ -32758,6 +32757,21 @@ module.exports = function gap() {
 /* 361 */
 /***/ (function(module, exports) {
 
+module.exports = function CompileRdmeFigure() {
+  var Compiler = this.Compiler;
+  var visitors = Compiler.prototype.visitors;
+
+  function rdmeFigure(node) {
+    return ['<RdmeFigure>', this.block(node), '</RdmeFigure>'].join('\n\n');
+  }
+
+  visitors['rdme-figure'] = rdmeFigure;
+};
+
+/***/ }),
+/* 362 */
+/***/ (function(module, exports) {
+
 module.exports = function callout() {
   var Compiler = this.Compiler;
   var visitors = Compiler.prototype.visitors;
@@ -32770,7 +32784,7 @@ module.exports = function callout() {
 };
 
 /***/ }),
-/* 362 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -32779,7 +32793,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 var React = __webpack_require__(8); // const PropTypes = require('prop-types');
 
 
-__webpack_require__(363);
+__webpack_require__(364);
 
 var Callout = function Callout(props) {
   var attributes = props.attributes,
@@ -32814,11 +32828,11 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 363 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(364);
+var content = __webpack_require__(365);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -32832,7 +32846,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(366)(content, options);
+var update = __webpack_require__(367)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -32864,10 +32878,10 @@ if(false) {
 }
 
 /***/ }),
-/* 364 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(365)(false);
+exports = module.exports = __webpack_require__(366)(false);
 // imports
 
 
@@ -32878,7 +32892,7 @@ exports.push([module.i, ".markdown-body .callout {\n  padding: 1.5em; }\n  .mark
 
 
 /***/ }),
-/* 365 */
+/* 366 */
 /***/ (function(module, exports) {
 
 /*
@@ -32960,7 +32974,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 366 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -33029,7 +33043,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(367);
+var	fixUrls = __webpack_require__(368);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -33366,7 +33380,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 367 */
+/* 368 */
 /***/ (function(module, exports) {
 
 
@@ -33461,7 +33475,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 368 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(8);
@@ -33485,7 +33499,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 369 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33507,7 +33521,7 @@ exports.isSuspense=function(a){return t(a)===p};
 
 
 /***/ }),
-/* 370 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33742,7 +33756,7 @@ exports.isSuspense = isSuspense;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 371 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34341,7 +34355,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 372 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34412,7 +34426,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 373 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -34474,7 +34488,7 @@ module.exports = function (level) {
 };
 
 /***/ }),
-/* 374 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -34483,7 +34497,7 @@ var React = __webpack_require__(8);
 
 var PropTypes = __webpack_require__(30);
 
-var BaseUrlContext = __webpack_require__(375); // Nabbed from here:
+var BaseUrlContext = __webpack_require__(376); // Nabbed from here:
 // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/markdown/renderer.js#L52
 
 
@@ -34560,7 +34574,7 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 375 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(8);
@@ -34568,7 +34582,7 @@ var React = __webpack_require__(8);
 module.exports = React.createContext('/');
 
 /***/ }),
-/* 376 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable */
@@ -34576,7 +34590,7 @@ var React = __webpack_require__(8);
 
 var PropTypes = __webpack_require__(30);
 
-var syntaxHighlighter = __webpack_require__(377);
+var syntaxHighlighter = __webpack_require__(378);
 
 function Code(props) {
   var className = props.className,
@@ -34604,7 +34618,7 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 377 */
+/* 378 */
 /***/ (function(module, exports) {
 
 module.exports=/******/function(modules){// webpackBootstrap
@@ -37075,20 +37089,6 @@ CodeMirror.defineMIME('application/x-sh','shell');});/***/},/* 32 */ /***/functi
 // Swift mode created by Michael Kaminsky https://github.com/mkaminsky11
 (function(mod){if(true)mod(__webpack_require__(0));else if(typeof define=="function"&&define.amd)define(["../../lib/codemirror"],mod);else mod(CodeMirror);})(function(CodeMirror){"use strict";function wordSet(words){var set={};for(var i=0;i<words.length;i++)set[words[i]]=true;return set;}var keywords=wordSet(["_","var","let","class","enum","extension","import","protocol","struct","func","typealias","associatedtype","open","public","internal","fileprivate","private","deinit","init","new","override","self","subscript","super","convenience","dynamic","final","indirect","lazy","required","static","unowned","unowned(safe)","unowned(unsafe)","weak","as","is","break","case","continue","default","else","fallthrough","for","guard","if","in","repeat","switch","where","while","defer","return","inout","mutating","nonmutating","catch","do","rethrows","throw","throws","try","didSet","get","set","willSet","assignment","associativity","infix","left","none","operator","postfix","precedence","precedencegroup","prefix","right","Any","AnyObject","Type","dynamicType","Self","Protocol","__COLUMN__","__FILE__","__FUNCTION__","__LINE__"]);var definingKeywords=wordSet(["var","let","class","enum","extension","import","protocol","struct","func","typealias","associatedtype","for"]);var atoms=wordSet(["true","false","nil","self","super","_"]);var types=wordSet(["Array","Bool","Character","Dictionary","Double","Float","Int","Int8","Int16","Int32","Int64","Never","Optional","Set","String","UInt8","UInt16","UInt32","UInt64","Void"]);var operators="+-/*%=|&<>~^?!";var punc=":;,.(){}[]";var binary=/^\-?0b[01][01_]*/;var octal=/^\-?0o[0-7][0-7_]*/;var hexadecimal=/^\-?0x[\dA-Fa-f][\dA-Fa-f_]*(?:(?:\.[\dA-Fa-f][\dA-Fa-f_]*)?[Pp]\-?\d[\d_]*)?/;var decimal=/^\-?\d[\d_]*(?:\.\d[\d_]*)?(?:[Ee]\-?\d[\d_]*)?/;var identifier=/^\$\d+|(`?)[_A-Za-z][_A-Za-z$0-9]*\1/;var property=/^\.(?:\$\d+|(`?)[_A-Za-z][_A-Za-z$0-9]*\1)/;var instruction=/^\#[A-Za-z]+/;var attribute=/^@(?:\$\d+|(`?)[_A-Za-z][_A-Za-z$0-9]*\1)/;//var regexp = /^\/(?!\s)(?:\/\/)?(?:\\.|[^\/])+\//
 function tokenBase(stream,state,prev){if(stream.sol())state.indented=stream.indentation();if(stream.eatSpace())return null;var ch=stream.peek();if(ch=="/"){if(stream.match("//")){stream.skipToEnd();return"comment";}if(stream.match("/*")){state.tokenize.push(tokenComment);return tokenComment(stream,state);}}if(stream.match(instruction))return"builtin";if(stream.match(attribute))return"attribute";if(stream.match(binary))return"number";if(stream.match(octal))return"number";if(stream.match(hexadecimal))return"number";if(stream.match(decimal))return"number";if(stream.match(property))return"property";if(operators.indexOf(ch)>-1){stream.next();return"operator";}if(punc.indexOf(ch)>-1){stream.next();stream.match("..");return"punctuation";}var stringMatch;if(stringMatch=stream.match(/("""|"|')/)){var tokenize=tokenString.bind(null,stringMatch[0]);state.tokenize.push(tokenize);return tokenize(stream,state);}if(stream.match(identifier)){var ident=stream.current();if(types.hasOwnProperty(ident))return"variable-2";if(atoms.hasOwnProperty(ident))return"atom";if(keywords.hasOwnProperty(ident)){if(definingKeywords.hasOwnProperty(ident))state.prev="define";return"keyword";}if(prev=="define")return"def";return"variable";}stream.next();return null;}function tokenUntilClosingParen(){var depth=0;return function(stream,state,prev){var inner=tokenBase(stream,state,prev);if(inner=="punctuation"){if(stream.current()=="(")++depth;else if(stream.current()==")"){if(depth==0){stream.backUp(1);state.tokenize.pop();return state.tokenize[state.tokenize.length-1](stream,state);}else--depth;}}return inner;};}function tokenString(openQuote,stream,state){var singleLine=openQuote.length==1;var ch,escaped=false;while(ch=stream.peek()){if(escaped){stream.next();if(ch=="("){state.tokenize.push(tokenUntilClosingParen());return"string";}escaped=false;}else if(stream.match(openQuote)){state.tokenize.pop();return"string";}else{stream.next();escaped=ch=="\\";}}if(singleLine){state.tokenize.pop();}return"string";}function tokenComment(stream,state){var ch;while(true){stream.match(/^[^/*]+/,true);ch=stream.next();if(!ch)break;if(ch==="/"&&stream.eat("*")){state.tokenize.push(tokenComment);}else if(ch==="*"&&stream.eat("/")){state.tokenize.pop();}}return"comment";}function Context(prev,align,indented){this.prev=prev;this.align=align;this.indented=indented;}function pushContext(state,stream){var align=stream.match(/^\s*($|\/[\/\*])/,false)?null:stream.column()+1;state.context=new Context(state.context,align,state.indented);}function popContext(state){if(state.context){state.indented=state.context.indented;state.context=state.context.prev;}}CodeMirror.defineMode("swift",function(config){return{startState:function(){return{prev:null,context:null,indented:0,tokenize:[]};},token:function(stream,state){var prev=state.prev;state.prev=null;var tokenize=state.tokenize[state.tokenize.length-1]||tokenBase;var style=tokenize(stream,state,prev);if(!style||style=="comment")state.prev=prev;else if(!state.prev)state.prev=style;if(style=="punctuation"){var bracket=/[\(\[\{]|([\]\)\}])/.exec(stream.current());if(bracket)(bracket[1]?popContext:pushContext)(state,stream);}return style;},indent:function(state,textAfter){var cx=state.context;if(!cx)return 0;var closing=/^[\]\}\)]/.test(textAfter);if(cx.align!=null)return cx.align-(closing?1:0);return cx.indented+(closing?0:config.indentUnit);},electricInput:/^\s*[\)\}\]]$/,lineComment:"//",blockCommentStart:"/*",blockCommentEnd:"*/",fold:"brace",closeBrackets:"()[]{}''\"\"``"};});CodeMirror.defineMIME("text/x-swift","swift");});/***/},/* 33 */ /***/function(module,exports){var codeTypes={text:'Text',asp:'ASP',c:'C',coffeescript:'CoffeeScript',clojure:'Clojure',cplusplus:'C++',csharp:'C#',css:'CSS',curl:'cURL',cypher:'Cypher',d:'D',erlang:'Erlang',go:'Go',groovy:'Groovy',handlebars:'Handlebars',haml:'HAML',haxe:'Haxe',html:'HTML',http:'HTTP',java:'Java',javascript:'JavaScript',jinja2:'Jinja2',json:'JSON',julia:'Julia',kotlin:'Kotlin',less:'LESS',liquid:'Liquid',lua:'Lua',markdown:'Markdown',mysql:'MySQL',node:'Node',objectivec:'Objective-C',perl:'Perl',php:'PHP',pgsql:'Postgres',powershell:'PowerShell',python:'Python',r:'R',ruby:'Ruby',rust:'Rust',sass:'SASS',scala:'Scala',scss:'SCSS',shell:'Shell',smarty:'Smarty',sql:'SQL',stylus:'Stylus',swift:'Swift',toml:'TOML',twig:'Twig',xml:'XML',yaml:'YAML'};module.exports=function uppercase(language){if(codeTypes[language])return codeTypes[language];return language;};/***/}/******/]);
-
-/***/ }),
-/* 378 */
-/***/ (function(module, exports) {
-
-/* div blocks directly alias the paragraph container; use for display only! */
-module.exports = function div() {
-  var Compiler = this.Compiler;
-  var visitors = Compiler.prototype.visitors;
-
-  visitors.div = function compiler(node) {
-    return visitors.paragraph.call(this, node);
-  };
-};
 
 /***/ })
 /******/ ]);
