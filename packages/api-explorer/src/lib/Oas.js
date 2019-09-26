@@ -112,13 +112,7 @@ class Oas {
   url(values = {}) {
     const url = normalizedUrl(this);
 
-    let variables;
-    try {
-      variables = this.servers[0].variables;
-      if (!variables) throw Error('no variables');
-    } catch (e) {
-      variables = {};
-    }
+    const variables = this.variables();
 
     return url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (original, key) => {
       if (values[key]) return values[key];
