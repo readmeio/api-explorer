@@ -4,6 +4,7 @@
   "version": "4.8.3",
   "main": "dist/index.js",
   "dependencies": {
+    "async-retry": "^1.2.3",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
     "react-visibility-sensor": "^4.1.3"

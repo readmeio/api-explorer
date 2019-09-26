@@ -1,6 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const querystring = require('querystring');
+const retry = require('async-retry');
 
 const LoadingSvg = props => (
   <svg
@@ -33,6 +34,14 @@ function getLanguage(log) {
   );
   if (header) return header.value;
   return '-';
+}
+
+function checkFreshness(existingLogs, incomingLogs) {
+  if (existingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id
+      || !existingLogs.length) {
+    return incomingLogs;
+  }
+  throw new Error('Requested logs are not up-to-date.');
 }
 
 class Logs extends React.Component {
@@ -81,12 +90,14 @@ class Logs extends React.Component {
       Object.assign({}, query, { id: group || null, limit: 5, page: 0 }),
     )}`;
 
-    return fetch(reqUrl).then(res => {
-      return this.handleData(res);
-    });
+    return retry(async () => {
+      const res = await fetch(reqUrl);
+      const parsedLogs = await this.handleData(res);
+      return checkFreshness(this.state.logs, parsedLogs);
+    }, { minTimeout: 50 });
   }
 
-  handleData(res) {
+  async handleData(res) {
     this.setState({ loading: false });
     if (res.status === 200) {
       return res.json();
