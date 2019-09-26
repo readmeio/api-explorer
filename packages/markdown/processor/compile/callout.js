@@ -1,4 +1,4 @@
-module.exports = function gap() {
+module.exports = function callout() {
   const Compiler = this.Compiler;
   const visitors = Compiler.prototype.visitors;
   visitors['rdme-callout'] = function rdmeCallout(node) {

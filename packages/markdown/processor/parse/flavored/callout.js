@@ -32,7 +32,7 @@ function tokenizer(eat, value) {
       },  
     },
     children: [
-      { type: 'paragraph',
+      { type: 'div',
         children: [
           { type: 'text', value: `${icon} ` },
           {

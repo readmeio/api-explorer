@@ -29,10 +29,11 @@
     margin-left: 1.5rem;
     position: relative;
   }
-  h3:first-child:first-letter {
+  h3 > :first-child {
     display: inline-block;
     position: absolute;
     right: 100%;
-    transform: translateX(-42%);
+    transform: translateX(-12.5%);
+    font-size: .75em;
   }
 }
