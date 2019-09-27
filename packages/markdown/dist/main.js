@@ -906,7 +906,7 @@ function create(definition) {
 "use strict";
 
 
-var normalize = __webpack_require__(38)
+var normalize = __webpack_require__(37)
 var Schema = __webpack_require__(73)
 var DefinedInfo = __webpack_require__(75)
 
@@ -1353,9 +1353,9 @@ module.exports = encode;
 
 
 const Preprocessor = __webpack_require__(201);
-const unicode = __webpack_require__(35);
+const unicode = __webpack_require__(34);
 const neTree = __webpack_require__(202);
-const ERR = __webpack_require__(36);
+const ERR = __webpack_require__(35);
 
 //Aliases
 const $ = unicode.CODE_POINTS;
@@ -4201,32 +4201,6 @@ function increment() {
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var ReactIs = __webpack_require__(151);
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(375)(ReactIs.isElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(376)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -4266,7 +4240,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4285,7 +4259,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4411,7 +4385,7 @@ function ok() {
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4443,7 +4417,7 @@ function factory(type) {
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4559,7 +4533,7 @@ exports.isUndefinedCodePoint = function(cp) {
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4631,7 +4605,7 @@ module.exports = {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4681,7 +4655,7 @@ module.exports = ErrorReportingMixinBase;
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4695,7 +4669,7 @@ function normalize(value) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4725,7 +4699,7 @@ function ccount(value, character) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4749,7 +4723,7 @@ function trimTrailingLines(value) {
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4791,7 +4765,7 @@ function interrupt(interruptors, tokenizers, ctx, params) {
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4809,7 +4783,7 @@ function normalize(value) {
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4903,7 +4877,7 @@ function ok() {
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4939,7 +4913,7 @@ function siblings(increment) {
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5102,13 +5076,13 @@ function construct() {
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var count = __webpack_require__(39)
+var count = __webpack_require__(38)
 
 module.exports = enclose
 
@@ -5142,7 +5116,7 @@ function enclose(uri, always) {
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5164,6 +5138,32 @@ function enclose(title) {
   return delimiter + title + delimiter
 }
 
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var ReactIs = __webpack_require__(151);
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(375)(ReactIs.isElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(376)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 48 */
@@ -5266,7 +5266,7 @@ module.exports = emptyObject;
 var printWarning = function() {};
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactPropTypesSecret = __webpack_require__(32);
+  var ReactPropTypesSecret = __webpack_require__(31);
   var loggedTypeFailures = {};
   var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
@@ -6734,7 +6734,7 @@ function ariaTransform(_, prop) {
 
 
 var find = __webpack_require__(223)
-var normalize = __webpack_require__(38)
+var normalize = __webpack_require__(37)
 var parseSelector = __webpack_require__(224)
 var spaces = __webpack_require__(24).parse
 var commas = __webpack_require__(25).parse
@@ -8217,7 +8217,7 @@ function interElementWhiteSpace(node) {
 "use strict";
 
 
-var convert = __webpack_require__(43)
+var convert = __webpack_require__(42)
 var whiteSpace = __webpack_require__(125)
 
 module.exports = whiteSpaceLeft
@@ -8237,10 +8237,10 @@ function whiteSpaceLeft(node) {
 "use strict";
 
 
-var convert = __webpack_require__(43)
+var convert = __webpack_require__(42)
 var element = __webpack_require__(124)
 var whiteSpaceLeft = __webpack_require__(126)
-var after = __webpack_require__(44).after
+var after = __webpack_require__(43).after
 var omission = __webpack_require__(128)
 
 var isComment = convert('comment')
@@ -8514,7 +8514,7 @@ function all(ctx, parent) {
 
 
 var xtend = __webpack_require__(0)
-var entities = __webpack_require__(45)
+var entities = __webpack_require__(44)
 
 module.exports = text
 
@@ -9688,9 +9688,9 @@ module.exports.render = {
 
     var table = __webpack_require__(372);
 
-    var anchor = __webpack_require__(378);
+    var anchor = __webpack_require__(377);
 
-    var code = __webpack_require__(380);
+    var code = __webpack_require__(379);
 
     return !text ? null : parseMarkdown(opts).use(rehypeReact, {
       createElement: React.createElement,
@@ -9764,7 +9764,7 @@ module.exports.render = {
  * LICENSE file in the root directory of this source tree.
  */
 
-var k=__webpack_require__(19),n=__webpack_require__(48),p=__webpack_require__(49),q=__webpack_require__(31),r="function"===typeof Symbol&&Symbol.for,t=r?Symbol.for("react.element"):60103,u=r?Symbol.for("react.portal"):60106,v=r?Symbol.for("react.fragment"):60107,w=r?Symbol.for("react.strict_mode"):60108,x=r?Symbol.for("react.profiler"):60114,y=r?Symbol.for("react.provider"):60109,z=r?Symbol.for("react.context"):60110,A=r?Symbol.for("react.async_mode"):60111,B=
+var k=__webpack_require__(19),n=__webpack_require__(48),p=__webpack_require__(49),q=__webpack_require__(30),r="function"===typeof Symbol&&Symbol.for,t=r?Symbol.for("react.element"):60103,u=r?Symbol.for("react.portal"):60106,v=r?Symbol.for("react.fragment"):60107,w=r?Symbol.for("react.strict_mode"):60108,x=r?Symbol.for("react.profiler"):60114,y=r?Symbol.for("react.provider"):60109,z=r?Symbol.for("react.context"):60110,A=r?Symbol.for("react.async_mode"):60111,B=
 r?Symbol.for("react.forward_ref"):60112;r&&Symbol.for("react.timeout");var C="function"===typeof Symbol&&Symbol.iterator;function D(a){for(var b=arguments.length-1,e="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=0;c<b;c++)e+="&args[]="+encodeURIComponent(arguments[c+1]);n(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",e)}
 var E={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function F(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||E}F.prototype.isReactComponent={};F.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?D("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};F.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function G(){}
 G.prototype=F.prototype;function H(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||E}var I=H.prototype=new G;I.constructor=H;k(I,F.prototype);I.isPureReactComponent=!0;var J={current:null},K=Object.prototype.hasOwnProperty,L={key:!0,ref:!0,__self:!0,__source:!0};
@@ -9805,7 +9805,7 @@ var _assign = __webpack_require__(19);
 var invariant = __webpack_require__(48);
 var emptyObject = __webpack_require__(49);
 var warning = __webpack_require__(156);
-var emptyFunction = __webpack_require__(31);
+var emptyFunction = __webpack_require__(30);
 var checkPropTypes = __webpack_require__(50);
 
 // TODO: this is special because it gets imported during build.
@@ -11288,7 +11288,7 @@ module.exports = react;
 
 
 
-var emptyFunction = __webpack_require__(31);
+var emptyFunction = __webpack_require__(30);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -12614,7 +12614,7 @@ module.exports = toHast
 var xtend = __webpack_require__(0)
 var u = __webpack_require__(4)
 var visit = __webpack_require__(17)
-var position = __webpack_require__(34)
+var position = __webpack_require__(33)
 var generated = __webpack_require__(173)
 var definitions = __webpack_require__(174)
 var one = __webpack_require__(53)
@@ -12727,7 +12727,7 @@ function toHast(tree, options) {
 
 module.exports = visitParents
 
-var is = __webpack_require__(33)
+var is = __webpack_require__(32)
 
 var CONTINUE = true
 var SKIP = 'skip'
@@ -13479,7 +13479,7 @@ function strong(h, node) {
 
 module.exports = table
 
-var position = __webpack_require__(34)
+var position = __webpack_require__(33)
 var wrap = __webpack_require__(9)
 var all = __webpack_require__(1)
 
@@ -13588,7 +13588,7 @@ function raw() {
 
 
 var Parser = __webpack_require__(200)
-var pos = __webpack_require__(34)
+var pos = __webpack_require__(33)
 var fromParse5 = __webpack_require__(214)
 var toParse5 = __webpack_require__(229)
 var voids = __webpack_require__(99)
@@ -13889,8 +13889,8 @@ const defaultTreeAdapter = __webpack_require__(210);
 const mergeOptions = __webpack_require__(211);
 const doctype = __webpack_require__(212);
 const foreignContent = __webpack_require__(213);
-const ERR = __webpack_require__(36);
-const unicode = __webpack_require__(35);
+const ERR = __webpack_require__(35);
+const unicode = __webpack_require__(34);
 const HTML = __webpack_require__(10);
 
 //Aliases
@@ -16842,8 +16842,8 @@ function endTagInForeignContent(p, token) {
 "use strict";
 
 
-const unicode = __webpack_require__(35);
-const ERR = __webpack_require__(36);
+const unicode = __webpack_require__(34);
+const ERR = __webpack_require__(35);
 
 //Aliases
 const $ = unicode.CODE_POINTS;
@@ -17967,7 +17967,7 @@ module.exports = LocationInfoOpenElementStackMixin;
 "use strict";
 
 
-const ErrorReportingMixinBase = __webpack_require__(37);
+const ErrorReportingMixinBase = __webpack_require__(36);
 const ErrorReportingTokenizerMixin = __webpack_require__(208);
 const LocationInfoTokenizerMixin = __webpack_require__(59);
 const Mixin = __webpack_require__(7);
@@ -18026,7 +18026,7 @@ module.exports = ErrorReportingParserMixin;
 "use strict";
 
 
-const ErrorReportingMixinBase = __webpack_require__(37);
+const ErrorReportingMixinBase = __webpack_require__(36);
 const ErrorReportingPreprocessorMixin = __webpack_require__(209);
 const Mixin = __webpack_require__(7);
 
@@ -18050,7 +18050,7 @@ module.exports = ErrorReportingTokenizerMixin;
 "use strict";
 
 
-const ErrorReportingMixinBase = __webpack_require__(37);
+const ErrorReportingMixinBase = __webpack_require__(36);
 const PositionTrackingPreprocessorMixin = __webpack_require__(60);
 const Mixin = __webpack_require__(7);
 
@@ -18784,7 +18784,7 @@ var ns = __webpack_require__(18)
 var s = __webpack_require__(220)
 var h = __webpack_require__(225)
 var xtend = __webpack_require__(0)
-var count = __webpack_require__(39)
+var count = __webpack_require__(38)
 
 module.exports = wrapper
 
@@ -20209,7 +20209,7 @@ module.exports = create({
 "use strict";
 
 
-var normalize = __webpack_require__(38)
+var normalize = __webpack_require__(37)
 var DefinedInfo = __webpack_require__(75)
 var Info = __webpack_require__(76)
 
@@ -21406,7 +21406,7 @@ var spaces = __webpack_require__(24)
 var commas = __webpack_require__(25)
 var style = __webpack_require__(97)
 var ns = __webpack_require__(18)
-var is = __webpack_require__(33)
+var is = __webpack_require__(32)
 
 var dashes = /-([a-z])/g
 
@@ -23242,7 +23242,7 @@ function newline(eat, value, silent) {
 
 
 var repeat = __webpack_require__(5)
-var trim = __webpack_require__(40)
+var trim = __webpack_require__(39)
 
 module.exports = indentedCode
 
@@ -23346,7 +23346,7 @@ function indentedCode(eat, value, silent) {
 "use strict";
 
 
-var trim = __webpack_require__(40)
+var trim = __webpack_require__(39)
 
 module.exports = fencedCode
 
@@ -23609,7 +23609,7 @@ function fencedCode(eat, value, silent) {
 
 
 var trim = __webpack_require__(6)
-var interrupt = __webpack_require__(41)
+var interrupt = __webpack_require__(40)
 
 module.exports = blockquote
 
@@ -23965,7 +23965,7 @@ var repeat = __webpack_require__(5)
 var decimal = __webpack_require__(14)
 var getIndent = __webpack_require__(108)
 var removeIndent = __webpack_require__(254)
-var interrupt = __webpack_require__(41)
+var interrupt = __webpack_require__(40)
 
 module.exports = list
 
@@ -24729,7 +24729,7 @@ function blockHtml(eat, value, silent) {
 
 
 var whitespace = __webpack_require__(2)
-var normalize = __webpack_require__(42)
+var normalize = __webpack_require__(41)
 
 module.exports = footnoteDefinition
 footnoteDefinition.notInList = true
@@ -24922,7 +24922,7 @@ function footnoteDefinition(eat, value, silent) {
 
 
 var whitespace = __webpack_require__(2)
-var normalize = __webpack_require__(42)
+var normalize = __webpack_require__(41)
 
 module.exports = definition
 definition.notInList = true
@@ -25471,8 +25471,8 @@ function table(eat, value, silent) {
 
 var trim = __webpack_require__(6)
 var decimal = __webpack_require__(14)
-var trimTrailingLines = __webpack_require__(40)
-var interrupt = __webpack_require__(41)
+var trimTrailingLines = __webpack_require__(39)
+var interrupt = __webpack_require__(40)
 
 module.exports = paragraph
 
@@ -26437,7 +26437,7 @@ function link(eat, value, silent) {
 
 var whitespace = __webpack_require__(2)
 var locate = __webpack_require__(111)
-var normalize = __webpack_require__(42)
+var normalize = __webpack_require__(41)
 
 module.exports = reference
 reference.locator = locate
@@ -28630,9 +28630,9 @@ exports.closing = __webpack_require__(127)
 "use strict";
 
 
-var convert = __webpack_require__(43)
+var convert = __webpack_require__(42)
 var element = __webpack_require__(124)
-var before = __webpack_require__(44).before
+var before = __webpack_require__(43).before
 var first = __webpack_require__(292)
 var place = __webpack_require__(293)
 var whiteSpaceLeft = __webpack_require__(126)
@@ -28736,7 +28736,7 @@ function tbody(node, index, parent) {
 "use strict";
 
 
-var after = __webpack_require__(44).after
+var after = __webpack_require__(43).after
 
 module.exports = first
 
@@ -28785,8 +28785,8 @@ var svg = __webpack_require__(123)
 var find = __webpack_require__(297)
 var spaces = __webpack_require__(24).stringify
 var commas = __webpack_require__(25).stringify
-var entities = __webpack_require__(45)
-var ccount = __webpack_require__(39)
+var entities = __webpack_require__(44)
+var ccount = __webpack_require__(38)
 var all = __webpack_require__(130)
 var constants = __webpack_require__(298)
 
@@ -29406,7 +29406,7 @@ var spaces = __webpack_require__(24)
 var commas = __webpack_require__(25)
 var style = __webpack_require__(97)
 var ns = __webpack_require__(18)
-var is = __webpack_require__(33)
+var is = __webpack_require__(32)
 
 var dashes = /-([a-z])/g
 
@@ -30574,7 +30574,7 @@ function enter(compiler, node) {
 
 
 var xtend = __webpack_require__(0)
-var encode = __webpack_require__(45)
+var encode = __webpack_require__(44)
 var defaults = __webpack_require__(144)
 var escapeFactory = __webpack_require__(317)
 var identity = __webpack_require__(143)
@@ -31911,8 +31911,8 @@ function strikethrough(node) {
 "use strict";
 
 
-var uri = __webpack_require__(46)
-var title = __webpack_require__(47)
+var uri = __webpack_require__(45)
+var title = __webpack_require__(46)
 
 module.exports = link
 
@@ -32117,8 +32117,8 @@ function imageReference(node) {
 "use strict";
 
 
-var uri = __webpack_require__(46)
-var title = __webpack_require__(47)
+var uri = __webpack_require__(45)
+var title = __webpack_require__(46)
 
 module.exports = definition
 
@@ -32160,8 +32160,8 @@ function definition(node) {
 "use strict";
 
 
-var uri = __webpack_require__(46)
-var title = __webpack_require__(47)
+var uri = __webpack_require__(45)
+var title = __webpack_require__(46)
 
 module.exports = image
 
@@ -33557,7 +33557,7 @@ exports.push([module.i, ".markdown-body .RdmeWrap {\n  background: #eaeaea;\n  b
 
 var React = __webpack_require__(8);
 
-var PropTypes = __webpack_require__(30);
+var PropTypes = __webpack_require__(47);
 
 function Table(props) {
   // console.log('Table', props);
@@ -33849,7 +33849,7 @@ exports.isSuspense = isSuspense;
 var ReactIs = __webpack_require__(151);
 var assign = __webpack_require__(19);
 
-var ReactPropTypesSecret = __webpack_require__(32);
+var ReactPropTypesSecret = __webpack_require__(31);
 var checkPropTypes = __webpack_require__(50);
 
 var has = Function.call.bind(Object.prototype.hasOwnProperty);
@@ -34445,7 +34445,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(32);
+var ReactPropTypesSecret = __webpack_require__(31);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -34503,17 +34503,16 @@ module.exports = function() {
 
 
 /***/ }),
-/* 377 */,
-/* 378 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var React = __webpack_require__(8);
 
-var PropTypes = __webpack_require__(30);
+var PropTypes = __webpack_require__(47);
 
-var BaseUrlContext = __webpack_require__(379); // Nabbed from here:
+var BaseUrlContext = __webpack_require__(378); // Nabbed from here:
 // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/markdown/renderer.js#L52
 
 
@@ -34590,7 +34589,7 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 379 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(8);
@@ -34598,15 +34597,15 @@ var React = __webpack_require__(8);
 module.exports = React.createContext('/');
 
 /***/ }),
-/* 380 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable */
 var React = __webpack_require__(8);
 
-var PropTypes = __webpack_require__(30);
+var PropTypes = __webpack_require__(47);
 
-var syntaxHighlighter = __webpack_require__(381);
+var syntaxHighlighter = __webpack_require__(380);
 
 function Code(props) {
   var className = props.className,
@@ -34634,7 +34633,7 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 381 */
+/* 380 */
 /***/ (function(module, exports) {
 
 module.exports=/******/function(modules){// webpackBootstrap
