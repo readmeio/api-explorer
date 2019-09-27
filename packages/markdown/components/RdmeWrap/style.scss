@@ -1,0 +1,44 @@
+.markdown-body .RdmeWrap {
+  background: #eaeaea;
+  border-radius: 0 0 3px 3px !important;
+
+  pre {
+    border-radius: 0 0 3px 3px !important;
+    background: #f6f6f6;
+  }
+
+  pre:not(.RdmeWrap_active) {
+    display: none;
+  }
+
+  button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    line-height: 2;
+    padding: .5em 1em;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: #333;
+    font: inherit;
+    font-size: .75em;
+    cursor: pointer;
+  }
+
+  &.RdmeWrap_initial button:first-child,
+  button.RdmeWrap_active {
+    /* font-weight: bold; */
+    background: #f6f8fa;
+    color: black;
+    pointer-events: none;
+  }
+
+  button:not(.RdmeWrap_active):hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &.RdmeWrap_initial pre:first-child {
+    display: block;
+  }
+}

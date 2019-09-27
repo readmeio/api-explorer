@@ -98,8 +98,8 @@ module.exports.render = {
 
   hub: (text, opts) => {
     const callout = require('./components/Callout');
+    const rdmeWrap = require('./components/RdmeWrap');
     const table = require('./components/Table');
-    const heading = require('./components/Heading');
     const anchor = require('./components/Anchor');
     const code = require('./components/Code');
     return !text
@@ -108,16 +108,11 @@ module.exports.render = {
           .use(rehypeReact, {
             createElement: React.createElement,
             components: {
+              'rdme-wrap': rdmeWrap(sanitize),
               'rdme-callout': callout(sanitize),
               'readme-variable': props => <span style={{color:'red'}} {...props}>Variable</span>,
               'readme-glossary-item': props => <span style={{color:'red'}} {...props}>Term</span>,
               table: table(sanitize),
-              // h1: heading('h1', sanitize),
-              // h2: heading('h2', sanitize),
-              // h3: heading('h3', sanitize),
-              // h4: heading('h4', sanitize),
-              // h5: heading('h5', sanitize),
-              // h6: heading('h6', sanitize),
               a: anchor(sanitize),
               code: code(sanitize),
               img: props => {
@@ -130,28 +125,6 @@ module.exports.render = {
                 const extras = {title, align, width, height};
 
                 return <img {...props} {...extras} />;
-              },
-              'rdme-wrap': ({attributes, children}) => {
-                function test({target}, index) {
-                  const $wrap = target.parentElement;
-                  $wrap
-                    .querySelectorAll('.RdmeWrap_active')
-                    .forEach(el => el.classList.remove('RdmeWrap_active'));
-                  $wrap.classList.remove('RdmeWrap_initial');
-
-                  const codeblocks = $wrap.querySelectorAll('pre');
-                  codeblocks[index].classList.add('RdmeWrap_active');
-                  
-                  target.classList.add('RdmeWrap_active');
-                }
-                return (<div {...attributes} className="RdmeWrap RdmeWrap_initial">
-                  {children.map((block, i) => {
-                    return <button onClick={e => test(e, i)}>Tab {i}</button>
-                  })}
-                  <div className="RdmeWrap-inner">
-                    {children}
-                  </div>
-                </div>);
               },
               div: props => React.createElement(React.Fragment, props),
             },
