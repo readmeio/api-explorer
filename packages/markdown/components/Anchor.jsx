@@ -47,7 +47,7 @@ function docLink(href) {
 function Anchor(props) {
   const { href, target, baseUrl, children } = props;
   return (
-    <a target={target} href={getHref(href, baseUrl)} {...docLink(href)}>
+    <a href={getHref(href, baseUrl)} target={target} {...docLink(href)}>
       {children}
     </a>
   );
