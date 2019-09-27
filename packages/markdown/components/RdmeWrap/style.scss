@@ -28,14 +28,13 @@
 
   &.RdmeWrap_initial button:first-child,
   button.RdmeWrap_active {
-    /* font-weight: bold; */
-    background: #f6f8fa;
+    background: #f6f6f6;
     color: black;
     pointer-events: none;
   }
 
   button:not(.RdmeWrap_active):hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, .075);
   }
 
   &.RdmeWrap_initial pre:first-child {
