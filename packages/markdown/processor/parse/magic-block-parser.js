@@ -31,20 +31,15 @@ function tokenize(eat, value) {
         children: this.tokenizeInline(json.title, eat.now()),
       });
     case 'image':
-      return eat(match)({
-        type: 'rdme-figure',
-        data: { hName: 'rdme-figure' },
-        className: 'test',
-        children: json.images.map(img => {
-          const [url, alt] = img.image;
-          return {
-            type: 'image',
-            title: img.caption, // this.tokenizeInline(img.caption, eat.now()),
-            url,
-            alt,
-          };
-        }),
-      });
+      return eat(match)(json.images.map(img => {
+        const [url, alt] = img.image;
+        return {
+          type: 'image',
+          title: img.caption, // this.tokenizeInline(img.caption, eat.now()),
+          url,
+          alt,
+        };
+      })[0]);
     case 'callout': {
       json.type = {
         success: ['👍', 'okay' ],
