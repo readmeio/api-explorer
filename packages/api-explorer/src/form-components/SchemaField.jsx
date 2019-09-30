@@ -1,4 +1,4 @@
-require('../../schema-form.css');
+require('../../style/main.scss');
 
 const React = require('react');
 const PropTypes = require('prop-types');
