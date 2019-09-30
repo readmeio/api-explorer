@@ -40,6 +40,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "gh-pages": "^2.1.1",
+    "jest-transform-css": "^2.0.0",
     "lerna": "^3.14.1",
     "style-loader": "^1.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
