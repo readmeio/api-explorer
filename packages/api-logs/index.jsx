@@ -102,7 +102,7 @@ class Logs extends React.Component {
     );
   }
 
-  async handleData(res) {
+  handleData(res) {
     this.setState({ loading: false });
     if (res.status === 200) {
       return res.json();

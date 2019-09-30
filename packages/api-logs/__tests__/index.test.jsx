@@ -43,7 +43,7 @@ describe('Logs', () => {
   };
 
   test('should not render if groups are not populated', () => {
-    const noUser = { baseUrl, query: {} };
+    const noUser = { baseUrl, query: {}, changeGroup: () => {} };
     const comp = shallow(<LogTest {...noUser} />);
 
     expect(comp.html()).toBe(null);
@@ -77,6 +77,42 @@ describe('Logs', () => {
     expect(comp.instance().refresh).toHaveBeenCalledTimes(1);
     expect(comp.instance().state.logs).toMatchObject([]);
     done();
+  });
+
+  test('should make multiple requests for logs if conditional check fails', async () => {
+    const comp = shallow(<Logs {...props} />);
+    comp.setState({
+      logs: [requestmodel],
+    });
+
+    const mock = nock('https://docs.readme.com:443', { encodedQueryParams: true })
+      .get('/api/logs')
+      .query({
+        url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
+        id: 'someid',
+        method: 'delete',
+        limit: 5,
+        page: 0,
+      })
+      .reply(200, [requestmodel])
+      .get('/api/logs')
+      .query({
+        url: 'https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D',
+        id: 'someid',
+        method: 'delete',
+        limit: 5,
+        page: 0,
+      })
+      .reply(200, [
+        {
+          ...requestmodel,
+          _id: '2',
+        },
+      ]);
+
+    const res = await comp.instance().getData();
+    expect(res[0]._id).toBe('2');
+    mock.done();
   });
 
   test('should call refresh when result props are updated via parent', () => {
