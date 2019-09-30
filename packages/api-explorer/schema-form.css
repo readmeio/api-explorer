@@ -1,21 +1,15 @@
-.field label:after {
+form.rjsf .field label:after {
   display: none !important;
 }
-
 form.rjsf .form-group .form-group {
   border-top: none;
 }
-
-.form-group {
+form.rjsf .form-group {
   padding: 0 !important;
 }
-
-.form-group:not(.field) + .form-group.field {
+form.rjsf .form-group:not(.field) + .form-group.field {
   border-top: none !important;
 }
-
-form.rjsf 
-
 form.rjsf .children select {
   background: #fff;
 }
@@ -24,363 +18,280 @@ form.rjsf .children input {
   padding: 6px !important;
   height: unset !important;
 }
-
-fieldset {
+form.rjsf fieldset {
   box-shadow: 0 0 0 transparent !important;
   margin: 0 !important;
   align-items: center;
 }
-
-.param {
+form.rjsf .param {
   display: flex !important;
   flex-flow: wrap row !important;
   padding: 1em 0 !important;
 }
-
-.param > .label {
+form.rjsf .param > .label {
   flex: 1 20%;
 }
-
-.param > .description {
+form.rjsf .param > .description {
   flex: 1 40%;
   max-width: 40%;
   margin: 0 0 0 1em;
 }
-.param > .description:empty {
+form.rjsf .param > .description:empty {
   display: none;
 }
-
-.param > .children {
+form.rjsf .param > .children {
   flex: 1 30%;
   text-align: right;
 }
-
-.param > .label {
+form.rjsf .param > .label {
   text-align: left;
 }
-
-@media (max-width: 1200px){
-  .param > .description {
+@media (max-width: 1200px) {
+  form.rjsf .param > .description {
     flex: auto !important;
     width: 100% !important;
-    margin: .75em 0 0 !important;
+    margin: 0.75em 0 0 !important;
     max-width: unset;
   }
-  .param:not(.field-array) > .description {
+  form.rjsf .param:not(.field-array) > .description {
     order: 999 !important;
   }
 }
-
-.param .label {
+form.rjsf .param .label {
   display: flex;
   flex-flow: wrap row;
   align-items: center;
 }
-
-.param .label-name {
+form.rjsf .param .label-name {
   font-weight: bold;
 }
-
-.param .label-required {
+form.rjsf .param .label-required {
   color: red;
 }
-
-.param .label-type {
+form.rjsf .param .label-type {
   padding: 3px;
-  margin: 2px 0 0 .5em;
+  margin: 2px 0 0 0.5em;
   color: rgba(0, 0, 0, 0.6);
-  content: 'string';
+  content: "string";
   background: #f7f7f7;
   border-radius: 3px;
-  font-family: 'Proxima Nova', sans-serif;
+  font-family: "Proxima Nova", sans-serif;
   font-size: 11px;
   font-weight: lighter;
   margin-right: auto;
 }
-
-.param .label > .description {
+form.rjsf .param .label > .description {
   flex: 0 100%;
   margin-top: 0.5em;
 }
-
 @media (min-width: 1200px) {
-  .param.field-array .description {
+  form.rjsf .param.field-array .description {
     margin-right: 30%;
   }
 }
-
-.param.field-array > .children,
-.param.field-object > .children {
+form.rjsf .param.field-array > .children,
+form.rjsf .param.field-object > .children {
   margin: 0 0;
   padding: 0;
   background: #f7f7f7;
   border-radius: 6px;
-  /* overflow: hidden; */
 }
-
-.param.field-object > .children {
+form.rjsf .param.field-object > .children {
   padding: 0 1em;
 }
-
-.param.field-array > .children {
+form.rjsf .param.field-array > .children {
   margin: 1em 0 0;
 }
-
 @media (max-width: 1200px) {
-  .param.field-array > .children,
-  .param.field-object > .children {
+  form.rjsf .param.field-array > .children,
+form.rjsf .param.field-object > .children {
     flex: auto;
     width: 100% !important;
     margin: 1em 0 0;
   }
 }
-
-.children .children {
+form.rjsf .children .children {
   background: transparent !important;
 }
-
-.param.field-array > .children .row,
-.param.field-object > .children .row {
+form.rjsf .param.field-array > .children .row,
+form.rjsf .param.field-object > .children .row {
   padding: 0 0 0 1em;
 }
-
-.param.field-array > .children .row:empty,
-.param.field-object > .children .row:empty {
+form.rjsf .param.field-array > .children .row:empty,
+form.rjsf .param.field-object > .children .row:empty {
   display: none;
 }
-
-.param.field-array > .children .row:last-child,
-.param.field-object > .children .row:last-child {
+form.rjsf .param.field-array > .children .row:last-child,
+form.rjsf .param.field-object > .children .row:last-child {
   margin: 0;
-  padding: .75em 0;
+  padding: 0.75em 0;
 }
-
-/* .param.field-array > .children .row:not(:empty) + .row:last-child,
-.param.field-object > .children .row:not(:empty) + .row:last-child {background: rgba(0, 0, 0, .05);} */
-.param.field-array > .children .row:not(:empty) + .row:last-child,
-.param.field-object > .children .row:not(:empty) + .row:last-child {
+form.rjsf .param.field-array > .children .row:not(:empty) + .row:last-child,
+form.rjsf .param.field-object > .children .row:not(:empty) + .row:last-child {
   padding-top: 0;
 }
-
-.param.field-array > .children .array-item,
-.param.field-object .object-property-expand
-{
+form.rjsf .param.field-array > .children .array-item,
+form.rjsf .param.field-object .object-property-expand {
   display: flex;
 }
-
-.param.field-array > .children .array-item > *,
-.param.field-object .object-property-expand
-{
+form.rjsf .param.field-array > .children .array-item > *,
+form.rjsf .param.field-object .object-property-expand {
   flex: 0 auto;
 }
-
-.param.field-array > .children .array-item > .col-xs-9 {
+form.rjsf .param.field-array > .children .array-item > .col-xs-9 {
   flex: 1;
 }
-
-.param.field-array > .children .array-item + .array-item {
+form.rjsf .param.field-array > .children .array-item + .array-item {
   border-top: 1px solid #e3e3e3;
 }
-
-.param.field-object .form-group + .row:last-child,
-.param.field-object .object-property-expand,
-.param.field-array > .children .array-item-add {
-  /* padding: 0; */
-}
-
-.param .row .btn.btn-add {
+form.rjsf .param .row .btn.btn-add {
   margin: 0;
 }
-
-.param.field-array > .children .array-item-add, .param.field-array > .children .array-item-add .btn {
+form.rjsf .param.field-array > .children .array-item-add, form.rjsf .param.field-array > .children .array-item-add .btn {
   margin: 0 0 0 5px;
 }
-
-.field fieldset {
+form.rjsf .field fieldset {
   position: relative;
 }
-
-.field-object > .children legend,
-.field-array > .children legend {
+form.rjsf .field-object > .children legend,
+form.rjsf .field-array > .children legend {
   flex: auto;
-  font-size: .8em;
-  /* font-weight: 300; */
+  font-size: 0.8em;
   text-align: right;
   background: linear-gradient(to bottom, white 25%, #f7f7f7 75%);
   margin: 0 0 0 !important;
   transform: translate(4px, -50%);
   padding: 4px;
-  /* color: #888; */
 }
-
-.field-object > .children legend:not(:only-child),
-.field-array > .children legend:not(:only-child) {
+form.rjsf .field-object > .children legend:not(:only-child),
+form.rjsf .field-array > .children legend:not(:only-child) {
   position: absolute;
   right: 0;
   font-weight: normal;
   color: #999;
 }
-
-.field-array > .children legend {
+form.rjsf .field-array > .children legend {
   transform: translate(-4px, -50%);
 }
-
-.children legend {
+form.rjsf .children legend {
   display: none;
 }
-
-.children .children legend {
+form.rjsf .children .children legend {
   display: inline-block;
   background: #f7f7f7 !important;
 }
-
-.children legend:after {
+form.rjsf .children legend:after {
   display: none !important;
 }
-
-.param.field-object > .children .field-description,
-.param.field-array > .children .field-description {
+form.rjsf .param.field-object > .children .field-description,
+form.rjsf .param.field-array > .children .field-description {
   display: none;
 }
-
-.array-item-list {
+form.rjsf .array-item-list {
   margin: 0;
 }
-
 @media (max-width: 1200px) {
-  .field-array > .children .array-item-list .param > .children {
+  form.rjsf .field-array > .children .array-item-list .param > .children {
     flex: 1 80%;
   }
 }
-
-.field-array > .children .array-item-list .param > .label {
+form.rjsf .field-array > .children .array-item-list .param > .label {
   position: relative;
   flex: 0;
 }
-
-.field-array > .children .array-item-list .param .label-type {
+form.rjsf .field-array > .children .array-item-list .param .label-type {
   margin-left: 0;
 }
-
-.field-array > .children .array-item-list .param .label-required {
+form.rjsf .field-array > .children .array-item-list .param .label-required {
   position: absolute;
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
 }
-
-.param.field-object > .children > fieldset > .form-group {
-  border-left: 0;  
+form.rjsf .param.field-object > .children > fieldset > .form-group {
+  border-left: 0;
 }
-
-/* .field-object .field-object .children .label {
-  display: none;
-}
-
-.children .field-array-of-object .label {
-  display: none !important;
-} */
-
-.param.field-object > .children .label {
+form.rjsf .param.field-object > .children .label {
   display: flex !important;
   flex: 1;
 }
-.param.field-object > .children .label > * {
+form.rjsf .param.field-object > .children .label > * {
   margin: 0;
 }
-
-
-.param.field-array  > .children,
-.param.field-object > .children {
-  flex:  0 100%;
-  margin-top: .5em;
+form.rjsf .param.field-array > .children,
+form.rjsf .param.field-object > .children {
+  flex: 0 100%;
+  margin-top: 0.5em;
 }
-.field-object .children .field-object > .children,
-.field-array  .children .field-object > .children,
-.field-object .children .field-array  > .children,
-.field-array  .children .field-array  > .children {
+form.rjsf .field-object .children .field-object > .children,
+form.rjsf .field-array .children .field-object > .children,
+form.rjsf .field-object .children .field-array > .children,
+form.rjsf .field-array .children .field-array > .children {
   border: 1px solid #e3e3e3;
 }
-
-select[id*="_anyof_"] {
-  margin: 1em 0 .5em !important;
+form.rjsf select[id*=_anyof_] {
+  margin: 1em 0 0.5em !important;
 }
-
-.field-array > .children legend {
+form.rjsf .field-array > .children legend {
   transform: translate(-4px, -50%);
 }
-
-.children .children legend {
+form.rjsf .children .children legend {
   background: #f7f7f7 !important;
 }
-
-.children legend:after {
+form.rjsf .children legend:after {
   display: none !important;
 }
-
-.field .children .field-array {
+form.rjsf .field .children .field-array {
   padding-top: 0 !important;
 }
-
-.field .children .field-array > .label {
+form.rjsf .field .children .field-array > .label {
   display: none !important;
 }
-
-.form-group.field-object > .children > [id^="root_object"] > .form-group:first-of-type {
+form.rjsf .form-group.field-object > .children > [id^=root_object] > .form-group:first-of-type {
   margin-top: 4px;
 }
-.form-group.field-object > .children > [id^="root_object"] > .form-group ~ .row:last-child {
-  margin-bottom: .5rem;
+form.rjsf .form-group.field-object > .children > [id^=root_object] > .form-group ~ .row:last-child {
+  margin-bottom: 0.5rem;
 }
-
 form.rjsf .row button.btn-add {
   background: #1FC79F;
   color: #fff;
   transform: none !important;
-  padding: .4em .9em .35em !important;
+  padding: 0.4em 0.9em 0.35em !important;
   line-height: 1.2;
   border-radius: 18px;
-  border: 1px solid rgba(0,0,0,0);
-  transition: .2s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0);
+  transition: 0.2s ease-out;
 }
 form.rjsf .row button.btn-add:focus,
 form.rjsf .row button.btn-add:hover {
-  border: 1px solid rgba(0,0,0,.15);
-  box-shadow: 0 1px 3px -1px rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.2);
 }
 form.rjsf .row button.btn-add:active {
-  color: rgba(255,255,255,.88);
-  border: 1px solid rgba(0,0,0,.15);
-  box-shadow: inset 1px 1.5px 4px -1px rgba(0,0,0,.15);
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: inset 1px 1.5px 4px -1px rgba(0, 0, 0, 0.15);
 }
 form.rjsf .row button.btn-add:after {
-  content: 'Add' !important;
+  content: "Add" !important;
 }
 form.rjsf .row button.btn-add .glyphicon {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
-  font-size: .9em;
+  font-size: 0.9em;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transform: translate(0, 0);
-  margin-right: .3em;
+  margin-right: 0.3em;
 }
 form.rjsf .row button.btn-add .glyphicon:before {
-  content: "\f067";
+  content: "";
 }
-.children > .field > .row:last-child p[class*="item-add"] {
-  /* center add button when only visible child */
-  margin: 0 auto;
-  width: 100%;
-  text-align: center;
-  margin: -.75em auto;
-  padding: .75em 0;
-}
-.row:last-child > p[class*="item-add"] button.btn-add {
+form.rjsf .row:last-child > p[class*=item-add] button.btn-add {
   margin-left: 0 !important;
 }
-
-.col-xs-3.array-item-toolbox {
+form.rjsf .col-xs-3.array-item-toolbox {
   margin: 0 auto;
 }
