@@ -38,8 +38,8 @@ function getLanguage(log) {
 
 function checkFreshness(existingLogs, incomingLogs) {
   if (
-    (existingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id) ||
-    !existingLogs.length
+    (existingLogs.length && incomingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id) ||
+    (!existingLogs.length && incomingLogs.length)
   ) {
     return incomingLogs;
   }
@@ -251,3 +251,4 @@ Logs.defaultProps = {
 
 module.exports = Logs;
 module.exports.Logs = Logs;
+module.exports.checkFreshness = checkFreshness;

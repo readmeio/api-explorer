@@ -4,7 +4,7 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const nock = require('nock');
 
-const { Logs } = require('../index.jsx');
+const { Logs, checkFreshness } = require('../index.jsx');
 const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
@@ -242,5 +242,35 @@ describe('Logs', () => {
     await comp.instance().getData('someid');
 
     mock.done();
+  });
+});
+
+describe('checkFreshness()', () => {
+  test('should throw error if existing and new logs are unpopulated after request', () => {
+    expect(() => {
+      checkFreshness([], []);
+    }).toThrow();
+  });
+
+  test('should throw error if new logs are unpopulated after request', () => {
+    expect(() => {
+      checkFreshness([{ _id: 1 }], []);
+    }).toThrow();
+  });
+
+  test('should throw error if logs are not unique', () => {
+    expect(() => {
+      checkFreshness([{ _id: 1 }], [{ _id: 1 }]);
+    }).toThrow();
+  });
+
+  test('should return incoming logs if no existing logs, and incoming logs are populated', () => {
+    const res = checkFreshness([], [{ _id: 1 }]);
+    expect(res[0]._id).toBe(1);
+  });
+
+  test('should return incoming logs if both args are populated and ids are unique to each other', () => {
+    const res = checkFreshness([{ _id: 1 }], [{ _id: 2 }]);
+    expect(res[0]._id).toBe(2);
   });
 });
