@@ -34,7 +34,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.7",
-    "nock": "^10.0.3",
+    "nock": "^11.3.5",
     "prettier": "^1.14.0",
     "uglify-es": "^3.2.1",
     "uglifyjs-webpack-plugin": "^1.2.3",
