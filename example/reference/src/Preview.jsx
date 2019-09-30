@@ -7,8 +7,6 @@ const Version = require('./Version');
 const ApiExplorer = require('../../../packages/api-explorer/src');
 const withSpecFetching = require('../../src/SpecFetcher');
 
-require('../../../packages/api-explorer/api-explorer.css');
-
 class Preview extends React.Component {
   componentDidMount() {
     const searchParams = new URLSearchParams(window.location.search);
