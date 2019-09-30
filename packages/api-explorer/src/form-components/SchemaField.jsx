@@ -1,3 +1,5 @@
+require('../../schema-form.css');
+
 const React = require('react');
 const PropTypes = require('prop-types');
 

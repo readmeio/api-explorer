@@ -14,7 +14,7 @@ require('../../example/swagger-files/response-schemas.json');
 
 require('../../packages/api-explorer/api-explorer.css');
 require('../../packages/api-logs/main.css');
-require('../../packages/api-explorer/schema-form.css');
+// require('../../packages/api-explorer/schema-form.css');
 
 function Demo({ fetchSwagger, status, docs, oas, oauth }) {
   return (
