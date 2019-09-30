@@ -32929,26 +32929,19 @@ function tokenize(eat, value) {
       });
 
     case 'image':
-      return eat(match)({
-        type: 'rdme-figure',
-        data: {
-          hName: 'rdme-figure'
-        },
-        className: 'test',
-        children: json.images.map(function (img) {
-          var _img$image = _slicedToArray(img.image, 2),
-              url = _img$image[0],
-              alt = _img$image[1];
+      return eat(match)(json.images.map(function (img) {
+        var _img$image = _slicedToArray(img.image, 2),
+            url = _img$image[0],
+            alt = _img$image[1];
 
-          return {
-            type: 'image',
-            title: img.caption,
-            // this.tokenizeInline(img.caption, eat.now()),
-            url: url,
-            alt: alt
-          };
-        })
-      });
+        return {
+          type: 'image',
+          title: img.caption,
+          // this.tokenizeInline(img.caption, eat.now()),
+          url: url,
+          alt: alt
+        };
+      })[0]);
 
     case 'callout':
       {
