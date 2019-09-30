@@ -39,7 +39,7 @@ class BlockCode extends React.Component {
                     }}
                     className={classNames({ active: i === this.state.activeTab })}
                   >
-                    {//eslint-disable-next-line
+                    {// eslint-disable-next-line
                     code.status ? (
                       <span>
                         <span
