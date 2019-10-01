@@ -1,10 +1,10 @@
 {
   "name": "@readme/markdown",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "4.8.5",
+  "version": "4.8.6",
   "dependencies": {
-    "@readme/syntax-highlighter": "^4.8.5",
-    "@readme/variable": "^4.8.5",
+    "@readme/syntax-highlighter": "^4.8.6",
+    "@readme/variable": "^4.8.6",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
@@ -14,7 +14,7 @@
     "remark-breaks": "^1.0.0",
     "remark-parse": "^6.0.2",
     "remark-rehype": "^5.0.0",
-    "unified": "^7.0.2"
+    "unified": "^8.4.0"
   },
   "scripts": {
     "lint": "eslint -f unix . --ext .jsx --ext .js",
