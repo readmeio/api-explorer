@@ -4,7 +4,7 @@ const markdown = require('@readme/markdown');
 
 const Parameters = ({ block, flags }) => {
   const columns = block.data.cols;
-  const rows = block.data.rows;
+  const { rows } = block.data;
 
   function th() {
     const thCells = [];
@@ -66,6 +66,7 @@ Parameters.propTypes = {
   }).isRequired,
   flags: PropTypes.shape({}),
 };
+
 Parameters.defaultProps = {
   flags: {},
 };

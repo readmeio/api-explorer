@@ -1,11 +1,11 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
-const showCodeResults = require('./lib/show-code-results');
-const contentTypeIsJson = require('./lib/content-type-is-json');
-
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const extensions = require('@readme/oas-extensions');
+
+const showCodeResults = require('./lib/show-code-results');
+const contentTypeIsJson = require('./lib/content-type-is-json');
 
 const ExampleTabs = require('./ExampleTabs');
 
@@ -130,8 +130,6 @@ function Example({
   );
 }
 
-module.exports = Example;
-
 Example.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
@@ -148,3 +146,5 @@ Example.defaultProps = {
   responseType: null,
   exampleResponses: [],
 };
+
+module.exports = Example;

@@ -82,6 +82,7 @@ function Params({
             SchemaField,
           }}
         >
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <button type="submit" style={{ display: 'none' }} />
         </Form>,
       ];

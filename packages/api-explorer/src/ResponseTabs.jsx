@@ -29,7 +29,7 @@ function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
       </Tab>
 
       {showCodeResults(operation).length > 0 && (
-        // eslint-disable-next-line jsx-a11y/href-no-hash
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a
           className="hub-reference-results-back pull-right"
           href="#"
@@ -45,8 +45,6 @@ function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
   );
 }
 
-module.exports = ResponseTabs;
-
 ResponseTabs.propTypes = {
   result: PropTypes.shape({
     status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -56,6 +54,9 @@ ResponseTabs.propTypes = {
   setTab: PropTypes.func.isRequired,
   hideResults: PropTypes.func.isRequired,
 };
+
 ResponseTabs.defaultProps = {
   result: {},
 };
+
+module.exports = ResponseTabs;

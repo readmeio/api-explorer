@@ -89,6 +89,6 @@ function ResponseBody({ result, isOauth, oauth }) {
 
 module.exports = ResponseBody;
 
-ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Authorized.propTypes);
+ResponseBody.propTypes = { ...Unauthorized.propTypes, ...Authorized.propTypes };
 
 ResponseBody.defaultProps = Unauthorized.defaultProps;

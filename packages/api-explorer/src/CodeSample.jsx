@@ -1,13 +1,12 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
 const CopyCode = require('./CopyCode');
-
-const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
@@ -47,7 +46,7 @@ class CodeSample extends React.Component {
             return (
               <li key={key}>
                 {
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
+                  // eslint-disable-next-line jsx-a11y/anchor-is-valid
                   <a
                     href="#"
                     className={selectedClass}
@@ -99,11 +98,11 @@ class CodeSample extends React.Component {
           return (
             <div>
               <ul className="code-sample-tabs">
-                {// TODO add `is-lang-${lang}` class, to body?
-                oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                {oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                  // TODO add `is-lang-${lang}` class, to body?
                   <li key={lang}>
                     {
-                      // eslint-disable-next-line jsx-a11y/href-no-hash
+                      // eslint-disable-next-line jsx-a11y/anchor-is-valid
                       <a
                         href="#"
                         className={`hub-lang-switch-${lang}`}

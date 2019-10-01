@@ -1,8 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 const CopyCode = require('../CopyCode');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 /*
  * This component is used internally by Code
@@ -28,10 +28,12 @@ class CodeElement extends React.PureComponent {
     this.el = React.createRef();
     this.state = { el: null };
   }
+
   componentDidMount() {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ el: this.el.current });
   }
+
   render() {
     const { activeTab, code, dark } = this.props;
 
