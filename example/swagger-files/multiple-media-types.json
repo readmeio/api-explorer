@@ -12,7 +12,7 @@
   "paths": {
     "/multiple-types-multiple-examples": {
       "get": {
-        "summary": "Multiple examples with multiple examples",
+        "summary": "Multiple response types with multiple examples",
         "description": "",
         "requestBody": {
           "content": {
