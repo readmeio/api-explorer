@@ -752,9 +752,16 @@ form.rjsf {
   .children legend:after {
     display: none !important;
   }
+  [id^=root_array] > .field-description,
+  #root_object__description,
+  .field-object > .children > fieldset > .field-description:first-of-type,
+  .field-array > .children > fieldset > .field-description:first-of-type {
+    // nix initial additional descriptions in array and object params
+    display: none !important;
+  }
   .param.field-object > .children .field-description,
   .param.field-array > .children .field-description {
-    display: none;
+    margin: 0;
   }
   .array-item-list {
     margin: 0;
