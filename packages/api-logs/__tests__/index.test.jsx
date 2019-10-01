@@ -4,7 +4,7 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const nock = require('nock');
 
-const { Logs, checkFreshness } = require('../index.jsx');
+const { Logs, checkFreshness, handleResponse } = require('../index.jsx');
 const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
@@ -175,24 +175,6 @@ describe('Logs', () => {
     expect(comp.find('table').length).toBe(1);
   });
 
-  test('should throw when response is 500', () => {
-    const comp = shallow(<Logs {...props} />);
-    const response = {
-      status: 500,
-    };
-    expect(comp.instance().handleResponse.bind(comp.instance(), response)).toThrow();
-  });
-
-  test('should set logs when response is 200', () => {
-    const comp = shallow(<Logs {...props} />);
-    const response = {
-      status: 200,
-      json: () => [requestmodel],
-    };
-    const result = comp.instance().handleResponse(response);
-    expect(result.length).toBe(1);
-  });
-
   test('on select change', () => {
     const comp = shallow(<Logs {...props} />);
     const instance = comp.instance();
@@ -237,6 +219,23 @@ describe('Logs', () => {
     await comp.instance().getLogs('someid');
 
     mock.done();
+  });
+});
+
+describe('handleResponse()', () => {
+  test('should throw when response is 500', () => {
+    expect(() => {
+      handleResponse({ status: 500 });
+    }).toThrow();
+  });
+
+  test('should set logs when response is 200', () => {
+    const response = {
+      status: 200,
+      json: () => [requestmodel],
+    };
+    const result = handleResponse(response);
+    expect(result.length).toBe(1);
   });
 });
 

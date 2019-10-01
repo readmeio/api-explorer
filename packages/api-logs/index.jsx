@@ -46,6 +46,13 @@ function checkFreshness(existingLogs, incomingLogs) {
   throw new Error('Requested logs are not up-to-date.');
 }
 
+function handleResponse(res) {
+  if (res.status === 200) {
+    return res.json();
+  }
+  throw new Error('Failed to fetch logs');
+}
+
 class Logs extends React.Component {
   constructor(props) {
     super(props);
@@ -90,9 +97,13 @@ class Logs extends React.Component {
     try {
       const reqUrl = this.buildLogRequest();
       const res = await fetch(reqUrl);
-      logs = await this.handleResponse(res);
+      logs = await handleResponse(res);
     } catch (e) {
       // TODO Many Errors! Handle it!
+    }
+
+    if (!iterative) {
+      this.setState({ loading: false });
     }
 
     if (!iterative && logs && logs.length) {
@@ -111,23 +122,20 @@ class Logs extends React.Component {
   }
 
   async iterativeGetLogs() {
-    const logs = await retry(
-      async () => {
-        const parsedLogs = await this.getLogs(true);
-        return checkFreshness(this.state.logs, parsedLogs);
-      },
-      { minTimeout: 50 },
-    );
-
-    this.setState({ logs });
-  }
-
-  handleResponse(res) {
-    this.setState({ loading: false });
-    if (res.status === 200) {
-      return res.json();
+    try {
+      const logs = await retry(
+        async () => {
+          const parsedLogs = await this.getLogs(true);
+          return checkFreshness(this.state.logs, parsedLogs);
+        },
+        { retries: 6, minTimeout: 50 },
+      );
+      this.setState({ logs });
+    } catch (e) {
+      // TODO Many Errors! Handle it!
     }
-    throw new Error('Failed to fetch logs');
+
+    this.setState({ loading: false });
   }
 
   changeGroup(group) {
@@ -262,3 +270,4 @@ Logs.defaultProps = {
 module.exports = Logs;
 module.exports.Logs = Logs;
 module.exports.checkFreshness = checkFreshness;
+module.exports.handleResponse = handleResponse;
