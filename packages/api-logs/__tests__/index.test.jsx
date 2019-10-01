@@ -72,9 +72,9 @@ describe('Logs', () => {
 
   test('should call refresh and set state when group props are updated via parent', done => {
     const comp = shallow(<LogTest {...props} />);
-    comp.instance().refresh = jest.fn();
+    comp.instance().getLogs = jest.fn();
     comp.setProps({ group: 'testnew' });
-    expect(comp.instance().refresh).toHaveBeenCalledTimes(1);
+    expect(comp.instance().getLogs).toHaveBeenCalledTimes(1);
     expect(comp.instance().state.logs).toMatchObject([]);
     done();
   });
@@ -110,16 +110,16 @@ describe('Logs', () => {
         },
       ]);
 
-    const res = await comp.instance().getData();
-    expect(res[0]._id).toBe('2');
+    await comp.instance().iterativeGetLogs();
+    expect(comp.instance().state.logs[0]._id).toBe('2');
     mock.done();
   });
 
   test('should call refresh when result props are updated via parent', () => {
     const comp = shallow(<LogTest {...props} />);
-    comp.instance().refresh = jest.fn();
+    comp.instance().iterativeGetLogs = jest.fn();
     comp.setProps({ result: { newResult: true } });
-    expect(comp.instance().refresh).toHaveBeenCalledTimes(1);
+    expect(comp.instance().iterativeGetLogs).toHaveBeenCalledTimes(1);
   });
 
   test('should fetch based on query with page/limit', async () => {
@@ -136,7 +136,7 @@ describe('Logs', () => {
       })
       .reply(200, [requestmodel]);
 
-    await comp.instance().getData();
+    await comp.instance().getLogs();
 
     mock.done();
   });
@@ -155,7 +155,7 @@ describe('Logs', () => {
       })
       .reply(200, [requestmodel]);
 
-    await comp.instance().getData('someid');
+    await comp.instance().getLogs('someid');
 
     mock.done();
   });
@@ -175,17 +175,12 @@ describe('Logs', () => {
     expect(comp.find('table').length).toBe(1);
   });
 
-  test('should throw for invalid fetch', () => {
-    const comp = shallow(<Logs {...props} />);
-    expect(comp.instance().getData).toThrow();
-  });
-
   test('should throw when response is 500', () => {
     const comp = shallow(<Logs {...props} />);
     const response = {
       status: 500,
     };
-    expect(comp.instance().handleData.bind(comp.instance(), response)).toThrow();
+    expect(comp.instance().handleResponse.bind(comp.instance(), response)).toThrow();
   });
 
   test('should set logs when response is 200', () => {
@@ -194,7 +189,7 @@ describe('Logs', () => {
       status: 200,
       json: () => [requestmodel],
     };
-    const result = comp.instance().handleData(response);
+    const result = comp.instance().handleResponse(response);
     expect(result.length).toBe(1);
   });
 
@@ -239,7 +234,7 @@ describe('Logs', () => {
       })
       .reply(200, [requestmodel]);
 
-    await comp.instance().getData('someid');
+    await comp.instance().getLogs('someid');
 
     mock.done();
   });

@@ -38,8 +38,8 @@ function getLanguage(log) {
 
 function checkFreshness(existingLogs, incomingLogs) {
   if (
-    (existingLogs.length && incomingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id) ||
-    (!existingLogs.length && incomingLogs.length)
+    (!existingLogs.length && incomingLogs.length) ||
+    (existingLogs.length && incomingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id)
   ) {
     return incomingLogs;
   }
@@ -62,7 +62,7 @@ class Logs extends React.Component {
   }
 
   componentDidMount() {
-    this.refresh();
+    this.getLogs();
   }
 
   componentDidUpdate(prevProps) {
@@ -71,12 +71,12 @@ class Logs extends React.Component {
       // Setting logs to [] means we show the loading icon
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ logs: [] });
-      this.refresh();
+      this.getLogs();
     }
 
     // Refresh if the result has changed (this means has "try it now" been called?)
     if (this.props.result !== prevProps.result) {
-      this.refresh();
+      this.iterativeGetLogs();
     }
   }
 
@@ -84,44 +84,54 @@ class Logs extends React.Component {
     this.changeGroup(event.target.value);
   }
 
-  getData() {
+  async getLogs(iterative) {
+    let logs;
+
+    try {
+      const reqUrl = this.buildLogRequest();
+      const res = await fetch(reqUrl);
+      logs = await this.handleResponse(res);
+    } catch (e) {
+      // TODO Many Errors! Handle it!
+    }
+
+    if (!iterative && logs && logs.length) {
+      this.setState({ logs });
+    }
+    return logs;
+  }
+
+  buildLogRequest() {
     const { query, baseUrl, group } = this.props;
     this.setState({ loading: true });
 
-    const reqUrl = `${baseUrl}/api/logs?${querystring.stringify(
+    return `${baseUrl}/api/logs?${querystring.stringify(
       Object.assign({}, query, { id: group || null, limit: 5, page: 0 }),
     )}`;
+  }
 
-    return retry(
+  async iterativeGetLogs() {
+    const logs = await retry(
       async () => {
-        const res = await fetch(reqUrl);
-        const parsedLogs = await this.handleData(res);
+        const parsedLogs = await this.getLogs(true);
         return checkFreshness(this.state.logs, parsedLogs);
       },
       { minTimeout: 50 },
     );
+
+    this.setState({ logs });
   }
 
-  handleData(res) {
+  handleResponse(res) {
     this.setState({ loading: false });
     if (res.status === 200) {
       return res.json();
     }
-    throw new Error(`Failed to fetch logs`);
+    throw new Error('Failed to fetch logs');
   }
 
   changeGroup(group) {
     this.props.changeGroup(group);
-  }
-
-  refresh() {
-    this.getData()
-      .then(logs => {
-        this.setState({ logs });
-      })
-      .catch(() => {
-        // TODO HANDLE ERROR
-      });
   }
 
   visitLogItem(log) {
