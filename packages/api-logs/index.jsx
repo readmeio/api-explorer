@@ -11,6 +11,7 @@ const LoadingSvg = props => (
     viewBox="0 0 38 38"
     xmlns="http://www.w3.org/2000/svg"
     stroke="#2283c9"
+    // eslint-disable-next-line react/jsx-props-no-spreading
     {...props}
   >
     <g transform="translate(1 1)" strokeWidth="2" fill="none" fillRule="evenodd">
@@ -98,9 +99,12 @@ class Logs extends React.Component {
     const { query, baseUrl } = this.props;
     this.setState({ loading: true });
 
-    const reqUrl = `${baseUrl}/api/logs?${querystring.stringify(
-      Object.assign({}, query, { id: group || null, limit: 5, page: 0 }),
-    )}`;
+    const reqUrl = `${baseUrl}/api/logs?${querystring.stringify({
+      ...query,
+      id: group || null,
+      limit: 5,
+      page: 0,
+    })}`;
 
     return fetch(reqUrl).then(res => {
       return this.handleData(res);
@@ -221,7 +225,7 @@ class Logs extends React.Component {
     const { query, baseUrl } = this.props;
     if (!group) return null;
 
-    const url = `${baseUrl}/logs?${querystring.stringify(Object.assign({}, query, { id: group }))}`;
+    const url = `${baseUrl}/logs?${querystring.stringify({ ...query, id: group })}`;
 
     return (
       <VisibilitySensor onChange={this.onVisible}>
