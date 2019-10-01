@@ -13,13 +13,13 @@ const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
-function isDisplayable(example, responseTypeCopy) {
-  if (!responseTypeCopy) return true;
+function isDisplayable(example, responseExampleCopy) {
+  if (!responseExampleCopy) return true;
 
-  return example.label === responseTypeCopy;
+  return example.label === responseExampleCopy;
 }
 
-function getReactJson(example, responseTypeCopy) {
+function getReactJson(example, responseExampleCopy) {
   return (
     <ReactJson
       src={JSON.parse(example.code)}
@@ -34,35 +34,75 @@ function getReactJson(example, responseTypeCopy) {
       style={{
         padding: '20px 10px',
         backgroundColor: 'transparent',
-        display: isDisplayable(example, responseTypeCopy) ? 'block' : 'none',
+        display: isDisplayable(example, responseExampleCopy) ? 'block' : 'none',
         fontSize: '12px',
       }}
     />
   );
 }
 
-function showExamples(examples, setResponseType, responseType) {
-  let responseTypeCopy = responseType;
-  if (!responseTypeCopy && examples[0]) responseTypeCopy = examples[0].label;
+function showMediaTypes(example, setResponseMediaType, responseMediaType) {
+  const mediaTypes = example.languages;
+  if (mediaTypes.length <= 1) return false;
+
+  let responseMediaTypeCopy = responseMediaType;
+  if (!responseMediaTypeCopy && mediaTypes[0]) responseMediaTypeCopy = mediaTypes[0].languages;
 
   return (
     <div>
-      {examples.length > 1 && (
+      <span className="tabber-select-row">
+        <h3>Media Types</h3>
         <select
           className="response-select"
-          onChange={e => setResponseType(e.target.value)}
-          value={responseTypeCopy}
+          onChange={e => setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
+          value={responseMediaTypeCopy}
         >
-          {examples.map(example => (
-            <option value={example.label} key={example.label}>
-              {example.label}
+          {mediaTypes.map((l, idx) => (
+            <option value={idx} key={l.language}>
+              {l.language}
             </option>
           ))}
         </select>
-      )}
+      </span>
+    </div>
+  );
+}
+
+function showExamples(
+  examples,
+  setResponseExample,
+  responseExample,
+  mediaTypes,
+  ex,
+  setResponseMediaType,
+  responseMediaType,
+) {
+  let responseExampleCopy = responseExample;
+  if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
+
+  return (
+    <div>
+      <div className="tabber-bar">
+        {mediaTypes.length > 1 && showMediaTypes(ex, setResponseMediaType, responseMediaType)}
+
+        <span className="tabber-select-row">
+          <h3>Examples</h3>
+          <select
+            className="response-select"
+            onChange={e => setResponseExample(e.target.value)}
+            value={responseExampleCopy}
+          >
+            {examples.map(example => (
+              <option value={example.label} key={example.label}>
+                {example.label}
+              </option>
+            ))}
+          </select>
+        </span>
+      </div>
 
       {examples.map(example => {
-        return getReactJson(example, responseTypeCopy);
+        return getReactJson(example, responseExampleCopy);
       })}
     </div>
   );
@@ -75,49 +115,85 @@ function Example({
   selected,
   setExampleTab,
   exampleResponses,
-  setResponseType,
-  responseType,
+  setResponseExample,
+  setResponseMediaType,
+  responseExample,
+  responseMediaType,
+  responseMediaTypeExample,
 }) {
   const examples = exampleResponses.length ? exampleResponses : showCodeResults(operation);
-  const hasExamples = examples.find(e => e.code && e.code !== '{}');
+  const hasExamples = examples.find(e => {
+    return e.languages.find(ee => ee.code && ee.code !== '{}');
+  });
+
   return (
     <div className="hub-reference-results-examples code-sample">
       {examples && examples.length > 0 && hasExamples && (
         <span>
           <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
           <div className="code-sample-body">
-            {examples.map((example, index) => {
+            {examples.map((ex, index) => {
+              let example;
+              const mediaTypes = ex.languages;
+
+              if (mediaTypes.length > 1) {
+                example = responseMediaTypeExample || mediaTypes[0];
+              } else {
+                example = mediaTypes[0];
+              }
+
               const isJson = example.language && contentTypeIsJson(example.language);
 
-              const getHighlightedExample = ex => {
-                return syntaxHighlighter(ex.code, ex.language, {
+              const getHighlightedExample = hx => {
+                return syntaxHighlighter(hx.code, hx.language, {
                   dark: true,
                 });
               };
 
-              const transformExampleIntoReactJson = ex => {
+              const transformExampleIntoReactJson = rx => {
                 try {
-                  return getReactJson(ex);
+                  return getReactJson(rx);
                 } catch (e) {
-                  return getHighlightedExample(ex);
+                  return getHighlightedExample(rx);
                 }
               };
 
               return (
-                <pre
-                  className={`tomorrow-night tabber-body tabber-body-${index}`}
-                  style={{ display: index === selected ? 'block' : '' }}
-                  key={index} // eslint-disable-line react/no-array-index-key
-                >
-                  {example.multipleExamples &&
-                    showExamples(example.multipleExamples, setResponseType, responseType)}
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={index}>
+                  <pre
+                    className={`tomorrow-night tabber-body tabber-body-${index}`}
+                    style={{ display: index === selected ? 'block' : '' }}
+                  >
+                    {!example.multipleExamples && (
+                      <div className="tabber-bar">
+                        {showMediaTypes(ex, setResponseMediaType, responseMediaType)}
+                      </div>
+                    )}
 
-                  {isJson && !example.multipleExamples ? (
-                    transformExampleIntoReactJson(example)
-                  ) : (
-                    <div>{getHighlightedExample(example)}</div>
-                  )}
-                </pre>
+                    {example.multipleExamples &&
+                      showExamples(
+                        example.multipleExamples,
+                        setResponseExample,
+                        responseExample,
+                        mediaTypes,
+                        ex,
+                        setResponseMediaType,
+                        responseMediaType,
+                      )}
+
+                    {isJson && !example.multipleExamples ? (
+                      <div className="example example_json">
+                        {transformExampleIntoReactJson(example)}
+                      </div>
+                    ) : (
+                      // json + multiple examples is already handled in `showExamples`.
+                      <div className="example">
+                        {isJson && example.multipleExamples ? null : getHighlightedExample(example)}
+                      </div>
+                    )}
+                  </pre>
+                </div>
               );
             })}
           </div>
@@ -142,14 +218,19 @@ Example.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   selected: PropTypes.number.isRequired,
-  responseType: PropTypes.string,
+  responseExample: PropTypes.string,
+  responseMediaType: PropTypes.string,
+  responseMediaTypeExample: PropTypes.shape({}),
   setExampleTab: PropTypes.func.isRequired,
-  setResponseType: PropTypes.func.isRequired,
+  setResponseExample: PropTypes.func.isRequired,
+  setResponseMediaType: PropTypes.func.isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 Example.defaultProps = {
   result: {},
-  responseType: null,
+  responseExample: null,
+  responseMediaType: null,
+  responseMediaTypeExample: null,
   exampleResponses: [],
 };

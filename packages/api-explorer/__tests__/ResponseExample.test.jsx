@@ -16,7 +16,8 @@ const props = {
   operation: oas.operation('/pet', 'post'),
   selected: 0,
   setExampleTab: () => {},
-  setResponseType: () => {},
+  setResponseExample: () => {},
+  setResponseMediaType: () => {},
 };
 
 test('should show no examples if endpoint does not any', () => {
@@ -120,7 +121,10 @@ test('should show select for multiple examples on a single media type', () => {
     />,
   );
 
-  expect(example.html().includes('<select')).toBe(true);
+  const html = example.html();
+
+  expect(html.includes('>Media Types')).toBe(false);
+  expect(html.includes('>Examples')).toBe(true);
 });
 
 test('should not show a select if a media type has a single example', () => {

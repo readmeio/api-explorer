@@ -91,6 +91,77 @@
         }
       }
     },
+    "/multiple-types-single-example": {
+      "get": {
+        "summary": "Multiple response types with a single example",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string (format: date)": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "string (format: date-time)": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "string (format: string)": {
+                    "type": "string",
+                    "format": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "examples": {
+                  "response": {
+                    "value": "OK"
+                  }
+                }
+              },
+              "application/json": {
+                "examples": {
+                  "cat" : {
+                    "summary": "An example of a cat",
+                    "value":
+                    {
+                      "name": "Fluffy",
+                      "petType": "Cat",
+                      "color": "White",
+                      "gender": "male",
+                      "breed": "Persian"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed",
+            "content": {
+              "application/xml": {
+                "examples": {
+                  "response": {
+                    "value":
+                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/single-type-multiple-examples": {
       "get": {
         "summary": "Single media type with multiple examples",
