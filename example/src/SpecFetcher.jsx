@@ -75,6 +75,7 @@ function withSpecFetching(Component) {
     }
 
     render() {
+      // eslint-disable-next-line react/jsx-props-no-spreading
       return <Component {...this.state} {...this.props} fetchSwagger={this.fetchSwagger} />;
     }
   };
