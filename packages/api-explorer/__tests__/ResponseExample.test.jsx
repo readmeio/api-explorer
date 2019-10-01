@@ -123,8 +123,8 @@ test('should show select for multiple examples on a single media type', () => {
 
   const html = example.html();
 
-  expect(html.includes('>Media Types')).toBe(false);
-  expect(html.includes('>Examples')).toBe(true);
+  expect(html.includes('>Response type')).toBe(false);
+  expect(html.includes('>Set an example')).toBe(true);
 });
 
 test('should not show a select if a media type has a single example', () => {

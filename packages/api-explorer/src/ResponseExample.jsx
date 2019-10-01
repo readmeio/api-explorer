@@ -51,7 +51,7 @@ function showMediaTypes(example, setResponseMediaType, responseMediaType) {
   return (
     <div>
       <span className="tabber-select-row">
-        <h3>Media Types</h3>
+        <h3>Response Type</h3>
         <select
           className="response-select"
           onChange={e => setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
@@ -86,7 +86,7 @@ function showExamples(
         {mediaTypes.length > 1 && showMediaTypes(ex, setResponseMediaType, responseMediaType)}
 
         <span className="tabber-select-row">
-          <h3>Examples</h3>
+          <h3>Set an example</h3>
           <select
             className="response-select"
             onChange={e => setResponseExample(e.target.value)}
