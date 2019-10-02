@@ -257,6 +257,10 @@ class Doc extends React.Component {
           url,
           method,
         }}
+        result={this.state.result}
+        group={this.props.group}
+        groups={this.props.groups}
+        changeGroup={this.props.changeGroup}
       />
     );
   }
@@ -396,7 +400,15 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
-  lazy: PropTypes.bool,
+  lazy: PropTypes.bool.isRequired,
+  group: PropTypes.string,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
+  changeGroup: PropTypes.func.isRequired,
 };
 
 Doc.defaultProps = {
@@ -410,8 +422,10 @@ Doc.defaultProps = {
     splitReferenceDocs: false,
   },
   Logs: undefined,
-  user: undefined,
+  user: {},
   baseUrl: '/',
+  group: '',
+  groups: [],
 };
 
 module.exports = Doc;
