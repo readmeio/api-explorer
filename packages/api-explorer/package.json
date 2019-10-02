@@ -1,13 +1,13 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "4.8.7",
+  "version": "4.9.0",
   "main": "dist/index.js",
   "dependencies": {
-    "@readme/markdown": "^4.8.7",
-    "@readme/oas-extensions": "^4.8.5",
-    "@readme/syntax-highlighter": "^4.8.6",
-    "@readme/variable": "^4.8.6",
+    "@readme/markdown": "^4.9.0",
+    "@readme/oas-extensions": "^4.9.0",
+    "@readme/syntax-highlighter": "^4.9.0",
+    "@readme/variable": "^4.9.0",
     "classnames": "^2.2.5",
     "fetch-har": "^2.0.0",
     "httpsnippet": "^1.19.1",
