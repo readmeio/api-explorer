@@ -10,7 +10,6 @@
     "@readme/variable": "^4.8.6",
     "classnames": "^2.2.5",
     "fetch-har": "^2.0.0",
-    "hast-util-sanitize": "^1.2.0",
     "httpsnippet": "^1.19.1",
     "js-cookie": "^2.1.4",
     "lodash.kebabcase": "^4.1.1",
@@ -51,9 +50,8 @@
     "jsinspect": "^0.12.6",
     "node-fetch": "^2.0.0-alpha.9",
     "prettier": "^1.18.2",
-    "uglify-es": "^3.2.1",
-    "uglifyjs-webpack-plugin": "^1.2.3",
-    "webpack": "^3.10.0",
-    "webpack-merge": "^4.1.1"
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.0",
+    "webpack-merge": "^4.2.2"
   }
 }
