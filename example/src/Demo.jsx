@@ -30,7 +30,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
             oasFiles={{
               'api-setting': Object.assign(extensions.defaults, oas),
             }}
-            baseUrl={'/'}
+            baseUrl="/"
             // Uncomment this if you want to test enterprise-structured URLs
             // baseUrl={'/child/v1.0'}
             Logs={Logs}
@@ -56,7 +56,12 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
               // },
               // Uncomment this to test without keys array
               // user: { user: '123456', pass: 'abc', apiKey: '123456' },
-              user: { keys: [{ name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' }, { name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' }] },
+              user: {
+                keys: [
+                  { name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' },
+                  { name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' }
+                ]
+              },
               defaults: [],
             }}
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}

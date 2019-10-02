@@ -8,6 +8,7 @@ module.exports = function parseMagicBlocks(str = '' /* , addTextareas */) {
 
     if (check) {
       if (check[2]) {
+        // eslint-disable-next-line prefer-destructuring
         block = check[2];
       } else {
         block = false;

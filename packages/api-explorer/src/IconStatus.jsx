@@ -17,7 +17,9 @@ function IconStatus({ status, name }) {
       })}
     >
       <i className="fa fa-circle" />
-      &nbsp;{statusCode[0]}&nbsp;
+      &nbsp;
+      {statusCode[0]}
+      &nbsp;
       <em>{name || statusCode[1]}</em>
     </span>
   );

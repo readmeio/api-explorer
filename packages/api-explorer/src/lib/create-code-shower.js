@@ -34,7 +34,7 @@ function getExample(response, lang) {
 function getMultipleExamples(response, lang) {
   if (!response.content[lang].examples || response.content[lang].examples.response) return false;
 
-  const examples = response.content[lang].examples;
+  const { examples } = response.content[lang];
   return Object.keys(examples).map(key => {
     return {
       label: key,

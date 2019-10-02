@@ -19,6 +19,7 @@ const Embed = ({ block }) => {
             />
           );
         }
+
         return (
           <strong>
             {block.data.favicon && <img src={block.data.favicon} className="favicon" alt="" />}
@@ -43,7 +44,7 @@ Embed.propTypes = {
       height: PropTypes.string,
       title: PropTypes.string,
     }),
-  }).isRequired,
+  }),
 };
 
 Embed.defaultProps = {

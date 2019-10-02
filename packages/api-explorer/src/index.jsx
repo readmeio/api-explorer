@@ -29,7 +29,13 @@ class ApiExplorer extends React.Component {
         changeSelected: this.changeSelected,
       },
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
+      group: this.getGroup(),
     };
+
+    this.changeGroup = this.changeGroup.bind(this);
+    this.groups =
+      this.props.variables.user.keys &&
+      this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
 
     this.lazyHash = this.buildLazyHash();
   }
@@ -37,9 +43,21 @@ class ApiExplorer extends React.Component {
   onAuthChange(auth) {
     this.setState(previousState => {
       return {
-        auth: Object.assign({}, previousState.auth, auth),
+        auth: { ...previousState.auth, ...auth },
       };
     });
+  }
+
+  getGroup() {
+    if (this.props.variables.user.keys && this.props.variables.user.keys[0].id) {
+      return this.props.variables.user.keys[0].id;
+    }
+
+    if (this.props.variables.user.id) {
+      return this.props.variables.user.id;
+    }
+
+    return undefined;
   }
 
   setLanguage(language) {
@@ -68,6 +86,10 @@ class ApiExplorer extends React.Component {
       (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
 
     return this.props.oasFiles[apiSetting];
+  }
+
+  changeGroup(group) {
+    this.setState({ group });
   }
 
   isLazy(index) {
@@ -147,6 +169,9 @@ class ApiExplorer extends React.Component {
                         setLanguage={this.setLanguage}
                         flags={this.props.flags}
                         user={this.props.variables.user}
+                        group={this.state.group}
+                        groups={this.groups}
+                        changeGroup={this.changeGroup}
                         Logs={this.props.Logs}
                         baseUrl={this.props.baseUrl.replace(/\/$/, '')}
                         appearance={this.props.appearance}
@@ -172,22 +197,23 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
-  dontLazyLoad: PropTypes.bool.isRequired,
+  dontLazyLoad: PropTypes.bool,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
     splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
-  }).isRequired,
+  }),
   oauth: PropTypes.bool,
-  baseUrl: PropTypes.string.isRequired,
+  baseUrl: PropTypes.string,
   Logs: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
   variables: PropTypes.shape({
     user: PropTypes.shape({
       keys: PropTypes.array,
+      id: PropTypes.string,
     }).isRequired,
     defaults: PropTypes.arrayOf(
       PropTypes.shape({ name: PropTypes.string.isRequired, default: PropTypes.string.isRequired }),
@@ -211,6 +237,7 @@ ApiExplorer.defaultProps = {
 
 module.exports = props => (
   <ErrorBoundary>
+    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
     <ApiExplorer {...props} />
   </ErrorBoundary>
 );

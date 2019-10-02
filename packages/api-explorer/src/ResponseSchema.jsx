@@ -20,7 +20,7 @@ class ResponseSchema extends React.Component {
   }
 
   getSchema(operation) {
-    const oas = this.props.oas;
+    const { oas } = this.props;
     const content = this.getContent(operation, oas);
 
     if (!content) return null;

@@ -1,6 +1,6 @@
 const React = require('react');
-const IconStatus = require('./IconStatus');
 const PropTypes = require('prop-types');
+const IconStatus = require('./IconStatus');
 
 function Meta({ label, children }) {
   return (
@@ -54,8 +54,6 @@ function ResponseMetadata({ result }) {
   );
 }
 
-module.exports = ResponseMetadata;
-
 ResponseMetadata.propTypes = {
   result: PropTypes.shape({
     method: PropTypes.string,
@@ -66,3 +64,5 @@ ResponseMetadata.propTypes = {
     url: PropTypes.string,
   }).isRequired,
 };
+
+module.exports = ResponseMetadata;

@@ -27,7 +27,7 @@ const ImageBlock = ({ block, flags }) => {
     );
   });
 
-  return <div className="image"> {myImage} </div>;
+  return <div className="image">{myImage}</div>;
 };
 
 ImageBlock.propTypes = {
@@ -38,7 +38,9 @@ ImageBlock.propTypes = {
   }).isRequired,
   flags: PropTypes.shape({}),
 };
+
 ImageBlock.defaultProps = {
   flags: {},
 };
+
 module.exports = ImageBlock;

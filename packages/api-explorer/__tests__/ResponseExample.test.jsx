@@ -1,9 +1,9 @@
 const React = require('react');
 const { shallow } = require('enzyme');
+const extensions = require('@readme/oas-extensions');
 const petstore = require('./fixtures/petstore/oas');
 const string = require('./fixtures/string/oas.json');
 const exampleResults = require('./fixtures/example-results/oas');
-const extensions = require('@readme/oas-extensions');
 
 const ResponseExample = require('../src/ResponseExample');
 const Oas = require('../src/lib/Oas');
