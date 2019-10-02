@@ -1,7 +1,7 @@
 {
   "name": "@readme/oas-extensions",
   "description": "A list of extensions that ReadMe has added to the OAS spec",
-  "version": "4.8.5",
+  "version": "4.9.0",
   "scripts": {
     "test": "eslint -f unix ."
   },
@@ -15,7 +15,6 @@
   "devDependencies": {
     "eslint": "^6.5.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "jest": "^24.8.0"
+    "eslint-plugin-import": "^2.18.2"
   }
 }
