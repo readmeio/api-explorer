@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 
 function Basic({ user, pass, change, authInputRef, Input }) {
   function inputChange(name, value) {
-    change(Object.assign({ user, pass }, { [name]: value }));
+    change({ user, pass, [name]: value });
   }
 
   return (

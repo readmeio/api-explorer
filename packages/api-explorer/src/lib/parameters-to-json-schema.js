@@ -28,7 +28,7 @@ function getBodyParam(pathOperation, oas) {
 }
 
 function hasCommonParameters(pathOperation) {
-  const path = (pathOperation || {}).path;
+  const { path } = pathOperation || {};
   const commonParams = ((((pathOperation || {}).oas || {}).paths || {})[path] || {}).parameters;
   return !!(commonParams && commonParams.length !== 0);
 }
@@ -37,7 +37,7 @@ function getOtherParams(pathOperation, oas) {
   let pathParameters = pathOperation.parameters || [];
 
   if (hasCommonParameters(pathOperation)) {
-    const path = pathOperation.path;
+    const { path } = pathOperation;
     const commonParams = pathOperation.oas.paths[path].parameters;
     const commonParamsNotInParams = commonParams.filter(
       param => !pathParameters.find(param2 => param2.name === param.name && param2.in === param.in),

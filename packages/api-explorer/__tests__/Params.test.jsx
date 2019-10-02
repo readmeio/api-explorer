@@ -216,7 +216,7 @@ test('should default number to float if missing format', () => {
 });
 
 describe('x-explorer-enabled', () => {
-  const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
+  const oasWithExplorerDisabled = { ...oas, [extensions.EXPLORER_ENABLED]: false };
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
 
   test('array should still show add button, but sub-elements should not be editable', () => {

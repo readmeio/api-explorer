@@ -1,5 +1,5 @@
-const parseResponse = require('../../src/lib/parse-response');
 const { Headers, Response } = require('node-fetch');
+const parseResponse = require('../../src/lib/parse-response');
 
 function createHar(har) {
   return {

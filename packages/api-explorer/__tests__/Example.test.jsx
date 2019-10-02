@@ -1,9 +1,9 @@
 const React = require('react');
 const { shallow } = require('enzyme');
+const extensions = require('@readme/oas-extensions');
 const petstore = require('./fixtures/petstore/oas');
 const string = require('./fixtures/string/oas.json');
 const exampleResults = require('./fixtures/example-results/oas');
-const extensions = require('@readme/oas-extensions');
 
 const Example = require('../src/Example');
 const Oas = require('../src/lib/Oas');
@@ -26,10 +26,7 @@ test('should show no examples if endpoint does not any', () => {
 
 test('should notify about no examples being available if explorer disabled', () => {
   const example = shallow(
-    <Example
-      {...props}
-      oas={new Oas(Object.assign({}, petstore, { [extensions.EXPLORER_ENABLED]: false }))}
-    />,
+    <Example {...props} oas={new Oas({ ...petstore, [extensions.EXPLORER_ENABLED]: false })} />,
   );
 
   expect(example.containsMatchingElement(<div>No response examples available</div>)).toEqual(true);

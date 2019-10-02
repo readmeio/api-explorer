@@ -82,8 +82,6 @@ class Response extends React.Component {
   }
 }
 
-module.exports = Response;
-
 Response.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
@@ -97,3 +95,5 @@ Response.defaultProps = {
   result: {},
   exampleResponses: [],
 };
+
+module.exports = Response;

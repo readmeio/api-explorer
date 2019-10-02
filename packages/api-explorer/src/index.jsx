@@ -43,7 +43,7 @@ class ApiExplorer extends React.Component {
   onAuthChange(auth) {
     this.setState(previousState => {
       return {
-        auth: Object.assign({}, previousState.auth, auth),
+        auth: { ...previousState.auth, ...auth },
       };
     });
   }
@@ -197,16 +197,16 @@ class ApiExplorer extends React.Component {
 ApiExplorer.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   oasFiles: PropTypes.shape({}).isRequired,
-  dontLazyLoad: PropTypes.bool.isRequired,
+  dontLazyLoad: PropTypes.bool,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
     splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
-  }).isRequired,
+  }),
   oauth: PropTypes.bool,
-  baseUrl: PropTypes.string.isRequired,
+  baseUrl: PropTypes.string,
   Logs: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
@@ -237,6 +237,7 @@ ApiExplorer.defaultProps = {
 
 module.exports = props => (
   <ErrorBoundary>
+    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
     <ApiExplorer {...props} />
   </ErrorBoundary>
 );

@@ -38,7 +38,7 @@ function flattenObject(obj, parent, level, oas) {
       }
 
       if (value.type === 'array' && value.items) {
-        let items = value.items;
+        let { items } = value;
         if (items.$ref) {
           items = findSchemaDefinition(items.$ref, oas);
         }
@@ -131,8 +131,6 @@ function ResponseSchemaBody({ schema, oas }) {
   );
 }
 
-module.exports = ResponseSchemaBody;
-
 ResponseSchemaBody.propTypes = {
   schema: PropTypes.shape({
     type: PropTypes.string.isRequired,
@@ -142,5 +140,6 @@ ResponseSchemaBody.propTypes = {
   oas: PropTypes.shape({}).isRequired,
 };
 
+module.exports = ResponseSchemaBody;
 module.exports.flattenResponseSchema = flattenResponseSchema;
 module.exports.flatten = flatten;

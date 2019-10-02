@@ -192,7 +192,7 @@ describe('onSubmit', () => {
       auth: { petstore_auth: 'api-key' },
     };
 
-    const fetch = window.fetch;
+    const { fetch } = window;
 
     window.fetch = request => {
       expect(request.url).toContain(oas.servers[0].url);
@@ -235,7 +235,7 @@ describe('onSubmit', () => {
 
     const doc = mount(<Doc {...props} oas={proxyOas} />);
 
-    const fetch = window.fetch;
+    const { fetch } = window;
 
     window.fetch = request => {
       expect(request.url).toContain(`https://try.readme.io/${proxyOas.servers[0].url}`);
@@ -260,7 +260,7 @@ describe('onSubmit', () => {
       />,
     );
 
-    const fetch = window.fetch;
+    const { fetch } = window;
     window.fetch = () => {
       return Promise.resolve(new Response());
     };
@@ -307,9 +307,7 @@ describe('suggest edits', () => {
   });
 
   test('should have child project if baseUrl is set', () => {
-    const doc = shallow(
-      <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
-    );
+    const doc = shallow(<Doc {...{ baseUrl: '/child', ...props }} suggestedEdits />);
     expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(
       `/child/reference-edit/${props.doc.slug}`,
     );

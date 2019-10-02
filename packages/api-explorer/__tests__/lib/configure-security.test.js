@@ -50,7 +50,7 @@ describe('configure-security', () => {
         type: 'headers',
         value: {
           name: 'Authorization',
-          value: `Basic ${new Buffer(`${user}:${pass}`).toString('base64')}`,
+          value: `Basic ${Buffer.from(`${user}:${pass}`).toString('base64')}`,
         },
       });
     });
@@ -82,7 +82,7 @@ describe('configure-security', () => {
         type: 'headers',
         value: {
           name: 'Authorization',
-          value: `Basic ${new Buffer(`${user}:`).toString('base64')}`,
+          value: `Basic ${Buffer.from(`${user}:`).toString('base64')}`,
         },
       });
     });

@@ -1,12 +1,11 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
+const extensions = require('@readme/oas-extensions');
 const AuthBox = require('./AuthBox');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
-
-const extensions = require('@readme/oas-extensions');
 
 function splitPath(path) {
   return path
@@ -22,6 +21,7 @@ function splitPath(path) {
       };
     });
 }
+
 function PathUrl({
   oas,
   operation,
@@ -112,5 +112,6 @@ PathUrl.defaultProps = {
   authInputRef: () => {},
   auth: {},
 };
+
 module.exports = PathUrl;
 module.exports.splitPath = splitPath;

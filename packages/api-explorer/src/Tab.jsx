@@ -4,10 +4,10 @@ const classNames = require('classnames');
 
 function Tab({ children, onClick, selected }) {
   return (
-    // eslint-disable-next-line jsx-a11y/href-no-hash
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       href="#"
-      className={classNames('hub-reference-results-header-item tabber-tab', {
+      className={classNames('hub-reference-results-header-item tabber-tab invalidclass', {
         selected,
       })}
       onClick={onClick}

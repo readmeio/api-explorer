@@ -1,10 +1,10 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const FetchResponse = require('node-fetch').Response;
 const petstore = require('./fixtures/petstore/oas');
 const exampleResults = require('./fixtures/example-results/oas');
 
 const parseResponse = require('../src/lib/parse-response');
-const FetchResponse = require('node-fetch').Response;
 
 const ResponseTabs = require('../src/ResponseTabs');
 const Oas = require('../src/lib/Oas');
