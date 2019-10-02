@@ -117,9 +117,12 @@ class Logs extends React.Component {
     const { query, baseUrl, group } = this.props;
     this.setState({ loading: true });
 
-    return `${baseUrl}/api/logs?${querystring.stringify(
-      Object.assign({}, query, { id: group || null, limit: 5, page: 0 }),
-    )}`;
+    return `${baseUrl}/api/logs?${querystring.stringify({
+      ...query,
+      id: group || null,
+      limit: 5,
+      page: 0,
+    })}`;
   }
 
   async iterativeGetLogs() {

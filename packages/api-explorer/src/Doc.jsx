@@ -400,7 +400,7 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
-  lazy: PropTypes.bool.isRequired,
+  lazy: PropTypes.bool,
   group: PropTypes.string,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
