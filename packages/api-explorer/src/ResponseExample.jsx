@@ -1,11 +1,11 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
-const showCodeResults = require('./lib/show-code-results');
-const contentTypeIsJson = require('./lib/content-type-is-json');
-
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const extensions = require('@readme/oas-extensions');
+
+const showCodeResults = require('./lib/show-code-results');
+const contentTypeIsJson = require('./lib/content-type-is-json');
 
 const ExampleTabs = require('./ExampleTabs');
 
@@ -139,6 +139,7 @@ function Example({
               if (mediaTypes.length > 1) {
                 example = responseMediaTypeExample || mediaTypes[0];
               } else {
+                // eslint-disable-next-line prefer-destructuring
                 example = mediaTypes[0];
               }
 

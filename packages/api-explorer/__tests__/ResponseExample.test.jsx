@@ -30,7 +30,7 @@ test('should notify about no examples being available if explorer disabled', () 
   const example = shallow(
     <ResponseExample
       {...props}
-      oas={new Oas(Object.assign({}, petstore, { [extensions.EXPLORER_ENABLED]: false }))}
+      oas={new Oas({ ...petstore, [extensions.EXPLORER_ENABLED]: false })}
     />,
   );
 
