@@ -50,8 +50,8 @@
     "jsinspect": "^0.12.6",
     "node-fetch": "^2.0.0-alpha.9",
     "prettier": "^1.18.2",
-    "uglifyjs-webpack-plugin": "^1.2.3",
-    "webpack": "^3.10.0",
-    "webpack-merge": "^4.1.1"
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.0",
+    "webpack-merge": "^4.2.2"
   }
 }
