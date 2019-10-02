@@ -341,6 +341,15 @@ describe('Response Schema', () => {
   });
 });
 
+describe('RenderLogs', () => {
+  test('should return a log component', () => {
+    const doc = mount(<Doc {...props} />);
+    doc.setProps({ Logs: {} });
+    const res = doc.instance().renderLogs();
+    expect(res).toBeTruthy();
+  });
+});
+
 describe('themes', () => {
   test('should output code samples and responses in the right column', () => {
     const doc = mount(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);

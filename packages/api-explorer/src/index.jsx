@@ -29,7 +29,13 @@ class ApiExplorer extends React.Component {
         changeSelected: this.changeSelected,
       },
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
+      group: this.getGroup(),
     };
+
+    this.changeGroup = this.changeGroup.bind(this);
+    this.groups =
+      this.props.variables.user.keys &&
+      this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
 
     this.lazyHash = this.buildLazyHash();
   }
@@ -40,6 +46,18 @@ class ApiExplorer extends React.Component {
         auth: Object.assign({}, previousState.auth, auth),
       };
     });
+  }
+
+  getGroup() {
+    if (this.props.variables.user.keys && this.props.variables.user.keys[0].id) {
+      return this.props.variables.user.keys[0].id;
+    }
+
+    if (this.props.variables.user.id) {
+      return this.props.variables.user.id;
+    }
+
+    return undefined;
   }
 
   setLanguage(language) {
@@ -68,6 +86,10 @@ class ApiExplorer extends React.Component {
       (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
 
     return this.props.oasFiles[apiSetting];
+  }
+
+  changeGroup(group) {
+    this.setState({ group });
   }
 
   isLazy(index) {
@@ -147,6 +169,9 @@ class ApiExplorer extends React.Component {
                         setLanguage={this.setLanguage}
                         flags={this.props.flags}
                         user={this.props.variables.user}
+                        group={this.state.group}
+                        groups={this.groups}
+                        changeGroup={this.changeGroup}
                         Logs={this.props.Logs}
                         baseUrl={this.props.baseUrl.replace(/\/$/, '')}
                         appearance={this.props.appearance}
@@ -188,6 +213,7 @@ ApiExplorer.propTypes = {
   variables: PropTypes.shape({
     user: PropTypes.shape({
       keys: PropTypes.array,
+      id: PropTypes.string,
     }).isRequired,
     defaults: PropTypes.arrayOf(
       PropTypes.shape({ name: PropTypes.string.isRequired, default: PropTypes.string.isRequired }),
