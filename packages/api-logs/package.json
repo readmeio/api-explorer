@@ -37,7 +37,6 @@
     "jsinspect": "^0.12.7",
     "nock": "^11.3.5",
     "prettier": "^1.18.2",
-    "uglify-es": "^3.2.1",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "webpack": "^3.10.0",
     "webpack-merge": "^4.1.1"

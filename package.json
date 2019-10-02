@@ -42,14 +42,12 @@
     "gh-pages": "^2.1.1",
     "lerna": "^3.14.1",
     "style-loader": "^0.23.1",
-    "uglify-es": "^3.2.1",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "acorn": "^6.1.1",
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
