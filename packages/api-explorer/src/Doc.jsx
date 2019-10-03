@@ -19,7 +19,6 @@ const EndpointErrorBoundary = require('./EndpointErrorBoundary');
 const Oas = require('./lib/Oas');
 const { Operation } = require('./lib/Oas');
 const getPath = require('./lib/get-path');
-// const showCode = require('./lib/show-code');
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
@@ -35,6 +34,7 @@ class Doc extends React.Component {
       result: null,
       showEndpoint: false,
     };
+
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
     this.onSubmit = this.onSubmit.bind(this);
@@ -108,14 +108,6 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  // TODO: I couldn't figure out why this existed
-  // Shouldn't we always show code samples?
-  // eslint-disable-next-line
-  shouldShowCode() {
-    return true;
-    // return showCode(this.oas, this.getOperation());
-  }
-
   mainTheme(doc) {
     return (
       <React.Fragment>
@@ -123,12 +115,13 @@ class Doc extends React.Component {
           <div className="hub-api">
             {this.renderPathUrl()}
 
-            {this.shouldShowCode() && (
-              <div className="hub-reference-section hub-reference-section-code">
-                <div className="hub-reference-left">{this.renderCodeSample()}</div>
-                {this.renderResponse()}
+            <div className="hub-reference-section hub-reference-section-code">
+              <div className="hub-reference-left">
+                {this.renderCodeSample()}
               </div>
-            )}
+
+              {this.renderResponse()}
+            </div>
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
@@ -158,11 +151,12 @@ class Doc extends React.Component {
                   {this.renderParams()}
                 </React.Fragment>
               )}
+
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="left" />
             </div>
 
             <div className="hub-reference-right">
-              {doc.type === 'endpoint' && this.shouldShowCode() && (
+              {doc.type === 'endpoint' && (
                 <div className="hub-reference-section-code">
                   {this.renderCodeSample()}
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
@@ -207,6 +201,7 @@ class Doc extends React.Component {
     } catch (e) {
       exampleResponses = [];
     }
+
     return (
       <Response
         result={this.state.result}
@@ -310,6 +305,7 @@ class Doc extends React.Component {
           </Waypoint>
         );
       }
+
       return this.renderEndpoint();
     };
 
