@@ -116,9 +116,7 @@ class Doc extends React.Component {
             {this.renderPathUrl()}
 
             <div className="hub-reference-section hub-reference-section-code">
-              <div className="hub-reference-left">
-                {this.renderCodeSample()}
-              </div>
+              <div className="hub-reference-left">{this.renderCodeSample()}</div>
 
               {this.renderResponse()}
             </div>
