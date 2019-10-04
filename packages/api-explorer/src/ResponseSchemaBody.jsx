@@ -120,6 +120,7 @@ function ResponseSchemaBody({ schema, oas }) {
     <div>
       {schema && schema.type && (
         <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
+          {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
           {`Response schema type: `}
           <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
         </p>

@@ -311,10 +311,8 @@ class Doc extends React.Component {
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
-        {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid
-          <a className="anchor-page-title" id={doc.slug} />
-        }
+        {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
+        <a className="anchor-page-title" id={doc.slug} />
 
         <div className="hub-reference-section hub-reference-section-top">
           <div className="hub-reference-left">
