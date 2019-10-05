@@ -45,6 +45,13 @@ class Response extends React.Component {
       responseMediaType: index,
       responseMediaTypeExample: example,
     });
+
+    // Update the code sample.
+    this.props.onChange({
+      header: {
+        Accept: example.language,
+      },
+    });
   }
 
   render() {
@@ -105,6 +112,7 @@ Response.propTypes = {
   oauth: PropTypes.bool.isRequired,
   hideResults: PropTypes.func.isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  onChange: PropTypes.func.isRequired,
 };
 
 Response.defaultProps = {

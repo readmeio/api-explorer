@@ -137,6 +137,7 @@ module.exports = (
     pathOperation.parameters &&
     pathOperation.parameters.filter(param => param.in === 'header');
 
+  // Does this response have any documented content types?
   if (pathOperation.responses) {
     Object.keys(pathOperation.responses).some(response => {
       if (!pathOperation.responses[response].content) return false;
@@ -148,10 +149,12 @@ module.exports = (
         name: 'Accept',
         value: getResponseContentType(pathOperation.responses[response].content),
       });
+
       return true;
     });
   }
 
+  // Do we have any `header` parameters on the operation?
   if (headers && headers.length) {
     headers.forEach(header => {
       const value = formatter(formData, header, 'header', true);
@@ -163,13 +166,25 @@ module.exports = (
     });
   }
 
-  // x-headers static headers
+  // Are there `x-static` static headers configured for this OAS?
   if (oas['x-headers']) {
     oas['x-headers'].forEach(header => {
       har.headers.push({
         name: header.key,
         value: String(header.value),
       });
+    });
+  }
+
+  // Do we have an `Accept` header set up in the form, but it hasn't been added yet?
+  if (
+    formData.header &&
+    formData.header.Accept &&
+    har.headers.find(hdr => hdr.name === 'Accept') === undefined
+  ) {
+    har.headers.push({
+      name: 'Accept',
+      value: String(formData.header.Accept),
     });
   }
 

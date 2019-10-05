@@ -364,6 +364,28 @@ describe('header values', () => {
     ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
+  it('should add accept header if specified in formdata', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [],
+          responses: {
+            200: {
+              content: {
+                'application/json': {},
+                'application/xml': {},
+              },
+            },
+          },
+        },
+        { header: { Accept: 'application/xml' } },
+      ).log.entries[0].request.headers,
+    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+  });
+
   test('should add falsy values to the headers', () => {
     expect(
       oasToHar(
@@ -384,27 +406,27 @@ describe('header values', () => {
   });
 });
 
-const pathOperation = {
-  path: '/body',
-  method: 'get',
-  requestBody: {
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object',
-          properties: {
-            a: {
-              type: 'string',
+describe('body values', () => {
+  it('should not add on empty unrequired values', () => {
+    const pathOperation = {
+      path: '/body',
+      method: 'get',
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                a: {
+                  type: 'string',
+                },
+              },
             },
           },
         },
       },
-    },
-  },
-};
+    };
 
-describe('body values', () => {
-  it('should not add on empty unrequired values', () => {
     expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
   });
 

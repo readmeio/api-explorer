@@ -208,6 +208,7 @@ class Doc extends React.Component {
         oauth={this.props.oauth}
         hideResults={this.hideResults}
         exampleResponses={exampleResponses}
+        onChange={this.onChange}
       />
     );
   }
