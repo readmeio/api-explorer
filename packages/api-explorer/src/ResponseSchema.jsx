@@ -20,7 +20,7 @@ class ResponseSchema extends React.Component {
   }
 
   getSchema(operation) {
-    const oas = this.props.oas;
+    const { oas } = this.props;
     const content = this.getContent(operation, oas);
 
     if (!content) return null;
@@ -96,9 +96,9 @@ class ResponseSchema extends React.Component {
         {this.renderHeader()}
         <div className="response-schema">
           {operation.responses[this.state.selectedStatus].description && (
-            <p className="desc">
+            <div className="desc">
               {markdown(operation.responses[this.state.selectedStatus].description)}
-            </p>
+            </div>
           )}
           {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
         </div>

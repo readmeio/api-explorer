@@ -1,18 +1,18 @@
 {
   "name": "@readme/syntax-highlighter",
   "description": "Syntax highlighter used on ReadMe.io",
-  "version": "4.7.2",
+  "version": "4.9.0",
   "dependencies": {
-    "@readme/variable": "^4.7.2",
+    "@readme/variable": "^4.9.0",
     "codemirror": "^5.48.2",
     "react": "^16.4.2"
   },
   "scripts": {
-    "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
-    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "lint": "eslint -f unix . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand"
   },
   "publishConfig": {
@@ -23,12 +23,12 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/syntax-highlighter",
   "devDependencies": {
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-import": "^2.17.2",
+    "eslint": "^6.5.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.6",
-    "prettier": "^1.6.1"
+    "prettier": "^1.18.2"
   }
 }

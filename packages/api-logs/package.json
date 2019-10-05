@@ -1,21 +1,22 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "4.7.2",
+  "version": "4.9.0",
   "main": "dist/index.js",
   "dependencies": {
+    "async-retry": "^1.2.3",
     "prop-types": "^15.7.2",
-    "react": "^16.4.2",
-    "react-visibility-sensor": "^4.1.3"
+    "react": "^16.4.2"
   },
   "scripts": {
-    "lint": "eslint -f unix . --ext .jsx --ext .js",
+    "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "lint": "eslint -f unix . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
-    "watch": "webpack -w",
-    "build": "webpack --config webpack.prod.js"
+    "watch": "webpack -w"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -25,20 +26,19 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-logs",
   "devDependencies": {
-    "eslint": "^4.3.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.13.0",
+    "eslint": "^6.5.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.7",
-    "nock": "^10.0.3",
-    "prettier": "^1.14.0",
-    "uglify-es": "^3.2.1",
-    "uglifyjs-webpack-plugin": "^1.2.3",
-    "webpack": "^3.10.0",
-    "webpack-merge": "^4.1.1"
+    "nock": "^11.3.5",
+    "prettier": "^1.18.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.0",
+    "webpack-merge": "^4.2.2"
   }
 }

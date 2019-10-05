@@ -7,6 +7,7 @@ const WrappedApiExplorer = require('../src');
 const { ApiExplorer } = WrappedApiExplorer;
 
 const oas = require('./fixtures/petstore/oas');
+const oasCommon = require('./fixtures/parameters/common');
 
 const createDocs = require('../lib/create-docs');
 
@@ -16,9 +17,7 @@ const languages = ['node', 'curl'];
 const props = {
   docs,
   oasFiles: {
-    'api-setting': Object.assign({}, oas, {
-      [extensions.SAMPLES_LANGUAGES]: languages,
-    }),
+    'api-setting': { ...oas, [extensions.SAMPLES_LANGUAGES]: languages },
   },
   flags: {},
   appearance: {},
@@ -33,9 +32,25 @@ test('ApiExplorer renders a doc for each', () => {
   expect(explorer.find('Doc').length).toBe(docs.length);
 });
 
+test('ApiExplorer should not render a common parameter OAS operation method', () => {
+  const docsCommon = createDocs(oasCommon, 'api-setting');
+  const propsCommon = {
+    ...props,
+    docs: docsCommon,
+    oasFiles: {
+      'api-setting': oasCommon,
+    },
+  };
+
+  const explorer = shallow(<ApiExplorer {...propsCommon} />);
+
+  expect(explorer.find('Doc').length).toBe(docsCommon.length - 1);
+});
+
 test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
   // Prompting an error with an array of nulls instead of Docs
   // This is to simulate some unknown error state during initial render
+  // eslint-disable-next-line react/jsx-props-no-spreading
   const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
 
   expect(explorer.find('ErrorBoundary').length).toBe(1);
@@ -120,7 +135,7 @@ describe('oas', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[Object.assign({}, baseDoc, { category: { apiSetting: 'api-setting' } })]}
+        docs={[{ ...baseDoc, category: { apiSetting: 'api-setting' } }]}
       />,
     );
 
@@ -135,11 +150,7 @@ describe('oas', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[
-          Object.assign({}, baseDoc, {
-            api: { method: 'get', apiSetting: { _id: 'api-setting' } },
-          }),
-        ]}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: { _id: 'api-setting' } } }]}
       />,
     );
 
@@ -153,11 +164,7 @@ describe('oas', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[
-          Object.assign({}, baseDoc, {
-            api: { method: 'get', apiSetting: 'api-setting' },
-          }),
-        ]}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: 'api-setting' } }]}
       />,
     );
 
@@ -167,14 +174,7 @@ describe('oas', () => {
   // Of course... `typeof null === 'object'`
   it('should not error if `doc.api.apiSetting` is null', () => {
     const explorer = shallow(
-      <ApiExplorer
-        {...props}
-        docs={[
-          Object.assign({}, baseDoc, {
-            api: { method: 'get', apiSetting: null },
-          }),
-        ]}
-      />,
+      <ApiExplorer {...props} docs={[{ ...baseDoc, api: { method: 'get', apiSetting: null } }]} />,
     );
 
     expect(explorer.find('Doc').get(0).props.oas).toEqual({});

@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
@@ -5,10 +6,12 @@ const log = require('./example/fixtures/requestmodel.json');
 
 module.exports = merge(common, {
   output: {
-    filename: './example/[name]-bundle.js',
+    path: path.resolve(__dirname, 'example'),
+    filename: '[name]-bundle.js',
   },
   devServer: {
     contentBase: './example',
+    publicPath: '/example/',
     compress: true,
     port: 9966,
     hot: true,
@@ -19,7 +22,7 @@ module.exports = merge(common, {
         setTimeout(() => {
           // res.json([]); // no data state
           res.json([...Array(5).keys()].map(() =>
-            Object.assign({}, log, { _id: Math.random().toString(5) }),
+            ({ ...log, _id: Math.random().toString(5)}),
           ));
         }, 500);
       });

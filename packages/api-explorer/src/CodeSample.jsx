@@ -1,13 +1,12 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
 const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 
 const CopyCode = require('./CopyCode');
-
-const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
@@ -46,20 +45,18 @@ class CodeSample extends React.Component {
             const selectedClass = selected ? 'selected' : '';
             return (
               <li key={key}>
-                {
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
-                  <a
-                    href="#"
-                    className={selectedClass}
-                    onClick={e => {
-                      e.preventDefault();
-                      setLanguage(example.language);
-                      this.selectExample(example);
-                    }}
-                  >
-                    {example.name || generateCodeSnippet.getLangName(example.language)}
-                  </a>
-                }
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a
+                  href="#"
+                  className={selectedClass}
+                  onClick={e => {
+                    e.preventDefault();
+                    setLanguage(example.language);
+                    this.selectExample(example);
+                  }}
+                >
+                  {example.name || generateCodeSnippet.getLangName(example.language)}
+                </a>
               </li>
             );
           })}
@@ -99,22 +96,20 @@ class CodeSample extends React.Component {
           return (
             <div>
               <ul className="code-sample-tabs">
-                {// TODO add `is-lang-${lang}` class, to body?
-                oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                {oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                  // TODO add `is-lang-${lang}` class, to body?
                   <li key={lang}>
-                    {
-                      // eslint-disable-next-line jsx-a11y/href-no-hash
-                      <a
-                        href="#"
-                        className={`hub-lang-switch-${lang}`}
-                        onClick={e => {
-                          e.preventDefault();
-                          setLanguage(lang);
-                        }}
-                      >
-                        {generateCodeSnippet.getLangName(lang)}
-                      </a>
-                    }
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a
+                      href="#"
+                      className={`hub-lang-switch-${lang}`}
+                      onClick={e => {
+                        e.preventDefault();
+                        setLanguage(lang);
+                      }}
+                    >
+                      {generateCodeSnippet.getLangName(lang)}
+                    </a>
                   </li>
                 ))}
               </ul>

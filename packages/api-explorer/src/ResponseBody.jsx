@@ -40,7 +40,11 @@ function Authorized({ result }) {
 }
 
 Authorized.propTypes = {
-  result: PropTypes.shape({}).isRequired,
+  result: PropTypes.shape({
+    isBinary: PropTypes.bool,
+    responseBody: PropTypes.oneOf([PropTypes.object, PropTypes.string]).isRequired,
+    type: PropTypes.string,
+  }).isRequired,
 };
 
 function hasOauth(oauth) {
@@ -85,6 +89,6 @@ function ResponseBody({ result, isOauth, oauth }) {
 
 module.exports = ResponseBody;
 
-ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Authorized.propTypes);
+ResponseBody.propTypes = { ...Unauthorized.propTypes, ...Authorized.propTypes };
 
 ResponseBody.defaultProps = Unauthorized.defaultProps;

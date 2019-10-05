@@ -10,7 +10,7 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
     const securities = securityTypes[type];
     return (
       <form key={type} onSubmit={onSubmit}>
-        <h3>{type} Auth</h3>
+        <h3>{`${type} Auth`}</h3>
         <div className="pad">
           <section>
             {
@@ -27,7 +27,10 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
             }
             {securities.map(security => (
               <SecurityInput
-                {...{ auth, onChange, authInputRef, oauth }}
+                auth={auth}
+                onChange={onChange}
+                authInputRef={authInputRef}
+                oauth={oauth}
                 key={security._key}
                 scheme={security}
               />
@@ -54,15 +57,17 @@ function AuthBox({
 
   return (
     <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
-      {
-        // eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/href-no-hash
-        <a href="#" className="icon icon-user-lock" onClick={toggle} />
-      }
+      {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label, jsx-a11y/anchor-is-valid */}
+      <a href="#" className="icon icon-user-lock" onClick={toggle} />
+
       <div className="nopad">
         <div className="triangle" />
         <div>
           <Securities
-            {...{ authInputRef, operation, oauth, auth }}
+            authInputRef={authInputRef}
+            operation={operation}
+            oauth={oauth}
+            auth={auth}
             onChange={onChange}
             onSubmit={e => {
               e.preventDefault();

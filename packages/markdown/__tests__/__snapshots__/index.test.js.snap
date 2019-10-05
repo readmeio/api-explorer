@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`anchor target: should allow _blank if using HTML 1`] = `"<p><a href=\\"https://example.com\\" target=\\"_blank\\">test</a></p>"`;
+
+exports[`anchor target: should default to _self 1`] = `"<p><a href=\\"https://example.com\\" target=\\"_self\\">test</a></p>"`;
+
 exports[`anchors 1`] = `
 "<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
 <a href=\\"\\" target=\\"_self\\">xss</a><br/>

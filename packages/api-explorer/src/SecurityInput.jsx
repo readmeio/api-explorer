@@ -47,6 +47,7 @@ function SecurityInput(props) {
       if (props.scheme.scheme === 'basic') {
         return (
           <Basic
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
             change={change}
             user={props.auth[props.scheme._key].user}
@@ -57,6 +58,7 @@ function SecurityInput(props) {
       }
       if (props.scheme.scheme === 'bearer') {
         return (
+          // eslint-disable-next-line react/jsx-props-no-spreading
           <Oauth2 {...props} apiKey={props.auth[props.scheme._key]} change={change} Input={Input} />
         );
       }

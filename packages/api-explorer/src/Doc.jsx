@@ -1,12 +1,13 @@
+/* eslint-disable react/jsx-fragments */
 const React = require('react');
 const PropTypes = require('prop-types');
 const fetchHar = require('fetch-har');
-const oasToHar = require('./lib/oas-to-har');
-const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('@readme/oas-extensions');
+const markdown = require('@readme/markdown');
 const Waypoint = require('react-waypoint');
 
-const { Fragment } = React;
+const oasToHar = require('./lib/oas-to-har');
+const isAuthReady = require('./lib/is-auth-ready');
 
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
@@ -14,7 +15,6 @@ const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
-const markdown = require('@readme/markdown');
 
 const Oas = require('./lib/Oas');
 const { Operation } = require('./lib/Oas');
@@ -47,11 +47,12 @@ class Doc extends React.Component {
   onChange(formData) {
     this.setState(previousState => {
       return {
-        formData: Object.assign({}, previousState.formData, formData),
+        formData: { ...previousState.formData, ...formData },
         dirty: true,
       };
     });
   }
+
   onSubmit() {
     const operation = this.getOperation();
 
@@ -96,7 +97,7 @@ class Doc extends React.Component {
 
   toggleAuth(e) {
     e.preventDefault();
-    this.setState({ showAuthBox: !this.state.showAuthBox });
+    this.setState(prevState => ({ showAuthBox: !prevState.showAuthBox }));
   }
 
   hideResults() {
@@ -117,7 +118,7 @@ class Doc extends React.Component {
 
   mainTheme(doc) {
     return (
-      <Fragment>
+      <React.Fragment>
         {doc.type === 'endpoint' && (
           <div className="hub-api">
             {this.renderPathUrl()}
@@ -140,7 +141,7 @@ class Doc extends React.Component {
         )}
 
         <Content body={doc.body} flags={this.props.flags} isThreeColumn />
-      </Fragment>
+      </React.Fragment>
     );
   }
 
@@ -148,14 +149,14 @@ class Doc extends React.Component {
     return (
       <div className="hub-api">
         <div className="hub-reference-section">
-          <Fragment>
+          <React.Fragment>
             <div className="hub-reference-left">
               {doc.type === 'endpoint' && (
-                <Fragment>
+                <React.Fragment>
                   {this.renderPathUrl()}
                   {this.renderLogs()}
                   {this.renderParams()}
-                </Fragment>
+                </React.Fragment>
               )}
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="left" />
             </div>
@@ -172,7 +173,7 @@ class Doc extends React.Component {
               </div>
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
             </div>
-          </Fragment>
+          </React.Fragment>
         </div>
       </div>
     );
@@ -256,6 +257,10 @@ class Doc extends React.Component {
           url,
           method,
         }}
+        result={this.state.result}
+        group={this.props.group}
+        groups={this.props.groups}
+        changeGroup={this.props.changeGroup}
       />
     );
   }
@@ -294,7 +299,7 @@ class Doc extends React.Component {
 
   render() {
     const { doc, lazy } = this.props;
-    const oas = this.oas;
+    const { oas } = this;
 
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
@@ -310,16 +315,13 @@ class Doc extends React.Component {
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
-        {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content
-          <a className="anchor-page-title" id={doc.slug} />
-        }
+        {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
+        <a className="anchor-page-title" id={doc.slug} />
 
         <div className="hub-reference-section hub-reference-section-top">
           <div className="hub-reference-left">
             <header>
               {this.props.suggestedEdits && (
-                // eslint-disable-next-line jsx-a11y/href-no-hash
                 <a
                   className="hub-reference-edit pull-right"
                   href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
@@ -351,8 +353,6 @@ class Doc extends React.Component {
   }
 }
 
-module.exports = Doc;
-
 Doc.propTypes = {
   doc: PropTypes.shape({
     title: PropTypes.string.isRequired,
@@ -361,6 +361,7 @@ Doc.propTypes = {
     type: PropTypes.string.isRequired,
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
+      params: PropTypes.object,
       examples: PropTypes.shape({
         codes: PropTypes.arrayOf(
           PropTypes.shape({
@@ -386,18 +387,26 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
-  }).isRequired,
+  }),
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
     splitReferenceDocs: PropTypes.bool,
-  }).isRequired,
+  }),
   language: PropTypes.string.isRequired,
   baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   onAuthChange: PropTypes.func.isRequired,
-  lazy: PropTypes.bool.isRequired,
+  lazy: PropTypes.bool,
+  group: PropTypes.string,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
+  changeGroup: PropTypes.func.isRequired,
 };
 
 Doc.defaultProps = {
@@ -411,6 +420,10 @@ Doc.defaultProps = {
     splitReferenceDocs: false,
   },
   Logs: undefined,
-  user: undefined,
+  user: {},
   baseUrl: '/',
+  group: '',
+  groups: [],
 };
+
+module.exports = Doc;

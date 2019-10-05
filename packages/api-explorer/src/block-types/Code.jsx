@@ -13,33 +13,35 @@ class BlockCode extends React.Component {
     super(props);
     this.state = { activeTab: 0 };
   }
+
   showCode(i) {
     this.setState({ activeTab: i });
   }
+
   render() {
     const { block, opts = {}, dark } = this.props;
     const codes = Array.isArray(block.data.codes) ? block.data.codes : [];
 
     return (
       <span>
-        {// eslint-disable-next-line jsx-a11y/label-has-for
-        opts.label && <label>{opts.label}</label>}
+        {opts.label && <label>{opts.label}</label>}
         <div className="magic-block-code">
           {(!opts.hideHeaderOnOne || codes.length > 1) && (
             <ul className="block-code-header">
               {codes.map((code, i) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <li key={i}>
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                   <a
-                    href=""
+                    href="#"
                     onClick={e => {
                       e.preventDefault();
                       this.showCode(i);
                     }}
                     className={classNames({ active: i === this.state.activeTab })}
                   >
-                    {//eslint-disable-next-line
-                    code.status ? (
+                    {/* eslint-disable-next-line no-nested-ternary */}
+                    {code.status ? (
                       <span>
                         <span
                           className={`status-icon status-icon-${statusCodes(code.status)[2]}`}
@@ -76,6 +78,7 @@ BlockCode.propTypes = {
     }),
   }),
   opts: PropTypes.shape({
+    hideHeaderOnOne: PropTypes.bool,
     label: PropTypes.string,
   }),
   dark: PropTypes.bool,

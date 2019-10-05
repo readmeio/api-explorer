@@ -40,10 +40,10 @@ function getAuth(user, oasFiles) {
       return Object.keys(oas.components.securitySchemes)
         .map(scheme => {
           return {
-            [scheme]: getSingle(
-              user,
-              Object.assign({}, oas.components.securitySchemes[scheme], { _key: scheme }),
-            ),
+            [scheme]: getSingle(user, {
+              ...oas.components.securitySchemes[scheme],
+              _key: scheme,
+            }),
           };
         })
         .reduce((prev, next) => Object.assign(prev, next), {});

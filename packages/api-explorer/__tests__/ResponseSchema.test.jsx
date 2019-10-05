@@ -34,7 +34,7 @@ test('should display response schema description', () => {
 
   expect(
     responseSchema
-      .find('p.desc')
+      .find('div.desc')
       .first()
       .text(),
   ).toBe(props.operation.responses['200'].description);
@@ -45,12 +45,10 @@ test('should work if there are no responses', () => {
   const responseSchema = shallow(
     <ResponseSchema
       operation={
-        new Operation(
-          {},
-          '/',
-          'get',
-          Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: undefined }),
-        )
+        new Operation({}, '/', 'get', {
+          ...oas.operation('/pet/{petId}', 'get'),
+          responses: undefined,
+        })
       }
       oas={oas}
     />,
@@ -63,12 +61,7 @@ test('should work if responses is an empty object', () => {
   const responseSchema = shallow(
     <ResponseSchema
       operation={
-        new Operation(
-          {},
-          '/',
-          'get',
-          Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: {} }),
-        )
+        new Operation({}, '/', 'get', { ...oas.operation('/pet/{petId}', 'get'), responses: {} })
       }
       oas={oas}
     />,
@@ -84,12 +77,10 @@ test('should contain ResponseSchemaBody element if $ref exist for "application/j
 
 test('should not contain ResponseSchemaBody element if $ref not exist', () => {
   const testProps = {
-    operation: new Operation(
-      {},
-      '/',
-      'get',
-      Object.assign({}, oas.operation('/pet/{petId}', 'get'), { responses: {} }),
-    ),
+    operation: new Operation({}, '/', 'get', {
+      ...oas.operation('/pet/{petId}', 'get'),
+      responses: {},
+    }),
     oas,
   };
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
@@ -98,25 +89,21 @@ test('should not contain ResponseSchemaBody element if $ref not exist', () => {
 
 test('should render schema from "application/json"', () => {
   const testProps = {
-    operation: new Operation(
-      {},
-      '/',
-      'get',
-      Object.assign({}, oas.operation('/pet/findByTags', 'get'), {
-        responses: {
-          '200': {
-            content: {
-              'application/json': {
-                description: 'successful operation',
-                schema: {
-                  type: 'string',
-                },
+    operation: new Operation({}, '/', 'get', {
+      ...oas.operation('/pet/findByTags', 'get'),
+      responses: {
+        '200': {
+          content: {
+            'application/json': {
+              description: 'successful operation',
+              schema: {
+                type: 'string',
               },
             },
           },
         },
-      }),
-    ),
+      },
+    }),
     oas,
   };
 
@@ -126,25 +113,21 @@ test('should render schema from "application/json"', () => {
 
 test('should contain ResponseSchemaBody element if $ref exist for "application/xml"', () => {
   const testProps = {
-    operation: new Operation(
-      oas,
-      '/',
-      'get',
-      Object.assign({}, oas.operation('/pet/{petId}', 'get'), {
-        responses: {
-          '200': {
-            content: {
-              'application/xml': {
-                description: 'successful operation',
-                schema: {
-                  $ref: '#/components/schemas/Pet',
-                },
+    operation: new Operation(oas, '/', 'get', {
+      ...oas.operation('/pet/{petId}', 'get'),
+      responses: {
+        '200': {
+          content: {
+            'application/xml': {
+              description: 'successful operation',
+              schema: {
+                $ref: '#/components/schemas/Pet',
               },
             },
           },
         },
-      }),
-    ),
+      },
+    }),
     oas,
   };
 
@@ -193,7 +176,7 @@ test('should allow $ref lookup at the responses object level', () => {
 test('should change selectedStatus in component', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
 
-  const selectedStatus = responseSchema.state().selectedStatus;
+  const { selectedStatus } = responseSchema.state();
 
   responseSchema.instance().changeHandler({ target: { value: '404' } });
   const newSelectedStatus = responseSchema.state().selectedStatus;
@@ -203,22 +186,18 @@ test('should change selectedStatus in component', () => {
 
 test('should not break if schema property missing', () => {
   const testProps = {
-    operation: new Operation(
-      {},
-      '/',
-      'get',
-      Object.assign({}, oas.operation('/pet/findByTags', 'get'), {
-        responses: {
-          '200': {
-            content: {
-              'application/xml': {
-                description: 'successful operation',
-              },
+    operation: new Operation({}, '/', 'get', {
+      ...oas.operation('/pet/findByTags', 'get'),
+      responses: {
+        '200': {
+          content: {
+            'application/xml': {
+              description: 'successful operation',
             },
           },
         },
-      }),
-    ),
+      },
+    }),
     oas,
   };
 

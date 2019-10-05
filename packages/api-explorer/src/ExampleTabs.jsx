@@ -23,10 +23,11 @@ function ExampleTabs({ examples, selected, setExampleTab }) {
     </ul>
   );
 }
-module.exports = ExampleTabs;
 
 ExampleTabs.propTypes = {
   examples: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selected: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
 };
+
+module.exports = ExampleTabs;

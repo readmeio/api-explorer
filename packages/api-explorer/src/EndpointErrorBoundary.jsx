@@ -18,14 +18,17 @@ class EndpointErrorBoundary extends React.Component {
 
   render() {
     if (this.state.error) {
+      const mailTo = (
+        <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a>
+      );
+
       return (
         <div className="hub-reference-section">
           <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
             <h3>
               There was an error rendering this endpoint. If you are the owner of this project
-              please contact{' '}
-              <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a>{' '}
-              with the following error:
+              please contact
+              {` ${mailTo} with the following error:`}
             </h3>
             <BoundaryStackTrace error={this.state.error} info={this.state.info} />
           </div>
@@ -33,6 +36,7 @@ class EndpointErrorBoundary extends React.Component {
         </div>
       );
     }
+
     return this.props.children;
   }
 }

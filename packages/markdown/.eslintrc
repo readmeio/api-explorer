@@ -1,8 +1,11 @@
 {
   "extends": ["airbnb", "prettier"],
   "rules": {
-    "no-param-reassign": ["error", { "props": false }],
+    "no-param-reassign": ["error", {
+      "props": false
+    }],
     "react/destructuring-assignment": 0,
     "react/jsx-one-expression-per-line": 0,
+    "react/jsx-props-no-spreading": 0
   }
 }
