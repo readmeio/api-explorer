@@ -48,23 +48,38 @@ To spin up an example server:
 npm start
 ```
 
-To build the packages for production:
+### Tag a new version of the packages use:
+
+```sh
+npx lerna version
+```
+and select the desired version tag (major/minor/patch/etc...)
+
+### Build the packages for production:
 
 ```sh
 npm run build
 ```
 
-To deploy the latest example to gh-pages:
+### Deploy the latest example to gh-pages:
 
 ```sh
 npm run deploy
 ```
 
-To publish all modules to npm:
+### Publish all modules to npm:
 
 ```sh
-npm run publish
+npx lerna publish
 ```
+
+if publish fails with error `Current HEAD is already released` it's generally due to the fact that a version has already been tagged and there's no new change; in order to make sure it's published use 
+
+```sh
+npx lerna publish from-git
+```
+
+so that lerna will not try to create a new version tag and publish the current version from the tag in the git repository.
 
 ## License
 
