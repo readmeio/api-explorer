@@ -1,28 +1,58 @@
+import React, {Fragment} from 'react'
 import {FormattedMessage} from 'react-intl'
 import BlockWithTab from '../BlockWithTab'
 import IconStatus from '../../IconStatus'
-
-const React = require('react');
 
 const PropTypes = require('prop-types');
 
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
 const showCodeResults = require('../../lib/show-code-results');
+const contentTypeIsJson = require('../../lib/content-type-is-json');
 
 const Oas = require('../../lib/Oas');
+const CopyCode = require('../CopyCode');
 
 const { Operation } = Oas;
+const ctaContainerStyle = {
+  borderTop: '2px solid #fff',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  padding: '5px',
+  paddingRight: '10px',
+  paddingBottom: '0px',
+}
+const placeholderStyle = {
+  textAlign: 'center',
+  padding: '40px 0',
+  color: 'rgba(255,255,255,0.7)',
+  fontStyle: 'italic',
+  fontSize: '14px',
+}
 
 class Response extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       responseTab: 'result',
       exampleTab: 0,
+      collapse: undefined
     };
     this.setTab = this.setTab.bind(this);
     this.setExampleTab = this.setExampleTab.bind(this);
+    this.onCollapseAll = this.onCollapseAll.bind(this);
+    this.onExpandAll = this.onExpandAll.bind(this);
+  }
+
+  onCollapseAll (e) {
+    e.preventDefault()
+    this.setState({ collapse: true })
+  }
+
+  onExpandAll (e) {
+    e.preventDefault()
+    this.setState({ collapse: false })
   }
 
   setTab(selected) {
@@ -35,8 +65,14 @@ class Response extends React.Component {
 
   render() {
     const { result, operation, oauth, hideResults } = this.props;
-    const { responseTab } = this.state;
+    const { responseTab, collapse } = this.state;
     const securities = operation.prepareSecurity();
+
+    const isString = result && (typeof result.responseBody === 'string')
+    const isJson = result && result.type &&
+      contentTypeIsJson(result.type) &&
+      typeof result.responseBody === 'object';
+
     let itemsResult = []
     if (result) {
       itemsResult = [
@@ -47,30 +83,35 @@ class Response extends React.Component {
         itemsResult.push({label: 'to examples', onClick: hideResults})
       }
     }
-    
-    const placeholderStyle = {
-      textAlign: 'center',
-      padding: '40px 0',
-      color: 'rgba(255,255,255,0.7)',
-      fontStyle: 'italic',
-      fontSize: '14px',
-    }
-   
+
     return (
       <div>
-        {
-          result !== null ? (
-            <BlockWithTab
-              items={itemsResult}
-              selected={responseTab}
-              onClick={this.setTab} 
-            >
-              <div style={{maxHeight: '400px', padding: '10px', overflow: 'hidden scroll'}}>
-                {responseTab === 'result' && <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />}
-                {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+        {result !== null ? (
+          <BlockWithTab
+            items={itemsResult}
+            selected={responseTab}
+            onClick={this.setTab}
+          >
+            <CopyCode code={isString ? result.responseBody : JSON.stringify(result.responseBody)} />
+            {!result.isBinary ? (
+              <div style={ctaContainerStyle}>
+                {isJson ? (
+                  <Fragment>
+                    <a href={''} className="mia-ctc-button" onClick={(e) => this.onCollapseAll(e)}>
+                      <FormattedMessage id="code.collapseAll" defaultMessage="Collapse all" />
+                    </a>
+                    <a href={''} className="mia-ctc-button" onClick={(e) => this.onExpandAll(e)}>
+                      <FormattedMessage id="code.expandAll" defaultMessage="Expand all" />
+                    </a>
+                  </Fragment>
+                ) : null}
               </div>
-            </BlockWithTab>
-          ) : (
+            ) : null}
+            <div style={{maxHeight: '400px', padding: '10px', overflow: 'hidden scroll'}}>
+              {responseTab === 'result' && <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} isCollapse={collapse} />}
+              {responseTab === 'metadata' && <ResponseMetadata result={result} />}
+            </div>
+          </BlockWithTab>) : (
             <div style={placeholderStyle}>
               <FormattedMessage id="tryit" defaultMessage="Try the API to see Results" />
             </div>
@@ -89,7 +130,6 @@ Response.propTypes = {
   oauth: PropTypes.bool.isRequired,
   hideResults: PropTypes.func.isRequired,
 };
-
 Response.defaultProps = {
   result: {},
   exampleResponses: [],

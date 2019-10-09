@@ -1,4 +1,5 @@
 import {IntlProvider} from 'react-intl';
+import CopyCode from '../src/components/CopyCode'
 
 const React = require('react');
 const { shallow, mount } = require('enzyme');
@@ -55,6 +56,30 @@ describe('exampleTab', () => {
   });
 });
 
+test('and CopyCode is rendered correctly with a responseBody !== string', () => {
+  const customProps = {
+    ...props,
+    result: {
+      ...props.result,
+      responseBody: {test: 1}
+    }
+  }
+  const doc = shallow(<Response {...customProps} />);
+  expect(doc.find(CopyCode).prop('code')).toEqual("{\"test\":1}")
+})
+
+test('and CopyCode is rendered correctly with a responseBody === string', () => {
+  const customProps = {
+    ...props,
+    result: {
+      ...props.result,
+      responseBody: 'testResponseBody'
+    }
+  }
+  const doc = shallow(<Response {...customProps} />);
+  expect(doc.find(CopyCode).prop('code')).toEqual(customProps.result.responseBody)
+})
+
 test('should show different component tabs based on state', () => {
   const wrapper = mount(
     <IntlProvider>
@@ -73,7 +98,7 @@ test('should show different component tabs based on state', () => {
   );
   expect(wrapper.find('ResponseBody').length).toBe(1);
 
-  const doc = wrapper.find(Response);  
+  const doc = wrapper.find(Response);
   doc.instance().setTab('metadata');
 
   // I want to do the below assertion instead, but it's not working
@@ -102,7 +127,7 @@ describe('renders ResponseMetadata correctly', () => {
         />
       </IntlProvider>
     );
-    const doc = wrapper.find(Response);  
+    const doc = wrapper.find(Response);
     doc.setState({
       responseTab: 'metadata'
     })
@@ -130,7 +155,7 @@ describe('renders ResponseMetadata correctly', () => {
         />
       </IntlProvider>
     );
-    const doc = wrapper.find(Response);  
+    const doc = wrapper.find(Response);
     doc.setState({
       responseTab: 'metadata'
     })
@@ -173,7 +198,7 @@ describe('renders ResponseMetadata correctly', () => {
         />
       </IntlProvider>
     );
-    const doc = wrapper.find(Response);  
+    const doc = wrapper.find(Response);
     doc.setState({
       responseTab: 'metadata'
     })

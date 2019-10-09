@@ -1,4 +1,5 @@
 import { IntlProvider, FormattedMessage } from 'react-intl';
+import {Icon} from 'antd'
 
 import ResponseBody from '../src/components/Response';
 import Result from '../src/components/Response/Result'
@@ -134,8 +135,8 @@ describe('Response body', () => {
     };
     const responseBody = mount(<IntlProvider><ResponseBody {...binaryResponse} oas={oas} /></IntlProvider>);
 
-    const message = responseBody.find(FormattedMessage);
-    expect(message.prop('id')).toEqual('api.response.binary');
+    const message = responseBody.find(Icon);
+    expect(message.prop('type')).toEqual('download');
   });
 
   let oauthInvalidResponse;
@@ -221,7 +222,7 @@ describe('Response body', () => {
     };
     const responseBody = mount(<IntlProvider><ResponseBody {...nonOAuthInvalidResponse} oas={oas} /></IntlProvider>);
 
-    const message = responseBody.find(FormattedMessage);
+    const message = responseBody.find(FormattedMessage).at(1);
     expect(message.prop('id')).toEqual('api.auth.failed');
   });
 });

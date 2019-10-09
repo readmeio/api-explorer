@@ -49,7 +49,7 @@ function Description({doc, suggestedEdits, baseUrl, intl}) {
             </span><Icon type="edit" />
           </a>
         </div>
-      )} 
+      )}
       <ContentWithTitle
         title={description}
         content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : decriptionNa}
@@ -82,7 +82,7 @@ class Doc extends React.Component {
     if (!oas.servers || oas.servers.length === 0 && this.props.fallbackUrl) {
       oas.servers = [{url: this.props.fallbackUrl}]
     }
-    this.oas = oas;    
+    this.oas = oas;
 
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
@@ -163,7 +163,7 @@ class Doc extends React.Component {
   onAuthReset(){
     this.setState({auth: null})
   }
-  
+
   getOperation() {
     if (this.operation) return this.operation;
 
@@ -196,7 +196,7 @@ class Doc extends React.Component {
       return (<Select
         value={this.state.selectedContentType}
         options={list}
-        onChange={value => this.setState({selectedContentType: value})} 
+        onChange={value => this.setState({selectedContentType: value})}
       />)
     }
 
@@ -222,8 +222,8 @@ class Doc extends React.Component {
 
     return(
       <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%'}}>
-        <ContentWithTitle 
-          title={this.props.intl.formatMessage({id:'doc.definition', defaultMessage: 'Definition'})} 
+        <ContentWithTitle
+          title={this.props.intl.formatMessage({id:'doc.definition', defaultMessage: 'Definition'})}
           showBorder={false}
           content={
             this.oas.servers && (
@@ -231,7 +231,7 @@ class Doc extends React.Component {
                 {this.oas.servers[0].url}{this.getOperation().path}
               </span>
             )
-          } 
+          }
         />
         <ContentWithTitle
           title={this.props.intl.formatMessage({id:'doc.examples', defaultMessage: 'Examples'})}
@@ -304,10 +304,10 @@ class Doc extends React.Component {
         doc.type === 'endpoint' ? (
           <Fragment>
             <div style={{display: 'grid', gridTemplateColumns: '1fr', gridTemplateRows: 'min-content', gridGap: '16px', paddingRight: '16px'}}>
-              {this.renderPathUrl()}  
-              <Description 
-                doc={doc} 
-                suggestedEdits={suggestedEdits}  
+              {this.renderPathUrl()}
+              <Description
+                doc={doc}
+                suggestedEdits={suggestedEdits}
                 baseUrl={baseUrl}
                 intl={intl}
               />
@@ -318,11 +318,11 @@ class Doc extends React.Component {
             </div>
             <div
               style={{
-                  padding: 8,
-                  border: `1px solid ${colors.codeAndResponseBorder}`,
-                  background: colors.codeAndResponseBackground
-                }}
-            > 
+                padding: 8,
+                border: `1px solid ${colors.codeAndResponseBorder}`,
+                background: colors.codeAndResponseBackground
+              }}
+            >
               {this.renderCodeAndResponse()}
             </div>
           </Fragment>
@@ -379,7 +379,7 @@ class Doc extends React.Component {
         toggleAuth={this.toggleAuth}
         onSubmit={this.onSubmit}
         authInputRef={el => {
-          if (el) { 
+          if (el) {
             this.authInput = el
           }
         }}

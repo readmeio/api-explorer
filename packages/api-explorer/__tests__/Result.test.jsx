@@ -1,6 +1,7 @@
 import React from 'react'
 import {shallowWithIntl as shallow} from 'enzyme-react-intl'
 import ReactJson from 'react-json-view';
+import {Icon} from 'antd'
 
 import Result from '../src/components/Response/Result';
 
@@ -42,5 +43,19 @@ describe('Result component', () => {
       expect(element).not.toBe(undefined)
     }).not.toThrow()
     expect(element.find(ReactJson)).not.toBe(undefined)
+  })
+
+  it('and render download file if isBinary is true', () => {
+    const caseProps = {
+      ...props,
+      result: {
+        ...props.result,
+        isBinary: true,
+        type: 'application/pdf'
+      },
+      responseBody: 'file.pdf'
+    }
+    const element = shallow(<Result {...caseProps} />)
+    expect(element.find(Icon).prop('type')).toEqual('download')
   })
 })

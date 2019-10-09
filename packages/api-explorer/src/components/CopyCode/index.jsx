@@ -30,11 +30,9 @@ class CopyCode extends React.Component {
     return (
       <CopyToClipboard className="mia-ctc-button" text={this.props.code} onCopy={this.onCopy}>
         <span>
-          {
-            this.state.copied ?
-              <span><FormattedMessage id="code.copied" defaultMessage="Copied" /></span>
-              :
-              <span><FormattedMessage id="code.copy" defaultMessage="Copy" /></span>
+          {this.state.copied ?
+            <span><FormattedMessage id="code.copied" defaultMessage="Copied" /></span> :
+            <span><FormattedMessage id="code.copy" defaultMessage="Copy" /></span>
           }
         </span>
       </CopyToClipboard>

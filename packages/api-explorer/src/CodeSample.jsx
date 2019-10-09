@@ -39,65 +39,11 @@ class CodeSample extends React.Component {
     this.setState({ selectedExample: example });
   }
 
-  /*  I think we don't need this (Riccardo Di Benedetto)
-  *
-  *
-  renderSelected(examples, setLanguage) {
-    const examplesWithLanguages = examples.filter(example => example.language);
-    return (
-      <div>
-        <ul className="code-sample-tabs">
-          {examplesWithLanguages.map((example, index) => {
-            const { key, selected } = this.getKey(example, index);
-            const selectedClass = selected ? 'selected' : '';
-            return (
-              <li key={key}>
-                {
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
-                  <a
-                    href="#"
-                    className={selectedClass}
-                    onClick={e => {
-                      e.preventDefault();
-                      setLanguage(example.language);
-                      this.selectExample(example);
-                    }}
-                  >
-                    {example.name || generateCodeSnippet.getLangName(example.language)}
-                  </a>
-                }
-              </li>
-            );
-          })}
-        </ul>
-        <div className="code-sample-body">
-          {examplesWithLanguages.map((example, index) => {
-            const { key, selected } = this.getKey(example, index);
-            return (
-              <div style={{ display: selected ? 'block' : 'none' }}>
-                <CopyCode key={`copy-${key}`} code={example.code} />
-                <pre
-                  className="tomorrow-night tabber-body"
-                  key={key} // eslint-disable-line react/no-array-index-key
-                  style={{ display: selected ? 'block' : '' }}
-                >
-                  {syntaxHighlighter(example.code || '', example.language, { dark: true })}
-                </pre>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
-  */
-
   renderCodeWithListSection(snippet, code, languagesList, setLanguage) {
     const {language} = this.props
     const ctaContainerStyle = {
       borderTop: '2px solid #fff',
       display: 'flex',
-      flexDirection: 'row-reverse',
       padding: '5px',
       paddingRight: '10px',
       paddingBottom: '0px',
