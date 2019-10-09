@@ -108,7 +108,16 @@ class Response extends React.Component {
               </div>
             ) : null}
             <div style={{maxHeight: '400px', padding: '10px', overflow: 'hidden scroll'}}>
-              {responseTab === 'result' && <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} isCollapse={collapse} />}
+              {
+                responseTab === 'result' ? (
+                  <ResponseBody
+                    result={result}
+                    oauth={oauth}
+                    isOauth={!!securities.OAuth2}
+                    isCollapsed={collapse}
+                  />
+                ) : null
+              }
               {responseTab === 'metadata' && <ResponseMetadata result={result} />}
             </div>
           </BlockWithTab>) : (

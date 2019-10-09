@@ -16,7 +16,7 @@ const FileSvg = (
   </svg>
 )
 
-export default function Result({ result, isCollapse}) {
+export default function Result({result, isCollapse}) {
   const isJson =
     result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
 
@@ -46,7 +46,7 @@ export default function Result({ result, isCollapse}) {
       {!result.isBinary && isJson && (
         <ReactJson
           src={result.responseBody}
-          collapsed={isCollapse === undefined ? 1 : isCollapse}
+          collapsed={isCollapse ? 1 : false}
           collapseStringsAfterLength={100}
           enableClipboard={false}
           theme="tomorrow"
@@ -84,3 +84,6 @@ Result.propTypes = {
     responseBody: PropTypes.any,
   }).isRequired,
 };
+Result.defaultProps = {
+  isCollapse: false
+}
