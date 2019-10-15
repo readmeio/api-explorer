@@ -8,32 +8,128 @@ const petstore = require('../fixtures/petstore/oas');
 const oas = new Oas(example);
 const oas2 = new Oas(petstore);
 
+function encodeJsonExample(json) {
+  return JSON.stringify(json, undefined, 2);
+}
+
 describe('createCodeShower', () => {
-  it('should return codes array if there are examples for the operation endpoint', () => {
+  it('should return codes array if there are examples for the operation', () => {
     const operation = oas.operation('/results', 'get');
 
     expect(createCodeShower(operation)).toEqual([
       {
-        code: JSON.stringify(
+        languages: [
           {
-            user: {
-              email: 'test@example.com',
-              name: 'Test user name',
-            },
+            code: encodeJsonExample({
+              user: {
+                email: 'test@example.com',
+                name: 'Test user name',
+              },
+            }),
+            language: 'application/json',
+            multipleExamples: false,
           },
-          undefined,
-          2,
-        ),
-        language: 'application/json',
-        multipleExamples: '',
+        ],
         status: '200',
       },
       {
-        code:
-          '<?xml version="1.0" encoding="UTF-8"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>',
-        language: 'application/xml',
-        multipleExamples: '',
+        languages: [
+          {
+            code:
+              '<?xml version="1.0" encoding="UTF-8"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>',
+            language: 'application/xml',
+            multipleExamples: false,
+          },
+        ],
         status: '400',
+      },
+    ]);
+  });
+
+  it('should not set `multipleExamples` if there is just a single example', () => {
+    const operation = oas.operation('/single-media-type-single-example', 'get');
+
+    expect(createCodeShower(operation)).toEqual([
+      {
+        languages: [
+          {
+            code: encodeJsonExample({
+              summary: 'An example of a cat',
+              value: {
+                name: 'Fluffy',
+                petType: 'Cat',
+              },
+            }),
+            language: 'application/json',
+            multipleExamples: false,
+          },
+        ],
+        status: '200',
+      },
+      {
+        languages: [
+          {
+            code:
+              '<?xml version="1.0" encoding="UTF-8"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>',
+            language: 'application/xml',
+            multipleExamples: false,
+          },
+        ],
+        status: '400',
+      },
+    ]);
+  });
+
+  it('should return multiple nested examples if there are multiple response media types types for the operation', () => {
+    const operation = oas.operation('/multi-media-types-multiple-examples', 'get');
+
+    expect(createCodeShower(operation)).toEqual([
+      {
+        status: '200',
+        languages: [
+          {
+            language: 'text/plain',
+            code: 'OK',
+            multipleExamples: false,
+          },
+          {
+            language: 'application/json',
+            code: false,
+            multipleExamples: [
+              {
+                label: 'cat',
+                code: encodeJsonExample({
+                  summary: 'An example of a cat',
+                  value: {
+                    name: 'Fluffy',
+                    petType: 'Cat',
+                  },
+                }),
+              },
+              {
+                label: 'dog',
+                code: encodeJsonExample({
+                  summary: "An example of a dog with a cat's name",
+                  value: {
+                    name: 'Puma',
+                    petType: 'Dog',
+                  },
+                }),
+              },
+            ],
+          },
+        ],
+      },
+      {
+        status: '400',
+        languages: [
+          {
+            language: 'application/xml',
+            code:
+              '<?xml version="1.0" encoding="UTF-8"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>',
+            multipleExamples: false,
+          },
+        ],
       },
     ]);
   });
@@ -48,7 +144,7 @@ describe('createCodeShower', () => {
     expect(createCodeShower(operation)).toEqual([]);
   });
 
-  it('should return codes if type is not results', () => {
+  it('should return codes if type is not `results`', () => {
     const operation = oas.operation('/results', 'get');
     expect(createCodeShower2(operation)).toEqual([]);
   });
