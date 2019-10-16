@@ -1,0 +1,10 @@
+.card .row .form-group .form-text {
+    text-align: right;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.btn-holder-div > button {
+    margin: 5px;
+}
+

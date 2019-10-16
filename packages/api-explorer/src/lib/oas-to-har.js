@@ -181,7 +181,7 @@ module.exports = (
 
         Object.keys(formData.formData).forEach((key) => {
           const dataString = formData.formData[key]
-          if (dataString) {
+          if (dataString && dataString.indexOf('base64,') >= 0) {
             // Explode data string
             const actualData = dataString.split('base64,')[1]
             const type = dataString.split(';')[0].split('=')[1]

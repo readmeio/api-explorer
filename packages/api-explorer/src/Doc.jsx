@@ -21,9 +21,9 @@ import ContentWithTitle from './components/ContentWithTitle'
 import SchemaTabs from './components/SchemaTabs'
 import Select from './components/Select'
 import colors from './colors';
+import Params from './Params'
 
 const PathUrl = require('./PathUrl');
-const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./components/Response');
 const ErrorBoundary = require('./ErrorBoundary');
@@ -88,7 +88,6 @@ class Doc extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
-    this.Params = createParams(this.oas);
     this.onAuthReset = this.onAuthReset.bind(this)
 
     const list = getContentTypeFromOperation(this.getOperation())
@@ -351,7 +350,7 @@ class Doc extends React.Component {
 
   renderParams() {
     return (
-      <this.Params
+      <Params
         oas={this.oas}
         operation={this.getOperation()}
         formData={this.state.formData}

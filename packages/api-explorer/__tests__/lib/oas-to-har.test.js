@@ -407,6 +407,18 @@ describe('body values', () => {
   it('should not add on empty unrequired values', () => {
     expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
   });
+  test('should not crash if some values is not a base64 data', () => {
+    const values = {
+      "path": {
+        "petId": 0
+      },
+      "formData": {
+        "other": "gigi",
+        "file": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AAAAk3WerNoR4AAAAASUVORK5CYII="
+      }
+    }
+    oasToHar(oas, pathOperation, values, {}, {}, 'multipart/form-data')
+  })
 
   // TODO extensions[SEND_DEFAULTS]
   it.skip('should set defaults if no value provided but is required', () => {

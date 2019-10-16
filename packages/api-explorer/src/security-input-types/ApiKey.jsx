@@ -3,11 +3,11 @@ const PropTypes = require('prop-types');
 
 function ApiKey({ apiKey, scheme, authInputRef, change, Input }) {
   return (
-    <div className="row">
-      <div className="col-xs-5">
+    <div>
+      <div>
         <label htmlFor="apiKey">{scheme.name}</label>
       </div>
-      <div className="col-xs-7">
+      <div>
         <Input
           inputRef={authInputRef}
           type="text"

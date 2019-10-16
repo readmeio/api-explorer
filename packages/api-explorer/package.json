@@ -4,6 +4,7 @@
   "version": "5.9.0",
   "main": "dist/index.js",
   "dependencies": {
+    "@json-editor/json-editor": "^1.3.5",
     "@mia-platform/markdown": "^5.0.4",
     "@mia-platform/oas-extensions": "^5.1.0",
     "@mia-platform/syntax-highlighter": "^5.0.4",
@@ -21,7 +22,6 @@
     "react-debounce-input": "^3.2.0",
     "react-intl": "^2.8.0",
     "react-json-view": "^1.19.1",
-    "react-jsonschema-form": "github:domharrington/react-jsonschema-form#6ca64eca566abb55f2c6de3ceee04fce8b7d2449",
     "react-waypoint": "^7.3.1",
     "whatwg-fetch": "^2.0.3"
   },
@@ -32,6 +32,7 @@
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect",
     "test": "jest --coverage --runInBand",
+    "unit": "jest --watch",
     "watch": "webpack -w",
     "build": "webpack --config webpack.prod.js"
   },

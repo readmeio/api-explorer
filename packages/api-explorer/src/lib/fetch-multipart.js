@@ -26,7 +26,7 @@ export const createMultipartBody = (formData) => {
   const data = new FormData();
   Object.keys(formData.formData).forEach((key) => {
     const dataString = formData.formData[key];
-    if (dataString === undefined) {
+    if (dataString === undefined || dataString.indexOf('base64') < 0) {
       return;
     }
     // Explode data string into component to be appended.
