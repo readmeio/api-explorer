@@ -4,7 +4,7 @@ const React = require('react');
 require('./style.scss');
 
 const CodeTabs = ({attributes, children}) => {
-  function test({target}, index) {
+  function handleClick({target}, index) {
     const $wrap = target.parentElement;
     $wrap
       .querySelectorAll('.CodeTabs_active')
@@ -18,7 +18,7 @@ const CodeTabs = ({attributes, children}) => {
   }
   return (<div {...attributes} className="CodeTabs CodeTabs_initial">
     {children.map((block, i) => {
-      return <button onClick={e => test(e, i)}>Tab {i}</button>
+      return <button onClick={e => handleClick(e, i)}>Tab {i}</button>
     })}
     <div className="CodeTabs-inner">
       {children}
