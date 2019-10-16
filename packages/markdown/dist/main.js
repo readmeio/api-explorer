@@ -33244,10 +33244,10 @@ var Callout = function Callout(props) {
       node = props.node;
 
   var _ref = node && node.data.toJSON() || props || {},
-      theme = _ref.theme; //^This is to deal with different^
-  // methods of passing props btwn
-  // the hast-util's hProps and our 
-  // slate-mdast-serializer.
+      theme = _ref.theme;
+  /*^Deal with varying methods of passing props
+   * between the hast-util and slate-mdast-serializer.
+   */
 
 
   var content = children.splice(1);
