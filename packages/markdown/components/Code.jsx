@@ -29,7 +29,7 @@ Code.defaultProps = {
 };
 
 module.exports = sanitizeSchema => {
-  // this is for code blocks class name
+  // This is for code blocks class name
   sanitizeSchema.attributes.code = ['className'];
   return Code;
 };
