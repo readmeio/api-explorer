@@ -33444,7 +33444,7 @@ var CodeTabs = function CodeTabs(_ref) {
   var attributes = _ref.attributes,
       children = _ref.children;
 
-  function test(_ref2, index) {
+  function handleClick(_ref2, index) {
     var target = _ref2.target;
     var $wrap = target.parentElement;
     $wrap.querySelectorAll('.CodeTabs_active').forEach(function (el) {
@@ -33461,7 +33461,7 @@ var CodeTabs = function CodeTabs(_ref) {
   }), children.map(function (block, i) {
     return React.createElement("button", {
       onClick: function onClick(e) {
-        return test(e, i);
+        return handleClick(e, i);
       }
     }, "Tab ", i);
   }), React.createElement("div", {
