@@ -105,8 +105,5 @@ module.exports.sanitize = sanitizeSchema => {
   tags.push('code-tabs');
   attr['code-tabs'] = ['className'];
 
-  tags.push('rdme-figure');
-  // attr['rdme-figure'] = ['className'];
-
   return parser;
 };
