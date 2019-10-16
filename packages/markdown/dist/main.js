@@ -9605,8 +9605,6 @@ var rdmeDivCompiler = __webpack_require__(361);
 
 var codeTabsCompiler = __webpack_require__(362);
 
-var rdmeFigureCompiler = __webpack_require__(363);
-
 var rdmeCalloutCompiler = __webpack_require__(364); // This is for checklists in <li>
 
 
@@ -9738,7 +9736,7 @@ module.exports.render = {
     .use(remarkStringify, opts.markdownOptions).parse(text);
   },
   md: function md(tree, opts) {
-    return !tree ? null : parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeFigureCompiler, rdmeCalloutCompiler]).stringify(tree);
+    return !tree ? null : parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler]).stringify(tree);
   },
   html: function html(text, opts) {
     return !text ? null : parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
@@ -33002,8 +33000,6 @@ module.exports.sanitize = function (sanitizeSchema) {
   attr.code = ['className'];
   tags.push('code-tabs');
   attr['code-tabs'] = ['className'];
-  tags.push('rdme-figure'); // attr['rdme-figure'] = ['className'];
-
   return parser;
 };
 
@@ -33197,21 +33193,7 @@ module.exports = function gap() {
 };
 
 /***/ }),
-/* 363 */
-/***/ (function(module, exports) {
-
-module.exports = function CompileRdmeFigure() {
-  var Compiler = this.Compiler;
-  var visitors = Compiler.prototype.visitors;
-
-  function rdmeFigure(node) {
-    return ['<RdmeFigure>', this.block(node), '</RdmeFigure>'].join('\n\n');
-  }
-
-  visitors['rdme-figure'] = rdmeFigure;
-};
-
-/***/ }),
+/* 363 */,
 /* 364 */
 /***/ (function(module, exports) {
 
