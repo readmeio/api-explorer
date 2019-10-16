@@ -153,6 +153,7 @@ class Doc extends React.Component {
   }
 
   onAuthChange(auth) {
+    console.log('onAuthChange Doc', auth)
     this.setState(prevState => {
       return {
         auth: {...prevState.auth, ...auth}
@@ -174,6 +175,8 @@ class Doc extends React.Component {
   }
 
   getCurrentAuth() {
+    const fromState = this.state.auth ? JSON.stringify(this.state.auth) : undefined
+    const fromProp = this.props.auth ? JSON.stringify(this.props.auth) : undefined
     return this.state.auth || this.props.auth
   }
 
@@ -470,7 +473,6 @@ Doc.propTypes = {
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
-  onAuthChange: PropTypes.func.isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }).isRequired,

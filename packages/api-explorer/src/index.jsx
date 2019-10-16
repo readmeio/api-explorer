@@ -61,6 +61,7 @@ class ApiExplorer extends React.Component {
   }
 
   onAuthChange(auth) {
+    console.log('Index onAuthChange ', auth)
     this.setState(previousState => {
       return {
         auth: Object.assign({}, previousState.auth, auth),
@@ -131,6 +132,7 @@ class ApiExplorer extends React.Component {
   }
 
   renderDoc(doc) {
+    console.log(this.state.auth)
     return (
       <Doc
         key={doc._id}
@@ -147,7 +149,6 @@ class ApiExplorer extends React.Component {
         suggestedEdits={false}
         tryItMetrics={this.props.tryItMetrics}
         auth={this.state.auth}
-        onAuthChange={this.onAuthChange}
         fallbackUrl={this.props.fallbackUrl}
         stripSlash={this.props.stripSlash}
       />

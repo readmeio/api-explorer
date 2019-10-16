@@ -32,6 +32,7 @@
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect",
     "test": "jest --coverage --runInBand",
+    "unit": "jest --watch",
     "watch": "webpack -w",
     "build": "webpack --config webpack.prod.js"
   },
