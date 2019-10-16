@@ -9567,10 +9567,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-/* TODO
- - [ ] extract conversion from render (parse/processSync) methods
-   (so you can get the AST or final text from any conversion)
- */
 var React = __webpack_require__(8);
 
 var unified = __webpack_require__(157);
@@ -9587,8 +9583,7 @@ var rehypeSanitize = __webpack_require__(281);
 
 var rehypeStringify = __webpack_require__(284);
 
-var rehypeReact = __webpack_require__(302); // const rehypeRemark = require('rehype-remark');
-
+var rehypeReact = __webpack_require__(302);
 
 var remarkStringify = __webpack_require__(313);
 
@@ -9596,7 +9591,7 @@ var breaks = __webpack_require__(353);
 
 var options = __webpack_require__(354);
 
-var flavorRdmeWrap = __webpack_require__(355);
+var flavorCodeTabs = __webpack_require__(355);
 
 var flavorCallout = __webpack_require__(356);
 
@@ -9608,7 +9603,7 @@ var gemojiParser = __webpack_require__(359);
 
 var rdmeDivCompiler = __webpack_require__(361);
 
-var rdmeWrapCompiler = __webpack_require__(362);
+var codeTabsCompiler = __webpack_require__(362);
 
 var rdmeFigureCompiler = __webpack_require__(363);
 
@@ -9640,7 +9635,7 @@ sanitize.ancestors.input = ['li']; // const Variable = require('@readme/variable
 
 function parseMarkdown() {
   var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return unified().use(remarkParse, opts.markdownOptions).data('settings', opts.settings).use(magicBlockParser.sanitize(sanitize)).use([flavorRdmeWrap, flavorCallout.sanitize(sanitize)]).use(variableParser.sanitize(sanitize)).use(!opts.correctnewlines ? breaks : function () {}).use(gemojiParser.sanitize(sanitize)).use(remarkRehype, {
+  return unified().use(remarkParse, opts.markdownOptions).data('settings', opts.settings).use(magicBlockParser.sanitize(sanitize)).use([flavorCodeTabs, flavorCallout.sanitize(sanitize)]).use(variableParser.sanitize(sanitize)).use(!opts.correctnewlines ? breaks : function () {}).use(gemojiParser.sanitize(sanitize)).use(remarkRehype, {
     allowDangerousHTML: true
   }).use(rehypeRaw).use(rehypeSanitize);
 } // for backwards compatibility we have to
@@ -9684,7 +9679,7 @@ module.exports.render = {
   hub: function hub(text, opts) {
     var callout = __webpack_require__(365);
 
-    var rdmeWrap = __webpack_require__(369);
+    var codeTabs = __webpack_require__(369);
 
     var table = __webpack_require__(372);
 
@@ -9695,7 +9690,7 @@ module.exports.render = {
     return !text ? null : parseMarkdown(opts).use(rehypeReact, {
       createElement: React.createElement,
       components: {
-        'rdme-wrap': rdmeWrap(sanitize),
+        'code-tabs': codeTabs(sanitize),
         'rdme-callout': callout(sanitize),
         'readme-variable': function readmeVariable(props) {
           return React.createElement("span", _extends({
@@ -9743,7 +9738,7 @@ module.exports.render = {
     .use(remarkStringify, opts.markdownOptions).parse(text);
   },
   md: function md(tree, opts) {
-    return !tree ? null : parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, rdmeWrapCompiler, rdmeFigureCompiler, rdmeCalloutCompiler]).stringify(tree);
+    return !tree ? null : parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeFigureCompiler, rdmeCalloutCompiler]).stringify(tree);
   },
   html: function html(text, opts) {
     return !text ? null : parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
@@ -32753,10 +32748,10 @@ function tokenizer(eat, value) {
   if (kids.length == 1) return eat(match)(kids[0]); // return the tabbed code block editor
 
   return eat(match)({
-    type: 'rdme-wrap',
+    type: 'code-tabs',
     className: 'tabs',
     data: {
-      hName: 'rdme-wrap'
+      hName: 'code-tabs'
     },
     children: kids
   });
@@ -32905,10 +32900,10 @@ function tokenize(eat, value) {
   switch (type) {
     case 'code':
       return eat(match)({
-        type: 'rdme-wrap',
+        type: 'code-tabs',
         className: 'tabs',
         data: {
-          hName: 'rdme-wrap'
+          hName: 'code-tabs'
         },
         children: json.codes.map(function (obj) {
           return {
@@ -33005,8 +33000,8 @@ module.exports.sanitize = function (sanitizeSchema) {
   attr.li = ['checked'];
   attr.pre = ['className'];
   attr.code = ['className'];
-  tags.push('rdme-wrap');
-  attr['rdme-wrap'] = ['className'];
+  tags.push('code-tabs');
+  attr['code-tabs'] = ['className'];
   tags.push('rdme-figure'); // attr['rdme-figure'] = ['className'];
 
   return parser;
@@ -33194,11 +33189,11 @@ module.exports = function gap() {
   var Compiler = this.Compiler;
   var visitors = Compiler.prototype.visitors;
 
-  function rdmeWrap(node) {
+  function codeTabs(node) {
     return this.block(node).split('\n\n').join('\n');
   }
 
-  visitors['rdme-wrap'] = rdmeWrap;
+  visitors['code-tabs'] = codeTabs;
 };
 
 /***/ }),
@@ -33445,24 +33440,24 @@ var React = __webpack_require__(8);
 
 __webpack_require__(370);
 
-var RdmeWrap = function RdmeWrap(_ref) {
+var CodeTabs = function CodeTabs(_ref) {
   var attributes = _ref.attributes,
       children = _ref.children;
 
   function test(_ref2, index) {
     var target = _ref2.target;
     var $wrap = target.parentElement;
-    $wrap.querySelectorAll('.RdmeWrap_active').forEach(function (el) {
-      return el.classList.remove('RdmeWrap_active');
+    $wrap.querySelectorAll('.CodeTabs_active').forEach(function (el) {
+      return el.classList.remove('CodeTabs_active');
     });
-    $wrap.classList.remove('RdmeWrap_initial');
+    $wrap.classList.remove('CodeTabs_initial');
     var codeblocks = $wrap.querySelectorAll('pre');
-    codeblocks[index].classList.add('RdmeWrap_active');
-    target.classList.add('RdmeWrap_active');
+    codeblocks[index].classList.add('CodeTabs_active');
+    target.classList.add('CodeTabs_active');
   }
 
   return React.createElement("div", _extends({}, attributes, {
-    className: "RdmeWrap RdmeWrap_initial"
+    className: "CodeTabs CodeTabs_initial"
   }), children.map(function (block, i) {
     return React.createElement("button", {
       onClick: function onClick(e) {
@@ -33470,13 +33465,13 @@ var RdmeWrap = function RdmeWrap(_ref) {
       }
     }, "Tab ", i);
   }), React.createElement("div", {
-    className: "RdmeWrap-inner"
+    className: "CodeTabs-inner"
   }, children));
 };
 
 module.exports = function (sanitizeSchema) {
-  // sanitizeSchema.attributes['rdme-wrap'] = ['icon', 'theme', 'title', 'value'];
-  return RdmeWrap;
+  // sanitizeSchema.attributes['code-tabs'] = ['icon', 'theme', 'title', 'value'];
+  return CodeTabs;
 };
 
 /***/ }),
@@ -33538,7 +33533,7 @@ exports = module.exports = __webpack_require__(149)(false);
 
 
 // module
-exports.push([module.i, ".markdown-body .RdmeWrap {\n  background: #eaeaea;\n  border-radius: 0 0 3px 3px !important; }\n  .markdown-body .RdmeWrap pre {\n    border-radius: 0 0 3px 3px !important;\n    background: #f6f6f6; }\n  .markdown-body .RdmeWrap pre:not(.RdmeWrap_active) {\n    display: none; }\n  .markdown-body .RdmeWrap button {\n    -webkit-appearance: none;\n    appearance: none;\n    display: inline-block;\n    line-height: 2;\n    padding: .5em 1em;\n    border: none;\n    background: transparent;\n    outline: none;\n    color: #333;\n    font: inherit;\n    font-size: .75em;\n    cursor: pointer; }\n  .markdown-body .RdmeWrap.RdmeWrap_initial button:first-child,\n  .markdown-body .RdmeWrap button.RdmeWrap_active {\n    background: #f6f6f6;\n    color: black;\n    pointer-events: none; }\n  .markdown-body .RdmeWrap button:not(.RdmeWrap_active):hover {\n    background: rgba(0, 0, 0, 0.075); }\n  .markdown-body .RdmeWrap.RdmeWrap_initial pre:first-child {\n    display: block; }\n", ""]);
+exports.push([module.i, ".markdown-body .CodeTabs {\n  background: #eaeaea;\n  border-radius: 0 0 3px 3px !important; }\n  .markdown-body .CodeTabs pre {\n    border-radius: 0 0 3px 3px !important;\n    background: #f6f6f6; }\n  .markdown-body .CodeTabs pre:not(.CodeTabs_active) {\n    display: none; }\n  .markdown-body .CodeTabs button {\n    -webkit-appearance: none;\n    appearance: none;\n    display: inline-block;\n    line-height: 2;\n    padding: .5em 1em;\n    border: none;\n    background: transparent;\n    outline: none;\n    color: #333;\n    font: inherit;\n    font-size: .75em;\n    cursor: pointer; }\n  .markdown-body .CodeTabs.CodeTabs_initial button:first-child,\n  .markdown-body .CodeTabs button.CodeTabs_active {\n    background: #f6f6f6;\n    color: black;\n    pointer-events: none; }\n  .markdown-body .CodeTabs button:not(.CodeTabs_active):hover {\n    background: rgba(0, 0, 0, 0.075); }\n  .markdown-body .CodeTabs.CodeTabs_initial pre:first-child {\n    display: block; }\n", ""]);
 
 // exports
 

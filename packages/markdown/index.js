@@ -1,8 +1,3 @@
-/* TODO
- - [ ] extract conversion from render (parse/processSync) methods
-   (so you can get the AST or final text from any conversion)
- */
- 
 const React = require('react');
 const unified = require('unified');
 const sanitize = require('hast-util-sanitize/lib/github.json');
@@ -12,20 +7,19 @@ const remarkParse = require('remark-parse');
 const rehypeSanitize = require('rehype-sanitize');
 const rehypeStringify = require('rehype-stringify');
 const rehypeReact = require('rehype-react');
-// const rehypeRemark = require('rehype-remark');
 const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
 
 const options = require('./processor/options.json');
 
-const flavorRdmeWrap = require('./processor/parse/readme-flavored-parser');
+const flavorCodeTabs = require('./processor/parse/flavored/code-tabs');
 const flavorCallout = require('./processor/parse/flavored/callout');
 const magicBlockParser = require('./processor/parse/magic-block-parser');
 const variableParser = require('./processor/parse/variable-parser');
 const gemojiParser = require('./processor/parse/gemoji-parser');
 
 const rdmeDivCompiler = require('./processor/compile/div');
-const rdmeWrapCompiler = require('./processor/compile/rdme-wrap');
+const codeTabsCompiler = require('./processor/compile/code-tabs');
 const rdmeFigureCompiler = require('./processor/compile/rdme-figure');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
 
@@ -60,7 +54,7 @@ function parseMarkdown(opts = {}) {
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
     .use([
-      flavorRdmeWrap,
+      flavorCodeTabs,
       flavorCallout.sanitize(sanitize),
     ])
     .use(variableParser.sanitize(sanitize))
@@ -98,7 +92,7 @@ module.exports.render = {
 
   hub: (text, opts) => {
     const callout = require('./components/Callout');
-    const rdmeWrap = require('./components/RdmeWrap');
+    const codeTabs = require('./components/CodeTabs');
     const table = require('./components/Table');
     const anchor = require('./components/Anchor');
     const code = require('./components/Code');
@@ -108,7 +102,7 @@ module.exports.render = {
           .use(rehypeReact, {
             createElement: React.createElement,
             components: {
-              'rdme-wrap': rdmeWrap(sanitize),
+              'code-tabs': codeTabs(sanitize),
               'rdme-callout': callout(sanitize),
               'readme-variable': props => <span style={{color:'red'}} {...props}>Variable</span>,
               'readme-glossary-item': props => <span style={{color:'red'}} {...props}>Term</span>,
@@ -147,7 +141,7 @@ module.exports.render = {
           .use(remarkStringify, opts.markdownOptions)
           .use([
             rdmeDivCompiler,
-            rdmeWrapCompiler,
+            codeTabsCompiler,
             rdmeFigureCompiler,
             rdmeCalloutCompiler
           ])

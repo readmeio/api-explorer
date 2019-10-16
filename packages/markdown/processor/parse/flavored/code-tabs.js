@@ -27,9 +27,9 @@ function tokenizer(eat, value) {
 
   // return the tabbed code block editor
   return eat(match)({
-    type: 'rdme-wrap',
+    type: 'code-tabs',
     className: 'tabs',
-    data: { hName: 'rdme-wrap' },
+    data: { hName: 'code-tabs' },
     children: kids,
   });
 }
