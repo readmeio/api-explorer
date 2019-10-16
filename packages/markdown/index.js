@@ -20,7 +20,6 @@ const gemojiParser = require('./processor/parse/gemoji-parser');
 
 const rdmeDivCompiler = require('./processor/compile/div');
 const codeTabsCompiler = require('./processor/compile/code-tabs');
-const rdmeFigureCompiler = require('./processor/compile/rdme-figure');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
 
 // This is for checklists in <li>
@@ -142,7 +141,6 @@ module.exports.render = {
           .use([
             rdmeDivCompiler,
             codeTabsCompiler,
-            rdmeFigureCompiler,
             rdmeCalloutCompiler
           ])
           .stringify(tree),
