@@ -1,4 +1,4 @@
-.markdown-body .RdmeWrap {
+.markdown-body .CodeTabs {
   background: #eaeaea;
   border-radius: 0 0 3px 3px !important;
 
@@ -7,7 +7,7 @@
     background: #f6f6f6;
   }
 
-  pre:not(.RdmeWrap_active) {
+  pre:not(.CodeTabs_active) {
     display: none;
   }
 
@@ -26,18 +26,18 @@
     cursor: pointer;
   }
 
-  &.RdmeWrap_initial button:first-child,
-  button.RdmeWrap_active {
+  &.CodeTabs_initial button:first-child,
+  button.CodeTabs_active {
     background: #f6f6f6;
     color: black;
     pointer-events: none;
   }
 
-  button:not(.RdmeWrap_active):hover {
+  button:not(.CodeTabs_active):hover {
     background: rgba(0, 0, 0, .075);
   }
 
-  &.RdmeWrap_initial pre:first-child {
+  &.CodeTabs_initial pre:first-child {
     display: block;
   }
 }

@@ -13,9 +13,9 @@ function tokenize(eat, value) {
   switch (type) {
     case 'code':
       return eat(match)({
-        type: 'rdme-wrap',
+        type: 'code-tabs',
         className: 'tabs',
-        data: { hName: 'rdme-wrap' },
+        data: { hName: 'code-tabs' },
         children: json.codes.map(obj => ({
           type: 'code',
           value: obj.code,
@@ -102,8 +102,8 @@ module.exports.sanitize = sanitizeSchema => {
   attr.pre = ['className'];
   attr.code = ['className'];
 
-  tags.push('rdme-wrap');
-  attr['rdme-wrap'] = ['className'];
+  tags.push('code-tabs');
+  attr['code-tabs'] = ['className'];
 
   tags.push('rdme-figure');
   // attr['rdme-figure'] = ['className'];
