@@ -7,8 +7,6 @@
     "@readme/syntax-highlighter": "^4.8.4",
     "@readme/variable": "^4.8.1",
     "hast-util-sanitize": "^1.2.0",
-    "lodash": "^4.17.15",
-    "mdast-util-phrasing": "^1.0.3",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
     "rehype-raw": "^3.0.0",
