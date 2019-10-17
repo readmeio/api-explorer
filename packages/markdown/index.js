@@ -64,10 +64,8 @@ function parseMarkdown(opts = {}) {
     .use(rehypeSanitize);
 }
 
-// for backwards compatibility we have to
-// export the Hub renderer as the default
-// but we'll probably want to expose the
-// processor by default in the future.
+// we have to export the Hub renderer as
+// the default for backwards compatibility
 module.exports = (text, opts) => module.exports.render.hub(text, opts);
 
 module.exports.parse = parseMarkdown;
@@ -75,6 +73,7 @@ module.exports.parse = parseMarkdown;
 module.exports.options = options; /** @todo: make exporting default options more coherent */
 
 module.exports.render = {
+
   dash: (text, opts) =>
     !text
       ? null
