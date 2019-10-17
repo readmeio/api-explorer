@@ -173,9 +173,6 @@ class Doc extends React.Component {
   }
 
   getCurrentAuth() {
-    const fromState = this.state.auth ? JSON.stringify(this.state.auth) : undefined
-    const fromProp = this.props.auth ? JSON.stringify(this.props.auth) : undefined
-    console.log('Doc:  fromState ', fromState, 'fromProp', fromProp)
     return this.state.auth || this.props.auth
   }
 

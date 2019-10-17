@@ -92,21 +92,20 @@ class Response extends React.Component {
             selected={responseTab}
             onClick={this.setTab}
           >
-            <CopyCode code={isString ? result.responseBody : JSON.stringify(result.responseBody)} />
-            {!result.isBinary ? (
-              <div style={ctaContainerStyle}>
-                {isJson ? (
-                  <Fragment>
-                    <a href={''} className="mia-ctc-button" onClick={(e) => this.onCollapseAll(e)}>
-                      <FormattedMessage id="code.collapseAll" defaultMessage="Collapse all" />
-                    </a>
-                    <a href={''} className="mia-ctc-button" onClick={(e) => this.onExpandAll(e)}>
-                      <FormattedMessage id="code.expandAll" defaultMessage="Expand all" />
-                    </a>
-                  </Fragment>
+            <div style={ctaContainerStyle}>
+              <CopyCode code={isString ? result.responseBody : JSON.stringify(result.responseBody)} />
+              {!result.isBinary && isJson ? (
+                <Fragment>
+                  <a href={''} className="mia-ctc-button" onClick={(e) => this.onCollapseAll(e)}>
+                    <FormattedMessage id="code.collapseAll" defaultMessage="Collapse all" />
+                  </a>
+                  <a href={''} className="mia-ctc-button" onClick={(e) => this.onExpandAll(e)}>
+                    <FormattedMessage id="code.expandAll" defaultMessage="Expand all" />
+                  </a>
+                </Fragment>
                 ) : null}
-              </div>
-            ) : null}
+            </div>
+            
             <div style={{maxHeight: '400px', padding: '10px', overflow: 'hidden scroll'}}>
               {
                 responseTab === 'result' ? (

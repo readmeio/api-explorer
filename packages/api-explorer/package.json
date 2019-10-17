@@ -1,9 +1,10 @@
 {
   "name": "@mia-platform/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "5.9.0",
+  "version": "6.0.0-rc.0",
   "main": "dist/index.js",
   "dependencies": {
+    "@json-editor/json-editor": "^1.4.0-beta.0",
     "@mia-platform/markdown": "^5.0.4",
     "@mia-platform/oas-extensions": "^5.1.0",
     "@mia-platform/syntax-highlighter": "^5.0.4",
@@ -21,7 +22,6 @@
     "react-debounce-input": "^3.2.0",
     "react-intl": "^2.8.0",
     "react-json-view": "^1.19.1",
-    "react-jsonschema-form": "github:domharrington/react-jsonschema-form#6ca64eca566abb55f2c6de3ceee04fce8b7d2449",
     "react-waypoint": "^7.3.1",
     "whatwg-fetch": "^2.0.3"
   },
