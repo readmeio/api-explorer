@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
+import { shallow, mount } from 'enzyme'
+import Cookie from 'js-cookie'
+import extensions from '@mia-platform/oas-extensions'
 
-const { shallow, mount } = require('enzyme');
-const Cookie = require('js-cookie');
-const extensions = require('@mia-platform/oas-extensions');
-const WrappedApiExplorer = require('../src');
+import Doc from '../src/Doc'
+import WrappedApiExplorer from '../src'
 
 const { ApiExplorer } = WrappedApiExplorer;
 
@@ -208,7 +209,7 @@ describe('auth', () => {
 
     const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
 
-    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
+    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
@@ -218,7 +219,7 @@ describe('auth', () => {
       <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
     );
 
-    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
+    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `user_data.keys[].api_key`', () => {
@@ -231,13 +232,13 @@ describe('auth', () => {
       />,
     );
 
-    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
+    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
   });
 
   it('should default to empty string', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
-    expect(explorer.state('auth')).toEqual({ api_key: '', petstore_auth: '' });
+    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '', petstore_auth: '' });
   });
 });
 

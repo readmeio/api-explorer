@@ -53,7 +53,6 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      auth: getAuth(this.props.variables.user, this.props.oasFiles),
       description: getDescription(this.props.oasFiles)
     };
   }
