@@ -891,7 +891,7 @@ form.rjsf {
     .form-group.field > :empty:not(.form-control) {
       display: none;
     }
-    .form-group.field + .form-group.field:not(.field-object):not(.field-array) {
+    .form-group.field + .form-group.field {
       border-top: 1px solid #f1f1f2;
     }
   }
