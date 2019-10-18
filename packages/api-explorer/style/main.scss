@@ -638,8 +638,8 @@ form.rjsf {
     color: red;
   }
   .param .label-type {
-    padding: 3px;
-    margin: 2px 0 0 0.5em;
+    padding: 2px 4px;
+    margin: 0 0 -2px 0.5em;
     color: rgba(0, 0, 0, 0.6);
     content: "string";
     background: #f7f7f7;
@@ -695,6 +695,11 @@ form.rjsf {
     margin: 0;
     padding: 0.75em 0;
   }
+  .param.field-object > .children .row:last-child {
+    > p.col-xs-3:only-child {
+      padding-left: 0 !important;
+    }
+  }
   .param.field-array > .children .row:not(:empty) + .row:last-child,
   .param.field-object > .children .row:not(:empty) + .row:last-child {
     padding-top: 0;
@@ -709,9 +714,6 @@ form.rjsf {
   }
   .param.field-array > .children .array-item > .col-xs-9 {
     flex: 1;
-  }
-  .param.field-array > .children .array-item + .array-item {
-    border-top: 1px solid #e3e3e3;
   }
   .param .row .btn.btn-add {
     margin: 0;
@@ -730,17 +732,16 @@ form.rjsf {
     background: linear-gradient(to bottom, white 25%, #f7f7f7 75%);
     margin: 0 0 0 !important;
     transform: translate(4px, -50%);
-    padding: 4px;
-  }
-  .field-object > .children legend:not(:only-child),
-  .field-array > .children legend:not(:only-child) {
-    position: absolute;
-    right: 0;
-    font-weight: normal;
-    color: #999;
+    padding: 0 4px;
+    &:not(:only-child) {
+      position: absolute;
+      right: 0;
+      color: #bbb;
+      font-weight: normal;
+    }
   }
   .field-array > .children legend {
-    transform: translate(-4px, -50%);
+    transform: translate(-1rem, -50%);
   }
   .children legend {
     display: none;
@@ -790,9 +791,13 @@ form.rjsf {
   .param.field-object > .children .label {
     display: flex !important;
     flex: 1;
+    > .label-type {
+      background: white;
+    }
   }
   .param.field-object > .children .label > * {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .param.field-array > .children,
   .param.field-object > .children {
@@ -807,9 +812,6 @@ form.rjsf {
   }
   select[id*=_anyof_] {
     margin: 1em 0 0.5em !important;
-  }
-  .field-array > .children legend {
-    transform: translate(-4px, -50%);
   }
   .children .children legend {
     background: #f7f7f7 !important;
@@ -870,5 +872,27 @@ form.rjsf {
   }
   .col-xs-3.array-item-toolbox {
     margin: 0 auto;
+  }
+  .children >:not(.field-array-of-object),
+  > .form-group > .field-array {
+    > .array-item-list > .array-item + .array-item {
+      border-top: 1px solid #e9e9ea;
+    }
+  }
+  & {
+    // Addtional adjustments for
+    // description-only fields.
+    .param > .label {
+      max-width: 38rem;
+    }
+    .param > .label > .description:empty {
+      display: none;
+    }
+    .form-group.field > :empty:not(.form-control) {
+      display: none;
+    }
+    .form-group.field + .form-group.field:not(.field-object):not(.field-array) {
+      border-top: 1px solid #f1f1f2;
+    }
   }
 }
