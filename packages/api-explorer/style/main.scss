@@ -695,11 +695,6 @@ form.rjsf {
     margin: 0;
     padding: 0.75em 0;
   }
-  .param.field-object > .children .row:last-child {
-    > p.col-xs-3:only-child {
-      padding-left: 0 !important;
-    }
-  }
   .param.field-array > .children .row:not(:empty) + .row:last-child,
   .param.field-object > .children .row:not(:empty) + .row:last-child {
     padding-top: 0;
