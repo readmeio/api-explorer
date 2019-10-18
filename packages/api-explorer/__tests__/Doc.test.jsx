@@ -3,6 +3,7 @@ import { IntlProvider } from 'react-intl';
 
 import ContentWithTitle from '../src/components/ContentWithTitle'
 import SchemaTabs from '../src/components/SchemaTabs'
+import PathUrl from '../src/PathUrl'
 
 const extensions = require('@mia-platform/oas-extensions');
 const { Request, Response } = require('node-fetch');
@@ -30,7 +31,6 @@ const props = {
   language: 'node',
   suggestedEdits: false,
   oauth: false,
-  onAuthChange: () => {},
   auth: {},
   tryItMetrics: () => {},
 };
@@ -280,6 +280,27 @@ describe('toggleAuth', () => {
     expect(doc.state('showAuthBox')).toBe(false);
   });
 });
+
+describe('PathUrl', () => {
+  it('should be passed auth from props if the one in state is undefined', () => {
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
+    doc.setState({showEndpoint: true})
+    wrapper.mount() 
+    const pathUrl = wrapper.find(PathUrl)
+    expect(pathUrl.prop('auth')).toEqual({api_key: '123' })
+  })
+  it('should be passed auth from state if the one in state is not undefined', () => {
+    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
+    const doc = wrapper.find('Doc')
+    doc.setState({showEndpoint: true})
+    wrapper.mount() 
+    const pathUrl = wrapper.find(PathUrl)
+    pathUrl.prop('onChange')({api_key: '456'})
+    wrapper.mount() 
+    expect(wrapper.find(PathUrl).prop('auth')).toEqual({api_key: '456' })
+  })
+})
 
 describe('state.loading', () => {
   test('should default to false', () => {

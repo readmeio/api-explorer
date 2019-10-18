@@ -47,25 +47,14 @@ class ApiExplorer extends React.Component {
     this.setLanguage = this.setLanguage.bind(this);
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
-    this.onAuthChange = this.onAuthChange.bind(this);
-
     this.state = {
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
       selectedApp: {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      auth: getAuth(this.props.variables.user, this.props.oasFiles),
       description: getDescription(this.props.oasFiles)
     };
-  }
-
-  onAuthChange(auth) {
-    this.setState(previousState => {
-      return {
-        auth: Object.assign({}, previousState.auth, auth),
-      };
-    });
   }
 
   setLanguage(language) {
@@ -131,6 +120,7 @@ class ApiExplorer extends React.Component {
   }
 
   renderDoc(doc) {
+    const auth = getAuth(this.props.variables.user, this.props.oasFiles)
     return (
       <Doc
         key={doc._id}
@@ -146,8 +136,7 @@ class ApiExplorer extends React.Component {
         oauth={this.props.oauth}
         suggestedEdits={false}
         tryItMetrics={this.props.tryItMetrics}
-        auth={this.state.auth}
-        onAuthChange={this.onAuthChange}
+        auth={auth}
         fallbackUrl={this.props.fallbackUrl}
         stripSlash={this.props.stripSlash}
       />
