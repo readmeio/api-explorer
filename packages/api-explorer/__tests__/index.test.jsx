@@ -239,15 +239,6 @@ describe('auth', () => {
 
     expect(explorer.state('auth')).toEqual({ api_key: '', petstore_auth: '' });
   });
-
-  test('should merge securities auth changes', () => {
-    const explorer = mount(<ApiExplorer {...props} />);
-
-    explorer.instance().onAuthChange({ api_key: '7890' });
-    explorer.instance().onAuthChange({ petstore_auth: '123456' });
-
-    expect(explorer.state('auth')).toEqual({ api_key: '7890', petstore_auth: '123456' });
-  });
 });
 
 describe('showOnlyAPI', () => {
