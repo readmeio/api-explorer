@@ -287,7 +287,7 @@ ApiExplorer.defaultProps = {
   defaultOpenDoc: '',
   onDocChange: () => {},
   fallbackUrl: '',
-  stripSlash: true,
+  stripSlash: false,
   forcePanelRender: false,
 };
 

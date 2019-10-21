@@ -375,9 +375,9 @@ describe('CollapsePanel', () => {
 })
 
 describe('stripSlash', () => {
-  it('should default to true', () => {
+  it('should default to false', () => {
     const explorer = mount(<ApiExplorer {...props} />)
-    expect(explorer.prop('stripSlash')).toBe(true)
+    expect(explorer.prop('stripSlash')).toBe(false)
   })
 
   it('should be provided to Doc children', () => {
@@ -393,7 +393,7 @@ describe('stripSlash', () => {
     const explorer = mount(
       <ApiExplorer 
         {...props}
-        stripSlash={false}
+        stripSlash
         docs={[Object.assign({}, baseDoc, {
           swagger: { path: '/pet' },
           category: { apiSetting: 'api-setting' } 
@@ -401,7 +401,7 @@ describe('stripSlash', () => {
       />
     );
     const renderDocs = explorer.find('Doc')
-    expect(renderDocs.prop('stripSlash')).toEqual(false)
+    expect(renderDocs.prop('stripSlash')).toEqual(true)
   })
 })
 

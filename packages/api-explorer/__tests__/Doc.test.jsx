@@ -410,13 +410,13 @@ describe('fallbackUrl', () => {
 })
 
 describe('stripSlash', () => {
-  it('should default to true', () => {
+  it('should default to false', () => {
     const doc = mountWithIntl(
       <IntlProvider>
         <Doc {...props} />
       </IntlProvider>
     ).find('Doc');
-    expect(doc.prop('stripSlash')).toBe(true)
+    expect(doc.prop('stripSlash')).toBe(false)
   })
 
   it('should strip operation path', () => {
@@ -424,6 +424,7 @@ describe('stripSlash', () => {
       <IntlProvider>
         <Doc 
           {...props}
+          stripSlash
           doc={{
             title: 'Title',
             slug: 'slug',
