@@ -566,6 +566,73 @@ form.rjsf fieldset {
   word-break: break-all;
 }
 
+
+.tabber-bar {
+  display: flex;
+  flex-flow: nowrap row;
+  font-family: 'Proxima Nova', 'Open Sans', sans-serif;
+  color: #7f8992;
+}
+.tabber-bar > * {
+  position: relative;
+  flex: 0 50%;
+  max-width: 50%;
+}
+.tabber-bar > * + * {
+  margin-left: 1rem;
+  padding-left: 1rem;
+}
+.tabber-bar h3 {
+  font-size: 1em;
+}
+.tabber-bar > :last-child:not(:only-child):before {
+  content: "\f061";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translate(50%, -50%);
+  display: inline-block;
+  font: normal normal normal 1em/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tabber-bar + .example:not(.example_json) {
+  margin-top: 20px;
+}
+.tabber-select-row {
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  /* padding: 1rem; */
+  border-radius: 4px;
+}
+.tabber-select-row > * + * {
+  margin-top: .5em;
+}
+.tabber-select-row > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.tabber-select-row select {
+  margin: 4px 0 0 -2px;
+  width: 100%;
+  background-color: #4a5157 !important;
+  color: white;
+  border: none;
+  font-family: 'Proxima Nova', 'Open Sans', sans-serif !important;
+  padding: .6em 1em;
+  display: block;
+  height: 2.5em;
+}
+.tabber-body .react-json-view {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 form.rjsf {
   .field label:after {
     display: none !important;

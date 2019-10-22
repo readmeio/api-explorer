@@ -89,7 +89,7 @@ function SchemaField(props) {
     return (
       <BaseSchemaField
         {...props}
-        uiSchema={Object.assign({}, props.uiSchema, { classNames: `field-${customType}` })}
+        uiSchema={{ ...props.uiSchema, classNames: `field-${customType}` }}
       />
     );
   }
