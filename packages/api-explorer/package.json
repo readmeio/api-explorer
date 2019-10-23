@@ -30,7 +30,7 @@
     "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
     "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
-    "watch": "webpack -w"
+    "watch": "webpack -w --progress"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
