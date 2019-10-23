@@ -6,6 +6,7 @@ const extensions = require('@readme/oas-extensions');
 
 const showCodeResults = require('./lib/show-code-results');
 const contentTypeIsJson = require('./lib/content-type-is-json');
+const upgradeLegacyResponses = require('./lib/upgrade-legacy-responses');
 
 const ExampleTabs = require('./ExampleTabs');
 
@@ -41,7 +42,22 @@ function getReactJson(example, responseExampleCopy) {
   );
 }
 
-function showMediaTypes(example, setResponseMediaType, responseMediaType) {
+/**
+ * Determine if we should render a dropdown of available media types for a given response example.
+ *
+ * @param {object} example
+ * @param {function} setResponseMediaType
+ * @param {string} responseMediaType
+ * @param {boolean} [nestInTabberBarDivClass=false] If `true`, the dropdown will be rendered within
+ *    a div that has the `tabber-bar` class.
+ * @returns jsx
+ */
+function showMediaTypes(
+  example,
+  setResponseMediaType,
+  responseMediaType,
+  nestInTabberBarDivClass = false,
+) {
   const mediaTypes = example.languages;
   if (mediaTypes.length <= 1) return false;
 
@@ -49,7 +65,7 @@ function showMediaTypes(example, setResponseMediaType, responseMediaType) {
   if (!responseMediaTypeCopy && mediaTypes[0]) responseMediaTypeCopy = mediaTypes[0].languages;
 
   return (
-    <div>
+    <div className={nestInTabberBarDivClass ? 'tabber-bar' : ''}>
       <span className="tabber-select-row">
         <h3>Response Type</h3>
         <select
@@ -121,7 +137,16 @@ function Example({
   responseMediaType,
   responseMediaTypeExample,
 }) {
-  const examples = exampleResponses.length ? exampleResponses : showCodeResults(operation);
+  let examples;
+  if (exampleResponses.length) {
+    // With https://github.com/readmeio/api-explorer/pull/312 we changed the shape of response
+    // examples, but unfortunately APIs that are manually documented in ReadMe are still in the
+    // legacy shape so we need to adhoc rewrite them to fit this new work.
+    examples = upgradeLegacyResponses(exampleResponses);
+  } else {
+    examples = showCodeResults(operation);
+  }
+
   const hasExamples = examples.find(e => {
     return e.languages.find(ee => ee.code && ee.code !== '{}');
   });
@@ -166,11 +191,8 @@ function Example({
                     className={`tomorrow-night tabber-body tabber-body-${index}`}
                     style={{ display: index === selected ? 'block' : '' }}
                   >
-                    {!example.multipleExamples && (
-                      <div className="tabber-bar">
-                        {showMediaTypes(ex, setResponseMediaType, responseMediaType)}
-                      </div>
-                    )}
+                    {!example.multipleExamples &&
+                      showMediaTypes(ex, setResponseMediaType, responseMediaType, true)}
 
                     {example.multipleExamples &&
                       showExamples(
