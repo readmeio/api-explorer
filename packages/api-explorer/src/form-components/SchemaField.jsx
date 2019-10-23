@@ -66,6 +66,14 @@ function SchemaField(props) {
     props.schema.enumNames = ['true', 'false'];
     return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
   }
+
+  // The current ReadMe manual API editor saves mixed types as "mixed type", which isn't a real type
+  // that's supported by the OAS. Since we don't have knowledge as to what those types are, let's
+  // just convert it to a string so the parameter will at least render out.
+  if (props.schema.type === 'mixed type') {
+    props.schema.type = 'string';
+  }
+
   return <BaseSchemaField {...props} />;
 }
 

@@ -75,6 +75,9 @@
                     "enum": ["available", "pending", "sold"],
                     "default": "available"
                   },
+                  "mixed type (unsupported in the OAS, but should be rendered as a string)": {
+                    "type": "mixed type"
+                  },
                   "integer": {
                     "type": "integer",
                     "format": "int64",
