@@ -186,6 +186,12 @@ function testNumberClass(schema) {
   });
 }
 
+test('should convert `mixed type` to string', () => {
+  const params = renderParams({ type: 'mixed type' });
+
+  expect(params.find(`.field-string`).length).toBe(1);
+});
+
 testNumberClass({ type: 'integer', format: 'int8' });
 testNumberClass({ type: 'integer', format: 'uint8' });
 testNumberClass({ type: 'integer', format: 'int16' });
