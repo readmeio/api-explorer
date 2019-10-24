@@ -1,9 +1,9 @@
 {
   "name": "@readme/markdown",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "4.10.0",
+  "version": "4.10.3",
   "dependencies": {
-    "@readme/syntax-highlighter": "^4.10.0",
+    "@readme/syntax-highlighter": "^4.10.3",
     "@readme/variable": "^4.10.0",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.7.2",
