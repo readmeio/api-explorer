@@ -10,6 +10,10 @@ test('should highlight a block of code', () => {
   );
 });
 
+test('should work when passed a non-string value', () => {
+  expect(() => syntaxHighlighter(false, 'text')).not.toThrow();
+});
+
 test('should sanitize plain text language', () => {
   expect(shallow(syntaxHighlighter('& < > " \' /', 'text')).html()).toContain(
     '&amp; &lt; &gt; &quot; &#x27; /',
