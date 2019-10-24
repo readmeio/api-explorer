@@ -836,7 +836,6 @@ form.rjsf {
   }
   .field-array > .children .array-item-list .param > .label {
     position: relative;
-    flex: 0;
   }
   .field-array > .children .array-item-list .param .label-type {
     margin-left: 0;
@@ -885,7 +884,7 @@ form.rjsf {
     padding-top: 0 !important;
   }
   .field .children .field-array > .label {
-    display: none !important;
+    // display: none !important;
   }
   .form-group.field-object > .children > [id^=root_object] > .form-group:first-of-type {
     margin-top: 4px;
