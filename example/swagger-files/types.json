@@ -58,6 +58,10 @@
                     "type": "string",
                     "format": "string"
                   },
+                  "string (format: password, currently unsupported)": {
+                    "type": "string",
+                    "format": "password"
+                  },
                   "string (format: url)": {
                     "type": "string",
                     "format": "url"
