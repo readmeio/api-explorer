@@ -16,42 +16,13 @@ class Response extends React.Component {
     super(props);
     this.state = {
       responseTab: 'result',
-      exampleTab: 0,
     };
+
     this.setTab = this.setTab.bind(this);
-    this.setExampleTab = this.setExampleTab.bind(this);
-    this.setResponseExample = this.setResponseExample.bind(this);
-    this.setResponseMediaType = this.setResponseMediaType.bind(this);
   }
 
   setTab(selected) {
     this.setState({ responseTab: selected });
-  }
-
-  setExampleTab(index) {
-    this.setState({
-      exampleTab: index,
-      responseMediaType: undefined,
-      responseExample: undefined,
-    });
-  }
-
-  setResponseExample(index) {
-    this.setState({ responseExample: index });
-  }
-
-  setResponseMediaType(example, index) {
-    this.setState({
-      responseMediaType: index,
-      responseMediaTypeExample: example,
-    });
-
-    // Update the code sample.
-    this.props.onChange({
-      header: {
-        Accept: example.language,
-      },
-    });
   }
 
   render() {
@@ -90,14 +61,8 @@ class Response extends React.Component {
             operation={operation}
             result={result}
             oas={oas}
-            selected={this.state.exampleTab}
-            responseExample={this.state.responseExample}
-            responseMediaType={this.state.responseMediaType}
-            responseMediaTypeExample={this.state.responseMediaTypeExample}
-            setExampleTab={this.setExampleTab}
-            setResponseExample={this.setResponseExample}
-            setResponseMediaType={this.setResponseMediaType}
             exampleResponses={exampleResponses}
+            onChange={this.props.onChange}
           />
         </div>
       </div>

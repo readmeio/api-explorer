@@ -14,6 +14,7 @@ const props = {
   hideResults: () => {},
   oas,
   oauth: false,
+  onChange: () => {},
 };
 
 describe('no result', () => {
@@ -37,18 +38,6 @@ describe('setTab', () => {
     doc.instance().setTab('result');
 
     expect(doc.state('responseTab')).toBe('result');
-  });
-});
-
-describe('exampleTab', () => {
-  test('exampleTab should change state of exampleTab', () => {
-    const doc = shallow(<Response {...props} />);
-
-    expect(doc.state('exampleTab')).toBe(0);
-
-    doc.instance().setExampleTab(1);
-
-    expect(doc.state('exampleTab')).toBe(1);
   });
 });
 
