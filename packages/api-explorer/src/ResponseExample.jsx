@@ -104,17 +104,19 @@ class ResponseExample extends React.Component {
       <div className={nestInTabberBarDivClass ? 'tabber-bar' : ''}>
         <span className="tabber-select-row">
           <h3>Response Type</h3>
-          <select
-            className="response-select"
-            onChange={e => this.setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
-            value={responseMediaTypeCopy}
-          >
-            {mediaTypes.map((l, idx) => (
-              <option value={idx} key={l.language}>
-                {l.language}
-              </option>
-            ))}
-          </select>
+          <div className="tabber-select-wrapper">
+            <select
+              className="response-select"
+              onChange={e => this.setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
+              value={responseMediaTypeCopy}
+            >
+              {mediaTypes.map((l, idx) => (
+                <option value={idx} key={l.language}>
+                  {l.language}
+                </option>
+              ))}
+            </select>
+          </div>
         </span>
       </div>
     );
@@ -132,17 +134,19 @@ class ResponseExample extends React.Component {
 
           <span className="tabber-select-row">
             <h3>Set an example</h3>
-            <select
-              className="response-select"
-              onChange={e => this.setResponseExample(e.target.value)}
-              value={responseExampleCopy}
-            >
-              {examples.map(example => (
-                <option value={example.label} key={example.label}>
-                  {example.label}
-                </option>
-              ))}
-            </select>
+            <div className="tabber-select-wrapper">
+              <select
+                className="response-select"
+                onChange={e => this.setResponseExample(e.target.value)}
+                value={responseExampleCopy}
+              >
+                {examples.map(example => (
+                  <option value={example.label} key={example.label}>
+                    {example.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </span>
         </div>
 
