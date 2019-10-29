@@ -42,218 +42,239 @@ function getReactJson(example, responseExampleCopy) {
   );
 }
 
-/**
- * Determine if we should render a dropdown of available media types for a given response example.
- *
- * @param {object} example
- * @param {function} setResponseMediaType
- * @param {string} responseMediaType
- * @param {boolean} [nestInTabberBarDivClass=false] If `true`, the dropdown will be rendered within
- *    a div that has the `tabber-bar` class.
- * @returns jsx
- */
-function showMediaTypes(
-  example,
-  setResponseMediaType,
-  responseMediaType,
-  nestInTabberBarDivClass = false,
-) {
-  const mediaTypes = example.languages;
-  if (mediaTypes.length <= 1) return false;
+class ResponseExample extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      exampleTab: 0,
+      responseExample: null,
+      responseMediaType: null,
+      responseMediaTypeExample: null,
+    };
 
-  let responseMediaTypeCopy = responseMediaType;
-  if (!responseMediaTypeCopy && mediaTypes[0]) responseMediaTypeCopy = mediaTypes[0].languages;
-
-  return (
-    <div className={nestInTabberBarDivClass ? 'tabber-bar' : ''}>
-      <span className="tabber-select-row">
-        <h3>Response Type</h3>
-        <select
-          className="response-select"
-          onChange={e => setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
-          value={responseMediaTypeCopy}
-        >
-          {mediaTypes.map((l, idx) => (
-            <option value={idx} key={l.language}>
-              {l.language}
-            </option>
-          ))}
-        </select>
-      </span>
-    </div>
-  );
-}
-
-function showExamples(
-  examples,
-  setResponseExample,
-  responseExample,
-  mediaTypes,
-  ex,
-  setResponseMediaType,
-  responseMediaType,
-) {
-  let responseExampleCopy = responseExample;
-  if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
-
-  return (
-    <div>
-      <div className="tabber-bar">
-        {mediaTypes.length > 1 && showMediaTypes(ex, setResponseMediaType, responseMediaType)}
-
-        <span className="tabber-select-row">
-          <h3>Set an example</h3>
-          <select
-            className="response-select"
-            onChange={e => setResponseExample(e.target.value)}
-            value={responseExampleCopy}
-          >
-            {examples.map(example => (
-              <option value={example.label} key={example.label}>
-                {example.label}
-              </option>
-            ))}
-          </select>
-        </span>
-      </div>
-
-      {examples.map(example => {
-        return getReactJson(example, responseExampleCopy);
-      })}
-    </div>
-  );
-}
-
-function Example({
-  operation,
-  result,
-  oas,
-  selected,
-  setExampleTab,
-  exampleResponses,
-  setResponseExample,
-  setResponseMediaType,
-  responseExample,
-  responseMediaType,
-  responseMediaTypeExample,
-}) {
-  let examples;
-  if (exampleResponses.length) {
-    // With https://github.com/readmeio/api-explorer/pull/312 we changed the shape of response
-    // examples, but unfortunately APIs that are manually documented in ReadMe are still in the
-    // legacy shape so we need to adhoc rewrite them to fit this new work.
-    examples = upgradeLegacyResponses(exampleResponses);
-  } else {
-    examples = showCodeResults(operation);
+    this.setExampleTab = this.setExampleTab.bind(this);
+    this.setResponseExample = this.setResponseExample.bind(this);
+    this.setResponseMediaType = this.setResponseMediaType.bind(this);
   }
 
-  const hasExamples = examples.find(e => {
-    return e.languages.find(ee => ee.code && ee.code !== '{}');
-  });
+  setExampleTab(index) {
+    this.setState({
+      exampleTab: index,
+      responseExample: null,
+      responseMediaType: null,
+      responseMediaTypeExample: null,
+    });
+  }
 
-  return (
-    <div className="hub-reference-results-examples code-sample">
-      {examples && examples.length > 0 && hasExamples && (
-        <span>
-          <ExampleTabs examples={examples} selected={selected} setExampleTab={setExampleTab} />
-          <div className="code-sample-body">
-            {examples.map((ex, index) => {
-              let example;
-              const mediaTypes = ex.languages;
+  setResponseExample(index) {
+    this.setState({ responseExample: index });
+  }
 
-              if (mediaTypes.length > 1) {
-                example = responseMediaTypeExample || mediaTypes[0];
-              } else {
-                // eslint-disable-next-line prefer-destructuring
-                example = mediaTypes[0];
-              }
+  setResponseMediaType(example, index) {
+    this.setState({
+      responseMediaType: index,
+      responseMediaTypeExample: example,
+    });
 
-              const isJson = example.language && contentTypeIsJson(example.language);
+    // Update the code sample.
+    this.props.onChange({
+      header: {
+        Accept: example.language,
+      },
+    });
+  }
 
-              const getHighlightedExample = hx => {
-                return syntaxHighlighter(hx.code, hx.language, {
-                  dark: true,
-                });
-              };
+  /**
+   * Determine if we should render a dropdown of available media types for a given response example.
+   *
+   * @param {object} example
+   * @param {string} responseMediaType
+   * @param {boolean} [nestInTabberBarDivClass=false] If `true`, the dropdown will be rendered within
+   *    a div that has the `tabber-bar` class.
+   * @returns jsx
+   */
+  showMediaTypes(example, responseMediaType, nestInTabberBarDivClass = false) {
+    const mediaTypes = example.languages;
+    if (mediaTypes.length <= 1) return false;
 
-              const transformExampleIntoReactJson = rx => {
-                try {
-                  return getReactJson(rx);
-                } catch (e) {
-                  return getHighlightedExample(rx);
-                }
-              };
+    let responseMediaTypeCopy = responseMediaType;
+    if (!responseMediaTypeCopy && mediaTypes[0]) responseMediaTypeCopy = mediaTypes[0].languages;
 
-              return (
-                // eslint-disable-next-line react/no-array-index-key
-                <div key={index}>
-                  <pre
-                    className={`tomorrow-night tabber-body tabber-body-${index}`}
-                    style={{ display: index === selected ? 'block' : '' }}
-                  >
-                    {!example.multipleExamples &&
-                      showMediaTypes(ex, setResponseMediaType, responseMediaType, true)}
-
-                    {example.multipleExamples &&
-                      showExamples(
-                        example.multipleExamples,
-                        setResponseExample,
-                        responseExample,
-                        mediaTypes,
-                        ex,
-                        setResponseMediaType,
-                        responseMediaType,
-                      )}
-
-                    {isJson && !example.multipleExamples ? (
-                      <div className="example example_json">
-                        {transformExampleIntoReactJson(example)}
-                      </div>
-                    ) : (
-                      // json + multiple examples is already handled in `showExamples`.
-                      <div className="example">
-                        {isJson && example.multipleExamples ? null : getHighlightedExample(example)}
-                      </div>
-                    )}
-                  </pre>
-                </div>
-              );
-            })}
-          </div>
+    return (
+      <div className={nestInTabberBarDivClass ? 'tabber-bar' : ''}>
+        <span className="tabber-select-row">
+          <h3>Response Type</h3>
+          <span className="tabber-select-wrapper">
+            <select
+              className="response-select"
+              onChange={e => this.setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
+              value={responseMediaTypeCopy}
+            >
+              {mediaTypes.map((l, idx) => (
+                <option value={idx} key={l.language}>
+                  {l.language}
+                </option>
+              ))}
+            </select>
+          </span>
         </span>
-      )}
+      </div>
+    );
+  }
 
-      {(examples.length === 0 || (!hasExamples && result === null)) && (
-        <div className="hub-no-code">
-          {oas[extensions.EXPLORER_ENABLED]
-            ? 'Try the API to see Results'
-            : 'No response examples available'}
+  showExamples(examples, mediaTypes, ex, responseMediaType) {
+    const { responseExample } = this.state;
+    let responseExampleCopy = responseExample;
+    if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
+
+    return (
+      <div>
+        <div className="tabber-bar">
+          {mediaTypes.length > 1 && this.showMediaTypes(ex, responseMediaType)}
+
+          <span className="tabber-select-row">
+            <h3>Set an example</h3>
+            <span className="select-wrapper">
+              <select
+                className="response-select"
+                onChange={e => this.setResponseExample(e.target.value)}
+                value={responseExampleCopy}
+              >
+                {examples.map(example => (
+                  <option value={example.label} key={example.label}>
+                    {example.label}
+                  </option>
+                ))}
+              </select>
+            </span>
+          </span>
         </div>
-      )}
-    </div>
-  );
+
+        {examples.map(example => {
+          return getReactJson(example, responseExampleCopy);
+        })}
+      </div>
+    );
+  }
+
+  render() {
+    const { operation, result, oas, exampleResponses } = this.props;
+    const selectedTab = this.state.exampleTab;
+    const { responseMediaType, responseMediaTypeExample } = this.state;
+
+    let examples;
+    if (exampleResponses.length) {
+      // With https://github.com/readmeio/api-explorer/pull/312 we changed the shape of response
+      // examples, but unfortunately APIs that are manually documented in ReadMe are still in the
+      // legacy shape so we need to adhoc rewrite them to fit this new work.
+      examples = upgradeLegacyResponses(exampleResponses);
+    } else {
+      examples = showCodeResults(operation);
+    }
+
+    const hasExamples = examples.find(e => {
+      return e.languages.find(ee => ee.code && ee.code !== '{}');
+    });
+
+    return (
+      <div className="hub-reference-results-examples code-sample">
+        {examples && examples.length > 0 && hasExamples && (
+          <span>
+            <ExampleTabs
+              examples={examples}
+              selected={selectedTab}
+              setExampleTab={this.setExampleTab}
+            />
+
+            <div className="code-sample-body">
+              {examples.map((ex, index) => {
+                let example;
+                const mediaTypes = ex.languages;
+
+                if (mediaTypes.length > 1) {
+                  example = responseMediaTypeExample || mediaTypes[0];
+                } else {
+                  // eslint-disable-next-line prefer-destructuring
+                  example = mediaTypes[0];
+                }
+
+                const isJson = example.language && contentTypeIsJson(example.language);
+
+                const getHighlightedExample = hx => {
+                  return syntaxHighlighter(hx.code, hx.language, {
+                    dark: true,
+                  });
+                };
+
+                const transformExampleIntoReactJson = rx => {
+                  try {
+                    return getReactJson(rx);
+                  } catch (e) {
+                    return getHighlightedExample(rx);
+                  }
+                };
+
+                return (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div key={index}>
+                    <pre
+                      className={`tomorrow-night tabber-body tabber-body-${index}`}
+                      style={{ display: index === selectedTab ? 'block' : '' }}
+                    >
+                      {!example.multipleExamples &&
+                        this.showMediaTypes(ex, responseMediaType, true)}
+
+                      {example.multipleExamples &&
+                        this.showExamples(
+                          example.multipleExamples,
+                          mediaTypes,
+                          ex,
+                          responseMediaType,
+                        )}
+
+                      {isJson && !example.multipleExamples ? (
+                        <div className="example example_json">
+                          {transformExampleIntoReactJson(example)}
+                        </div>
+                      ) : (
+                        // json + multiple examples is already handled in `showExamples`.
+                        <div className="example">
+                          {isJson && example.multipleExamples
+                            ? null
+                            : getHighlightedExample(example)}
+                        </div>
+                      )}
+                    </pre>
+                  </div>
+                );
+              })}
+            </div>
+          </span>
+        )}
+
+        {(examples.length === 0 || (!hasExamples && result === null)) && (
+          <div className="hub-no-code">
+            {oas[extensions.EXPLORER_ENABLED]
+              ? 'Try the API to see Results'
+              : 'No response examples available'}
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
-module.exports = Example;
-
-Example.propTypes = {
+ResponseExample.propTypes = {
   result: PropTypes.shape({}),
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
-  selected: PropTypes.number.isRequired,
-  responseExample: PropTypes.string,
-  responseMediaType: PropTypes.string,
-  responseMediaTypeExample: PropTypes.shape({}),
-  setExampleTab: PropTypes.func.isRequired,
-  setResponseExample: PropTypes.func.isRequired,
-  setResponseMediaType: PropTypes.func.isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  onChange: PropTypes.func.isRequired,
 };
 
-Example.defaultProps = {
+ResponseExample.defaultProps = {
   result: {},
-  responseExample: null,
-  responseMediaType: null,
-  responseMediaTypeExample: null,
   exampleResponses: [],
 };
+
+module.exports = ResponseExample;

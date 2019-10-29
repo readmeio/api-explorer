@@ -14,10 +14,7 @@ const props = {
   result: null,
   oas,
   operation: oas.operation('/pet', 'post'),
-  selected: 0,
-  setExampleTab: () => {},
-  setResponseExample: () => {},
-  setResponseMediaType: () => {},
+  onChange: () => {},
 };
 
 test('should show no examples if endpoint does not any', () => {
@@ -138,4 +135,16 @@ test('should not show a select if a media type has a single example', () => {
   );
 
   expect(example.html().includes('<select')).toBe(false);
+});
+
+describe('exampleTab', () => {
+  test('exampleTab should change state of exampleTab', () => {
+    const doc = shallow(<ResponseExample {...props} />);
+
+    expect(doc.state('exampleTab')).toBe(0);
+
+    doc.instance().setExampleTab(1);
+
+    expect(doc.state('exampleTab')).toBe(1);
+  });
 });

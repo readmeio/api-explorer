@@ -606,7 +606,6 @@ form.rjsf fieldset {
   flex-flow: nowrap column;
   justify-content: flex-start;
   align-items: flex-start;
-  /* padding: 1rem; */
   border-radius: 4px;
 }
 .tabber-select-row > * + * {
@@ -616,17 +615,49 @@ form.rjsf fieldset {
   margin-top: 0;
   margin-bottom: 0;
 }
-.tabber-select-row select {
-  margin: 4px 0 0 -2px;
+.select-wrapper,
+.tabber-select-wrapper {
   width: 100%;
-  background-color: #4a5157 !important;
-  color: white;
-  border: none;
-  font-family: 'Proxima Nova', 'Open Sans', sans-serif !important;
-  padding: .6em 1em;
+  position: relative;
+}
+.select-wrapper:before,
+.tabber-select-wrapper:before {
+  position: absolute;
+  top: 50%;
+  right: .6em;
+  transform: translateY(-50%);
+  content: "\f078";
+  display: inline-block;
+  font-family: FontAwesome;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  pointer-events: none;
+}
+.select-wrapper select,
+.tabber-select-wrapper select {
+  padding-right: 1.5em !important;
+}
+
+.tabber-select-row select {
   display: block;
   height: 2.5em;
+  width: 100%;
+  margin: 4px 0 0 0;
+  padding: 0 .6em;
+  font: inherit;
+  font-family: 'proxima-nova', Proxima Nova, Open Sans, sans-serif !important;
+  color: white;
+  background: #4a5157 !important;
+  border: none;
+  border-radius: 4px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
 }
+
 .tabber-body .react-json-view {
   padding-left: 0 !important;
   padding-right: 0 !important;
