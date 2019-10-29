@@ -104,7 +104,7 @@ class ResponseExample extends React.Component {
       <div className={nestInTabberBarDivClass ? 'tabber-bar' : ''}>
         <span className="tabber-select-row">
           <h3>Response Type</h3>
-          <div className="tabber-select-wrapper">
+          <span className="tabber-select-wrapper">
             <select
               className="response-select"
               onChange={e => this.setResponseMediaType(mediaTypes[e.target.value], e.target.value)}
@@ -116,7 +116,7 @@ class ResponseExample extends React.Component {
                 </option>
               ))}
             </select>
-          </div>
+          </span>
         </span>
       </div>
     );
@@ -134,7 +134,7 @@ class ResponseExample extends React.Component {
 
           <span className="tabber-select-row">
             <h3>Set an example</h3>
-            <div className="tabber-select-wrapper">
+            <span className="select-wrapper">
               <select
                 className="response-select"
                 onChange={e => this.setResponseExample(e.target.value)}
@@ -146,7 +146,7 @@ class ResponseExample extends React.Component {
                   </option>
                 ))}
               </select>
-            </div>
+            </span>
           </span>
         </div>
 

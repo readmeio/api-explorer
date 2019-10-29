@@ -615,10 +615,12 @@ form.rjsf fieldset {
   margin-top: 0;
   margin-bottom: 0;
 }
+.select-wrapper,
 .tabber-select-wrapper {
   width: 100%;
   position: relative;
 }
+.select-wrapper:before,
 .tabber-select-wrapper:before {
   position: absolute;
   top: 50%;
@@ -632,6 +634,7 @@ form.rjsf fieldset {
   -moz-osx-font-smoothing: grayscale;
   pointer-events: none;
 }
+.select-wrapper select,
 .tabber-select-wrapper select {
   padding-right: 1.5em !important;
 }
