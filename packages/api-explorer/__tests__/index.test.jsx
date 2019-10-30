@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow, mount } from 'enzyme'
 import Cookie from 'js-cookie'
 import extensions from '@mia-platform/oas-extensions'
+import {Collapse} from 'antd'
 
 import Doc from '../src/Doc'
 import WrappedApiExplorer from '../src'
@@ -30,8 +31,18 @@ const props = {
   glossaryTerms: [],
 };
 
-test.skip('ApiExplorer renders a single doc', () => {
-  const explorer = shallow(<ApiExplorer {...props} />);
+const baseDoc = {
+  _id: 1,
+  title: 'title',
+  slug: 'slug',
+  type: 'endpoint',
+  category: {},
+  api: { method: 'get' },
+};
+
+test('ApiExplorer renders a single doc', () => {
+  const explorer = shallow(<ApiExplorer {...props} docs={[baseDoc]}/>);
+  explorer.setState({showEndpoint: {'1': true}})
   expect(explorer.find('Doc').length).toBe(1);
 });
 
@@ -105,26 +116,19 @@ describe('selected language', () => {
 });
 
 describe('oas', () => {
-  const baseDoc = {
-    _id: 1,
-    title: 'title',
-    slug: 'slug',
-    type: 'endpoint',
-    category: {},
-    api: { method: 'get' },
-  };
-
   // Swagger apis and some legacies
   it('should fetch it from `doc.category.apiSetting`', () => {
     const explorer = mount(
       <ApiExplorer
         {...props}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
         oasFiles={{
           'api-setting': oas,
         }}
         docs={[Object.assign({}, baseDoc, {
           swagger: { path: '/pet' },
-          category: { apiSetting: 'api-setting' } 
+          category: { apiSetting: 'api-setting' }
         })]}
       />,
     );
@@ -132,7 +136,8 @@ describe('oas', () => {
       ...oas,
       ...expectedSampleLanguages
     }
-    expect(explorer.find('Doc').props().oas).toEqual(expectedOas);
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('oas')).toEqual(expectedOas);
   });
 
   // Some other legacy APIs where Endpoints are created in arbitrary categories
@@ -140,13 +145,15 @@ describe('oas', () => {
     const explorer = mount(
       <ApiExplorer
         {...props}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
         oasFiles={{
           'api-setting': oas,
         }}
         docs={[
           Object.assign({}, baseDoc, {
             api: { method: 'get', apiSetting: { _id: 'api-setting' } },
-            swagger: { path: '/pet' }, 
+            swagger: { path: '/pet' },
           }),
         ]}
       />,
@@ -155,19 +162,22 @@ describe('oas', () => {
       ...oas,
       ...expectedSampleLanguages
     }
-    expect(explorer.find('Doc').get(0).props.oas).toEqual(expectedOas);
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('oas')).toEqual(expectedOas);
   });
 
   it('should fetch it from `doc.api.apiSetting` if it is a string', () => {
     const explorer = mount(
       <ApiExplorer
         {...props}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
         oasFiles={{
           'api-setting': oas,
         }}
         docs={[
           Object.assign({}, baseDoc, {
-            swagger: { path: '/pet' }, 
+            swagger: { path: '/pet' },
             api: { method: 'get', apiSetting: 'api-setting' },
           }),
         ]}
@@ -177,7 +187,8 @@ describe('oas', () => {
       ...oas,
       ...expectedSampleLanguages
     }
-    expect(explorer.find('Doc').get(0).props.oas).toEqual(expectedOas);
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('oas')).toEqual(expectedOas);
   });
 
   // Of course... `typeof null === 'object'`
@@ -185,41 +196,69 @@ describe('oas', () => {
     const explorer = mount(
       <ApiExplorer
         {...props}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
         docs={[
           Object.assign({}, baseDoc, {
-            api: { method: 'get', apiSetting: null },
+            swagger: { path: '/pet' }
           }),
         ]}
       />,
     );
-
-    expect(explorer.find('Doc').get(0).props.oas).toEqual({});
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('oas')).toEqual({});
   });
 
   it('should set it to empty object', () => {
-    const explorer = mount(<ApiExplorer {...props} docs={[baseDoc]} />);
+    const explorer = mount(
+      <ApiExplorer
+        {...props}
+        docs={[baseDoc]}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
+      />
+    );
 
-    expect(explorer.find('Doc').get(0).props.oas).toEqual({});
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('oas')).toEqual({});
   });
 });
 
 describe('auth', () => {
   it('should read apiKey from `variables.user.apiKey`', () => {
     const apiKey = '123456';
-
-    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
-
-    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        variables={{ user: { apiKey } }}
+        docs={[
+          Object.assign({}, baseDoc, {
+            api: { method: 'get', apiSetting: 'api-setting' },
+            swagger: { path: '/pet' }
+          }),
+        ]}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
+      />
+    );
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
     const apiKey = '123456';
 
     const explorer = shallow(
-      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
+      <ApiExplorer
+        {...props}
+        variables={{ user: { keys: [{ name: 'a', apiKey }] } }}
+        docs={[baseDoc]}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
+      />,
     );
-
-    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `user_data.keys[].api_key`', () => {
@@ -229,16 +268,26 @@ describe('auth', () => {
       <ApiExplorer
         {...props}
         variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] } }}
+        docs={[baseDoc]}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
       />,
     );
 
-    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
   });
 
   it('should default to empty string', () => {
-    const explorer = shallow(<ApiExplorer {...props} />);
-
-    expect(explorer.find(Doc).at(0).prop('auth')).toEqual({ api_key: '', petstore_auth: '' });
+    const explorer = shallow(
+      <ApiExplorer
+        {...props}
+        docs={[baseDoc]}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
+      />);
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('auth')).toEqual({ api_key: '', petstore_auth: '' });
   });
 });
 
@@ -338,17 +387,19 @@ describe('fallbackUrl', () => {
     };
 
     const explorer = mount(
-      <ApiExplorer 
+      <ApiExplorer
         {...props}
         fallbackUrl={fallback}
         docs={[Object.assign({}, baseDoc, {
           swagger: { path: '/pet' },
-          category: { apiSetting: 'api-setting' } 
+          category: { apiSetting: 'api-setting' }
         })]}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
       />
     );
-    const renderDocs = explorer.find('Doc')
-    expect(renderDocs.prop('fallbackUrl')).toEqual(fallback)
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find('Doc').prop('fallbackUrl')).toEqual(fallback)
   })
 })
 
@@ -391,17 +442,19 @@ describe('stripSlash', () => {
     };
 
     const explorer = mount(
-      <ApiExplorer 
+      <ApiExplorer
         {...props}
         stripSlash
         docs={[Object.assign({}, baseDoc, {
           swagger: { path: '/pet' },
-          category: { apiSetting: 'api-setting' } 
+          category: { apiSetting: 'api-setting' }
         })]}
+        defaultOpen={true}
+        defaultOpenDoc={'1'}
       />
     );
-    const renderDocs = explorer.find('Doc')
-    expect(renderDocs.prop('stripSlash')).toEqual(true)
+    explorer.setState({showEndpoint: {'1': true}})
+    expect(explorer.find(Doc).prop('stripSlash')).toEqual(true)
   })
 })
 
@@ -422,16 +475,16 @@ describe('forcePanelRender', () => {
     };
 
     const explorer = mount(
-      <ApiExplorer 
+      <ApiExplorer
         {...props}
         forcePanelRender={false}
         docs={[Object.assign({}, baseDoc, {
           swagger: { path: '/pet' },
-          category: { apiSetting: 'api-setting' } 
+          category: { apiSetting: 'api-setting' }
         })]}
       />
     );
-    
+
     explorer.find('CollapsePanel').map(panel => expect(panel.prop('forceRender')).toEqual(false))
   })
 
@@ -446,16 +499,16 @@ describe('forcePanelRender', () => {
     };
 
     const explorer = mount(
-      <ApiExplorer 
+      <ApiExplorer
         {...props}
         forcePanelRender
         docs={[Object.assign({}, baseDoc, {
           swagger: { path: '/pet' },
-          category: { apiSetting: 'api-setting' } 
+          category: { apiSetting: 'api-setting' }
         })]}
       />
     );
-    
+
     explorer.find('CollapsePanel').map(panel => expect(panel.prop('forceRender')).toEqual(true))
   })
 })

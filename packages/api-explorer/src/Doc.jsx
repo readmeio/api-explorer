@@ -2,8 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
 import React, {Fragment} from 'react'
-import Waypoint from 'react-waypoint'
-import {FormattedMessage, injectIntl} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
 import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
@@ -34,8 +33,8 @@ const parseResponse = require('./lib/parse-response');
 const getContentTypeFromOperation = require('./lib/get-content-type')
 
 function Description({doc, suggestedEdits, baseUrl, intl}) {
-  const description = intl.formatMessage({id: 'doc.description', defaultMessage: 'Description'})
-  const decriptionNa = intl.formatMessage({id: 'doc.description.na', defaultMessage: 'Description not available'})
+  const description = <FormattedMessage id={'doc.description'} defaultMessage={'Description'} />
+  const decriptionNa = <FormattedMessage id={'doc.description.na'} defaultMessage={'Description not available'} />
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
       {suggestedEdits && (
@@ -72,7 +71,6 @@ class Doc extends React.Component {
       showAuthBox: false,
       needsAuth: false,
       result: null,
-      showEndpoint: false,
       auth: null,
       error: false,
       selectedContentType: undefined,
@@ -87,7 +85,6 @@ class Doc extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
-    this.waypointEntered = this.waypointEntered.bind(this);
     this.onAuthReset = this.onAuthReset.bind(this)
 
     const list = getContentTypeFromOperation(this.getOperation())
@@ -165,7 +162,6 @@ class Doc extends React.Component {
 
   getOperation() {
     if (this.operation) return this.operation;
-
     const { doc, stripSlash } = this.props;
     const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method, stripSlash) : null;
     this.operation = operation;
@@ -183,10 +179,6 @@ class Doc extends React.Component {
 
   hideResults() {
     this.setState({ result: null });
-  }
-
-  waypointEntered() {
-    this.setState({ showEndpoint: true });
   }
 
   renderContentTypeSelect(showTitle = false) {
@@ -222,23 +214,23 @@ class Doc extends React.Component {
     return(
       <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%'}}>
         <ContentWithTitle
-          title={this.props.intl.formatMessage({id:'doc.definition', defaultMessage: 'Definition'})}
+          title={<FormattedMessage id={'doc.definition'} defaultMessage={'Definition'} />}
           showBorder={false}
           content={
             this.oas.servers && (
               <span style={definitionStyle}>
-                {this.oas.servers[0].url}{this.getOperation().path}
+                {this.oas.servers[0].url}{this.getOperation() ? this.getOperation().path : ''}
               </span>
             )
           }
         />
         <ContentWithTitle
-          title={this.props.intl.formatMessage({id:'doc.examples', defaultMessage: 'Examples'})}
+          title={<FormattedMessage id={'doc.examples'} defaultMessage={'Examples'} />}
           subheader={this.renderContentTypeSelect()}
           content={this.renderCodeSample()}
         />
         <ContentWithTitle
-          title={this.props.intl.formatMessage({id:'doc.results', defaultMessage: 'Results'})}
+          title={<FormattedMessage id={'doc.results'} defaultMessage={'Results'} />}
           content={this.renderResponse()}
         />
       </div>
@@ -298,7 +290,7 @@ class Doc extends React.Component {
     )
   }
   renderEndpoint() {
-    const { doc, suggestedEdits, baseUrl, intl } = this.props
+    const { doc, suggestedEdits, baseUrl } = this.props
     return (
         doc.type === 'endpoint' ? (
           <Fragment>
@@ -308,7 +300,6 @@ class Doc extends React.Component {
                 doc={doc}
                 suggestedEdits={suggestedEdits}
                 baseUrl={baseUrl}
-                intl={intl}
               />
               {this.renderLogs()}
               {this.renderParams()}
@@ -393,21 +384,12 @@ class Doc extends React.Component {
   render() {
     const { doc } = this.props;
     const oas = this.oas;
-    const renderEndpoint = () => {
-      if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
-
-      return (
-        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
-          {this.state.showEndpoint && this.renderEndpoint()}
-        </Waypoint>
-      );
-    };
 
     return (
       <ErrorBoundary>
         <div id={`page-${doc.slug}`}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
-            {renderEndpoint()}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto'}}>
+            {this.renderEndpoint()}
           </div>
           {
             // TODO maybe we dont need to do this with a hidden input now
@@ -424,7 +406,7 @@ class Doc extends React.Component {
   }
 }
 
-module.exports = injectIntl(Doc);
+module.exports = Doc;
 
 Doc.propTypes = {
   doc: PropTypes.shape({
@@ -469,9 +451,6 @@ Doc.propTypes = {
   oauth: PropTypes.bool.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func.isRequired,
-  }).isRequired,
   fallbackUrl: PropTypes.string,
   stripSlash: PropTypes.bool,
 };

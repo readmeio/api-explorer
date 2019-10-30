@@ -4,6 +4,7 @@
 import React from 'react'
 import { Collapse, Tag, Divider } from 'antd';
 import get from 'lodash.get'
+import Waypoint from 'react-waypoint'
 import extensions from '@mia-platform/oas-extensions'
 
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -47,13 +48,15 @@ class ApiExplorer extends React.Component {
     this.setLanguage = this.setLanguage.bind(this);
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
+    this.waypointEntered = this.waypointEntered.bind(this);
     this.state = {
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
       selectedApp: {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      description: getDescription(this.props.oasFiles)
+      description: getDescription(this.props.oasFiles),
+      showEndpoint: {}
     };
   }
 
@@ -81,7 +84,7 @@ class ApiExplorer extends React.Component {
       doc.category.apiSetting ||
       (typeof doc.api.apiSetting === 'string' && doc.api.apiSetting) ||
       (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
-    
+
     const oasFromProps = this.props.oasFiles[apiSetting]
     let oas
     if (oasFromProps) {
@@ -119,9 +122,12 @@ class ApiExplorer extends React.Component {
     )
   }
 
+  waypointEntered(id) {
+    this.setState(prevState => ({ showEndpoint: {...prevState.showEndpoint, [id]: true }}));
+  }
   renderDoc(doc) {
     const auth = getAuth(this.props.variables.user, this.props.oasFiles)
-    return (
+    return this.state.showEndpoint[doc._id] && (
       <Doc
         key={doc._id}
         doc={doc}
@@ -167,7 +173,7 @@ class ApiExplorer extends React.Component {
         </b>
         <Divider type="vertical" />
         {doc.title}
-      </div>    
+      </div>
     )
   }
 
@@ -186,7 +192,7 @@ class ApiExplorer extends React.Component {
     const defaultOpenDoc = this.props.defaultOpenDoc ? this.props.defaultOpenDoc : '0'
     const defaultOpen = this.props.defaultOpen ? [defaultOpenDoc] : null
     const localizedMessages = messages[this.props.i18n.locale] || messages[this.props.i18n.defaultLocale]
-    
+
     return (
       <IntlProvider
         locale={this.props.i18n.locale}
@@ -210,13 +216,14 @@ class ApiExplorer extends React.Component {
                       accordion
                       onChange={this.props.onDocChange}
                     >
-                      {this.props.docs.map((doc, index) => (
-                        <Panel 
+                      {this.props.docs.map(doc => (
+                        <Panel
                           header={this.renderHeaderPanel(doc)}
+                          key={doc._id}
                           style={{...styleByMethod(doc.api.method), ...panelStyle}}
-                          key={index}
                           forceRender={this.props.forcePanelRender}
                         >
+                          <Waypoint onEnter={() => this.waypointEntered(doc._id)} fireOnRapidScroll={false} />
                           {this.renderDoc(doc)}
                         </Panel>
                       ))}

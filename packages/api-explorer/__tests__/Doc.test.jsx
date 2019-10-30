@@ -92,7 +92,6 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       />
     </IntlProvider>
   );
-  expect(docComponent.find('Waypoint').length).toBe(1);
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
@@ -267,7 +266,7 @@ describe('onSubmit', () => {
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc') 
+    const doc = wrapper.find('Doc')
 
     expect(doc.state('showAuthBox')).toBe(false);
 
@@ -286,7 +285,7 @@ describe('PathUrl', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
     const doc = wrapper.find('Doc')
     doc.setState({showEndpoint: true})
-    wrapper.mount() 
+    wrapper.mount()
     const pathUrl = wrapper.find(PathUrl)
     expect(pathUrl.prop('auth')).toEqual({api_key: '123' })
   })
@@ -294,10 +293,10 @@ describe('PathUrl', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
     const doc = wrapper.find('Doc')
     doc.setState({showEndpoint: true})
-    wrapper.mount() 
+    wrapper.mount()
     const pathUrl = wrapper.find(PathUrl)
     pathUrl.prop('onChange')({api_key: '456'})
-    wrapper.mount() 
+    wrapper.mount()
     expect(wrapper.find(PathUrl).prop('auth')).toEqual({api_key: '456' })
   })
 })
@@ -422,7 +421,7 @@ describe('stripSlash', () => {
   it('should strip operation path', () => {
     const doc = mountWithIntl(
       <IntlProvider>
-        <Doc 
+        <Doc
           {...props}
           stripSlash
           doc={{
@@ -446,7 +445,7 @@ describe('stripSlash', () => {
   it('should not strip operation path', () => {
     const doc = mountWithIntl(
       <IntlProvider>
-        <Doc 
+        <Doc
           {...props}
           doc={{
             title: 'Title',
