@@ -173,9 +173,10 @@ class ResponseExample extends React.Component {
     }
 
     const hasExamples = examples.find(e => {
-      return e.languages.find(ee => ee.code && ee.code !== '{}');
+      return e.languages.find(ee => ee.code && ee.code !== '{}' || 'multipleExamples' in ee);
     });
 
+    
     return (
       <div className="hub-reference-results-examples code-sample">
         {examples && examples.length > 0 && hasExamples && (
