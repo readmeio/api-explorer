@@ -73,6 +73,26 @@ function tokenize(eat, value) {
         ],  
       })
     }
+    case 'parameters':
+      const DATA = json.data;
+      return eat(match)({
+        type: "table", 
+        align: [], 
+        children: Object.keys(DATA).sort().reduce((sum, key) => {
+          const val = {
+            type: 'text',
+            value: DATA[key],
+          }
+          let [row, col] = key.split('-')
+          row = row==='h' ? 0 : parseInt(row)+1
+          col = parseInt(col)
+        
+          sum[row] = sum[row] || {type: "tableRow", children:[]}
+          sum[row].children[col] = {type: row ? 'tableCell' : 'tableHead', children: [val]}
+          
+          return sum;
+        }, [])
+      });
     default:
       return eat(match)({
         type: 'div',
