@@ -32930,7 +32930,6 @@ function tokenize(eat, value) {
         return {
           type: 'image',
           title: img.caption,
-          // this.tokenizeInline(img.caption, eat.now()),
           url: url,
           alt: alt
         };
