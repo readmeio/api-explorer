@@ -57,7 +57,7 @@ function tokenize(eat, value) {
             icon,
             title: json.title,
             value: json.body,
-          },  
+          },
         },
         children: [
           { type: 'paragraph',
@@ -76,10 +76,7 @@ function tokenize(eat, value) {
     case 'parameters': {
       const DATA = json.data;
       const children = Object.keys(DATA).sort().reduce((sum, key) => {
-        const val = {
-          type: 'text',
-          value: DATA[key],
-        }
+        const val = DATA[key];
         let [row, col] = key.split('-');
         row = row==='h' ? 0 : parseInt(row)+1;
         col = parseInt(col);
@@ -88,7 +85,7 @@ function tokenize(eat, value) {
 
         sum[row].children[col] = {
           type: row ? 'tableCell' : 'tableHead',
-          children: [ val ],
+          children: this.tokenizeInline(val, eat.now()),
         };
         
         return sum;
