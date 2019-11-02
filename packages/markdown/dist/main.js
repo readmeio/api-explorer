@@ -32882,6 +32882,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var RGXP = /^\[block:(.*)\]([^]+?)\[\/block\]/;
 
 function tokenize(eat, value) {
+  var _this = this;
+
   var _ref = RGXP.exec(value) || [],
       _ref2 = _slicedToArray(_ref, 3),
       match = _ref2[0],
@@ -32975,10 +32977,7 @@ function tokenize(eat, value) {
       {
         var DATA = json.data;
         var children = Object.keys(DATA).sort().reduce(function (sum, key) {
-          var val = {
-            type: 'text',
-            value: DATA[key]
-          };
+          var val = DATA[key];
 
           var _key$split = key.split('-'),
               _key$split2 = _slicedToArray(_key$split, 2),
@@ -32993,7 +32992,7 @@ function tokenize(eat, value) {
           };
           sum[row].children[col] = {
             type: row ? 'tableCell' : 'tableHead',
-            children: [val]
+            children: _this.tokenizeInline(val, eat.now())
           };
           return sum;
         }, []);
