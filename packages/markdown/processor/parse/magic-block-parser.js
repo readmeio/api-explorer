@@ -35,7 +35,7 @@ function tokenize(eat, value) {
         const [url, alt] = img.image;
         return {
           type: 'image',
-          title: img.caption, // this.tokenizeInline(img.caption, eat.now()),
+          title: img.caption,
           url,
           alt,
         };
