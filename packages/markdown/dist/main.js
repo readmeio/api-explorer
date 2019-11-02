@@ -32972,11 +32972,9 @@ function tokenize(eat, value) {
       }
 
     case 'parameters':
-      var DATA = json.data;
-      return eat(match)({
-        type: "table",
-        align: [],
-        children: Object.keys(DATA).sort().reduce(function (sum, key) {
+      {
+        var DATA = json.data;
+        var children = Object.keys(DATA).sort().reduce(function (sum, key) {
           var val = {
             type: 'text',
             value: DATA[key]
@@ -32990,7 +32988,7 @@ function tokenize(eat, value) {
           row = row === 'h' ? 0 : parseInt(row) + 1;
           col = parseInt(col);
           sum[row] = sum[row] || {
-            type: "tableRow",
+            type: 'tableRow',
             children: []
           };
           sum[row].children[col] = {
@@ -32998,8 +32996,13 @@ function tokenize(eat, value) {
             children: [val]
           };
           return sum;
-        }, [])
-      });
+        }, []);
+        return eat(match)({
+          type: 'table',
+          align: [],
+          children: children
+        });
+      }
 
     default:
       return eat(match)({
