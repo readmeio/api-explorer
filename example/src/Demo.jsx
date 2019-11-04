@@ -11,7 +11,7 @@ const ApiList = require('./ApiList');
 
 require('../../example/swagger-files/types.json');
 require('../../example/swagger-files/response-schemas.json');
-require('../../packages/api-explorer/api-explorer.css');
+
 require('../../packages/api-logs/main.css');
 
 function Demo({ fetchSwagger, status, docs, oas, oauth }) {
@@ -24,7 +24,7 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
       {
         status.length === 0 && (
           <ApiExplorer
-            // // To test the top level error boundary, uncomment this
+            // To test the top level error boundary, uncomment this
             // docs={[null, null]}
             docs={docs}
             oasFiles={{
