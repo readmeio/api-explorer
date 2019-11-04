@@ -840,7 +840,7 @@ form.rjsf {
   .field-array > .children .array-item-list .param .label-type {
     margin-left: 0;
   }
-  .field-array > .children .array-item-list .param .label-required {
+  .field-array > .children .array-item-list .param .label-required:not(:only-child) {
     position: absolute;
     left: 100%;
     top: 50%;
@@ -854,6 +854,7 @@ form.rjsf {
     flex: 1;
     > .label-type {
       background: white;
+      margin-left: 5px;
     }
   }
   .param.field-object > .children .label > * {
