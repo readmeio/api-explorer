@@ -9,7 +9,5 @@ const markdown = require('@readme/markdown');
 // const markdown = require('api-explorer/packages/markdown/dist/main');
 
 module.exports = props => (
-  <div className="markdown-body">
-    {markdown.render.hub(props.body, markdown.options)}
-  </div>
+  <div className="markdown-body">{markdown.render.hub(props.body, markdown.options)}</div>
 );
