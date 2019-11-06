@@ -13,9 +13,18 @@ function encodeJsonExample(json) {
 }
 
 describe('createCodeShower', () => {
-  it('should return codes array if there are examples for the operation', () => {
-    const operation = oas.operation('/results', 'get');
-
+  test.each([
+    [
+      'should return codes array if there are examples for the operation',
+      oas.operation('/results', 'get'),
+    ],
+    [
+      // The response for this should be identical to `GET /results`, just the way they're formed in
+      // the OAS is different.
+      'should return codes array if there are examples for the operation, and one of the examples is a $ref',
+      oas.operation('/ref-response-example', 'get'),
+    ],
+  ])('%s', (testcase, operation) => {
     expect(createCodeShower(operation, oas)).toEqual([
       {
         languages: [

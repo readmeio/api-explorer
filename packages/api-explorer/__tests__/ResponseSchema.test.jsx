@@ -11,6 +11,7 @@ const oas = new Oas(petstore);
 const props = {
   operation: oas.operation('/pet/{petId}', 'get'),
   oas,
+  theme: 'light',
 };
 
 test('should display a header with a dropdown', () => {
@@ -44,13 +45,13 @@ test('should work if there are no responses', () => {
   // Need to create a new operation without any responses
   const responseSchema = shallow(
     <ResponseSchema
+      {...props}
       operation={
         new Operation({}, '/', 'get', {
           ...oas.operation('/pet/{petId}', 'get'),
           responses: undefined,
         })
       }
-      oas={oas}
     />,
   );
 
@@ -60,10 +61,10 @@ test('should work if there are no responses', () => {
 test('should work if responses is an empty object', () => {
   const responseSchema = shallow(
     <ResponseSchema
+      {...props}
       operation={
         new Operation({}, '/', 'get', { ...oas.operation('/pet/{petId}', 'get'), responses: {} })
       }
-      oas={oas}
     />,
   );
 
@@ -77,11 +78,11 @@ test('should contain ResponseSchemaBody element if $ref exist for "application/j
 
 test('should not contain ResponseSchemaBody element if $ref not exist', () => {
   const testProps = {
+    ...props,
     operation: new Operation({}, '/', 'get', {
       ...oas.operation('/pet/{petId}', 'get'),
       responses: {},
     }),
-    oas,
   };
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
   expect(responseSchema.find('ResponseSchemaBody').length).toBe(0);
@@ -89,6 +90,7 @@ test('should not contain ResponseSchemaBody element if $ref not exist', () => {
 
 test('should render schema from "application/json"', () => {
   const testProps = {
+    ...props,
     operation: new Operation({}, '/', 'get', {
       ...oas.operation('/pet/findByTags', 'get'),
       responses: {
@@ -104,7 +106,6 @@ test('should render schema from "application/json"', () => {
         },
       },
     }),
-    oas,
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
@@ -113,6 +114,7 @@ test('should render schema from "application/json"', () => {
 
 test('should contain ResponseSchemaBody element if $ref exist for "application/xml"', () => {
   const testProps = {
+    ...props,
     operation: new Operation(oas, '/', 'get', {
       ...oas.operation('/pet/{petId}', 'get'),
       responses: {
@@ -128,7 +130,6 @@ test('should contain ResponseSchemaBody element if $ref exist for "application/x
         },
       },
     }),
-    oas,
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
@@ -140,6 +141,7 @@ test('should allow $ref lookup at the responses object level', () => {
     components: {
       responses: {
         Response: {
+          description: 'This is a description for a response.',
           content: {
             'application/json': {
               schema: {
@@ -170,6 +172,8 @@ test('should allow $ref lookup at the responses object level', () => {
       operation={testOas.operation('/ref-responses', 'get')}
     />,
   );
+
+  expect(responseSchema.find('.desc').length).toBe(1);
   expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
 });
 
@@ -186,6 +190,7 @@ test('should change selectedStatus in component', () => {
 
 test('should not break if schema property missing', () => {
   const testProps = {
+    ...props,
     operation: new Operation({}, '/', 'get', {
       ...oas.operation('/pet/findByTags', 'get'),
       responses: {
@@ -198,7 +203,6 @@ test('should not break if schema property missing', () => {
         },
       },
     }),
-    oas,
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);

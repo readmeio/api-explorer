@@ -32,7 +32,17 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400-Response-Ref"
+            "description": "Validation failed",
+            "content": {
+              "application/xml": {
+                "examples": {
+                  "response": {
+                    "value":
+                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+                  }
+                }
+              }
+            }
           }
         },
         "summary": "Update Password"
@@ -173,6 +183,34 @@
     "/nolang": {
       "get": {
         "description": ""
+      }
+    },
+    "/ref-response-example": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {
+                      "user": {
+                        "email": "test@example.com",
+                        "name": "Test user name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-Response-Ref"
+          }
+        },
+        "summary": "Update Password"
       }
     }
   },
