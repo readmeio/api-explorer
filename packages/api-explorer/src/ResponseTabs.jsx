@@ -4,8 +4,9 @@ const showCodeResults = require('./lib/show-code-results');
 const IconStatus = require('./IconStatus');
 const Tab = require('./Tab');
 const { Operation } = require('./lib/Oas');
+const Oas = require('./lib/Oas');
 
-function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
+function ResponseTabs({ result, oas, operation, responseTab, setTab, hideResults }) {
   return (
     <ul className="code-sample-tabs hub-reference-results-header">
       <Tab
@@ -28,7 +29,7 @@ function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
         Metadata
       </Tab>
 
-      {showCodeResults(operation).length > 0 && (
+      {showCodeResults(operation, oas).length > 0 && (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a
           className="hub-reference-results-back pull-right"
@@ -49,6 +50,7 @@ ResponseTabs.propTypes = {
   result: PropTypes.shape({
     status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }),
+  oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   responseTab: PropTypes.string.isRequired,
   setTab: PropTypes.func.isRequired,

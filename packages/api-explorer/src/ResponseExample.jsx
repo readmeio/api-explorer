@@ -169,7 +169,7 @@ class ResponseExample extends React.Component {
       // legacy shape so we need to adhoc rewrite them to fit this new work.
       examples = upgradeLegacyResponses(exampleResponses);
     } else {
-      examples = showCodeResults(operation);
+      examples = showCodeResults(operation, oas);
     }
 
     const hasExamples = examples.find(e => {

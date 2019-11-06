@@ -1,3 +1,5 @@
+const findSchemaDefinition = require('./find-schema-definition');
+
 function getLanguage(response) {
   return response.content ? Object.keys(response.content)[0] : '';
 }
@@ -58,7 +60,7 @@ function constructLanguage(language, response, example) {
 }
 
 module.exports = type => {
-  return pathOperation => {
+  return (pathOperation, oas) => {
     // Only working for results
     if (type !== 'results') return [];
 
@@ -68,7 +70,12 @@ module.exports = type => {
 
     const codes = Object.keys(pathOperation.responses || {})
       .map(status => {
-        const response = pathOperation.responses[status];
+        let response = pathOperation.responses[status];
+
+        // @todo This should really be called higher up when the OAS is processed within the Doc component.
+        if (response.$ref) {
+          response = findSchemaDefinition(response.$ref, oas);
+        }
 
         // @todo We should really be calling these `mediaTypes`, not `languages`.
         const languages = [];
