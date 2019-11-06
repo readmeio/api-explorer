@@ -1,6 +1,6 @@
 const React = require('react');
 
-/** To make this work in a PR app you need to 
+/** To make this work in a PR app you need to
  * 'flip' these two lines and npm install the
  *  readmeio/api-explorer#beta/editor-hacking
  *  GitHub branch. Hey! If it works, it works!

@@ -24576,7 +24576,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * 
+ *
  */
 
 function makeEmptyFunction(arg) {
@@ -92707,7 +92707,7 @@ module.exports = function (mapper, opts) {
   };
 
   function end(data) {
-    //if end was called with args, write it, 
+    //if end was called with args, write it,
     ended = true; //write will emit 'end' if ended is true
 
     stream.writable = false;
@@ -92715,7 +92715,7 @@ module.exports = function (mapper, opts) {
     if (data !== undefined) {
       return queueData(data, inputs);
     } else if (inputs == outputs) {
-      //wait for processing 
+      //wait for processing
       stream.readable = false, stream.emit('end'), stream.destroy();
     }
   }
@@ -103191,7 +103191,7 @@ module.exports = parseResponse;
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
-/** To make this work in a PR app you need to 
+/** To make this work in a PR app you need to
  * 'flip' these two lines and npm install the
  *  readmeio/api-explorer#beta/editor-hacking
  *  GitHub branch. Hey! If it works, it works!

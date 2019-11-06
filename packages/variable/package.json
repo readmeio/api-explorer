@@ -1,7 +1,7 @@
 {
   "name": "@readme/variable",
   "description": "React component for Variables",
-  "version": "4.8.1",
+  "version": "4.11.0",
   "main": "./dist/main.js",
   "dependencies": {
     "classnames": "^2.2.6",
@@ -10,10 +10,11 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "lint": "eslint -f unix . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand"
   },
   "publishConfig": {
@@ -24,14 +25,14 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/variable",
   "devDependencies": {
-    "eslint": "^4.3.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.13.0",
+    "eslint": "^6.5.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.7",
-    "prettier": "^1.14.0"
+    "prettier": "^1.18.2"
   }
 }

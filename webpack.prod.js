@@ -1,4 +1,5 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true }] */
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -7,7 +8,8 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   output: {
-    filename: './example/dist/[name]-bundle.js',
+    path: path.resolve(__dirname, 'example/dist'),
+    filename: '[name]-bundle.js',
   },
   plugins: [
     new webpack.DefinePlugin({

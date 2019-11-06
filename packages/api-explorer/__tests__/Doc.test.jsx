@@ -10,22 +10,22 @@ const oas = require('./fixtures/petstore/circular-oas');
 const multipleSecurities = require('./fixtures/multiple-securities/oas');
 
 const props = {
+  auth: {},
   doc: {
-    title: 'Title',
-    slug: 'slug',
-    type: 'endpoint',
-    swagger: { path: '/pet/{petId}' },
     api: { method: 'get' },
     formData: { path: { petId: '1' }, auth: { api_key: '' } },
     onSubmit: () => {},
+    slug: 'slug',
+    swagger: { path: '/pet/{petId}' },
+    title: 'Title',
+    type: 'endpoint',
   },
-  oas,
-  setLanguage: () => {},
   language: 'node',
-  suggestedEdits: false,
+  oas,
   oauth: false,
   onAuthChange: () => {},
-  auth: {},
+  setLanguage: () => {},
+  suggestedEdits: false,
   tryItMetrics: () => {},
 };
 
@@ -100,14 +100,14 @@ test('should work without a doc.swagger/doc.path/oas', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
     <Doc
-      doc={doc}
-      setLanguage={() => {}}
-      language="node"
-      suggestedEdits
-      oauth={false}
-      tryItMetrics={() => {}}
-      onAuthChange={() => {}}
       auth={{}}
+      doc={doc}
+      language="node"
+      oauth={false}
+      onAuthChange={() => {}}
+      setLanguage={() => {}}
+      suggestedEdits
+      tryItMetrics={() => {}}
     />,
   );
   expect(docComponent.find('Waypoint').length).toBe(1);
@@ -122,15 +122,15 @@ test('should still display `Content` with column-style layout', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
     <Doc
-      doc={doc}
-      setLanguage={() => {}}
-      language="node"
-      suggestedEdits
       appearance={{ referenceLayout: 'column' }}
-      oauth={false}
-      tryItMetrics={() => {}}
-      onAuthChange={() => {}}
       auth={{}}
+      doc={doc}
+      language="node"
+      oauth={false}
+      onAuthChange={() => {}}
+      setLanguage={() => {}}
+      suggestedEdits
+      tryItMetrics={() => {}}
     />,
   );
   docComponent.setState({ showEndpoint: true });
@@ -171,6 +171,7 @@ describe('onSubmit', () => {
 
   test('should make request on Submit', () => {
     const props2 = {
+      auth: { petstore_auth: 'api-key' },
       doc: {
         title: 'Title',
         slug: 'slug',
@@ -185,14 +186,13 @@ describe('onSubmit', () => {
         },
         onSubmit: () => {},
       },
-      oas,
-      setLanguage: () => {},
       language: 'node',
+      oas,
       oauth: false,
-      auth: { petstore_auth: 'api-key' },
+      setLanguage: () => {},
     };
 
-    const fetch = window.fetch;
+    const { fetch } = window;
 
     window.fetch = request => {
       expect(request.url).toContain(oas.servers[0].url);
@@ -235,7 +235,7 @@ describe('onSubmit', () => {
 
     const doc = mount(<Doc {...props} oas={proxyOas} />);
 
-    const fetch = window.fetch;
+    const { fetch } = window;
 
     window.fetch = request => {
       expect(request.url).toContain(`https://try.readme.io/${proxyOas.servers[0].url}`);
@@ -253,14 +253,14 @@ describe('onSubmit', () => {
     const doc = mount(
       <Doc
         {...props}
+        auth={{ api_key: 'api-key' }}
         tryItMetrics={() => {
           called = true;
         }}
-        auth={{ api_key: 'api-key' }}
       />,
     );
 
-    const fetch = window.fetch;
+    const { fetch } = window;
     window.fetch = () => {
       return Promise.resolve(new Response());
     };
@@ -307,9 +307,7 @@ describe('suggest edits', () => {
   });
 
   test('should have child project if baseUrl is set', () => {
-    const doc = shallow(
-      <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />,
-    );
+    const doc = shallow(<Doc {...{ baseUrl: '/child', ...props }} suggestedEdits />);
     expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(
       `/child/reference-edit/${props.doc.slug}`,
     );
@@ -341,6 +339,15 @@ describe('Response Schema', () => {
   });
 });
 
+describe('RenderLogs', () => {
+  test('should return a log component', () => {
+    const doc = mount(<Doc {...props} />);
+    doc.setProps({ Logs: {} });
+    const res = doc.instance().renderLogs();
+    expect(res).toBeTruthy();
+  });
+});
+
 describe('themes', () => {
   test('should output code samples and responses in the right column', () => {
     const doc = mount(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);
@@ -367,7 +374,6 @@ test('should output with an error message if the endpoint fails to load', () => 
   const doc = mount(
     <Doc
       {...props}
-      oas={brokenOas}
       doc={{
         title: 'title',
         slug: 'slug',
@@ -375,6 +381,7 @@ test('should output with an error message if the endpoint fails to load', () => 
         swagger: { path: '/path' },
         api: { method: 'post' },
       }}
+      oas={brokenOas}
     />,
   );
 

@@ -144,6 +144,7 @@ module.exports = props => (
           <SelectedAppContext.Consumer>
             {({ selected, changeSelected }) => (
               <Variable
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...props}
                 user={user}
                 defaults={defaults}

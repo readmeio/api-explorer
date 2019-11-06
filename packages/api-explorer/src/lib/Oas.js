@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 const getPathOperation = require('./get-path-operation');
 const getUserVariable = require('./get-user-variable');
 
@@ -34,7 +35,7 @@ class Operation {
           }
 
           if (!security) return false;
-          let type = security.type;
+          let { type } = security;
           if (security.type === 'http') {
             if (security.scheme === 'basic') type = 'Basic';
             if (security.scheme === 'bearer') type = 'Bearer';

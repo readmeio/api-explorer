@@ -8,13 +8,13 @@ const multipleSecurities = require('./fixtures/multiple-securities/oas');
 const oas = new Oas(multipleSecurities);
 
 const props = {
+  auth: {},
+  oauth: false,
+  open: false,
   operation: oas.operation('/or-security', 'post'),
   onChange: () => {},
   onSubmit: () => {},
   toggle: () => {},
-  open: false,
-  oauth: false,
-  auth: {},
 };
 
 test('should not display if no auth', () => {

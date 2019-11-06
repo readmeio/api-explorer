@@ -1,16 +1,15 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "4.8.4",
+  "version": "4.11.0",
   "main": "dist/index.js",
   "dependencies": {
-    "@readme/markdown": "^4.8.4",
-    "@readme/oas-extensions": "^4.8.1",
-    "@readme/syntax-highlighter": "^4.8.4",
-    "@readme/variable": "^4.8.1",
+    "@readme/markdown": "^4.11.0",
+    "@readme/oas-extensions": "^4.10.5",
+    "@readme/syntax-highlighter": "^4.11.0",
+    "@readme/variable": "^4.11.0",
     "classnames": "^2.2.5",
     "fetch-har": "^2.0.0",
-    "hast-util-sanitize": "^1.2.0",
     "httpsnippet": "^1.19.1",
     "js-cookie": "^2.1.4",
     "lodash.kebabcase": "^4.1.1",
@@ -24,14 +23,13 @@
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
-    "lint": "eslint -f unix . --ext js --ext jsx",
+    "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
-    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
+    "lint": "eslint -f unix . --ext js --ext jsx",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
-    "watch": "webpack -w",
-    "build": "webpack --config webpack.prod.js"
+    "watch": "webpack -w --progress"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -41,23 +39,19 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-explorer",
   "devDependencies": {
-    "eslint": "^4.3.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint": "^6.5.0",
+    "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.6",
     "node-fetch": "^2.0.0-alpha.9",
-    "nyc": "^11.0.3",
-    "prettier": "^1.6.1",
-    "raf": "^3.4.0",
-    "react-test-renderer": "^16.0.0",
-    "uglify-es": "^3.2.1",
-    "uglifyjs-webpack-plugin": "^1.2.3",
-    "webpack": "^3.10.0",
-    "webpack-merge": "^4.1.1"
+    "prettier": "^1.18.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-merge": "^4.2.2"
   }
 }

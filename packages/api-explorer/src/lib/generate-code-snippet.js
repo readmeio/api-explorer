@@ -1,7 +1,7 @@
 const HTTPSnippet = require('httpsnippet');
-const generateHar = require('./oas-to-har');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const uppercase = require('@readme/syntax-highlighter/uppercase');
+const generateHar = require('./oas-to-har');
 
 const supportedLanguages = {
   c: {

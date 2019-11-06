@@ -2,14 +2,14 @@
   "name": "@readme/markdown",
   "main": "./dist/main.js",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "4.8.4",
+  "version": "4.11.0",
   "dependencies": {
-    "@readme/syntax-highlighter": "^4.8.4",
-    "@readme/variable": "^4.8.1",
+    "@readme/syntax-highlighter": "^4.11.0",
+    "@readme/variable": "^4.11.0",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
-    "rehype-raw": "^3.0.0",
+    "rehype-raw": "^4.0.1",
     "rehype-react": "^3.1.0",
     "rehype-remark": "^6.0.0",
     "rehype-sanitize": "^2.0.1",
@@ -18,15 +18,15 @@
     "remark-parse": "^6.0.2",
     "remark-rehype": "^5.0.0",
     "remark-stringify": "^7.0.3",
-    "unified": "^7.0.2"
+    "unified": "^8.4.0"
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "watch": "webpack -w",
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
-    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand"
   },
   "publishConfig": {
@@ -37,15 +37,15 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown",
   "devDependencies": {
-    "eslint": "^4.3.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.13.0",
+    "eslint": "^6.5.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.7",
-    "prettier": "^1.14.0",
+    "prettier": "^1.18.2",
     "webpack": "^3.10.0"
   }
 }

@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
-const DescriptionField = require('../../src/form-components/DescriptionField');
 const markdown = require('@readme/markdown');
+const DescriptionField = require('../../src/form-components/DescriptionField');
 
 test('should parse description as markdown', () => {
   const actual = '`all` or a comma-separated list of action [fields](ref:action-object)';

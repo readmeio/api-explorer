@@ -16,4 +16,5 @@ Textarea.propTypes = {
 Textarea.defaultProps = {
   flags: {},
 };
+
 module.exports = Textarea;

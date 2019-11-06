@@ -11,15 +11,15 @@ const petstore = require('./fixtures/petstore/oas');
 const oas = new Oas(petstore);
 
 const props = {
-  oas,
-  operation: oas.operation('/pet/{petId}', 'get'),
+  apiKey: '',
   dirty: false,
   loading: false,
-  onChange: () => {},
-  toggleAuth: () => {},
-  onSubmit: () => {},
+  oas,
   oauth: false,
-  apiKey: '',
+  onChange: () => {},
+  onSubmit: () => {},
+  operation: oas.operation('/pet/{petId}', 'get'),
+  toggleAuth: () => {},
 };
 
 test('should display the path', () => {
@@ -69,8 +69,8 @@ test('button click should call onSubmit', () => {
   shallow(
     <PathUrl
       {...props}
-      operation={new Operation({}, '/path', 'get', { operationId: '123' })}
       onSubmit={onSubmit}
+      operation={new Operation({}, '/path', 'get', { operationId: '123' })}
     />,
   )
     .find('button[type="submit"]')

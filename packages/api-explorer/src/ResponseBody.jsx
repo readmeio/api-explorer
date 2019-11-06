@@ -13,19 +13,19 @@ function Authorized({ result }) {
       {result.isBinary && <div>A binary file was returned</div>}
       {!result.isBinary && isJson && (
         <ReactJson
-          src={result.responseBody}
           collapsed={1}
           collapseStringsAfterLength={100}
-          enableClipboard={false}
-          theme="tomorrow"
-          name={null}
           displayDataTypes={false}
           displayObjectSize={false}
+          enableClipboard={false}
+          name={null}
+          src={result.responseBody}
           style={{
             padding: '20px 10px',
             backgroundColor: 'transparent',
             fontSize: '12px',
           }}
+          theme="tomorrow"
         />
       )}
       {!result.isBinary && !isJson && (
@@ -40,7 +40,11 @@ function Authorized({ result }) {
 }
 
 Authorized.propTypes = {
-  result: PropTypes.shape({}).isRequired,
+  result: PropTypes.shape({
+    isBinary: PropTypes.bool,
+    responseBody: PropTypes.oneOf([PropTypes.object, PropTypes.string]).isRequired,
+    type: PropTypes.string,
+  }).isRequired,
 };
 
 function hasOauth(oauth) {
@@ -83,8 +87,8 @@ function ResponseBody({ result, isOauth, oauth }) {
   );
 }
 
-module.exports = ResponseBody;
-
-ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Authorized.propTypes);
+ResponseBody.propTypes = { ...Unauthorized.propTypes, ...Authorized.propTypes };
 
 ResponseBody.defaultProps = Unauthorized.defaultProps;
+
+module.exports = ResponseBody;
