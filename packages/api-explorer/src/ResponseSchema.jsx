@@ -87,6 +87,14 @@ class ResponseSchema extends React.Component {
     const { operation, oas } = this.props;
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
     const schema = this.getSchema(operation);
+
+    let response = operation.responses[this.state.selectedStatus];
+
+    // @todo This should really be called higher up when the OAS is processed within the Doc component.
+    if (response.$ref) {
+      response = findSchemaDefinition(response.$ref, oas);
+    }
+
     return (
       <div
         className={classNames('hub-reference-response-definitions', {
@@ -95,11 +103,7 @@ class ResponseSchema extends React.Component {
       >
         {this.renderHeader()}
         <div className="response-schema">
-          {operation.responses[this.state.selectedStatus].description && (
-            <div className="desc">
-              {markdown(operation.responses[this.state.selectedStatus].description)}
-            </div>
-          )}
+          {response.description && <div className="desc">{markdown(response.description)}</div>}
           {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
         </div>
       </div>
