@@ -11,6 +11,7 @@ const Oas = require('../src/lib/Oas');
 
 const oas = new Oas(petstore);
 const props = {
+  oas,
   operation: oas.operation('/pet', 'post'),
   responseTab: 'result',
   setTab: () => {},
@@ -69,10 +70,12 @@ test('should call setTab() on click', () => {
 
 test('should call hideResults() on click', () => {
   const hideResults = jest.fn();
+  const exampleResultsOas = new Oas(exampleResults);
   const exampleTabs = shallow(
     <ResponseTabs
       {...props}
-      operation={new Oas(exampleResults).operation('/results', 'get')}
+      oas={exampleResultsOas}
+      operation={exampleResultsOas.operation('/results', 'get')}
       hideResults={hideResults}
     />,
   );

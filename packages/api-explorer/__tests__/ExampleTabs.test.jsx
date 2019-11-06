@@ -8,7 +8,7 @@ const showCodeResults = require('../src/lib/show-code-results');
 
 const oas = new Oas(example);
 const props = {
-  examples: showCodeResults(oas.operation('/results', 'get')),
+  examples: showCodeResults(oas.operation('/results', 'get'), oas),
   selected: 0,
   setExampleTab: () => {},
 };
