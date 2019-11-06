@@ -33,12 +33,12 @@ class BlockCode extends React.Component {
                 <li key={i}>
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                   <a
+                    className={classNames({ active: i === this.state.activeTab })}
                     href="#"
                     onClick={e => {
                       e.preventDefault();
                       this.showCode(i);
                     }}
-                    className={classNames({ active: i === this.state.activeTab })}
                   >
                     {/* eslint-disable-next-line no-nested-ternary */}
                     {code.status ? (
@@ -62,7 +62,7 @@ class BlockCode extends React.Component {
 
           <div className="block-code-code">
             {codes.map((code, i) => {
-              return <CodeElement code={code} activeTab={i === this.state.activeTab} dark={dark} />;
+              return <CodeElement activeTab={i === this.state.activeTab} code={code} dark={dark} />;
             })}
           </div>
         </div>
@@ -77,17 +77,17 @@ BlockCode.propTypes = {
       codes: PropTypes.array,
     }),
   }),
+  dark: PropTypes.bool,
   opts: PropTypes.shape({
     hideHeaderOnOne: PropTypes.bool,
     label: PropTypes.string,
   }),
-  dark: PropTypes.bool,
 };
 
 BlockCode.defaultProps = {
   block: { data: {} },
-  opts: {},
   dark: false,
+  opts: {},
 };
 
 module.exports = BlockCode;

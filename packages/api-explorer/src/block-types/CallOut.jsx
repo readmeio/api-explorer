@@ -46,9 +46,9 @@ const CallOut = ({ block, flags }) => {
 CallOut.propTypes = {
   block: PropTypes.shape({
     data: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      title: PropTypes.string,
       body: PropTypes.string,
+      title: PropTypes.string,
+      type: PropTypes.string.isRequired,
     }),
   }).isRequired,
   flags: PropTypes.shape({}),

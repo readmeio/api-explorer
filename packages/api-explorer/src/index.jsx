@@ -152,8 +152,8 @@ class ApiExplorer extends React.Component {
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
-          id="hub-reference"
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
+          id="hub-reference"
         >
           {docs.map((doc, index) => (
             <VariablesContext.Provider value={this.props.variables}>
@@ -163,24 +163,24 @@ class ApiExplorer extends React.Component {
                     <SelectedAppContext.Provider value={this.state.selectedApp}>
                       <Doc
                         key={doc._id}
+                        appearance={this.props.appearance}
+                        auth={this.state.auth}
+                        baseUrl={this.props.baseUrl.replace(/\/$/, '')}
+                        changeGroup={this.changeGroup}
                         doc={doc}
-                        lazy={this.isLazy(index)}
-                        oas={this.getOas(doc)}
-                        setLanguage={this.setLanguage}
                         flags={this.props.flags}
-                        user={this.props.variables.user}
                         group={this.state.group}
                         groups={this.groups}
-                        changeGroup={this.changeGroup}
-                        Logs={this.props.Logs}
-                        baseUrl={this.props.baseUrl.replace(/\/$/, '')}
-                        appearance={this.props.appearance}
                         language={this.state.language}
+                        lazy={this.isLazy(index)}
+                        Logs={this.props.Logs}
+                        oas={this.getOas(doc)}
                         oauth={this.props.oauth}
+                        onAuthChange={this.onAuthChange}
+                        setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
                         tryItMetrics={this.props.tryItMetrics}
-                        auth={this.state.auth}
-                        onAuthChange={this.onAuthChange}
+                        user={this.props.variables.user}
                       />
                     </SelectedAppContext.Provider>
                   </BaseUrlContext.Provider>
@@ -195,44 +195,50 @@ class ApiExplorer extends React.Component {
 }
 
 ApiExplorer.propTypes = {
-  docs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  oasFiles: PropTypes.shape({}).isRequired,
-  dontLazyLoad: PropTypes.bool,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
     splitReferenceDocs: PropTypes.bool,
   }).isRequired,
+  baseUrl: PropTypes.string,
+  docs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dontLazyLoad: PropTypes.bool,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
   }),
-  oauth: PropTypes.bool,
-  baseUrl: PropTypes.string,
+  glossaryTerms: PropTypes.arrayOf(
+    PropTypes.shape({
+      definition: PropTypes.string.isRequired,
+      term: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   Logs: PropTypes.func,
+  oasFiles: PropTypes.shape({}).isRequired,
+  oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
   variables: PropTypes.shape({
-    user: PropTypes.shape({
-      keys: PropTypes.array,
-      id: PropTypes.string,
-    }).isRequired,
     defaults: PropTypes.arrayOf(
-      PropTypes.shape({ name: PropTypes.string.isRequired, default: PropTypes.string.isRequired }),
+      PropTypes.shape({
+        default: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      }),
     ).isRequired,
+    user: PropTypes.shape({
+      id: PropTypes.string,
+      keys: PropTypes.array,
+    }).isRequired,
   }).isRequired,
-  glossaryTerms: PropTypes.arrayOf(
-    PropTypes.shape({ term: PropTypes.string.isRequired, definition: PropTypes.string.isRequired }),
-  ).isRequired,
 };
 
 ApiExplorer.defaultProps = {
-  oauth: false,
+  baseUrl: '/',
+  dontLazyLoad: false,
   flags: {
     correctnewlines: false,
   },
-  tryItMetrics: () => {},
   Logs: undefined,
-  baseUrl: '/',
-  dontLazyLoad: false,
+  oauth: false,
+  tryItMetrics: () => {},
 };
 
 module.exports = props => (

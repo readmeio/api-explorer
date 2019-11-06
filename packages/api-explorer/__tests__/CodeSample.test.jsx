@@ -7,10 +7,10 @@ const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const props = {
-  setLanguage: () => {},
-  operation: new Operation({}, '/pet/{id}', 'get'),
   formData: {},
   language: 'node',
+  setLanguage: () => {},
+  operation: new Operation({}, '/pet/{id}', 'get'),
 };
 
 describe('tabs', () => {

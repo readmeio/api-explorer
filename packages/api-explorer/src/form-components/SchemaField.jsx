@@ -110,27 +110,27 @@ function SchemaField(props) {
 }
 
 CustomTemplate.propTypes = {
-  id: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
   classNames: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  help: PropTypes.node.isRequired,
-  required: PropTypes.node.isRequired,
   description: PropTypes.node.isRequired,
   errors: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired,
+  help: PropTypes.node.isRequired,
+  id: PropTypes.node.isRequired,
+  label: PropTypes.string.isRequired,
+  required: PropTypes.node.isRequired,
   schema: PropTypes.shape({}).isRequired,
 };
 
 SchemaField.propTypes = {
-  schema: PropTypes.shape({
-    type: PropTypes.string,
-    format: PropTypes.string,
-    enumNames: PropTypes.array,
-    readOnly: PropTypes.bool,
-  }).isRequired,
   registry: PropTypes.shape({
-    widgets: PropTypes.object,
     FieldTemplate: PropTypes.func,
+    widgets: PropTypes.object,
+  }).isRequired,
+  schema: PropTypes.shape({
+    enumNames: PropTypes.array,
+    format: PropTypes.string,
+    readOnly: PropTypes.bool,
+    type: PropTypes.string,
   }).isRequired,
   uiSchema: PropTypes.shape({}),
 };

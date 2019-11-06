@@ -43,22 +43,22 @@ function PathUrl({
           {oas[extensions.EXPLORER_ENABLED] && (
             <div className="api-definition-actions">
               <AuthBox
-                operation={operation}
+                auth={auth}
+                authInputRef={authInputRef}
+                needsAuth={needsAuth}
+                oauth={oauth}
                 onChange={onChange}
                 onSubmit={onSubmit}
                 open={showAuthBox}
-                needsAuth={needsAuth}
+                operation={operation}
                 toggle={toggleAuth}
-                authInputRef={authInputRef}
-                oauth={oauth}
-                auth={auth}
               />
 
               <button
                 className={classNames('api-try-it-out', { active: dirty })}
-                type="submit"
                 disabled={loading}
                 onClick={onSubmit}
+                type="submit"
               >
                 {!loading && (
                   <span className="try-it-now-btn">
@@ -92,25 +92,25 @@ function PathUrl({
 }
 
 PathUrl.propTypes = {
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
+  auth: PropTypes.shape({}),
   authInputRef: PropTypes.func,
   dirty: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  toggleAuth: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  showAuthBox: PropTypes.bool,
   needsAuth: PropTypes.bool,
+  oas: PropTypes.instanceOf(Oas).isRequired,
   oauth: PropTypes.bool.isRequired,
-  auth: PropTypes.shape({}),
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  showAuthBox: PropTypes.bool,
+  toggleAuth: PropTypes.func.isRequired,
 };
 
 PathUrl.defaultProps = {
-  showAuthBox: false,
-  needsAuth: false,
-  authInputRef: () => {},
   auth: {},
+  authInputRef: () => {},
+  needsAuth: false,
+  showAuthBox: false,
 };
 
 module.exports = PathUrl;

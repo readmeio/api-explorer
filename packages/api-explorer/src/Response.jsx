@@ -41,16 +41,16 @@ class Response extends React.Component {
             {result !== null && (
               <span>
                 <ResponseTabs
-                  result={result}
+                  hideResults={hideResults}
                   oas={oas}
                   operation={operation}
                   responseTab={responseTab}
+                  result={result}
                   setTab={this.setTab}
-                  hideResults={hideResults}
                 />
 
                 {responseTab === 'result' && (
-                  <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
+                  <ResponseBody isOauth={!!securities.OAuth2} oauth={oauth} result={result} />
                 )}
                 {responseTab === 'metadata' && <ResponseMetadata result={result} />}
               </span>
@@ -58,11 +58,11 @@ class Response extends React.Component {
           </div>
 
           <ResponseExample
+            exampleResponses={exampleResponses}
+            oas={oas}
+            onChange={this.props.onChange}
             operation={operation}
             result={result}
-            oas={oas}
-            exampleResponses={exampleResponses}
-            onChange={this.props.onChange}
           />
         </div>
       </div>
@@ -71,18 +71,18 @@ class Response extends React.Component {
 }
 
 Response.propTypes = {
-  result: PropTypes.shape({}),
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
-  oauth: PropTypes.bool.isRequired,
-  hideResults: PropTypes.func.isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  hideResults: PropTypes.func.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  oauth: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  result: PropTypes.shape({}),
 };
 
 Response.defaultProps = {
-  result: {},
   exampleResponses: [],
+  result: {},
 };
 
 module.exports = Response;

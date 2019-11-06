@@ -27,11 +27,11 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
             }
             {securities.map(security => (
               <SecurityInput
+                key={security._key}
                 auth={auth}
-                onChange={onChange}
                 authInputRef={authInputRef}
                 oauth={oauth}
-                key={security._key}
+                onChange={onChange}
                 scheme={security}
               />
             ))}
@@ -58,21 +58,21 @@ function AuthBox({
   return (
     <div className={classNames('hub-auth-dropdown', 'simple-dropdown', { open })}>
       {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label, jsx-a11y/anchor-is-valid */}
-      <a href="#" className="icon icon-user-lock" onClick={toggle} />
+      <a className="icon icon-user-lock" href="#" onClick={toggle} />
 
       <div className="nopad">
         <div className="triangle" />
         <div>
           <Securities
-            authInputRef={authInputRef}
-            operation={operation}
-            oauth={oauth}
             auth={auth}
+            authInputRef={authInputRef}
+            oauth={oauth}
             onChange={onChange}
             onSubmit={e => {
               e.preventDefault();
               onSubmit();
             }}
+            operation={operation}
           />
         </div>
         <div className={classNames('hub-authrequired', { active: needsAuth })}>
@@ -87,22 +87,22 @@ function AuthBox({
 }
 
 AuthBox.propTypes = {
-  operation: PropTypes.instanceOf(Operation).isRequired,
+  auth: PropTypes.shape({}),
   authInputRef: PropTypes.func,
+  needsAuth: PropTypes.bool,
+  oauth: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  toggle: PropTypes.func.isRequired,
-  needsAuth: PropTypes.bool,
   open: PropTypes.bool,
-  oauth: PropTypes.bool.isRequired,
-  auth: PropTypes.shape({}),
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
 AuthBox.defaultProps = {
+  auth: {},
+  authInputRef: () => {},
   needsAuth: false,
   open: false,
-  authInputRef: () => {},
-  auth: {},
 };
 
 module.exports = AuthBox;

@@ -9,7 +9,7 @@ const ImageBlock = ({ block, flags }) => {
 
     return (
       // eslint-disable-next-line react/no-array-index-key
-      <div className="magic-block-image" key={i}>
+      <div key={i} className="magic-block-image">
         {image && image.image && image.image.length && (
           <div>
             <figure>
@@ -17,7 +17,7 @@ const ImageBlock = ({ block, flags }) => {
                 className={`block-display-image-parent block-display-image-size-${imageClass}${border}`}
                 href={image.image[0]}
               >
-                <img src={image.image[0]} alt={image.caption} />
+                <img alt={image.caption} src={image.image[0]} />
               </a>
             </figure>
             {image.caption && <figcaption>{markdown(image.caption, flags)}</figcaption>}

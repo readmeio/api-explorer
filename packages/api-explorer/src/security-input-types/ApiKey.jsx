@@ -10,8 +10,8 @@ function ApiKey({ apiKey, scheme, authInputRef, change, Input }) {
       <div className="col-xs-7">
         <Input
           inputRef={authInputRef}
-          type="text"
           onChange={e => change(e.target.value)}
+          type="text"
           value={apiKey}
         />
       </div>
@@ -21,12 +21,12 @@ function ApiKey({ apiKey, scheme, authInputRef, change, Input }) {
 
 ApiKey.propTypes = {
   apiKey: PropTypes.string,
-  scheme: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
   authInputRef: PropTypes.func,
   change: PropTypes.func.isRequired,
   Input: PropTypes.func.isRequired,
+  scheme: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 ApiKey.defaultProps = {

@@ -33,6 +33,9 @@
         "Params",
         "TextArea"
       ]
-    }]
+    }],
+    "react/jsx-sort-default-props": 2,
+    "react/jsx-sort-props": 2,
+    "react/sort-prop-types": 2
   }
 }

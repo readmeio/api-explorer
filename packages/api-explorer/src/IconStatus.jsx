@@ -26,13 +26,13 @@ function IconStatus({ status, name }) {
 }
 
 IconStatus.propTypes = {
-  status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   name: PropTypes.string,
+  status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 IconStatus.defaultProps = {
-  status: 200, // TODO: For some reason this wasn't getting passed sometimes
   name: '',
+  status: 200, // TODO: For some reason this wasn't getting passed sometimes
 };
 
 module.exports = IconStatus;
