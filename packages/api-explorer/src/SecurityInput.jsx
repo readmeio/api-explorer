@@ -17,8 +17,8 @@ class Input extends React.Component {
     return (
       <DebounceInput
         {...this.props}
-        minLength={0}
         debounceTimeout={process.env.NODE_ENV === 'test' ? 0 : 300}
+        minLength={0}
       />
     );
   }
@@ -50,9 +50,9 @@ function SecurityInput(props) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
             change={change}
-            user={props.auth[props.scheme._key].user}
-            pass={props.auth[props.scheme._key].pass}
             Input={Input}
+            pass={props.auth[props.scheme._key].pass}
+            user={props.auth[props.scheme._key].user}
           />
         );
       }
@@ -69,13 +69,13 @@ function SecurityInput(props) {
 }
 
 SecurityInput.propTypes = {
-  scheme: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    scheme: PropTypes.string,
-    _key: PropTypes.string.isRequired,
-  }).isRequired,
-  onChange: PropTypes.func.isRequired,
   auth: PropTypes.shape({}),
+  onChange: PropTypes.func.isRequired,
+  scheme: PropTypes.shape({
+    _key: PropTypes.string.isRequired,
+    scheme: PropTypes.string,
+    type: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 SecurityInput.defaultProps = {

@@ -11,8 +11,8 @@ const Oas = require('../src/lib/Oas');
 const { Operation } = Oas;
 const oas = new Oas(petstore);
 const props = {
-  operation: new Operation({}, '/pet', 'post'),
   oauth: false,
+  operation: new Operation({}, '/pet', 'post'),
 };
 
 beforeEach(async () => {

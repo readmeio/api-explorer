@@ -11,10 +11,10 @@ const Oas = require('../src/lib/Oas');
 const oas = new Oas(petstore);
 
 const props = {
-  result: null,
   oas,
-  operation: oas.operation('/pet', 'post'),
   onChange: () => {},
+  operation: oas.operation('/pet', 'post'),
+  result: null,
 };
 
 test('should show no examples if endpoint does not any', () => {

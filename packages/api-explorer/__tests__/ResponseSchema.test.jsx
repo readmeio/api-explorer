@@ -9,8 +9,8 @@ const { Operation } = Oas;
 const oas = new Oas(petstore);
 
 const props = {
-  operation: oas.operation('/pet/{petId}', 'get'),
   oas,
+  operation: oas.operation('/pet/{petId}', 'get'),
   theme: 'light',
 };
 

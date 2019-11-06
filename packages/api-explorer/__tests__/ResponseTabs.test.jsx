@@ -11,11 +11,11 @@ const Oas = require('../src/lib/Oas');
 
 const oas = new Oas(petstore);
 const props = {
+  hideResults: () => {},
   oas,
   operation: oas.operation('/pet', 'post'),
   responseTab: 'result',
   setTab: () => {},
-  hideResults: () => {},
 };
 
 beforeEach(async () => {
@@ -74,9 +74,9 @@ test('should call hideResults() on click', () => {
   const exampleTabs = shallow(
     <ResponseTabs
       {...props}
+      hideResults={hideResults}
       oas={exampleResultsOas}
       operation={exampleResultsOas.operation('/results', 'get')}
-      hideResults={hideResults}
     />,
   );
 

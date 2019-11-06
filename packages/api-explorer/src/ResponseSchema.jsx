@@ -68,11 +68,11 @@ class ResponseSchema extends React.Component {
         <div className="pull-right">
           <select
             className="switcher-switch"
-            value={this.state.selectedStatus}
             onChange={this.changeHandler}
+            value={this.state.selectedStatus}
           >
             {keys.map(status => (
-              <option value={status} key={status}>
+              <option key={status} value={status}>
                 {status}
               </option>
             ))}
@@ -104,7 +104,7 @@ class ResponseSchema extends React.Component {
         {this.renderHeader()}
         <div className="response-schema">
           {response.description && <div className="desc">{markdown(response.description)}</div>}
-          {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
+          {schema && <ResponseSchemaBody oas={oas} schema={schema} />}
         </div>
       </div>
     );
@@ -112,8 +112,8 @@ class ResponseSchema extends React.Component {
 }
 
 ResponseSchema.propTypes = {
-  operation: PropTypes.instanceOf(Operation).isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
   theme: PropTypes.string.isRequired,
 };
 

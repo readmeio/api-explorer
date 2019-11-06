@@ -59,12 +59,12 @@ const Content = props => {
       <div className="hub-reference-section">
         <div className="hub-reference-left">
           <div className="content-body">
-            <Loop content={left} column="left" flags={props.flags} />
+            <Loop column="left" content={left} flags={props.flags} />
           </div>
         </div>
         <div className="hub-reference-right">
           <div className="content-body">
-            <Loop content={right} column="right" flags={props.flags} />
+            <Loop column="right" content={right} flags={props.flags} />
           </div>
         </div>
       </div>
@@ -73,20 +73,20 @@ const Content = props => {
 
   return (
     <Loop
+      column={isThreeColumn}
       content={isThreeColumn === 'left' ? left : right}
       flags={props.flags}
-      column={isThreeColumn}
     />
   );
 };
 
 Loop.propTypes = {
+  column: PropTypes.string,
   content: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  column: PropTypes.string,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
   }),
@@ -98,15 +98,15 @@ Loop.defaultProps = {
 };
 
 Content.propTypes = {
-  isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   body: PropTypes.string,
   flags: PropTypes.shape({}),
+  isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 Content.defaultProps = {
-  isThreeColumn: true,
   body: '',
   flags: {},
+  isThreeColumn: true,
 };
 
 module.exports = Content;

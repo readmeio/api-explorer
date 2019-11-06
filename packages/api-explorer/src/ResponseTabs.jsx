@@ -10,21 +10,21 @@ function ResponseTabs({ result, oas, operation, responseTab, setTab, hideResults
   return (
     <ul className="code-sample-tabs hub-reference-results-header">
       <Tab
-        selected={responseTab === 'result'}
         onClick={e => {
           e.preventDefault();
           setTab('result');
         }}
+        selected={responseTab === 'result'}
       >
         <IconStatus status={result.status} />
       </Tab>
 
       <Tab
-        selected={responseTab === 'metadata'}
         onClick={e => {
           e.preventDefault();
           setTab('metadata');
         }}
+        selected={responseTab === 'metadata'}
       >
         Metadata
       </Tab>
@@ -47,14 +47,14 @@ function ResponseTabs({ result, oas, operation, responseTab, setTab, hideResults
 }
 
 ResponseTabs.propTypes = {
-  result: PropTypes.shape({
-    status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  }),
+  hideResults: PropTypes.func.isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   responseTab: PropTypes.string.isRequired,
+  result: PropTypes.shape({
+    status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  }),
   setTab: PropTypes.func.isRequired,
-  hideResults: PropTypes.func.isRequired,
 };
 
 ResponseTabs.defaultProps = {

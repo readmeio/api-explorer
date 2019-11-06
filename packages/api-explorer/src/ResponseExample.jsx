@@ -23,21 +23,21 @@ function isDisplayable(example, responseExampleCopy) {
 function getReactJson(example, responseExampleCopy) {
   return (
     <ReactJson
-      src={JSON.parse(example.code)}
+      key={example.code}
       collapsed={2}
       collapseStringsAfterLength={100}
-      enableClipboard={false}
-      theme="tomorrow"
-      name={null}
       displayDataTypes={false}
       displayObjectSize={false}
-      key={example.code}
+      enableClipboard={false}
+      name={null}
+      src={JSON.parse(example.code)}
       style={{
         padding: '20px 10px',
         backgroundColor: 'transparent',
         display: isDisplayable(example, responseExampleCopy) ? 'block' : 'none',
         fontSize: '12px',
       }}
+      theme="tomorrow"
     />
   );
 }
@@ -111,7 +111,7 @@ class ResponseExample extends React.Component {
               value={responseMediaTypeCopy}
             >
               {mediaTypes.map((l, idx) => (
-                <option value={idx} key={l.language}>
+                <option key={l.language} value={idx}>
                   {l.language}
                 </option>
               ))}
@@ -141,7 +141,7 @@ class ResponseExample extends React.Component {
                 value={responseExampleCopy}
               >
                 {examples.map(example => (
-                  <option value={example.label} key={example.label}>
+                  <option key={example.label} value={example.label}>
                     {example.label}
                   </option>
                 ))}
@@ -265,16 +265,16 @@ class ResponseExample extends React.Component {
 }
 
 ResponseExample.propTypes = {
-  result: PropTypes.shape({}),
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  result: PropTypes.shape({}),
 };
 
 ResponseExample.defaultProps = {
-  result: {},
   exampleResponses: [],
+  result: {},
 };
 
 module.exports = ResponseExample;

@@ -9,12 +9,12 @@ const { Operation } = Oas;
 const oas = new Oas(petstore);
 
 const props = {
-  result: null,
-  operation: new Operation({}, '/pet', 'post'),
   hideResults: () => {},
+  result: null,
   oas,
   oauth: false,
   onChange: () => {},
+  operation: new Operation({}, '/pet', 'post'),
 };
 
 describe('no result', () => {

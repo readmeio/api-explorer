@@ -15,15 +15,15 @@ const docs = createDocs(oas, 'api-setting');
 
 const languages = ['node', 'curl'];
 const props = {
+  appearance: {},
   docs,
+  flags: {},
+  glossaryTerms: [],
   oasFiles: {
     'api-setting': { ...oas, [extensions.SAMPLES_LANGUAGES]: languages },
   },
-  flags: {},
-  appearance: {},
   suggestedEdits: false,
   variables: { user: {}, defaults: [] },
-  glossaryTerms: [],
 };
 
 test('ApiExplorer renders a doc for each', () => {
@@ -132,10 +132,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, category: { apiSetting: 'api-setting' } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[{ ...baseDoc, category: { apiSetting: 'api-setting' } }]}
       />,
     );
 
@@ -147,10 +147,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: { _id: 'api-setting' } } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: { _id: 'api-setting' } } }]}
       />,
     );
 
@@ -161,10 +161,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: 'api-setting' } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: 'api-setting' } }]}
       />,
     );
 
