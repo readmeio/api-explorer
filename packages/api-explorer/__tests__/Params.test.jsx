@@ -19,11 +19,11 @@ const booleanOas = new Oas(boolean);
 const stringOas = new Oas(string);
 
 const props = {
-  oas,
-  operation,
   formData: {},
+  oas,
   onChange: () => {},
   onSubmit: () => {},
+  operation,
 };
 
 const Params = createParams(oas);
@@ -177,25 +177,30 @@ function renderParams(schema, customProps) {
   );
 }
 
-function testNumberClass(schema) {
+test('should convert `mixed type` to string', () => {
+  const params = renderParams({ type: 'mixed type' });
+
+  expect(params.find(`.field-string`).length).toBe(1);
+});
+
+test.each([
+  ['integer', 'int8'],
+  ['integer', 'uint8'],
+  ['integer', 'int16'],
+  ['integer', 'uint16'],
+  ['integer', 'int32'],
+  ['integer', 'uint32'],
+  ['integer', 'int64'],
+  ['integer', 'uint64'],
+  ['number', 'float'],
+  ['number', 'double'],
+])('{ type: %s, format: %s } should have correct class', (type, format) => {
+  const schema = { type, format };
   const clonedSchema = JSON.parse(JSON.stringify(schema));
-  test(`${JSON.stringify(schema)} should have correct class`, () => {
-    const params = renderParams(schema);
+  const params = renderParams(schema);
 
-    expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`).length).toBe(1);
-  });
-}
-
-testNumberClass({ type: 'integer', format: 'int8' });
-testNumberClass({ type: 'integer', format: 'uint8' });
-testNumberClass({ type: 'integer', format: 'int16' });
-testNumberClass({ type: 'integer', format: 'uint16' });
-testNumberClass({ type: 'integer', format: 'int32' });
-testNumberClass({ type: 'integer', format: 'uint32' });
-testNumberClass({ type: 'integer', format: 'int64' });
-testNumberClass({ type: 'integer', format: 'uint64' });
-testNumberClass({ type: 'number', format: 'float' });
-testNumberClass({ type: 'number', format: 'double' });
+  expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`).length).toBe(1);
+});
 
 test('should not error if `integer|number` are missing `format`', () => {
   expect(() => {
@@ -216,7 +221,7 @@ test('should default number to float if missing format', () => {
 });
 
 describe('x-explorer-enabled', () => {
-  const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
+  const oasWithExplorerDisabled = { ...oas, [extensions.EXPLORER_ENABLED]: false };
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
 
   test('array should still show add button, but sub-elements should not be editable', () => {

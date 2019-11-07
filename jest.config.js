@@ -26,5 +26,6 @@ module.exports = {
   ],
   transform: {
     '^.+\\.jsx?$': path.join(__dirname, '/lib/babel-jest'),
+    '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css',
   },
 };

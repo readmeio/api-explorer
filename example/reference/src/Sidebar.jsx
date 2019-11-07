@@ -15,6 +15,7 @@ function Doc({ doc }) {
 
 Doc.propTypes = {
   doc: PropTypes.shape({
+    title: PropTypes.string.isRequired,
     api: PropTypes.shape({
       method: PropTypes.string.isRequired,
     }),
@@ -33,5 +34,10 @@ function Sidebar({ title, docs }) {
     </div>
   ), document.getElementById('hub-sidebar-content'));
 }
+
+Sidebar.propTypes = {
+  title: PropTypes.string.isRequired,
+  docs: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 module.exports = Sidebar;

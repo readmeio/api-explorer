@@ -59,7 +59,7 @@ describe('Embed', () => {
     };
     const embedInput = shallow(<Embed block={block} />);
     expect(embedInput.find('strong').html()).toBe(
-      '<strong><img src="http://static.jsbin.com/images/favicon.png" class="favicon" alt=""/><a href="http://jsbin.com/fewilipowi/edit?js,output" target="_new">http://jsbin.com/fewilipowi/edit?js,output</a></strong>',
+      '<strong><img alt="" class="favicon" src="http://static.jsbin.com/images/favicon.png"/><a href="http://jsbin.com/fewilipowi/edit?js,output" target="_new">http://jsbin.com/fewilipowi/edit?js,output</a></strong>',
     );
   });
 });

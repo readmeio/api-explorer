@@ -9,11 +9,12 @@ const { Operation } = Oas;
 const oas = new Oas(petstore);
 
 const props = {
-  result: null,
-  operation: new Operation({}, '/pet', 'post'),
   hideResults: () => {},
+  result: null,
   oas,
   oauth: false,
+  onChange: () => {},
+  operation: new Operation({}, '/pet', 'post'),
 };
 
 describe('no result', () => {
@@ -37,18 +38,6 @@ describe('setTab', () => {
     doc.instance().setTab('result');
 
     expect(doc.state('responseTab')).toBe('result');
-  });
-});
-
-describe('exampleTab', () => {
-  test('exampleTab should change state of exampleTab', () => {
-    const doc = shallow(<Response {...props} />);
-
-    expect(doc.state('exampleTab')).toBe(0);
-
-    doc.instance().setExampleTab(1);
-
-    expect(doc.state('exampleTab')).toBe(1);
   });
 });
 

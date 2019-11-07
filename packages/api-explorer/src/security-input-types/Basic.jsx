@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 
 function Basic({ user, pass, change, authInputRef, Input }) {
   function inputChange(name, value) {
-    change(Object.assign({ user, pass }, { [name]: value }));
+    change({ user, pass, [name]: value });
   }
 
   return (
@@ -12,18 +12,18 @@ function Basic({ user, pass, change, authInputRef, Input }) {
         <label htmlFor="user">username</label>
         <Input
           inputRef={authInputRef}
-          type="text"
-          onChange={e => inputChange(e.target.name, e.target.value)}
           name="user"
+          onChange={e => inputChange(e.target.name, e.target.value)}
+          type="text"
           value={user}
         />
       </div>
       <div className="col-xs-6">
         <label htmlFor="password">password</label>
         <Input
-          type="text"
-          onChange={e => inputChange(e.target.name, e.target.value)}
           name="pass"
+          onChange={e => inputChange(e.target.name, e.target.value)}
+          type="text"
           value={pass}
         />
       </div>
@@ -32,17 +32,17 @@ function Basic({ user, pass, change, authInputRef, Input }) {
 }
 
 Basic.propTypes = {
-  change: PropTypes.func.isRequired,
   authInputRef: PropTypes.func,
-  user: PropTypes.string,
-  pass: PropTypes.string,
+  change: PropTypes.func.isRequired,
   Input: PropTypes.func.isRequired,
+  pass: PropTypes.string,
+  user: PropTypes.string,
 };
 
 Basic.defaultProps = {
-  user: '',
-  pass: '',
   authInputRef: () => {},
+  pass: '',
+  user: '',
 };
 
 module.exports = Basic;

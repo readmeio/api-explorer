@@ -45,27 +45,30 @@ function docLink(href) {
 }
 
 function Anchor(props) {
+  const { href, target, baseUrl, children } = props;
   return (
-    <a href={getHref(props.href, props.baseUrl)} target="_self" {...docLink(props.href)}>
-      {props.children}
+    <a href={getHref(href, baseUrl)} target={target} {...docLink(href)}>
+      {children}
     </a>
   );
 }
 
 Anchor.propTypes = {
   href: PropTypes.string,
+  target: PropTypes.string,
   baseUrl: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 
 Anchor.defaultProps = {
   href: '',
+  target: '_self',
   baseUrl: '/',
 };
 
 module.exports = sanitizeSchema => {
   // This is for our custom link formats
-  sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'changelog', 'page');
+  sanitizeSchema.protocols.href.push('doc', 'target', 'ref', 'blog', 'changelog', 'page');
 
   return props => {
     // console.log('Anchor', props);

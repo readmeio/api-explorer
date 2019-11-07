@@ -9,20 +9,20 @@ function DescriptionField(props) {
   if (!description) return null;
 
   return (
-    <div id={id} className="field-description">
+    <div className="field-description" id={id}>
       {typeof description === 'string' ? markdown(description) : description}
     </div>
   );
 }
 
 DescriptionField.propTypes = {
-  id: PropTypes.string,
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  id: PropTypes.string,
 };
 
 DescriptionField.defaultProps = {
-  id: '',
   description: '',
+  id: '',
 };
 
 module.exports = DescriptionField;
