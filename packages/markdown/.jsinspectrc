@@ -1,7 +1,7 @@
 {
   "threshold": 40,
   "identifiers": true,
-  "ignore": "test",
+  "ignore": "test|dist",
   "reporter": "default",
   "suppress": 100
 }
