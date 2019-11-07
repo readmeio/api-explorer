@@ -9,6 +9,6 @@ module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) 
     },
     codemirror(typeof code === 'string' ? code : '', lang, opts),
   );
-}
+};
 
 module.exports.uppercase = require('./uppercase');
