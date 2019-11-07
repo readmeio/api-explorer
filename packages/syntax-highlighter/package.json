@@ -1,6 +1,5 @@
 {
   "name": "@readme/syntax-highlighter",
-  "main": "./dist/main.js",
   "description": "Syntax highlighter used on ReadMe.io",
   "version": "4.11.0",
   "dependencies": {
@@ -9,12 +8,10 @@
     "react": "^16.4.2"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js",
     "inspect": "jsinspect",
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
-    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand"
   },
   "publishConfig": {

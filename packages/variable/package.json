@@ -2,14 +2,13 @@
   "name": "@readme/variable",
   "description": "React component for Variables",
   "version": "4.11.0",
-  "main": "./dist/main.js",
+  "main": "index.jsx",
   "dependencies": {
     "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.4.2"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js",
     "inspect": "jsinspect",
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
