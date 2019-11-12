@@ -1,8 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-
 const markdown = require('@readme/markdown');
-const findSchemaDefinition = require('./lib/find-schema-definition');
+const { findSchemaDefinition } = require('oas/utils');
 
 const flatten = list => list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 const getName = (parent, prop) => {

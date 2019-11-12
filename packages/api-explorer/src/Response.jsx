@@ -1,13 +1,12 @@
 const React = require('react');
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
+const Oas = require('oas');
 
 const ResponseTabs = require('./ResponseTabs');
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
 const ResponseExample = require('./ResponseExample');
-
-const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
 

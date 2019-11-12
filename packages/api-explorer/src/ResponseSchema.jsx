@@ -2,9 +2,9 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const markdown = require('@readme/markdown');
+const Oas = require('oas');
+const { findSchemaDefinition } = require('oas/utils');
 
-const Oas = require('./lib/Oas');
-const findSchemaDefinition = require('./lib/find-schema-definition');
 const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 const { Operation } = Oas;

@@ -1,7 +1,10 @@
 {
-  "extends": ["airbnb", "prettier"],
+  "extends": [
+    "@readme/eslint-config",
+    "airbnb",
+    "prettier"
+  ],
   "rules": {
-    "arrow-body-style": 0,
     "jsx-a11y/label-has-associated-control": [2, {
       "controlComponents": ["Input"]
     }],

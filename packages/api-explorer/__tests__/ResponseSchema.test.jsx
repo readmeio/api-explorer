@@ -1,8 +1,8 @@
 const React = require('react');
 const { shallow } = require('enzyme');
+const Oas = require('oas');
 
 const ResponseSchema = require('../src/ResponseSchema');
-const Oas = require('../src/lib/Oas');
 const petstore = require('./fixtures/petstore/oas.json');
 
 const { Operation } = Oas;

@@ -5,8 +5,10 @@ const fetchHar = require('fetch-har');
 const extensions = require('@readme/oas-extensions');
 const markdown = require('@readme/markdown');
 const Waypoint = require('react-waypoint');
+const oasToHar = require('@readme/oas-to-har');
+const Oas = require('oas');
+const { getPath } = require('oas/utils');
 
-const oasToHar = require('./lib/oas-to-har');
 const isAuthReady = require('./lib/is-auth-ready');
 
 const PathUrl = require('./PathUrl');
@@ -16,9 +18,7 @@ const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
 
-const Oas = require('./lib/Oas');
-const { Operation } = require('./lib/Oas');
-const getPath = require('./lib/get-path');
+const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
