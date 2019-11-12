@@ -5,7 +5,7 @@
   "scripts": {
     "build": "./build.sh & lerna run build",
     "deploy": "gh-pages --dotfiles -d example/dist",
-    "lint": "eslint -f unix example --ext js --ext jsx",
+    "lint": "eslint example --ext js --ext jsx",
     "publish": "lerna publish",
     "start": "node scripts/update-example-swagger-files && webpack-dev-server",
     "test": "node scripts/update-example-swagger-files && npm run lint && lerna run test --stream",

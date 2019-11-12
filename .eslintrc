@@ -1,9 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": [
-    "@readme/eslint-config",
-    "airbnb"
-  ],
+  "extends": ["airbnb", "prettier"],
   "env": {
     "browser": true
   },
