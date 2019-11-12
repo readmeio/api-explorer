@@ -24,12 +24,9 @@ function formatter(values, param, type, onlyIfExists) {
   return format.key(param.name);
 }
 
-const defaultValues = Object.keys(parametersToJsonSchema.types).reduce(
-  (prev, curr) => {
-    return Object.assign(prev, { [curr]: {} });
-  },
-  {},
-);
+const defaultValues = Object.keys(parametersToJsonSchema.types).reduce((prev, curr) => {
+  return Object.assign(prev, { [curr]: {} });
+}, {});
 
 // If you pass in types, it either uses a default, or favors anything JSON.
 function getContentType(pathOperation) {
@@ -96,6 +93,7 @@ module.exports = (
   if (pathOperation.parameters) {
     pathOperation.parameters.forEach((param, i, params) => {
       if (param.$ref) {
+        // eslint-disable-next-line no-param-reassign
         params[i] = findSchemaDefinition(param.$ref, oas);
       }
     });

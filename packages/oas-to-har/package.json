@@ -2,6 +2,7 @@
   "name": "@readme/oas-to-har",
   "description": "Utility to transform an OAS operation into a HAR representation",
   "version": "4.11.1",
+  "main": "src/index.js",
   "dependencies": {
     "@readme/oas-extensions": "^4.11.1",
     "oas": "^0.8.18",
@@ -12,7 +13,7 @@
     "lint": "eslint .",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage --runInBand"
+    "test": "jest --coverage"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
