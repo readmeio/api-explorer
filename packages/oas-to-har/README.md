@@ -21,7 +21,7 @@ console.log(oasToHar(spec));
 ```
 
 ## Credits
-[Jon Ursenbach](https://github.com/erunion))
+[Jon Ursenbach](https://github.com/erunion)
 
 ## License
 
