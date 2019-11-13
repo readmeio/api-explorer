@@ -26,7 +26,7 @@ const rdmeCalloutCompiler = require('./processor/compile/callout');
 sanitize.tagNames.push('input');
 sanitize.ancestors.input = ['li'];
 
-// const Variable = require('@readme/variable');
+const Variable = require('@readme/variable');
 // const GlossaryItem = require('./GlossaryItem');
 
 /*
@@ -102,7 +102,7 @@ module.exports.render = {
             components: {
               'code-tabs': codeTabs(sanitize),
               'rdme-callout': callout(sanitize),
-              'readme-variable': props => <span style={{color:'red'}} {...props}>Variable</span>,
+              'readme-variable': Variable(sanitize),
               'readme-glossary-item': props => <span style={{color:'red'}} {...props}>Term</span>,
               table: table(sanitize),
               a: anchor(sanitize),
