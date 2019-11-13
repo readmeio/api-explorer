@@ -151,3 +151,5 @@ module.exports.render = {
           .use(rehypeStringify)
           .processSync(text).contents,
 };
+
+module.exports.VariablesContext = require('@readme/variable').VariablesContext;
