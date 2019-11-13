@@ -6,7 +6,7 @@
   "dependencies": {
     "@readme/markdown": "^4.11.0",
     "@readme/oas-extensions": "^4.11.1",
-    "@readme/oas-to-har": "^4.11.1",
+    "@readme/oas-to-har": "^1.0.0",
     "@readme/syntax-highlighter": "^4.11.0",
     "@readme/variable": "^4.11.0",
     "classnames": "^2.2.5",
@@ -41,7 +41,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-explorer",
   "devDependencies": {
-    "@readme/eslint-config": "git+ssh://git@github.com/readmeio/eslint-config.git#master",
+    "@readme/eslint-config": "^1.0.0",
     "eslint": "^6.5.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
