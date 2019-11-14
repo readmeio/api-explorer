@@ -3,9 +3,9 @@ const { mount, shallow } = require('enzyme');
 const SecurityInput = require('../src/SecurityInput');
 
 const baseProps = {
-  onChange: () => {},
-  oauth: false,
   auth: {},
+  oauth: false,
+  onChange: () => {},
 };
 
 test('should render an Oauth2 component if type is oauth2', () => {
@@ -48,7 +48,7 @@ describe('oauth2', () => {
 
   test('should disable the input if `oauth=true`', () => {
     const securityInput = mount(
-      <SecurityInput {...props} {...baseProps} oauth auth={{ 'test-auth': 'test' }} />,
+      <SecurityInput {...props} {...baseProps} auth={{ 'test-auth': 'test' }} oauth />,
     );
     expect(securityInput.find('input').prop('disabled')).toBe(true);
   });
@@ -63,7 +63,7 @@ describe('oauth2', () => {
   test('should display api key if set', () => {
     const apiKey = '123456';
     const securityInput = mount(
-      <SecurityInput {...props} {...baseProps} oauth auth={{ 'test-auth': apiKey }} />,
+      <SecurityInput {...props} {...baseProps} auth={{ 'test-auth': apiKey }} oauth />,
     );
 
     expect(securityInput.find('input').prop('value')).toBe(apiKey);
@@ -151,7 +151,7 @@ describe('basic', () => {
     const user = 'user';
     const pass = 'pass';
     const securityInput = mount(
-      <SecurityInput {...props} {...baseProps} oauth auth={{ 'test-basic': { user, pass } }} />,
+      <SecurityInput {...props} {...baseProps} auth={{ 'test-basic': { user, pass } }} oauth />,
     );
 
     expect(securityInput.find('input[name="user"]').prop('value')).toBe(user);

@@ -7,6 +7,7 @@ const WrappedApiExplorer = require('../src');
 const { ApiExplorer } = WrappedApiExplorer;
 
 const oas = require('./fixtures/petstore/oas');
+const oasCommon = require('./fixtures/parameters/common');
 
 const createDocs = require('../lib/create-docs');
 
@@ -14,17 +15,15 @@ const docs = createDocs(oas, 'api-setting');
 
 const languages = ['node', 'curl'];
 const props = {
-  docs,
-  oasFiles: {
-    'api-setting': Object.assign({}, oas, {
-      [extensions.SAMPLES_LANGUAGES]: languages,
-    }),
-  },
-  flags: {},
   appearance: {},
+  docs,
+  flags: {},
+  glossaryTerms: [],
+  oasFiles: {
+    'api-setting': { ...oas, [extensions.SAMPLES_LANGUAGES]: languages },
+  },
   suggestedEdits: false,
   variables: { user: {}, defaults: [] },
-  glossaryTerms: [],
 };
 
 test('ApiExplorer renders a doc for each', () => {
@@ -33,9 +32,25 @@ test('ApiExplorer renders a doc for each', () => {
   expect(explorer.find('Doc').length).toBe(docs.length);
 });
 
+test('ApiExplorer should not render a common parameter OAS operation method', () => {
+  const docsCommon = createDocs(oasCommon, 'api-setting');
+  const propsCommon = {
+    ...props,
+    docs: docsCommon,
+    oasFiles: {
+      'api-setting': oasCommon,
+    },
+  };
+
+  const explorer = shallow(<ApiExplorer {...propsCommon} />);
+
+  expect(explorer.find('Doc').length).toBe(docsCommon.length - 1);
+});
+
 test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
   // Prompting an error with an array of nulls instead of Docs
   // This is to simulate some unknown error state during initial render
+  // eslint-disable-next-line react/jsx-props-no-spreading
   const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
 
   expect(explorer.find('ErrorBoundary').length).toBe(1);
@@ -117,10 +132,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, category: { apiSetting: 'api-setting' } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[Object.assign({}, baseDoc, { category: { apiSetting: 'api-setting' } })]}
       />,
     );
 
@@ -132,14 +147,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: { _id: 'api-setting' } } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[
-          Object.assign({}, baseDoc, {
-            api: { method: 'get', apiSetting: { _id: 'api-setting' } },
-          }),
-        ]}
       />,
     );
 
@@ -150,14 +161,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: 'api-setting' } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[
-          Object.assign({}, baseDoc, {
-            api: { method: 'get', apiSetting: 'api-setting' },
-          }),
-        ]}
       />,
     );
 
@@ -167,14 +174,7 @@ describe('oas', () => {
   // Of course... `typeof null === 'object'`
   it('should not error if `doc.api.apiSetting` is null', () => {
     const explorer = shallow(
-      <ApiExplorer
-        {...props}
-        docs={[
-          Object.assign({}, baseDoc, {
-            api: { method: 'get', apiSetting: null },
-          }),
-        ]}
-      />,
+      <ApiExplorer {...props} docs={[{ ...baseDoc, api: { method: 'get', apiSetting: null } }]} />,
     );
 
     expect(explorer.find('Doc').get(0).props.oas).toEqual({});
@@ -217,6 +217,60 @@ describe('auth', () => {
     );
 
     expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
+  });
+
+  it('should return nothing for lazy + `splitReferenceDocs`', () => {
+    const explorer = shallow(<ApiExplorer {...props} appearance={{ splitReferenceDocs: true }} />);
+
+    const { lazyHash } = explorer.instance();
+    expect(lazyHash).toEqual({});
+  });
+
+  it('should disable lazy render first 5 projects', () => {
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const { lazyHash } = explorer.instance();
+    expect(lazyHash[0]).toEqual(false);
+    expect(lazyHash[1]).toEqual(false);
+    expect(lazyHash[2]).toEqual(false);
+    expect(lazyHash[3]).toEqual(false);
+    expect(lazyHash[4]).toEqual(false);
+    expect(lazyHash[5]).toEqual(true);
+  });
+
+  it('should disable lazy render middle 5 projects', () => {
+    // somewhere in the middle of props.docs
+    window.history.pushState({}, '', '/#user-createWithArray');
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const instance = explorer.instance();
+    const slugs = instance.props.docs.map(x => x.slug);
+    const centerIdx = slugs.indexOf('user-createWithArray');
+
+    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
+    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 3]).toEqual(true);
+  });
+
+  it('should disable lazy render for last 5 projects', () => {
+    // last doc in props.docs
+    window.history.pushState({}, '', '/#user-username');
+    const explorer = shallow(<ApiExplorer {...props} />);
+
+    const instance = explorer.instance();
+    const slugs = instance.props.docs.map(x => x.slug);
+    const centerIdx = slugs.indexOf('user-username');
+
+    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
+    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
+    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
   });
 
   it('should default to empty string', () => {

@@ -1,7 +1,8 @@
 const React = require('react');
 const { shallow } = require('enzyme');
+const Oas = require('oas');
+
 const PathUrl = require('../src/PathUrl');
-const Oas = require('../src/lib/Oas');
 
 const { splitPath } = PathUrl;
 
@@ -11,15 +12,15 @@ const petstore = require('./fixtures/petstore/oas');
 const oas = new Oas(petstore);
 
 const props = {
-  oas,
-  operation: oas.operation('/pet/{petId}', 'get'),
+  apiKey: '',
   dirty: false,
   loading: false,
-  onChange: () => {},
-  toggleAuth: () => {},
-  onSubmit: () => {},
+  oas,
   oauth: false,
-  apiKey: '',
+  onChange: () => {},
+  onSubmit: () => {},
+  operation: oas.operation('/pet/{petId}', 'get'),
+  toggleAuth: () => {},
 };
 
 test('should display the path', () => {
@@ -69,8 +70,8 @@ test('button click should call onSubmit', () => {
   shallow(
     <PathUrl
       {...props}
-      operation={new Operation({}, '/path', 'get', { operationId: '123' })}
       onSubmit={onSubmit}
+      operation={new Operation({}, '/path', 'get', { operationId: '123' })}
     />,
   )
     .find('button[type="submit"]')
@@ -85,5 +86,13 @@ describe('splitPath()', () => {
     expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}').length).toBe(
       4,
     );
+  });
+
+  test('should create unique keys for duplicate values', () => {
+    expect(splitPath('/{test}/')).toEqual([
+      { key: '/-0', type: 'text', value: '/' },
+      { key: 'test-1', type: 'variable', value: 'test' },
+      { key: '/-2', type: 'text', value: '/' },
+    ]);
   });
 });

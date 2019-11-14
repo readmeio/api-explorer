@@ -60,9 +60,20 @@ test('anchors', () => {
 [doc](doc:slug)
 [ref](ref:slug)
 [blog](blog:slug)
+[changelog](changelog:slug)
 [page](page:slug)
   `),
     ).html(),
+  ).toMatchSnapshot();
+});
+
+test('anchor target: should default to _self', () => {
+  expect(shallow(markdown('[test](https://example.com)')).html()).toMatchSnapshot();
+});
+
+test('anchor target: should allow _blank if using HTML', () => {
+  expect(
+    shallow(markdown('<a href="https://example.com" target="_blank">test</a>')).html(),
   ).toMatchSnapshot();
 });
 
@@ -78,6 +89,7 @@ test('anchors with baseUrl', () => {
 [doc](doc:slug)
 [ref](ref:slug)
 [blog](blog:slug)
+[changelog](changelog:slug)
 [page](page:slug)
   `,
       ),

@@ -44,7 +44,10 @@ module.exports = (oas, apiSetting) => {
         docs.push({
           _id: Math.random().toString(16),
           title: operation.summary || path || tag,
-          slug: tag,
+          slug: path
+            .replace(/^\W|\W$/, '')
+            .replace(/\W+/g, '-')
+            .replace(/^\W|\W$/, ''),
           type: 'endpoint',
           category: { apiSetting },
           api: {

@@ -1,20 +1,21 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const FetchResponse = require('node-fetch').Response;
+const Oas = require('oas');
+
 const petstore = require('./fixtures/petstore/oas');
 const exampleResults = require('./fixtures/example-results/oas');
 
 const parseResponse = require('../src/lib/parse-response');
-const FetchResponse = require('node-fetch').Response;
-
 const ResponseTabs = require('../src/ResponseTabs');
-const Oas = require('../src/lib/Oas');
 
 const oas = new Oas(petstore);
 const props = {
+  hideResults: () => {},
+  oas,
   operation: oas.operation('/pet', 'post'),
   responseTab: 'result',
   setTab: () => {},
-  hideResults: () => {},
 };
 
 beforeEach(async () => {
@@ -69,11 +70,13 @@ test('should call setTab() on click', () => {
 
 test('should call hideResults() on click', () => {
   const hideResults = jest.fn();
+  const exampleResultsOas = new Oas(exampleResults);
   const exampleTabs = shallow(
     <ResponseTabs
       {...props}
-      operation={new Oas(exampleResults).operation('/results', 'get')}
       hideResults={hideResults}
+      oas={exampleResultsOas}
+      operation={exampleResultsOas.operation('/results', 'get')}
     />,
   );
 

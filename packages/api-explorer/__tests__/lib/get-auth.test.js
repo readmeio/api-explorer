@@ -1,18 +1,19 @@
+const Oas = require('oas');
+
 const multipleSecurities = require('../fixtures/multiple-securities/oas.json');
-const Oas = require('../../src/lib/Oas');
 const getAuth = require('../../src/lib/get-auth');
 
 const oas = new Oas(multipleSecurities);
 
 it('should fetch all auths from the OAS files', () => {
-  expect(
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas }),
-  ).toEqual({
-    oauthScheme: 'oauth',
-    oauthDiff: '',
-    apiKeyScheme: 'apikey',
-    unknownAuthType: '',
-  });
+  expect(getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas })).toEqual(
+    {
+      oauthScheme: 'oauth',
+      oauthDiff: '',
+      apiKeyScheme: 'apikey',
+      unknownAuthType: '',
+    },
+  );
 });
 
 it('should not error if oas.components is not set', () => {
@@ -38,7 +39,12 @@ it('should not error if oas.components is not set', () => {
 const { getSingle } = getAuth;
 
 const topLevelUser = { apiKey: '123456', user: 'user', pass: 'pass' };
-const keysUser = { keys: [{ apiKey: '123456', name: 'app-1' }, { apiKey: '7890', name: 'app-2' }] };
+const keysUser = {
+  keys: [
+    { apiKey: '123456', name: 'app-1' },
+    { apiKey: '7890', name: 'app-2' },
+  ],
+};
 const topLevelSchemeUser = { schemeName: 'scheme-key' };
 const keysSchemeUser = {
   keys: [
@@ -54,6 +60,14 @@ it('should return apiKey property for oauth', () => {
 
 it('should return apiKey property for apiKey', () => {
   expect(getSingle(topLevelUser, { type: 'oauth2' })).toBe('123456');
+});
+
+it('should return a default value if scheme is sec0 and default auth provided', () => {
+  expect(getSingle({}, { type: 'apiKey', _key: 'sec0', 'x-default': 'default' })).toBe('default');
+});
+
+it('should return apiKey property for bearer', () => {
+  expect(getSingle(topLevelUser, { type: 'http', scheme: 'bearer' })).toBe('123456');
 });
 
 it('should return user/pass properties for basic auth', () => {
@@ -73,11 +87,16 @@ it('should return selected app from keys array if app provided', () => {
 
 it('should return item by scheme name if no apiKey/user/pass', () => {
   expect(getSingle(topLevelSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key');
+  expect(
+    getSingle(topLevelSchemeUser, { type: 'http', scheme: 'bearer', _key: 'schemeName' }),
+  ).toBe('scheme-key');
   expect(getSingle(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key-1');
   expect(getSingle(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' }, 'app-2')).toBe(
     'scheme-key-2',
   );
-  expect(getSingle(keysSchemeUser, { type: 'http', _key: 'schemeName' }, 'app-3')).toEqual({
+  expect(
+    getSingle(keysSchemeUser, { type: 'http', scheme: 'basic', _key: 'schemeName' }, 'app-3'),
+  ).toEqual({
     user: 'user',
     pass: 'pass',
   });
@@ -86,6 +105,8 @@ it('should return item by scheme name if no apiKey/user/pass', () => {
 it('should return emptystring for anything else', () => {
   expect(getSingle(topLevelUser, { type: 'unknown' })).toBe('');
   expect(getSingle({}, { type: 'http', scheme: 'basic' })).toEqual({ user: '', pass: '' });
+  expect(getSingle({}, { type: 'http', scheme: 'bearer' })).toEqual('');
+  expect(getSingle({}, { type: 'http', scheme: 'unknown' })).toEqual('');
   expect(getSingle(keysUser, { type: 'unknown' })).toBe('');
   expect(getSingle(keysUser, { type: 'unknown' }, 'app-2')).toBe('');
 });

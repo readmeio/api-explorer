@@ -1,0 +1,7 @@
+{
+  "threshold": 30,
+  "identifiers": true,
+  "ignore": "dist|coverage",
+  "reporter": "default",
+  "suppress": 100
+}

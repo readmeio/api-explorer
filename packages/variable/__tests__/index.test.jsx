@@ -52,7 +52,12 @@ describe('single variable', () => {
 describe('multiple variables', () => {
   const props = {
     variable: 'apiKey',
-    user: { keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }] },
+    user: {
+      keys: [
+        { name: 'project1', apiKey: '123' },
+        { name: 'project2', apiKey: '456' },
+      ],
+    },
     defaults: [],
     selected: '',
     changeSelected: () => {},

@@ -1,14 +1,15 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const Oas = require('oas');
+
 const example = require('./fixtures/example-results/oas');
 
 const ExampleTabs = require('../src/ExampleTabs');
-const Oas = require('../src/lib/Oas');
 const showCodeResults = require('../src/lib/show-code-results');
 
 const oas = new Oas(example);
 const props = {
-  examples: showCodeResults(oas.operation('/results', 'get')),
+  examples: showCodeResults(oas.operation('/results', 'get'), oas),
   selected: 0,
   setExampleTab: () => {},
 };

@@ -1,5 +1,5 @@
-const parseResponse = require('../../src/lib/parse-response');
 const { Headers, Response } = require('node-fetch');
+const parseResponse = require('../../src/lib/parse-response');
 
 function createHar(har) {
   return {
@@ -48,20 +48,22 @@ test('should pass through URL with proxy removed', async () => {
 
 test('should pass through URL with query string', async () => {
   expect(
-    (await parseResponse(
-      createHar({
-        method,
-        url,
-        headers: [],
-        queryString: [
-          {
-            name: 'a',
-            value: '123456',
-          },
-        ],
-      }),
-      response,
-    )).url,
+    (
+      await parseResponse(
+        createHar({
+          method,
+          url,
+          headers: [],
+          queryString: [
+            {
+              name: 'a',
+              value: '123456',
+            },
+          ],
+        }),
+        response,
+      )
+    ).url,
   ).toBe('http://petstore.swagger.io/v2/pet?a=123456');
 });
 
@@ -71,62 +73,70 @@ test('should pass through method', async () => {
 
 test('should return array for request headers', async () => {
   expect(
-    (await parseResponse(
-      createHar({
-        headers: [
-          {
-            name: 'Authorization',
-            value: 'Bearer api-key',
-          },
-          {
-            name: 'Authorization1',
-            value: 'Bearer api-key1',
-          },
-        ],
-        url,
-      }),
-      response,
-    )).requestHeaders,
+    (
+      await parseResponse(
+        createHar({
+          headers: [
+            {
+              name: 'Authorization',
+              value: 'Bearer api-key',
+            },
+            {
+              name: 'Authorization1',
+              value: 'Bearer api-key1',
+            },
+          ],
+          url,
+        }),
+        response,
+      )
+    ).requestHeaders,
   ).toEqual(['Authorization: Bearer api-key', 'Authorization1: Bearer api-key1']);
 });
 
 test('should return with post data if set', async () => {
   expect(
-    (await parseResponse(
-      createHar({
-        headers: [],
-        postData: {
-          text: JSON.stringify({ a: 1 }),
-        },
-        url,
-      }),
-      response,
-    )).requestBody,
+    (
+      await parseResponse(
+        createHar({
+          headers: [],
+          postData: {
+            text: JSON.stringify({ a: 1 }),
+          },
+          url,
+        }),
+        response,
+      )
+    ).requestBody,
   ).toEqual(JSON.stringify({ a: 1 }));
 });
 
 test('should return with null if postData is empty object', async () => {
   expect(
-    (await parseResponse(
-      createHar({
-        headers: [],
-        postData: {},
-        url,
-      }),
-      response,
-    )).requestBody,
+    (
+      await parseResponse(
+        createHar({
+          headers: [],
+          postData: {},
+          url,
+        }),
+        response,
+      )
+    ).requestBody,
   ).toEqual(null);
 });
 
 test('should return with null if postData is undefined', async () => {
   expect(
-    (await parseResponse(
-      createHar({
-        headers: [],
-        url,
-      }),
-      response,
-    )).requestBody,
+    (
+      await parseResponse(
+        createHar({
+          headers: [],
+          url,
+        }),
+        response,
+      )
+    ).requestBody,
   ).toEqual(null);
 });
 
@@ -147,12 +157,14 @@ test('should return null for `type` if content-type header missing', async () =>
 
 test('should remove x-final-url header set by the proxy', async () => {
   expect(
-    (await parseResponse(
-      har,
-      new Response('', {
-        headers: { 'x-final-url': 'http://example.com' },
-      }),
-    )).responseHeaders,
+    (
+      await parseResponse(
+        har,
+        new Response('', {
+          headers: { 'x-final-url': 'http://example.com' },
+        }),
+      )
+    ).responseHeaders,
   ).toEqual([]);
 });
 

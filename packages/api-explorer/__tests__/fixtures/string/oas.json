@@ -33,7 +33,29 @@
                 "properties": {
                   "string": {
                     "type": "string",
-                    "format": "some-unknown-format"                    
+                    "format": "some-unknown-format"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-uuid": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application\/json": {
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "examples": {
+                  "response": {
+                    "value": "96fab4bb-ff68-43e2-94d8-7046f3173d9c"
                   }
                 }
               }

@@ -9,7 +9,7 @@
   ],
   "host": "httpbin.org",
   "paths": {
-    "/post": {
+    "/circular": {
       "post": {
         "parameters": [
           {
@@ -23,6 +23,23 @@
         "responses": {
           "200": {
             "description": "Circular"
+          }
+        }
+      },
+      "put": {
+        "description": "This example fails due to a bug in RJSF when attempting to compute defaults for objects with refs.",
+        "requestBody": {
+          "content": {
+            "application\/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "obj": {
+                    "$ref": "#/definitions/user"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -40,6 +57,17 @@
           "items": {
             "$ref": "#/definitions/node"
           }
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "otherUser": {
+          "$ref": "#/definitions/user"
         }
       }
     }

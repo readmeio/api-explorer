@@ -1,12 +1,15 @@
+/* eslint-disable react/jsx-fragments */
 const React = require('react');
 const PropTypes = require('prop-types');
 const fetchHar = require('fetch-har');
-const oasToHar = require('./lib/oas-to-har');
-const isAuthReady = require('./lib/is-auth-ready');
 const extensions = require('@readme/oas-extensions');
+const markdown = require('@readme/markdown');
 const Waypoint = require('react-waypoint');
+const oasToHar = require('@readme/oas-to-har');
+const Oas = require('oas');
+const { getPath } = require('oas/utils');
 
-const { Fragment } = React;
+const isAuthReady = require('./lib/is-auth-ready');
 
 const PathUrl = require('./PathUrl');
 const createParams = require('./Params');
@@ -14,10 +17,8 @@ const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
 const EndpointErrorBoundary = require('./EndpointErrorBoundary');
-const markdown = require('@readme/markdown');
 
-const Oas = require('./lib/Oas');
-// const showCode = require('./lib/show-code');
+const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
@@ -33,6 +34,7 @@ class Doc extends React.Component {
       result: null,
       showEndpoint: false,
     };
+
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
     this.onSubmit = this.onSubmit.bind(this);
@@ -45,11 +47,12 @@ class Doc extends React.Component {
   onChange(formData) {
     this.setState(previousState => {
       return {
-        formData: Object.assign({}, previousState.formData, formData),
+        formData: { ...previousState.formData, ...formData },
         dirty: true,
       };
     });
   }
+
   onSubmit() {
     const operation = this.getOperation();
 
@@ -82,14 +85,19 @@ class Doc extends React.Component {
     if (this.operation) return this.operation;
 
     const { doc } = this.props;
-    const operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    let operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
+    if (!getPath(this.oas, doc)) {
+      operation = new Operation(this.oas, doc.swagger.path, doc.api.method, {
+        parameters: doc.api.params,
+      });
+    }
     this.operation = operation;
     return operation;
   }
 
   toggleAuth(e) {
     e.preventDefault();
-    this.setState({ showAuthBox: !this.state.showAuthBox });
+    this.setState(prevState => ({ showAuthBox: !prevState.showAuthBox }));
   }
 
   hideResults() {
@@ -100,27 +108,18 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  // TODO: I couldn't figure out why this existed
-  // Shouldn't we always show code samples?
-  // eslint-disable-next-line
-  shouldShowCode() {
-    return true;
-    // return showCode(this.oas, this.getOperation());
-  }
-
   mainTheme(doc) {
     return (
-      <Fragment>
+      <React.Fragment>
         {doc.type === 'endpoint' && (
           <div className="hub-api">
             {this.renderPathUrl()}
 
-            {this.shouldShowCode() && (
-              <div className="hub-reference-section hub-reference-section-code">
-                <div className="hub-reference-left">{this.renderCodeSample()}</div>
-                {this.renderResponse()}
-              </div>
-            )}
+            <div className="hub-reference-section hub-reference-section-code">
+              <div className="hub-reference-left">{this.renderCodeSample()}</div>
+
+              {this.renderResponse()}
+            </div>
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
@@ -133,7 +132,7 @@ class Doc extends React.Component {
         )}
 
         <Content body={doc.body} flags={this.props.flags} isThreeColumn />
-      </Fragment>
+      </React.Fragment>
     );
   }
 
@@ -141,21 +140,21 @@ class Doc extends React.Component {
     return (
       <div className="hub-api">
         <div className="hub-reference-section">
-          <Fragment>
+          <React.Fragment>
             <div className="hub-reference-left">
               {doc.type === 'endpoint' && (
-                <Fragment>
+                <React.Fragment>
                   {this.renderPathUrl()}
                   {this.renderLogs()}
                   {this.renderParams()}
-                </Fragment>
+                </React.Fragment>
               )}
+
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="left" />
             </div>
 
             <div className="hub-reference-right">
-              {doc.type === 'endpoint' &&
-              this.shouldShowCode() && (
+              {doc.type === 'endpoint' && (
                 <div className="hub-reference-section-code">
                   {this.renderCodeSample()}
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
@@ -166,7 +165,7 @@ class Doc extends React.Component {
               </div>
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
             </div>
-          </Fragment>
+          </React.Fragment>
         </div>
       </div>
     );
@@ -182,13 +181,13 @@ class Doc extends React.Component {
 
     return (
       <CodeSample
-        oas={this.oas}
-        setLanguage={this.props.setLanguage}
-        operation={this.getOperation()}
-        formData={this.state.formData}
         auth={this.props.auth}
-        language={this.props.language}
         examples={examples}
+        formData={this.state.formData}
+        language={this.props.language}
+        oas={this.oas}
+        operation={this.getOperation()}
+        setLanguage={this.props.setLanguage}
       />
     );
   }
@@ -200,14 +199,16 @@ class Doc extends React.Component {
     } catch (e) {
       exampleResponses = [];
     }
+
     return (
       <Response
-        result={this.state.result}
-        oas={this.oas}
-        operation={this.getOperation()}
-        oauth={this.props.oauth}
-        hideResults={this.hideResults}
         exampleResponses={exampleResponses}
+        hideResults={this.hideResults}
+        oas={this.oas}
+        oauth={this.props.oauth}
+        onChange={this.onChange}
+        operation={this.getOperation()}
+        result={this.state.result}
       />
     );
   }
@@ -218,7 +219,7 @@ class Doc extends React.Component {
     return (
       operation &&
       operation.responses && (
-        <ResponseSchema theme={theme} operation={this.getOperation()} oas={this.oas} />
+        <ResponseSchema oas={this.oas} operation={this.getOperation()} theme={theme} />
       )
     );
   }
@@ -228,11 +229,9 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        {this.props.appearance.referenceLayout === 'column' ? (
-          this.columnTheme(doc)
-        ) : (
-          this.mainTheme(doc)
-        )}
+        {this.props.appearance.referenceLayout === 'column'
+          ? this.columnTheme(doc)
+          : this.mainTheme(doc)}
       </EndpointErrorBoundary>
     );
   }
@@ -246,12 +245,16 @@ class Doc extends React.Component {
 
     return (
       <Logs
-        user={this.props.user}
         baseUrl={this.props.baseUrl}
+        changeGroup={this.props.changeGroup}
+        group={this.props.group}
+        groups={this.props.groups}
         query={{
           url,
           method,
         }}
+        result={this.state.result}
+        user={this.props.user}
       />
     );
   }
@@ -259,60 +262,61 @@ class Doc extends React.Component {
   renderParams() {
     return (
       <this.Params
-        oas={this.oas}
-        operation={this.getOperation()}
         formData={this.state.formData}
+        oas={this.oas}
         onChange={this.onChange}
         onSubmit={this.onSubmit}
+        operation={this.getOperation()}
       />
     );
   }
 
   renderPathUrl() {
+    /* eslint-disable no-return-assign */
     return (
       <PathUrl
-        oas={this.oas}
-        operation={this.getOperation()}
+        auth={this.props.auth}
+        authInputRef={el => (this.authInput = el)}
         dirty={this.state.dirty}
         loading={this.state.loading}
-        onChange={this.props.onAuthChange}
-        showAuthBox={this.state.showAuthBox}
         needsAuth={this.state.needsAuth}
+        oas={this.oas}
         oauth={this.props.oauth}
-        toggleAuth={this.toggleAuth}
+        onChange={this.props.onAuthChange}
         onSubmit={this.onSubmit}
-        authInputRef={el => (this.authInput = el)}
-        auth={this.props.auth}
+        operation={this.getOperation()}
+        showAuthBox={this.state.showAuthBox}
+        toggleAuth={this.toggleAuth}
       />
     );
   }
 
   render() {
-    const { doc } = this.props;
-    const oas = this.oas;
+    const { doc, lazy } = this.props;
+    const { oas } = this;
 
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
+      if (lazy) {
+        return (
+          <Waypoint bottomOffset="-1%" fireOnRapidScroll={false} onEnter={this.waypointEntered}>
+            {this.state.showEndpoint && this.renderEndpoint()}
+          </Waypoint>
+        );
+      }
 
-      return (
-        <Waypoint onEnter={this.waypointEntered} fireOnRapidScroll={false} bottomOffset="-1%">
-          {this.state.showEndpoint && this.renderEndpoint()}
-        </Waypoint>
-      );
+      return this.renderEndpoint();
     };
 
     return (
       <div className="hub-reference" id={`page-${doc.slug}`}>
-        {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content
-          <a className="anchor-page-title" id={doc.slug} />
-        }
+        {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
+        <a className="anchor-page-title" id={doc.slug} />
 
         <div className="hub-reference-section hub-reference-section-top">
           <div className="hub-reference-left">
             <header>
               {this.props.suggestedEdits && (
-                // eslint-disable-next-line jsx-a11y/href-no-hash
                 <a
                   className="hub-reference-edit pull-right"
                   href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
@@ -335,8 +339,8 @@ class Doc extends React.Component {
           // cos we can just pass it around?
         }
         <input
-          type="hidden"
           id={`swagger-${extensions.SEND_DEFAULTS}`}
+          type="hidden"
           value={oas[extensions.SEND_DEFAULTS]}
         />
       </div>
@@ -344,64 +348,75 @@ class Doc extends React.Component {
   }
 }
 
-module.exports = Doc;
-
 Doc.propTypes = {
-  doc: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    excerpt: PropTypes.string,
-    slug: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    api: PropTypes.shape({
-      method: PropTypes.string.isRequired,
-      examples: PropTypes.shape({
-        codes: PropTypes.arrayOf(
-          PropTypes.shape({
-            language: PropTypes.string.isRequired,
-            code: PropTypes.string.isRequired,
-          }),
-        ),
-      }),
-      results: PropTypes.shape({
-        codes: PropTypes.arrayOf(
-          PropTypes.shape({}), // TODO: Jsinspect threw an error because this was too similar to L330
-        ),
-      }),
-    }),
-    swagger: PropTypes.shape({
-      path: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
-  user: PropTypes.shape({}),
-  auth: PropTypes.shape({}).isRequired,
-  Logs: PropTypes.func,
-  oas: PropTypes.shape({}),
-  setLanguage: PropTypes.func.isRequired,
-  flags: PropTypes.shape({
-    correctnewlines: PropTypes.bool,
-  }).isRequired,
   appearance: PropTypes.shape({
     referenceLayout: PropTypes.string,
     splitReferenceDocs: PropTypes.bool,
-  }).isRequired,
-  language: PropTypes.string.isRequired,
+  }),
+  auth: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string,
+  changeGroup: PropTypes.func.isRequired,
+  doc: PropTypes.shape({
+    api: PropTypes.shape({
+      examples: PropTypes.shape({
+        codes: PropTypes.arrayOf(
+          PropTypes.shape({
+            code: PropTypes.string.isRequired,
+            language: PropTypes.string.isRequired,
+          }),
+        ),
+      }),
+      method: PropTypes.string.isRequired,
+      params: PropTypes.object,
+      results: PropTypes.shape({
+        codes: PropTypes.arrayOf(PropTypes.shape({})),
+      }),
+    }),
+    excerpt: PropTypes.string,
+    slug: PropTypes.string.isRequired,
+    swagger: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+    }),
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+  }).isRequired,
+  flags: PropTypes.shape({
+    correctnewlines: PropTypes.bool,
+  }),
+  group: PropTypes.string,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
+  language: PropTypes.string.isRequired,
+  lazy: PropTypes.bool,
+  Logs: PropTypes.func,
+  oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
+  onAuthChange: PropTypes.func.isRequired,
+  setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
-  onAuthChange: PropTypes.func.isRequired,
+  user: PropTypes.shape({}),
 };
 
 Doc.defaultProps = {
-  oas: {},
-  flags: {
-    correctnewlines: false,
-  },
   appearance: {
     referenceLayout: 'row',
     splitReferenceDocs: false,
   },
-  Logs: undefined,
-  user: undefined,
   baseUrl: '/',
+  flags: {
+    correctnewlines: false,
+  },
+  group: '',
+  groups: [],
+  lazy: true,
+  Logs: undefined,
+  oas: {},
+  user: {},
 };
+
+module.exports = Doc;

@@ -1,19 +1,21 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const Oas = require('oas');
+
 const petstore = require('./fixtures/petstore/oas');
 
 const Response = require('../src/Response');
-const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const oas = new Oas(petstore);
 
 const props = {
-  result: null,
-  operation: new Operation({}, '/pet', 'post'),
   hideResults: () => {},
+  result: null,
   oas,
   oauth: false,
+  onChange: () => {},
+  operation: new Operation({}, '/pet', 'post'),
 };
 
 describe('no result', () => {
@@ -37,18 +39,6 @@ describe('setTab', () => {
     doc.instance().setTab('result');
 
     expect(doc.state('responseTab')).toBe('result');
-  });
-});
-
-describe('exampleTab', () => {
-  test('exampleTab should change state of exampleTab', () => {
-    const doc = shallow(<Response {...props} />);
-
-    expect(doc.state('exampleTab')).toBe(0);
-
-    doc.instance().setExampleTab(1);
-
-    expect(doc.state('exampleTab')).toBe(1);
   });
 });
 

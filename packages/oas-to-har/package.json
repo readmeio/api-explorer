@@ -1,0 +1,37 @@
+{
+  "name": "@readme/oas-to-har",
+  "description": "Utility to transform an OAS operation into a HAR representation",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "@readme/oas-extensions": "^4.11.1",
+    "oas": "^1.0.1",
+    "querystring": "^0.2.0"
+  },
+  "scripts": {
+    "inspect": "jsinspect",
+    "lint": "eslint .",
+    "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
+    "test": "jest --coverage"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org",
+    "access": "public"
+  },
+  "author": "Jon Ursenbach <jon@ursenba.ch>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readmeio/api-explorer.git",
+    "directory": "packages/oas-to-har"
+  },
+  "devDependencies": {
+    "@readme/eslint-config": "^1.0.0",
+    "eslint": "^6.5.0",
+    "eslint-plugin-jest": "^23.0.3",
+    "jest": "^24.8.0",
+    "jsinspect": "^0.12.6",
+    "prettier": "^1.18.2"
+  }
+}

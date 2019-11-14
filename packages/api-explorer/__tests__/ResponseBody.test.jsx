@@ -1,18 +1,18 @@
 const React = require('react');
 const { mount } = require('enzyme');
+const FetchResponse = require('node-fetch').Response;
+const Oas = require('oas');
+
 const petstore = require('./fixtures/petstore/oas');
 
 const parseResponse = require('../src/lib/parse-response');
-const FetchResponse = require('node-fetch').Response;
-
 const ResponseBody = require('../src/ResponseBody');
-const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const oas = new Oas(petstore);
 const props = {
-  operation: new Operation({}, '/pet', 'post'),
   oauth: false,
+  operation: new Operation({}, '/pet', 'post'),
 };
 
 beforeEach(async () => {

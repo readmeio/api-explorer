@@ -1,12 +1,10 @@
 const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas');
 
 const Description = require('../src/form-components/DescriptionField');
-
 const createParams = require('../src/Params');
-
-const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas.json');
@@ -19,11 +17,11 @@ const booleanOas = new Oas(boolean);
 const stringOas = new Oas(string);
 
 const props = {
-  oas,
-  operation,
   formData: {},
+  oas,
   onChange: () => {},
   onSubmit: () => {},
+  operation,
 };
 
 const Params = createParams(oas);
@@ -177,18 +175,30 @@ function renderParams(schema, customProps) {
   );
 }
 
-function testNumberClass(schema) {
-  test(`${JSON.stringify(schema)} should have correct class`, () => {
-    const params = renderParams(schema);
+test('should convert `mixed type` to string', () => {
+  const params = renderParams({ type: 'mixed type' });
 
-    expect(params.find(`.field-${schema.type}.field-${schema.format}`).length).toBe(1);
-  });
-}
+  expect(params.find(`.field-string`).length).toBe(1);
+});
 
-testNumberClass({ type: 'integer', format: 'int32' });
-testNumberClass({ type: 'integer', format: 'int64' });
-testNumberClass({ type: 'number', format: 'float' });
-testNumberClass({ type: 'number', format: 'double' });
+test.each([
+  ['integer', 'int8'],
+  ['integer', 'uint8'],
+  ['integer', 'int16'],
+  ['integer', 'uint16'],
+  ['integer', 'int32'],
+  ['integer', 'uint32'],
+  ['integer', 'int64'],
+  ['integer', 'uint64'],
+  ['number', 'float'],
+  ['number', 'double'],
+])('{ type: %s, format: %s } should have correct class', (type, format) => {
+  const schema = { type, format };
+  const clonedSchema = JSON.parse(JSON.stringify(schema));
+  const params = renderParams(schema);
+
+  expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`).length).toBe(1);
+});
 
 test('should not error if `integer|number` are missing `format`', () => {
   expect(() => {
@@ -209,19 +219,34 @@ test('should default number to float if missing format', () => {
 });
 
 describe('x-explorer-enabled', () => {
-  const oasWithExplorerDisabled = Object.assign({}, oas, { [extensions.EXPLORER_ENABLED]: false });
+  const oasWithExplorerDisabled = { ...oas, [extensions.EXPLORER_ENABLED]: false };
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
 
-  test('array should not show add button', () => {
+  test('array should still show add button, but sub-elements should not be editable', () => {
+    const elem = mount(
+      <ParamsWithExplorerDisabled
+        {...props}
+        oas={new Oas(oasWithExplorerDisabled)}
+        operation={oas.operation('/pet', 'post')}
+      />,
+    );
+
+    expect(elem.find('.field-array .array-item-add').length).toBe(2);
+
+    elem
+      .find('.field-array .array-item-add')
+      .at(0)
+      .simulate('click');
+
+    // Assert that after we've clicked to add array items into the view, everything is still in
+    // readOnly mode.
+    expect(elem.find('input').length).toBe(1);
     expect(
-      mount(
-        <ParamsWithExplorerDisabled
-          {...props}
-          oas={new Oas(oasWithExplorerDisabled)}
-          operation={oas.operation('/pet', 'post')}
-        />,
-      ).find('.field-array .array-item-add').length,
-    ).toBe(0);
+      elem
+        .find('input')
+        .at(0)
+        .props().type,
+    ).toBe('hidden');
   });
 
   test('should not render any <input>', () => {

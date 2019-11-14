@@ -13,7 +13,7 @@ function Heading(props) {
   return React.createElement(props.level, { className: 'header-scroll' }, [
     <div className="anchor waypoint" id={id} key={`anchor-${id}`} />,
     ...props.children,
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    // eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label
     <a className="fa fa-anchor" href={`#${id}`} key={`anchor-icon-${id}`} />,
   ]);
 }

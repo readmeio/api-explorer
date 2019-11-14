@@ -1,3 +1,5 @@
+require('../../style/main.scss');
+
 const React = require('react');
 const PropTypes = require('prop-types');
 
@@ -12,7 +14,7 @@ function getDefaultNumFormat(type) {
 function doesFormatExist(widgets, type, format) {
   const availableFormats = Object.keys(widgets);
 
-  return type === 'string' && availableFormats.includes(format);
+  return typeof type === 'string' && availableFormats.includes(format);
 }
 
 function isNumType(schema, type, format) {
@@ -26,16 +28,49 @@ function getCustomType(schema) {
     if (schema.format === 'binary') return 'file';
   }
 
-  if (isNumType(schema, 'integer', /int32|int64/) || isNumType(schema, 'number', /float|double/)) {
+  if (
+    isNumType(schema, 'integer', /int8|int16|int32|int64/) ||
+    isNumType(schema, 'number', /float|double/)
+  ) {
     return schema.format;
   }
 
   return false;
 }
 
+function getTypeLabel(schema) {
+  let type = getCustomType(schema) || schema.type;
+
+  if ('items' in schema && 'type' in schema.items) type += ` of ${schema.items.type}s`;
+
+  return type;
+}
+
+function CustomTemplate(props) {
+  const { id, classNames, label, help, required, description, errors, children, schema } = props;
+
+  return (
+    <div className={`${classNames} param`}>
+      <span className="label">
+        <label className="label-name" htmlFor={id}>
+          {label}
+          {required && <span className="label-required">*</span>}
+        </label>
+        <span className="label-type">{getTypeLabel(schema)}</span>
+        {description && <div className="description">{description}</div>}
+      </span>
+      {children && <div className="children">{children}</div>}
+      {errors && <div className="errors">{errors}</div>}
+      {help && <div className="help">{help}</div>}
+    </div>
+  );
+}
+
 function SchemaField(props) {
   if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
     props.schema.format = undefined;
+
+  if ('name' in props) props.registry.FieldTemplate = CustomTemplate;
 
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
@@ -54,7 +89,7 @@ function SchemaField(props) {
     return (
       <BaseSchemaField
         {...props}
-        uiSchema={Object.assign({}, props.uiSchema, { classNames: `field-${customType}` })}
+        uiSchema={{ ...props.uiSchema, classNames: `field-${customType}` }}
       />
     );
   }
@@ -63,18 +98,39 @@ function SchemaField(props) {
     props.schema.enumNames = ['true', 'false'];
     return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
   }
+
+  // The current ReadMe manual API editor saves mixed types as "mixed type", which isn't a real type
+  // that's supported by the OAS. Since we don't have knowledge as to what those types are, let's
+  // just convert it to a string so the parameter will at least render out.
+  if (props.schema.type === 'mixed type') {
+    props.schema.type = 'string';
+  }
+
   return <BaseSchemaField {...props} />;
 }
 
+CustomTemplate.propTypes = {
+  children: PropTypes.node.isRequired,
+  classNames: PropTypes.string.isRequired,
+  description: PropTypes.node.isRequired,
+  errors: PropTypes.node.isRequired,
+  help: PropTypes.node.isRequired,
+  id: PropTypes.node.isRequired,
+  label: PropTypes.string.isRequired,
+  required: PropTypes.node.isRequired,
+  schema: PropTypes.shape({}).isRequired,
+};
+
 SchemaField.propTypes = {
-  schema: PropTypes.shape({
-    type: PropTypes.string,
-    format: PropTypes.string,
-    enumNames: PropTypes.array,
-    readOnly: PropTypes.bool,
-  }).isRequired,
   registry: PropTypes.shape({
+    FieldTemplate: PropTypes.func,
     widgets: PropTypes.object,
+  }).isRequired,
+  schema: PropTypes.shape({
+    enumNames: PropTypes.array,
+    format: PropTypes.string,
+    readOnly: PropTypes.bool,
+    type: PropTypes.string,
   }).isRequired,
   uiSchema: PropTypes.shape({}),
 };

@@ -20,9 +20,9 @@ function Icon({ type }) {
 const CallOut = ({ block, flags }) => {
   return (
     <div
-      className={`magic-block-callout type-${block.data.type} ${block.data.title
-        ? ''
-        : 'no-title'} `}
+      className={`magic-block-callout type-${block.data.type} ${
+        block.data.title ? '' : 'no-title'
+      } `}
     >
       {block.data.title && (
         <h3>
@@ -36,8 +36,9 @@ const CallOut = ({ block, flags }) => {
           <Icon type={block.data.type} />
         </span>
       )}
-      {block.data &&
-      block.data.body && <div className="callout-body">{markdown(block.data.body, flags)}</div>}
+      {block.data && block.data.body && (
+        <div className="callout-body">{markdown(block.data.body, flags)}</div>
+      )}
     </div>
   );
 };
@@ -45,9 +46,9 @@ const CallOut = ({ block, flags }) => {
 CallOut.propTypes = {
   block: PropTypes.shape({
     data: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      title: PropTypes.string,
       body: PropTypes.string,
+      title: PropTypes.string,
+      type: PropTypes.string.isRequired,
     }),
   }).isRequired,
   flags: PropTypes.shape({}),

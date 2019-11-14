@@ -41,11 +41,11 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
         </div>
         <div className="col-xs-6">
           <Input
-            inputRef={authInputRef}
             disabled={oauth}
-            type="text"
-            onChange={e => change(e.target.value)}
+            inputRef={authInputRef}
             name="apiKey"
+            onChange={e => change(e.target.value)}
+            type="text"
             value={apiKey}
           />
         </div>
@@ -56,10 +56,10 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
 
 Oauth2.propTypes = {
   apiKey: PropTypes.string,
-  oauth: PropTypes.bool.isRequired,
-  change: PropTypes.func.isRequired,
   authInputRef: PropTypes.func,
+  change: PropTypes.func.isRequired,
   Input: PropTypes.func.isRequired,
+  oauth: PropTypes.bool.isRequired,
 };
 
 Oauth2.defaultProps = {

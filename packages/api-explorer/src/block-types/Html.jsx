@@ -13,4 +13,5 @@ Html.propTypes = {
     }),
   }).isRequired,
 };
+
 module.exports = Html;

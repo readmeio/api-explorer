@@ -23,19 +23,6 @@
         ]
       }
     },
-    "/anything/oauth2-another": {
-      "post": {
-        "summary": "Oauth2 security type",
-        "description": "",
-        "parameters": [],
-        "responses": {},
-        "security": [
-          {
-            "oauth2": []
-          }
-        ]
-      }
-    },
     "/anything/basic": {
       "post": {
         "summary": "Basic security type",
@@ -49,15 +36,15 @@
         ]
       }
     },
-    "/anything/basic-another": {
+    "/anything/bearer": {
       "post": {
-        "summary": "Basic security type",
+        "summary": "Bearer security type",
         "description": "",
         "parameters": [],
         "responses": {},
         "security": [
           {
-            "basic": []
+            "bearer": []
           }
         ]
       }
@@ -84,6 +71,10 @@
       "basic": {
         "type": "http",
         "scheme": "basic"
+      },
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
       },
       "apiKey": {
         "type": "apiKey",

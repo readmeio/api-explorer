@@ -1,7 +1,8 @@
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas');
+
 const generateCodeSnippet = require('../../src/lib/generate-code-snippet');
-const Oas = require('../../src/lib/Oas');
 
 const { getLangName } = generateCodeSnippet;
 
@@ -66,10 +67,25 @@ test('should return with unhighlighted code', () => {
 
 describe('#getLangName()', () => {
   it('should convert name to correct case', () => {
+    expect(getLangName('c')).toBe('C');
+    expect(getLangName('cplusplus')).toBe('C++');
+    expect(getLangName('csharp')).toBe('C#');
+    expect(getLangName('curl')).toBe('cURL');
     expect(getLangName('go')).toBe('Go');
+    expect(getLangName('java')).toBe('Java');
+    expect(getLangName('javascript')).toBe('JavaScript');
+    expect(getLangName('kotlin')).toBe('Kotlin');
+    expect(getLangName('node')).toBe('Node');
+    expect(getLangName('objectivec')).toBe('Objective-C');
+    expect(getLangName('php')).toBe('PHP');
+    expect(getLangName('powershell')).toBe('PowerShell');
+    expect(getLangName('python')).toBe('Python');
+    expect(getLangName('ruby')).toBe('Ruby');
+    expect(getLangName('swift')).toBe('Swift');
   });
 
   it('should pass through unknown values', () => {
     expect(getLangName('HTTP')).toBe('HTTP');
+    expect(getLangName('unknown')).toBe('unknown');
   });
 });

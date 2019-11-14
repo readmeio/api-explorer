@@ -11,7 +11,7 @@ const ApiList = require('./ApiList');
 
 require('../../example/swagger-files/types.json');
 require('../../example/swagger-files/response-schemas.json');
-require('../../packages/api-explorer/api-explorer.css');
+
 require('../../packages/api-logs/main.css');
 
 function Demo({ fetchSwagger, status, docs, oas, oauth }) {
@@ -24,16 +24,20 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
       {
         status.length === 0 && (
           <ApiExplorer
-            // // To test the top level error boundary, uncomment this
+            // To test the top level error boundary, uncomment this
             // docs={[null, null]}
             docs={docs}
             oasFiles={{
               'api-setting': Object.assign(extensions.defaults, oas),
             }}
-            baseUrl={'/'}
+            baseUrl="/"
             // Uncomment this if you want to test enterprise-structured URLs
             // baseUrl={'/child/v1.0'}
             Logs={Logs}
+
+            // We only really set this to `true` for testing sites for errors using puppeteer
+            dontLazyLoad={false}
+
             flags={{ correctnewlines: false }}
             // Uncomment this in for column layout
             // appearance={{ referenceLayout: 'column' }}
@@ -52,7 +56,12 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
               // },
               // Uncomment this to test without keys array
               // user: { user: '123456', pass: 'abc', apiKey: '123456' },
-              user: { keys: [{ name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' }, { name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' }] },
+              user: {
+                keys: [
+                  { name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' },
+                  { name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' }
+                ]
+              },
               defaults: [],
             }}
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}

@@ -1,16 +1,16 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas');
 
 const CodeSample = require('../src/CodeSample');
-const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const props = {
-  setLanguage: () => {},
-  operation: new Operation({}, '/pet/{id}', 'get'),
   formData: {},
   language: 'node',
+  setLanguage: () => {},
+  operation: new Operation({}, '/pet/{id}', 'get'),
 };
 
 describe('tabs', () => {

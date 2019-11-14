@@ -1,20 +1,21 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const Oas = require('oas');
+
 const AuthBox = require('../src/AuthBox');
 
-const Oas = require('../src/lib/Oas.js');
 const multipleSecurities = require('./fixtures/multiple-securities/oas');
 
 const oas = new Oas(multipleSecurities);
 
 const props = {
+  auth: {},
+  oauth: false,
+  open: false,
   operation: oas.operation('/or-security', 'post'),
   onChange: () => {},
   onSubmit: () => {},
   toggle: () => {},
-  open: false,
-  oauth: false,
-  auth: {},
 };
 
 test('should not display if no auth', () => {

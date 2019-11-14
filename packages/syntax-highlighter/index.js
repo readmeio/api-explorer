@@ -7,7 +7,7 @@ module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) 
     {
       className: opts.dark ? 'cm-s-tomorrow-night' : 'cm-s-neo',
     },
-    codemirror(code, lang, opts),
+    codemirror(typeof code === 'string' ? code : '', lang, opts),
   );
 
 module.exports.uppercase = require('./uppercase');
