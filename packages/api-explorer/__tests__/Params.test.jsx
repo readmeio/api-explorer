@@ -1,12 +1,10 @@
 const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas');
 
 const Description = require('../src/form-components/DescriptionField');
-
 const createParams = require('../src/Params');
-
-const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const petstore = require('./fixtures/petstore/oas.json');

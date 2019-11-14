@@ -1,10 +1,12 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const Oas = require('oas');
+
 const showCodeResults = require('./lib/show-code-results');
 const IconStatus = require('./IconStatus');
 const Tab = require('./Tab');
-const { Operation } = require('./lib/Oas');
-const Oas = require('./lib/Oas');
+
+const { Operation } = Oas;
 
 function ResponseTabs({ result, oas, operation, responseTab, setTab, hideResults }) {
   return (

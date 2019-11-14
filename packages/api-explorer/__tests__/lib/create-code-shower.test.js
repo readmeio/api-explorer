@@ -1,7 +1,8 @@
+const Oas = require('oas');
+
 const createCodeShower = require('../../src/lib/create-code-shower')('results');
 const createCodeShower2 = require('../../src/lib/create-code-shower')('examples');
 
-const Oas = require('../../src/lib/Oas.js');
 const example = require('../fixtures/example-results/oas');
 const petstore = require('../fixtures/petstore/oas');
 

@@ -5,6 +5,8 @@ const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDow
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
+const Oas = require('oas');
+const { parametersToJsonSchema } = require('oas/utils');
 
 const DescriptionField = require('./form-components/DescriptionField');
 const createBaseInput = require('./form-components/BaseInput');
@@ -14,10 +16,8 @@ const createSchemaField = require('./form-components/SchemaField');
 const createTextareaWidget = require('./form-components/TextareaWidget');
 const createFileWidget = require('./form-components/FileWidget');
 const createURLWidget = require('./form-components/URLWidget');
-const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
-const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
 function Params({
   oas,

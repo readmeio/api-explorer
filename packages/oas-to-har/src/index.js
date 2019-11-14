@@ -1,16 +1,9 @@
 const querystring = require('querystring');
-
 const extensions = require('@readme/oas-extensions');
-const getSchema = require('./get-schema');
-const configureSecurity = require('./configure-security');
-const removeUndefinedObjects = require('./remove-undefined-objects');
-const findSchemaDefinition = require('./find-schema-definition');
+const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('oas/utils');
 
-// const format = {
-//   value: v => `__START_VALUE__${v}__END__`,
-//   default: v => `__START_DEFAULT__${v}__END__`,
-//   key: v => `__START_KEY__${v}__END__`,
-// };
+const configureSecurity = require('./lib/configure-security');
+const removeUndefinedObjects = require('./lib/remove-undefined-objects');
 
 const format = {
   value: v => v,
@@ -31,15 +24,11 @@ function formatter(values, param, type, onlyIfExists) {
   return format.key(param.name);
 }
 
-const defaultValues = Object.keys(require('./parameters-to-json-schema').types).reduce(
-  (prev, curr) => {
-    return Object.assign(prev, { [curr]: {} });
-  },
-  {},
-);
+const defaultValues = Object.keys(parametersToJsonSchema.types).reduce((prev, curr) => {
+  return Object.assign(prev, { [curr]: {} });
+}, {});
 
-// If you pass in types, it either uses a default, or favors
-// anything JSON.
+// If you pass in types, it either uses a default, or favors anything JSON.
 function getContentType(pathOperation) {
   const types =
     (pathOperation &&
@@ -60,6 +49,7 @@ function getContentType(pathOperation) {
       type = t;
     }
   });
+
   return type;
 }
 
@@ -103,6 +93,7 @@ module.exports = (
   if (pathOperation.parameters) {
     pathOperation.parameters.forEach((param, i, params) => {
       if (param.$ref) {
+        // eslint-disable-next-line no-param-reassign
         params[i] = findSchemaDefinition(param.$ref, oas);
       }
     });
@@ -217,6 +208,7 @@ module.exports = (
         const jsonTypes = Object.keys(schema.schema.properties).filter(
           key => schema.schema.properties[key].format === 'json',
         );
+
         if (jsonTypes.length) {
           // We have to clone the body object, otherwise the form
           // will attempt to re-render with an object, which will
@@ -227,9 +219,11 @@ module.exports = (
             // if this errors, it'll just get caught and stringify it normally
             cloned[prop] = JSON.parse(cloned[prop]);
           });
+
           if (typeof cloned.RAW_BODY !== 'undefined') {
             cloned = cloned.RAW_BODY;
           }
+
           har.postData.text = JSON.stringify(cloned);
         } else {
           har.postData.text = stringify(formData.body);
@@ -260,10 +254,14 @@ module.exports = (
       Object.keys(schemes).forEach(security => {
         const securityValue = configureSecurity(oas, auth, security);
 
-        if (!securityValue) return;
+        if (!securityValue) {
+          return;
+        }
+
         har[securityValue.type].push(securityValue.value);
       });
     });
   }
+
   return { log: { entries: [{ request: har }] } };
 };

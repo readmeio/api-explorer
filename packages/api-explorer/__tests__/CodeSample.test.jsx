@@ -1,9 +1,9 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas');
 
 const CodeSample = require('../src/CodeSample');
-const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const props = {

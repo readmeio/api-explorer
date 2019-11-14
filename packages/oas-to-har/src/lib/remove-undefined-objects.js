@@ -12,6 +12,7 @@ function stripEmptyObjects(obj) {
       stripEmptyObjects(value);
       // Then remove all empty objects from the top level object
       if (isEmptyObject(value)) {
+        // eslint-disable-next-line no-param-reassign
         delete obj[key];
       }
     }

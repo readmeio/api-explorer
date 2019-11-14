@@ -1,11 +1,11 @@
 const configureSecurity = require('../../src/lib/configure-security');
 
 describe('configure-security', () => {
-  test('should return {} if there is no security keys', () => {
-    expect(configureSecurity({}, {}, '')).toEqual({});
+  it('should return {} if there is no security keys', () => {
+    expect(configureSecurity({}, {}, '')).toStrictEqual({});
   });
 
-  test('should return undefined if no values', () => {
+  it('should return undefined if no values', () => {
     const security = { type: 'apiKey', in: 'header', name: 'key' };
 
     expect(
@@ -16,10 +16,10 @@ describe('configure-security', () => {
         {},
         'test',
       ),
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
-  test('should not return non-existent values', () => {
+  it('should not return non-existent values', () => {
     const security = { type: 'apiKey', in: 'header', name: 'key' };
 
     expect(
@@ -30,11 +30,11 @@ describe('configure-security', () => {
         {},
         'test',
       ),
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
   describe('type=basic', () => {
-    test('should work for basic type', () => {
+    it('should work for basic type', () => {
       const user = 'user';
       const pass = 'pass';
 
@@ -46,7 +46,7 @@ describe('configure-security', () => {
           { test: { user, pass } },
           'test',
         ),
-      ).toEqual({
+      ).toStrictEqual({
         type: 'headers',
         value: {
           name: 'Authorization',
@@ -55,7 +55,7 @@ describe('configure-security', () => {
       });
     });
 
-    test('should return with no header if user and password are blank', () => {
+    it('should return with no header if user and password are blank', () => {
       expect(
         configureSecurity(
           {
@@ -64,10 +64,10 @@ describe('configure-security', () => {
           { test: { user: '', pass: '' } },
           'test',
         ),
-      ).toEqual(false);
+      ).toBe(false);
     });
 
-    test('should return with a header if user or password are not blank', () => {
+    it('should return with a header if user or password are not blank', () => {
       const user = 'user';
 
       expect(
@@ -78,7 +78,7 @@ describe('configure-security', () => {
           { test: { user, pass: '' } },
           'test',
         ),
-      ).toEqual({
+      ).toStrictEqual({
         type: 'headers',
         value: {
           name: 'Authorization',
@@ -89,7 +89,7 @@ describe('configure-security', () => {
   });
 
   describe('type=bearer', () => {
-    test('should work for bearer', () => {
+    it('should work for bearer', () => {
       const apiKey = '123456';
 
       expect(
@@ -100,7 +100,7 @@ describe('configure-security', () => {
           { test: apiKey },
           'test',
         ),
-      ).toEqual({
+      ).toStrictEqual({
         type: 'headers',
         value: {
           name: 'Authorization',
@@ -109,7 +109,7 @@ describe('configure-security', () => {
       });
     });
 
-    test('should return with no header if apiKey is blank', () => {
+    it('should return with no header if apiKey is blank', () => {
       const values = {
         auth: { test: '' },
       };
@@ -122,12 +122,12 @@ describe('configure-security', () => {
           values,
           'test',
         ),
-      ).toEqual(false);
+      ).toBe(false);
     });
   });
 
   describe('type=oauth2', () => {
-    test('should work for oauth2', () => {
+    it('should work for oauth2', () => {
       const apiKey = '123456';
 
       expect(
@@ -138,7 +138,7 @@ describe('configure-security', () => {
           { test: apiKey },
           'test',
         ),
-      ).toEqual({
+      ).toStrictEqual({
         type: 'headers',
         value: {
           name: 'Authorization',
@@ -147,7 +147,7 @@ describe('configure-security', () => {
       });
     });
 
-    test('should return with no header if apiKey is blank', () => {
+    it('should return with no header if apiKey is blank', () => {
       expect(
         configureSecurity(
           {
@@ -156,13 +156,13 @@ describe('configure-security', () => {
           { test: '' },
           'test',
         ),
-      ).toEqual(false);
+      ).toBe(false);
     });
   });
 
   describe('type=apiKey', () => {
     describe('in=query', () => {
-      test('should work for query', () => {
+      it('should work for query', () => {
         const values = { test: 'value' };
         const security = { type: 'apiKey', in: 'query', name: 'key' };
 
@@ -174,7 +174,7 @@ describe('configure-security', () => {
             values,
             'test',
           ),
-        ).toEqual({
+        ).toStrictEqual({
           type: 'queryString',
           value: {
             name: security.name,
@@ -185,7 +185,7 @@ describe('configure-security', () => {
     });
 
     describe('in=header', () => {
-      test('should work for header', () => {
+      it('should work for header', () => {
         const values = { test: 'value' };
         const security = { type: 'apiKey', in: 'header', name: 'key' };
 
@@ -197,7 +197,7 @@ describe('configure-security', () => {
             values,
             'test',
           ),
-        ).toEqual({
+        ).toStrictEqual({
           type: 'headers',
           value: {
             name: security.name,
@@ -207,7 +207,7 @@ describe('configure-security', () => {
       });
 
       describe('x-bearer-format', () => {
-        test('should work for bearer', () => {
+        it('should work for bearer', () => {
           const values = { test: 'value' };
           const security = {
             type: 'apiKey',
@@ -224,7 +224,7 @@ describe('configure-security', () => {
               values,
               'test',
             ),
-          ).toEqual({
+          ).toStrictEqual({
             type: 'headers',
             value: {
               name: security.name,
@@ -233,7 +233,7 @@ describe('configure-security', () => {
           });
         });
 
-        test('should work for basic', () => {
+        it('should work for basic', () => {
           const values = { test: 'value' };
           const security = {
             type: 'apiKey',
@@ -250,7 +250,7 @@ describe('configure-security', () => {
               values,
               'test',
             ),
-          ).toEqual({
+          ).toStrictEqual({
             type: 'headers',
             value: {
               name: security.name,
@@ -259,7 +259,7 @@ describe('configure-security', () => {
           });
         });
 
-        test('should work for token', () => {
+        it('should work for token', () => {
           const values = { test: 'value' };
           const security = {
             type: 'apiKey',
@@ -276,7 +276,7 @@ describe('configure-security', () => {
               values,
               'test',
             ),
-          ).toEqual({
+          ).toStrictEqual({
             type: 'headers',
             value: {
               name: security.name,

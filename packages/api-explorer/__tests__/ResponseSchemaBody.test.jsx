@@ -1,10 +1,10 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const Oas = require('oas');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
 const { flattenResponseSchema } = require('../src/ResponseSchemaBody');
 const { flatten } = require('../src/ResponseSchemaBody');
-const Oas = require('../src/lib/Oas');
 const petstore = require('./fixtures/petstore/oas.json');
 
 const oas = new Oas(petstore);

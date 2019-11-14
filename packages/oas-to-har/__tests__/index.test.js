@@ -1,14 +1,13 @@
 const querystring = require('querystring');
-
 const extensions = require('@readme/oas-extensions');
-const oasToHar = require('../../src/lib/oas-to-har');
+const Oas = require('oas');
 
-const Oas = require('../../src/lib/Oas');
+const oasToHar = require('../src/index');
 
 const oas = new Oas();
 
 test('should output a har format', () => {
-  expect(oasToHar(oas)).toEqual({
+  expect(oasToHar(oas)).toStrictEqual({
     log: {
       entries: [
         {
@@ -30,12 +29,12 @@ test('should uppercase the method', () => {
 });
 
 describe('url', () => {
-  test('should be constructed from oas.url()', () => {
+  it('should be constructed from oas.url()', () => {
     expect(oasToHar(oas, { path: '', method: 'get' }).log.entries[0].request.url).toBe(oas.url());
   });
 
   // TODO this should probably happen within the Operation class
-  test('should replace whitespace with %20', () => {
+  it('should replace whitespace with %20', () => {
     expect(
       oasToHar(oas, { path: '/path with spaces', method: '' }).log.entries[0].request.url,
     ).toBe('https://example.com/path%20with%20spaces');
@@ -45,13 +44,13 @@ describe('url', () => {
     const proxyOas = new Oas({
       [extensions.PROXY_ENABLED]: true,
     });
-    test('should not be prefixed with without option', () => {
+    it('should not be prefixed with without option', () => {
       expect(oasToHar(proxyOas, { path: '/path', method: 'get' }).log.entries[0].request.url).toBe(
         'https://example.com/path',
       );
     });
 
-    test('should be prefixed with try.readme.io with option', () => {
+    it('should be prefixed with try.readme.io with option', () => {
       expect(
         oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log
           .entries[0].request.url,
@@ -61,7 +60,7 @@ describe('url', () => {
 });
 
 describe('path values', () => {
-  test('should pass through unknown path params', () => {
+  it('should pass through unknown path params', () => {
     expect(oasToHar(oas, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
       'https://example.com/param-path/id',
     );
@@ -80,7 +79,7 @@ describe('path values', () => {
     ).toBe('https://example.com/param-path/id');
   });
 
-  test('should not error if empty object passed in for values', () => {
+  it('should not error if empty object passed in for values', () => {
     expect(
       oasToHar(
         oas,
@@ -100,7 +99,7 @@ describe('path values', () => {
     ).toBe('https://example.com/param-path/id');
   });
 
-  test('should use example if no value', () => {
+  it('should use example if no value', () => {
     expect(
       oasToHar(oas, {
         path: '/param-path/{id}',
@@ -117,7 +116,7 @@ describe('path values', () => {
     ).toBe('https://example.com/param-path/123');
   });
 
-  test('should add path values to the url', () => {
+  it('should add path values to the url', () => {
     expect(
       oasToHar(
         oas,
@@ -137,7 +136,7 @@ describe('path values', () => {
     ).toBe('https://example.com/param-path/456');
   });
 
-  test('should add falsy values to the url', () => {
+  it('should add falsy values to the url', () => {
     expect(
       oasToHar(
         oas,
@@ -171,7 +170,7 @@ describe('query values', () => {
           },
         ],
       }).log.entries[0].request.queryString,
-    ).toEqual([]);
+    ).toStrictEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
@@ -188,7 +187,7 @@ describe('query values', () => {
           },
         ],
       }).log.entries[0].request.queryString,
-    ).toEqual([{ name: 'a', value: 'value' }]);
+    ).toStrictEqual([{ name: 'a', value: 'value' }]);
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
@@ -209,10 +208,10 @@ describe('query values', () => {
         },
         { query: { a: 'test' } },
       ).log.entries[0].request.queryString,
-    ).toEqual([{ name: 'a', value: 'test' }]);
+    ).toStrictEqual([{ name: 'a', value: 'test' }]);
   });
 
-  test('should add falsy values to the querystring', () => {
+  it('should add falsy values to the querystring', () => {
     expect(
       oasToHar(
         oas,
@@ -228,7 +227,7 @@ describe('query values', () => {
         },
         { query: { id: 0 } },
       ).log.entries[0].request.queryString,
-    ).toEqual([{ name: 'id', value: '0' }]);
+    ).toStrictEqual([{ name: 'id', value: '0' }]);
   });
 });
 
@@ -245,7 +244,7 @@ describe('header values', () => {
           },
         ],
       }).log.entries[0].request.headers,
-    ).toEqual([]);
+    ).toStrictEqual([]);
   });
 
   it('should set defaults if no value provided but is required', () => {
@@ -262,7 +261,7 @@ describe('header values', () => {
           },
         ],
       }).log.entries[0].request.headers,
-    ).toEqual([{ name: 'a', value: 'value' }]);
+    ).toStrictEqual([{ name: 'a', value: 'value' }]);
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
@@ -283,7 +282,7 @@ describe('header values', () => {
         },
         { header: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'a', value: 'test' }]);
+    ).toStrictEqual([{ name: 'a', value: 'test' }]);
   });
 
   it('should pass accept header if endpoint expects a content back from response', () => {
@@ -312,7 +311,10 @@ describe('header values', () => {
           },
         },
       }).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Accept', value: 'application/xml' }, { name: 'a', value: 'value' }]);
+    ).toStrictEqual([
+      { name: 'Accept', value: 'application/xml' },
+      { name: 'a', value: 'value' },
+    ]);
   });
 
   it('should only add one accept header', () => {
@@ -334,7 +336,7 @@ describe('header values', () => {
           },
         },
       }).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+    ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
   it('should only receive one accept header if specified in values', () => {
@@ -361,7 +363,7 @@ describe('header values', () => {
         },
         { header: { Accept: 'application/xml' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+    ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
   it('should add accept header if specified in formdata', () => {
@@ -383,10 +385,10 @@ describe('header values', () => {
         },
         { header: { Accept: 'application/xml' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Accept', value: 'application/xml' }]);
+    ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
-  test('should add falsy values to the headers', () => {
+  it('should add falsy values to the headers', () => {
     expect(
       oasToHar(
         oas,
@@ -402,7 +404,7 @@ describe('header values', () => {
         },
         { header: { id: 0 } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'id', value: '0' }]);
+    ).toStrictEqual([{ name: 'id', value: '0' }]);
   });
 });
 
@@ -427,7 +429,7 @@ describe('body values', () => {
       },
     };
 
-    expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toEqual(undefined);
+    expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toBeUndefined();
   });
 
   // TODO extensions[SEND_DEFAULTS]
@@ -452,7 +454,7 @@ describe('body values', () => {
           },
         },
       }).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({ a: 'value' }));
+    ).toBe(JSON.stringify({ a: 'value' }));
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
@@ -480,7 +482,7 @@ describe('body values', () => {
         },
         { body: { a: 'test' } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({ a: 'test' }));
+    ).toBe(JSON.stringify({ a: 'test' }));
   });
 
   it('should work for RAW_BODY primitives', () => {
@@ -507,7 +509,7 @@ describe('body values', () => {
         },
         { body: { RAW_BODY: 'test' } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify('test'));
+    ).toBe(JSON.stringify('test'));
   });
 
   it('should work for RAW_BODY json', () => {
@@ -535,7 +537,7 @@ describe('body values', () => {
         },
         { body: { RAW_BODY: '{ "a": 1 }' } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({ a: 1 }));
+    ).toBe(JSON.stringify({ a: 1 }));
   });
 
   it('should return empty for falsy RAW_BODY primitives', () => {
@@ -562,7 +564,7 @@ describe('body values', () => {
         },
         { body: { RAW_BODY: '' } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify(''));
+    ).toBe(JSON.stringify(''));
   });
 
   it('should work for RAW_BODY objects', () => {
@@ -594,7 +596,7 @@ describe('body values', () => {
         },
         { body: { RAW_BODY: { a: 'test' } } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({ a: 'test' }));
+    ).toBe(JSON.stringify({ a: 'test' }));
   });
 
   it('should return empty for RAW_BODY objects', () => {
@@ -626,7 +628,7 @@ describe('body values', () => {
         },
         { body: { RAW_BODY: {} } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
   it('should return nothing for undefined body property', () => {
@@ -653,7 +655,7 @@ describe('body values', () => {
         },
         { body: { a: undefined } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
   it('should work for schemas that require a lookup', () => {
@@ -681,7 +683,7 @@ describe('body values', () => {
         },
         { body: { a: 123 } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify({ a: 123 }));
+    ).toStrictEqual(JSON.stringify({ a: 123 }));
   });
 
   it('should work for schemas that require a parameters lookup', () => {
@@ -707,7 +709,7 @@ describe('body values', () => {
         },
         { header: { Authorization: 'test' } },
       ).log.entries[0].request.headers[0].value,
-    ).toEqual('test');
+    ).toBe('test');
   });
 
   it('should work for top level primitives', () => {
@@ -729,7 +731,7 @@ describe('body values', () => {
         },
         { body: 'string' },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify('string'));
+    ).toBe(JSON.stringify('string'));
 
     expect(
       oasToHar(
@@ -750,7 +752,7 @@ describe('body values', () => {
         },
         { body: 123 },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify(123));
+    ).toBe(JSON.stringify(123));
 
     expect(
       oasToHar(
@@ -770,7 +772,7 @@ describe('body values', () => {
         },
         { body: true },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify(true));
+    ).toBe(JSON.stringify(true));
   });
 
   it('should work for top level falsy primitives', () => {
@@ -792,7 +794,7 @@ describe('body values', () => {
         },
         { body: '' },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify(''));
+    ).toBe(JSON.stringify(''));
 
     expect(
       oasToHar(
@@ -813,7 +815,7 @@ describe('body values', () => {
         },
         { body: 0 },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify(0));
+    ).toBe(JSON.stringify(0));
 
     expect(
       oasToHar(
@@ -833,7 +835,7 @@ describe('body values', () => {
         },
         { body: false },
       ).log.entries[0].request.postData.text,
-    ).toEqual(JSON.stringify(false));
+    ).toBe(JSON.stringify(false));
   });
 
   describe('`json` type', () => {
@@ -865,7 +867,7 @@ describe('body values', () => {
           },
           { body: { a: '{ "b": 1 }' } },
         ).log.entries[0].request.postData.text,
-      ).toEqual(JSON.stringify({ a: JSON.parse('{ "b": 1 }') }));
+      ).toBe(JSON.stringify({ a: JSON.parse('{ "b": 1 }') }));
     });
 
     it('should leave invalid JSON as strings', () => {
@@ -894,7 +896,7 @@ describe('body values', () => {
           },
           { body: { a: '{ "b": invalid json' } },
         ).log.entries[0].request.postData.text,
-      ).toEqual(JSON.stringify({ a: '{ "b": invalid json' }));
+      ).toBe(JSON.stringify({ a: '{ "b": invalid json' }));
     });
 
     it('should parse valid JSON as an object', () => {
@@ -923,7 +925,7 @@ describe('body values', () => {
           },
           { body: { a: '{ "b": "valid json" }' } },
         ).log.entries[0].request.postData.text,
-      ).toEqual(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
+      ).toBe(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
     });
 
     it('should leave user specified empty object JSON alone', () => {
@@ -952,7 +954,7 @@ describe('body values', () => {
           },
           { body: { a: '{}' } },
         ).log.entries[0].request.postData.text,
-      ).toEqual(JSON.stringify({ a: {} }));
+      ).toBe(JSON.stringify({ a: {} }));
     });
   });
 
@@ -993,7 +995,7 @@ describe('body values', () => {
         },
         { body: { a: { b: undefined, c: { d: undefined } } } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
   // When we first render the form, formData.body is undefined
@@ -1025,7 +1027,7 @@ describe('body values', () => {
         },
         { body: undefined },
       ).log.entries[0].request.postData.text,
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 });
 
@@ -1050,7 +1052,7 @@ describe('formData values', () => {
           },
         },
       }).log.entries[0].request.postData.text,
-    ).toEqual(undefined);
+    ).toBeUndefined();
   });
 
   // TODO extensions[SEND_DEFAULTS]
@@ -1076,7 +1078,7 @@ describe('formData values', () => {
           },
         },
       }).log.entries[0].request.postData.text,
-    ).toEqual(querystring.stringify({ a: 'value' }));
+    ).toBe(querystring.stringify({ a: 'value' }));
   });
 
   it('should pass in value if one is set and prioritise provided values', () => {
@@ -1104,12 +1106,12 @@ describe('formData values', () => {
         },
         { formData: { a: 'test', b: [1, 2, 3] } },
       ).log.entries[0].request.postData.text,
-    ).toEqual(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
+    ).toBe(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
   });
 });
 
 describe('auth', () => {
-  test('should work for header', () => {
+  it('should work for header', () => {
     expect(
       oasToHar(
         new Oas({
@@ -1133,7 +1135,7 @@ describe('auth', () => {
           'auth-header': 'value',
         },
       ).log.entries[0].request.headers,
-    ).toEqual([
+    ).toStrictEqual([
       {
         name: 'x-auth-header',
         value: 'value',
@@ -1141,7 +1143,7 @@ describe('auth', () => {
     ]);
   });
 
-  test('should work for query', () => {
+  it('should work for query', () => {
     expect(
       oasToHar(
         new Oas({
@@ -1165,7 +1167,7 @@ describe('auth', () => {
           'auth-query': 'value',
         },
       ).log.entries[0].request.queryString,
-    ).toEqual([
+    ).toStrictEqual([
       {
         name: 'authQuery',
         value: 'value',
@@ -1173,7 +1175,7 @@ describe('auth', () => {
     ]);
   });
 
-  test('should work for multiple (||)', () => {
+  it('should work for multiple (||)', () => {
     expect(
       oasToHar(
         new Oas({
@@ -1203,7 +1205,7 @@ describe('auth', () => {
           'auth-header2': 'value',
         },
       ).log.entries[0].request.headers,
-    ).toEqual([
+    ).toStrictEqual([
       {
         name: 'x-auth-header',
         value: 'value',
@@ -1215,7 +1217,7 @@ describe('auth', () => {
     ]);
   });
 
-  test('should work for multiple (&&)', () => {
+  it('should work for multiple (&&)', () => {
     expect(
       oasToHar(
         new Oas({
@@ -1245,7 +1247,7 @@ describe('auth', () => {
           'auth-header2': 'value',
         },
       ).log.entries[0].request.headers,
-    ).toEqual([
+    ).toStrictEqual([
       {
         name: 'x-auth-header',
         value: 'value',
@@ -1257,7 +1259,7 @@ describe('auth', () => {
     ]);
   });
 
-  test('should not set non-existent values', () => {
+  it('should not set non-existent values', () => {
     expect(
       oasToHar(
         new Oas({
@@ -1279,7 +1281,7 @@ describe('auth', () => {
         {},
         {},
       ).log.entries[0].request.headers,
-    ).toEqual([]);
+    ).toStrictEqual([]);
   });
 });
 
@@ -1306,24 +1308,24 @@ describe('content-type & accept header', () => {
   };
 
   it('should be sent through if there are no body values but there is a requestBody', () => {
-    expect(oasToHar(oas, operation, {}).log.entries[0].request.headers).toEqual([
+    expect(oasToHar(oas, operation, {}).log.entries[0].request.headers).toStrictEqual([
       { name: 'Content-Type', value: 'application/json' },
     ]);
-    expect(oasToHar(oas, operation, { query: { a: 1 } }).log.entries[0].request.headers).toEqual([
-      { name: 'Content-Type', value: 'application/json' },
-    ]);
+    expect(
+      oasToHar(oas, operation, { query: { a: 1 } }).log.entries[0].request.headers,
+    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should be sent through if there are any body values', () => {
     expect(
       oasToHar(oas, operation, { body: { a: 'test' } }).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should be sent through if there are any formData values', () => {
     expect(
       oasToHar(oas, operation, { formData: { a: 'test' } }).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
   it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', () => {
@@ -1352,7 +1354,7 @@ describe('content-type & accept header', () => {
         },
         { body: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'text/xml' }]);
+    ).toStrictEqual([{ name: 'Content-Type', value: 'text/xml' }]);
   });
 
   // Whether this is right or wrong, i'm not sure but this is what readme currently does
@@ -1394,7 +1396,7 @@ describe('content-type & accept header', () => {
         },
         { body: { a: 'test' } },
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });
 
@@ -1411,6 +1413,6 @@ describe('x-headers', () => {
           ],
         }),
       ).log.entries[0].request.headers,
-    ).toEqual([{ name: 'x-api-key', value: '123456' }]);
+    ).toStrictEqual([{ name: 'x-api-key', value: '123456' }]);
   });
 });
