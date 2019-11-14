@@ -39,7 +39,12 @@ it('should not error if oas.components is not set', () => {
 const { getSingle } = getAuth;
 
 const topLevelUser = { apiKey: '123456', user: 'user', pass: 'pass' };
-const keysUser = { keys: [{ apiKey: '123456', name: 'app-1' }, { apiKey: '7890', name: 'app-2' }] };
+const keysUser = {
+  keys: [
+    { apiKey: '123456', name: 'app-1' },
+    { apiKey: '7890', name: 'app-2' },
+  ],
+};
 const topLevelSchemeUser = { schemeName: 'scheme-key' };
 const keysSchemeUser = {
   keys: [
