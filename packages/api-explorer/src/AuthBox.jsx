@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import {Icon, Popover, Alert, Tabs, Button} from 'antd'
-import { injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage, intlShape} from 'react-intl';
 
 const PropTypes = require('prop-types');
 const SecurityInput = require('./SecurityInput')
@@ -41,20 +41,20 @@ class AuthBox extends Component {
       <Icon type={open ? 'unlock' : 'lock'} onClick={toggle} />
     )
   }
-  
+
   renderAuthAlert() {
     const {needsAuth, intl} = this.props
 
     const message = intl.formatMessage({id:'warning', defaultMessage: 'Warning'})
     const description = intl.formatMessage({id:'api.auth.required', defaultMessage: 'Authentication is required for this endpoint'})
     return(
-      needsAuth ? 
+      needsAuth ?
         <Alert
           message={message}
           description={description}
           type="warning"
           showIcon
-        /> : 
+        /> :
       null
     )
   }
@@ -70,7 +70,7 @@ class AuthBox extends Component {
       showReset,
       onReset
     } = this.props
-  
+
     return(
       <Fragment>
         <Tabs defaultActiveKey={'security-0'}>
@@ -88,9 +88,9 @@ class AuthBox extends Component {
         </Tabs>
 
         {
-          showReset ? 
+          showReset ?
             <div style={{padding: 5}}>
-              <Button 
+              <Button
                 onClick={onReset}
                 type={'danger'}
                 size={'small'}
@@ -169,7 +169,7 @@ AuthBox.propTypes = {
   auth: PropTypes.shape({}),
   onReset: PropTypes.func,
   showReset: PropTypes.bool,
-  intl: PropTypes.shape({}).isRequired,
+  intl: intlShape.isRequired,
   onVisibleChange: PropTypes.func,
 };
 

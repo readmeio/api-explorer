@@ -45,8 +45,6 @@ test('should output correct components', () => {
       <Doc {...props} />
     </IntlProvider>
   );
-  const doc = wrapper.find('Doc')
-  doc.setState({ showEndpoint: true });
 
   assertDocElements(wrapper, props.doc);
   expect(wrapper.find(`div#page-${props.doc.slug}`).length).toBe(1);
@@ -92,8 +90,6 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       />
     </IntlProvider>
   );
-  expect(docComponent.find('Waypoint').length).toBe(1);
-  docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
   expect(docComponent.find(`div#page-${props.doc.slug}`).length).toBe(1);
@@ -117,7 +113,6 @@ test('should still display `Content` with column-style layout', () => {
       />
     </IntlProvider>
   );
-  docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
   expect(docComponent.find('ContentWithTitle').length).toBe(0);
@@ -267,7 +262,7 @@ describe('onSubmit', () => {
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc') 
+    const doc = wrapper.find('Doc')
 
     expect(doc.state('showAuthBox')).toBe(false);
 
@@ -284,20 +279,16 @@ describe('toggleAuth', () => {
 describe('PathUrl', () => {
   it('should be passed auth from props if the one in state is undefined', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
-    doc.setState({showEndpoint: true})
-    wrapper.mount() 
+    wrapper.mount()
     const pathUrl = wrapper.find(PathUrl)
     expect(pathUrl.prop('auth')).toEqual({api_key: '123' })
   })
   it('should be passed auth from state if the one in state is not undefined', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
-    doc.setState({showEndpoint: true})
-    wrapper.mount() 
+    wrapper.mount()
     const pathUrl = wrapper.find(PathUrl)
     pathUrl.prop('onChange')({api_key: '456'})
-    wrapper.mount() 
+    wrapper.mount()
     expect(wrapper.find(PathUrl).prop('auth')).toEqual({api_key: '456' })
   })
 })
@@ -314,9 +305,6 @@ describe('state.loading', () => {
 describe('suggest edits', () => {
   test('should not show if suggestedEdits is false', () => {
     const wrapper = mountWithIntl(<IntlProvider><Doc {...props} suggestedEdits={false} /></IntlProvider>)
-    const doc = wrapper.find('Doc')
-    doc.setState({showEndpoint: true})
-
     expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
   });
 
@@ -326,9 +314,6 @@ describe('suggest edits', () => {
         <Doc {...props} suggestedEdits />
       </IntlProvider>
     );
-    const doc = wrapper.find('Doc')
-    doc.setState({ showEndpoint: true });
-
     expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 
@@ -338,10 +323,6 @@ describe('suggest edits', () => {
         <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />
       </IntlProvider>
     );
-    const doc = wrapper.find('Doc')
-    doc.setState({showEndpoint: true})
-
-    // const description = mountWithIntl(<div>{doc.find('Description')}</div>)
     expect(wrapper.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 });
@@ -375,9 +356,6 @@ test('should output with an error message if the endpoint fails to load', () => 
     </IntlProvider>
   );
   const doc = wrapper.find('Doc')
-
-  doc.setState({ showEndpoint: true });
-
   expect(doc.find('ErrorBoundary').length).toBe(1);
 });
 
@@ -422,7 +400,7 @@ describe('stripSlash', () => {
   it('should strip operation path', () => {
     const doc = mountWithIntl(
       <IntlProvider>
-        <Doc 
+        <Doc
           {...props}
           stripSlash
           doc={{
@@ -446,7 +424,7 @@ describe('stripSlash', () => {
   it('should not strip operation path', () => {
     const doc = mountWithIntl(
       <IntlProvider>
-        <Doc 
+        <Doc
           {...props}
           doc={{
             title: 'Title',

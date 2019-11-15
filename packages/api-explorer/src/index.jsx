@@ -53,7 +53,7 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      description: getDescription(this.props.oasFiles)
+      description: getDescription(this.props.oasFiles),
     };
   }
 
@@ -81,7 +81,7 @@ class ApiExplorer extends React.Component {
       doc.category.apiSetting ||
       (typeof doc.api.apiSetting === 'string' && doc.api.apiSetting) ||
       (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
-    
+
     const oasFromProps = this.props.oasFiles[apiSetting]
     let oas
     if (oasFromProps) {
@@ -123,7 +123,6 @@ class ApiExplorer extends React.Component {
     const auth = getAuth(this.props.variables.user, this.props.oasFiles)
     return (
       <Doc
-        key={doc._id}
         doc={doc}
         oas={this.getOas(doc)}
         setLanguage={this.setLanguage}
@@ -167,7 +166,7 @@ class ApiExplorer extends React.Component {
         </b>
         <Divider type="vertical" />
         {doc.title}
-      </div>    
+      </div>
     )
   }
 
@@ -186,7 +185,7 @@ class ApiExplorer extends React.Component {
     const defaultOpenDoc = this.props.defaultOpenDoc ? this.props.defaultOpenDoc : '0'
     const defaultOpen = this.props.defaultOpen ? [defaultOpenDoc] : null
     const localizedMessages = messages[this.props.i18n.locale] || messages[this.props.i18n.defaultLocale]
-    
+
     return (
       <IntlProvider
         locale={this.props.i18n.locale}
@@ -210,11 +209,11 @@ class ApiExplorer extends React.Component {
                       accordion
                       onChange={this.props.onDocChange}
                     >
-                      {this.props.docs.map((doc, index) => (
-                        <Panel 
+                      {this.props.docs.map((doc) => (
+                        <Panel
                           header={this.renderHeaderPanel(doc)}
+                          key={`${doc.api.method}-${doc.swagger.path}`}
                           style={{...styleByMethod(doc.api.method), ...panelStyle}}
-                          key={index}
                           forceRender={this.props.forcePanelRender}
                         >
                           {this.renderDoc(doc)}

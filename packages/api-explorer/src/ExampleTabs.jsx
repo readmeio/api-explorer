@@ -26,7 +26,10 @@ function ExampleTabs({ examples, selected, setExampleTab }) {
 module.exports = ExampleTabs;
 
 ExampleTabs.propTypes = {
-  examples: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  examples: PropTypes.arrayOf(PropTypes.shape({
+    status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    name: PropTypes.string
+  })).isRequired,
   selected: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
 };

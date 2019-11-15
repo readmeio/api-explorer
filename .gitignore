@@ -2,7 +2,7 @@ node_modules
 coverage
 .nyc_output
 .yo-rc.json
-.idea/*
+.idea
 lerna-debug.log
 .DS_Store
 *.hot-update.json
