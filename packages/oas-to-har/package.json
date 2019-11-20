@@ -27,7 +27,7 @@
     "directory": "packages/oas-to-har"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^1.0.0",
+    "@readme/eslint-config": "^1.4.1",
     "eslint": "^6.5.0",
     "eslint-plugin-jest": "^23.0.3",
     "jest": "^24.8.0",
