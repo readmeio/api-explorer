@@ -135,7 +135,6 @@ Variable.defaultProps = {
   oauth: false,
 };
 
-/* istanbul ignore next */
 module.exports = props => (
   <VariablesContext.Consumer>
     {({ user, defaults }) => (

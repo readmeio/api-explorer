@@ -47,6 +47,7 @@ function docLink(href) {
 function Anchor(props) {
   const { href, target, baseUrl, children } = props;
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <a href={getHref(href, baseUrl)} target={target} {...docLink(href)}>
       {children}
     </a>
@@ -54,22 +55,23 @@ function Anchor(props) {
 }
 
 Anchor.propTypes = {
-  href: PropTypes.string,
-  target: PropTypes.string,
   baseUrl: PropTypes.string,
   children: PropTypes.node.isRequired,
+  href: PropTypes.string,
+  target: PropTypes.string,
 };
 
 Anchor.defaultProps = {
+  baseUrl: '/',
   href: '',
   target: '_self',
-  baseUrl: '/',
 };
 
 module.exports = sanitizeSchema => {
   // This is for our custom link formats
   sanitizeSchema.protocols.href.push('doc', 'target', 'ref', 'blog', 'changelog', 'page');
 
+  // eslint-disable-next-line react/display-name
   return props => (
     <BaseUrlContext.Consumer>
       {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}

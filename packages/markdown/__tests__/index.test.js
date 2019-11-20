@@ -127,7 +127,7 @@ code-without-language
 });
 
 test('should render nothing if nothing passed in', () => {
-  expect(markdown('')).toBe(null);
+  expect(markdown('')).toBeNull();
 });
 
 test('`correctnewlines` option', () => {
@@ -150,26 +150,26 @@ test('glossary', () => {
 // TODO not sure if this needs to work or not?
 // Isn't it a good thing to always strip HTML?
 describe.skip('`stripHtml` option', () => {
-  test('should allow html by default', () => {
+  it('should allow html by default', () => {
     expect(markdown('<p>Test</p>')).toBe('<p><p>Test</p></p>\n');
     expect(markdown('<p>Test</p>', { stripHtml: false })).toBe('<p><p>Test</p></p>\n');
   });
 
-  test('should escape unknown tags', () => {
+  it('should escape unknown tags', () => {
     expect(markdown('<unknown-tag>Test</unknown-tag>')).toBe(
       '<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>\n',
     );
   });
 
-  test('should allow certain attributes', () => {
+  it('should allow certain attributes', () => {
     expect(markdown('<p id="test">Test</p>')).toBe('<p><p id="test">Test</p></p>\n');
   });
 
-  test('should strip unknown attributes', () => {
+  it('should strip unknown attributes', () => {
     expect(markdown('<p unknown="test">Test</p>')).toBe('<p><p>Test</p></p>\n');
   });
 
-  test('should escape everything if `stripHtml=true`', () => {
+  it('should escape everything if `stripHtml=true`', () => {
     expect(markdown('<p>Test</p>', { stripHtml: true })).toBe('<p>&lt;p&gt;Test&lt;/p&gt;</p>\n');
   });
 });

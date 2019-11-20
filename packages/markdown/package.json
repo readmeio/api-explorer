@@ -17,11 +17,10 @@
     "unified": "^8.4.0"
   },
   "scripts": {
-    "lint": "eslint -f unix . --ext .jsx --ext .js",
+    "lint": "eslint . --ext .jsx --ext .js",
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
-    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand"
   },
   "publishConfig": {
@@ -32,10 +31,9 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown",
   "devDependencies": {
+    "@readme/eslint-config": "^1.4.1",
     "eslint": "^6.5.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "jest": "^24.8.0",
