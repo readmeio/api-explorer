@@ -56,7 +56,7 @@ class Variable extends React.Component {
         )}
         style={{ position: 'absolute' }}
       >
-        <div id="loginDropdown" className="ns-popover-tooltip">
+        <div className="ns-popover-tooltip" id="loginDropdown">
           <div className="ns-triangle" />
           <div className="triangle" />
           <div className="pad">
@@ -74,7 +74,7 @@ class Variable extends React.Component {
 
   renderVarDropdown() {
     return (
-      <select value={this.props.selected} onChange={this.onChange}>
+      <select onChange={this.onChange} value={this.props.selected}>
         {this.props.user.keys.map(key => (
           <option key={key.name} value={key.name}>
             {key.name}
@@ -85,7 +85,6 @@ class Variable extends React.Component {
   }
 
   render() {
-    /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     const { variable, user, selected } = this.props;
 
     if (Array.isArray(user.keys)) {
@@ -93,6 +92,7 @@ class Variable extends React.Component {
       return (
         <span>
           {!this.state.showDropdown && (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <span className="variable-underline" onClick={this.toggleVarDropdown}>
               {selectedValue[variable]}
             </span>
@@ -106,6 +106,7 @@ class Variable extends React.Component {
     if (this.getValue() === this.getDefault() && this.props.oauth) {
       return (
         <span>
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
           <span className="variable-underline" onClick={this.toggleAuthDropdown}>
             {this.getValue()}
           </span>
@@ -119,22 +120,23 @@ class Variable extends React.Component {
 }
 
 Variable.propTypes = {
-  variable: PropTypes.string.isRequired,
-  selected: PropTypes.string.isRequired,
   changeSelected: PropTypes.func.isRequired,
+  defaults: PropTypes.arrayOf(
+    PropTypes.shape({ default: PropTypes.string, name: PropTypes.string }),
+  ).isRequired,
+  oauth: PropTypes.bool,
+  selected: PropTypes.string.isRequired,
   user: PropTypes.shape({
     keys: PropTypes.array,
   }).isRequired,
-  defaults: PropTypes.arrayOf(
-    PropTypes.shape({ name: PropTypes.string, default: PropTypes.string }),
-  ).isRequired,
-  oauth: PropTypes.bool,
+  variable: PropTypes.string.isRequired,
 };
 
 Variable.defaultProps = {
   oauth: false,
 };
 
+// eslint-disable-next-line react/display-name
 module.exports = props => (
   <VariablesContext.Consumer>
     {({ user, defaults }) => (
@@ -143,13 +145,12 @@ module.exports = props => (
           <SelectedAppContext.Consumer>
             {({ selected, changeSelected }) => (
               <Variable
-                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...props}
-                user={user}
+                changeSelected={changeSelected}
                 defaults={defaults}
                 oauth={oauth}
                 selected={selected}
-                changeSelected={changeSelected}
+                user={user}
               />
             )}
           </SelectedAppContext.Consumer>
