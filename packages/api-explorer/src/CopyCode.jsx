@@ -17,7 +17,6 @@ class CopyCode extends React.Component {
     const code = typeof prevProps.code === 'function' ? prevProps.code() : prevProps.code;
 
     if (code !== this.state.code) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ code });
     }
   }

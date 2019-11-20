@@ -193,7 +193,6 @@ class ResponseExample extends React.Component {
                 if (mediaTypes.length > 1) {
                   example = responseMediaTypeExample || mediaTypes[0];
                 } else {
-                  // eslint-disable-next-line prefer-destructuring
                   example = mediaTypes[0];
                 }
 
@@ -214,7 +213,6 @@ class ResponseExample extends React.Component {
                 };
 
                 return (
-                  // eslint-disable-next-line react/no-array-index-key
                   <div key={index}>
                     <pre
                       className={`tomorrow-night tabber-body tabber-body-${index}`}

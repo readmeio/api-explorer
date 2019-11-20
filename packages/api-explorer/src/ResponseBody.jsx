@@ -77,7 +77,6 @@ Unauthorized.defaultProps = {
   isOauth: false,
 };
 
-/* eslint-disable react/prop-types */
 function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div className="tabber-body tabber-body-result" style={{ display: 'block' }}>

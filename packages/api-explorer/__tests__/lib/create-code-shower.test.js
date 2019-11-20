@@ -14,7 +14,7 @@ function encodeJsonExample(json) {
 }
 
 describe('createCodeShower', () => {
-  test.each([
+  it.each([
     [
       'should return codes array if there are examples for the operation',
       oas.operation('/results', 'get'),
@@ -26,7 +26,7 @@ describe('createCodeShower', () => {
       oas.operation('/ref-response-example', 'get'),
     ],
   ])('%s', (testcase, operation) => {
-    expect(createCodeShower(operation, oas)).toEqual([
+    expect(createCodeShower(operation, oas)).toStrictEqual([
       {
         languages: [
           {
@@ -59,7 +59,7 @@ describe('createCodeShower', () => {
   it('should not set `multipleExamples` if there is just a single example', () => {
     const operation = oas.operation('/single-media-type-single-example', 'get');
 
-    expect(createCodeShower(operation, oas)).toEqual([
+    expect(createCodeShower(operation, oas)).toStrictEqual([
       {
         languages: [
           {
@@ -93,7 +93,7 @@ describe('createCodeShower', () => {
   it('should return multiple nested examples if there are multiple response media types types for the operation', () => {
     const operation = oas.operation('/multi-media-types-multiple-examples', 'get');
 
-    expect(createCodeShower(operation, oas)).toEqual([
+    expect(createCodeShower(operation, oas)).toStrictEqual([
       {
         status: '200',
         languages: [
@@ -146,16 +146,16 @@ describe('createCodeShower', () => {
 
   it('should return early if there is no example', () => {
     const operation = oas2.operation('/pet/findByStatus', 'get');
-    expect(createCodeShower(operation, oas)).toEqual([]);
+    expect(createCodeShower(operation, oas)).toStrictEqual([]);
   });
 
   it('should return early if there is no response', () => {
     const operation = oas.operation('/nolang', 'get');
-    expect(createCodeShower(operation, oas)).toEqual([]);
+    expect(createCodeShower(operation, oas)).toStrictEqual([]);
   });
 
   it('should return codes if type is not `results`', () => {
     const operation = oas.operation('/results', 'get');
-    expect(createCodeShower2(operation, oas)).toEqual([]);
+    expect(createCodeShower2(operation, oas)).toStrictEqual([]);
   });
 });

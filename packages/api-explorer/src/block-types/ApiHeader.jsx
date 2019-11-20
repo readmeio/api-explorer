@@ -13,7 +13,7 @@ const ApiHeader = ({ block }) => {
         )}
         {block.data.title}
         {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label
+          // eslint-disable-next-line jsx-a11y/anchor-has-content
           <a className="fa fa-anchor" href={`#section-${slug(block.data.title)}`} />
         }
       </h1>

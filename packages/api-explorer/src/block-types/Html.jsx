@@ -2,8 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const Html = ({ block }) => {
-  // eslint-disable-next-line react/no-danger
-  return <div className="magic-block-html" dangerouslySetInnerHTML={{ __html: block.data.html }} />;
+  return <div dangerouslySetInnerHTML={{ __html: block.data.html }} className="magic-block-html" />;
 };
 
 Html.propTypes = {

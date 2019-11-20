@@ -23,7 +23,7 @@ describe('upgradeLegacyResponses', () => {
       },
     ];
 
-    expect(upgradeLegacyResponses(response)).toEqual([
+    expect(upgradeLegacyResponses(response)).toStrictEqual([
       {
         languages: [
           {
@@ -65,7 +65,7 @@ describe('upgradeLegacyResponses', () => {
       },
     ];
 
-    expect(upgradeLegacyResponses(response)).toEqual([
+    expect(upgradeLegacyResponses(response)).toStrictEqual([
       {
         languages: [
           {

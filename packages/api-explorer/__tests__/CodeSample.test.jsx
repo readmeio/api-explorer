@@ -15,9 +15,9 @@ const props = {
 
 describe('tabs', () => {
   // TODO this doesnt work in readme
-  test.skip('should display tabs if there are examples in the oas file', () => {});
+  it.skip('should display tabs if there are examples in the oas file', () => {});
 
-  test('should display tabs if SAMPLES_ENABLED is true', () => {
+  it('should display tabs if SAMPLES_ENABLED is true', () => {
     const languages = ['node', 'curl'];
     const codeSample = shallow(
       <CodeSample
@@ -32,11 +32,11 @@ describe('tabs', () => {
       />,
     );
 
-    expect(codeSample.find('ul.code-sample-tabs li').length).toBe(2);
-    expect(codeSample.find('li').length).toBe(languages.length);
+    expect(codeSample.find('ul.code-sample-tabs li')).toHaveLength(2);
+    expect(codeSample.find('li')).toHaveLength(languages.length);
   });
 
-  test('should display a message if no code samples', () => {
+  it('should display a message if no code samples', () => {
     const codeSample = shallow(
       <CodeSample
         {...props}
@@ -54,7 +54,7 @@ describe('tabs', () => {
 });
 
 describe('code examples', () => {
-  test('should display custom examples over pre-filled examples', () => {
+  it('should display custom examples over pre-filled examples', () => {
     const docProps = {
       setLanguage: () => {},
       operation: new Operation({}, '/pet/{id}', 'get'),
@@ -80,11 +80,11 @@ describe('code examples', () => {
       />,
     );
 
-    expect(codeSample.find('.code-sample-body').length).toBe(1);
-    expect(codeSample.find('pre.tomorrow-night.tabber-body').length).toBe(1);
+    expect(codeSample.find('.code-sample-body')).toHaveLength(1);
+    expect(codeSample.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
   });
 
-  test('should display custom examples even if SAMPLES_ENABLED is false', () => {
+  it('should display custom examples even if SAMPLES_ENABLED is false', () => {
     const docProps = {
       setLanguage: () => {},
       operation: new Operation({}, '/pet/{id}', 'get'),
@@ -108,11 +108,11 @@ describe('code examples', () => {
       />,
     );
 
-    expect(codeSample.find('.code-sample-body').length).toBe(1);
-    expect(codeSample.find('pre.tomorrow-night.tabber-body').length).toBe(1);
+    expect(codeSample.find('.code-sample-body')).toHaveLength(1);
+    expect(codeSample.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
   });
 
-  test('should not error if no code given', () => {
+  it('should not error if no code given', () => {
     const docProps = {
       setLanguage: () => {},
       operation: new Operation({}, '/pet/{id}', 'get'),
@@ -140,7 +140,7 @@ describe('code examples', () => {
     ).not.toThrow(/Cannot read property 'split' of undefined/);
   });
 
-  test('should not error if language requested cannot be auto-generated', () => {
+  it('should not error if language requested cannot be auto-generated', () => {
     const docProps = {
       setLanguage: () => {},
       operation: new Operation({}, '/pet/{id}', 'get'),
@@ -162,11 +162,11 @@ describe('code examples', () => {
     expect(() => shallow(component)).not.toThrow(/Cannot read property 'snippet' of undefined/);
 
     const codeSample = shallow(component);
-    expect(codeSample.find('.code-sample-tabs a').length).toBe(1);
-    expect(codeSample.find('.hub-code-auto pre').length).toBe(0);
+    expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
+    expect(codeSample.find('.hub-code-auto pre')).toHaveLength(0);
   });
 
-  test('should not render sample if language is missing', () => {
+  it('should not render sample if language is missing', () => {
     const docProps = {
       setLanguage: () => {},
       operation: new Operation({}, '/pet/{id}', 'get'),
@@ -196,11 +196,11 @@ describe('code examples', () => {
       />,
     );
 
-    expect(codeSample.find('.code-sample-tabs a').length).toBe(1);
-    expect(codeSample.find('.code-sample-body pre').length).toBe(1);
+    expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
+    expect(codeSample.find('.code-sample-body pre')).toHaveLength(1);
   });
 
-  test('should render first of examples if language does not exist', () => {
+  it('should render first of examples if language does not exist', () => {
     const docProps = {
       setLanguage: () => {},
       operation: new Operation({}, '/pet/{id}', 'get'),
@@ -230,10 +230,8 @@ describe('code examples', () => {
     );
     expect(codeSample.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
   });
-});
 
-describe('code examples', () => {
-  test('should display examples if SAMPLES_ENABLED is true', () => {
+  it('should display examples if SAMPLES_ENABLED is true', () => {
     const languages = ['node', 'curl'];
     const codeSample = shallow(
       <CodeSample
@@ -248,13 +246,13 @@ describe('code examples', () => {
       />,
     );
 
-    expect(codeSample.find('.hub-code-auto').length).toBe(1);
+    expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
     // We only render one language at a time
-    expect(codeSample.find('.hub-code-auto pre').length).toBe(1);
+    expect(codeSample.find('.hub-code-auto pre')).toHaveLength(1);
     expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 
-  test('should not display more than one example block at a time', () => {
+  it('should not display more than one example block at a time', () => {
     const docProps = {
       setLanguage: () => {},
       operation: new Operation({}, '/pet/{id}', 'get'),
@@ -287,12 +285,12 @@ describe('code examples', () => {
       />,
     );
 
-    expect(codeSample.find('.code-sample-tabs a.selected').length).toBe(1);
+    expect(codeSample.find('.code-sample-tabs a.selected')).toHaveLength(1);
   });
 });
 
 describe('updating language', () => {
-  test('should call setLanguage', () => {
+  it('should call setLanguage', () => {
     const setLanguage = jest.fn();
 
     const codeSample = shallow(
@@ -310,6 +308,6 @@ describe('updating language', () => {
     );
 
     codeSample.find('.hub-lang-switch-node').simulate('click', { preventDefault: () => {} });
-    expect(setLanguage.mock.calls[0]).toEqual(['node']);
+    expect(setLanguage.mock.calls[0]).toMatchObject(['node']);
   });
 });

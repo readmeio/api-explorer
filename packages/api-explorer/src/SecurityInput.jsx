@@ -11,7 +11,6 @@ const types = {
   apiKey: ApiKey,
 };
 
-// eslint-disable-next-line react/prefer-stateless-function
 class Input extends React.Component {
   render() {
     return (

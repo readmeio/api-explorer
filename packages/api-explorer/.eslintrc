@@ -1,24 +1,44 @@
 {
   "extends": [
     "@readme/eslint-config",
-    "airbnb",
-    "prettier"
+    "plugin:jsx-a11y/recommended",
+    "plugin:react/recommended"
   ],
+  "root": true,
+  "env": {
+    "browser": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     "jsx-a11y/label-has-associated-control": [2, {
       "controlComponents": ["Input"]
     }],
+
+    "jsx-a11y/no-onchange": "off", // @todo We should fix these.
+
     "no-underscore-dangle": ["error", {
       "allow": ["_cache", "_id", "_key"]
     }],
-    "no-else-return": [2, {
+
+    "no-else-return": ["error", {
       "allowElseIf": true
     }],
+
     "no-param-reassign": ["error", {
       "props": false
     }],
-    "react/destructuring-assignment": 0,
-    "react/jsx-props-no-spreading": [2, {
+
+    "react/destructuring-assignment": "off",
+    "react/jsx-props-no-spreading": ["error", {
       "html": "enforce",
       "custom": "enforce",
       "exceptions": [
@@ -37,8 +57,18 @@
         "TextArea"
       ]
     }],
-    "react/jsx-sort-default-props": 2,
-    "react/jsx-sort-props": 2,
-    "react/sort-prop-types": 2
+
+    "react/jsx-sort-default-props": ["error", {
+      "ignoreCase": true
+    }],
+
+    "react/jsx-sort-props": ["error", {
+      "reservedFirst": true
+    }],
+
+    "react/sort-prop-types": ["error", {
+      "ignoreCase": true,
+      "sortShapeProp": true
+    }]
   }
 }

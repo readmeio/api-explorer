@@ -1,9 +1,10 @@
 {
-  "env": {
-    "jest": true
-  },
+  "extends": [
+    "@readme/eslint-config/testing"
+  ],
   "rules": {
-    "import/no-extraneous-dependencies": 0,
-    "react/jsx-props-no-spreading": 0
+    "import/no-extraneous-dependencies": "off",
+    "node/no-extraneous-require": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

@@ -25,6 +25,7 @@
 
     "react/jsx-sort-default-props": "error",
     "react/jsx-sort-props": ["error", {
+      "ignoreCase": true,
       "reservedFirst": true
     }],
 

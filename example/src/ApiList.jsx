@@ -50,7 +50,6 @@ class ApiList extends React.Component {
     return (
       <h3>
         Select an API:&nbsp;
-        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
         <select onChange={this.changeApi} value={selected}>
           {Object.keys(apis).map(name => {
             const api = apis[name];

@@ -30,7 +30,6 @@ class CodeElement extends React.PureComponent {
   }
 
   componentDidMount() {
-    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ el: this.el.current });
   }
 
@@ -40,7 +39,6 @@ class CodeElement extends React.PureComponent {
     return (
       <div style={{ display: activeTab ? 'block' : 'none' }}>
         <CopyCode code={() => (this.state.el ? this.state.el.textContent : '')} />
-        {/* eslint-disable-next-line react/no-array-index-key */}
         <pre style={{ display: activeTab ? 'block' : 'none' }}>
           <code ref={this.el}>
             {syntaxHighlighter(code.code, code.language, {

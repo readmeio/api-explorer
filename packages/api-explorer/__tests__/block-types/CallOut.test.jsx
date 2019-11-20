@@ -21,7 +21,7 @@ describe('icons', () => {
     success: 'check-square',
   };
 
-  test('should render with title', () => {
+  it('should render with title', () => {
     Object.keys(icons).forEach(type => {
       const className = icons[type];
       const block = {
@@ -30,11 +30,11 @@ describe('icons', () => {
           title: 'Callout',
         },
       };
-      expect(mount(<CallOut block={block} />).find(`.fa-${className}`).length).toBe(1);
+      expect(mount(<CallOut block={block} />).find(`.fa-${className}`)).toHaveLength(1);
     });
   });
 
-  test('should render without title', () => {
+  it('should render without title', () => {
     Object.keys(icons).forEach(type => {
       const className = icons[type];
       const block = {
@@ -42,7 +42,9 @@ describe('icons', () => {
           type,
         },
       };
-      expect(mount(<CallOut block={block} />).find(`.noTitleIcon .fa-${className}`).length).toBe(1);
+      expect(mount(<CallOut block={block} />).find(`.noTitleIcon .fa-${className}`)).toHaveLength(
+        1,
+      );
     });
   });
 });

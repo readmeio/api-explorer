@@ -6,7 +6,6 @@ const Embed = ({ block }) => {
     <div className="magic-block-embed">
       {(() => {
         if (block.data.html) {
-          // eslint-disable-next-line react/no-danger
           return <span dangerouslySetInnerHTML={{ __html: block.data.html }} />;
         } else if (block.data.iframe) {
           return (

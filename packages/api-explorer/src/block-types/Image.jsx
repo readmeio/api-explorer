@@ -8,7 +8,6 @@ const ImageBlock = ({ block, flags }) => {
     const border = image.border ? image.border : '';
 
     return (
-      // eslint-disable-next-line react/no-array-index-key
       <div key={i} className="magic-block-image">
         {image && image.image && image.image.length && (
           <div>

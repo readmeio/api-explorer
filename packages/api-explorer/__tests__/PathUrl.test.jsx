@@ -32,32 +32,32 @@ test('should display the path', () => {
 });
 
 describe('loading prop', () => {
-  test('should toggle try it visibility', () => {
-    expect(shallow(<PathUrl {...props} loading={false} />).find('.try-it-now-btn').length).toBe(1);
+  it('should toggle try it visibility', () => {
+    expect(shallow(<PathUrl {...props} loading={false} />).find('.try-it-now-btn')).toHaveLength(1);
 
-    expect(shallow(<PathUrl {...props} loading />).find('.try-it-now-btn').length).toBe(0);
+    expect(shallow(<PathUrl {...props} loading />).find('.try-it-now-btn')).toHaveLength(0);
   });
 
-  test('should toggle progress visibility', () => {
-    expect(shallow(<PathUrl {...props} loading />).find('.fa-spin').length).toBe(1);
+  it('should toggle progress visibility', () => {
+    expect(shallow(<PathUrl {...props} loading />).find('.fa-spin')).toHaveLength(1);
 
-    expect(shallow(<PathUrl {...props} loading={false} />).find('.fa-spin').length).toBe(0);
+    expect(shallow(<PathUrl {...props} loading={false} />).find('.fa-spin')).toHaveLength(0);
   });
 
-  test('should disable submit button when loading', () => {
-    expect(shallow(<PathUrl {...props} loading />).find('button[disabled=true]').length).toBe(1);
+  it('should disable submit button when loading', () => {
+    expect(shallow(<PathUrl {...props} loading />).find('button[disabled=true]')).toHaveLength(1);
 
     expect(
-      shallow(<PathUrl {...props} loading={false} />).find('button[disabled=false]').length,
-    ).toBe(1);
+      shallow(<PathUrl {...props} loading={false} />).find('button[disabled=false]'),
+    ).toHaveLength(1);
   });
 });
 
 describe('dirty prop', () => {
-  test('should add active class', () => {
-    expect(shallow(<PathUrl {...props} dirty />).find('button.active').length).toBe(1);
+  it('should add active class', () => {
+    expect(shallow(<PathUrl {...props} dirty />).find('button.active')).toHaveLength(1);
 
-    expect(shallow(<PathUrl {...props} dirty={false} />).find('button.active').length).toBe(0);
+    expect(shallow(<PathUrl {...props} dirty={false} />).find('button.active')).toHaveLength(0);
   });
 });
 
@@ -81,15 +81,15 @@ test('button click should call onSubmit', () => {
 });
 
 describe('splitPath()', () => {
-  test('should work for multiple path params', () => {
-    expect(splitPath('/{a}/{b}/c').length).toBe(5);
-    expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}').length).toBe(
+  it('should work for multiple path params', () => {
+    expect(splitPath('/{a}/{b}/c')).toHaveLength(5);
+    expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}')).toHaveLength(
       4,
     );
   });
 
-  test('should create unique keys for duplicate values', () => {
-    expect(splitPath('/{test}/')).toEqual([
+  it('should create unique keys for duplicate values', () => {
+    expect(splitPath('/{test}/')).toStrictEqual([
       { key: '/-0', type: 'text', value: '/' },
       { key: 'test-1', type: 'variable', value: 'test' },
       { key: '/-2', type: 'text', value: '/' },

@@ -21,7 +21,7 @@ const props = {
 test('should show no examples if endpoint does not any', () => {
   const example = shallow(<ResponseExample {...props} />);
 
-  expect(example.containsMatchingElement(<div>Try the API to see Results</div>)).toEqual(true);
+  expect(example.containsMatchingElement(<div>Try the API to see Results</div>)).toBe(true);
 });
 
 test('should notify about no examples being available if explorer disabled', () => {
@@ -32,7 +32,7 @@ test('should notify about no examples being available if explorer disabled', () 
     />,
   );
 
-  expect(example.containsMatchingElement(<div>No response examples available</div>)).toEqual(true);
+  expect(example.containsMatchingElement(<div>No response examples available</div>)).toBe(true);
 });
 
 test('should show each example', () => {
@@ -45,7 +45,7 @@ test('should show each example', () => {
     />,
   );
 
-  expect(example.find('pre').length).toEqual(2);
+  expect(example.find('pre')).toHaveLength(2);
 });
 
 test('should display json viewer', () => {
@@ -64,8 +64,8 @@ test('should display json viewer', () => {
       .find('pre')
       .at(0)
       .render()
-      .find('.react-json-view').length,
-  ).toBe(1);
+      .find('.react-json-view'),
+  ).toHaveLength(1);
 });
 
 test('should not fail to parse invalid json and instead show the standard syntax highlighter', () => {
@@ -85,8 +85,8 @@ test('should not fail to parse invalid json and instead show the standard syntax
       .find('pre')
       .at(0)
       .render()
-      .find('.cm-number').length,
-  ).toBe(4);
+      .find('.cm-number'),
+  ).toHaveLength(4);
 });
 
 test('should correctly highlight XML syntax', () => {
@@ -105,8 +105,8 @@ test('should correctly highlight XML syntax', () => {
       .find('pre')
       .at(1)
       .render()
-      .find('.cm-tag').length,
-  ).toBe(25);
+      .find('.cm-tag'),
+  ).toHaveLength(25);
 });
 
 test('should show select for multiple examples on a single media type', () => {
@@ -121,8 +121,8 @@ test('should show select for multiple examples on a single media type', () => {
 
   const html = example.html();
 
-  expect(html.includes('>Response type')).toBe(false);
-  expect(html.includes('>Set an example')).toBe(true);
+  expect(html).not.toContain('>Response type');
+  expect(html).toContain('>Set an example');
 });
 
 test('should not show a select if a media type has a single example', () => {
@@ -135,11 +135,11 @@ test('should not show a select if a media type has a single example', () => {
     />,
   );
 
-  expect(example.html().includes('<select')).toBe(false);
+  expect(example.html()).not.toContain('<select');
 });
 
 describe('exampleTab', () => {
-  test('exampleTab should change state of exampleTab', () => {
+  it('exampleTab should change state of exampleTab', () => {
     const doc = shallow(<ResponseExample {...props} />);
 
     expect(doc.state('exampleTab')).toBe(0);

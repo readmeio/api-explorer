@@ -82,7 +82,6 @@ function Params({
             SelectWidget,
           }}
         >
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <button style={{ display: 'none' }} type="submit" />
         </Form>,
       ];
@@ -113,6 +112,7 @@ function createParams(oas) {
   const FileWidget = createFileWidget(oas);
   const URLWidget = createURLWidget(oas);
 
+  // eslint-disable-next-line react/display-name
   return props => {
     return (
       <Params
