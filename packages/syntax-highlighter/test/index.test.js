@@ -4,7 +4,7 @@ const syntaxHighlighter = require('../');
 test('should highlight a block of code', () => {
   const code = shallow(syntaxHighlighter('var a = 1;', 'javascript'));
 
-  expect(code.hasClass('cm-s-neo')).toEqual(true);
+  expect(code.hasClass('cm-s-neo')).toBe(true);
   expect(code.html()).toBe(
     '<span class="cm-s-neo"><span class="cm-keyword">var</span> <span class="cm-def">a</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span>',
   );
@@ -41,31 +41,29 @@ test('should have a dark theme', () => {
     shallow(syntaxHighlighter('{ "a": 1 }', 'json', { dark: true })).hasClass(
       'cm-s-tomorrow-night',
     ),
-  ).toEqual(true);
+  ).toBe(true);
 });
 
 test('should tokenize variables (double quotes)', () => {
   expect(
-    mount(syntaxHighlighter('"<<apiKey>>"', 'json', { tokenizeVariables: true })).find('Variable')
-      .length,
-  ).toEqual(1);
+    mount(syntaxHighlighter('"<<apiKey>>"', 'json', { tokenizeVariables: true })).find('Variable'),
+  ).toHaveLength(1);
 });
 
 test('should tokenize variables (single quotes)', () => {
   expect(
-    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).find('Variable')
-      .length,
-  ).toEqual(1);
+    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).find('Variable'),
+  ).toHaveLength(1);
 });
 
 test('should keep enclosing characters around the variable', () => {
-  expect(
-    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).text(),
-  ).toEqual("'APIKEY'");
+  expect(mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).text()).toBe(
+    "'APIKEY'",
+  );
 });
 
 describe('specific languages', () => {
-  test('should work for modes with an array like java', () => {
+  it('should work for modes with an array like java', () => {
     expect(
       shallow(syntaxHighlighter('service = client.service().messaging();', 'java')).html(),
     ).toBe(
@@ -73,39 +71,39 @@ describe('specific languages', () => {
     );
   });
 
-  test('should work for html', () => {
+  it('should work for html', () => {
     expect(shallow(syntaxHighlighter('<p>test</p>', 'html')).html()).toBe(
       '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span></span>',
     );
   });
 
-  test('should work for php without opening tag', () => {
+  it('should work for php without opening tag', () => {
     expect(shallow(syntaxHighlighter('echo "Hello World";', 'php')).html()).toContain('cm-keyword');
   });
 
-  test('should work for dockerfiles', () => {
+  it('should work for dockerfiles', () => {
     expect(shallow(syntaxHighlighter('FROM alpine:3.4', 'dockerfile')).html()).toContain(
       'cm-keyword',
     );
   });
 
-  test('should work for kotlin', () => {
+  it('should work for kotlin', () => {
     expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain(
       'cm-variable',
     );
   });
 
-  test('should work for go', () => {
+  it('should work for go', () => {
     expect(shallow(syntaxHighlighter('func main() {}', 'go')).html()).toContain('cm-variable');
   });
 
-  test('should work for powershell', () => {
+  it('should work for powershell', () => {
     expect(
       shallow(syntaxHighlighter('$headers.Add("accept", "application/json")', 'powershell')).html(),
     ).toContain('cm-variable');
   });
 
-  test('should work for typescript', () => {
+  it('should work for typescript', () => {
     expect(
       shallow(
         syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript'),
@@ -113,7 +111,7 @@ describe('specific languages', () => {
     ).toContain('cm-variable');
   });
 
-  test('should work for swift', () => {
+  it('should work for swift', () => {
     expect(shallow(syntaxHighlighter('var x = 0;', 'swift')).html()).toContain('cm-def');
   });
 });

@@ -9,11 +9,10 @@
   },
   "scripts": {
     "inspect": "jsinspect",
-    "lint": "eslint -f unix . --ext .jsx --ext .js",
+    "lint": "eslint . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
-    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage --runInBand"
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
+    "test": "jest --coverage"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -23,10 +22,9 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/syntax-highlighter",
   "devDependencies": {
+    "@readme/eslint-config": "^1.4.1",
     "eslint": "^6.5.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.4",
     "jest": "^24.8.0",
     "jsinspect": "^0.12.6",
     "prettier": "^1.18.2"
