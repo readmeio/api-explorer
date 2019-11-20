@@ -244,7 +244,6 @@ ApiExplorer.defaultProps = {
 // eslint-disable-next-line react/display-name
 module.exports = props => (
   <ErrorBoundary>
-    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
     <ApiExplorer {...props} />
   </ErrorBoundary>
 );
