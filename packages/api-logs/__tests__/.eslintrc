@@ -3,8 +3,6 @@
     "@readme/eslint-config/testing"
   ],
   "rules": {
-    "import/no-extraneous-dependencies": "off",
-
     "jest/expect-expect": [
       "warn",
       {
@@ -18,7 +16,6 @@
       }
     ],
 
-    "node/no-extraneous-require": "off",
     "react/jsx-props-no-spreading": "off"
   }
 }
