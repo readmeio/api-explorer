@@ -17,9 +17,13 @@ function getHref(href, baseUrl) {
     return `${base}/reference-link/${ref[1]}`;
   }
 
+  // we need to perform two matches for changelogs in case
+  // of legacy links that use 'blog' instead of 'changelog'
   const blog = href.match(/^blog:([-_a-zA-Z0-9#]*)$/);
-  if (blog) {
-    return `${base}/blog/${blog[1]}`;
+  const changelog = href.match(/^changelog:([-_a-zA-Z0-9#]*)$/);
+  const changelogMatch = blog || changelog;
+  if (changelogMatch) {
+    return `${base}/changelog/${changelogMatch[1]}`;
   }
 
   const custompage = href.match(/^page:([-_a-zA-Z0-9#]*)$/);
@@ -41,28 +45,33 @@ function docLink(href) {
 }
 
 function Anchor(props) {
+  const { href, target, baseUrl, children } = props;
   return (
-    <a href={getHref(props.href, props.baseUrl)} target="_self" {...docLink(props.href)}>
-      {props.children}
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <a href={getHref(href, baseUrl)} target={target} {...docLink(href)}>
+      {children}
     </a>
   );
 }
 
 Anchor.propTypes = {
-  href: PropTypes.string,
   baseUrl: PropTypes.string,
   children: PropTypes.node.isRequired,
+  href: PropTypes.string,
+  target: PropTypes.string,
 };
 
 Anchor.defaultProps = {
-  href: '',
   baseUrl: '/',
+  href: '',
+  target: '_self',
 };
 
 module.exports = sanitizeSchema => {
   // This is for our custom link formats
-  sanitizeSchema.protocols.href.push('doc', 'ref', 'blog', 'page');
+  sanitizeSchema.protocols.href.push('doc', 'target', 'ref', 'blog', 'changelog', 'page');
 
+  // eslint-disable-next-line react/display-name
   return props => (
     <BaseUrlContext.Consumer>
       {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}

@@ -11,9 +11,9 @@ const block = {
 };
 
 describe('Html', () => {
-  test('should display innerHtml', () => {
+  it('should display innerHtml', () => {
     const htmlInput = shallow(<Html block={block} />);
-    expect(htmlInput.find('.magic-block-html').length).toBe(1);
+    expect(htmlInput.find('.magic-block-html')).toHaveLength(1);
     expect(htmlInput.html()).toBe('<div class="magic-block-html"><p>This is an html</p></div>');
   });
 });

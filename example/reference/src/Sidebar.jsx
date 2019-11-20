@@ -19,18 +19,27 @@ Doc.propTypes = {
       method: PropTypes.string.isRequired,
     }),
     slug: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 function Sidebar({ title, docs }) {
-  return ReactDOM.createPortal((
+  return ReactDOM.createPortal(
     <div className="hub-sidebar-category">
       <h3>{title}</h3>
       <ul>
-        { docs.map(doc => <Doc key={doc._id} doc={doc} />) }
+        {docs.map(doc => (
+          <Doc key={doc._id} doc={doc} />
+        ))}
       </ul>
-    </div>
-  ), document.getElementById('hub-sidebar-content'));
+    </div>,
+    document.getElementById('hub-sidebar-content'),
+  );
 }
+
+Sidebar.propTypes = {
+  docs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 module.exports = Sidebar;

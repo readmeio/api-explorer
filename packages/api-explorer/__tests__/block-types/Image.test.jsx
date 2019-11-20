@@ -3,7 +3,7 @@ const { shallow } = require('enzyme');
 const Image = require('../../src/block-types/Image');
 
 describe('Image', () => {
-  test('Image has a tag with property href set to url', () => {
+  it('Image has a tag with property href set to url', () => {
     const block = {
       type: 'image',
       data: {
@@ -27,7 +27,7 @@ describe('Image', () => {
       'https://files.readme.io/924824e-fullsizeoutput_314.jpeg',
     );
   });
-  test('Image will render caption if given in props', () => {
+  it('Image will render caption if given in props', () => {
     const block = {
       type: 'image',
       data: {

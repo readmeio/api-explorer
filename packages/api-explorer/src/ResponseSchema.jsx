@@ -1,9 +1,10 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
+const markdown = require('@readme/markdown');
+const Oas = require('oas');
+const { findSchemaDefinition } = require('oas/utils');
 
-const Oas = require('./lib/Oas');
-const findSchemaDefinition = require('./lib/find-schema-definition');
 const ResponseSchemaBody = require('./ResponseSchemaBody');
 
 const { Operation } = Oas;
@@ -19,7 +20,7 @@ class ResponseSchema extends React.Component {
   }
 
   getSchema(operation) {
-    const oas = this.props.oas;
+    const { oas } = this.props;
     const content = this.getContent(operation, oas);
 
     if (!content) return null;
@@ -67,11 +68,11 @@ class ResponseSchema extends React.Component {
         <div className="pull-right">
           <select
             className="switcher-switch"
-            value={this.state.selectedStatus}
             onChange={this.changeHandler}
+            value={this.state.selectedStatus}
           >
             {keys.map(status => (
-              <option value={status} key={status}>
+              <option key={status} value={status}>
                 {status}
               </option>
             ))}
@@ -86,6 +87,14 @@ class ResponseSchema extends React.Component {
     const { operation, oas } = this.props;
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
     const schema = this.getSchema(operation);
+
+    let response = operation.responses[this.state.selectedStatus];
+
+    // @todo This should really be called higher up when the OAS is processed within the Doc component.
+    if (response.$ref) {
+      response = findSchemaDefinition(response.$ref, oas);
+    }
+
     return (
       <div
         className={classNames('hub-reference-response-definitions', {
@@ -94,10 +103,8 @@ class ResponseSchema extends React.Component {
       >
         {this.renderHeader()}
         <div className="response-schema">
-          {operation.responses[this.state.selectedStatus].description && (
-            <p className="desc">{operation.responses[this.state.selectedStatus].description}</p>
-          )}
-          {schema && <ResponseSchemaBody schema={schema} oas={oas} />}
+          {response.description && <div className="desc">{markdown(response.description)}</div>}
+          {schema && <ResponseSchemaBody oas={oas} schema={schema} />}
         </div>
       </div>
     );
@@ -105,8 +112,8 @@ class ResponseSchema extends React.Component {
 }
 
 ResponseSchema.propTypes = {
-  operation: PropTypes.instanceOf(Operation).isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
   theme: PropTypes.string.isRequired,
 };
 

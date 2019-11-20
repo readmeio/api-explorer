@@ -1,9 +1,12 @@
 {
-  "extends": "airbnb",
-  "env": {
-    "browser": true
-  },
+  "parser": "babel-eslint",
+  "extends": [
+    "@readme/eslint-config",
+    "@readme/eslint-config/react"
+  ],
   "rules": {
-    "no-underscore-dangle": ["error", { "allow": ["_cache", "_id", "_key"] }]
+    "no-underscore-dangle": ["error", {
+      "allow": ["_cache", "_id", "_key"]
+    }]
   }
 }

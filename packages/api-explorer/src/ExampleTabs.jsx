@@ -9,24 +9,25 @@ function ExampleTabs({ examples, selected, setExampleTab }) {
       {examples.map((example, index) => {
         return (
           <Tab
-            selected={index === selected}
+            key={index}
             onClick={e => {
               e.preventDefault();
               setExampleTab(index);
             }}
-            key={index} // eslint-disable-line react/no-array-index-key
+            selected={index === selected}
           >
-            <IconStatus status={example.status} name={example.name} />
+            <IconStatus name={example.name} status={example.status} />
           </Tab>
         );
       })}
     </ul>
   );
 }
-module.exports = ExampleTabs;
 
 ExampleTabs.propTypes = {
   examples: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selected: PropTypes.number.isRequired,
   setExampleTab: PropTypes.func.isRequired,
 };
+
+module.exports = ExampleTabs;

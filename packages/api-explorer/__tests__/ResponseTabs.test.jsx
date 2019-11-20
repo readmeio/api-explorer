@@ -1,20 +1,21 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const FetchResponse = require('node-fetch').Response;
+const Oas = require('oas');
+
 const petstore = require('./fixtures/petstore/oas');
 const exampleResults = require('./fixtures/example-results/oas');
 
 const parseResponse = require('../src/lib/parse-response');
-const FetchResponse = require('node-fetch').Response;
-
 const ResponseTabs = require('../src/ResponseTabs');
-const Oas = require('../src/lib/Oas');
 
 const oas = new Oas(petstore);
 const props = {
+  hideResults: () => {},
+  oas,
   operation: oas.operation('/pet', 'post'),
   responseTab: 'result',
   setTab: () => {},
-  hideResults: () => {},
 };
 
 beforeEach(async () => {
@@ -35,7 +36,7 @@ beforeEach(async () => {
 test('should show result/metadata tab', () => {
   const exampleTabs = shallow(<ResponseTabs {...props} />);
 
-  expect(exampleTabs.find('Tab').length).toBe(2);
+  expect(exampleTabs.find('Tab')).toHaveLength(2);
 });
 
 test('should select matching tab by name', () => {
@@ -46,13 +47,13 @@ test('should select matching tab by name', () => {
       .find('a')
       .at(0)
       .hasClass('selected'),
-  ).toEqual(true);
+  ).toBe(true);
 });
 
 test('should not have a "back to examples" button if no examples', () => {
   const exampleTabs = shallow(<ResponseTabs {...props} />);
 
-  expect(exampleTabs.find('a.pull-right').length).toEqual(0);
+  expect(exampleTabs.find('a.pull-right')).toHaveLength(0);
 });
 
 test('should call setTab() on click', () => {
@@ -64,26 +65,28 @@ test('should call setTab() on click', () => {
     .at(1)
     .simulate('click', { preventDefault() {} });
 
-  expect(setTab.mock.calls[0][0]).toEqual('metadata');
+  expect(setTab.mock.calls[0][0]).toBe('metadata');
 });
 
 test('should call hideResults() on click', () => {
   const hideResults = jest.fn();
+  const exampleResultsOas = new Oas(exampleResults);
   const exampleTabs = shallow(
     <ResponseTabs
       {...props}
-      operation={new Oas(exampleResults).operation('/results', 'get')}
       hideResults={hideResults}
+      oas={exampleResultsOas}
+      operation={exampleResultsOas.operation('/results', 'get')}
     />,
   );
 
   exampleTabs.find('a.pull-right').simulate('click', { preventDefault() {} });
 
-  expect(hideResults).toBeCalled();
+  expect(hideResults).toHaveBeenCalled();
 });
 
 test('should display status code for response', () => {
   const exampleTabs = shallow(<ResponseTabs {...props} />);
 
-  expect(exampleTabs.find('IconStatus').length).toBe(1);
+  expect(exampleTabs.find('IconStatus')).toHaveLength(1);
 });

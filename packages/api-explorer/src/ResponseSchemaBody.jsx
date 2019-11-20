@@ -1,8 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-
 const markdown = require('@readme/markdown');
-const findSchemaDefinition = require('./lib/find-schema-definition');
+const { findSchemaDefinition } = require('oas/utils');
 
 const flatten = list => list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 const getName = (parent, prop) => {
@@ -38,7 +37,7 @@ function flattenObject(obj, parent, level, oas) {
       }
 
       if (value.type === 'array' && value.items) {
-        let items = value.items;
+        let { items } = value;
         if (items.$ref) {
           items = findSchemaDefinition(items.$ref, oas);
         }
@@ -118,8 +117,7 @@ function ResponseSchemaBody({ schema, oas }) {
 
   return (
     <div>
-      {schema &&
-      schema.type && (
+      {schema && schema.type && (
         <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
           {`Response schema type: `}
           <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
@@ -132,12 +130,15 @@ function ResponseSchemaBody({ schema, oas }) {
   );
 }
 
-module.exports = ResponseSchemaBody;
-
 ResponseSchemaBody.propTypes = {
-  schema: PropTypes.shape({}).isRequired,
   oas: PropTypes.shape({}).isRequired,
+  schema: PropTypes.shape({
+    items: PropTypes.object,
+    properties: PropTypes.object,
+    type: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
+module.exports = ResponseSchemaBody;
 module.exports.flattenResponseSchema = flattenResponseSchema;
 module.exports.flatten = flatten;

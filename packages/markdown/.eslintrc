@@ -1,8 +1,7 @@
 {
-  "extends": ["airbnb", "prettier"],
-  "rules": {
-    "no-param-reassign": ["error", { "props": false }],
-    "react/destructuring-assignment": 0,
-    "react/jsx-one-expression-per-line": 0,
-  }
+  "extends": [
+    "@readme/eslint-config",
+    "@readme/eslint-config/react"
+  ],
+  "root": true
 }

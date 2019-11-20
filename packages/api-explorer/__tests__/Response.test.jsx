@@ -1,31 +1,33 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const Oas = require('oas');
+
 const petstore = require('./fixtures/petstore/oas');
 
 const Response = require('../src/Response');
-const Oas = require('../src/lib/Oas');
 
 const { Operation } = Oas;
 const oas = new Oas(petstore);
 
 const props = {
-  result: null,
-  operation: new Operation({}, '/pet', 'post'),
   hideResults: () => {},
+  result: null,
   oas,
   oauth: false,
+  onChange: () => {},
+  operation: new Operation({}, '/pet', 'post'),
 };
 
 describe('no result', () => {
-  test('nothing should render', () => {
+  it('nothing should render', () => {
     const codeSampleResponseTabs = shallow(<Response {...props} />);
 
-    expect(codeSampleResponseTabs.find('span').length).toBe(0);
+    expect(codeSampleResponseTabs.find('span')).toHaveLength(0);
   });
 });
 
 describe('setTab', () => {
-  test('setTab should change state of selectedTab', () => {
+  it('setTab should change state of selectedTab', () => {
     const doc = shallow(<Response {...props} />);
 
     expect(doc.state('responseTab')).toBe('result');
@@ -37,18 +39,6 @@ describe('setTab', () => {
     doc.instance().setTab('result');
 
     expect(doc.state('responseTab')).toBe('result');
-  });
-});
-
-describe('exampleTab', () => {
-  test('exampleTab should change state of exampleTab', () => {
-    const doc = shallow(<Response {...props} />);
-
-    expect(doc.state('exampleTab')).toBe(0);
-
-    doc.instance().setExampleTab(1);
-
-    expect(doc.state('exampleTab')).toBe(1);
   });
 });
 
@@ -66,13 +56,13 @@ test('should show different component tabs based on state', () => {
       }}
     />,
   );
-  expect(doc.find('ResponseBody').length).toBe(1);
+  expect(doc.find('ResponseBody')).toHaveLength(1);
   doc.instance().setTab('metadata');
 
   // I want to do the below assertion instead, but it's not working
   // expect(doc.find('ResponseMetadata').length).toBe(1);
-  expect(doc.html().includes('Response Headers')).toBe(true);
+  expect(doc.html()).toContain('Response Headers');
 
   // Should include request body in HTML
-  expect(doc.html().includes(JSON.stringify({ b: 2 }))).toBe(true);
+  expect(doc.html()).toContain(JSON.stringify({ b: 2 }));
 });

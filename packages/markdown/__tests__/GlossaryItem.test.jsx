@@ -13,5 +13,5 @@ test('should output a glossary item if the term exists', () => {
 });
 
 test('should output nothing if the term does not exist', () => {
-  expect(shallow(<GlossaryItem term="something" terms={[]} />).html()).toBe(null);
+  expect(shallow(<GlossaryItem term="something" terms={[]} />).html()).toBeNull();
 });

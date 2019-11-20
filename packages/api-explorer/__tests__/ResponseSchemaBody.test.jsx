@@ -1,10 +1,10 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const Oas = require('oas');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
-const flattenResponseSchema = require('../src/ResponseSchemaBody').flattenResponseSchema;
-const flatten = require('../src/ResponseSchemaBody').flatten;
-const Oas = require('../src/lib/Oas');
+const { flattenResponseSchema } = require('../src/ResponseSchemaBody');
+const { flatten } = require('../src/ResponseSchemaBody');
 const petstore = require('./fixtures/petstore/oas.json');
 
 const oas = new Oas(petstore);
@@ -21,7 +21,7 @@ test('display object properties in the table', () => {
   const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
 
   expect(responseSchemaBody.find('th').text()).toContain('String');
-  expect(responseSchemaBody.find('td').text()).toEqual('a');
+  expect(responseSchemaBody.find('td').text()).toBe('a');
 });
 
 test('display properties if object contains $ref type', () => {
@@ -38,8 +38,8 @@ test('display properties if object contains $ref type', () => {
     shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
       .find('td')
       .map(a => a.text())
-      .filter(a => a === 'category.name').length,
-  ).toBe(1);
+      .filter(a => a === 'category.name'),
+  ).toHaveLength(1);
 });
 
 test('should flatten schema to an array', () => {
@@ -54,7 +54,7 @@ test('should flatten schema to an array', () => {
       },
     },
   };
-  expect(flattenResponseSchema(responseSchema)).toEqual([
+  expect(flattenResponseSchema(responseSchema)).toStrictEqual([
     {
       name: 'category',
       type: '[String]',
@@ -81,8 +81,8 @@ test('display object properties inside another object in the table', () => {
     shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
       .find('td')
       .map(a => a.text())
-      .filter(a => a === 'a.a').length,
-  ).toBe(1);
+      .filter(a => a === 'a.a'),
+  ).toHaveLength(1);
 });
 
 test('display $ref items inside object', () => {
@@ -121,14 +121,14 @@ test('display $ref items inside object', () => {
     responseSchemaBody
       .find('th')
       .map(a => a.text())
-      .filter(a => a === '[Object]').length,
-  ).toBe(1);
+      .filter(a => a === '[Object]'),
+  ).toHaveLength(1);
   expect(
     responseSchemaBody
       .find('td')
       .map(a => a.text())
-      .filter(a => a === 'a.pets[].index').length,
-  ).toBe(1);
+      .filter(a => a === 'a.pets[].index'),
+  ).toHaveLength(1);
 });
 
 test('not fail when object property missing', () => {
@@ -136,7 +136,7 @@ test('not fail when object property missing', () => {
     type: 'object',
   };
 
-  expect(shallow(<ResponseSchemaBody oas={oas} schema={schema} />).find('th').length).toBe(0);
+  expect(shallow(<ResponseSchemaBody oas={oas} schema={schema} />).find('th')).toHaveLength(0);
 });
 
 test('render top level array of $ref', () => {
@@ -166,14 +166,14 @@ test('render top level array of $ref', () => {
     responseSchemaBody
       .find('td')
       .map(a => a.text())
-      .filter(a => a === 'name').length,
-  ).toBe(1);
+      .filter(a => a === 'name'),
+  ).toHaveLength(1);
   expect(
     responseSchemaBody
       .find('th')
       .map(a => a.text())
-      .filter(a => a === 'String').length,
-  ).toBe(1);
+      .filter(a => a === 'String'),
+  ).toHaveLength(1);
 });
 
 test('not render more than 3 level deep object', () => {
@@ -206,14 +206,14 @@ test('not render more than 3 level deep object', () => {
     responseSchemaBody
       .find('td')
       .map(a => a.text())
-      .filter(a => a === 'a.a.a').length,
-  ).toBe(1);
+      .filter(a => a === 'a.a.a'),
+  ).toHaveLength(1);
   expect(
     responseSchemaBody
       .find('td')
       .map(a => a.text())
-      .filter(a => a === 'a.a.a.a').length,
-  ).toBe(0);
+      .filter(a => a === 'a.a.a.a'),
+  ).toHaveLength(0);
 });
 
 test('render top level array of objects', () => {
@@ -234,14 +234,14 @@ test('render top level array of objects', () => {
     responseSchemaBody
       .find('td')
       .map(a => a.text())
-      .filter(a => a === 'name').length,
-  ).toBe(1);
+      .filter(a => a === 'name'),
+  ).toHaveLength(1);
   expect(
     responseSchemaBody
       .find('th')
       .map(a => a.text())
-      .filter(a => a === 'String').length,
-  ).toBe(1);
+      .filter(a => a === 'String'),
+  ).toHaveLength(1);
 });
 
 test('should render markdown in the description', () => {
@@ -259,10 +259,10 @@ test('should render markdown in the description', () => {
     mount(<ResponseSchemaBody oas={oas} schema={schema} />)
       .find('a')
       .html(),
-  ).toEqual('<a href="https://example.com" target="_self">Description</a>');
+  ).toBe('<a href="https://example.com" target="_self">Description</a>');
 });
 
-test('should show "string" response type', () => {
+test('should show "string" response type for a simple `string` schema', () => {
   const schema = {
     type: 'string',
   };
@@ -272,7 +272,7 @@ test('should show "string" response type', () => {
   );
 });
 
-test('should show "string" response type', () => {
+test('should show "string" response type for an `object` schema that contains a string', () => {
   const schema = {
     type: 'object',
     properties: {
@@ -309,7 +309,7 @@ test('should show "array" response schema type', () => {
   ).toBe('Response schema type: array of objects');
 });
 
-test('should flatten array ', () => {
+test('should flatten array', () => {
   const array = [[1], [2, 3], [[4, 5]]];
-  expect(flatten(array)).toEqual([1, 2, 3, 4, 5]);
+  expect(flatten(array)).toStrictEqual([1, 2, 3, 4, 5]);
 });

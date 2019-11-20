@@ -58,13 +58,29 @@
                     "type": "string",
                     "format": "string"
                   },
+                  "string (format: password, currently unsupported)": {
+                    "type": "string",
+                    "format": "password"
+                  },
                   "string (format: url)": {
-                      "type": "string",
-                      "format": "url"
+                    "type": "string",
+                    "format": "url"
                   },
                   "string (format: unknown-format)": {
                     "type": "string",
                     "format": "unknown-format"
+                  },
+                  "string (enum)": {
+                    "type": "string",
+                    "enum": ["available", "pending", "sold"]
+                  },
+                  "string (enum, with default)": {
+                    "type": "string",
+                    "enum": ["available", "pending", "sold"],
+                    "default": "available"
+                  },
+                  "mixed type (unsupported in the OAS, but should be rendered as a string)": {
+                    "type": "mixed type"
                   },
                   "integer": {
                     "type": "integer",
@@ -75,13 +91,37 @@
                     "type": "integer",
                     "format": "int64"
                   },
+                  "integer (format: int8)": {
+                    "type": "integer",
+                    "format": "int8"
+                  },
+                  "integer (format: uint8)": {
+                    "type": "integer",
+                    "format": "uint8"
+                  },
+                  "integer (format: int16)": {
+                    "type": "integer",
+                    "format": "int16"
+                  },
+                  "integer (format: uint16)": {
+                    "type": "integer",
+                    "format": "uint16"
+                  },
                   "integer (format: int32)": {
                     "type": "integer",
                     "format": "int32"
                   },
+                  "integer (format: uint32)": {
+                    "type": "integer",
+                    "format": "uint32"
+                  },
                   "integer (format: int64)": {
                     "type": "integer",
                     "format": "int64"
+                  },
+                  "integer (format: uint64)": {
+                    "type": "integer",
+                    "format": "uint64"
                   },
                   "integer without `format`": {
                     "type": "integer"
@@ -103,6 +143,29 @@
                   },
                   "boolean without description": {
                     "type": "boolean"
+                  },
+                  "array (of strings)": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "array (of strings, loaded via a $ref)": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/string_enum"
+                    }
+                  },
+                  "array (of objects)": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "string": {
+                          "type": "string"
+                        }
+                      }
+                    }
                   },
                   "object": {
                     "type": "object",
@@ -133,6 +196,19 @@
                     "properties": {
                       "string inside object without description": {
                         "type": "string"
+                      }
+                    }
+                  },
+                  "object without type": {
+                    "description": "Updated status of the pet",
+                    "properties": {
+                      "property1": {
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "property2": {
+                        "type": "integer",
+                        "format": "int64"
                       }
                     }
                   },
@@ -199,6 +275,14 @@
                         },
                         "name": {
                           "type": "string"
+                        },
+                        "object": {
+                          "type": "object",
+                          "properties": {
+                            "a": {
+                              "type": "string"
+                            }
+                          }
                         }
                       }
                     }
@@ -400,6 +484,17 @@
   "x-samples-enabled": true,
   "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
   "components": {
+    "schemas": {
+      "string_enum": {
+        "name": "string",
+        "enum": [
+          "available",
+          "pending",
+          "sold"
+        ],
+        "type": "string"
+      }
+    },
     "requestBodies": {
       "Circular": {
         "type": "object",

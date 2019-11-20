@@ -1,8 +1,21 @@
 {
-  "env": {
-    "jest": true
-  },
+  "extends": [
+    "@readme/eslint-config/testing"
+  ],
   "rules": {
-    "import/no-extraneous-dependencies": 0,
-  },
+    "jest/expect-expect": [
+      "warn",
+      {
+        "assertFunctionNames": [
+          "expect",
+
+          // This rule doesn't recognize supertest assertions.
+          // https://github.com/jest-community/eslint-plugin-jest/issues/471
+          "nock"
+        ]
+      }
+    ],
+
+    "react/jsx-props-no-spreading": "off"
+  }
 }

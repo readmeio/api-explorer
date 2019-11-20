@@ -11,20 +11,21 @@ function generateHeadingId(e) {
 function Heading(props) {
   const id = `section-${generateHeadingId(props.children[0])}`;
   return React.createElement(props.level, { className: 'header-scroll' }, [
-    <div className="anchor waypoint" id={id} key={`anchor-${id}`} />,
+    <div key={`anchor-${id}`} className="anchor waypoint" id={id} />,
     ...props.children,
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    <a className="fa fa-anchor" href={`#${id}`} key={`anchor-icon-${id}`} />,
+    <a key={`anchor-icon-${id}`} className="fa fa-anchor" href={`#${id}`} />,
   ]);
 }
 
 function createHeading(level) {
+  // eslint-disable-next-line react/display-name
   return props => <Heading level={level} {...props} />;
 }
 
 Heading.propTypes = {
-  level: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(PropTypes.string).isRequired,
+  level: PropTypes.string.isRequired,
 };
 
 module.exports = level => createHeading(level);

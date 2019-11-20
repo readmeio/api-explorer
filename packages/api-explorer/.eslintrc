@@ -1,8 +1,16 @@
 {
-  "extends": ["airbnb", "prettier"],
+  "extends": [
+    "@readme/eslint-config",
+    "@readme/eslint-config/react"
+  ],
+  "root": true,
   "rules": {
-    "arrow-body-style": 0,
-    "no-underscore-dangle": ["error", { "allow": ["_cache", "_id", "_key"] }],
-    "no-param-reassign": ["error", { "props": false }],
+    "jsx-a11y/label-has-associated-control": [2, {
+      "controlComponents": ["Input"]
+    }],
+
+    "no-underscore-dangle": ["error", {
+      "allow": ["_cache", "_id", "_key"]
+    }]
   }
 }

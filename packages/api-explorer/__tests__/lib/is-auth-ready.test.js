@@ -1,5 +1,6 @@
+const Oas = require('oas');
+
 const isAuthReady = require('../../src/lib/is-auth-ready');
-const Oas = require('../../src/lib/Oas.js');
 const authTypesOas = require('../fixtures/auth-types/oas');
 const multipleSchemes = require('../fixtures/multiple-securities/oas');
 

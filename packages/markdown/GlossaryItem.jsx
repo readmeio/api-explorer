@@ -25,13 +25,13 @@ GlossaryItem.propTypes = {
   term: PropTypes.string.isRequired,
   terms: PropTypes.arrayOf(
     PropTypes.shape({
-      term: PropTypes.string.isRequired,
       definition: PropTypes.string.isRequired,
+      term: PropTypes.string.isRequired,
     }),
   ).isRequired,
 };
 
-/* istanbul ignore next */
+// eslint-disable-next-line react/display-name
 module.exports = props => (
   <GlossaryTermsContext.Consumer>
     {terms => <GlossaryItem {...props} terms={terms} />}

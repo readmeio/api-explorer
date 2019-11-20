@@ -3,7 +3,7 @@ const { shallow } = require('enzyme');
 const TextArea = require('../../src/block-types/TextArea');
 
 describe('TextArea', () => {
-  test('Text area will output text', () => {
+  it('Text area will output text', () => {
     const block = {
       type: 'textarea',
       text: 'this is text',

@@ -1,13 +1,12 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('./lib/Oas');
+const syntaxHighlighter = require('@readme/syntax-highlighter');
+const Oas = require('oas');
 
 const { Operation } = Oas;
 
 const CopyCode = require('./CopyCode');
-
-const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 const generateCodeSnippet = require('./lib/generate-code-snippet');
 
@@ -46,20 +45,18 @@ class CodeSample extends React.Component {
             const selectedClass = selected ? 'selected' : '';
             return (
               <li key={key}>
-                {
-                  // eslint-disable-next-line jsx-a11y/href-no-hash
-                  <a
-                    href="#"
-                    className={selectedClass}
-                    onClick={e => {
-                      e.preventDefault();
-                      setLanguage(example.language);
-                      this.selectExample(example);
-                    }}
-                  >
-                    {example.name || generateCodeSnippet.getLangName(example.language)}
-                  </a>
-                }
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a
+                  className={selectedClass}
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    setLanguage(example.language);
+                    this.selectExample(example);
+                  }}
+                >
+                  {example.name || generateCodeSnippet.getLangName(example.language)}
+                </a>
               </li>
             );
           })}
@@ -68,14 +65,13 @@ class CodeSample extends React.Component {
           {examplesWithLanguages.map((example, index) => {
             const { key, selected } = this.getKey(example, index);
             return (
-              <div style={{ display: selected ? 'block' : 'none' }}>
+              <div key={key} style={{ display: selected ? 'block' : 'none' }}>
                 <CopyCode key={`copy-${key}`} code={example.code} />
                 <pre
                   className="tomorrow-night tabber-body"
-                  key={key} // eslint-disable-line react/no-array-index-key
                   style={{ display: selected ? 'block' : '' }}
                 >
-                  {syntaxHighlighter(example.code || '', example.language, { dark: true })}
+                  {syntaxHighlighter(example.code, example.language, { dark: true })}
                 </pre>
               </div>
             );
@@ -99,22 +95,20 @@ class CodeSample extends React.Component {
           return (
             <div>
               <ul className="code-sample-tabs">
-                {// TODO add `is-lang-${lang}` class, to body?
-                oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                {oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                  // TODO add `is-lang-${lang}` class, to body?
                   <li key={lang}>
-                    {
-                      // eslint-disable-next-line jsx-a11y/href-no-hash
-                      <a
-                        href="#"
-                        className={`hub-lang-switch-${lang}`}
-                        onClick={e => {
-                          e.preventDefault();
-                          setLanguage(lang);
-                        }}
-                      >
-                        {generateCodeSnippet.getLangName(lang)}
-                      </a>
-                    }
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a
+                      className={`hub-lang-switch-${lang}`}
+                      href="#"
+                      onClick={e => {
+                        e.preventDefault();
+                        setLanguage(lang);
+                      }}
+                    >
+                      {generateCodeSnippet.getLangName(lang)}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -133,18 +127,18 @@ class CodeSample extends React.Component {
 }
 
 CodeSample.propTypes = {
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  setLanguage: PropTypes.func.isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
-  formData: PropTypes.shape({}).isRequired,
   auth: PropTypes.shape({}).isRequired,
   examples: PropTypes.arrayOf(
     PropTypes.shape({
-      language: PropTypes.string.isRequired,
       code: PropTypes.string.isRequired,
+      language: PropTypes.string.isRequired,
     }),
   ),
+  formData: PropTypes.shape({}).isRequired,
   language: PropTypes.string.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  setLanguage: PropTypes.func.isRequired,
 };
 
 CodeSample.defaultProps = {
