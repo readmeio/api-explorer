@@ -12,7 +12,7 @@
     "lint": "eslint . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage"
+    "test": "jest --coverage --runInBand"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -22,7 +22,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/syntax-highlighter",
   "devDependencies": {
-    "@readme/eslint-config": "^1.4.1",
+    "@readme/eslint-config": "^1.4.2",
     "eslint": "^6.5.0",
     "eslint-plugin-jest": "^23.0.4",
     "jest": "^24.8.0",

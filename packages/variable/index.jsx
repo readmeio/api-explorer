@@ -136,6 +136,7 @@ Variable.defaultProps = {
   oauth: false,
 };
 
+/* istanbul ignore next */
 // eslint-disable-next-line react/display-name
 module.exports = props => (
   <VariablesContext.Consumer>

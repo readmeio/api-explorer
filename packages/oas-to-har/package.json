@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage"
+    "test": "jest --coverage --runInBand"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -27,7 +27,7 @@
     "directory": "packages/oas-to-har"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^1.4.1",
+    "@readme/eslint-config": "^1.4.2",
     "eslint": "^6.5.0",
     "eslint-plugin-jest": "^23.0.3",
     "jest": "^24.8.0",

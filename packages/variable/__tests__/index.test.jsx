@@ -8,6 +8,8 @@ describe('single variable', () => {
     variable: 'apiKey',
     user: { apiKey: '123456' },
     defaults: [],
+    changeSelected: () => {},
+    selected: '',
   };
 
   it('should render value', () => {

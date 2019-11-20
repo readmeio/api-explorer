@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const Html = ({ block }) => {
-  return <div dangerouslySetInnerHTML={{ __html: block.data.html }} className="magic-block-html" />;
+  return <div className="magic-block-html" dangerouslySetInnerHTML={{ __html: block.data.html }} />;
 };
 
 Html.propTypes = {

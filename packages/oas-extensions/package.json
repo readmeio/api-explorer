@@ -13,7 +13,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/oas-extensions",
   "devDependencies": {
-    "@readme/eslint-config": "^1.4.1",
+    "@readme/eslint-config": "^1.4.2",
     "eslint": "^6.5.0"
   }
 }
