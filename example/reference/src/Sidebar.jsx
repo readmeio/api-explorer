@@ -24,19 +24,22 @@ Doc.propTypes = {
 };
 
 function Sidebar({ title, docs }) {
-  return ReactDOM.createPortal((
+  return ReactDOM.createPortal(
     <div className="hub-sidebar-category">
       <h3>{title}</h3>
       <ul>
-        { docs.map(doc => <Doc key={doc._id} doc={doc} />) }
+        {docs.map(doc => (
+          <Doc key={doc._id} doc={doc} />
+        ))}
       </ul>
-    </div>
-  ), document.getElementById('hub-sidebar-content'));
+    </div>,
+    document.getElementById('hub-sidebar-content'),
+  );
 }
 
 Sidebar.propTypes = {
-  title: PropTypes.string.isRequired,
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 module.exports = Sidebar;

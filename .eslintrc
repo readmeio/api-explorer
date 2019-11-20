@@ -1,13 +1,33 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb", "prettier"],
+  "extends": [
+    "@readme/eslint-config",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react/recommended"
+  ],
   "env": {
     "browser": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js",".jsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
   },
   "rules": {
     "no-underscore-dangle": ["error", {
       "allow": ["_cache", "_id", "_key"]
     }],
-    "react/destructuring-assignment": 0
+
+    "react/jsx-sort-default-props": "error",
+    "react/jsx-sort-props": ["error", {
+      "reservedFirst": true
+    }],
+
+    "react/sort-prop-types": "error"
   }
 }
