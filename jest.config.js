@@ -10,14 +10,8 @@ module.exports = {
       statements: 90,
     },
   },
-  setupFiles: [
-    path.join(__dirname, '/lib/enzyme'),
-  ],
-  coveragePathIgnorePatterns: [
-    '<rootDir>/webpack.*.js',
-    '<rootDir>/src/form-components',
-    'dist/',
-  ],
+  setupFiles: [path.join(__dirname, '/lib/enzyme')],
+  coveragePathIgnorePatterns: ['<rootDir>/webpack.*.js', '<rootDir>/src/form-components', 'dist/'],
   collectCoverageFrom: [
     '**/*.{js,jsx}',
     '!**/node_modules/**',

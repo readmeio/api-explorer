@@ -14,8 +14,8 @@ function Code({ className, children }) {
 }
 
 Code.propTypes = {
-  className: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.string).isRequired,
+  className: PropTypes.string,
 };
 
 Code.defaultProps = {

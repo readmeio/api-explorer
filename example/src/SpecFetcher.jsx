@@ -4,7 +4,7 @@ const swagger2openapi = require('swagger2openapi');
 const createDocs = require('../../packages/api-explorer/lib/create-docs');
 
 function withSpecFetching(Component) {
-  return class extends React.Component {
+  return class SpecFetcher extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -28,7 +28,7 @@ function withSpecFetching(Component) {
       this.setState({ isLoading: true }, () => {
         this.updateStatus('Fetching Swagger/OAS file');
         fetch(url)
-          .then((res) => {
+          .then(res => {
             if (!res.ok) {
               throw new Error('Failed to fetch.');
             } else if (url.match(/\.(yaml|yml)/)) {
@@ -38,11 +38,12 @@ function withSpecFetching(Component) {
 
             return res.json();
           })
-          .then((json) => {
+          .then(json => {
             if (json.swagger) return this.convertSwagger(url, json);
 
             return this.dereference(json);
-          }).catch((e) => {
+          })
+          .catch(e => {
             this.setState({ isLoading: false });
             this.updateStatus(`There was an error fetching your specification:\n\n${e.message}`);
           });
@@ -61,9 +62,10 @@ function withSpecFetching(Component) {
 
     convertSwagger(url, swagger) {
       this.updateStatus('Converting Swagger file to OAS 3', () => {
-        swagger2openapi.convertObj(swagger, {})
+        swagger2openapi
+          .convertObj(swagger, {})
           .then(({ openapi }) => this.dereference(openapi))
-          .catch((e) => {
+          .catch(e => {
             this.setState({ isLoading: false, invalidSpec: e.message, invalidSpecPath: url });
             this.updateStatus(`There was an error fetching your specification:\n\n${e.message}`);
           });
@@ -75,7 +77,6 @@ function withSpecFetching(Component) {
     }
 
     render() {
-      // eslint-disable-next-line react/jsx-props-no-spreading
       return <Component {...this.state} {...this.props} fetchSwagger={this.fetchSwagger} />;
     }
   };

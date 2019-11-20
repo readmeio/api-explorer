@@ -17,7 +17,7 @@ const props = {
 test('if endpoint has an example, tabs should show', () => {
   const exampleTabs = mount(<ExampleTabs {...props} />);
 
-  expect(exampleTabs.find('a.tabber-tab').length).toBe(2);
+  expect(exampleTabs.find('a.tabber-tab')).toHaveLength(2);
 });
 
 test('should select matching tab by index', () => {
@@ -28,7 +28,7 @@ test('should select matching tab by index', () => {
       .find('a')
       .first()
       .hasClass('selected'),
-  ).toEqual(true);
+  ).toBe(true);
 });
 
 test('should call setExampleTab on click', () => {
@@ -39,11 +39,11 @@ test('should call setExampleTab on click', () => {
 
   secondTab.simulate('click', { preventDefault() {} });
 
-  expect(setExampleTab.mock.calls[0][0]).toEqual(1);
+  expect(setExampleTab.mock.calls[0][0]).toBe(1);
 });
 
 test('should display status codes', () => {
   const exampleTabs = shallow(<ExampleTabs {...props} />);
 
-  expect(exampleTabs.find('IconStatus').length).toBe(2);
+  expect(exampleTabs.find('IconStatus')).toHaveLength(2);
 });

@@ -1,13 +1,12 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb", "prettier"],
-  "env": {
-    "browser": true
-  },
+  "extends": [
+    "@readme/eslint-config",
+    "@readme/eslint-config/react"
+  ],
   "rules": {
     "no-underscore-dangle": ["error", {
       "allow": ["_cache", "_id", "_key"]
-    }],
-    "react/destructuring-assignment": 0
+    }]
   }
 }

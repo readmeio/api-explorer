@@ -9,7 +9,7 @@ function ExampleTabs({ examples, selected, setExampleTab }) {
       {examples.map((example, index) => {
         return (
           <Tab
-            key={index} // eslint-disable-line react/no-array-index-key
+            key={index}
             onClick={e => {
               e.preventDefault();
               setExampleTab(index);

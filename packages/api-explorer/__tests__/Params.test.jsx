@@ -27,7 +27,7 @@ const props = {
 const Params = createParams(oas);
 
 describe('form id attribute', () => {
-  test('should be set to the operationId', () => {
+  it('should be set to the operationId', () => {
     expect(
       mount(
         <div>
@@ -35,8 +35,8 @@ describe('form id attribute', () => {
         </div>,
       )
         .html()
-        .match(new RegExp(`form-${operation.operationId}`, 'g')).length,
-    ).toBe(1);
+        .match(new RegExp(`form-${operation.operationId}`, 'g')),
+    ).toHaveLength(1);
   });
 });
 
@@ -46,7 +46,7 @@ test('should use custom description component', () => {
       <Params {...props} />
     </div>,
   );
-  expect(params.find(Description).length).toBe(1);
+  expect(params.find(Description)).toHaveLength(1);
 });
 
 test('boolean should render as <select>', () => {
@@ -55,13 +55,13 @@ test('boolean should render as <select>', () => {
       <Params {...props} operation={booleanOas.operation('/boolean-with-default', 'get')} />
     </div>,
   );
-  expect(params.find('input[type="checkbox"]').length).toBe(0);
+  expect(params.find('input[type="checkbox"]')).toHaveLength(0);
 
   const select = params.find('.field-boolean select');
 
-  expect(select.length).toBe(1);
-  expect(select.find('option').length).toBe(2);
-  expect(select.find('option').map(el => el.text())).toEqual(['true', 'false']);
+  expect(select).toHaveLength(1);
+  expect(select.find('option')).toHaveLength(2);
+  expect(select.find('option').map(el => el.text())).toStrictEqual(['true', 'false']);
 });
 
 test('boolean should render empty item if default is undefined', () => {
@@ -70,13 +70,13 @@ test('boolean should render empty item if default is undefined', () => {
       <Params {...props} operation={booleanOas.operation('/boolean-without-default', 'get')} />
     </div>,
   );
-  expect(params.find('input[type="checkbox"]').length).toBe(0);
+  expect(params.find('input[type="checkbox"]')).toHaveLength(0);
 
   const select = params.find('.field-boolean select');
 
-  expect(select.length).toBe(1);
-  expect(select.find('option').length).toBe(3);
-  expect(select.find('option').map(el => el.text())).toEqual(['', 'true', 'false']);
+  expect(select).toHaveLength(1);
+  expect(select.find('option')).toHaveLength(3);
+  expect(select.find('option').map(el => el.text())).toStrictEqual(['', 'true', 'false']);
 });
 
 test('should not throw on unknown string format', () => {
@@ -94,7 +94,7 @@ test('should not throw on unknown string format', () => {
     </div>,
   );
 
-  expect(params.find('input').length).toBe(1);
+  expect(params.find('input')).toHaveLength(1);
 });
 
 const jsonOperation = new Operation(oas, '/path', 'post', {
@@ -123,8 +123,8 @@ test('json should render as <textarea>', () => {
     </div>,
   );
 
-  expect(params.find('textarea').length).toBe(1);
-  expect(params.find('.field-json').length).toBe(1);
+  expect(params.find('textarea')).toHaveLength(1);
+  expect(params.find('.field-json')).toHaveLength(1);
 });
 
 test('{ type: string, format: binary } should render as <input type="file">', () => {
@@ -134,8 +134,8 @@ test('{ type: string, format: binary } should render as <input type="file">', ()
     </div>,
   );
 
-  expect(params.find('input[type="file"]').length).toBe(1);
-  expect(params.find('.field-file').length).toBe(1);
+  expect(params.find('input[type="file"]')).toHaveLength(1);
+  expect(params.find('.field-file')).toHaveLength(1);
 });
 
 test('{ type: string, format: url } should render as <input type="url">', () => {
@@ -145,7 +145,7 @@ test('{ type: string, format: url } should render as <input type="url">', () => 
     </div>,
   );
 
-  expect(params.find('input[type="url"]').length).toBe(1);
+  expect(params.find('input[type="url"]')).toHaveLength(1);
 });
 
 function renderParams(schema, customProps) {
@@ -178,7 +178,7 @@ function renderParams(schema, customProps) {
 test('should convert `mixed type` to string', () => {
   const params = renderParams({ type: 'mixed type' });
 
-  expect(params.find(`.field-string`).length).toBe(1);
+  expect(params.find(`.field-string`)).toHaveLength(1);
 });
 
 test.each([
@@ -197,7 +197,7 @@ test.each([
   const clonedSchema = JSON.parse(JSON.stringify(schema));
   const params = renderParams(schema);
 
-  expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`).length).toBe(1);
+  expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`)).toHaveLength(1);
 });
 
 test('should not error if `integer|number` are missing `format`', () => {
@@ -209,20 +209,20 @@ test('should not error if `integer|number` are missing `format`', () => {
 test('should default integer to int32 if missing format', () => {
   const params = renderParams({ type: 'integer' });
 
-  expect(params.find(`.field-integer.field-int32`).length).toBe(1);
+  expect(params.find(`.field-integer.field-int32`)).toHaveLength(1);
 });
 
 test('should default number to float if missing format', () => {
   const params = renderParams({ type: 'number' });
 
-  expect(params.find(`.field-number.field-float`).length).toBe(1);
+  expect(params.find(`.field-number.field-float`)).toHaveLength(1);
 });
 
 describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = { ...oas, [extensions.EXPLORER_ENABLED]: false };
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
 
-  test('array should still show add button, but sub-elements should not be editable', () => {
+  it('array should still show add button, but sub-elements should not be editable', () => {
     const elem = mount(
       <ParamsWithExplorerDisabled
         {...props}
@@ -231,7 +231,7 @@ describe('x-explorer-enabled', () => {
       />,
     );
 
-    expect(elem.find('.field-array .array-item-add').length).toBe(2);
+    expect(elem.find('.field-array .array-item-add')).toHaveLength(2);
 
     elem
       .find('.field-array .array-item-add')
@@ -240,7 +240,7 @@ describe('x-explorer-enabled', () => {
 
     // Assert that after we've clicked to add array items into the view, everything is still in
     // readOnly mode.
-    expect(elem.find('input').length).toBe(1);
+    expect(elem.find('input')).toHaveLength(1);
     expect(
       elem
         .find('input')
@@ -249,15 +249,15 @@ describe('x-explorer-enabled', () => {
     ).toBe('hidden');
   });
 
-  test('should not render any <input>', () => {
+  it('should not render any <input>', () => {
     expect(
       mount(<ParamsWithExplorerDisabled {...props} oas={new Oas(oasWithExplorerDisabled)} />).find(
         'input',
-      ).length,
-    ).toBe(0);
+      ),
+    ).toHaveLength(0);
   });
 
-  test('should not render any <select>', () => {
+  it('should not render any <select>', () => {
     expect(
       mount(
         <ParamsWithExplorerDisabled
@@ -265,11 +265,11 @@ describe('x-explorer-enabled', () => {
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet', 'post')}
         />,
-      ).find('select').length,
-    ).toBe(0);
+      ).find('select'),
+    ).toHaveLength(0);
   });
 
-  test('should not render any <textarea>', () => {
+  it('should not render any <textarea>', () => {
     expect(
       mount(
         <ParamsWithExplorerDisabled
@@ -277,11 +277,11 @@ describe('x-explorer-enabled', () => {
           oas={new Oas(oasWithExplorerDisabled)}
           operation={jsonOperation}
         />,
-      ).find('textarea').length,
-    ).toBe(0);
+      ).find('textarea'),
+    ).toHaveLength(0);
   });
 
-  test('should not render any <input type="file">', () => {
+  it('should not render any <input type="file">', () => {
     expect(
       mount(
         <ParamsWithExplorerDisabled
@@ -289,11 +289,11 @@ describe('x-explorer-enabled', () => {
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet/{petId}/uploadImage', 'post')}
         />,
-      ).find('input[type="file"]').length,
-    ).toBe(0);
+      ).find('input[type="file"]'),
+    ).toHaveLength(0);
   });
 
-  test('should not render any <input type="url">', () => {
+  it('should not render any <input type="url">', () => {
     expect(
       mount(
         <ParamsWithExplorerDisabled
@@ -301,43 +301,44 @@ describe('x-explorer-enabled', () => {
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet/{petId}', 'post')}
         />,
-      ).find('input[type="file"]').length,
-    ).toBe(0);
+      ).find('input[type="file"]'),
+    ).toHaveLength(0);
   });
 });
 
 describe('readOnly', () => {
-  test('should make `readOnly` properties hidden', () => {
+  it('should make `readOnly` properties hidden', () => {
     expect(
       mount(
         <div>
           <Params {...props} operation={oas.operation('/pet', 'post')} />
         </div>,
-      ).find('input#addPet_id[type="hidden"]').length,
-    ).toBe(1);
+      ).find('input#addPet_id[type="hidden"]'),
+    ).toHaveLength(1);
   });
 });
 
-test('defaults should be applied on first render', done => {
-  const defaultValue = 'this is a default value';
-  function onChange(formData) {
-    expect(formData.body).toEqual({ a: defaultValue });
-    return done();
-  }
+test('defaults should be applied on first render', () => {
+  expect.assertions(1);
+  return new Promise(done => {
+    const defaultValue = 'this is a default value';
+    function onChange(formData) {
+      expect(formData.body).toStrictEqual({ a: defaultValue });
+      return done();
+    }
 
-  renderParams({ type: 'string', default: defaultValue }, { onChange });
+    renderParams({ type: 'string', default: defaultValue }, { onChange });
+  });
 });
 
 describe('should not contains error message when property key missing in object type', () => {
-  test('should make `readOnly` properties hidden', () => {
+  it('should make `readOnly` properties hidden', () => {
     expect(
       mount(
         <div>
           <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
         </div>,
-      )
-        .html()
-        .includes('Invalid empty object object field configuration'),
-    ).toBe(false);
+      ).html(),
+    ).not.toContain('Invalid empty object object field configuration');
   });
 });

@@ -9,7 +9,7 @@ test('should output one of each block type', () => {
 
   ['textarea', 'html', 'embed', 'api-header', 'code', 'callout', 'parameters', 'image'].forEach(
     type => {
-      expect(content.find(`.magic-block-${type}`).length).toBe(1);
+      expect(content.find(`.magic-block-${type}`)).toHaveLength(1);
     },
   );
 });
@@ -31,13 +31,13 @@ const body = `
 test('should output only left content if `isThreeColumn=left`', () => {
   const content = mount(<Content body={body} isThreeColumn="left" />);
 
-  expect(content.find('.magic-block-textarea').length).toBe(1);
+  expect(content.find('.magic-block-textarea')).toHaveLength(1);
 });
 
 test('should output only right content if `isThreeColumn=right`', () => {
   const content = mount(<Content body={body} isThreeColumn="right" />);
 
-  expect(content.find('.magic-block-api-header').length).toBe(1);
+  expect(content.find('.magic-block-api-header')).toHaveLength(1);
 });
 
 test('should make code not-dark if it is in the left column', () => {

@@ -91,7 +91,7 @@ test('should return array for request headers', async () => {
         response,
       )
     ).requestHeaders,
-  ).toEqual(['Authorization: Bearer api-key', 'Authorization1: Bearer api-key1']);
+  ).toStrictEqual(['Authorization: Bearer api-key', 'Authorization1: Bearer api-key1']);
 });
 
 test('should return with post data if set', async () => {
@@ -108,7 +108,7 @@ test('should return with post data if set', async () => {
         response,
       )
     ).requestBody,
-  ).toEqual(JSON.stringify({ a: 1 }));
+  ).toBe(JSON.stringify({ a: 1 }));
 });
 
 test('should return with null if postData is empty object', async () => {
@@ -123,7 +123,7 @@ test('should return with null if postData is empty object', async () => {
         response,
       )
     ).requestBody,
-  ).toEqual(null);
+  ).toBeNull();
 });
 
 test('should return with null if postData is undefined', async () => {
@@ -137,22 +137,22 @@ test('should return with null if postData is undefined', async () => {
         response,
       )
     ).requestBody,
-  ).toEqual(null);
+  ).toBeNull();
 });
 
 test('should return array for response headers', async () => {
-  expect((await parseResponse(har, response)).responseHeaders).toEqual([
+  expect((await parseResponse(har, response)).responseHeaders).toStrictEqual([
     'content-type: application/json',
     'x-custom-header: application/json',
   ]);
 });
 
 test('should return `type` from content-type header', async () => {
-  expect((await parseResponse(har, response)).type).toEqual('application/json');
+  expect((await parseResponse(har, response)).type).toBe('application/json');
 });
 
 test('should return null for `type` if content-type header missing', async () => {
-  expect((await parseResponse(har, new Response(responseBody))).type).toEqual(null);
+  expect((await parseResponse(har, new Response(responseBody))).type).toBeNull();
 });
 
 test('should remove x-final-url header set by the proxy', async () => {
@@ -165,29 +165,29 @@ test('should remove x-final-url header set by the proxy', async () => {
         }),
       )
     ).responseHeaders,
-  ).toEqual([]);
+  ).toStrictEqual([]);
 });
 
 test('should pass through status', async () => {
   const status = 200;
-  expect((await parseResponse(har, new Response('', { status }))).status).toEqual(status);
+  expect((await parseResponse(har, new Response('', { status }))).status).toBe(status);
 });
 
 test('isBinary should be true if there is a content-disposition response header', async () => {
   const binaryHeaders = new Headers();
   binaryHeaders.set('Content-Disposition', 'attachment; filename="example.txt"');
-  expect((await parseResponse(har, new Response('', { headers: binaryHeaders }))).isBinary).toEqual(
+  expect((await parseResponse(har, new Response('', { headers: binaryHeaders }))).isBinary).toBe(
     true,
   );
 });
 
 test('should parse application/json response as json', async () => {
-  expect((await parseResponse(har, response)).responseBody).toEqual(JSON.parse(responseBody));
+  expect((await parseResponse(har, response)).responseBody).toStrictEqual(JSON.parse(responseBody));
 });
 
 test('should parse application/vnd.api+json as json', async () => {
   response.headers['Content-Type'] = 'application/vnd.api+json';
-  expect((await parseResponse(har, response)).responseBody).toEqual(JSON.parse(responseBody));
+  expect((await parseResponse(har, response)).responseBody).toStrictEqual(JSON.parse(responseBody));
 });
 
 test('should parse non-json response as text', async () => {
@@ -198,7 +198,9 @@ test('should parse non-json response as text', async () => {
     },
   });
 
-  expect((await parseResponse(har, nonJsonResponse)).responseBody).toEqual(nonJsonResponseBody);
+  expect((await parseResponse(har, nonJsonResponse)).responseBody).toStrictEqual(
+    nonJsonResponseBody,
+  );
 });
 
 test('should not error if invalid json is returned', async () => {
@@ -208,5 +210,5 @@ test('should not error if invalid json is returned', async () => {
     },
   });
 
-  expect((await parseResponse(har, invalidJsonResponse)).responseBody).toEqual('plain text');
+  expect((await parseResponse(har, invalidJsonResponse)).responseBody).toBe('plain text');
 });

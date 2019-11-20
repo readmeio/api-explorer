@@ -1,44 +1,16 @@
 {
   "extends": [
     "@readme/eslint-config",
-    "airbnb",
-    "prettier"
+    "@readme/eslint-config/react"
   ],
+  "root": true,
   "rules": {
     "jsx-a11y/label-has-associated-control": [2, {
       "controlComponents": ["Input"]
     }],
+
     "no-underscore-dangle": ["error", {
       "allow": ["_cache", "_id", "_key"]
-    }],
-    "no-else-return": [2, {
-      "allowElseIf": true
-    }],
-    "no-param-reassign": ["error", {
-      "props": false
-    }],
-    "react/destructuring-assignment": 0,
-    "react/jsx-props-no-spreading": [2, {
-      "html": "enforce",
-      "custom": "enforce",
-      "exceptions": [
-        "ApiHeader",
-        "BaseArrayField",
-        "BaseSchemaField",
-        "CallOut",
-        "Code",
-        "Component",
-        "DebounceInput",
-        "Embed",
-        "Html",
-        "ImageBlock",
-        "Parameters",
-        "Params",
-        "TextArea"
-      ]
-    }],
-    "react/jsx-sort-default-props": 2,
-    "react/jsx-sort-props": 2,
-    "react/sort-prop-types": 2
+    }]
   }
 }

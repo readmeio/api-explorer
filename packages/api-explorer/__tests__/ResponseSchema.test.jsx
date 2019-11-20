@@ -18,7 +18,11 @@ test('should display a header with a dropdown', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
 
   expect(responseSchema.find('h3').text()).toContain('Response');
-  expect(responseSchema.find('select option').map(el => el.text())).toEqual(['200', '400', '404']);
+  expect(responseSchema.find('select option').map(el => el.text())).toStrictEqual([
+    '200',
+    '400',
+    '404',
+  ]);
 });
 
 test('selectedStatus should change state of selectedStatus', () => {
@@ -55,7 +59,7 @@ test('should work if there are no responses', () => {
     />,
   );
 
-  expect(responseSchema.html()).toBe(null);
+  expect(responseSchema.html()).toBeNull();
 });
 
 test('should work if responses is an empty object', () => {
@@ -68,7 +72,7 @@ test('should work if responses is an empty object', () => {
     />,
   );
 
-  expect(responseSchema.html()).toBe(null);
+  expect(responseSchema.html()).toBeNull();
 });
 
 test('should contain ResponseSchemaBody element if $ref exist for "application/json"', () => {
@@ -85,7 +89,7 @@ test('should not contain ResponseSchemaBody element if $ref not exist', () => {
     }),
   };
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
-  expect(responseSchema.find('ResponseSchemaBody').length).toBe(0);
+  expect(responseSchema.find('ResponseSchemaBody')).toHaveLength(0);
 });
 
 test('should render schema from "application/json"', () => {
@@ -109,7 +113,7 @@ test('should render schema from "application/json"', () => {
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
-  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
+  expect(responseSchema.find('ResponseSchemaBody')).toHaveLength(1);
 });
 
 test('should contain ResponseSchemaBody element if $ref exist for "application/xml"', () => {
@@ -133,7 +137,7 @@ test('should contain ResponseSchemaBody element if $ref exist for "application/x
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
-  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
+  expect(responseSchema.find('ResponseSchemaBody')).toHaveLength(1);
 });
 
 test('should allow $ref lookup at the responses object level', () => {
@@ -173,8 +177,8 @@ test('should allow $ref lookup at the responses object level', () => {
     />,
   );
 
-  expect(responseSchema.find('.desc').length).toBe(1);
-  expect(responseSchema.find('ResponseSchemaBody').length).toBe(1);
+  expect(responseSchema.find('.desc')).toHaveLength(1);
+  expect(responseSchema.find('ResponseSchemaBody')).toHaveLength(1);
 });
 
 test('should change selectedStatus in component', () => {
@@ -184,8 +188,8 @@ test('should change selectedStatus in component', () => {
 
   responseSchema.instance().changeHandler({ target: { value: '404' } });
   const newSelectedStatus = responseSchema.state().selectedStatus;
-  expect(selectedStatus).toEqual('200');
-  expect(newSelectedStatus).toEqual('404');
+  expect(selectedStatus).toBe('200');
+  expect(newSelectedStatus).toBe('404');
 });
 
 test('should not break if schema property missing', () => {
@@ -206,5 +210,5 @@ test('should not break if schema property missing', () => {
   };
 
   const responseSchema = shallow(<ResponseSchema {...testProps} />);
-  expect(responseSchema.find('table').length).toBe(0);
+  expect(responseSchema.find('table')).toHaveLength(0);
 });

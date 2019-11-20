@@ -1,6 +1,7 @@
 const React = require('react');
 const codemirror = require('./codemirror.jsx');
 
+// eslint-disable-next-line react/display-name
 module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) =>
   React.createElement(
     'span',

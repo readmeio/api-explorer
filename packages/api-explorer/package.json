@@ -30,7 +30,7 @@
     "lint": "eslint . --ext js --ext jsx",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage",
+    "test": "jest --coverage --runInBand",
     "watch": "webpack -w --progress"
   },
   "publishConfig": {
@@ -41,9 +41,9 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-explorer",
   "devDependencies": {
-    "@readme/eslint-config": "^1.0.0",
+    "@readme/eslint-config": "^1.4.2",
     "eslint": "^6.5.0",
-    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "jest": "^24.8.0",

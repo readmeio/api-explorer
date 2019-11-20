@@ -1,6 +1,3 @@
 {
-  "extends": "airbnb-base",
-  "rules": {
-
-  }
+  "extends": "@readme/eslint-config"
 }

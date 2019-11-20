@@ -5,10 +5,7 @@ const IconStatus = require('./IconStatus');
 function Meta({ label, children }) {
   return (
     <div className="meta">
-      {
-        // eslint-disable-next-line jsx-a11y/label-has-for
-        <label>{label}</label>
-      }
+      <label>{label}</label>
       {children}
     </div>
   );

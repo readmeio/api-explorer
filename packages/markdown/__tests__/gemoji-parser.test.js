@@ -2,7 +2,7 @@ const unified = require('unified');
 const remarkParse = require('remark-parse');
 const parser = require('../gemoji-parser');
 
-it('should output an image node for a known emoji', () => {
+test('should output an image node for a known emoji', () => {
   const emoji = 'joy';
   const markdown = `This is a gemoji :${emoji}:.`;
   const ast = {
@@ -38,10 +38,10 @@ it('should output an image node for a known emoji', () => {
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
-  ).toEqual(ast);
+  ).toStrictEqual(ast);
 });
 
-it('should output an <i> for a font awesome icon', () => {
+test('should output an <i> for a font awesome icon', () => {
   const emoji = 'fa-lock';
   const markdown = `This is a gemoji :${emoji}:.`;
   const ast = {
@@ -72,10 +72,10 @@ it('should output an <i> for a font awesome icon', () => {
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
-  ).toEqual(ast);
+  ).toStrictEqual(ast);
 });
 
-it('should output nothing for unknown emojis', () => {
+test('should output nothing for unknown emojis', () => {
   const emoji = 'unknown-emoji';
   const markdown = `This is a gemoji :${emoji}:.`;
   const ast = {
@@ -94,5 +94,5 @@ it('should output nothing for unknown emojis', () => {
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
-  ).toEqual(ast);
+  ).toStrictEqual(ast);
 });

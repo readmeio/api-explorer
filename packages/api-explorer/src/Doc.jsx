@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-fragments */
 const React = require('react');
 const PropTypes = require('prop-types');
 const fetchHar = require('fetch-har');
@@ -272,11 +271,10 @@ class Doc extends React.Component {
   }
 
   renderPathUrl() {
-    /* eslint-disable no-return-assign */
     return (
       <PathUrl
         auth={this.props.auth}
-        authInputRef={el => (this.authInput = el)}
+        authInputRef={el => (this.authInput = el)} // eslint-disable-line no-return-assign
         dirty={this.state.dirty}
         loading={this.state.loading}
         needsAuth={this.state.needsAuth}

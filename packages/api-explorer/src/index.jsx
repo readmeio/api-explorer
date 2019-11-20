@@ -107,7 +107,7 @@ class ApiExplorer extends React.Component {
     if (splitReferenceDocs) return {};
 
     const { docs } = this.props;
-    const range = num => [...Array(num).keys()];
+    const range = num => [...new Array(num).keys()];
 
     const hash = range(docs.length).reduce((total, idx) => {
       total[idx] = true;
@@ -156,7 +156,7 @@ class ApiExplorer extends React.Component {
           id="hub-reference"
         >
           {docs.map((doc, index) => (
-            <VariablesContext.Provider value={this.props.variables}>
+            <VariablesContext.Provider key={index} value={this.props.variables}>
               <OauthContext.Provider value={this.props.oauth}>
                 <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
                   <BaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
@@ -241,10 +241,11 @@ ApiExplorer.defaultProps = {
   tryItMetrics: () => {},
 };
 
+// eslint-disable-next-line react/display-name
 module.exports = props => (
   <ErrorBoundary>
-    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
     <ApiExplorer {...props} />
   </ErrorBoundary>
 );
+
 module.exports.ApiExplorer = ApiExplorer;

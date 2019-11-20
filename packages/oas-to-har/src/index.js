@@ -39,7 +39,6 @@ function getContentType(pathOperation) {
 
   let type = 'application/json';
   if (types && types.length) {
-    // eslint-disable-next-line prefer-destructuring
     type = types[0];
   }
 
@@ -58,7 +57,6 @@ function getResponseContentType(content) {
 
   let type = 'application/json';
   if (types && types.length) {
-    // eslint-disable-next-line prefer-destructuring
     type = types[0];
   }
 

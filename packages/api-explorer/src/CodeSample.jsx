@@ -65,10 +65,9 @@ class CodeSample extends React.Component {
           {examplesWithLanguages.map((example, index) => {
             const { key, selected } = this.getKey(example, index);
             return (
-              <div style={{ display: selected ? 'block' : 'none' }}>
+              <div key={key} style={{ display: selected ? 'block' : 'none' }}>
                 <CopyCode key={`copy-${key}`} code={example.code} />
                 <pre
-                  key={key} // eslint-disable-line react/no-array-index-key
                   className="tomorrow-night tabber-body"
                   style={{ display: selected ? 'block' : '' }}
                 >
