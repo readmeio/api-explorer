@@ -179,10 +179,22 @@ describe('Logs', () => {
     const instance = comp.instance();
     instance.onSelect({
       target: {
+        selectedIndex: 0,
         value: '1230',
+        options: [
+          {
+            value: '1230',
+            text: 'someid',
+          },
+          {
+            value: '7000',
+            text: 'anotherId',
+          },
+        ],
       },
     });
-    expect(instance.props.changeGroup).toHaveBeenCalledWith('1230');
+
+    expect(instance.props.changeGroup).toHaveBeenCalledWith('1230', 'someid');
   });
 
   it('open window on log visit', () => {

@@ -17,7 +17,7 @@ function getKey(user, scheme) {
   }
 }
 
-function getSingle(user, scheme = {}, selectedApp) {
+function getSingle(user, scheme = {}, selectedApp = false) {
   if (user.keys) {
     if (selectedApp) {
       return getKey(
@@ -40,8 +40,9 @@ function getAuth(user, oasFiles, selectedApp = false) {
       if (
         Object.keys(oas.components || {}).length === 0 ||
         Object.keys(oas.components.securitySchemes || {}).length === 0
-      )
+      ) {
         return {};
+      }
 
       return Object.keys(oas.components.securitySchemes)
         .map(scheme => {
@@ -51,6 +52,7 @@ function getAuth(user, oasFiles, selectedApp = false) {
               {
                 ...oas.components.securitySchemes[scheme],
                 _key: scheme,
+                selectedApp,
               },
               selectedApp,
             ),

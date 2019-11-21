@@ -23,12 +23,13 @@ class ApiExplorer extends React.Component {
     this.onAuthChange = this.onAuthChange.bind(this);
 
     this.state = {
+      auth: getAuth(this.props.variables.user, this.props.oasFiles),
+      group: this.getGroup(),
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
       selectedApp: {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      group: this.getGroup(),
     };
 
     this.changeGroup = this.changeGroup.bind(this);
@@ -87,8 +88,17 @@ class ApiExplorer extends React.Component {
     return this.props.oasFiles[apiSetting];
   }
 
-  changeGroup(group) {
-    this.setState({ group });
+  /**
+   * Change the current selected group and refresh the instance auth keys based on that selection.
+   *
+   * @param {string} groupId
+   * @param {string} groupName
+   */
+  changeGroup(groupId, groupName) {
+    this.setState({
+      group: groupId,
+      auth: getAuth(this.props.variables.user, this.props.oasFiles, groupName),
+    });
   }
 
   isLazy(index) {
@@ -163,11 +173,7 @@ class ApiExplorer extends React.Component {
                       <Doc
                         key={doc._id}
                         appearance={this.props.appearance}
-                        auth={getAuth(
-                          this.props.variables.user,
-                          this.props.oasFiles,
-                          this.state.selectedApp.selected,
-                        )}
+                        auth={this.state.auth}
                         baseUrl={this.props.baseUrl.replace(/\/$/, '')}
                         changeGroup={this.changeGroup}
                         doc={doc}

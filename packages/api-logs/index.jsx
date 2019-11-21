@@ -88,7 +88,7 @@ class Logs extends React.Component {
   }
 
   onSelect(event) {
-    this.changeGroup(event.target.value);
+    this.changeGroup(event.target.value, event.target.options[event.target.selectedIndex].text);
   }
 
   async getLogs(iterative) {
@@ -141,8 +141,12 @@ class Logs extends React.Component {
     this.setState({ loading: false });
   }
 
-  changeGroup(group) {
-    this.props.changeGroup(group);
+  /**
+   * @param {string} groupId
+   * @param {string} groupName
+   */
+  changeGroup(groupId, groupName) {
+    this.props.changeGroup(groupId, groupName);
   }
 
   visitLogItem(log) {
