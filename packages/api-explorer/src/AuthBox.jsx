@@ -5,7 +5,21 @@ const { Operation } = require('oas');
 
 const SecurityInput = require('./SecurityInput');
 
-function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }) {
+function Securities({
+  auth,
+  authInputRef,
+  group,
+  groups,
+  oauth,
+  onChange,
+  onGroupChange,
+  onSubmit,
+  operation,
+}) {
+  function onSelect(event) {
+    onGroupChange(event.target.value, event.target.options[event.target.selectedIndex].text);
+  }
+
   const securityTypes = operation.prepareSecurity();
   return Object.keys(securityTypes).map(type => {
     const securities = securityTypes[type];
@@ -13,6 +27,18 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
       <form key={type} onSubmit={onSubmit}>
         <h3>{`${type} Auth`}</h3>
         <div className="pad">
+          <section>
+            {groups && groups.length > 1 && (
+              <select onChange={onSelect} value={group}>
+                {groups.map(item => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </section>
+
           <section>
             {
               // https://github.com/readmeio/api-explorer/issues/20
@@ -44,15 +70,18 @@ function Securities({ authInputRef, operation, onChange, oauth, auth, onSubmit }
 }
 
 function AuthBox({
-  authInputRef,
-  operation,
-  onSubmit,
-  onChange,
-  open,
-  needsAuth,
-  toggle,
-  oauth,
   auth,
+  authInputRef,
+  group,
+  groups,
+  needsAuth,
+  oauth,
+  onChange,
+  onGroupChange,
+  onSubmit,
+  open,
+  operation,
+  toggle,
 }) {
   if (Object.keys(operation.prepareSecurity()).length === 0) return null;
 
@@ -67,8 +96,11 @@ function AuthBox({
           <Securities
             auth={auth}
             authInputRef={authInputRef}
+            group={group}
+            groups={groups}
             oauth={oauth}
             onChange={onChange}
+            onGroupChange={onGroupChange}
             onSubmit={e => {
               e.preventDefault();
               onSubmit();
@@ -90,9 +122,17 @@ function AuthBox({
 AuthBox.propTypes = {
   auth: PropTypes.shape({}),
   authInputRef: PropTypes.func,
+  group: PropTypes.string,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  onGroupChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   open: PropTypes.bool,
   operation: PropTypes.instanceOf(Operation).isRequired,

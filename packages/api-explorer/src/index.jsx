@@ -32,7 +32,7 @@ class ApiExplorer extends React.Component {
       },
     };
 
-    this.changeGroup = this.changeGroup.bind(this);
+    this.onGroupChange = this.onGroupChange.bind(this);
     this.groups =
       this.props.variables.user.keys &&
       this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
@@ -94,7 +94,7 @@ class ApiExplorer extends React.Component {
    * @param {string} groupId
    * @param {string} groupName
    */
-  changeGroup(groupId, groupName) {
+  onGroupChange(groupId, groupName) {
     this.setState({
       group: groupId,
       auth: getAuth(this.props.variables.user, this.props.oasFiles, groupName),
@@ -175,7 +175,6 @@ class ApiExplorer extends React.Component {
                         appearance={this.props.appearance}
                         auth={this.state.auth}
                         baseUrl={this.props.baseUrl.replace(/\/$/, '')}
-                        changeGroup={this.changeGroup}
                         doc={doc}
                         flags={this.props.flags}
                         group={this.state.group}
@@ -186,6 +185,7 @@ class ApiExplorer extends React.Component {
                         oas={this.getOas(doc)}
                         oauth={this.props.oauth}
                         onAuthChange={this.onAuthChange}
+                        onGroupChange={this.onGroupChange}
                         setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
                         tryItMetrics={this.props.tryItMetrics}

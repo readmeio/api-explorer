@@ -66,7 +66,7 @@ class Logs extends React.Component {
     this.onSelect = this.onSelect.bind(this);
     this.renderTable = this.renderTable.bind(this);
     this.visitLogItem = this.visitLogItem.bind(this);
-    this.changeGroup = this.changeGroup.bind(this);
+    this.onGroupChange = this.onGroupChange.bind(this);
   }
 
   componentDidMount() {
@@ -88,7 +88,7 @@ class Logs extends React.Component {
   }
 
   onSelect(event) {
-    this.changeGroup(event.target.value, event.target.options[event.target.selectedIndex].text);
+    this.onGroupChange(event.target.value, event.target.options[event.target.selectedIndex].text);
   }
 
   async getLogs(iterative) {
@@ -145,8 +145,8 @@ class Logs extends React.Component {
    * @param {string} groupId
    * @param {string} groupName
    */
-  changeGroup(groupId, groupName) {
-    this.props.changeGroup(groupId, groupName);
+  onGroupChange(groupId, groupName) {
+    this.props.onGroupChange(groupId, groupName);
   }
 
   visitLogItem(log) {
@@ -190,6 +190,7 @@ class Logs extends React.Component {
         </select>
       );
     }
+
     return null;
   }
 
@@ -255,7 +256,6 @@ class Logs extends React.Component {
 
 Logs.propTypes = {
   baseUrl: PropTypes.string.isRequired,
-  changeGroup: PropTypes.func.isRequired,
   group: PropTypes.string,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
@@ -263,6 +263,7 @@ Logs.propTypes = {
       name: PropTypes.string,
     }),
   ),
+  onGroupChange: PropTypes.func.isRequired,
   query: PropTypes.shape({}).isRequired,
   result: PropTypes.shape({}),
 };
