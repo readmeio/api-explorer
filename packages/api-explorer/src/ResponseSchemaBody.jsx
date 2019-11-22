@@ -1,8 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-
 const markdown = require('@readme/markdown');
-const findSchemaDefinition = require('./lib/find-schema-definition');
+const { findSchemaDefinition } = require('oas/utils');
 
 const flatten = list => list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 const getName = (parent, prop) => {
@@ -120,7 +119,6 @@ function ResponseSchemaBody({ schema, oas }) {
     <div>
       {schema && schema.type && (
         <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
-          {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
           {`Response schema type: `}
           <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
         </p>
@@ -133,12 +131,12 @@ function ResponseSchemaBody({ schema, oas }) {
 }
 
 ResponseSchemaBody.propTypes = {
+  oas: PropTypes.shape({}).isRequired,
   schema: PropTypes.shape({
-    type: PropTypes.string.isRequired,
     items: PropTypes.object,
     properties: PropTypes.object,
+    type: PropTypes.string.isRequired,
   }).isRequired,
-  oas: PropTypes.shape({}).isRequired,
 };
 
 module.exports = ResponseSchemaBody;

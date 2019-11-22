@@ -15,21 +15,21 @@ const docs = createDocs(oas, 'api-setting');
 
 const languages = ['node', 'curl'];
 const props = {
+  appearance: {},
   docs,
+  flags: {},
+  glossaryTerms: [],
   oasFiles: {
     'api-setting': { ...oas, [extensions.SAMPLES_LANGUAGES]: languages },
   },
-  flags: {},
-  appearance: {},
   suggestedEdits: false,
   variables: { user: {}, defaults: [] },
-  glossaryTerms: [],
 };
 
 test('ApiExplorer renders a doc for each', () => {
   const explorer = shallow(<ApiExplorer {...props} />);
 
-  expect(explorer.find('Doc').length).toBe(docs.length);
+  expect(explorer.find('Doc')).toHaveLength(docs.length);
 });
 
 test('ApiExplorer should not render a common parameter OAS operation method', () => {
@@ -44,20 +44,19 @@ test('ApiExplorer should not render a common parameter OAS operation method', ()
 
   const explorer = shallow(<ApiExplorer {...propsCommon} />);
 
-  expect(explorer.find('Doc').length).toBe(docsCommon.length - 1);
+  expect(explorer.find('Doc')).toHaveLength(docsCommon.length - 1);
 });
 
-test('Should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
+test('should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
   // Prompting an error with an array of nulls instead of Docs
   // This is to simulate some unknown error state during initial render
-  // eslint-disable-next-line react/jsx-props-no-spreading
   const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
 
-  expect(explorer.find('ErrorBoundary').length).toBe(1);
+  expect(explorer.find('ErrorBoundary')).toHaveLength(1);
 });
 
 describe('selected language', () => {
-  test('should default to curl', () => {
+  it('should default to curl', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
@@ -70,14 +69,14 @@ describe('selected language', () => {
     expect(explorer.state('language')).toBe('curl');
   });
 
-  test('should auto-select to the first language of the first oas file', () => {
+  it('should auto-select to the first language of the first oas file', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
     expect(explorer.state('language')).toBe(languages[0]);
   });
 
   describe('#setLanguage()', () => {
-    test('should update the language state', () => {
+    it('should update the language state', () => {
       const explorer = shallow(<ApiExplorer {...props} />);
 
       explorer.instance().setLanguage('language');
@@ -87,7 +86,7 @@ describe('selected language', () => {
   });
 
   describe('Cookie', () => {
-    test('the state of language should be set to Cookie value if provided', () => {
+    it('the state of language should be set to Cookie value if provided', () => {
       Cookie.set('readme_language', 'javascript');
       const explorer = shallow(<ApiExplorer {...props} />);
 
@@ -95,14 +94,14 @@ describe('selected language', () => {
     });
   });
 
-  test('the state of language should be the first language defined if cookie has not been set', () => {
+  it('the state of language should be the first language defined if cookie has not been set', () => {
     Cookie.remove('readme_language');
     const explorer = shallow(<ApiExplorer {...props} />);
 
     expect(explorer.state('language')).toBe('node');
   });
 
-  test('the state of language should be defaulted to curl if no cookie is present and languages have not been defined', () => {
+  it('the state of language should be defaulted to curl if no cookie is present and languages have not been defined', () => {
     Cookie.remove('readme_language');
     const explorer = shallow(
       <ApiExplorer
@@ -132,10 +131,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, category: { apiSetting: 'api-setting' } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[{ ...baseDoc, category: { apiSetting: 'api-setting' } }]}
       />,
     );
 
@@ -147,10 +146,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: { _id: 'api-setting' } } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: { _id: 'api-setting' } } }]}
       />,
     );
 
@@ -161,10 +160,10 @@ describe('oas', () => {
     const explorer = shallow(
       <ApiExplorer
         {...props}
+        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: 'api-setting' } }]}
         oasFiles={{
           'api-setting': oas,
         }}
-        docs={[{ ...baseDoc, api: { method: 'get', apiSetting: 'api-setting' } }]}
       />,
     );
 
@@ -177,13 +176,13 @@ describe('oas', () => {
       <ApiExplorer {...props} docs={[{ ...baseDoc, api: { method: 'get', apiSetting: null } }]} />,
     );
 
-    expect(explorer.find('Doc').get(0).props.oas).toEqual({});
+    expect(explorer.find('Doc').get(0).props.oas).toStrictEqual({});
   });
 
   it('should set it to empty object', () => {
     const explorer = shallow(<ApiExplorer {...props} docs={[baseDoc]} />);
 
-    expect(explorer.find('Doc').get(0).props.oas).toEqual({});
+    expect(explorer.find('Doc').get(0).props.oas).toStrictEqual({});
   });
 });
 
@@ -193,7 +192,7 @@ describe('auth', () => {
 
     const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
 
-    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
+    expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
@@ -203,7 +202,7 @@ describe('auth', () => {
       <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
     );
 
-    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '123456' });
+    expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '123456' });
   });
 
   it('should read apiKey from `user_data.keys[].api_key`', () => {
@@ -216,26 +215,26 @@ describe('auth', () => {
       />,
     );
 
-    expect(explorer.state('auth')).toEqual({ api_key: '123456', petstore_auth: '' });
+    expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '' });
   });
 
   it('should return nothing for lazy + `splitReferenceDocs`', () => {
     const explorer = shallow(<ApiExplorer {...props} appearance={{ splitReferenceDocs: true }} />);
 
     const { lazyHash } = explorer.instance();
-    expect(lazyHash).toEqual({});
+    expect(lazyHash).toStrictEqual({});
   });
 
   it('should disable lazy render first 5 projects', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
     const { lazyHash } = explorer.instance();
-    expect(lazyHash[0]).toEqual(false);
-    expect(lazyHash[1]).toEqual(false);
-    expect(lazyHash[2]).toEqual(false);
-    expect(lazyHash[3]).toEqual(false);
-    expect(lazyHash[4]).toEqual(false);
-    expect(lazyHash[5]).toEqual(true);
+    expect(lazyHash[0]).toBe(false);
+    expect(lazyHash[1]).toBe(false);
+    expect(lazyHash[2]).toBe(false);
+    expect(lazyHash[3]).toBe(false);
+    expect(lazyHash[4]).toBe(false);
+    expect(lazyHash[5]).toBe(true);
   });
 
   it('should disable lazy render middle 5 projects', () => {
@@ -247,13 +246,13 @@ describe('auth', () => {
     const slugs = instance.props.docs.map(x => x.slug);
     const centerIdx = slugs.indexOf('user-createWithArray');
 
-    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
-    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
-    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
-    expect(instance.lazyHash[centerIdx]).toEqual(false);
-    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
-    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
-    expect(instance.lazyHash[centerIdx + 3]).toEqual(true);
+    expect(instance.lazyHash[centerIdx - 3]).toBe(true);
+    expect(instance.lazyHash[centerIdx - 2]).toBe(false);
+    expect(instance.lazyHash[centerIdx - 1]).toBe(false);
+    expect(instance.lazyHash[centerIdx]).toBe(false);
+    expect(instance.lazyHash[centerIdx + 1]).toBe(false);
+    expect(instance.lazyHash[centerIdx + 2]).toBe(false);
+    expect(instance.lazyHash[centerIdx + 3]).toBe(true);
   });
 
   it('should disable lazy render for last 5 projects', () => {
@@ -265,18 +264,18 @@ describe('auth', () => {
     const slugs = instance.props.docs.map(x => x.slug);
     const centerIdx = slugs.indexOf('user-username');
 
-    expect(instance.lazyHash[centerIdx - 3]).toEqual(true);
-    expect(instance.lazyHash[centerIdx - 2]).toEqual(false);
-    expect(instance.lazyHash[centerIdx - 1]).toEqual(false);
-    expect(instance.lazyHash[centerIdx]).toEqual(false);
-    expect(instance.lazyHash[centerIdx + 1]).toEqual(false);
-    expect(instance.lazyHash[centerIdx + 2]).toEqual(false);
+    expect(instance.lazyHash[centerIdx - 3]).toBe(true);
+    expect(instance.lazyHash[centerIdx - 2]).toBe(false);
+    expect(instance.lazyHash[centerIdx - 1]).toBe(false);
+    expect(instance.lazyHash[centerIdx]).toBe(false);
+    expect(instance.lazyHash[centerIdx + 1]).toBe(false);
+    expect(instance.lazyHash[centerIdx + 2]).toBe(false);
   });
 
   it('should default to empty string', () => {
     const explorer = shallow(<ApiExplorer {...props} />);
 
-    expect(explorer.state('auth')).toEqual({ api_key: '', petstore_auth: '' });
+    expect(explorer.state('auth')).toStrictEqual({ api_key: '', petstore_auth: '' });
   });
 
   it('should be updated via editing authbox', () => {
@@ -303,12 +302,12 @@ describe('auth', () => {
     expect(explorer.state('auth').petstore_auth).toBe('12345678');
   });
 
-  test('should merge securities auth changes', () => {
+  it('should merge securities auth changes', () => {
     const explorer = mount(<ApiExplorer {...props} />);
 
     explorer.instance().onAuthChange({ api_key: '7890' });
     explorer.instance().onAuthChange({ petstore_auth: '123456' });
 
-    expect(explorer.state('auth')).toEqual({ api_key: '7890', petstore_auth: '123456' });
+    expect(explorer.state('auth')).toStrictEqual({ api_key: '7890', petstore_auth: '123456' });
   });
 });

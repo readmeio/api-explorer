@@ -1,13 +1,12 @@
 const React = require('react');
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
+const Oas = require('oas');
 
 const ResponseTabs = require('./ResponseTabs');
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
-const Example = require('./Example');
-
-const Oas = require('./lib/Oas');
+const ResponseExample = require('./ResponseExample');
 
 const { Operation } = Oas;
 
@@ -16,23 +15,13 @@ class Response extends React.Component {
     super(props);
     this.state = {
       responseTab: 'result',
-      exampleTab: 0,
     };
+
     this.setTab = this.setTab.bind(this);
-    this.setExampleTab = this.setExampleTab.bind(this);
-    this.setResponseType = this.setResponseType.bind(this);
   }
 
   setTab(selected) {
     this.setState({ responseTab: selected });
-  }
-
-  setExampleTab(index) {
-    this.setState({ exampleTab: index, responseType: undefined });
-  }
-
-  setResponseType(index) {
-    this.setState({ responseType: index });
   }
 
   render() {
@@ -51,30 +40,28 @@ class Response extends React.Component {
             {result !== null && (
               <span>
                 <ResponseTabs
-                  result={result}
+                  hideResults={hideResults}
                   oas={oas}
                   operation={operation}
                   responseTab={responseTab}
+                  result={result}
                   setTab={this.setTab}
-                  hideResults={hideResults}
                 />
 
                 {responseTab === 'result' && (
-                  <ResponseBody result={result} oauth={oauth} isOauth={!!securities.OAuth2} />
+                  <ResponseBody isOauth={!!securities.OAuth2} oauth={oauth} result={result} />
                 )}
                 {responseTab === 'metadata' && <ResponseMetadata result={result} />}
               </span>
             )}
           </div>
-          <Example
+
+          <ResponseExample
+            exampleResponses={exampleResponses}
+            oas={oas}
+            onChange={this.props.onChange}
             operation={operation}
             result={result}
-            oas={oas}
-            selected={this.state.exampleTab}
-            responseType={this.state.responseType}
-            setExampleTab={this.setExampleTab}
-            setResponseType={this.setResponseType}
-            exampleResponses={exampleResponses}
           />
         </div>
       </div>
@@ -83,17 +70,18 @@ class Response extends React.Component {
 }
 
 Response.propTypes = {
-  result: PropTypes.shape({}),
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
-  oauth: PropTypes.bool.isRequired,
-  hideResults: PropTypes.func.isRequired,
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  hideResults: PropTypes.func.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  oauth: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  result: PropTypes.shape({}),
 };
 
 Response.defaultProps = {
-  result: {},
   exampleResponses: [],
+  result: {},
 };
 
 module.exports = Response;

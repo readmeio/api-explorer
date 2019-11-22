@@ -5,6 +5,8 @@ const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDow
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
+const Oas = require('oas');
+const { parametersToJsonSchema } = require('oas/utils');
 
 const DescriptionField = require('./form-components/DescriptionField');
 const createBaseInput = require('./form-components/BaseInput');
@@ -14,10 +16,8 @@ const createSchemaField = require('./form-components/SchemaField');
 const createTextareaWidget = require('./form-components/TextareaWidget');
 const createFileWidget = require('./form-components/FileWidget');
 const createURLWidget = require('./form-components/URLWidget');
-const Oas = require('./lib/Oas');
 
 const { Operation } = Oas;
-const parametersToJsonSchema = require('./lib/parameters-to-json-schema');
 
 function Params({
   oas,
@@ -39,14 +39,24 @@ function Params({
     jsonSchema &&
     jsonSchema.map(schema => {
       return [
-        <div className="param-type-header" key={`${schema.type}-header`}>
+        <div key={`${schema.type}-header`} className="param-type-header">
           <h3>{schema.label}</h3>
           <div className="param-header-border" />
         </div>,
         <Form
           key={`${schema.type}-form`}
+          fields={{
+            DescriptionField,
+            ArrayField,
+            SchemaField,
+          }}
+          formData={formData[schema.type]}
           id={`form-${operation.operationId}`}
           idPrefix={operation.operationId}
+          onChange={form => {
+            return onChange({ [schema.type]: form.formData });
+          }}
+          onSubmit={onSubmit}
           schema={schema.schema}
           widgets={{
             int8: UpDownWidget,
@@ -71,19 +81,8 @@ function Params({
             BaseInput,
             SelectWidget,
           }}
-          onSubmit={onSubmit}
-          formData={formData[schema.type]}
-          onChange={form => {
-            return onChange({ [schema.type]: form.formData });
-          }}
-          fields={{
-            DescriptionField,
-            ArrayField,
-            SchemaField,
-          }}
         >
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <button type="submit" style={{ display: 'none' }} />
+          <button style={{ display: 'none' }} type="submit" />
         </Form>,
       ];
     })
@@ -91,17 +90,17 @@ function Params({
 }
 
 Params.propTypes = {
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
+  ArrayField: PropTypes.func.isRequired,
+  BaseInput: PropTypes.func.isRequired,
+  FileWidget: PropTypes.func.isRequired,
   formData: PropTypes.shape({}).isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  BaseInput: PropTypes.func.isRequired,
-  SelectWidget: PropTypes.func.isRequired,
-  ArrayField: PropTypes.func.isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
   SchemaField: PropTypes.func.isRequired,
+  SelectWidget: PropTypes.func.isRequired,
   TextareaWidget: PropTypes.func.isRequired,
-  FileWidget: PropTypes.func.isRequired,
 };
 
 function createParams(oas) {
@@ -113,16 +112,17 @@ function createParams(oas) {
   const FileWidget = createFileWidget(oas);
   const URLWidget = createURLWidget(oas);
 
+  // eslint-disable-next-line react/display-name
   return props => {
     return (
       <Params
         {...props}
-        BaseInput={BaseInput}
-        SelectWidget={SelectWidget}
         ArrayField={ArrayField}
-        SchemaField={SchemaField}
-        TextareaWidget={TextareaWidget}
+        BaseInput={BaseInput}
         FileWidget={FileWidget}
+        SchemaField={SchemaField}
+        SelectWidget={SelectWidget}
+        TextareaWidget={TextareaWidget}
         URLWidget={URLWidget}
       />
     );

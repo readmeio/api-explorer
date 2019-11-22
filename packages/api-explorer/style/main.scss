@@ -1,0 +1,1008 @@
+/* Add margin to left- and right-sides of RJSF component. */
+form.rjsf {
+  margin: 0% 3%;
+}
+
+/* Remove borders surrounding params. */
+form.rjsf fieldset {
+  border: none;
+}
+
+/* Ensure nested objects retain full width. */
+form.rjsf fieldset fieldset {
+  padding: 0;
+  width: 100%;
+}
+
+/* Remove margin from nested forms (for file uploads). */
+form form.rjsf {
+  margin: 2% 2%;
+}
+
+/* Style table header. */
+.param-type-header {
+  color: #aeaeae;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ddd;
+  margin-left: 3%;
+}
+
+/* Style param labels. */
+form.rjsf .form-group .control-label {
+  font-weight: 400;
+  text-align: left;
+  min-width: 100px;
+  padding-right: unset;
+  float: left;
+  font-weight: bold;
+  flex: 1 1 150px;
+}
+
+/* Make required asterisks red */
+form.rjsf .form-group .required {
+  color: #ef6363;
+}
+
+/* Style param category labels. */
+form.rjsf legend {
+  font-weight: bold;
+  margin: 10px 0px;
+}
+
+/* Style input fields similar to current explorer. */
+form.rjsf input {
+  border: 1px solid #eaeaea !important;
+  border-radius: 2px;
+  padding: 8px 10px;
+  margin-left: 5px;
+}
+
+form.rjsf textarea {
+  border: 1px solid #eaeaea !important;
+  border-radius: 2px;
+  padding: 8px 10px;
+  margin-left: 5px;
+}
+
+/* Prevent input fields from becoming too wide. */
+form.rjsf .form-group .form-control {
+  max-width: 250px;
+  flex: 1 1 150px;
+}
+
+form.rjsf .form-group.field {
+  min-height: 60px;
+}
+
+/* Align nested input fields. */
+form.rjsf fieldset fieldset .form-group.field .field-description {
+  margin-left: 1em;
+}
+
+/* Add padding and top-border around nested form-groups. */
+form.rjsf .form-group .form-group {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid #f2f2f2;
+}
+
+/* Hide border for first form-group in an object. */
+form.rjsf fieldset .form-group:first-of-type {
+  border-top: none;
+}
+
+/* Render each object's param container as a flex object.
+   Allows for better aligning of fields, labels, etc. */
+form.rjsf fieldset .form-group {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  align-content: center;
+}
+
+/* Parameters for nested objects should be indented. */
+form.rjsf fieldset fieldset .form-group {
+  padding-left: 1%;
+}
+
+form.rjsf fieldset fieldset .form-group label {
+  padding-left: 0%;
+  margin-left: 0% !important;
+}
+
+form.rjsf fieldset fieldset legend {
+  padding-left: 0%;
+}
+
+/* Allow description to scale to 2x size of input field and
+   param titles (some endpoints have lengthy descriptions.
+   Also add styling. */
+form.rjsf .field-description {
+  flex: 2 1 100px;
+  text-align: left;
+  font-size: 14px !important;
+  font-weight: 300;
+  margin-bottom: 0px;
+}
+
+/* Add thick left border to nested params (show hierarchy). */
+form.rjsf fieldset fieldset .form-group {
+  border-left: 10px solid #f8f8f8;
+}
+
+/* Add margin to label for nested params. */
+form.rjsf fieldset fieldset .form-group label {
+  margin-left: 1em;
+}
+
+form.rjsf .form-group.field select {
+  margin-left: 15px;
+}
+
+/* Style select boxes. */
+
+form.rjsf .field .form-group select {
+  border: 1px solid #eaeaea !important;
+  border-radius: 2px;
+  padding: 0px 10px;
+  margin-left: 15px;
+  height: 30px;
+}
+
+/* Display arrays as flex containers, don't wrap, center-align vertically. */
+.array-item {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-start;
+  flex: 1 1 100%;
+}
+
+/* Remove left- */
+.array-item .form-group.field {
+  border-left: none;
+}
+
+/* For each nested object in an array, add border. */
+.array-item fieldset {
+  border-left: 10px solid #f8f8f8;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.025);
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: 1em;
+}
+
+ /* For each nested object in an array, unset max-width for description. */
+ .array-item fieldset .field-description {
+  max-width: unset;
+  text-align: left;
+}
+
+/* For descriptions of arrays or nested objects, right-align and add padding above. */
+.field-array > legend {
+  text-align: left;
+  padding-top: 5px !important;
+}
+
+/* Similarly as above, but for .field-description's instead of <legend>'s. */
+.field-array > .field-description {
+  text-align: left;
+}
+
+/* For arrays, override Bootstrap col-xs-9 properties. */
+.array-item .col-xs-9 {
+  padding: 0px;
+  flex-basis: 80%;
+  min-width: 200px;
+  max-width: 90%;
+}
+
+/* Ensure that nested arrays have full-width input fields. */
+.array-item .col-xs-9 .form-group .form-control {
+  width: 100%;
+}
+
+/* Remove left-margins from rows that are offset with Bootstrap's grid system. */
+form.rjsf .row .col-xs-offset-9 {
+  margin-left: 0px;
+}
+
+/* Override Bootstrap properties for "add" button (for arrays). */
+.array-item-add.col-xs-3 {
+  flex-basis: unset;
+  max-width: unset;
+  margin-top: 10px;
+}
+
+/* For up/down/remove toolbox for items in arrays, change default size. */
+.array-item-toolbox.col-xs-3 {
+  flex-basis: 12%;
+}
+
+/* Align up/down/remove toolbox to the right. */
+.array-item-toolbox .btn-group {
+  justify-content: flex-start !important;
+}
+
+/* Reset padding and remove border + other styles from buttons in up/down/remove toolbox. */
+.array-item-toolbox .btn {
+  padding-left: 8px;
+  padding-right: 8px;
+  border: none;
+  width: 36px !important;
+  height: 36px !important;
+  flex: unset !important;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0);
+}
+
+form.rjsf .btn:active {
+  box-shadow: none;
+}
+
+form.rjsf .btn:focus {
+  outline: none;
+}
+
+form.rjsf .btn.btn-default {
+  border: none;
+}
+
+form.rjsf .btn.btn-default:hover {
+  border: none;
+}
+
+form.rjsf .btn.btn-add {
+  transform: rotate(45deg);
+  font-weight: bold;
+  font-size: 11px;
+  color: rgb(76, 85, 90);
+  background: rgba(255, 255, 255, 0);
+  margin-bottom: 1em;
+}
+
+form.rjsf .btn.btn-add::after {
+  content: '✕';
+  font-size: 11px;
+  font-weight: bold;
+}
+
+form.rjsf .btn.array-item-move-up::after {
+  content: '↑';
+}
+
+form.rjsf .btn.array-item-move-down::after {
+  content: '↓';
+}
+
+form.rjsf .btn.array-item-remove::after {
+  content: '✕';
+}
+
+/* Fix color of up/down buttons when disabled. */
+form.rjsf button[disabled] {
+  color: #d2d2d2 !important;
+}
+
+/* Add type labels. */
+.field.field-array-of-string legend::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'array of strings';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-array-of-integer legend::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'array of integers';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-array-of-object > legend::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'array of objects';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+fieldset[id^='root_array of objects_'] > legend::after {
+  content: 'object';
+  color: rgba(0, 0, 0, 0.6);
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-array-of-boolean legend::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'array of booleans';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-int8 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: int8';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-uint8 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint8';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-int16 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: int16';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-uint16 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint16';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-int32 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: int32';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-uint32 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint32';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-int64 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: int64';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-integer.field-uint64 label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'integer: uint64';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-number.field-float label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'number: float';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-number.field-double label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'number: double';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-string:not(.field-json):not(.field-file) label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'string';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-json label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'json';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-file label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'file';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+.field.field-boolean label::after {
+  color: rgba(0, 0, 0, 0.6);
+  content: 'boolean';
+  background: #f2f2f2;
+  border-radius: 3px;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 11px;
+  font-weight: lighter;
+  margin-left: 10px;
+  padding: 3px 6px;
+}
+
+/* Fix spacing on input fields. */
+form.rjsf input[type='file'] {
+  font-size: 0.8em;
+  border: none !important;
+  margin-left: 0px;
+  padding: 10px;
+}
+
+/* Fix alignment of input field. */
+.form-group.field p {
+  margin-bottom: 0px;
+}
+
+/* Ensure top-level elements are vertically centered within their form-group's,
+   and that all input fields take advantage of available width. */
+
+form.rjsf fieldset {
+  padding: 0em 0.625em 0.75em;
+  width: 100%;
+}
+
+.form-group.field {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+}
+
+/*TODO fix this*/
+/*.array-item .field-string::before {
+  content: 'string';
+  font-weight: lighter;
+  float: right;
+  margin-right: 3%;
+}*/
+
+.response-schema {
+  overflow-y: auto;
+}
+
+.hub-reference-response-definitions.dark p,
+.hub-reference-response-definitions.dark h3,
+.hub-reference-response-definitions.dark th,
+.hub-reference-response-definitions.dark td {
+  color: rgba(255,255,255,0.7);
+}
+
+.string-value {
+  word-break: break-all;
+}
+
+.tabber-bar {
+  display: flex;
+  flex-flow: nowrap row;
+  font-family: 'Proxima Nova', 'Open Sans', sans-serif;
+  color: #7f8992;
+}
+.tabber-bar > * {
+  position: relative;
+  flex: 0 50%;
+  max-width: 50%;
+}
+.tabber-bar > * + * {
+  margin-left: 1rem;
+  padding-left: 1rem;
+}
+.tabber-bar h3 {
+  font-size: 1em;
+}
+.tabber-bar > :last-child:not(:only-child):before {
+  content: "\f061";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translate(50%, -50%);
+  display: inline-block;
+  font: normal normal normal 1em/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tabber-bar + .example:not(.example_json) {
+  margin-top: 20px;
+}
+.tabber-select-row {
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 4px;
+}
+.tabber-select-row > * + * {
+  margin-top: .5em;
+}
+.tabber-select-row > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.select-wrapper,
+.tabber-select-wrapper {
+  width: 100%;
+  position: relative;
+}
+.select-wrapper:before,
+.tabber-select-wrapper:before {
+  position: absolute;
+  top: 50%;
+  right: .6em;
+  transform: translateY(-50%);
+  content: "\f078";
+  display: inline-block;
+  font-family: FontAwesome;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  pointer-events: none;
+}
+.select-wrapper select,
+.tabber-select-wrapper select {
+  padding-right: 1.5em !important;
+}
+
+.tabber-select-row select {
+  display: block;
+  height: 2.5em;
+  width: 100%;
+  margin: 4px 0 0 0;
+  padding: 0 .6em;
+  font: inherit;
+  font-family: 'proxima-nova', Proxima Nova, Open Sans, sans-serif !important;
+  color: white;
+  background: #4a5157 !important;
+  border: none;
+  border-radius: 4px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+}
+
+.tabber-body .react-json-view {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+form.rjsf {
+  .field label:after {
+    display: none !important;
+  }
+  .form-group .form-group {
+    border-top: none;
+  }
+  .form-group {
+    padding: 0 !important;
+  }
+  .form-group:not(.field) + .form-group.field {
+    border-top: none !important;
+  }
+  .children select {
+    background: #fff;
+  }
+  .children input {
+    line-height: 1 !important;
+    padding: 6px !important;
+    height: unset !important;
+  }
+  fieldset {
+    box-shadow: 0 0 0 transparent !important;
+    margin: 0 !important;
+    align-items: center;
+  }
+  .param {
+    display: flex !important;
+    flex-flow: wrap row !important;
+    padding: 1em 0 !important;
+  }
+  .param > .label {
+    flex: 1 20%;
+  }
+  .param > .description {
+    flex: 1 40%;
+    max-width: 40%;
+    margin: 0 0 0 1em;
+  }
+  .param > .description:empty {
+    display: none;
+  }
+  .param > .children {
+    flex: 1 30%;
+    text-align: right;
+  }
+  .param > .label {
+    text-align: left;
+  }
+  @media (max-width: 1200px) {
+    form.rjsf .param > .description {
+      flex: auto !important;
+      width: 100% !important;
+      margin: 0.75em 0 0 !important;
+      max-width: unset;
+    }
+    form.rjsf .param:not(.field-array) > .description {
+      order: 999 !important;
+    }
+  }
+  .param .label {
+    display: flex;
+    flex-flow: wrap row;
+    align-items: center;
+  }
+  .param .label-name {
+    font-weight: bold;
+  }
+  .param .label-required {
+    color: red;
+  }
+  .param .label-type {
+    padding: 2px 4px;
+    margin: 0 0 -2px 0.5em;
+    color: rgba(0, 0, 0, 0.6);
+    content: "string";
+    background: #f7f7f7;
+    border-radius: 3px;
+    font-family: "Proxima Nova", sans-serif;
+    font-size: 11px;
+    font-weight: lighter;
+    margin-right: auto;
+  }
+  .param .label > .description {
+    flex: 0 100%;
+    margin-top: 0.5em;
+  }
+  @media (min-width: 1200px) {
+    form.rjsf .param.field-array .description {
+      margin-right: 30%;
+    }
+  }
+  .param.field-array > .children,
+  .param.field-object > .children {
+    margin: 0 0;
+    padding: 0;
+    background: #f7f7f7;
+    border-radius: 6px;
+  }
+  .param.field-object > .children {
+    padding: 0 1em;
+  }
+  .param.field-array > .children {
+    margin: 1em 0 0;
+  }
+  @media (max-width: 1200px) {
+    form.rjsf .param.field-array > .children,
+    .param.field-object > .children {
+      flex: auto;
+      width: 100% !important;
+      margin: 1em 0 0;
+    }
+  }
+  .children .children {
+    background: transparent !important;
+  }
+  .param.field-array > .children .row,
+  .param.field-object > .children .row {
+    padding: 0 0 0 1em;
+  }
+  .param.field-array > .children .row:empty,
+  .param.field-object > .children .row:empty {
+    display: none;
+  }
+  .param.field-array > .children .row:last-child,
+  .param.field-object > .children .row:last-child {
+    margin: 0;
+    padding: 0.75em 0;
+  }
+  .param.field-array > .children .row:not(:empty) + .row:last-child,
+  .param.field-object > .children .row:not(:empty) + .row:last-child {
+    padding-top: 0;
+  }
+  .param.field-array > .children .array-item,
+  .param.field-object .object-property-expand {
+    display: flex;
+  }
+  .param.field-array > .children .array-item > *,
+  .param.field-object .object-property-expand {
+    flex: 0 auto;
+  }
+  .param.field-array > .children .array-item > .col-xs-9 {
+    flex: 1;
+  }
+  .param .row .btn.btn-add {
+    margin: 0;
+  }
+  .param.field-array > .children .array-item-add, form.rjsf .param.field-array > .children .array-item-add .btn {
+    margin: 0 0 0 5px;
+  }
+  .field fieldset {
+    position: relative;
+  }
+  .field-object > .children legend,
+  .field-array > .children legend {
+    flex: auto;
+    font-size: 0.8em;
+    text-align: right;
+    background: linear-gradient(to bottom, white 25%, #f7f7f7 75%);
+    margin: 0 0 0 !important;
+    transform: translate(4px, -50%);
+    padding: 0 4px;
+    &:not(:only-child) {
+      position: absolute;
+      right: 0;
+      color: #bbb;
+      font-weight: normal;
+    }
+  }
+  .field-array > .children legend {
+    transform: translate(-1rem, -50%);
+  }
+  .children legend {
+    display: none;
+  }
+  .children .children legend {
+    display: inline-block;
+    background: #f7f7f7 !important;
+  }
+  .children legend:after {
+    display: none !important;
+  }
+  [id^=root_array] > .field-description,
+  #root_object__description,
+  .field-object > .children > fieldset > .field-description:first-of-type,
+  .field-array > .children > fieldset > .field-description:first-of-type {
+    // nix initial additional descriptions in array and object params
+    display: none !important;
+  }
+  .param.field-object > .children .field-description,
+  .param.field-array > .children .field-description {
+    margin: 0;
+  }
+  .array-item-list {
+    margin: 0;
+  }
+  @media (max-width: 1200px) {
+    form.rjsf .field-array > .children .array-item-list .param > .children {
+      flex: 1 80%;
+    }
+  }
+  .field-array > .children .array-item-list .param > .label {
+    position: relative;
+  }
+  .field-array > .children .array-item-list .param .label-type {
+    margin-left: 0;
+  }
+  .field-array > .children .array-item-list .param .label-required:not(:only-child) {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .param.field-object > .children > fieldset > .form-group {
+    border-left: 0;
+  }
+  .param.field-object > .children .label {
+    display: flex !important;
+    flex: 1;
+    > .label-type {
+      background: white;
+      margin-left: 5px;
+    }
+  }
+  .param.field-object > .children .label > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .param.field-array > .children,
+  .param.field-object > .children {
+    flex: 0 100%;
+    margin-top: 0.5em;
+  }
+  .field-object .children .field-object > .children,
+  .field-array .children .field-object > .children,
+  .field-object .children .field-array > .children,
+  .field-array .children .field-array > .children {
+    border: 1px solid #e3e3e3;
+  }
+  select[id*=_anyof_] {
+    margin: 1em 0 0.5em !important;
+  }
+  .children .children legend {
+    background: #f7f7f7 !important;
+  }
+  .children legend:after {
+    display: none !important;
+  }
+  .field .children .field-array {
+    padding-top: 0 !important;
+  }
+  .field .children .field-array > .label {
+    // display: none !important;
+  }
+  .form-group.field-object > .children > [id^=root_object] > .form-group:first-of-type {
+    margin-top: 4px;
+  }
+  .form-group.field-object > .children > [id^=root_object] > .form-group ~ .row:last-child {
+    margin-bottom: 0.5rem;
+  }
+  .row button.btn-add {
+    background: #1FC79F;
+    color: #fff;
+    transform: none !important;
+    padding: .5em 1.5em !important;
+    line-height: 1.2;
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    transition: 0.2s ease-out;
+  }
+  .row button.btn-add:focus,
+  .row button.btn-add:hover {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.2);
+  }
+  .row button.btn-add:active {
+    color: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: inset 1px 1.5px 4px -1px rgba(0, 0, 0, 0.15);
+  }
+  .row button.btn-add:after {
+    content: "Add" !important;
+  }
+  .row button.btn-add .glyphicon {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 0.9em;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    margin-right: 0.3em;
+  }
+  .row button.btn-add .glyphicon:before {
+    content: "";
+  }
+  .row:last-child > p[class*=item-add] button.btn-add {
+    margin-left: 0 !important;
+  }
+  .col-xs-3.array-item-toolbox {
+    margin: 0 auto;
+  }
+  .children >:not(.field-array-of-object),
+  > .form-group > .field-array {
+    > .array-item-list > .array-item + .array-item {
+      border-top: 1px solid #e9e9ea;
+    }
+  }
+  & {
+    // Addtional adjustments for
+    // description-only fields.
+    .param > .label {
+      max-width: 38rem;
+    }
+    .param > .label > .description:empty {
+      display: none;
+    }
+    .form-group.field > :empty:not(.form-control) {
+      display: none;
+    }
+    .form-group.field + .form-group.field {
+      border-top: 1px solid #f1f1f2;
+    }
+  }
+}
+
+@media screen and (min-width: 1001px) {
+  #hub-reference .hub-api .api-definition .api-definition-container {
+    background: white;
+  }
+
+  body.hub-full #hub-content:before {
+    content: '';
+    width: 390px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #f0f2f4;
+    border-left: 1px solid #dee5e8;
+    z-index: -1;
+  }
+}

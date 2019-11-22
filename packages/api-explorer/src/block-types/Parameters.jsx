@@ -10,7 +10,7 @@ const Parameters = ({ block, flags }) => {
     const thCells = [];
     for (let c = 0; c < columns; c += 1) {
       thCells.push(
-        <div className="th" key={c}>
+        <div key={c} className="th">
           {block.data.data[`h-${c}`]}
         </div>,
       );
@@ -23,7 +23,7 @@ const Parameters = ({ block, flags }) => {
 
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
-        <div className="td" key={c}>
+        <div key={c} className="td">
           {markdown(block.data.data[`${r}-${c}`] || '', flags)}
         </div>,
       );
@@ -36,7 +36,7 @@ const Parameters = ({ block, flags }) => {
 
     for (let r = 0; r < rows; r += 1) {
       trCells.push(
-        <div className="tr" key={r}>
+        <div key={r} className="tr">
           {td(r)}
         </div>,
       );
@@ -60,8 +60,8 @@ Parameters.propTypes = {
   block: PropTypes.shape({
     data: PropTypes.shape({
       cols: PropTypes.number.isRequired,
-      rows: PropTypes.number.isRequired,
       data: PropTypes.object.isRequired,
+      rows: PropTypes.number.isRequired,
     }),
   }).isRequired,
   flags: PropTypes.shape({}),

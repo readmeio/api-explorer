@@ -58,6 +58,10 @@
                     "type": "string",
                     "format": "string"
                   },
+                  "string (format: password, currently unsupported)": {
+                    "type": "string",
+                    "format": "password"
+                  },
                   "string (format: url)": {
                     "type": "string",
                     "format": "url"
@@ -74,6 +78,9 @@
                     "type": "string",
                     "enum": ["available", "pending", "sold"],
                     "default": "available"
+                  },
+                  "mixed type (unsupported in the OAS, but should be rendered as a string)": {
+                    "type": "mixed type"
                   },
                   "integer": {
                     "type": "integer",

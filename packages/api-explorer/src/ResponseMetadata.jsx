@@ -5,18 +5,15 @@ const IconStatus = require('./IconStatus');
 function Meta({ label, children }) {
   return (
     <div className="meta">
-      {
-        // eslint-disable-next-line jsx-a11y/label-has-for
-        <label>{label}</label>
-      }
+      <label>{label}</label>
       {children}
     </div>
   );
 }
 
 Meta.propTypes = {
-  label: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 function ResponseMetadata({ result }) {

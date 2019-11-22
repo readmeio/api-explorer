@@ -17,7 +17,6 @@ class CopyCode extends React.Component {
     const code = typeof prevProps.code === 'function' ? prevProps.code() : prevProps.code;
 
     if (code !== this.state.code) {
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ code });
     }
   }
@@ -31,8 +30,8 @@ class CopyCode extends React.Component {
 
   render() {
     return (
-      <CopyToClipboard text={this.state.code} onCopy={this.onCopy}>
-        <button type="button" className="copy-code-button">
+      <CopyToClipboard onCopy={this.onCopy} text={this.state.code}>
+        <button className="copy-code-button" type="button">
           {this.state.copied ? (
             <span className="fa fa-check" />
           ) : (
@@ -44,8 +43,8 @@ class CopyCode extends React.Component {
   }
 }
 
-module.exports = CopyCode;
-
 CopyCode.propTypes = {
   code: PropTypes.string.isRequired,
 };
+
+module.exports = CopyCode;

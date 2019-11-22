@@ -48,7 +48,6 @@ function createArrayField(oas) {
   }
 
   ArrayField.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
     formData: PropTypes.any,
     uiSchema: PropTypes.shape({}).isRequired,
   };

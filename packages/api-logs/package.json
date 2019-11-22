@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "4.9.0",
+  "version": "4.12.1",
   "main": "dist/index.js",
   "dependencies": {
     "async-retry": "^1.2.3",
@@ -11,10 +11,9 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
-    "lint": "eslint -f unix . --ext .jsx --ext .js",
+    "lint": "eslint . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
-    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
     "watch": "webpack -w"
   },
@@ -26,10 +25,9 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-logs",
   "devDependencies": {
+    "@readme/eslint-config": "^1.4.2",
     "eslint": "^6.5.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "isomorphic-fetch": "^2.2.1",

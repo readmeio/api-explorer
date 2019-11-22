@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
-const Oas = require('./lib/Oas');
+const Oas = require('oas');
 
 const { Operation } = Oas;
 
@@ -47,8 +47,8 @@ class CodeSample extends React.Component {
               <li key={key}>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a
-                  href="#"
                   className={selectedClass}
+                  href="#"
                   onClick={e => {
                     e.preventDefault();
                     setLanguage(example.language);
@@ -65,14 +65,13 @@ class CodeSample extends React.Component {
           {examplesWithLanguages.map((example, index) => {
             const { key, selected } = this.getKey(example, index);
             return (
-              <div style={{ display: selected ? 'block' : 'none' }}>
+              <div key={key} style={{ display: selected ? 'block' : 'none' }}>
                 <CopyCode key={`copy-${key}`} code={example.code} />
                 <pre
                   className="tomorrow-night tabber-body"
-                  key={key} // eslint-disable-line react/no-array-index-key
                   style={{ display: selected ? 'block' : '' }}
                 >
-                  {syntaxHighlighter(example.code || '', example.language, { dark: true })}
+                  {syntaxHighlighter(example.code, example.language, { dark: true })}
                 </pre>
               </div>
             );
@@ -101,8 +100,8 @@ class CodeSample extends React.Component {
                   <li key={lang}>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a
-                      href="#"
                       className={`hub-lang-switch-${lang}`}
+                      href="#"
                       onClick={e => {
                         e.preventDefault();
                         setLanguage(lang);
@@ -128,18 +127,18 @@ class CodeSample extends React.Component {
 }
 
 CodeSample.propTypes = {
-  oas: PropTypes.instanceOf(Oas).isRequired,
-  setLanguage: PropTypes.func.isRequired,
-  operation: PropTypes.instanceOf(Operation).isRequired,
-  formData: PropTypes.shape({}).isRequired,
   auth: PropTypes.shape({}).isRequired,
   examples: PropTypes.arrayOf(
     PropTypes.shape({
-      language: PropTypes.string.isRequired,
       code: PropTypes.string.isRequired,
+      language: PropTypes.string.isRequired,
     }),
   ),
+  formData: PropTypes.shape({}).isRequired,
   language: PropTypes.string.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  setLanguage: PropTypes.func.isRequired,
 };
 
 CodeSample.defaultProps = {

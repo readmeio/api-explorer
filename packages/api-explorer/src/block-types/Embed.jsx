@@ -6,23 +6,22 @@ const Embed = ({ block }) => {
     <div className="magic-block-embed">
       {(() => {
         if (block.data.html) {
-          // eslint-disable-next-line react/no-danger
           return <span dangerouslySetInnerHTML={{ __html: block.data.html }} />;
         } else if (block.data.iframe) {
           return (
             <iframe
               className="media-iframe"
-              title={block.data.title}
-              src={block.data.url}
-              width={block.data.width || '100%'}
               height={block.data.height || '300px'}
+              src={block.data.url}
+              title={block.data.title}
+              width={block.data.width || '100%'}
             />
           );
         }
 
         return (
           <strong>
-            {block.data.favicon && <img src={block.data.favicon} className="favicon" alt="" />}
+            {block.data.favicon && <img alt="" className="favicon" src={block.data.favicon} />}
             <a href={block.data.url} target="_new">
               {block.data.title || block.data.url}
             </a>
@@ -36,13 +35,13 @@ const Embed = ({ block }) => {
 Embed.propTypes = {
   block: PropTypes.shape({
     data: PropTypes.shape({
+      favicon: PropTypes.string.isRequired,
+      height: PropTypes.string,
       html: PropTypes.boolean,
       iframe: PropTypes.boolean,
-      url: PropTypes.string.isRequired,
-      favicon: PropTypes.string.isRequired,
-      width: PropTypes.string,
-      height: PropTypes.string,
       title: PropTypes.string,
+      url: PropTypes.string.isRequired,
+      width: PropTypes.string,
     }),
   }),
 };

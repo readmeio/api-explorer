@@ -1,13 +1,12 @@
 {
-  "extends": ["airbnb", "prettier"],
+  "extends": [
+    "@readme/eslint-config",
+    "@readme/eslint-config/react"
+  ],
+  "root": true,
   "rules": {
-    "arrow-body-style": 0,
-    "no-param-reassign": ["error", {
-      "props": false
-    }],
     "no-underscore-dangle": ["error", {
       "allow": ["_cache", "_id", "_key"]
-    }],
-    "react/destructuring-assignment": 0
+    }]
   }
 }

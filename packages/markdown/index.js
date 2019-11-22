@@ -68,6 +68,7 @@ module.exports = function markdown(text, opts = {}) {
         code: code(sanitize),
         // Remove enclosing <div>
         // https://github.com/mapbox/remark-react/issues/54
+        // eslint-disable-next-line react/display-name
         div: props => React.createElement(React.Fragment, props),
       },
     })

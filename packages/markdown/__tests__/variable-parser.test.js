@@ -2,7 +2,7 @@ const unified = require('unified');
 const remarkParse = require('remark-parse');
 const parser = require('../variable-parser');
 
-it('should output a variable node', () => {
+test('should output a variable node', () => {
   const markdown = 'This is a test <<apiKey>>.';
   const ast = {
     type: 'root',
@@ -32,10 +32,10 @@ it('should output a variable node', () => {
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
-  ).toEqual(ast);
+  ).toStrictEqual(ast);
 });
 
-it('should output a glossary node', () => {
+test('should output a glossary node', () => {
   const markdown = 'This is a test <<glossary:item>>.';
   const ast = {
     type: 'root',
@@ -65,10 +65,10 @@ it('should output a glossary node', () => {
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
-  ).toEqual(ast);
+  ).toStrictEqual(ast);
 });
 
-it('should allow whitespace in glossary names', () => {
+test('should allow whitespace in glossary names', () => {
   const markdown = 'This is a test <<glossary:item name>>.';
   const ast = {
     type: 'root',
@@ -98,10 +98,10 @@ it('should allow whitespace in glossary names', () => {
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
-  ).toEqual(ast);
+  ).toStrictEqual(ast);
 });
 
-it('should allow escape variables to remain', () => {
+test('should allow escape variables to remain', () => {
   const markdown = 'This is a test escaped key \\<<apiKey\\>>.';
   const ast = {
     type: 'root',
@@ -123,5 +123,5 @@ it('should allow escape variables to remain', () => {
       .use(parser)
       .data('settings', { position: false })
       .parse(markdown),
-  ).toEqual(ast);
+  ).toStrictEqual(ast);
 });

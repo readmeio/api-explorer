@@ -5,24 +5,24 @@ const retry = require('async-retry');
 
 const LoadingSvg = props => (
   <svg
-    width="38"
     height="38"
-    viewBox="0 0 38 38"
-    xmlns="http://www.w3.org/2000/svg"
     stroke="#2283c9"
+    viewBox="0 0 38 38"
+    width="38"
+    xmlns="http://www.w3.org/2000/svg"
     // eslint-disable-next-line react/jsx-props-no-spreading
     {...props}
   >
-    <g transform="translate(1 1)" strokeWidth="2" fill="none" fillRule="evenodd">
-      <circle strokeOpacity="0.5" cx="18" cy="18" r="18" />
+    <g fill="none" fillRule="evenodd" strokeWidth="2" transform="translate(1 1)">
+      <circle cx="18" cy="18" r="18" strokeOpacity="0.5" />
       <path d="M36 18c0-9.94-8.06-18-18-18">
         <animateTransform
           attributeName="transform"
-          type="rotate"
-          from="0 18 18"
-          to="360 18 18"
           dur="1s"
+          from="0 18 18"
           repeatCount="indefinite"
+          to="360 18 18"
+          type="rotate"
         />
       </path>
     </g>
@@ -77,7 +77,6 @@ class Logs extends React.Component {
     // Refresh if the group has changed
     if (this.props.group !== prevProps.group) {
       // Setting logs to [] means we show the loading icon
-      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ logs: [] });
       this.getLogs();
     }
@@ -156,9 +155,8 @@ class Logs extends React.Component {
 
     return logs.map(log => {
       const entry = log.request.log.entries[0];
-      /* eslint-disable react/jsx-no-bind */
       return (
-        <tr onClick={this.visitLogItem.bind(this, log)} key={log._id}>
+        <tr key={log._id} onClick={this.visitLogItem.bind(this, log)}>
           <td>{entry.request.method}</td>
           <td>{entry.response.status}</td>
           <td>{entry.request.url}</td>
@@ -183,7 +181,7 @@ class Logs extends React.Component {
 
     if (groups && groups.length > 1) {
       return (
-        <select value={group} onChange={this.onSelect}>
+        <select onChange={this.onSelect} value={group}>
           {groups.map(Logs.renderOption)}
         </select>
       );
@@ -238,7 +236,7 @@ class Logs extends React.Component {
           <h3>Logs</h3>
           <div className="select-container">
             <div>
-              <a href={url} target="_blank" rel="noopener noreferrer">
+              <a href={url} rel="noopener noreferrer" target="_blank">
                 View More
               </a>
               {this.renderSelect()}
@@ -252,8 +250,8 @@ class Logs extends React.Component {
 }
 
 Logs.propTypes = {
-  query: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string.isRequired,
+  changeGroup: PropTypes.func.isRequired,
   group: PropTypes.string,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
@@ -261,7 +259,7 @@ Logs.propTypes = {
       name: PropTypes.string,
     }),
   ),
-  changeGroup: PropTypes.func.isRequired,
+  query: PropTypes.shape({}).isRequired,
   result: PropTypes.shape({}),
 };
 

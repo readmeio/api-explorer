@@ -10,7 +10,8 @@ class ApiList extends React.Component {
 
     this.state = {
       apis: localDirectory,
-      selected: parse(document.location.search.replace('?', '')).selected || 'swagger-files/petstore.json',
+      selected:
+        parse(document.location.search.replace('?', '')).selected || 'swagger-files/petstore.json',
     };
 
     this.changeApi = this.changeApi.bind(this);
@@ -19,17 +20,19 @@ class ApiList extends React.Component {
   componentDidMount() {
     fetch('https://api.apis.guru/v2/list.json')
       .then(res => res.json())
-      .then(apis => this.setState(prevState => {
-        return {
-          apis: { ...prevState.apis, ...apis }
-        };
-      }));
+      .then(apis =>
+        this.setState(prevState => {
+          return {
+            apis: { ...prevState.apis, ...apis },
+          };
+        }),
+      );
 
-      this.props.fetchSwagger(this.state.selected);
+    this.props.fetchSwagger(this.state.selected);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {selected} = this.state;
+    const { selected } = this.state;
 
     if (prevState.selected !== selected) {
       this.props.fetchSwagger(selected);
@@ -42,17 +45,17 @@ class ApiList extends React.Component {
   }
 
   render() {
-    const {apis, selected} = this.state;
+    const { apis, selected } = this.state;
 
     return (
       <h3>
         Select an API:&nbsp;
         <select onChange={this.changeApi} value={selected}>
-          {Object.keys(apis).map((name) => {
+          {Object.keys(apis).map(name => {
             const api = apis[name];
             const preferred = api.preferred || Object.keys(api.versions)[0];
             return (
-              <option value={api.versions[preferred].swaggerUrl} key={name}>
+              <option key={name} value={api.versions[preferred].swaggerUrl}>
                 {name.substring(0, 30)}
               </option>
             );

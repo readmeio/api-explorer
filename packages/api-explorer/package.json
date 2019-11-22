@@ -1,18 +1,20 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "4.9.0",
+  "version": "4.12.1",
   "main": "dist/index.js",
   "dependencies": {
-    "@readme/markdown": "^4.9.0",
-    "@readme/oas-extensions": "^4.9.0",
-    "@readme/syntax-highlighter": "^4.9.0",
-    "@readme/variable": "^4.9.0",
+    "@readme/markdown": "^4.12.1",
+    "@readme/oas-extensions": "^4.12.1",
+    "@readme/oas-to-har": "^4.12.1",
+    "@readme/syntax-highlighter": "^4.12.1",
+    "@readme/variable": "^4.12.1",
     "classnames": "^2.2.5",
     "fetch-har": "^2.0.0",
     "httpsnippet": "^1.19.1",
     "js-cookie": "^2.1.4",
     "lodash.kebabcase": "^4.1.1",
+    "oas": "^1.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
     "react-copy-to-clipboard": "^5.0.1",
@@ -25,12 +27,11 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
-    "lint": "eslint -f unix . --ext js --ext jsx",
+    "lint": "eslint . --ext js --ext jsx",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
-    "prettier": "prettier --list-different \"./**/**.{js,jsx}\"",
-    "prettier:write": "prettier --write \"./**/**.{js,jsx}\"",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
-    "watch": "webpack -w"
+    "watch": "webpack -w --progress"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -40,10 +41,9 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-explorer",
   "devDependencies": {
+    "@readme/eslint-config": "^1.4.2",
     "eslint": "^6.5.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "jest": "^24.8.0",
@@ -52,6 +52,7 @@
     "prettier": "^1.18.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2"
   }
 }

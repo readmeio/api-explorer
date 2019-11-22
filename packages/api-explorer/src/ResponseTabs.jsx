@@ -1,34 +1,37 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const Oas = require('oas');
+
 const showCodeResults = require('./lib/show-code-results');
 const IconStatus = require('./IconStatus');
 const Tab = require('./Tab');
-const { Operation } = require('./lib/Oas');
 
-function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
+const { Operation } = Oas;
+
+function ResponseTabs({ result, oas, operation, responseTab, setTab, hideResults }) {
   return (
     <ul className="code-sample-tabs hub-reference-results-header">
       <Tab
-        selected={responseTab === 'result'}
         onClick={e => {
           e.preventDefault();
           setTab('result');
         }}
+        selected={responseTab === 'result'}
       >
         <IconStatus status={result.status} />
       </Tab>
 
       <Tab
-        selected={responseTab === 'metadata'}
         onClick={e => {
           e.preventDefault();
           setTab('metadata');
         }}
+        selected={responseTab === 'metadata'}
       >
         Metadata
       </Tab>
 
-      {showCodeResults(operation).length > 0 && (
+      {showCodeResults(operation, oas).length > 0 && (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a
           className="hub-reference-results-back pull-right"
@@ -46,13 +49,14 @@ function ResponseTabs({ result, operation, responseTab, setTab, hideResults }) {
 }
 
 ResponseTabs.propTypes = {
+  hideResults: PropTypes.func.isRequired,
+  oas: PropTypes.instanceOf(Oas).isRequired,
+  operation: PropTypes.instanceOf(Operation).isRequired,
+  responseTab: PropTypes.string.isRequired,
   result: PropTypes.shape({
     status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }),
-  operation: PropTypes.instanceOf(Operation).isRequired,
-  responseTab: PropTypes.string.isRequired,
   setTab: PropTypes.func.isRequired,
-  hideResults: PropTypes.func.isRequired,
 };
 
 ResponseTabs.defaultProps = {
