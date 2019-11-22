@@ -9,14 +9,76 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/format-url": {
+    "/format-date": {
       "get": {
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "string",
-                "format": "url"
+                "type": "object",
+                "properties": {
+                  "string date": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-date-time": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string date-time": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-dateTime": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string dateTime": {
+                    "type": "string",
+                    "format": "dateTime"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-password": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
               }
             }
           }
@@ -31,9 +93,47 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "string": {
+                  "string unknown format": {
                     "type": "string",
                     "format": "some-unknown-format"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-url": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string url": {
+                    "type": "string",
+                    "format": "url"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-uri": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string uri": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 }
               }

@@ -26,6 +26,52 @@ const props = {
 
 const Params = createParams(oas);
 
+const jsonOperation = new Operation(oas, '/path', 'post', {
+  requestBody: {
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          required: ['a'],
+          properties: {
+            a: {
+              type: 'string',
+              format: 'json',
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
+function renderParams(schema, customProps) {
+  return mount(
+    <div>
+      <Params
+        {...props}
+        {...customProps}
+        operation={
+          new Operation(oas, '/path', 'post', {
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: schema,
+                    },
+                  },
+                },
+              },
+            },
+          })
+        }
+      />
+    </div>,
+  );
+}
+
 describe('form id attribute', () => {
   it('should be set to the operationId', () => {
     expect(
@@ -97,125 +143,98 @@ test('should not throw on unknown string format', () => {
   expect(params.find('input')).toHaveLength(1);
 });
 
-const jsonOperation = new Operation(oas, '/path', 'post', {
-  requestBody: {
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object',
-          required: ['a'],
-          properties: {
-            a: {
-              type: 'string',
-              format: 'json',
-            },
-          },
-        },
-      },
-    },
-  },
-});
-
-test('json should render as <textarea>', () => {
-  const params = mount(
-    <div>
-      <Params {...props} operation={jsonOperation} />
-    </div>,
-  );
-
-  expect(params.find('textarea')).toHaveLength(1);
-  expect(params.find('.field-json')).toHaveLength(1);
-});
-
-test('{ type: string, format: binary } should render as <input type="file">', () => {
-  const params = mount(
-    <div>
-      <Params {...props} operation={oas.operation('/pet/{petId}/uploadImage', 'post')} />
-    </div>,
-  );
-
-  expect(params.find('input[type="file"]')).toHaveLength(1);
-  expect(params.find('.field-file')).toHaveLength(1);
-});
-
-test('{ type: string, format: url } should render as <input type="url">', () => {
-  const params = mount(
-    <div>
-      <Params {...props} operation={stringOas.operation('/format-url', 'get')} />
-    </div>,
-  );
-
-  expect(params.find('input[type="url"]')).toHaveLength(1);
-});
-
-function renderParams(schema, customProps) {
-  return mount(
-    <div>
-      <Params
-        {...props}
-        {...customProps}
-        operation={
-          new Operation(oas, '/path', 'post', {
-            requestBody: {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      a: schema,
-                    },
-                  },
-                },
-              },
-            },
-          })
-        }
-      />
-    </div>,
-  );
-}
-
 test('should convert `mixed type` to string', () => {
   const params = renderParams({ type: 'mixed type' });
 
   expect(params.find(`.field-string`)).toHaveLength(1);
 });
 
-test.each([
-  ['integer', 'int8'],
-  ['integer', 'uint8'],
-  ['integer', 'int16'],
-  ['integer', 'uint16'],
-  ['integer', 'int32'],
-  ['integer', 'uint32'],
-  ['integer', 'int64'],
-  ['integer', 'uint64'],
-  ['number', 'float'],
-  ['number', 'double'],
-])('{ type: %s, format: %s } should have correct class', (type, format) => {
-  const schema = { type, format };
-  const clonedSchema = JSON.parse(JSON.stringify(schema));
-  const params = renderParams(schema);
+describe('schema format handling', () => {
+  describe('string types', () => {
+    it('json should render as <textarea>', () => {
+      const params = mount(
+        <div>
+          <Params {...props} operation={jsonOperation} />
+        </div>,
+      );
 
-  expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`)).toHaveLength(1);
-});
+      expect(params.find('textarea')).toHaveLength(1);
+      expect(params.find('.field-json')).toHaveLength(1);
+      expect(params.find('span.label-type').text()).toBe('json');
+    });
 
-test('should not error if `integer|number` are missing `format`', () => {
-  expect(() => {
-    renderParams({ type: 'integer' });
-  }).not.toThrow(/Cannot read property 'match' of undefined/);
-});
+    it('binary should render as <input type="file">', () => {
+      const params = mount(
+        <div>
+          <Params {...props} operation={oas.operation('/pet/{petId}/uploadImage', 'post')} />
+        </div>,
+      );
 
-test('should default integer to int32 if missing format', () => {
-  const params = renderParams({ type: 'integer' });
+      expect(params.find('input[type="file"]')).toHaveLength(1);
+      expect(params.find('.field-file')).toHaveLength(1);
+    });
 
-  expect(params.find(`.field-integer.field-int32`)).toHaveLength(1);
-});
+    it.each([
+      ['password', 'password', stringOas.operation('/format-password', 'get'), 'password'],
+      ['date', 'text', stringOas.operation('/format-date', 'get'), 'date'],
+      ['date-time', 'datetime-local', stringOas.operation('/format-date-time', 'get'), 'date-time'],
+      ['dateTime', 'datetime-local', stringOas.operation('/format-dateTime', 'get'), 'date-time'],
+      ['uri', 'url', stringOas.operation('/format-uri', 'get'), 'uri'],
+      ['url', 'url', stringOas.operation('/format-url', 'get'), 'url'],
+    ])(`%s should render as <input type="%s">`, (type, inputType, stringOperation, label) => {
+      const params = mount(
+        <div>
+          <Params {...props} operation={stringOperation} />
+        </div>,
+      );
 
-test('should default number to float if missing format', () => {
-  const params = renderParams({ type: 'number' });
+      expect(params.find(`input[type="${inputType}"]`)).toHaveLength(1);
+      expect(params.find('span.label-type').text()).toBe(label);
+    });
+  });
 
-  expect(params.find(`.field-number.field-float`)).toHaveLength(1);
+  describe('number types', () => {
+    it.each([
+      ['integer', 'int8'],
+      ['integer', 'int16'],
+      ['integer', 'int32'],
+      ['integer', 'int64'],
+      ['integer', 'uint8'],
+      ['integer', 'uint16'],
+      ['integer', 'uint32'],
+      ['integer', 'uint64'],
+      ['number', 'double'],
+      ['number', 'float'],
+    ])(`%ss with a %s format should render as <input type="number">`, (type, format) => {
+      const schema = { type, format };
+      const clonedSchema = JSON.parse(JSON.stringify(schema));
+      const params = renderParams(schema);
+
+      expect(params.find('input[type="number"]')).toHaveLength(1);
+      expect(params.find('span.label-type').text()).toBe(format);
+      expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`)).toHaveLength(
+        1,
+      );
+    });
+
+    it('should default integer to int32 if missing format', () => {
+      const params = renderParams({ type: 'integer' });
+
+      expect(params.find(`.field-integer.field-int32`)).toHaveLength(1);
+    });
+
+    it('should not error if `integer|number` are missing `format`', () => {
+      expect(() => {
+        renderParams({ type: 'integer' });
+      }).not.toThrow(/Cannot read property 'match' of undefined/);
+    });
+
+    it('should default number to float if missing format', () => {
+      const params = renderParams({ type: 'number' });
+
+      expect(params.find(`.field-number.field-float`)).toHaveLength(1);
+    });
+  });
 });
 
 describe('x-explorer-enabled', () => {
