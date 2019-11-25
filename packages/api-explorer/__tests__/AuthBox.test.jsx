@@ -86,13 +86,12 @@ describe('group selection', () => {
   });
 
   it('should update auth on changes', () => {
-    const onGroupChangeSpy = jest.fn();
-    const comp = mount(<AuthBox {...props} {...groupProps} onGroupChange={onGroupChangeSpy} />);
+    const comp = mount(<AuthBox {...props} {...groupProps} onGroupChange={jest.fn()} />);
 
     const select = comp.find('select');
     select.instance().value = '7000';
     select.simulate('change');
 
-    expect(onGroupChangeSpy).toHaveBeenCalledWith('7000', 'anotherId');
+    expect(comp.props().onGroupChange).toHaveBeenCalledWith('7000');
   });
 });

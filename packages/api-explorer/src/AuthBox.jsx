@@ -7,7 +7,7 @@ const SecurityInput = require('./SecurityInput');
 
 function GroupsList({ group, groups, onGroupChange }) {
   function onSelect({ target }) {
-    onGroupChange(target.value, target.options[target.selectedIndex].text);
+    onGroupChange(target.value);
   }
 
   if (!groups || (groups && groups.length <= 1)) {

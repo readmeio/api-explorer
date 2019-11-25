@@ -91,13 +91,20 @@ class ApiExplorer extends React.Component {
   /**
    * Change the current selected group and refresh the instance auth keys based on that selection.
    *
-   * @param {string} groupId
-   * @param {string} groupName
+   * @param {string} group
    */
-  onGroupChange(groupId, groupName) {
+  onGroupChange(group) {
+    const { user } = this.props.variables;
+    let groupName = false;
+    if (user.keys) {
+      // We need to remap the incoming group with the groups name so we can pick out the auth
+      // keys in `getAuth`.
+      groupName = user.keys.find(key => key.id === group).name;
+    }
+
     this.setState({
-      group: groupId,
-      auth: getAuth(this.props.variables.user, this.props.oasFiles, groupName),
+      group,
+      auth: getAuth(user, this.props.oasFiles, groupName),
     });
   }
 

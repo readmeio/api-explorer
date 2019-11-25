@@ -245,9 +245,9 @@ class Doc extends React.Component {
     return (
       <Logs
         baseUrl={this.props.baseUrl}
+        changeGroup={this.props.onGroupChange}
         group={this.props.group}
         groups={this.props.groups}
-        onGroupChange={this.props.onGroupChange}
         query={{
           url,
           method,
