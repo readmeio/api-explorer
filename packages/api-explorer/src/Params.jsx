@@ -1,10 +1,14 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
-const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
-const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
+
 const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
   .default;
+const PasswordWidget = require('react-jsonschema-form/lib/components/widgets/PasswordWidget')
+  .default;
+const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
+const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
+
 const Oas = require('oas');
 const { parametersToJsonSchema } = require('oas/utils');
 
@@ -20,17 +24,17 @@ const createURLWidget = require('./form-components/URLWidget');
 const { Operation } = Oas;
 
 function Params({
-  oas,
-  operation,
+  ArrayField,
+  BaseInput,
+  FileWidget,
   formData,
+  oas,
   onChange,
   onSubmit,
-  BaseInput,
-  SelectWidget,
-  ArrayField,
+  operation,
   SchemaField,
+  SelectWidget,
   TextareaWidget,
-  FileWidget,
   URLWidget,
 }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
@@ -59,27 +63,33 @@ function Params({
           onSubmit={onSubmit}
           schema={schema.schema}
           widgets={{
-            int8: UpDownWidget,
-            uint8: UpDownWidget,
-            int16: UpDownWidget,
-            uint16: UpDownWidget,
-            int32: UpDownWidget,
-            uint32: UpDownWidget,
-            int64: UpDownWidget,
-            uint64: UpDownWidget,
-            double: UpDownWidget,
-            float: UpDownWidget,
+            // If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
+            BaseInput,
             binary: FileWidget,
             byte: TextWidget,
-            string: TextWidget,
-            uuid: TextWidget,
-            duration: TextWidget,
+            date: TextWidget,
             dateTime: DateTimeWidget,
+            'date-time': DateTimeWidget,
+            double: UpDownWidget,
+            duration: TextWidget,
+            float: UpDownWidget,
+            int8: UpDownWidget,
+            int16: UpDownWidget,
+            int32: UpDownWidget,
+            int64: UpDownWidget,
             integer: UpDownWidget,
             json: TextareaWidget,
-            url: URLWidget,
-            BaseInput,
+            password: PasswordWidget,
             SelectWidget,
+            string: TextWidget,
+            timestamp: TextWidget,
+            uint8: UpDownWidget,
+            uint16: UpDownWidget,
+            uint32: UpDownWidget,
+            uint64: UpDownWidget,
+            uri: URLWidget,
+            url: URLWidget,
+            uuid: TextWidget,
           }}
         >
           <button style={{ display: 'none' }} type="submit" />
@@ -104,12 +114,12 @@ Params.propTypes = {
 };
 
 function createParams(oas) {
-  const BaseInput = createBaseInput(oas);
-  const SelectWidget = createSelectWidget(oas);
   const ArrayField = createArrayField(oas);
-  const SchemaField = createSchemaField();
-  const TextareaWidget = createTextareaWidget(oas);
+  const BaseInput = createBaseInput(oas);
   const FileWidget = createFileWidget(oas);
+  const SchemaField = createSchemaField();
+  const SelectWidget = createSelectWidget(oas);
+  const TextareaWidget = createTextareaWidget(oas);
   const URLWidget = createURLWidget(oas);
 
   // eslint-disable-next-line react/display-name

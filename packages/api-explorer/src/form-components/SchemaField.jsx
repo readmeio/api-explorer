@@ -1,4 +1,11 @@
-require('../../style/main.scss');
+// There's a bug in jsdom where Jest spits out heaps of errors from it not being able to interpret
+// this file, so let's not include this when running tests since we aren't doing visual testing
+// anyways.
+// https://github.com/jsdom/jsdom/issues/217
+if (process.env.NODE_ENV !== 'test') {
+  // eslint-disable-next-line global-require
+  require('../../style/main.scss');
+}
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -24,8 +31,24 @@ function isNumType(schema, type, format) {
 
 function getCustomType(schema) {
   if (schema.type === 'string') {
-    if (schema.format === 'json') return 'json';
-    if (schema.format === 'binary') return 'file';
+    if (schema.format) {
+      if (schema.format === 'binary') return 'file';
+      if (schema.format === 'dateTime') return 'date-time';
+
+      const supportedStringFormats = [
+        'date',
+        'date-time',
+        'json',
+        'password',
+        'timestamp',
+        'uri',
+        'url',
+      ];
+
+      if (supportedStringFormats.includes(schema.format)) {
+        return schema.format;
+      }
+    }
   }
 
   if (
@@ -70,6 +93,8 @@ function SchemaField(props) {
   if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
     props.schema.format = undefined;
 
+  // If there's no name on this field, then it's a lone schema with no label or children and as such
+  // we shouldn't try to render it with the custom template.
   if ('name' in props) props.registry.FieldTemplate = CustomTemplate;
 
   if (props.schema.readOnly) {

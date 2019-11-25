@@ -37,7 +37,7 @@
                     "type": "string",
                     "default": "default value"
                   },
-                  "string (format: binary) (not sure this will work)": {
+                  "string (format: binary)": {
                     "type": "string",
                     "format": "binary"
                   },
@@ -58,7 +58,7 @@
                     "type": "string",
                     "format": "string"
                   },
-                  "string (format: password, currently unsupported)": {
+                  "string (format: password)": {
                     "type": "string",
                     "format": "password"
                   },
