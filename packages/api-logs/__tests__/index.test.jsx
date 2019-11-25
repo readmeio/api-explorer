@@ -38,12 +38,12 @@ describe('Logs', () => {
         name: 'anotherId',
       },
     ],
-    onGroupChange: jest.fn(),
+    changeGroup: jest.fn(),
     result: {},
   };
 
   it('should not render if groups are not populated', () => {
-    const noUser = { baseUrl, query: {}, onGroupChange: () => {} };
+    const noUser = { baseUrl, query: {}, changeGroup: () => {} };
     const comp = shallow(<LogTest {...noUser} />);
 
     expect(comp.html()).toBeNull();
@@ -179,22 +179,10 @@ describe('Logs', () => {
     const instance = comp.instance();
     instance.onSelect({
       target: {
-        selectedIndex: 0,
         value: '1230',
-        options: [
-          {
-            value: '1230',
-            text: 'someid',
-          },
-          {
-            value: '7000',
-            text: 'anotherId',
-          },
-        ],
       },
     });
-
-    expect(instance.props.onGroupChange).toHaveBeenCalledWith('1230', 'someid');
+    expect(instance.props.changeGroup).toHaveBeenCalledWith('1230');
   });
 
   it('open window on log visit', () => {
