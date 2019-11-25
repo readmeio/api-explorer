@@ -30,7 +30,7 @@
     "lint": "eslint . --ext js --ext jsx",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage",
+    "test": "jest --coverage --runInBand",
     "watch": "webpack -w --progress"
   },
   "publishConfig": {
