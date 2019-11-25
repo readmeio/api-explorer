@@ -17,7 +17,7 @@ function Securities({
   operation,
 }) {
   function onSelect({ target }) {
-    onGroupChange(event.target.value, event.target.options[event.target.selectedIndex].text);
+    onGroupChange(target.value, target.options[target.selectedIndex].text);
   }
 
   const securityTypes = operation.prepareSecurity();
