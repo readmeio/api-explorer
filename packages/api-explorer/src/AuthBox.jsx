@@ -16,7 +16,7 @@ function Securities({
   onSubmit,
   operation,
 }) {
-  function onSelect(event) {
+  function onSelect({ target }) {
     onGroupChange(event.target.value, event.target.options[event.target.selectedIndex].text);
   }
 
