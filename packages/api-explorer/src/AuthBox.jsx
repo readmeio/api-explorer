@@ -5,6 +5,26 @@ const { Operation } = require('oas');
 
 const SecurityInput = require('./SecurityInput');
 
+function GroupsList({ group, groups, onGroupChange }) {
+  function onSelect({ target }) {
+    onGroupChange(target.value, target.options[target.selectedIndex].text);
+  }
+
+  if (!groups || (groups && groups.length <= 1)) {
+    return false;
+  }
+
+  return (
+    <select onChange={onSelect} style={{ float: 'right' }} value={group}>
+      {groups.map(item => (
+        <option key={item.id} value={item.id}>
+          {item.name}
+        </option>
+      ))}
+    </select>
+  );
+}
+
 function Securities({
   auth,
   authInputRef,
@@ -16,29 +36,17 @@ function Securities({
   onSubmit,
   operation,
 }) {
-  function onSelect({ target }) {
-    onGroupChange(target.value, target.options[target.selectedIndex].text);
-  }
-
   const securityTypes = operation.prepareSecurity();
-  return Object.keys(securityTypes).map(type => {
+  return Object.keys(securityTypes).map((type, idx) => {
     const securities = securityTypes[type];
     return (
       <form key={type} onSubmit={onSubmit}>
-        <h3>{`${type} Auth`}</h3>
+        <h3>
+          {`${type} Auth`}
+          {/* Only show the groups list for the first security (assuming there are multiple). */}
+          {idx === 0 && <GroupsList group={group} groups={groups} onGroupChange={onGroupChange} />}
+        </h3>
         <div className="pad">
-          <section>
-            {groups && groups.length > 1 && (
-              <select onChange={onSelect} value={group}>
-                {groups.map(item => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            )}
-          </section>
-
           <section>
             {
               // https://github.com/readmeio/api-explorer/issues/20
@@ -119,9 +127,7 @@ function AuthBox({
   );
 }
 
-AuthBox.propTypes = {
-  auth: PropTypes.shape({}),
-  authInputRef: PropTypes.func,
+const commonProps = {
   group: PropTypes.string,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
@@ -129,10 +135,20 @@ AuthBox.propTypes = {
       name: PropTypes.string,
     }),
   ),
+  onGroupChange: PropTypes.func.isRequired,
+};
+
+GroupsList.propTypes = {
+  ...commonProps,
+};
+
+AuthBox.propTypes = {
+  ...commonProps,
+  auth: PropTypes.shape({}),
+  authInputRef: PropTypes.func,
   needsAuth: PropTypes.bool,
   oauth: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  onGroupChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   open: PropTypes.bool,
   operation: PropTypes.instanceOf(Operation).isRequired,
