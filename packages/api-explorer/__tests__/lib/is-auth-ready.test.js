@@ -15,6 +15,7 @@ describe('isAuthReady', () => {
       isAuthReady(operation, {
         oauthScheme: 'bearer',
         apiKeyScheme: 'bearer',
+        basicAuth: { user: 'test', password: 'pass' },
       }),
     ).toBe(true);
   });

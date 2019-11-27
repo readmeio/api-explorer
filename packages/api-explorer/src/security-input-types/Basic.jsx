@@ -23,7 +23,7 @@ function Basic({ user, pass, change, authInputRef, Input }) {
         <Input
           name="pass"
           onChange={e => inputChange(e.target.name, e.target.value)}
-          type="text"
+          type="password"
           value={pass}
         />
       </div>

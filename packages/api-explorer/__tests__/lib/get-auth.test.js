@@ -13,6 +13,10 @@ test('should fetch all auths from the OAS files', () => {
     oauthDiff: '',
     apiKeyScheme: 'apikey',
     unknownAuthType: '',
+    basicAuth: {
+      pass: '',
+      user: '',
+    },
   });
 });
 

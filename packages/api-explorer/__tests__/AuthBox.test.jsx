@@ -47,6 +47,12 @@ test.skip('should display a dropdown for when multiple oauths are present', () =
   ]);
 });
 
+test('should mask password inputs for basic http auth', () => {
+  const authBox = mount(<AuthBox {...props} operation={oas.operation('/and-security', 'post')} />);
+  expect(authBox.find('h3')).toHaveLength(3);
+  expect(authBox.find('input[type="password"]')).toHaveLength(1);
+});
+
 test('should not display authentication warning if authData is passed', () => {
   const authBox = mount(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 

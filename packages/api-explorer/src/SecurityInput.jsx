@@ -49,8 +49,8 @@ function SecurityInput(props) {
             {...props}
             change={change}
             Input={Input}
-            pass={props.auth[props.scheme._key].pass}
-            user={props.auth[props.scheme._key].user}
+            pass={props.auth[props.scheme._key] && props.auth[props.scheme._key].pass}
+            user={props.auth[props.scheme._key] && props.auth[props.scheme._key].user}
           />
         );
       }

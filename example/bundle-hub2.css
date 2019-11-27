@@ -2965,7 +2965,7 @@ img.mfp-img {
   -webkit-user-select:none;
   -moz-user-select:none;
   user-select:none;
-    
+
   /* Styles */
   background: #fff;
   border-radius: 7px;
@@ -10284,7 +10284,8 @@ body.page-password footer,
   text-overflow: ellipsis;
   overflow: hidden;
 }
-#hub-reference .hub-api .api-definition .hub-auth-dropdown > div input[type=text] {
+#hub-reference .hub-api .api-definition .hub-auth-dropdown > div input[type=text],
+#hub-reference .hub-api .api-definition .hub-auth-dropdown > div input[type=password] {
   border: 1px solid #ddd;
   border-radius: 2px;
   padding: 5px 7px;
@@ -10294,6 +10295,8 @@ body.page-password footer,
   color: #666;
 }
 #hub-reference .hub-api .api-definition .hub-auth-dropdown > div input[type=text]:focus,
+#hub-reference .hub-api .api-definition .hub-auth-dropdown > div input[type=password]:focus,
+#hub-reference .hub-api .api-definition .hub-auth-dropdown > div input[type=password]:active,
 #hub-reference .hub-api .api-definition .hub-auth-dropdown > div input[type=text]:active {
   outline: 0 none;
   border: 1px solid #888;
@@ -11282,7 +11285,7 @@ div.simple-dropdown.open > div {
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  
+
   /* Enable Ligatures ================ */
   letter-spacing: 0;
   -webkit-font-feature-settings: "liga";
