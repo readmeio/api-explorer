@@ -24,7 +24,7 @@ const rehypeReact = require('rehype-react');
 /* React Custom Components
  */ 
 const Variable = require('@readme/variable');
-const GlossaryItem = require('./GlossaryItem');
+const GlossaryItem = require('./components/GlossaryItem');
 const Code = require('./components/Code');
 const Table = require('./components/Table');
 const Anchor = require('./components/Anchor');
