@@ -28,7 +28,7 @@ const GlossaryItem = require('./components/GlossaryItem');
 const Code = require('./components/Code');
 const Table = require('./components/Table');
 const Anchor = require('./components/Anchor');
-// const Callout = require('./components/Callout'); // breaks CSS when required from the file scope; see line 90
+const Callout = require('./components/Callout');
 const CodeTabs = require('./components/CodeTabs');
 
 /* Custom Unified Parsers
@@ -83,11 +83,8 @@ function parseMarkdown(opts = {}) {
     .use(rehypeSanitize);
 }
 
-
 function hub(text, opts) {
   if (!text) return null;
-
-  const Callout = require('./components/Callout'); // @todo fix callout heading CSS bug; see line 31
 
   return parseMarkdown(opts)
     .use(rehypeReact, {
