@@ -225,7 +225,7 @@ describe('handleResponse()', () => {
   it('should throw when response is 500', () => {
     expect(() => {
       handleResponse({ status: 500 });
-    }).toThrow();
+    }).toThrow('Failed to fetch logs');
   });
 
   it('should set logs when response is 200', () => {
@@ -242,19 +242,19 @@ describe('checkFreshness()', () => {
   it('should throw error if existing and new logs are unpopulated after request', () => {
     expect(() => {
       checkFreshness([], []);
-    }).toThrow();
+    }).toThrow('Requested logs are not up-to-date.');
   });
 
   it('should throw error if new logs are unpopulated after request', () => {
     expect(() => {
       checkFreshness([{ _id: 1 }], []);
-    }).toThrow();
+    }).toThrow('Requested logs are not up-to-date.');
   });
 
   it('should throw error if logs are not unique', () => {
     expect(() => {
       checkFreshness([{ _id: 1 }], [{ _id: 1 }]);
-    }).toThrow();
+    }).toThrow('Requested logs are not up-to-date.');
   });
 
   it('should return incoming logs if no existing logs, and incoming logs are populated', () => {
