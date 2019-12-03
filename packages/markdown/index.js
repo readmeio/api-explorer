@@ -1,53 +1,72 @@
 const React = require('react');
 const unified = require('unified');
+
+/* Unified Plugins
+*/
 const sanitize = require('hast-util-sanitize/lib/github.json');
+
+// sanitization schema
+sanitize.tagNames.push('input'); // allow GitHub-style todo lists
+sanitize.ancestors.input = ['li'];
+
+// remark plugins
 const remarkRehype = require('remark-rehype');
 const rehypeRaw = require('rehype-raw');
 const remarkParse = require('remark-parse');
-const rehypeSanitize = require('rehype-sanitize');
-const rehypeStringify = require('rehype-stringify');
-const rehypeReact = require('rehype-react');
 const remarkStringify = require('remark-stringify');
 const breaks = require('remark-breaks');
 
-const options = require('./processor/options.json');
+// rehype plugins
+const rehypeSanitize = require('rehype-sanitize');
+const rehypeStringify = require('rehype-stringify');
+const rehypeReact = require('rehype-react');
 
+/* React Custom Components
+ */ 
+const Variable = require('@readme/variable');
+const GlossaryItem = require('./GlossaryItem');
+const Code = require('./components/Code');
+const Table = require('./components/Table');
+const Anchor = require('./components/Anchor');
+// const Callout = require('./components/Callout'); // breaks CSS when required from the file scope; see line 90
+const CodeTabs = require('./components/CodeTabs');
+
+/* Custom Unified Parsers
+ */ 
 const flavorCodeTabs = require('./processor/parse/flavored/code-tabs');
 const flavorCallout = require('./processor/parse/flavored/callout');
 const magicBlockParser = require('./processor/parse/magic-block-parser');
 const variableParser = require('./processor/parse/variable-parser');
 const gemojiParser = require('./processor/parse/gemoji-parser');
 
+/* Custom Unified Compilers
+ */ 
 const rdmeDivCompiler = require('./processor/compile/div');
 const codeTabsCompiler = require('./processor/compile/code-tabs');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
 
-// This is for checklists in <li>
-sanitize.tagNames.push('input');
-sanitize.ancestors.input = ['li'];
+// Default Unified Options
+const options = require('./processor/options.json');
 
-const Variable = require('@readme/variable');
-// const GlossaryItem = require('./GlossaryItem');
-
-/*
- * This is kinda complicated. Our "markdown" within ReadMe
- * can often not be just markdown, but also include regular HTML.
- *
- * In addition, we also have a few special markdown features
- * e.g. <<variables>>
- *
- * We use the https://github.com/unifiedjs/unified
- * to parse/transform and output React components.
- *
- * The order for this process goes like follows:
- * - Parse regular markdown
- * - Parse out our markdown add-ons using custom compilers
- * - Convert from a remark mdast (markdown ast) to a rehype hast (hypertext ast)
- * - Extract any raw HTML elements
- * - Sanitize and remove any disallowed attributes
- * - Output the hast to a React vdom with our custom components
- */
 function parseMarkdown(opts = {}) {
+  /*
+   * This is kinda complicated: "markdown" within ReadMe is
+   * often more than just markdown. It can also include HTML,
+   * as well as custom syntax constructs such as <<variables>>,
+   * and other special features.
+   *
+   * We use the Unified text processor to parse and transform
+   * Markdown to various output formats, such as a React component
+   * tree. (See https://github.com/unifiedjs/unified for more info.)
+   *
+   * The order for processing ReadMe-flavored markdown is as follows:
+   * - parse markdown
+   * - parse custom syntaxes add-ons using custom compilers
+   * - convert from a remark mdast (markdown ast) to a rehype hast (hypertext ast)
+   * - extract any raw HTML elements
+   * - sanitize and remove any disallowed attributes
+   * - output the hast to a React vdom with our custom components
+   */
   return unified()
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
@@ -64,92 +83,93 @@ function parseMarkdown(opts = {}) {
     .use(rehypeSanitize);
 }
 
-// we have to export the Hub renderer as
-// the default for backwards compatibility
-module.exports = (text, opts) => module.exports.render.hub(text, opts);
 
-module.exports.parse = parseMarkdown;
+function hub(text, opts) {
+  if (!text) return null;
 
-module.exports.options = options; /** @todo: make exporting default options more coherent */
+  const Callout = require('./components/Callout'); // @todo fix callout heading CSS bug; see line 31
 
-module.exports.render = {
+  return parseMarkdown(opts)
+    .use(rehypeReact, {
+      createElement: React.createElement,
+      components: {
+        'code-tabs': CodeTabs(sanitize),
+        'rdme-callout': Callout(sanitize),
+        'readme-variable': Variable(sanitize),
+        'readme-glossary-item': GlossaryItem(sanitize),
+        table: Table(sanitize),
+        a: Anchor(sanitize),
+        code: Code(sanitize),
+        img: props => {
+          // @todo refactor this in to own component
+          const [
+            title,
+            align,
+            width='auto',
+            height='auto'
+          ] = props.title ? props.title.split(', ') : [];
+          const extras = {title, align, width, height};
+          return <img {...props} {...extras} />;
+        },
+        div: props => React.createElement(React.Fragment, props),
+      },
+    })
+    .processSync(text).contents;
+}
 
-  dash: (text, opts) =>
-    !text
-      ? null
-      : parseMarkdown(opts)
-          .use(rehypeReact, {
-            createElement: React.createElement,
-            components: {
-              'readme-variable': props => <span style={{color:'red'}}>Variable</span>,
-              'readme-glossary-item': props => <span style={{color:'red'}}>Term</span>,
-              // div: props => React.createElement(React.Fragment, props),
-            },
-          })
-          .parse(text), // .processSync(text).contents,
+function dash(text, opts) {
+  if (!text) return null;
 
-  hub: (text, opts) => {
-    const callout = require('./components/Callout');
-    const codeTabs = require('./components/CodeTabs');
-    const table = require('./components/Table');
-    const anchor = require('./components/Anchor');
-    const code = require('./components/Code');
-    return !text
-      ? null
-      : parseMarkdown(opts)
-          .use(rehypeReact, {
-            createElement: React.createElement,
-            components: {
-              'code-tabs': codeTabs(sanitize),
-              'rdme-callout': callout(sanitize),
-              'readme-variable': Variable(sanitize),
-              'readme-glossary-item': props => <span style={{color:'red'}} {...props}>Term</span>,
-              table: table(sanitize),
-              a: anchor(sanitize),
-              code: code(sanitize),
-              img: props => {
-                const [
-                  title,
-                  align,
-                  width='auto',
-                  height='auto'
-                ] = props.title ? props.title.split(', ') : [];
-                const extras = {title, align, width, height};
+  return parseMarkdown(opts)
+  .use(rehypeReact, {
+    createElement: React.createElement,
+    components: {
+      'readme-variable': props => <span {...props}>Variable</span>,
+      'readme-glossary-item': props => <span {...props}>Term</span>,
+      // div: props => React.createElement(React.Fragment, props),
+    },
+  })
+  .parse(text);
+}
 
-                return <img {...props} {...extras} />;
-              },
-              div: props => React.createElement(React.Fragment, props),
-            },
-          })
-          .processSync(text).contents;
-  },
+function ast(text, opts) {
+  if (!text) return null;
 
-  ast: (text, opts) =>
-    !text
-      ? null
-      : parseMarkdown(opts)
-          // .use(rehypeRemark)
-          .use(remarkStringify, opts.markdownOptions)
-          .parse(text),
+  return parseMarkdown(opts)
+    .use(remarkStringify, opts.markdownOptions)
+    .parse(text);
+}
 
-  md: (tree, opts) =>
-    !tree
-      ? null
-      : parseMarkdown(opts)
-          .use(remarkStringify, opts.markdownOptions)
-          .use([
-            rdmeDivCompiler,
-            codeTabsCompiler,
-            rdmeCalloutCompiler
-          ])
-          .stringify(tree),
+function md(tree, opts) {
+  if (!tree) return null;
 
-  html: (text, opts) =>
-    !text
-      ? null
-      : parseMarkdown(opts)
-          .use(rehypeStringify)
-          .processSync(text).contents,
-};
+  return parseMarkdown(opts)
+    .use(remarkStringify, opts.markdownOptions)
+    .use([
+      rdmeDivCompiler,
+      codeTabsCompiler,
+      rdmeCalloutCompiler
+    ])
+    .stringify(tree);
+}
 
-module.exports.VariablesContext = require('@readme/variable').VariablesContext;
+function html(text, opts) {
+  if (!text) return null;
+
+  return parseMarkdown(opts)
+    .use(rehypeStringify)
+    .processSync(text).contents;
+}
+
+module.exports = (text, opts) => hub(text, opts); // exports as default for backwards "compatibility"
+
+Object.assign(module.exports, {
+  hub,
+  dash,
+  ast,
+  md,
+  html,
+  options,
+  parse: parseMarkdown,
+  VariablesContext: Variable.VariablesContext,
+});
