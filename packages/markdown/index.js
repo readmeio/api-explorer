@@ -57,7 +57,7 @@ function parseMarkdown(opts = {}) {
    *
    * We use the Unified text processor to parse and transform
    * Markdown to various output formats, such as a React component
-   * tree. (See https://github.com/unifiedjs/unified for more info.)
+   * tree. (See https://github.com/unifiedjs/unified for more.)
    *
    * The order for processing ReadMe-flavored markdown is as follows:
    * - parse markdown
