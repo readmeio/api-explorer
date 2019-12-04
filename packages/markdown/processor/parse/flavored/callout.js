@@ -3,21 +3,21 @@ const rgx = /^>\s?(\W\D) (.+)\n((?:>(?: .*)?\n)*)/;
 
 function tokenizer(eat, value) {
   if (!rgx.test(value)) return true;
-  
+
   let [match, icon, title, text] = rgx.exec(value);
-  icon = icon.trim()
+  icon = icon.trim();
   title = title.trim();
   // text = text.replace(/>\n>(?:\s)+/gm, '\n').trim();
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
   const style = {
-    'ℹ️': 'info',
+    ℹ️: 'info',
     '⚠️': 'warn',
     '👍': 'okay',
     '✅': 'okay',
     '❗️': 'error',
     '🛑': 'error',
-    'ℹ':  'info',
-    '⚠':  'warn',
+    ℹ: 'info',
+    '⚠': 'warn',
   }[icon];
 
   return eat(match)({
@@ -29,19 +29,20 @@ function tokenizer(eat, value) {
         icon,
         title: title,
         value: text,
-      },  
+      },
     },
     children: [
-      { type: 'div',
+      {
+        type: 'div',
         children: [
           { type: 'text', value: `${icon} ` },
           {
             type: 'strong',
-            children: this.tokenizeInline(title, eat.now())
-          }
-        ]
+            children: this.tokenizeInline(title, eat.now()),
+          },
+        ],
       },
-      ...this.tokenizeBlock(text, eat.now())
+      ...this.tokenizeBlock(text, eat.now()),
     ],
   });
 }

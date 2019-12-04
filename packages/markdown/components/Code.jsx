@@ -4,15 +4,11 @@ const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 function Code(props) {
   const { className, children } = props;
-  const language = (className||'').replace('language-', '');
+  const language = (className || '').replace('language-', '');
 
   return (
     <code className={language ? `lang-${language}` : null}>
-      {syntaxHighlighter(
-        children[0],
-        language,
-        { tokenizeVariables: true },
-      )}
+      {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
       {/* {children} */}
     </code>
   );

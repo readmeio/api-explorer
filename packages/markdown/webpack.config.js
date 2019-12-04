@@ -1,7 +1,5 @@
 module.exports = {
-  entry: [
-    './index.js',
-  ],
+  entry: ['./index.js'],
   output: {
     filename: './dist/[name].js',
     libraryTarget: 'commonjs2',
@@ -20,7 +18,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ['style-loader', 'css-loader']
+        loader: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
@@ -42,5 +40,5 @@ module.exports = {
     watchContentBase: true,
     compress: true,
     // hot: true,
-  }
+  },
 };

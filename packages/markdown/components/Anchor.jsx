@@ -72,8 +72,10 @@ module.exports = sanitizeSchema => {
 
   return props => {
     // console.log('Anchor', props);
-    return (<BaseUrlContext.Consumer>
-      {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
-    </BaseUrlContext.Consumer>)
+    return (
+      <BaseUrlContext.Consumer>
+        {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
+      </BaseUrlContext.Consumer>
+    );
   };
 };
