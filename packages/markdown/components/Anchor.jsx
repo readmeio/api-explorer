@@ -72,8 +72,11 @@ module.exports = sanitizeSchema => {
   sanitizeSchema.protocols.href.push('doc', 'target', 'ref', 'blog', 'changelog', 'page');
 
   return props => {
-    return (<BaseUrlContext.Consumer>
-      {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
-    </BaseUrlContext.Consumer>)
+    // console.log('Anchor', props);
+    return (
+      <BaseUrlContext.Consumer>
+        {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
+      </BaseUrlContext.Consumer>
+    );
   };
 };

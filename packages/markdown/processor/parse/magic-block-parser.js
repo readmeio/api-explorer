@@ -31,21 +31,23 @@ function tokenize(eat, value) {
         children: this.tokenizeInline(json.title, eat.now()),
       });
     case 'image':
-      return eat(match)(json.images.map(img => {
-        const [url, alt] = img.image;
-        return {
-          type: 'image',
-          title: img.caption,
-          url,
-          alt,
-        };
-      })[0]);
+      return eat(match)(
+        json.images.map(img => {
+          const [url, alt] = img.image;
+          return {
+            type: 'image',
+            title: img.caption,
+            url,
+            alt,
+          };
+        })[0],
+      );
     case 'callout': {
       json.type = {
-        success: ['👍', 'okay' ],
-        info:    ['ℹ',  'info' ],
-        warning: ['⚠️', 'warn' ],
-        danger:  ['❗️', 'error'],
+        success: ['👍', 'okay'],
+        info: ['ℹ', 'info'],
+        warning: ['⚠️', 'warn'],
+        danger: ['❗️', 'error'],
       }[json.type];
       const [icon, theme] = json.type;
       return eat(match)({
@@ -60,39 +62,42 @@ function tokenize(eat, value) {
           },
         },
         children: [
-          { type: 'paragraph',
+          {
+            type: 'paragraph',
             children: [
               { type: 'text', value: `${icon} ` },
               {
                 type: 'strong',
-                children: this.tokenizeInline(json.title, eat.now())
-              }
-            ]
+                children: this.tokenizeInline(json.title, eat.now()),
+              },
+            ],
           },
-          ...this.tokenizeBlock(json.body, eat.now())
-        ],  
-      })
+          ...this.tokenizeBlock(json.body, eat.now()),
+        ],
+      });
     }
     case 'parameters': {
       const DATA = json.data;
-      const children = Object.keys(DATA).sort().reduce((sum, key) => {
-        const val = DATA[key];
-        let [row, col] = key.split('-');
-        row = row==='h' ? 0 : parseInt(row)+1;
-        col = parseInt(col);
-      
-        sum[row] = sum[row] || { type: 'tableRow', children: [] };
+      const children = Object.keys(DATA)
+        .sort()
+        .reduce((sum, key) => {
+          const val = DATA[key];
+          let [row, col] = key.split('-');
+          row = row === 'h' ? 0 : parseInt(row) + 1;
+          col = parseInt(col);
 
-        sum[row].children[col] = {
-          type: row ? 'tableCell' : 'tableHead',
-          children: this.tokenizeInline(val, eat.now()),
-        };
-        
-        return sum;
-      }, []);
+          sum[row] = sum[row] || { type: 'tableRow', children: [] };
+
+          sum[row].children[col] = {
+            type: row ? 'tableCell' : 'tableHead',
+            children: this.tokenizeInline(val, eat.now()),
+          };
+
+          return sum;
+        }, []);
       return eat(match)({
-        type: 'table', 
-        align: [], 
+        type: 'table',
+        align: [],
         children,
       });
     }
@@ -119,7 +124,6 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
-
 
   attr.li = ['checked'];
   attr.pre = ['className'];
