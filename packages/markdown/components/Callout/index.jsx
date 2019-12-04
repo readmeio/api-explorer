@@ -5,21 +5,23 @@ const React = require('react');
 require('./style.scss');
 
 const Callout = (props, ...rest) => {
-  const {attributes, children, node} = props;
-  const {theme} = node && node.data.toJSON() || props || {};
+  const { attributes, children, node } = props;
+  const { theme } = (node && node.data.toJSON()) || props || {};
   /*^Deal with varying methods of passing props
    * between the hast-util and slate-mdast-serializer.
    */
-  const content = children.splice(1)
+  const content = children.splice(1);
   const heading = children[0].props.children; // eek...
 
-  return (<blockquote {...attributes} className={`callout callout_${theme}`}>
-    <h3>
-      <span>{heading[0]}</span>
-      {heading[1]}
-    </h3>
-    {content}
-  </blockquote>);
+  return (
+    <blockquote {...attributes} className={`callout callout_${theme}`}>
+      <h3>
+        <span>{heading[0]}</span>
+        {heading[1]}
+      </h3>
+      {content}
+    </blockquote>
+  );
 };
 
 // Callout.propTypes = {
@@ -33,5 +35,5 @@ const Callout = (props, ...rest) => {
 
 module.exports = sanitizeSchema => {
   sanitizeSchema.attributes['rdme-callout'] = ['icon', 'theme', 'title', 'value'];
-  return Callout
-}
+  return Callout;
+};
