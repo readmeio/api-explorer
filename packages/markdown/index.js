@@ -128,7 +128,6 @@ function dash(text, opts) {
 
 function ast(text, opts) {
   if (!text) return null;
-
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
     .parse(text);
@@ -136,7 +135,6 @@ function ast(text, opts) {
 
 function md(tree, opts) {
   if (!tree) return null;
-
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
     .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler])
@@ -148,18 +146,29 @@ function html(text, opts) {
 
   return parseMarkdown(opts)
     .use(rehypeStringify)
-    .processSync(text).contents;
+    .processSync(text)
+    .contents;
 }
 
-module.exports = (text, opts) => hub(text, opts); // for backwards "compatibility"
+function normalizeMagic(blocks){
+  return blocks
+    .replace(/\[block:/g, '\n[block:')
+    .replace(/\[\/block\]/g, '[/block]\n');
+}
 
-Object.assign(module.exports, {
+const ReadMeMarkdown = (text, opts) => hub(text, opts); // for backwards "compatibility"
+
+Object.assign(ReadMeMarkdown, {
   hub,
   dash,
   ast,
   md,
   html,
-  options,
-  parse: parseMarkdown,
-  VariablesContext: Variable.VariablesContext,
+  utils: {
+    options,
+    normalizeMagic, 
+    VariablesContext: Variable.VariablesContext,
+  }
 });
+
+module.exports = ReadMeMarkdown;
