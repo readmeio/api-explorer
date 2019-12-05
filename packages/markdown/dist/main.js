@@ -21789,21 +21789,11 @@ module.exports = __webpack_require__(162);
 /* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var React = __webpack_require__(7);
 
 var unified = __webpack_require__(165);
 /* Unified Plugins
-*/
+ */
 
 
 var sanitize = __webpack_require__(53); // sanitization schema
@@ -21846,6 +21836,8 @@ var Anchor = __webpack_require__(404);
 var Callout = __webpack_require__(406);
 
 var CodeTabs = __webpack_require__(409);
+
+var Image = __webpack_require__(422);
 /* Custom Unified Parsers
  */
 
@@ -21893,12 +21885,12 @@ function parseMarkdown() {
    * - sanitize and remove any disallowed attributes
    * - output the hast to a React vdom with our custom components
    */
-  return unified().use(remarkParse, opts.markdownOptions).data('settings', opts.settings).use(magicBlockParser.sanitize(sanitize)).use([flavorCodeTabs, flavorCallout.sanitize(sanitize)]).use(variableParser.sanitize(sanitize)).use(!opts.correctnewlines ? breaks : function () {}).use(gemojiParser.sanitize(sanitize)).use(remarkRehype, {
+  return unified().use(remarkParse, opts.markdownOptions).data('settings', opts.settings).use(magicBlockParser.sanitize(sanitize)).use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize)]).use(variableParser.sanitize(sanitize)).use(!opts.correctnewlines ? breaks : function () {}).use(gemojiParser.sanitize(sanitize)).use(remarkRehype, {
     allowDangerousHTML: true
   }).use(rehypeRaw).use(rehypeSanitize);
 }
 
-function hub(text, opts) {
+function react(text, opts) {
   if (!text) return null;
   return parseMarkdown(opts).use(rehypeReact, {
     createElement: React.createElement,
@@ -21910,25 +21902,7 @@ function hub(text, opts) {
       table: Table(sanitize),
       a: Anchor(sanitize),
       code: Code(sanitize),
-      img: function img(props) {
-        // @todo refactor this in to own component
-        var _ref = props.title ? props.title.split(', ') : [],
-            _ref2 = _slicedToArray(_ref, 4),
-            title = _ref2[0],
-            align = _ref2[1],
-            _ref2$ = _ref2[2],
-            width = _ref2$ === void 0 ? 'auto' : _ref2$,
-            _ref2$2 = _ref2[3],
-            height = _ref2$2 === void 0 ? 'auto' : _ref2$2;
-
-        var extras = {
-          title: title,
-          align: align,
-          width: width,
-          height: height
-        };
-        return React.createElement("img", _extends({}, props, extras));
-      },
+      img: Image(sanitize),
       div: function div(props) {
         return React.createElement(React.Fragment, props);
       }
@@ -21936,7 +21910,7 @@ function hub(text, opts) {
   }).processSync(text).contents;
 }
 
-function dash(text, opts) {
+function plain(text, opts) {
   if (!text) return null;
   return parseMarkdown(opts).use(rehypeReact, {
     createElement: React.createElement,
@@ -21949,7 +21923,8 @@ function dash(text, opts) {
       } // div: props => React.createElement(React.Fragment, props),
 
     }
-  }).parse(text);
+  }) // .parse(text)
+  .processSync(text).contents;
 }
 
 function ast(text, opts) {
@@ -21967,21 +21942,30 @@ function html(text, opts) {
   return parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
 }
 
-module.exports = function (text, opts) {
-  return hub(text, opts);
-}; // exports as default for backwards "compatibility"
+function normalizeMagic(blocks) {
+  // eslint-disable-next-line no-param-reassign
+  blocks = blocks.replace(/\[block:/g, '\n[block:').replace(/\[\/block\]/g, '[/block]\n').trim();
+  return "".concat(blocks, "\n\n&nbsp;");
+}
+
+var ReadMeMarkdown = function ReadMeMarkdown(text, opts) {
+  return react(text, opts);
+}; // for backwards "compatibility"
 
 
-Object.assign(module.exports, {
-  hub: hub,
-  dash: dash,
+Object.assign(ReadMeMarkdown, {
+  react: react,
+  plain: plain,
   ast: ast,
   md: md,
   html: html,
-  options: options,
-  parse: parseMarkdown,
-  VariablesContext: Variable.VariablesContext
+  utils: {
+    options: options,
+    normalizeMagic: normalizeMagic,
+    VariablesContext: Variable.VariablesContext
+  }
 });
+module.exports = ReadMeMarkdown;
 
 /***/ }),
 /* 163 */
@@ -50980,6 +50964,10 @@ var PropTypes = __webpack_require__(32);
 
 var syntaxHighlighter = __webpack_require__(382);
 
+__webpack_require__(423);
+
+__webpack_require__(425);
+
 function Code(props) {
   var className = props.className,
       children = props.children;
@@ -57880,7 +57868,7 @@ var CodeTabs = function CodeTabs(_ref) {
 
   function handleClick(_ref2, index) {
     var target = _ref2.target;
-    var $wrap = target.parentElement;
+    var $wrap = target.closest('.CodeTabs');
     $wrap.querySelectorAll('.CodeTabs_active').forEach(function (el) {
       return el.classList.remove('CodeTabs_active');
     });
@@ -57892,19 +57880,23 @@ var CodeTabs = function CodeTabs(_ref) {
 
   return React.createElement("div", _extends({}, attributes, {
     className: "CodeTabs CodeTabs_initial"
-  }), children.map(function (block, i) {
+  }), React.createElement("div", {
+    className: "CodeTabs-toolbar"
+  }, children.map(function (block, i) {
+    console.log(block);
     return React.createElement("button", {
       onClick: function onClick(e) {
         return handleClick(e, i);
       }
     }, "Tab ", i);
-  }), React.createElement("div", {
+  })), React.createElement("div", {
     className: "CodeTabs-inner"
   }, children));
 };
 
 module.exports = function (sanitizeSchema) {
-  // sanitizeSchema.attributes['code-tabs'] = ['icon', 'theme', 'title', 'value'];
+  sanitizeSchema.attributes['code-tabs'] = [];
+  sanitizeSchema.attributes['code'] = ['lang', 'meta'];
   return CodeTabs;
 };
 
@@ -57936,7 +57928,7 @@ if (content.locals) {
 
 exports = module.exports = __webpack_require__(159)(false);
 // Module
-exports.push([module.i, "html[ng-app=\"hub\"] .markdown-body .CodeTabs{background:#eaeaea;border-radius:0 0 3px 3px !important}html[ng-app=\"hub\"] .markdown-body .CodeTabs pre{border-radius:0 0 3px 3px !important;background:#f6f6f6}html[ng-app=\"hub\"] .markdown-body .CodeTabs pre:not(.CodeTabs_active){display:none}html[ng-app=\"hub\"] .markdown-body .CodeTabs button{-webkit-appearance:none;appearance:none;display:inline-block;line-height:2;padding:.5em 1em;border:none;background:transparent;outline:none;color:#333;font:inherit;font-size:.75em;cursor:pointer}html[ng-app=\"hub\"] .markdown-body .CodeTabs.CodeTabs_initial button:first-child,html[ng-app=\"hub\"] .markdown-body .CodeTabs button.CodeTabs_active{background:#f6f6f6;color:black;pointer-events:none}html[ng-app=\"hub\"] .markdown-body .CodeTabs button:not(.CodeTabs_active):hover{background:rgba(0,0,0,0.075)}html[ng-app=\"hub\"] .markdown-body .CodeTabs.CodeTabs_initial pre:first-child{display:block}\n", ""]);
+exports.push([module.i, "html[ng-app=\"hub\"] .markdown-body .CodeTabs,#root>.App .CodeTabs{background:#eaeaea;border-radius:0 0 3px 3px !important}html[ng-app=\"hub\"] .markdown-body .CodeTabs pre,#root>.App .CodeTabs pre{border-radius:0 0 3px 3px !important;background:#f6f6f6;margin-bottom:0}html[ng-app=\"hub\"] .markdown-body .CodeTabs pre:not(.CodeTabs_active),#root>.App .CodeTabs pre:not(.CodeTabs_active){display:none}html[ng-app=\"hub\"] .markdown-body .CodeTabs button,#root>.App .CodeTabs button{-webkit-appearance:none;appearance:none;display:inline-block;line-height:2;padding:.5em 1em;border:none;background:transparent;outline:none;color:#333;font:inherit;font-size:.75em;cursor:pointer}html[ng-app=\"hub\"] .markdown-body .CodeTabs.CodeTabs_initial button:first-child,html[ng-app=\"hub\"] .markdown-body .CodeTabs button.CodeTabs_active,#root>.App .CodeTabs.CodeTabs_initial button:first-child,#root>.App .CodeTabs button.CodeTabs_active{background:#f6f6f6;color:black;pointer-events:none}html[ng-app=\"hub\"] .markdown-body .CodeTabs button:not(.CodeTabs_active):hover,#root>.App .CodeTabs button:not(.CodeTabs_active):hover{background:rgba(0,0,0,0.075)}html[ng-app=\"hub\"] .markdown-body .CodeTabs.CodeTabs_initial pre:first-child,#root>.App .CodeTabs.CodeTabs_initial pre:first-child{display:block}\n", ""]);
 
 
 /***/ }),
@@ -57979,7 +57971,14 @@ function tokenizer(eat, value) {
       className: 'tab-panel',
       value: code.trim(),
       meta: meta,
-      lang: lang
+      lang: lang,
+      data: {
+        hName: 'code',
+        hProperties: {
+          meta: meta,
+          lang: lang
+        }
+      }
     };
   }); // return a single code block
 
@@ -57999,8 +57998,8 @@ function parser() {
   var Parser = this.Parser;
   var tokenizers = Parser.prototype.blockTokenizers;
   var methods = Parser.prototype.blockMethods;
-  tokenizers.AdjacentCodeBlocks = tokenizer;
-  methods.splice(methods.indexOf('newline'), 0, 'AdjacentCodeBlocks');
+  tokenizers.CodeTabs = tokenizer;
+  methods.splice(methods.indexOf('newline'), 0, 'CodeTabs');
 }
 
 module.exports = parser;
@@ -58008,6 +58007,8 @@ module.exports = parser;
 module.exports.sanitize = function (sanitizeSchema) {
   var tags = sanitizeSchema.tagNames;
   var attr = sanitizeSchema.attributes;
+  tags.push('code-tabs');
+  attr['code-tabs'] = ['className', 'meta', 'lang'];
   return parser;
 };
 
@@ -58049,13 +58050,13 @@ function tokenizer(eat, value) {
 
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
   var style = {
-    'ℹ️': 'info',
+    ℹ️: 'info',
     '⚠️': 'warn',
     '👍': 'okay',
     '✅': 'okay',
     '❗️': 'error',
     '🛑': 'error',
-    'ℹ': 'info',
+    ℹ: 'info',
     '⚠': 'warn'
   }[icon];
   return eat(match)({
@@ -58151,7 +58152,14 @@ function tokenize(eat, value) {
             value: obj.code,
             meta: obj.name || null,
             lang: obj.language,
-            className: 'tab-panel'
+            className: 'tab-panel',
+            data: {
+              hName: 'code',
+              hProperties: {
+                meta: obj.name || null,
+                lang: obj.language
+              }
+            }
           };
         })
       });
@@ -58264,13 +58272,11 @@ function parser() {
 module.exports = parser;
 
 module.exports.sanitize = function (sanitizeSchema) {
-  var tags = sanitizeSchema.tagNames;
+  // const tags = sanitizeSchema.tagNames;
   var attr = sanitizeSchema.attributes;
   attr.li = ['checked'];
-  attr.pre = ['className'];
-  attr.code = ['className'];
-  tags.push('code-tabs');
-  attr['code-tabs'] = ['className'];
+  attr.pre = ['className', 'lang', 'meta'];
+  attr.code = ['className', 'lang', 'meta'];
   return parser;
 };
 
@@ -58453,14 +58459,16 @@ module.exports = function div() {
 /* 419 */
 /***/ (function(module, exports) {
 
-module.exports = function gap() {
+module.exports = function CodeTabsCompiler() {
   var Compiler = this.Compiler;
   var visitors = Compiler.prototype.visitors;
 
   function codeTabs(node) {
-    return this.block(node).split('\n\n').join('\n');
+    var md = this.block(node).split('```\n\n').join('```\n');
+    return md;
   }
 
+  ;
   visitors['code-tabs'] = codeTabs;
 };
 
@@ -58484,6 +58492,129 @@ module.exports = function callout() {
 /***/ (function(module, exports) {
 
 module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":false},"settings":{"position":false}}
+
+/***/ }),
+/* 422 */
+/***/ (function(module, exports, __webpack_require__) {
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var React = __webpack_require__(7);
+
+var PropTypes = __webpack_require__(32);
+
+var Image = function Image(props) {
+  // @todo refactor this in to own component
+  var _ref = props.title ? props.title.split(', ') : [],
+      _ref2 = _slicedToArray(_ref, 4),
+      title = _ref2[0],
+      align = _ref2[1],
+      _ref2$ = _ref2[2],
+      width = _ref2$ === void 0 ? 'auto' : _ref2$,
+      _ref2$2 = _ref2[3],
+      height = _ref2$2 === void 0 ? 'auto' : _ref2$2;
+
+  var extras = {
+    title: title,
+    align: align,
+    width: width,
+    height: height
+  };
+  return React.createElement("img", _extends({}, props, extras));
+};
+
+Image.propTypes = {
+  title: PropTypes.string,
+  align: PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  alt: PropTypes.string,
+  src: PropTypes.string
+};
+Image.defaultProps = {
+  title: '',
+  align: '',
+  width: '',
+  height: '',
+  alt: '',
+  src: ''
+};
+
+module.exports = function (sanitizeSchema) {
+  // This is for code blocks class name
+  sanitizeSchema.attributes.code = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
+  return Image;
+};
+
+/***/ }),
+/* 423 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var content = __webpack_require__(424);
+
+if (typeof content === 'string') {
+  content = [[module.i, content, '']];
+}
+
+var options = {}
+
+options.insert = "head";
+options.singleton = false;
+
+var update = __webpack_require__(160)(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}
+
+
+/***/ }),
+/* 424 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(159)(false);
+// Module
+exports.push([module.i, "/* BASICS */\n\n.CodeMirror {\n  /* Set height, width, borders, and global font properties here */\n  font-family: monospace;\n  height: 300px;\n  color: black;\n  direction: ltr;\n}\n\n/* PADDING */\n\n.CodeMirror-lines {\n  padding: 4px 0; /* Vertical padding around content */\n}\n.CodeMirror pre.CodeMirror-line,\n.CodeMirror pre.CodeMirror-line-like {\n  padding: 0 4px; /* Horizontal padding of content */\n}\n\n.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {\n  background-color: white; /* The little square between H and V scrollbars */\n}\n\n/* GUTTER */\n\n.CodeMirror-gutters {\n  border-right: 1px solid #ddd;\n  background-color: #f7f7f7;\n  white-space: nowrap;\n}\n.CodeMirror-linenumbers {}\n.CodeMirror-linenumber {\n  padding: 0 3px 0 5px;\n  min-width: 20px;\n  text-align: right;\n  color: #999;\n  white-space: nowrap;\n}\n\n.CodeMirror-guttermarker { color: black; }\n.CodeMirror-guttermarker-subtle { color: #999; }\n\n/* CURSOR */\n\n.CodeMirror-cursor {\n  border-left: 1px solid black;\n  border-right: none;\n  width: 0;\n}\n/* Shown when moving in bi-directional text */\n.CodeMirror div.CodeMirror-secondarycursor {\n  border-left: 1px solid silver;\n}\n.cm-fat-cursor .CodeMirror-cursor {\n  width: auto;\n  border: 0 !important;\n  background: #7e7;\n}\n.cm-fat-cursor div.CodeMirror-cursors {\n  z-index: 1;\n}\n.cm-fat-cursor-mark {\n  background-color: rgba(20, 255, 20, 0.5);\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  -moz-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n}\n.cm-animate-fat-cursor {\n  width: auto;\n  border: 0;\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  -moz-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n  background-color: #7e7;\n}\n@-moz-keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n@-webkit-keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n@keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n\n/* Can style cursor different in overwrite (non-insert) mode */\n.CodeMirror-overwrite .CodeMirror-cursor {}\n\n.cm-tab { display: inline-block; text-decoration: inherit; }\n\n.CodeMirror-rulers {\n  position: absolute;\n  left: 0; right: 0; top: -50px; bottom: 0;\n  overflow: hidden;\n}\n.CodeMirror-ruler {\n  border-left: 1px solid #ccc;\n  top: 0; bottom: 0;\n  position: absolute;\n}\n\n/* DEFAULT THEME */\n\n.cm-s-default .cm-header {color: blue;}\n.cm-s-default .cm-quote {color: #090;}\n.cm-negative {color: #d44;}\n.cm-positive {color: #292;}\n.cm-header, .cm-strong {font-weight: bold;}\n.cm-em {font-style: italic;}\n.cm-link {text-decoration: underline;}\n.cm-strikethrough {text-decoration: line-through;}\n\n.cm-s-default .cm-keyword {color: #708;}\n.cm-s-default .cm-atom {color: #219;}\n.cm-s-default .cm-number {color: #164;}\n.cm-s-default .cm-def {color: #00f;}\n.cm-s-default .cm-variable,\n.cm-s-default .cm-punctuation,\n.cm-s-default .cm-property,\n.cm-s-default .cm-operator {}\n.cm-s-default .cm-variable-2 {color: #05a;}\n.cm-s-default .cm-variable-3, .cm-s-default .cm-type {color: #085;}\n.cm-s-default .cm-comment {color: #a50;}\n.cm-s-default .cm-string {color: #a11;}\n.cm-s-default .cm-string-2 {color: #f50;}\n.cm-s-default .cm-meta {color: #555;}\n.cm-s-default .cm-qualifier {color: #555;}\n.cm-s-default .cm-builtin {color: #30a;}\n.cm-s-default .cm-bracket {color: #997;}\n.cm-s-default .cm-tag {color: #170;}\n.cm-s-default .cm-attribute {color: #00c;}\n.cm-s-default .cm-hr {color: #999;}\n.cm-s-default .cm-link {color: #00c;}\n\n.cm-s-default .cm-error {color: #f00;}\n.cm-invalidchar {color: #f00;}\n\n.CodeMirror-composing { border-bottom: 2px solid; }\n\n/* Default styles for common addons */\n\ndiv.CodeMirror span.CodeMirror-matchingbracket {color: #0b0;}\ndiv.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}\n.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }\n.CodeMirror-activeline-background {background: #e8f2ff;}\n\n/* STOP */\n\n/* The rest of this file contains styles related to the mechanics of\n   the editor. You probably shouldn't touch them. */\n\n.CodeMirror {\n  position: relative;\n  overflow: hidden;\n  background: white;\n}\n\n.CodeMirror-scroll {\n  overflow: scroll !important; /* Things will break if this is overridden */\n  /* 30px is the magic margin used to hide the element's real scrollbars */\n  /* See overflow: hidden in .CodeMirror */\n  margin-bottom: -30px; margin-right: -30px;\n  padding-bottom: 30px;\n  height: 100%;\n  outline: none; /* Prevent dragging from highlighting the element */\n  position: relative;\n}\n.CodeMirror-sizer {\n  position: relative;\n  border-right: 30px solid transparent;\n}\n\n/* The fake, visible scrollbars. Used to force redraw during scrolling\n   before actual scrolling happens, thus preventing shaking and\n   flickering artifacts. */\n.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {\n  position: absolute;\n  z-index: 6;\n  display: none;\n}\n.CodeMirror-vscrollbar {\n  right: 0; top: 0;\n  overflow-x: hidden;\n  overflow-y: scroll;\n}\n.CodeMirror-hscrollbar {\n  bottom: 0; left: 0;\n  overflow-y: hidden;\n  overflow-x: scroll;\n}\n.CodeMirror-scrollbar-filler {\n  right: 0; bottom: 0;\n}\n.CodeMirror-gutter-filler {\n  left: 0; bottom: 0;\n}\n\n.CodeMirror-gutters {\n  position: absolute; left: 0; top: 0;\n  min-height: 100%;\n  z-index: 3;\n}\n.CodeMirror-gutter {\n  white-space: normal;\n  height: 100%;\n  display: inline-block;\n  vertical-align: top;\n  margin-bottom: -30px;\n}\n.CodeMirror-gutter-wrapper {\n  position: absolute;\n  z-index: 4;\n  background: none !important;\n  border: none !important;\n}\n.CodeMirror-gutter-background {\n  position: absolute;\n  top: 0; bottom: 0;\n  z-index: 4;\n}\n.CodeMirror-gutter-elt {\n  position: absolute;\n  cursor: default;\n  z-index: 4;\n}\n.CodeMirror-gutter-wrapper ::selection { background-color: transparent }\n.CodeMirror-gutter-wrapper ::-moz-selection { background-color: transparent }\n\n.CodeMirror-lines {\n  cursor: text;\n  min-height: 1px; /* prevents collapsing before first draw */\n}\n.CodeMirror pre.CodeMirror-line,\n.CodeMirror pre.CodeMirror-line-like {\n  /* Reset some styles that the rest of the page might have set */\n  -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;\n  border-width: 0;\n  background: transparent;\n  font-family: inherit;\n  font-size: inherit;\n  margin: 0;\n  white-space: pre;\n  word-wrap: normal;\n  line-height: inherit;\n  color: inherit;\n  z-index: 2;\n  position: relative;\n  overflow: visible;\n  -webkit-tap-highlight-color: transparent;\n  -webkit-font-variant-ligatures: contextual;\n  font-variant-ligatures: contextual;\n}\n.CodeMirror-wrap pre.CodeMirror-line,\n.CodeMirror-wrap pre.CodeMirror-line-like {\n  word-wrap: break-word;\n  white-space: pre-wrap;\n  word-break: normal;\n}\n\n.CodeMirror-linebackground {\n  position: absolute;\n  left: 0; right: 0; top: 0; bottom: 0;\n  z-index: 0;\n}\n\n.CodeMirror-linewidget {\n  position: relative;\n  z-index: 2;\n  padding: 0.1px; /* Force widget margins to stay inside of the container */\n}\n\n.CodeMirror-widget {}\n\n.CodeMirror-rtl pre { direction: rtl; }\n\n.CodeMirror-code {\n  outline: none;\n}\n\n/* Force content-box sizing for the elements where we expect it */\n.CodeMirror-scroll,\n.CodeMirror-sizer,\n.CodeMirror-gutter,\n.CodeMirror-gutters,\n.CodeMirror-linenumber {\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n}\n\n.CodeMirror-measure {\n  position: absolute;\n  width: 100%;\n  height: 0;\n  overflow: hidden;\n  visibility: hidden;\n}\n\n.CodeMirror-cursor {\n  position: absolute;\n  pointer-events: none;\n}\n.CodeMirror-measure pre { position: static; }\n\ndiv.CodeMirror-cursors {\n  visibility: hidden;\n  position: relative;\n  z-index: 3;\n}\ndiv.CodeMirror-dragcursors {\n  visibility: visible;\n}\n\n.CodeMirror-focused div.CodeMirror-cursors {\n  visibility: visible;\n}\n\n.CodeMirror-selected { background: #d9d9d9; }\n.CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }\n.CodeMirror-crosshair { cursor: crosshair; }\n.CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; }\n.CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; }\n\n.cm-searching {\n  background-color: #ffa;\n  background-color: rgba(255, 255, 0, .4);\n}\n\n/* Used to force a border model for a node */\n.cm-force-border { padding-right: .1px; }\n\n@media print {\n  /* Hide the cursor when printing */\n  .CodeMirror div.CodeMirror-cursors {\n    visibility: hidden;\n  }\n}\n\n/* See issue #2901 */\n.cm-tab-wrap-hack:after { content: ''; }\n\n/* Help users use markselection to safely style text background */\nspan.CodeMirror-selectedtext { background: none; }\n", ""]);
+
+
+/***/ }),
+/* 425 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var content = __webpack_require__(426);
+
+if (typeof content === 'string') {
+  content = [[module.i, content, '']];
+}
+
+var options = {}
+
+options.insert = "head";
+options.singleton = false;
+
+var update = __webpack_require__(160)(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}
+
+
+/***/ }),
+/* 426 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(159)(false);
+// Module
+exports.push([module.i, "/* neo theme for codemirror */\n\n/* Color scheme */\n\n.cm-s-neo.CodeMirror {\n  background-color:#ffffff;\n  color:#2e383c;\n  line-height:1.4375;\n}\n.cm-s-neo .cm-comment { color:#75787b; }\n.cm-s-neo .cm-keyword, .cm-s-neo .cm-property { color:#1d75b3; }\n.cm-s-neo .cm-atom,.cm-s-neo .cm-number { color:#75438a; }\n.cm-s-neo .cm-node,.cm-s-neo .cm-tag { color:#9c3328; }\n.cm-s-neo .cm-string { color:#b35e14; }\n.cm-s-neo .cm-variable,.cm-s-neo .cm-qualifier { color:#047d65; }\n\n\n/* Editor styling */\n\n.cm-s-neo pre {\n  padding:0;\n}\n\n.cm-s-neo .CodeMirror-gutters {\n  border:none;\n  border-right:10px solid transparent;\n  background-color:transparent;\n}\n\n.cm-s-neo .CodeMirror-linenumber {\n  padding:0;\n  color:#e0e2e5;\n}\n\n.cm-s-neo .CodeMirror-guttermarker { color: #1d75b3; }\n.cm-s-neo .CodeMirror-guttermarker-subtle { color: #e0e2e5; }\n\n.cm-s-neo .CodeMirror-cursor {\n  width: auto;\n  border: 0;\n  background: rgba(155,157,162,0.37);\n  z-index: 1;\n}\n", ""]);
+
 
 /***/ })
 /******/ ]);

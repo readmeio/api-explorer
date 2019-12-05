@@ -5,7 +5,7 @@ require('./style.scss');
 
 const CodeTabs = ({ attributes, children }) => {
   function handleClick({ target }, index) {
-    const $wrap = target.parentElement;
+    const $wrap = target.closest('.CodeTabs');
     $wrap
       .querySelectorAll('.CodeTabs_active')
       .forEach(el => el.classList.remove('CodeTabs_active'));
@@ -16,17 +16,22 @@ const CodeTabs = ({ attributes, children }) => {
 
     target.classList.add('CodeTabs_active');
   }
+  
   return (
     <div {...attributes} className="CodeTabs CodeTabs_initial">
-      {children.map((block, i) => {
-        return <button onClick={e => handleClick(e, i)}>Tab {i}</button>;
-      })}
+      <div className="CodeTabs-toolbar">
+        {children.map((block, i) => {
+          console.log(block)
+          return <button onClick={e => handleClick(e, i)}>Tab {i}</button>;
+        })}
+      </div>
       <div className="CodeTabs-inner">{children}</div>
     </div>
   );
 };
 
 module.exports = sanitizeSchema => {
-  // sanitizeSchema.attributes['code-tabs'] = ['icon', 'theme', 'title', 'value'];
+  sanitizeSchema.attributes['code-tabs'] = [];
+  sanitizeSchema.attributes['code'] = ['lang', 'meta'];
   return CodeTabs;
 };

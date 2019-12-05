@@ -2,6 +2,9 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 
+require('@readme/syntax-highlighter/node_modules/codemirror/lib/codemirror.css');
+require('@readme/syntax-highlighter/node_modules/codemirror/theme/neo.css');
+
 function Code(props) {
   const { className, children } = props;
   const language = (className || '').replace('language-', '');
@@ -9,7 +12,7 @@ function Code(props) {
   return (
     <code className={language ? `lang-${language}` : null}>
       {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
-      {/* {children} */}
+      {/* children */}
     </code>
   );
 }
