@@ -1,15 +1,14 @@
-html[ng-app="hub"] .markdown-body .CodeTabs {
+@mixin CodeTabs {
   background: #eaeaea;
   border-radius: 0 0 3px 3px !important;
 
   pre {
     border-radius: 0 0 3px 3px !important;
     background: #f6f6f6;
+    margin-bottom: 0;
+    &:not(.CodeTabs_active) { display: none }
   }
 
-  pre:not(.CodeTabs_active) {
-    display: none;
-  }
 
   button {
     -webkit-appearance: none;
@@ -40,4 +39,9 @@ html[ng-app="hub"] .markdown-body .CodeTabs {
   &.CodeTabs_initial pre:first-child {
     display: block;
   }
+}
+
+html[ng-app="hub"] .markdown-body,
+#root > .App {
+  .CodeTabs { @include CodeTabs }
 }
