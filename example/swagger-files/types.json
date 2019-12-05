@@ -10,6 +10,32 @@
     "title": "An example of how we render different data types"
   },
   "paths": {
+    "/anything/object-in-query-params": {
+      "post": {
+        "summary": "Supplying an object in a query param (currently unsupported)",
+        "parameters": [
+          {
+            "name": "object in query param",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "string property": {
+                  "type": "string"
+                },
+                "array property": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
     "/anything/primitive-types": {
       "post": {
         "summary": "Primitive data types",
@@ -163,6 +189,20 @@
                       "properties": {
                         "string": {
                           "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "array (of array of objects)": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "string": {
+                            "type": "string"
+                          }
                         }
                       }
                     }
