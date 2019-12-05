@@ -23,7 +23,6 @@ const rehypeReact = require('rehype-react');
 
 /* React Custom Components
  */
-
 const Variable = require('@readme/variable');
 const GlossaryItem = require('./components/GlossaryItem');
 const Code = require('./components/Code');
@@ -31,10 +30,10 @@ const Table = require('./components/Table');
 const Anchor = require('./components/Anchor');
 const Callout = require('./components/Callout');
 const CodeTabs = require('./components/CodeTabs');
+const Image = require('./components/Image');
 
 /* Custom Unified Parsers
  */
-
 const flavorCodeTabs = require('./processor/parse/flavored/code-tabs');
 const flavorCallout = require('./processor/parse/flavored/callout');
 const magicBlockParser = require('./processor/parse/magic-block-parser');
@@ -43,7 +42,6 @@ const gemojiParser = require('./processor/parse/gemoji-parser');
 
 /* Custom Unified Compilers
  */
-
 const rdmeDivCompiler = require('./processor/compile/div');
 const codeTabsCompiler = require('./processor/compile/code-tabs');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
@@ -74,7 +72,7 @@ function parseMarkdown(opts = {}) {
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
-    .use([flavorCodeTabs, flavorCallout.sanitize(sanitize)])
+    .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize)])
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
@@ -83,7 +81,7 @@ function parseMarkdown(opts = {}) {
     .use(rehypeSanitize);
 }
 
-function hub(text, opts) {
+function react(text, opts) {
   if (!text) return null;
 
   return parseMarkdown(opts)
@@ -97,21 +95,15 @@ function hub(text, opts) {
         table: Table(sanitize),
         a: Anchor(sanitize),
         code: Code(sanitize),
-        img: props => {
-          // @todo refactor this in to own component
-          const [title, align, width = 'auto', height = 'auto'] = props.title
-            ? props.title.split(', ')
-            : [];
-          const extras = { title, align, width, height };
-          return <img {...props} {...extras} />;
-        },
+        img: Image(sanitize),
         div: props => React.createElement(React.Fragment, props),
       },
     })
-    .processSync(text).contents;
+    .processSync(text)
+    .contents;
 }
 
-function dash(text, opts) {
+function plain(text, opts) {
   if (!text) return null;
 
   return parseMarkdown(opts)
@@ -123,7 +115,9 @@ function dash(text, opts) {
         // div: props => React.createElement(React.Fragment, props),
       },
     })
-    .parse(text);
+    // .parse(text)
+    .processSync(text)
+    .contents;
 }
 
 function ast(text, opts) {
@@ -151,16 +145,19 @@ function html(text, opts) {
 }
 
 function normalizeMagic(blocks){
-  return blocks
+  // eslint-disable-next-line no-param-reassign
+  blocks = blocks
     .replace(/\[block:/g, '\n[block:')
-    .replace(/\[\/block\]/g, '[/block]\n');
+    .replace(/\[\/block\]/g, '[/block]\n')
+    .trim()
+  return `${blocks}\n\n&nbsp;`;
 }
 
-const ReadMeMarkdown = (text, opts) => hub(text, opts); // for backwards "compatibility"
+const ReadMeMarkdown = (text, opts) => react(text, opts); // for backwards "compatibility"
 
 Object.assign(ReadMeMarkdown, {
-  hub,
-  dash,
+  react,
+  plain,
   ast,
   md,
   html,

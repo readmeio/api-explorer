@@ -18,6 +18,10 @@ function tokenizer(eat, value) {
         value: code.trim(),
         meta,
         lang,
+        data: {
+          hName: 'code',
+          hProperties: { meta, lang }
+        },
       };
     });
 
@@ -38,8 +42,8 @@ function parser() {
   const tokenizers = Parser.prototype.blockTokenizers;
   const methods = Parser.prototype.blockMethods;
 
-  tokenizers.AdjacentCodeBlocks = tokenizer;
-  methods.splice(methods.indexOf('newline'), 0, 'AdjacentCodeBlocks');
+  tokenizers.CodeTabs = tokenizer;
+  methods.splice(methods.indexOf('newline'), 0, 'CodeTabs');
 }
 
 module.exports = parser;
@@ -47,6 +51,9 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
+  
+  tags.push('code-tabs');
+  attr['code-tabs'] = ['className', 'meta', 'lang'];
 
   return parser;
 };

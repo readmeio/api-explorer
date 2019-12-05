@@ -22,6 +22,13 @@ function tokenize(eat, value) {
           meta: obj.name || null,
           lang: obj.language,
           className: 'tab-panel',
+          data: {
+            hName: 'code',
+            hProperties: {
+              meta: obj.name || null,
+              lang: obj.language,
+            }
+          }
         })),
       });
     case 'api-header':
@@ -111,7 +118,7 @@ function tokenize(eat, value) {
 }
 
 function parser() {
-  const Parser = this.Parser;
+  const {Parser} = this;
   const tokenizers = Parser.prototype.blockTokenizers;
   const methods = Parser.prototype.blockMethods;
 
@@ -122,15 +129,12 @@ function parser() {
 module.exports = parser;
 
 module.exports.sanitize = sanitizeSchema => {
-  const tags = sanitizeSchema.tagNames;
+  // const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
 
   attr.li = ['checked'];
-  attr.pre = ['className'];
-  attr.code = ['className'];
-
-  tags.push('code-tabs');
-  attr['code-tabs'] = ['className'];
+  attr.pre = ['className', 'lang', 'meta'];
+  attr.code = ['className', 'lang', 'meta'];
 
   return parser;
 };
