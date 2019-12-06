@@ -7,10 +7,7 @@
   & {
     display: flex;
     flex-flow: nowrap column;
-    max-height: 270px;
     overflow: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     border-radius: 3px;
   }
   .GroupsList {
