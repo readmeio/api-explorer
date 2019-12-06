@@ -51,7 +51,7 @@ function Securities({
             <summary>
               <h3>{`${type} Auth`}</h3>
             </summary>
-            <form onSubmit={onSubmit} className="pad">
+            <form className="pad" onSubmit={onSubmit}>
               <section>
                 {
                   // https://github.com/readmeio/api-explorer/issues/20
@@ -168,5 +168,8 @@ AuthBox.defaultProps = {
   needsAuth: false,
   open: false,
 };
+
+Securities.propTypes = { ...AuthBox.propTypes };
+Securities.defaultProps = { ...AuthBox.defaultProps };
 
 module.exports = AuthBox;
