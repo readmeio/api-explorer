@@ -1,9 +1,11 @@
+require('./style.scss');
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const { Operation } = require('oas');
 
-const SecurityInput = require('./SecurityInput');
+const SecurityInput = require('../SecurityInput');
 
 function GroupsList({ group, groups, onGroupChange }) {
   function onSelect({ target }) {
@@ -15,7 +17,7 @@ function GroupsList({ group, groups, onGroupChange }) {
   }
 
   return (
-    <select onChange={onSelect} style={{ float: 'right' }} value={group}>
+    <select onChange={onSelect} value={group}>
       {groups.map(item => (
         <option key={item.id} value={item.id}>
           {item.name}
@@ -37,44 +39,49 @@ function Securities({
   operation,
 }) {
   const securityTypes = operation.prepareSecurity();
-  return Object.keys(securityTypes).map((type, idx) => {
-    const securities = securityTypes[type];
-    return (
-      <form key={type} onSubmit={onSubmit}>
-        <h3>
-          {`${type} Auth`}
-          {/* Only show the groups list for the first security (assuming there are multiple). */}
-          {idx === 0 && <GroupsList group={group} groups={groups} onGroupChange={onGroupChange} />}
-        </h3>
-        <div className="pad">
-          <section>
-            {
-              // https://github.com/readmeio/api-explorer/issues/20
-              // (type === 'OAuth2' && securities.length > 1) && (
-              //   <select>
-              //     {
-              //       securities.map(security =>
-              //         <option key={security._key} value={security._key}>{security._key}</option>,
-              //       )
-              //     }
-              //   </select>
-              // )
-            }
-            {securities.map(security => (
-              <SecurityInput
-                key={security._key}
-                auth={auth}
-                authInputRef={authInputRef}
-                oauth={oauth}
-                onChange={onChange}
-                scheme={security}
-              />
-            ))}
-          </section>
-        </div>
-      </form>
-    );
-  });
+  return (
+    <div className="AuthBox">
+      <div className="GroupsList">
+        <GroupsList group={group} groups={groups} onGroupChange={onGroupChange} />
+      </div>
+      {Object.keys(securityTypes).map(type => {
+        const securities = securityTypes[type];
+        return (
+          <details key={type} open>
+            <summary>
+              <h3>{`${type} Auth`}</h3>
+            </summary>
+            <form onSubmit={onSubmit} className="pad">
+              <section>
+                {
+                  // https://github.com/readmeio/api-explorer/issues/20
+                  // (type === 'OAuth2' && securities.length > 1) && (
+                  //   <select>
+                  //     {
+                  //       securities.map(security =>
+                  //         <option key={security._key} value={security._key}>{security._key}</option>,
+                  //       )
+                  //     }
+                  //   </select>
+                  // )
+                }
+                {securities.map(security => (
+                  <SecurityInput
+                    key={security._key}
+                    auth={auth}
+                    authInputRef={authInputRef}
+                    oauth={oauth}
+                    onChange={onChange}
+                    scheme={security}
+                  />
+                ))}
+              </section>
+            </form>
+          </details>
+        );
+      })}
+    </div>
+  );
 }
 
 function AuthBox({

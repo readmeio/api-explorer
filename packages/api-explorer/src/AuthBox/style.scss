@@ -1,0 +1,95 @@
+@mixin AuthBox {
+  $bg: #f8f8f8;
+  $pop: #018ef5;
+  $text: #555;
+  $edge: lighten($text, 57%);
+  $fade: border .3s ease-out;
+  & {
+    display: flex;
+    flex-flow: nowrap column;
+    max-height: 270px;
+    overflow: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 3px;
+  }
+  .GroupsList {
+    display: flex;
+    justify-content: center;
+    padding: .75rem;
+    background: linear-gradient(to right, white 10%, darken($bg, 1.5%) 50%);
+    >select {
+      flex: 1;
+      font: inherit;
+      color: $text;
+      border-color: darken($edge, 5%);
+      outline-color: none;
+      background: #fff;
+      background-color: #fff;
+      &:focus { border-color: $pop }
+    }
+  }
+  details {
+    position: relative;
+    border: solid transparent;
+    margin: -1px 0;
+    border-width: 1px 0;
+    transition: $fade;
+    &:last-child {
+      margin-bottom: -2px;
+    }
+    >summary:first-child {
+      display: flex;
+      align-items: center;
+      color: $text;
+      font-weight: normal;
+      padding: 0 0 0 1rem;
+      border-radius: 0;
+      background: linear-gradient(to right, white 10%, $bg 50%);
+      cursor: pointer;
+      user-select: none;
+      > h3 {
+        flex: 1;
+        margin-bottom: 0;
+        margin-left: .25rem;
+        padding-left: .25rem;
+        padding-right: .25rem;
+        background: transparent;
+        border-top: none;
+        border-color: lighten($edge, 2%) !important;
+        transition: $fade;
+      }
+      &:focus {
+        outline: none;
+        box-shadow:
+          inset 0 0 0 1px $pop,
+          0 0 0 1px solid $pop;
+      }
+    }
+    &[open] {
+      z-index: 2;
+      border-color: $edge;
+    }
+    &:first-of-type {
+      summary h3 {
+        margin-top: -1px;
+        border-top: 1px solid transparent !important;
+      }
+      &:not([open]) summary h3 {
+        border-top-color: lighten($edge, 2%) !important;
+      }
+    }
+    &:last-of-type:not([open]) summary h3 {
+      border-bottom-color: transparent !important;
+    }
+  }
+  form {
+    input {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.AuthBox {
+  #hub-reference .hub-auth-dropdown & { @include AuthBox }
+}
