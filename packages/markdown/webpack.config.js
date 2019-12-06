@@ -29,6 +29,10 @@ module.exports = {
         loader: 'file-loader?name=dist/fonts/[hash].[ext]',
         exclude: /(node_modules|bower_components)/,
       },
+      {
+        test: /\.(txt|md)$/i,
+        use: 'raw-loader',
+      },
     ],
   },
   resolve: {
