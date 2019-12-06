@@ -41,7 +41,7 @@ function Securities({
   const securityTypes = operation.prepareSecurity();
   return (
     <div className="AuthBox">
-      {groups.length > 1 && (
+      {groups && groups.length > 1 && (
         <div className="GroupsList">
           <GroupsList group={group} groups={groups} onGroupChange={onGroupChange} />
         </div>
