@@ -27,8 +27,8 @@ function tokenize(eat, value) {
             hProperties: {
               meta: obj.name || null,
               lang: obj.language,
-            }
-          }
+            },
+          },
         })),
       });
     case 'api-header':
@@ -60,7 +60,7 @@ function tokenize(eat, value) {
       return eat(match)({
         type: 'rdme-callout',
         data: {
-          hName: 'rdme-callout',
+          hName: 'blockquote',
           hProperties: {
             theme,
             icon,
@@ -90,8 +90,8 @@ function tokenize(eat, value) {
         .reduce((sum, key) => {
           const val = DATA[key];
           let [row, col] = key.split('-');
-          row = row === 'h' ? 0 : parseInt(row) + 1;
-          col = parseInt(col);
+          row = row === 'h' ? 0 : parseInt(row, 10) + 1;
+          col = parseInt(col, 10);
 
           sum[row] = sum[row] || { type: 'tableRow', children: [] };
 
@@ -118,7 +118,7 @@ function tokenize(eat, value) {
 }
 
 function parser() {
-  const {Parser} = this;
+  const { Parser } = this;
   const tokenizers = Parser.prototype.blockTokenizers;
   const methods = Parser.prototype.blockMethods;
 
@@ -135,6 +135,7 @@ module.exports.sanitize = sanitizeSchema => {
   attr.li = ['checked'];
   attr.pre = ['className', 'lang', 'meta'];
   attr.code = ['className', 'lang', 'meta'];
+  attr.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
 
   return parser;
 };

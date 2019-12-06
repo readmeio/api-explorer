@@ -99,25 +99,27 @@ function react(text, opts) {
         div: props => React.createElement(React.Fragment, props),
       },
     })
-    .processSync(text)
-    .contents;
+    .processSync(text).contents;
 }
 
 function plain(text, opts) {
   if (!text) return null;
 
-  return parseMarkdown(opts)
-    .use(rehypeReact, {
-      createElement: React.createElement,
-      components: {
-        'readme-variable': props => <span {...props}>Variable</span>,
-        'readme-glossary-item': props => <span {...props}>Term</span>,
-        // div: props => React.createElement(React.Fragment, props),
-      },
-    })
-    // .parse(text)
-    .processSync(text)
-    .contents;
+  return (
+    parseMarkdown(opts)
+      .use(rehypeReact, {
+        createElement: React.createElement,
+        components: {
+          // 'readme-variable': props => <span {...props}>Variable</span>,
+          // 'readme-glossary-item': props => <span {...props}>Term</span>,
+          // 'readme-variable': Variable(sanitize),
+          // 'readme-glossary-item': GlossaryItem(sanitize),
+          div: props => React.createElement(React.Fragment, props),
+        },
+      })
+      // .parse(text)
+      .processSync(text).contents
+  );
 }
 
 function ast(text, opts) {
@@ -140,16 +142,15 @@ function html(text, opts) {
 
   return parseMarkdown(opts)
     .use(rehypeStringify)
-    .processSync(text)
-    .contents;
+    .processSync(text).contents;
 }
 
-function normalizeMagic(blocks){
+function normalizeMagic(blocks) {
   // eslint-disable-next-line no-param-reassign
   blocks = blocks
     .replace(/\[block:/g, '\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
-    .trim()
+    .trim();
   return `${blocks}\n\n&nbsp;`;
 }
 
@@ -163,9 +164,9 @@ Object.assign(ReadMeMarkdown, {
   html,
   utils: {
     options,
-    normalizeMagic, 
+    normalizeMagic,
     VariablesContext: Variable.VariablesContext,
-  }
+  },
 });
 
 module.exports = ReadMeMarkdown;

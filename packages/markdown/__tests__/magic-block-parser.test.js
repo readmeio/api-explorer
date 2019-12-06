@@ -1,5 +1,5 @@
-const parser = require('../').render.ast;
-const options = require('./options.md.json');
+const parser = require('../').ast;
+const options = require('../processor/options.json');
 
 it('should render a Markdown header for a [block:api-heading]', () => {
   const magicblock = `[block:api-header]
@@ -49,16 +49,10 @@ it('should output a Markdown image for a [block:image]', () => {
     type: 'root',
     children: [
       {
-        type: 'figure',
-        className: 'test',
-        children: [
-          {
-            type: 'image',
-            title: 'Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.',
-            url: 'https://files.readme.io/62083ee-White_Center_Blue_BG.svg',
-            alt: 'White Center Blue BG.svg',
-          },
-        ],
+        type: 'image',
+        title: 'Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.',
+        url: 'https://files.readme.io/62083ee-White_Center_Blue_BG.svg',
+        alt: 'White Center Blue BG.svg',
       },
     ],
   };
@@ -85,10 +79,10 @@ it('should output Markdown code blocks for a [block:code]', () => {
     type: 'root',
     children: [
       {
-        type: 'rdme-wrap',
+        type: 'code-tabs',
         className: 'tabs',
         data: {
-          hName: 'rdme-wrap',
+          hName: 'code-tabs',
         },
         children: [
           {
@@ -97,6 +91,13 @@ it('should output Markdown code blocks for a [block:code]', () => {
             meta: null,
             lang: 'javascript',
             className: 'tab-panel',
+            data: {
+              hName: 'code',
+              hProperties: {
+                meta: null,
+                lang: 'javascript',
+              },
+            },
           },
           {
             type: 'code',
@@ -104,6 +105,13 @@ it('should output Markdown code blocks for a [block:code]', () => {
             meta: 'custom title',
             lang: 'text',
             className: 'tab-panel',
+            data: {
+              hName: 'code',
+              hProperties: {
+                meta: 'custom title',
+                lang: 'text',
+              },
+            },
           },
         ],
       },
@@ -124,8 +132,17 @@ it('should output a Markdown blockquote for a [block:callout]', () => {
     type: 'root',
     children: [
       {
-        type: 'blockquote',
-        className: 'success',
+        type: 'rdme-callout',
+        data: {
+          hName: 'rdme-callout',
+          hProperties: {
+            theme: 'okay',
+            icon: '👍',
+            title: 'Callout Title',
+            value:
+              'Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum',
+          },
+        },
         children: [
           {
             type: 'paragraph',

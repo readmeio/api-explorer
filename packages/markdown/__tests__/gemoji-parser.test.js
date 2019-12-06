@@ -20,9 +20,6 @@ test('should output an image node for a known emoji', () => {
             data: {
               hProperties: {
                 className: 'emoji',
-                align: 'absmiddle',
-                height: '20',
-                width: '20',
               },
             },
           },
