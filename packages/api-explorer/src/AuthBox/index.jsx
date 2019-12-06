@@ -41,9 +41,11 @@ function Securities({
   const securityTypes = operation.prepareSecurity();
   return (
     <div className="AuthBox">
-      <div className="GroupsList">
-        <GroupsList group={group} groups={groups} onGroupChange={onGroupChange} />
-      </div>
+      {groups.length > 1 && (
+        <div className="GroupsList">
+          <GroupsList group={group} groups={groups} onGroupChange={onGroupChange} />
+        </div>
+      )}
       {Object.keys(securityTypes).map(type => {
         const securities = securityTypes[type];
         return (
