@@ -41,9 +41,6 @@ function tokenize(eat, value, silent) {
       data: {
         hProperties: {
           className: 'emoji',
-          align: 'absmiddle',
-          height: '20',
-          width: '20',
         },
       },
     });
@@ -59,7 +56,7 @@ function locate(value, fromIndex) {
 tokenize.locator = locate;
 
 function parser() {
-  const Parser = this.Parser;
+  const { Parser } = this;
   const tokenizers = Parser.prototype.inlineTokenizers;
   const methods = Parser.prototype.inlineMethods;
 
@@ -75,7 +72,7 @@ module.exports.sanitize = sanitizeSchema => {
   sanitizeSchema.attributes.i = ['className'];
 
   // This is for `emoji` class name
-  sanitizeSchema.attributes.img.push('className');
+  sanitizeSchema.attributes.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
 
   return parser;
 };

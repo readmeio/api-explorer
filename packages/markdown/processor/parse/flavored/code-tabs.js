@@ -20,7 +20,7 @@ function tokenizer(eat, value) {
         lang,
         data: {
           hName: 'code',
-          hProperties: { meta, lang }
+          hProperties: { meta, lang },
         },
       };
     });
@@ -51,9 +51,8 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
-  
+
   tags.push('code-tabs');
-  attr['code-tabs'] = ['className', 'meta', 'lang'];
 
   return parser;
 };
