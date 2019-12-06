@@ -1,5 +1,5 @@
 @mixin AuthBox {
-  $bg: #f8f8f8;
+  $bg: #fbfbfb;
   $pop: #018ef5;
   $text: #555;
   $edge: lighten($text, 57%);
@@ -14,7 +14,7 @@
     display: flex;
     justify-content: center;
     padding: .75rem;
-    background: linear-gradient(to right, white 10%, darken($bg, 1.5%) 50%);
+    background: linear-gradient(to right, white 10%, darken($bg, 1.25%) 75%);
     >select {
       flex: 1;
       font: inherit;
@@ -42,7 +42,7 @@
       font-weight: normal;
       padding: 0 0 0 1rem;
       border-radius: 0;
-      background: linear-gradient(to right, white 10%, $bg 50%);
+      background: linear-gradient(to right, white 10%, $bg 75%);
       cursor: pointer;
       user-select: none;
       > h3 {
