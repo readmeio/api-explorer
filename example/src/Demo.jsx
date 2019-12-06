@@ -56,8 +56,8 @@ function Demo({ fetchSwagger, status, docs, oas, oauth }) {
             // user: { user: '123456', pass: 'abc', apiKey: '123456' },
             user: {
               keys: [
-                { name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' },
-                { name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' },
+                { id: 'asdfghjkl', name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' },
+                { id: 'zxcvbnm', name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' },
               ],
             },
             defaults: [],

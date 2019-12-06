@@ -23,7 +23,6 @@
         ],
         "summary": "or security",
         "description": "",
-        "operationId": "addThings",
         "parameters": [],
         "responses": {
           "405": {
@@ -38,12 +37,12 @@
         "security": [
           {
             "oauthScheme": ["write:things"],
-            "apiKeyScheme": []
+            "apiKeyScheme": [],
+            "basicAuth": []
           }
         ],
         "summary": "and security",
         "description": "",
-        "operationId": "addAndSecurity",
         "parameters": [],
         "responses": {
           "405": {
@@ -66,7 +65,6 @@
         ],
         "summary": "and or security",
         "description": "",
-        "operationId": "addAndOrSecurity",
         "parameters": [],
         "responses": {
           "405": {
@@ -85,7 +83,6 @@
         ],
         "summary": "one security for endpoint",
         "description": "",
-        "operationId": "addSingleAuth",
         "parameters": [],
         "responses": {
           "405": {
@@ -99,7 +96,6 @@
         "operationId": "noAuth",
         "summary": "no security needed",
         "description": "",
-        "operationId": "addNoSecurity",
         "parameters": [],
         "responses": {
           "405": {
@@ -121,7 +117,6 @@
         ],
         "summary": "or security",
         "description": "",
-        "operationId": "addMultipleOAuths",
         "parameters": [],
         "responses": {
           "405": {
@@ -144,7 +139,6 @@
         ],
         "summary": "second and does not show security",
         "description": "",
-        "operationId": "addMultipleOAuths",
         "parameters": [],
         "responses": {
           "405": {
@@ -167,7 +161,6 @@
         ],
         "summary": "one or security",
         "description": "",
-        "operationId": "addMultipleOAuths",
         "parameters": [],
         "responses": {
           "405": {
@@ -186,7 +179,6 @@
         ],
         "summary": "unknown auth type",
         "description": "",
-        "operationId": "unknownAuthType",
         "parameters": []
       }
     },
@@ -200,7 +192,6 @@
         ],
         "summary": "this scheme doesnt exist",
         "description": "",
-        "operationId": "unknownScheme",
         "parameters": []
       }
     }
@@ -240,6 +231,11 @@
       "unknownAuthType": {
         "type": "demigorgon",
         "name": "eleven",
+        "in": "header"
+      },
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
         "in": "header"
       }
     },

@@ -23,16 +23,16 @@ class ApiExplorer extends React.Component {
     this.onAuthChange = this.onAuthChange.bind(this);
 
     this.state = {
+      auth: getAuth(this.props.variables.user, this.props.oasFiles),
+      group: this.getGroup(),
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
       selectedApp: {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      auth: getAuth(this.props.variables.user, this.props.oasFiles),
-      group: this.getGroup(),
     };
 
-    this.changeGroup = this.changeGroup.bind(this);
+    this.onGroupChange = this.onGroupChange.bind(this);
     this.groups =
       this.props.variables.user.keys &&
       this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
@@ -88,8 +88,24 @@ class ApiExplorer extends React.Component {
     return this.props.oasFiles[apiSetting];
   }
 
-  changeGroup(group) {
-    this.setState({ group });
+  /**
+   * Change the current selected group and refresh the instance auth keys based on that selection.
+   *
+   * @param {string} group
+   */
+  onGroupChange(group) {
+    const { user } = this.props.variables;
+    let groupName = false;
+    if (user.keys) {
+      // We need to remap the incoming group with the groups name so we can pick out the auth
+      // keys in `getAuth`.
+      groupName = user.keys.find(key => key.id === group).name;
+    }
+
+    this.setState({
+      group,
+      auth: getAuth(user, this.props.oasFiles, groupName),
+    });
   }
 
   isLazy(index) {
@@ -166,7 +182,6 @@ class ApiExplorer extends React.Component {
                         appearance={this.props.appearance}
                         auth={this.state.auth}
                         baseUrl={this.props.baseUrl.replace(/\/$/, '')}
-                        changeGroup={this.changeGroup}
                         doc={doc}
                         flags={this.props.flags}
                         group={this.state.group}
@@ -177,6 +192,7 @@ class ApiExplorer extends React.Component {
                         oas={this.getOas(doc)}
                         oauth={this.props.oauth}
                         onAuthChange={this.onAuthChange}
+                        onGroupChange={this.onGroupChange}
                         setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
                         tryItMetrics={this.props.tryItMetrics}

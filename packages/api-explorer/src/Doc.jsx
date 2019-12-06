@@ -245,7 +245,7 @@ class Doc extends React.Component {
     return (
       <Logs
         baseUrl={this.props.baseUrl}
-        changeGroup={this.props.changeGroup}
+        changeGroup={this.props.onGroupChange}
         group={this.props.group}
         groups={this.props.groups}
         query={{
@@ -276,11 +276,14 @@ class Doc extends React.Component {
         auth={this.props.auth}
         authInputRef={el => (this.authInput = el)} // eslint-disable-line no-return-assign
         dirty={this.state.dirty}
+        group={this.props.group}
+        groups={this.props.groups}
         loading={this.state.loading}
         needsAuth={this.state.needsAuth}
         oas={this.oas}
         oauth={this.props.oauth}
         onChange={this.props.onAuthChange}
+        onGroupChange={this.props.onGroupChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
         showAuthBox={this.state.showAuthBox}
@@ -353,7 +356,6 @@ Doc.propTypes = {
   }),
   auth: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string,
-  changeGroup: PropTypes.func.isRequired,
   doc: PropTypes.shape({
     api: PropTypes.shape({
       examples: PropTypes.shape({
@@ -394,6 +396,7 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  onGroupChange: PropTypes.func.isRequired,
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,

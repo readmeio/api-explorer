@@ -15,7 +15,7 @@
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
-    "watch": "webpack -w"
+    "watch": "webpack -w --progress"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",

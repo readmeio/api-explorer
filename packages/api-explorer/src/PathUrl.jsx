@@ -24,18 +24,21 @@ function splitPath(path) {
 }
 
 function PathUrl({
-  oas,
-  operation,
-  authInputRef,
-  loading,
-  dirty,
-  onChange,
-  showAuthBox,
-  needsAuth,
-  toggleAuth,
-  onSubmit,
-  oauth,
   auth,
+  authInputRef,
+  dirty,
+  loading,
+  group,
+  groups,
+  needsAuth,
+  oas,
+  oauth,
+  onChange,
+  onGroupChange,
+  onSubmit,
+  operation,
+  showAuthBox,
+  toggleAuth,
 }) {
   return (
     <div className="api-definition-parent">
@@ -46,9 +49,12 @@ function PathUrl({
               <AuthBox
                 auth={auth}
                 authInputRef={authInputRef}
+                group={group}
+                groups={groups}
                 needsAuth={needsAuth}
                 oauth={oauth}
                 onChange={onChange}
+                onGroupChange={onGroupChange}
                 onSubmit={onSubmit}
                 open={showAuthBox}
                 operation={operation}
@@ -96,11 +102,19 @@ PathUrl.propTypes = {
   auth: PropTypes.shape({}),
   authInputRef: PropTypes.func,
   dirty: PropTypes.bool.isRequired,
+  group: PropTypes.string,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
   loading: PropTypes.bool.isRequired,
   needsAuth: PropTypes.bool,
   oas: PropTypes.instanceOf(Oas).isRequired,
   oauth: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  onGroupChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   showAuthBox: PropTypes.bool,

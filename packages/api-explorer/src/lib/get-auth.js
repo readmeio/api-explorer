@@ -32,7 +32,7 @@ function getSingle(user, scheme = {}, selectedApp = false) {
   return getKey(user, scheme);
 }
 
-function getAuth(user, oasFiles) {
+function getAuth(user, oasFiles, selectedApp = false) {
   return Object.keys(oasFiles)
     .map(id => {
       const oas = oasFiles[id];
@@ -40,16 +40,22 @@ function getAuth(user, oasFiles) {
       if (
         Object.keys(oas.components || {}).length === 0 ||
         Object.keys(oas.components.securitySchemes || {}).length === 0
-      )
+      ) {
         return {};
+      }
 
       return Object.keys(oas.components.securitySchemes)
         .map(scheme => {
           return {
-            [scheme]: getSingle(user, {
-              ...oas.components.securitySchemes[scheme],
-              _key: scheme,
-            }),
+            [scheme]: getSingle(
+              user,
+              {
+                ...oas.components.securitySchemes[scheme],
+                _key: scheme,
+                selectedApp,
+              },
+              selectedApp,
+            ),
           };
         })
         .reduce((prev, next) => Object.assign(prev, next), {});

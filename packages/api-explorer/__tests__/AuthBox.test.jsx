@@ -14,6 +14,7 @@ const props = {
   open: false,
   operation: oas.operation('/or-security', 'post'),
   onChange: () => {},
+  onGroupChange: () => {},
   onSubmit: () => {},
   toggle: () => {},
 };
@@ -46,6 +47,12 @@ test.skip('should display a dropdown for when multiple oauths are present', () =
   ]);
 });
 
+test('should mask password inputs for basic http auth', () => {
+  const authBox = mount(<AuthBox {...props} operation={oas.operation('/and-security', 'post')} />);
+  expect(authBox.find('h3')).toHaveLength(3);
+  expect(authBox.find('input[type="password"]')).toHaveLength(1);
+});
+
 test('should not display authentication warning if authData is passed', () => {
   const authBox = mount(<AuthBox {...props} operation={oas.operation('/single-auth', 'post')} />);
 
@@ -67,4 +74,30 @@ test('should display multiple securities', () => {
   const authBox = mount(<AuthBox {...props} />);
 
   expect(authBox.find('SecurityInput')).toHaveLength(2);
+});
+
+describe('group selection', () => {
+  const groupProps = {
+    group: 'someid',
+    groups: [
+      { id: '1230', name: 'someid' },
+      { id: '7000', name: 'anotherId' },
+    ],
+  };
+
+  it('should only display a single dropdown regardless of the number of securities', () => {
+    const comp = mount(<AuthBox {...props} {...groupProps} />);
+
+    expect(comp.find('select')).toHaveLength(1);
+  });
+
+  it('should update auth on changes', () => {
+    const comp = mount(<AuthBox {...props} {...groupProps} onGroupChange={jest.fn()} />);
+
+    const select = comp.find('select');
+    select.instance().value = '7000';
+    select.simulate('change');
+
+    expect(comp.props().onGroupChange).toHaveBeenCalledWith('7000');
+  });
 });
