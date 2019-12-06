@@ -3,22 +3,28 @@ const React = require('react');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../');
-const settings = require('./options.md.json');
+const settings = require('../processor/options.json');
 
 test('image', () => {
-  expect(shallow(markdown('![Image](http://example.com/image.png)')).html()).toMatchSnapshot();
+  expect(
+    shallow(markdown('![Image](http://example.com/image.png)', settings)).html(),
+  ).toMatchSnapshot();
 });
 
 test('list items', () => {
-  expect(shallow(markdown('- listitem1')).html()).toMatchSnapshot();
+  expect(shallow(markdown('- listitem1', settings)).html()).toMatchSnapshot();
 });
 
 test('check list items', () => {
-  expect(shallow(markdown('- [ ] checklistitem1\n- [x] checklistitem1')).html()).toMatchSnapshot();
+  expect(
+    shallow(markdown('- [ ] checklistitem1\n- [x] checklistitem1', settings)).html(),
+  ).toMatchSnapshot();
 });
 
 test('should strip out inputs', () => {
-  expect(shallow(markdown('<input type="text" value="value" />')).html()).toMatchSnapshot();
+  expect(
+    shallow(markdown('<input type="text" value="value" />', settings)).html(),
+  ).toMatchSnapshot();
 });
 
 test('tables', () => {
@@ -69,12 +75,12 @@ test('anchors', () => {
 });
 
 test('anchor target: should default to _self', () => {
-  expect(shallow(markdown('[test](https://example.com)')).html()).toMatchSnapshot();
+  expect(shallow(markdown('[test](https://example.com)', settings)).html()).toMatchSnapshot();
 });
 
 test('anchor target: should allow _blank if using HTML', () => {
   expect(
-    shallow(markdown('<a href="https://example.com" target="_blank">test</a>')).html(),
+    shallow(markdown('<a href="https://example.com" target="_blank">test</a>', settings)).html(),
   ).toMatchSnapshot();
 });
 
@@ -128,7 +134,7 @@ code-without-language
 });
 
 test('should render nothing if nothing passed in', () => {
-  expect(markdown('')).toBe(null);
+  expect(markdown('', settings)).toBe(null);
 });
 
 test('`correctnewlines` option', () => {
@@ -152,22 +158,22 @@ test('glossary', () => {
 // Isn't it a good thing to always strip HTML?
 describe.skip('`stripHtml` option', () => {
   test('should allow html by default', () => {
-    expect(markdown('<p>Test</p>')).toBe('<p><p>Test</p></p>\n');
+    expect(markdown('<p>Test</p>', settings)).toBe('<p><p>Test</p></p>\n');
     expect(markdown('<p>Test</p>', { stripHtml: false })).toBe('<p><p>Test</p></p>\n');
   });
 
   test('should escape unknown tags', () => {
-    expect(markdown('<unknown-tag>Test</unknown-tag>')).toBe(
+    expect(markdown('<unknown-tag>Test</unknown-tag>', settings)).toBe(
       '<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>\n',
     );
   });
 
   test('should allow certain attributes', () => {
-    expect(markdown('<p id="test">Test</p>')).toBe('<p><p id="test">Test</p></p>\n');
+    expect(markdown('<p id="test">Test</p>', settings)).toBe('<p><p id="test">Test</p></p>\n');
   });
 
   test('should strip unknown attributes', () => {
-    expect(markdown('<p unknown="test">Test</p>')).toBe('<p><p>Test</p></p>\n');
+    expect(markdown('<p unknown="test">Test</p>', settings)).toBe('<p><p>Test</p></p>\n');
   });
 
   test('should escape everything if `stripHtml=true`', () => {
@@ -177,18 +183,20 @@ describe.skip('`stripHtml` option', () => {
 
 test('should strip dangerous iframe tag', () => {
   expect(
-    shallow(markdown('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>')).html(),
+    shallow(
+      markdown('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>', settings),
+    ).html(),
   ).toBe('<p></p>');
 });
 
 test('should strip dangerous img attributes', () => {
-  expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
-    '<img src="x"/>',
+  expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">', settings)).html()).toBe(
+    '<img width="auto" height="auto" alt="Image Alternate Text" src="x"/>',
   );
 });
 
-describe('export multiple Markdown renderers', () => {
-  const { dash, hub, ast, md, html } = markdown.render;
+describe.only('export multiple Markdown renderers', () => {
+  const { react, plain, ast, md, html } = markdown;
   const text = `# Hello World`;
   const tree = {
     type: 'root',
@@ -219,22 +227,17 @@ describe('export multiple Markdown renderers', () => {
     ],
   };
   const xpct = {
-    dash: {
-      type: 'root',
-      children: [
-        {
-          type: 'heading',
-          depth: 1,
-          children: [
-            {
-              type: 'text',
-              value: 'Hello World',
-            },
-          ],
-        },
-      ],
+    react: {
+      type: 'h1',
+      key: 'h-1',
+      ref: null,
+      props: {
+        children: ['Hello World'],
+      },
+      _owner: null,
+      _store: {},
     },
-    hub: {
+    plain: {
       key: 'h-1',
       ref: null,
       props: {
@@ -261,11 +264,11 @@ describe('export multiple Markdown renderers', () => {
     md: '# Hello World\n',
     html: '<h1>Hello World</h1>',
   };
-  test('dash', () => {
-    expect(dash(text, settings)).toMatchObject(xpct.dash);
+  test.only('react', () => {
+    expect(react(text, settings)).toMatchObject(xpct.react);
   });
-  test('hub', () => {
-    expect(hub(text, settings)).toMatchObject(xpct.hub);
+  test('plain', () => {
+    expect(plain(text, settings)).toMatchObject(xpct.plain);
   });
   test('ast', () => {
     expect(ast(text, settings)).toMatchObject(xpct.ast);
