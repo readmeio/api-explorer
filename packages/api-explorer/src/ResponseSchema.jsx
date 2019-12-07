@@ -103,7 +103,7 @@ class ResponseSchema extends React.Component {
       >
         {this.renderHeader()}
         <div className="response-schema">
-          {response.description && <div className="desc">{markdown(response.description)}</div>}
+          {response.description && <div className="desc">{markdown.react(response.description)}</div>}
           {schema && <ResponseSchemaBody oas={oas} schema={schema} />}
         </div>
       </div>

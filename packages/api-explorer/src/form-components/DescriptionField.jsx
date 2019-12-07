@@ -10,7 +10,7 @@ function DescriptionField(props) {
 
   return (
     <div className="field-description" id={id}>
-      {typeof description === 'string' ? markdown(description) : description}
+      {typeof description === 'string' ? markdown.react(description) : description}
     </div>
   );
 }

@@ -67,16 +67,14 @@ Anchor.defaultProps = {
   target: '_self',
 };
 
+const AnchorContext = props => (
+  <BaseUrlContext.Consumer>
+    {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
+  </BaseUrlContext.Consumer>
+);
+
 module.exports = sanitizeSchema => {
   // This is for our custom link formats
   sanitizeSchema.protocols.href.push('doc', 'target', 'ref', 'blog', 'changelog', 'page');
-
-  return props => {
-    // console.log('Anchor', props);
-    return (
-      <BaseUrlContext.Consumer>
-        {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
-      </BaseUrlContext.Consumer>
-    );
-  };
+  return AnchorContext;
 };

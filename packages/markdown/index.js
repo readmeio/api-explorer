@@ -1,3 +1,5 @@
+require('./styles/main.scss');
+
 const React = require('react');
 const unified = require('unified');
 
@@ -32,6 +34,8 @@ const Heading = require('./components/Heading');
 const Callout = require('./components/Callout');
 const CodeTabs = require('./components/CodeTabs');
 const Image = require('./components/Image');
+
+const DivFragment = props => React.createElement(React.Fragment, props);
 
 /* Custom Unified Parsers
  */
@@ -114,7 +118,7 @@ export function react(text, opts) {
         heading: Heading(sanitize),
         code: Code(sanitize),
         img: Image(sanitize),
-        div: props => React.createElement(React.Fragment, props),
+        div: DivFragment,
       },
     })
     .processSync(text).contents;
@@ -132,7 +136,7 @@ export function plain(text, opts) {
           // 'readme-glossary-item': props => <span {...props}>Term</span>,
           // 'readme-variable': Variable(sanitize),
           // 'readme-glossary-item': GlossaryItem(sanitize),
-          div: props => React.createElement(React.Fragment, props),
+          div: DivFragment,
         },
       })
       // .parse(text)

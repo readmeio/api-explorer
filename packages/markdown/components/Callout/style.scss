@@ -1,5 +1,5 @@
-html[ng-app="hub"] .markdown-body .callout {
-  padding: 1.5em;
+@mixin callout ($l-offset: 1.5rem) {
+  padding: $l-offset;
   &,
   &_info {
     background-color: #e3edf2;
@@ -26,7 +26,7 @@ html[ng-app="hub"] .markdown-body .callout {
     h3, h4 { color: darken(#d9534f, 5%) }
   }
   >* {
-    margin-left: 1.5rem;
+    margin-left: $l-offset;
     position: relative;
   }
   h3 > :first-child {
@@ -35,5 +35,11 @@ html[ng-app="hub"] .markdown-body .callout {
     right: 100%;
     transform: translateX(-12.5%);
     font-size: .75em;
+  }
+}
+#hub-content,
+html[ng-app="hub"] .markdown-body {
+  .callout {
+    @include callout;
   }
 }

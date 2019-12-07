@@ -1,7 +1,7 @@
 const React = require('react');
 const codemirror = require('./codemirror.jsx');
 
-module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) => {
+const SyntaxHighlighter = (code, lang, opts = { dark: false, tokenizeVariables: false }) => {
   return React.createElement(
     'span',
     {
@@ -11,4 +11,5 @@ module.exports = (code, lang, opts = { dark: false, tokenizeVariables: false }) 
   );
 };
 
+module.exports = SyntaxHighlighter;
 module.exports.uppercase = require('./uppercase');

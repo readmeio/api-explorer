@@ -327,7 +327,7 @@ class Doc extends React.Component {
                 </a>
               )}
               <h2>{doc.title}</h2>
-              {doc.excerpt && <div className="excerpt">{markdown(doc.excerpt)}</div>}
+              {doc.excerpt && <div className="excerpt">{markdown.react(doc.excerpt)}</div>}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>

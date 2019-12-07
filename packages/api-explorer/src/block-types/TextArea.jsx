@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const markdown = require('@readme/markdown');
 
 const Textarea = ({ block, flags }) => {
-  return <div className="magic-block-textarea">{markdown(block.text, flags)}</div>;
+  return <div className="magic-block-textarea">{markdown.react(block.text, flags)}</div>;
 };
 
 Textarea.propTypes = {

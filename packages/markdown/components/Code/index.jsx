@@ -9,7 +9,7 @@ function Code(props) {
   const language = (className || '').replace('language-', '');
 
   return (
-    <code className={language ? `lang-${language}` : null} name={meta} data-lang={lang}>
+    <code className={language ? `lang-${language}` : null} data-lang={lang} name={meta}>
       {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
       {/* children */}
     </code>
@@ -17,11 +17,10 @@ function Code(props) {
 }
 
 Code.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.string).isRequired,
   className: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.string).isRequired,
-  className: PropTypes.string,
 };
 
 Code.defaultProps = {

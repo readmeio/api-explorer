@@ -32,21 +32,21 @@ exports[`check list items 1`] = `
 `;
 
 exports[`code samples 1`] = `
-"<pre><code class=\\"lang-javascript\\" name=\\"var\\" data-lang=\\"javascript\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
+"<pre><code class=\\"lang-javascript\\" data-lang=\\"javascript\\" name=\\"var\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
 </span></code></pre>
-<pre><code name=\\"\\" data-lang=\\"\\"><span class=\\"cm-s-neo\\">code-without-language
+<pre><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code-without-language
 </span></code></pre>"
 `;
 
 exports[`emojis 1`] = `
-"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" width=\\"auto\\" height=\\"auto\\"/><br/>
+"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" height=\\"auto\\" width=\\"auto\\"/><br/>
 <i class=\\"fa fa-lock\\"></i><br/>
 :unknown-emoji:<br/>
 </p>"
 `;
 
-exports[`export multiple Markdown renderers react 1`] = `
-<div>
+exports[`export multiple Markdown renderers renders custom React components 1`] = `
+<DivFragment>
   <pre>
     <Code
       className="language-javascript"
@@ -86,7 +86,7 @@ exports[`export multiple Markdown renderers react 1`] = `
       </Code>
     </pre>
   </CodeTabs>
-</div>
+</DivFragment>
 `;
 
 exports[`glossary 1`] = `"<p></p>"`;
@@ -98,11 +98,11 @@ exports[`headings 1`] = `
 <h4>h4</h4>
 <h5>h5</h5>
 <h6>h6</h6>
-<h1><code name=\\"\\" data-lang=\\"\\"><span class=\\"cm-s-neo\\">code</span></code></h1>
+<h1><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code</span></code></h1>
 <h1>heading with some more CONTENT</h1>"
 `;
 
-exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" width=\\"auto\\" height=\\"auto\\"/></p>"`;
+exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" height=\\"auto\\" width=\\"auto\\"/></p>"`;
 
 exports[`list items 1`] = `
 "<ul>
