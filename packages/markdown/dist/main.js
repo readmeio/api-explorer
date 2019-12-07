@@ -58145,7 +58145,6 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-/* eslint-disable */
 var RGXP = /^(```([^]+?)(?=```\n\n)```)\n\n/g; // code blocks
 
 function tokenizer(eat, value) {
@@ -58158,9 +58157,10 @@ function tokenizer(eat, value) {
   var kids = match.split('```').filter(function (val) {
     return val.trim();
   }).map(function (val) {
-    val = '```' + val.replace('```', '') + '```';
+    // eslint-disable-next-line no-param-reassign
+    val = ['```', val.replace('```', ''), '```'].join('');
 
-    var _$exec = /```(\w+)?(?:\s+([\w-\.]+))?\s([^]+)```/gm.exec(val),
+    var _$exec = /```(\w+)?(?:\s+([\w-.]+))?\s([^]+)```/gm.exec(val),
         _$exec2 = _slicedToArray(_$exec, 4),
         lang = _$exec2[1],
         _$exec2$ = _$exec2[2],
@@ -58184,7 +58184,7 @@ function tokenizer(eat, value) {
     };
   }); // return a single code block
 
-  if (kids.length == 1) return eat(match)(kids[0]); // return the tabbed code block editor
+  if (kids.length === 1) return eat(match)(kids[0]); // return the tabbed code block editor
 
   return eat(match)({
     type: 'code-tabs',
@@ -58208,7 +58208,6 @@ module.exports = parser;
 
 module.exports.sanitize = function (sanitizeSchema) {
   var tags = sanitizeSchema.tagNames;
-  var attr = sanitizeSchema.attributes;
   tags.push('code-tabs');
   return parser;
 };
