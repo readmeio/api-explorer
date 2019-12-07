@@ -47,7 +47,7 @@ Object {
         },
       ],
       "data": Object {
-        "hName": "blockquote",
+        "hName": "rdme-callout",
         "hProperties": Object {
           "icon": "👍",
           "theme": "okay",
