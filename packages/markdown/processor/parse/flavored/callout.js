@@ -1,13 +1,12 @@
-/* eslint-disable */
 const rgx = /^>\s?(\W\D) (.+)\n((?:>(?: .*)?\n)*)/;
 
 function tokenizer(eat, value) {
   if (!rgx.test(value)) return true;
 
+  // eslint-disable-next-line prefer-const
   let [match, icon, title, text] = rgx.exec(value);
   icon = icon.trim();
   title = title.trim();
-  // text = text.replace(/>\n>(?:\s)+/gm, '\n').trim();
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
   const style = {
     ℹ️: 'info',
@@ -27,7 +26,7 @@ function tokenizer(eat, value) {
       hProperties: {
         theme: style,
         icon,
-        title: title,
+        title,
         value: text,
       },
     },
@@ -48,7 +47,7 @@ function tokenizer(eat, value) {
 }
 
 function parser() {
-  const Parser = this.Parser;
+  const { Parser } = this;
   const tokenizers = Parser.prototype.blockTokenizers;
   const methods = Parser.prototype.blockMethods;
 

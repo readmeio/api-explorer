@@ -45,6 +45,50 @@ exports[`emojis 1`] = `
 </p>"
 `;
 
+exports[`export multiple Markdown renderers react 1`] = `
+<div>
+  <pre>
+    <Code
+      className="language-javascript"
+      lang="javascript"
+      meta="single.js"
+    >
+      console.log('a single sample code block');
+
+    </Code>
+  </pre>
+  
+
+  <hr />
+  
+
+  <CodeTabs
+    attributes={null}
+  >
+    <pre>
+      <Code
+        className="language-javascript"
+        lang="javascript"
+        meta="multiple.js"
+      >
+        console.log('a multi-file code block');
+
+      </Code>
+    </pre>
+    <pre>
+      <Code
+        className="language-javascript"
+        lang="javascript"
+        meta=""
+      >
+        console.log('an unnamed sample snippet');
+
+      </Code>
+    </pre>
+  </CodeTabs>
+</div>
+`;
+
 exports[`glossary 1`] = `"<p></p>"`;
 
 exports[`headings 1`] = `
