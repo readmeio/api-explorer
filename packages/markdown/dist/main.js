@@ -10078,7 +10078,7 @@ process.umask = function() { return 0; };
 module.exports = all
 
 var trim = __webpack_require__(8)
-var one = __webpack_require__(57)
+var one = __webpack_require__(56)
 
 function all(h, parent) {
   var nodes = parent.children || []
@@ -10119,27 +10119,6 @@ function all(h, parent) {
 "use strict";
 
 
-module.exports = whitespace
-
-var fromCode = String.fromCharCode
-var re = /\s/
-
-/* Check if the given character code, or the character
- * code at the first character, is a whitespace character. */
-function whitespace(character) {
-  return re.test(
-    typeof character === 'number' ? fromCode(character) : character.charAt(0)
-  )
-}
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var assign = __webpack_require__(22)
 
 module.exports = u
@@ -10168,7 +10147,7 @@ function u(type, props, value) {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10241,6 +10220,27 @@ function repeat(str, num) {
   res += str;
   res = res.substr(0, max);
   return res;
+}
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = whitespace
+
+var fromCode = String.fromCharCode
+var re = /\s/
+
+// Check if the given character code, or the character code at the first
+// character, is a whitespace character.
+function whitespace(character) {
+  return re.test(
+    typeof character === 'number' ? fromCode(character) : character.charAt(0)
+  )
 }
 
 
@@ -10329,12 +10329,38 @@ module.exports = Mixin;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var ReactIs = __webpack_require__(155);
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(378)(ReactIs.isElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(379)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 module.exports = wrap
 
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 
 // Wrap `nodes` with line feeds between each entry.
 // Optionally adds line feeds at the start and end.
@@ -10364,7 +10390,7 @@ function wrap(nodes, loose) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10643,61 +10669,15 @@ exports.SPECIAL_ELEMENTS = {
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var normalize = __webpack_require__(68)
-var Schema = __webpack_require__(66)
-var DefinedInfo = __webpack_require__(69)
-
-module.exports = create
-
-function create(definition) {
-  var space = definition.space
-  var mustUseProperty = definition.mustUseProperty || []
-  var attributes = definition.attributes || {}
-  var props = definition.properties
-  var transform = definition.transform
-  var property = {}
-  var normal = {}
-  var prop
-  var info
-
-  for (prop in props) {
-    info = new DefinedInfo(
-      prop,
-      transform(attributes, prop),
-      props[prop],
-      space
-    )
-
-    if (mustUseProperty.indexOf(prop) !== -1) {
-      info.mustUseProperty = true
-    }
-
-    property[prop] = info
-
-    normal[normalize(prop)] = prop
-    normal[normalize(info.attribute)] = prop
-  }
-
-  return new Schema(property, normal, space)
-}
-
-
-/***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var normalize = __webpack_require__(39)
-var Schema = __webpack_require__(77)
-var DefinedInfo = __webpack_require__(79)
+var normalize = __webpack_require__(67)
+var Schema = __webpack_require__(65)
+var DefinedInfo = __webpack_require__(68)
 
 module.exports = create
 
@@ -10741,9 +10721,9 @@ function create(definition) {
 "use strict";
 
 
-var normalize = __webpack_require__(91)
-var Schema = __webpack_require__(89)
-var DefinedInfo = __webpack_require__(92)
+var normalize = __webpack_require__(39)
+var Schema = __webpack_require__(76)
+var DefinedInfo = __webpack_require__(78)
 
 module.exports = create
 
@@ -10787,10 +10767,56 @@ function create(definition) {
 "use strict";
 
 
+var normalize = __webpack_require__(90)
+var Schema = __webpack_require__(88)
+var DefinedInfo = __webpack_require__(91)
+
+module.exports = create
+
+function create(definition) {
+  var space = definition.space
+  var mustUseProperty = definition.mustUseProperty || []
+  var attributes = definition.attributes || {}
+  var props = definition.properties
+  var transform = definition.transform
+  var property = {}
+  var normal = {}
+  var prop
+  var info
+
+  for (prop in props) {
+    info = new DefinedInfo(
+      prop,
+      transform(attributes, prop),
+      props[prop],
+      space
+    )
+
+    if (mustUseProperty.indexOf(prop) !== -1) {
+      info.mustUseProperty = true
+    }
+
+    property[prop] = info
+
+    normal[normalize(prop)] = prop
+    normal[normalize(info.attribute)] = prop
+  }
+
+  return new Schema(property, normal, space)
+}
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 module.exports = decimal
 
-/* Check if the given character code, or the character
- * code at the first character, is decimal. */
+// Check if the given character code, or the character code at the first
+// character, is decimal.
 function decimal(character) {
   var code = typeof character === 'string' ? character.charCodeAt(0) : character
 
@@ -10799,7 +10825,7 @@ function decimal(character) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10845,7 +10871,7 @@ function create(definition) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10889,32 +10915,6 @@ function create(definition) {
   return new Schema(property, normal, space)
 }
 
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var ReactIs = __webpack_require__(155);
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(378)(ReactIs.isElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(379)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 19 */
@@ -13620,12 +13620,12 @@ function increment() {
 "use strict";
 
 
-var characterEntities = __webpack_require__(250)
-var legacy = __webpack_require__(106)
-var invalid = __webpack_require__(251)
-var decimal = __webpack_require__(15)
-var hexadecimal = __webpack_require__(107)
-var alphanumerical = __webpack_require__(108)
+var legacy = __webpack_require__(105)
+var invalid = __webpack_require__(250)
+var decimal = __webpack_require__(16)
+var hexadecimal = __webpack_require__(106)
+var alphanumerical = __webpack_require__(107)
+var decodeEntity = __webpack_require__(251)
 
 module.exports = parseEntities
 
@@ -13633,7 +13633,7 @@ var own = {}.hasOwnProperty
 var fromCharCode = String.fromCharCode
 var noop = Function.prototype
 
-/* Default settings. */
+// Default settings.
 var defaults = {
   warning: null,
   reference: null,
@@ -13647,51 +13647,66 @@ var defaults = {
   nonTerminated: true
 }
 
-/* Reference types. */
-var NAMED = 'named'
-var HEXADECIMAL = 'hexadecimal'
-var DECIMAL = 'decimal'
+// Characters.
+var tab = 9 // '\t'
+var lineFeed = 10 // '\n'
+var formFeed = 12 //  '\f'
+var space = 32 // ' '
+var ampersand = 38 //  '&'
+var semicolon = 59 //  ';'
+var lessThan = 60 //  '<'
+var equalsTo = 61 //  '='
+var numberSign = 35 //  '#'
+var uppercaseX = 88 //  'X'
+var lowercaseX = 120 //  'x'
+var replacementCharacter = 65533 // '�'
 
-/* Map of bases. */
-var BASE = {}
+// Reference types.
+var name = 'named'
+var hexa = 'hexadecimal'
+var deci = 'decimal'
 
-BASE[HEXADECIMAL] = 16
-BASE[DECIMAL] = 10
+// Map of bases.
+var bases = {}
 
-/* Map of types to tests. Each type of character reference
- * accepts different characters. This test is used to
- * detect whether a reference has ended (as the semicolon
- * is not strictly needed). */
-var TESTS = {}
+bases[hexa] = 16
+bases[deci] = 10
 
-TESTS[NAMED] = alphanumerical
-TESTS[DECIMAL] = decimal
-TESTS[HEXADECIMAL] = hexadecimal
+// Map of types to tests.
+// Each type of character reference accepts different characters.
+// This test is used to detect whether a reference has ended (as the semicolon
+// is not strictly needed).
+var tests = {}
 
-/* Warning messages. */
-var NAMED_NOT_TERMINATED = 1
-var NUMERIC_NOT_TERMINATED = 2
-var NAMED_EMPTY = 3
-var NUMERIC_EMPTY = 4
-var NAMED_UNKNOWN = 5
-var NUMERIC_DISALLOWED = 6
-var NUMERIC_PROHIBITED = 7
+tests[name] = alphanumerical
+tests[deci] = decimal
+tests[hexa] = hexadecimal
 
-var MESSAGES = {}
+// Warning types.
+var namedNotTerminated = 1
+var numericNotTerminated = 2
+var namedEmpty = 3
+var numericEmpty = 4
+var namedUnknown = 5
+var numericDisallowed = 6
+var numericProhibited = 7
 
-MESSAGES[NAMED_NOT_TERMINATED] =
+// Warning messages.
+var messages = {}
+
+messages[namedNotTerminated] =
   'Named character references must be terminated by a semicolon'
-MESSAGES[NUMERIC_NOT_TERMINATED] =
+messages[numericNotTerminated] =
   'Numeric character references must be terminated by a semicolon'
-MESSAGES[NAMED_EMPTY] = 'Named character references cannot be empty'
-MESSAGES[NUMERIC_EMPTY] = 'Numeric character references cannot be empty'
-MESSAGES[NAMED_UNKNOWN] = 'Named character references must be known'
-MESSAGES[NUMERIC_DISALLOWED] =
+messages[namedEmpty] = 'Named character references cannot be empty'
+messages[numericEmpty] = 'Numeric character references cannot be empty'
+messages[namedUnknown] = 'Named character references must be known'
+messages[numericDisallowed] =
   'Numeric character references cannot be disallowed'
-MESSAGES[NUMERIC_PROHIBITED] =
+messages[numericProhibited] =
   'Numeric character references cannot be outside the permissible Unicode range'
 
-/* Wrap to ensure clean parameters are given to `parse`. */
+// Wrap to ensure clean parameters are given to `parse`.
 function parseEntities(value, options) {
   var settings = {}
   var option
@@ -13715,7 +13730,8 @@ function parseEntities(value, options) {
   return parse(value, settings)
 }
 
-/* Parse entities. */
+// Parse entities.
+// eslint-disable-next-line complexity
 function parse(value, settings) {
   var additional = settings.additional
   var nonTerminated = settings.nonTerminated
@@ -13735,6 +13751,7 @@ function parse(value, settings) {
   var queue = ''
   var result = []
   var entityCharacters
+  var namedEntity
   var terminated
   var characters
   var character
@@ -13753,59 +13770,46 @@ function parse(value, settings) {
   var diff
   var end
 
-  /* Cache the current point. */
+  if (typeof additional === 'string') {
+    additional = additional.charCodeAt(0)
+  }
+
+  // Cache the current point.
   prev = now()
 
-  /* Wrap `handleWarning`. */
+  // Wrap `handleWarning`.
   warning = handleWarning ? parseError : noop
 
-  /* Ensure the algorithm walks over the first character
-   * and the end (inclusive). */
+  // Ensure the algorithm walks over the first character and the end (inclusive).
   index--
   length++
 
   while (++index < length) {
-    /* If the previous character was a newline. */
-    if (character === '\n') {
+    // If the previous character was a newline.
+    if (character === lineFeed) {
       column = indent[lines] || 1
     }
 
-    character = at(index)
+    character = value.charCodeAt(index)
 
-    /* Handle anything other than an ampersand,
-     * including newlines and EOF. */
-    if (character !== '&') {
-      if (character === '\n') {
-        line++
-        lines++
-        column = 0
-      }
+    if (character === ampersand) {
+      following = value.charCodeAt(index + 1)
 
-      if (character) {
-        queue += character
-        column++
-      } else {
-        flush()
-      }
-    } else {
-      following = at(index + 1)
-
-      /* The behaviour depends on the identity of the next
-       * character. */
+      // The behaviour depends on the identity of the next character.
       if (
-        following === '\t' /* Tab */ ||
-        following === '\n' /* Newline */ ||
-        following === '\f' /* Form feed */ ||
-        following === ' ' /* Space */ ||
-        following === '<' /* Less-than */ ||
-        following === '&' /* Ampersand */ ||
-        following === '' ||
+        following === tab ||
+        following === lineFeed ||
+        following === formFeed ||
+        following === space ||
+        following === ampersand ||
+        following === lessThan ||
+        following !== following ||
         (additional && following === additional)
       ) {
-        /* Not a character reference. No characters
-         * are consumed, and nothing is returned.
-         * This is not an error, either. */
-        queue += character
+        // Not a character reference.
+        // No characters are consumed, and nothing is returned.
+        // This is not an error, either.
+        queue += fromCharCode(character)
         column++
 
         continue
@@ -13815,100 +13819,95 @@ function parse(value, settings) {
       begin = start
       end = start
 
-      /* Numerical entity. */
-      if (following !== '#') {
-        type = NAMED
-      } else {
+      if (following === numberSign) {
+        // Numerical entity.
         end = ++begin
 
-        /* The behaviour further depends on the
-         * character after the U+0023 NUMBER SIGN. */
-        following = at(end)
+        // The behaviour further depends on the next character.
+        following = value.charCodeAt(end)
 
-        if (following === 'x' || following === 'X') {
-          /* ASCII hex digits. */
-          type = HEXADECIMAL
+        if (following === uppercaseX || following === lowercaseX) {
+          // ASCII hex digits.
+          type = hexa
           end = ++begin
         } else {
-          /* ASCII digits. */
-          type = DECIMAL
+          // ASCII digits.
+          type = deci
         }
+      } else {
+        // Named entity.
+        type = name
       }
 
       entityCharacters = ''
       entity = ''
       characters = ''
-      test = TESTS[type]
+      test = tests[type]
       end--
 
       while (++end < length) {
-        following = at(end)
+        following = value.charCodeAt(end)
 
         if (!test(following)) {
           break
         }
 
-        characters += following
+        characters += fromCharCode(following)
 
-        /* Check if we can match a legacy named
-         * reference.  If so, we cache that as the
-         * last viable named reference.  This
-         * ensures we do not need to walk backwards
-         * later. */
-        if (type === NAMED && own.call(legacy, characters)) {
+        // Check if we can match a legacy named reference.
+        // If so, we cache that as the last viable named reference.
+        // This ensures we do not need to walk backwards later.
+        if (type === name && own.call(legacy, characters)) {
           entityCharacters = characters
           entity = legacy[characters]
         }
       }
 
-      terminated = at(end) === ';'
+      terminated = value.charCodeAt(end) === semicolon
 
       if (terminated) {
         end++
 
-        if (type === NAMED && own.call(characterEntities, characters)) {
+        namedEntity = type === name ? decodeEntity(characters) : false
+
+        if (namedEntity) {
           entityCharacters = characters
-          entity = characterEntities[characters]
+          entity = namedEntity
         }
       }
 
       diff = 1 + end - start
 
       if (!terminated && !nonTerminated) {
-        /* Empty. */
+        // Empty.
       } else if (!characters) {
-        /* An empty (possible) entity is valid, unless
-         * its numeric (thus an ampersand followed by
-         * an octothorp). */
-        if (type !== NAMED) {
-          warning(NUMERIC_EMPTY, diff)
+        // An empty (possible) entity is valid, unless it’s numeric (thus an
+        // ampersand followed by an octothorp).
+        if (type !== name) {
+          warning(numericEmpty, diff)
         }
-      } else if (type === NAMED) {
-        /* An ampersand followed by anything
-         * unknown, and not terminated, is invalid. */
+      } else if (type === name) {
+        // An ampersand followed by anything unknown, and not terminated, is
+        // invalid.
         if (terminated && !entity) {
-          warning(NAMED_UNKNOWN, 1)
+          warning(namedUnknown, 1)
         } else {
-          /* If theres something after an entity
-           * name which is not known, cap the
-           * reference. */
+          // If theres something after an entity name which is not known, cap
+          // the reference.
           if (entityCharacters !== characters) {
             end = begin + entityCharacters.length
             diff = 1 + end - begin
             terminated = false
           }
 
-          /* If the reference is not terminated,
-           * warn. */
+          // If the reference is not terminated, warn.
           if (!terminated) {
-            reason = entityCharacters ? NAMED_NOT_TERMINATED : NAMED_EMPTY
+            reason = entityCharacters ? namedNotTerminated : namedEmpty
 
-            if (!settings.attribute) {
-              warning(reason, diff)
-            } else {
-              following = at(end)
+            if (settings.attribute) {
+              following = value.charCodeAt(end)
 
-              if (following === '=') {
+              if (following === equalsTo) {
                 warning(reason, diff)
                 entity = null
               } else if (alphanumerical(following)) {
@@ -13916,6 +13915,8 @@ function parse(value, settings) {
               } else {
                 warning(reason, diff)
               }
+            } else {
+              warning(reason, diff)
             }
           }
         }
@@ -13923,38 +13924,34 @@ function parse(value, settings) {
         reference = entity
       } else {
         if (!terminated) {
-          /* All non-terminated numeric entities are
-           * not rendered, and trigger a warning. */
-          warning(NUMERIC_NOT_TERMINATED, diff)
+          // All non-terminated numeric entities are not rendered, and trigger a
+          // warning.
+          warning(numericNotTerminated, diff)
         }
 
-        /* When terminated and number, parse as
-         * either hexadecimal or decimal. */
-        reference = parseInt(characters, BASE[type])
+        // When terminated and number, parse as either hexadecimal or decimal.
+        reference = parseInt(characters, bases[type])
 
-        /* Trigger a warning when the parsed number
-         * is prohibited, and replace with
-         * replacement character. */
+        // Trigger a warning when the parsed number is prohibited, and replace
+        // with replacement character.
         if (prohibited(reference)) {
-          warning(NUMERIC_PROHIBITED, diff)
-          reference = '\uFFFD'
+          warning(numericProhibited, diff)
+          reference = fromCharCode(replacementCharacter)
         } else if (reference in invalid) {
-          /* Trigger a warning when the parsed number
-           * is disallowed, and replace by an
-           * alternative. */
-          warning(NUMERIC_DISALLOWED, diff)
+          // Trigger a warning when the parsed number is disallowed, and replace
+          // by an alternative.
+          warning(numericDisallowed, diff)
           reference = invalid[reference]
         } else {
-          /* Parse the number. */
+          // Parse the number.
           output = ''
 
-          /* Trigger a warning when the parsed
-           * number should not be used. */
+          // Trigger a warning when the parsed number should not be used.
           if (disallowed(reference)) {
-            warning(NUMERIC_DISALLOWED, diff)
+            warning(numericDisallowed, diff)
           }
 
-          /* Stringify the number. */
+          // Stringify the number.
           if (reference > 0xffff) {
             reference -= 0x10000
             output += fromCharCode((reference >>> (10 & 0x3ff)) | 0xd800)
@@ -13965,20 +13962,9 @@ function parse(value, settings) {
         }
       }
 
-      /* If we could not find a reference, queue the
-       * checked characters (as normal characters),
-       * and move the pointer to their end. This is
-       * possible because we can be certain neither
-       * newlines nor ampersands are included. */
-      if (!reference) {
-        characters = value.slice(start - 1, end)
-        queue += characters
-        column += characters.length
-        index = end - 1
-      } else {
-        /* Found it! First eat the queued
-         * characters as normal text, then eat
-         * an entity. */
+      // Found it!
+      // First eat the queued characters as normal text, then eat an entity.
+      if (reference) {
         flush()
 
         prev = now()
@@ -13998,14 +13984,39 @@ function parse(value, settings) {
         }
 
         prev = next
+      } else {
+        // If we could not find a reference, queue the checked characters (as
+        // normal characters), and move the pointer to their end.
+        // This is possible because we can be certain neither newlines nor
+        // ampersands are included.
+        characters = value.slice(start - 1, end)
+        queue += characters
+        column += characters.length
+        index = end - 1
+      }
+    } else {
+      // Handle anything other than an ampersand, including newlines and EOF.
+      if (
+        character === 10 // Line feed
+      ) {
+        line++
+        lines++
+        column = 0
+      }
+
+      if (character === character) {
+        queue += fromCharCode(character)
+        column++
+      } else {
+        flush()
       }
     }
   }
 
-  /* Return the reduced nodes, and any possible warnings. */
+  // Return the reduced nodes, and any possible warnings.
   return result.join('')
 
-  /* Get current position. */
+  // Get current position.
   function now() {
     return {
       line: line,
@@ -14014,24 +14025,19 @@ function parse(value, settings) {
     }
   }
 
-  /* “Throw” a parse-error: a warning. */
+  // “Throw” a parse-error: a warning.
   function parseError(code, offset) {
     var position = now()
 
     position.column += offset
     position.offset += offset
 
-    handleWarning.call(warningContext, MESSAGES[code], position, code)
+    handleWarning.call(warningContext, messages[code], position, code)
   }
 
-  /* Get character at position. */
-  function at(position) {
-    return value.charAt(position)
-  }
-
-  /* Flush `queue` (normal text). Macro invoked before
-   * each entity and at the end of `value`.
-   * Does nothing when `queue` is empty. */
+  // Flush `queue` (normal text).
+  // Macro invoked before each entity and at the end of `value`.
+  // Does nothing when `queue` is empty.
   function flush() {
     if (queue) {
       result.push(queue)
@@ -14045,12 +14051,12 @@ function parse(value, settings) {
   }
 }
 
-/* Check if `character` is outside the permissible unicode range. */
+// Check if `character` is outside the permissible unicode range.
 function prohibited(code) {
   return (code >= 0xd800 && code <= 0xdfff) || code > 0x10ffff
 }
 
-/* Check if `character` is disallowed. */
+// Check if `character` is disallowed.
 function disallowed(code) {
   return (
     (code >= 0x0001 && code <= 0x0008) ||
@@ -14463,30 +14469,6 @@ function ccount(value, character) {
 "use strict";
 
 
-module.exports = trimTrailingLines
-
-var line = '\n'
-
-/* Remove final newline characters from `value`. */
-function trimTrailingLines(value) {
-  var val = String(value)
-  var index = val.length
-
-  while (val.charAt(--index) === line) {
-    /* Empty */
-  }
-
-  return val.slice(0, index + 1)
-}
-
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 module.exports = interrupt
 
 function interrupt(interruptors, tokenizers, ctx, params) {
@@ -14523,13 +14505,13 @@ function interrupt(interruptors, tokenizers, ctx, params) {
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var collapseWhiteSpace = __webpack_require__(62)
+var collapseWhiteSpace = __webpack_require__(61)
 
 module.exports = normalize
 
@@ -14541,17 +14523,17 @@ function normalize(value) {
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var entities = __webpack_require__(295)
-var legacy = __webpack_require__(106)
-var hexadecimal = __webpack_require__(107)
-var decimal = __webpack_require__(15)
-var alphanumerical = __webpack_require__(108)
+var legacy = __webpack_require__(105)
+var hexadecimal = __webpack_require__(106)
+var decimal = __webpack_require__(16)
+var alphanumerical = __webpack_require__(107)
 var dangerous = __webpack_require__(296)
 
 module.exports = encode
@@ -14704,7 +14686,7 @@ function construct() {
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14744,7 +14726,7 @@ function enclose(uri, always) {
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14768,7 +14750,7 @@ function enclose(title) {
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14862,7 +14844,7 @@ function ok() {
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14898,7 +14880,7 @@ function siblings(increment) {
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -15004,8 +14986,8 @@ function (_React$Component) {
     key: "renderVarDropdown",
     value: function renderVarDropdown() {
       return React.createElement("select", {
-        value: this.props.selected,
-        onChange: this.onChange
+        onChange: this.onChange,
+        value: this.props.selected
       }, this.props.user.keys.map(function (key) {
         return React.createElement("option", {
           key: key.name,
@@ -15016,7 +14998,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
       var _this$props = this.props,
           variable = _this$props.variable,
           user = _this$props.user,
@@ -15026,7 +15007,8 @@ function (_React$Component) {
         var selectedValue = selected ? user.keys.find(function (key) {
           return key.name === selected;
         }) : user.keys[0];
-        return React.createElement("span", null, !this.state.showDropdown && React.createElement("span", {
+        return React.createElement("span", null, !this.state.showDropdown && // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        React.createElement("span", {
           className: "variable-underline",
           onClick: this.toggleVarDropdown
         }, selectedValue[variable]), this.state.showDropdown && this.renderVarDropdown());
@@ -15051,8 +15033,8 @@ function (_React$Component) {
           position: 'absolute'
         }
       }, React.createElement("div", {
-        id: "loginDropdown",
-        className: "ns-popover-tooltip"
+        className: "ns-popover-tooltip",
+        id: "loginDropdown"
       }, React.createElement("div", {
         className: "ns-triangle"
       }), React.createElement("div", {
@@ -15073,22 +15055,23 @@ function (_React$Component) {
 }(React.Component);
 
 Variable.propTypes = {
-  variable: PropTypes.string.isRequired,
-  selected: PropTypes.string.isRequired,
   changeSelected: PropTypes.func.isRequired,
+  defaults: PropTypes.arrayOf(PropTypes.shape({
+    default: PropTypes.string,
+    name: PropTypes.string
+  })).isRequired,
+  oauth: PropTypes.bool,
+  selected: PropTypes.string.isRequired,
   user: PropTypes.shape({
     keys: PropTypes.array
   }).isRequired,
-  defaults: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    default: PropTypes.string
-  })).isRequired,
-  oauth: PropTypes.bool
+  variable: PropTypes.string.isRequired
 };
 Variable.defaultProps = {
   oauth: false
 };
 /* istanbul ignore next */
+// eslint-disable-next-line react/display-name
 
 module.exports = function (props) {
   return React.createElement(VariablesContext.Consumer, null, function (_ref) {
@@ -15098,13 +15081,12 @@ module.exports = function (props) {
       return React.createElement(SelectedAppContext.Consumer, null, function (_ref2) {
         var selected = _ref2.selected,
             changeSelected = _ref2.changeSelected;
-        return React.createElement(Variable // eslint-disable-next-line react/jsx-props-no-spreading
-        , _extends({}, props, {
-          user: user,
+        return React.createElement(Variable, _extends({}, props, {
+          changeSelected: changeSelected,
           defaults: defaults,
           oauth: oauth,
           selected: selected,
-          changeSelected: changeSelected
+          user: user
         }));
       });
     });
@@ -15120,7 +15102,7 @@ module.exports.VARIABLE_REGEXP = /(?:\\)?<<([-\w:\s]+)(?:\\)?>>/.source;
 module.exports.VariablesContext = VariablesContext;
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15217,7 +15199,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15236,295 +15218,413 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
 
 var stylesInDom = {};
 
-var isOldIE = function isOldIE() {
-  var memo;
-  return function memorize() {
-    if (typeof memo === 'undefined') {
-      // Test for IE <= 9 as proposed by Browserhacks
-      // @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-      // Tests for existence of standard globals is to allow style-loader
-      // to operate correctly into non-standard environments
-      // @see https://github.com/webpack-contrib/style-loader/issues/177
-      memo = Boolean(window && document && document.all && !window.atob);
-    }
+var	memoize = function (fn) {
+	var memo;
 
-    return memo;
-  };
-}();
-
-var getTarget = function getTarget() {
-  var memo = {};
-  return function memorize(target) {
-    if (typeof memo[target] === 'undefined') {
-      var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
-
-      if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-        try {
-          // This will throw an exception if access to iframe is blocked
-          // due to cross-origin restrictions
-          styleTarget = styleTarget.contentDocument.head;
-        } catch (e) {
-          // istanbul ignore next
-          styleTarget = null;
-        }
-      }
-
-      memo[target] = styleTarget;
-    }
-
-    return memo[target];
-  };
-}();
-
-function listToStyles(list, options) {
-  var styles = [];
-  var newStyles = {};
-
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var id = options.base ? item[0] + options.base : item[0];
-    var css = item[1];
-    var media = item[2];
-    var sourceMap = item[3];
-    var part = {
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    };
-
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = {
-        id: id,
-        parts: [part]
-      });
-    } else {
-      newStyles[id].parts.push(part);
-    }
-  }
-
-  return styles;
-}
-
-function addStylesToDom(styles, options) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i];
-    var domStyle = stylesInDom[item.id];
-    var j = 0;
-
-    if (domStyle) {
-      domStyle.refs++;
-
-      for (; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j]);
-      }
-
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j], options));
-      }
-    } else {
-      var parts = [];
-
-      for (; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j], options));
-      }
-
-      stylesInDom[item.id] = {
-        id: item.id,
-        refs: 1,
-        parts: parts
-      };
-    }
-  }
-}
-
-function insertStyleElement(options) {
-  var style = document.createElement('style');
-
-  if (typeof options.attributes.nonce === 'undefined') {
-    var nonce =  true ? __webpack_require__.nc : null;
-
-    if (nonce) {
-      options.attributes.nonce = nonce;
-    }
-  }
-
-  Object.keys(options.attributes).forEach(function (key) {
-    style.setAttribute(key, options.attributes[key]);
-  });
-
-  if (typeof options.insert === 'function') {
-    options.insert(style);
-  } else {
-    var target = getTarget(options.insert || 'head');
-
-    if (!target) {
-      throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-    }
-
-    target.appendChild(style);
-  }
-
-  return style;
-}
-
-function removeStyleElement(style) {
-  // istanbul ignore if
-  if (style.parentNode === null) {
-    return false;
-  }
-
-  style.parentNode.removeChild(style);
-}
-/* istanbul ignore next  */
-
-
-var replaceText = function replaceText() {
-  var textStore = [];
-  return function replace(index, replacement) {
-    textStore[index] = replacement;
-    return textStore.filter(Boolean).join('\n');
-  };
-}();
-
-function applyToSingletonTag(style, index, remove, obj) {
-  var css = remove ? '' : obj.css; // For old IE
-
-  /* istanbul ignore if  */
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = replaceText(index, css);
-  } else {
-    var cssNode = document.createTextNode(css);
-    var childNodes = style.childNodes;
-
-    if (childNodes[index]) {
-      style.removeChild(childNodes[index]);
-    }
-
-    if (childNodes.length) {
-      style.insertBefore(cssNode, childNodes[index]);
-    } else {
-      style.appendChild(cssNode);
-    }
-  }
-}
-
-function applyToTag(style, options, obj) {
-  var css = obj.css;
-  var media = obj.media;
-  var sourceMap = obj.sourceMap;
-
-  if (media) {
-    style.setAttribute('media', media);
-  }
-
-  if (sourceMap && btoa) {
-    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  } // For old IE
-
-  /* istanbul ignore if  */
-
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    while (style.firstChild) {
-      style.removeChild(style.firstChild);
-    }
-
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var singleton = null;
-var singletonCounter = 0;
-
-function addStyle(obj, options) {
-  var style;
-  var update;
-  var remove;
-
-  if (options.singleton) {
-    var styleIndex = singletonCounter++;
-    style = singleton || (singleton = insertStyleElement(options));
-    update = applyToSingletonTag.bind(null, style, styleIndex, false);
-    remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-  } else {
-    style = insertStyleElement(options);
-    update = applyToTag.bind(null, style, options);
-
-    remove = function remove() {
-      removeStyleElement(style);
-    };
-  }
-
-  update(obj);
-  return function updateStyle(newObj) {
-    if (newObj) {
-      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap) {
-        return;
-      }
-
-      update(obj = newObj);
-    } else {
-      remove();
-    }
-  };
-}
-
-module.exports = function (list, options) {
-  options = options || {};
-  options.attributes = typeof options.attributes === 'object' ? options.attributes : {}; // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-  // tags it will allow on a page
-
-  if (!options.singleton && typeof options.singleton !== 'boolean') {
-    options.singleton = isOldIE();
-  }
-
-  var styles = listToStyles(list, options);
-  addStylesToDom(styles, options);
-  return function update(newList) {
-    var mayRemove = [];
-
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i];
-      var domStyle = stylesInDom[item.id];
-
-      if (domStyle) {
-        domStyle.refs--;
-        mayRemove.push(domStyle);
-      }
-    }
-
-    if (newList) {
-      var newStyles = listToStyles(newList, options);
-      addStylesToDom(newStyles, options);
-    }
-
-    for (var _i = 0; _i < mayRemove.length; _i++) {
-      var _domStyle = mayRemove[_i];
-
-      if (_domStyle.refs === 0) {
-        for (var j = 0; j < _domStyle.parts.length; j++) {
-          _domStyle.parts[j]();
-        }
-
-        delete stylesInDom[_domStyle.id];
-      }
-    }
-  };
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
 };
 
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getTarget = function (target, parent) {
+  if (parent){
+    return parent.querySelector(target);
+  }
+  return document.querySelector(target);
+};
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(target, parent) {
+                // If passing function in options, then use it for resolve "head" element.
+                // Useful for Shadow Root style i.e
+                // {
+                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
+                // }
+                if (typeof target === 'function') {
+                        return target();
+                }
+                if (typeof memo[target] === "undefined") {
+			var styleTarget = getTarget.call(this, target, parent);
+			// Special case to return head of iframe instead of iframe itself
+			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[target] = styleTarget;
+		}
+		return memo[target]
+	};
+})();
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(386);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+        if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertAt.before, target);
+		target.insertBefore(style, nextSibling);
+	} else {
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+
+	if(options.attrs.nonce === undefined) {
+		var nonce = getNonce();
+		if (nonce) {
+			options.attrs.nonce = nonce;
+		}
+	}
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function getNonce() {
+	if (false) {
+		return null;
+	}
+
+	return __webpack_require__.nc;
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = typeof options.transform === 'function'
+		 ? options.transform(obj.css) 
+		 : options.transform.default(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15634,7 +15734,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
@@ -15943,13 +16043,13 @@ var substr = 'ab'.substr(-1) === 'b'
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = {"strip":["script"],"clobberPrefix":"user-content-","clobber":["name","id"],"ancestors":{"li":["ol","ul"],"tbody":["table"],"tfoot":["table"],"thead":["table"],"td":["table"],"th":["table"],"tr":["table"]},"protocols":{"href":["http","https","mailto"],"cite":["http","https"],"src":["http","https"],"longDesc":["http","https"]},"tagNames":["h1","h2","h3","h4","h5","h6","h7","h8","br","b","i","strong","em","a","pre","code","img","tt","div","ins","del","sup","sub","p","ol","ul","table","thead","tbody","tfoot","blockquote","dl","dt","dd","kbd","q","samp","var","hr","ruby","rt","rp","li","tr","td","th","s","strike","summary","details"],"attributes":{"a":["href"],"img":["src","longDesc"],"div":["itemScope","itemType"],"blockquote":["cite"],"del":["cite"],"ins":["cite"],"q":["cite"],"*":["abbr","accept","acceptCharset","accessKey","action","align","alt","axis","border","cellPadding","cellSpacing","char","charoff","charSet","checked","clear","cols","colSpan","color","compact","coords","dateTime","dir","disabled","encType","htmlFor","frame","headers","height","hrefLang","hspace","isMap","id","label","lang","maxLength","media","method","multiple","name","nohref","noshade","nowrap","open","prompt","readOnly","rel","rev","rows","rowSpan","rules","scope","selected","shape","size","span","start","summary","tabIndex","target","title","type","useMap","valign","value","vspace","width","itemProp"]}}
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16075,7 +16175,7 @@ function ok() {
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16083,7 +16183,7 @@ function ok() {
 
 module.exports = one
 
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 var all = __webpack_require__(3)
 
 var own = {}.hasOwnProperty
@@ -16127,7 +16227,7 @@ function text(node) {
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16141,7 +16241,7 @@ function thematicBreak(h, node) {
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16149,7 +16249,7 @@ function thematicBreak(h, node) {
 
 module.exports = list
 
-var wrap = __webpack_require__(10)
+var wrap = __webpack_require__(11)
 var all = __webpack_require__(3)
 
 function list(h, node) {
@@ -16182,7 +16282,7 @@ function list(h, node) {
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16190,7 +16290,7 @@ function list(h, node) {
 
 module.exports = footnoteReference
 
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 
 function footnoteReference(h, node) {
   var footnoteOrder = h.footnoteOrder
@@ -16209,7 +16309,7 @@ function footnoteReference(h, node) {
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16217,7 +16317,7 @@ function footnoteReference(h, node) {
 
 module.exports = revert
 
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 var all = __webpack_require__(3)
 
 // Return the content of a reference without definition as Markdown.
@@ -16260,7 +16360,7 @@ function revert(h, node) {
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16275,7 +16375,7 @@ function collapse(value) {
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16283,7 +16383,7 @@ function collapse(value) {
 
 const Mixin = __webpack_require__(9);
 const Tokenizer = __webpack_require__(24);
-const PositionTrackingPreprocessorMixin = __webpack_require__(64);
+const PositionTrackingPreprocessorMixin = __webpack_require__(63);
 
 class LocationInfoTokenizerMixin extends Mixin {
     constructor(tokenizer) {
@@ -16428,7 +16528,7 @@ module.exports = LocationInfoTokenizerMixin;
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16499,14 +16599,14 @@ module.exports = PositionTrackingPreprocessorMixin;
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var xtend = __webpack_require__(0)
-var Schema = __webpack_require__(66)
+var Schema = __webpack_require__(65)
 
 module.exports = merge
 
@@ -16534,7 +16634,7 @@ function merge(definitions) {
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16559,13 +16659,13 @@ function Schema(property, normal, space) {
 
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(12)
+var create = __webpack_require__(13)
 
 module.exports = create({
   space: 'xlink',
@@ -16587,7 +16687,7 @@ function xlinkTransform(_, prop) {
 
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16601,13 +16701,13 @@ function normalize(value) {
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Info = __webpack_require__(70)
+var Info = __webpack_require__(69)
 var types = __webpack_require__(25)
 
 module.exports = DefinedInfo
@@ -16648,7 +16748,7 @@ function mark(values, key, value) {
 
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16678,13 +16778,13 @@ function Info(property, attribute) {
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(12)
+var create = __webpack_require__(13)
 
 module.exports = create({
   space: 'xml',
@@ -16702,14 +16802,14 @@ function xmlTransform(_, prop) {
 
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(12)
-var caseInsensitiveTransform = __webpack_require__(73)
+var create = __webpack_require__(13)
+var caseInsensitiveTransform = __webpack_require__(72)
 
 module.exports = create({
   space: 'xmlns',
@@ -16725,13 +16825,13 @@ module.exports = create({
 
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var caseSensitiveTransform = __webpack_require__(74)
+var caseSensitiveTransform = __webpack_require__(73)
 
 module.exports = caseInsensitiveTransform
 
@@ -16741,7 +16841,7 @@ function caseInsensitiveTransform(attributes, property) {
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16755,14 +16855,14 @@ function caseSensitiveTransform(attributes, attribute) {
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var types = __webpack_require__(25)
-var create = __webpack_require__(12)
+var create = __webpack_require__(13)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -16829,14 +16929,14 @@ function ariaTransform(_, prop) {
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var xtend = __webpack_require__(0)
-var Schema = __webpack_require__(77)
+var Schema = __webpack_require__(76)
 
 module.exports = merge
 
@@ -16864,7 +16964,7 @@ function merge(definitions) {
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16889,13 +16989,13 @@ function Schema(property, normal, space) {
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(13)
+var create = __webpack_require__(14)
 
 module.exports = create({
   space: 'xlink',
@@ -16917,13 +17017,13 @@ function xlinkTransform(_, prop) {
 
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Info = __webpack_require__(80)
+var Info = __webpack_require__(79)
 var types = __webpack_require__(26)
 
 module.exports = DefinedInfo
@@ -16964,7 +17064,7 @@ function mark(values, key, value) {
 
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16994,13 +17094,13 @@ function Info(property, attribute) {
 
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(13)
+var create = __webpack_require__(14)
 
 module.exports = create({
   space: 'xml',
@@ -17018,14 +17118,14 @@ function xmlTransform(_, prop) {
 
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(13)
-var caseInsensitiveTransform = __webpack_require__(83)
+var create = __webpack_require__(14)
+var caseInsensitiveTransform = __webpack_require__(82)
 
 module.exports = create({
   space: 'xmlns',
@@ -17041,13 +17141,13 @@ module.exports = create({
 
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var caseSensitiveTransform = __webpack_require__(84)
+var caseSensitiveTransform = __webpack_require__(83)
 
 module.exports = caseInsensitiveTransform
 
@@ -17057,7 +17157,7 @@ function caseInsensitiveTransform(attributes, property) {
 
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17071,14 +17171,14 @@ function caseSensitiveTransform(attributes, attribute) {
 
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var types = __webpack_require__(26)
-var create = __webpack_require__(13)
+var create = __webpack_require__(14)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -17145,7 +17245,7 @@ function ariaTransform(_, prop) {
 
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17364,31 +17464,31 @@ function createAdjustMap(values) {
 
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var merge = __webpack_require__(88)
-var xlink = __webpack_require__(90)
-var xml = __webpack_require__(94)
-var xmlns = __webpack_require__(95)
-var aria = __webpack_require__(98)
+var merge = __webpack_require__(87)
+var xlink = __webpack_require__(89)
+var xml = __webpack_require__(93)
+var xmlns = __webpack_require__(94)
+var aria = __webpack_require__(97)
 var html = __webpack_require__(239)
 
 module.exports = merge([xml, xlink, xmlns, aria, html])
 
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var xtend = __webpack_require__(0)
-var Schema = __webpack_require__(89)
+var Schema = __webpack_require__(88)
 
 module.exports = merge
 
@@ -17416,7 +17516,7 @@ function merge(definitions) {
 
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17441,13 +17541,13 @@ function Schema(property, normal, space) {
 
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(14)
+var create = __webpack_require__(15)
 
 module.exports = create({
   space: 'xlink',
@@ -17469,7 +17569,7 @@ function xlinkTransform(_, prop) {
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17483,13 +17583,13 @@ function normalize(value) {
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Info = __webpack_require__(93)
+var Info = __webpack_require__(92)
 var types = __webpack_require__(29)
 
 module.exports = DefinedInfo
@@ -17530,7 +17630,7 @@ function mark(values, key, value) {
 
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17560,13 +17660,13 @@ function Info(property, attribute) {
 
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(14)
+var create = __webpack_require__(15)
 
 module.exports = create({
   space: 'xml',
@@ -17584,14 +17684,14 @@ function xmlTransform(_, prop) {
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var create = __webpack_require__(14)
-var caseInsensitiveTransform = __webpack_require__(96)
+var create = __webpack_require__(15)
+var caseInsensitiveTransform = __webpack_require__(95)
 
 module.exports = create({
   space: 'xmlns',
@@ -17607,13 +17707,13 @@ module.exports = create({
 
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var caseSensitiveTransform = __webpack_require__(97)
+var caseSensitiveTransform = __webpack_require__(96)
 
 module.exports = caseInsensitiveTransform
 
@@ -17623,7 +17723,7 @@ function caseInsensitiveTransform(attributes, property) {
 
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17637,14 +17737,14 @@ function caseSensitiveTransform(attributes, attribute) {
 
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var types = __webpack_require__(29)
-var create = __webpack_require__(14)
+var create = __webpack_require__(15)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -17711,32 +17811,32 @@ function ariaTransform(_, prop) {
 
 
 /***/ }),
-/* 99 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var merge = __webpack_require__(88)
-var xlink = __webpack_require__(90)
-var xml = __webpack_require__(94)
-var xmlns = __webpack_require__(95)
-var aria = __webpack_require__(98)
+var merge = __webpack_require__(87)
+var xlink = __webpack_require__(89)
+var xml = __webpack_require__(93)
+var xmlns = __webpack_require__(94)
+var aria = __webpack_require__(97)
 var svg = __webpack_require__(240)
 
 module.exports = merge([xml, xlink, xmlns, aria, svg])
 
 
 /***/ }),
-/* 100 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var normalize = __webpack_require__(91)
-var DefinedInfo = __webpack_require__(92)
-var Info = __webpack_require__(93)
+var normalize = __webpack_require__(90)
+var DefinedInfo = __webpack_require__(91)
+var Info = __webpack_require__(92)
 
 var data = 'data'
 
@@ -17800,7 +17900,7 @@ function camelcase($0) {
 
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(242);
@@ -17842,7 +17942,7 @@ module.exports = function parseInlineStyle(style, iterator) {
 
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17877,13 +17977,13 @@ function factory(key, options) {
 
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports) {
 
 module.exports = ["area","base","basefont","bgsound","br","col","command","embed","frame","hr","image","img","input","isindex","keygen","link","menuitem","meta","nextid","param","source","track","wbr"]
 
 /***/ }),
-/* 104 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17894,8 +17994,8 @@ var inherits = __webpack_require__(245)
 
 module.exports = unherit
 
-/* Create a custom constructor which can be modified
- * without affecting the original class. */
+// Create a custom constructor which can be modified without affecting the
+// original class.
 function unherit(Super) {
   var result
   var key
@@ -17904,7 +18004,7 @@ function unherit(Super) {
   inherits(Of, Super)
   inherits(From, Of)
 
-  /* Clone values. */
+  // Clone values.
   result = Of.prototype
 
   for (key in result) {
@@ -17917,13 +18017,13 @@ function unherit(Super) {
 
   return Of
 
-  /* Constructor accepting a single argument,
-   * which itself is an `arguments` object. */
+  // Constructor accepting a single argument, which itself is an `arguments`
+  // object.
   function From(parameters) {
     return Super.apply(this, parameters)
   }
 
-  /* Constructor accepting variadic arguments. */
+  // Constructor accepting variadic arguments.
   function Of() {
     if (!(this instanceof Of)) {
       return new From(arguments)
@@ -17935,7 +18035,7 @@ function unherit(Super) {
 
 
 /***/ }),
-/* 105 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17943,9 +18043,9 @@ function unherit(Super) {
 
 module.exports = factory
 
-/* Construct a state `toggler`: a function which inverses
- * `property` in context based on its current value.
- * The by `toggler` returned function restores that value. */
+// Construct a state `toggler`: a function which inverses `property` in context
+// based on its current value.
+// The by `toggler` returned function restores that value.
 function factory(key, state, ctx) {
   return enter
 
@@ -17965,13 +18065,13 @@ function factory(key, state, ctx) {
 
 
 /***/ }),
-/* 106 */
+/* 105 */
 /***/ (function(module, exports) {
 
 module.exports = {"AElig":"Æ","AMP":"&","Aacute":"Á","Acirc":"Â","Agrave":"À","Aring":"Å","Atilde":"Ã","Auml":"Ä","COPY":"©","Ccedil":"Ç","ETH":"Ð","Eacute":"É","Ecirc":"Ê","Egrave":"È","Euml":"Ë","GT":">","Iacute":"Í","Icirc":"Î","Igrave":"Ì","Iuml":"Ï","LT":"<","Ntilde":"Ñ","Oacute":"Ó","Ocirc":"Ô","Ograve":"Ò","Oslash":"Ø","Otilde":"Õ","Ouml":"Ö","QUOT":"\"","REG":"®","THORN":"Þ","Uacute":"Ú","Ucirc":"Û","Ugrave":"Ù","Uuml":"Ü","Yacute":"Ý","aacute":"á","acirc":"â","acute":"´","aelig":"æ","agrave":"à","amp":"&","aring":"å","atilde":"ã","auml":"ä","brvbar":"¦","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","curren":"¤","deg":"°","divide":"÷","eacute":"é","ecirc":"ê","egrave":"è","eth":"ð","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","iacute":"í","icirc":"î","iexcl":"¡","igrave":"ì","iquest":"¿","iuml":"ï","laquo":"«","lt":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","ntilde":"ñ","oacute":"ó","ocirc":"ô","ograve":"ò","ordf":"ª","ordm":"º","oslash":"ø","otilde":"õ","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","raquo":"»","reg":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","thorn":"þ","times":"×","uacute":"ú","ucirc":"û","ugrave":"ù","uml":"¨","uuml":"ü","yacute":"ý","yen":"¥","yuml":"ÿ"}
 
 /***/ }),
-/* 107 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17979,8 +18079,8 @@ module.exports = {"AElig":"Æ","AMP":"&","Aacute":"Á","Acirc":"Â","Agrave":"À
 
 module.exports = hexadecimal
 
-/* Check if the given character code, or the character
- * code at the first character, is hexadecimal. */
+// Check if the given character code, or the character code at the first
+// character, is hexadecimal.
 function hexadecimal(character) {
   var code = typeof character === 'string' ? character.charCodeAt(0) : character
 
@@ -17993,26 +18093,26 @@ function hexadecimal(character) {
 
 
 /***/ }),
-/* 108 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var alphabetical = __webpack_require__(109)
-var decimal = __webpack_require__(15)
+var alphabetical = __webpack_require__(108)
+var decimal = __webpack_require__(16)
 
 module.exports = alphanumerical
 
-/* Check if the given character code, or the character
- * code at the first character, is alphanumerical. */
+// Check if the given character code, or the character code at the first
+// character, is alphanumerical.
 function alphanumerical(character) {
   return alphabetical(character) || decimal(character)
 }
 
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18020,8 +18120,8 @@ function alphanumerical(character) {
 
 module.exports = alphabetical
 
-/* Check if the given character code, or the character
- * code at the first character, is alphabetical. */
+// Check if the given character code, or the character code at the first
+// character, is alphabetical.
 function alphabetical(character) {
   var code = typeof character === 'string' ? character.charCodeAt(0) : character
 
@@ -18033,7 +18133,7 @@ function alphabetical(character) {
 
 
 /***/ }),
-/* 110 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18084,7 +18184,7 @@ escapes.default = defaults
 escapes.gfm = gfm
 escapes.commonmark = commonmark
 
-/* Get markdown escapes. */
+// Get markdown escapes.
 function escapes(options) {
   var settings = options || {}
 
@@ -18097,7 +18197,7 @@ function escapes(options) {
 
 
 /***/ }),
-/* 111 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18110,6 +18210,30 @@ module.exports = {
   footnotes: false,
   pedantic: false,
   blocks: __webpack_require__(254)
+}
+
+
+/***/ }),
+/* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = trimTrailingLines
+
+var line = '\n'
+
+// Remove final newline characters from `value`.
+function trimTrailingLines(value) {
+  var val = String(value)
+  var index = val.length
+
+  while (val.charAt(--index) === line) {
+    // Empty
+  }
+
+  return val.slice(0, index + 1)
 }
 
 
@@ -18317,7 +18441,7 @@ function length(value) {
 "use strict";
 
 
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 
 module.exports = pad
 
@@ -18487,7 +18611,7 @@ function Schema(property, normal, space) {
 "use strict";
 
 
-var create = __webpack_require__(16)
+var create = __webpack_require__(17)
 
 module.exports = create({
   space: 'xlink',
@@ -18606,7 +18730,7 @@ function Info(property, attribute) {
 "use strict";
 
 
-var create = __webpack_require__(16)
+var create = __webpack_require__(17)
 
 module.exports = create({
   space: 'xml',
@@ -18630,7 +18754,7 @@ function xmlTransform(_, prop) {
 "use strict";
 
 
-var create = __webpack_require__(16)
+var create = __webpack_require__(17)
 var caseInsensitiveTransform = __webpack_require__(130)
 
 module.exports = create({
@@ -18684,7 +18808,7 @@ function caseSensitiveTransform(attributes, attribute) {
 
 
 var types = __webpack_require__(31)
-var create = __webpack_require__(16)
+var create = __webpack_require__(17)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -18854,7 +18978,7 @@ function interElementWhiteSpace(node) {
 "use strict";
 
 
-var convert = __webpack_require__(47)
+var convert = __webpack_require__(46)
 var whiteSpace = __webpack_require__(135)
 
 module.exports = whiteSpaceLeft
@@ -18874,10 +18998,10 @@ function whiteSpaceLeft(node) {
 "use strict";
 
 
-var convert = __webpack_require__(47)
+var convert = __webpack_require__(46)
 var element = __webpack_require__(134)
 var whiteSpaceLeft = __webpack_require__(136)
-var after = __webpack_require__(48).after
+var after = __webpack_require__(47).after
 var omission = __webpack_require__(138)
 
 var isComment = convert('comment')
@@ -19151,7 +19275,7 @@ function all(ctx, parent) {
 
 
 var xtend = __webpack_require__(0)
-var entities = __webpack_require__(44)
+var entities = __webpack_require__(43)
 
 module.exports = text
 
@@ -19237,7 +19361,7 @@ function Schema(property, normal, space) {
 "use strict";
 
 
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 
 module.exports = create({
   space: 'xlink',
@@ -19347,7 +19471,7 @@ function Info(property, attribute) {
 "use strict";
 
 
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 
 module.exports = create({
   space: 'xml',
@@ -19371,7 +19495,7 @@ function xmlTransform(_, prop) {
 "use strict";
 
 
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 var caseInsensitiveTransform = __webpack_require__(150)
 
 module.exports = create({
@@ -19425,7 +19549,7 @@ function caseSensitiveTransform(attributes, attribute) {
 
 
 var types = __webpack_require__(32)
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -19508,7 +19632,7 @@ function ariaTransform(_, prop) {
 var printWarning = function() {};
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactPropTypesSecret = __webpack_require__(51);
+  var ReactPropTypesSecret = __webpack_require__(50);
   var loggedTypeFailures = {};
   var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
@@ -19639,9 +19763,9 @@ if (process.env.NODE_ENV === 'production') {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(387);
-} else {
   module.exports = __webpack_require__(388);
+} else {
+  module.exports = __webpack_require__(389);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
@@ -20693,7 +20817,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
 
 (function(mod) {
   if (true) // CommonJS
-    mod(__webpack_require__(2), __webpack_require__(398), __webpack_require__(160), __webpack_require__(399));
+    mod(__webpack_require__(2), __webpack_require__(399), __webpack_require__(160), __webpack_require__(400));
   else if (typeof define == "function" && define.amd) // AMD
     define(["../../lib/codemirror", "../xml/xml", "../javascript/javascript", "../css/css"], mod);
   else // Plain browser env
@@ -21804,7 +21928,7 @@ var unified = __webpack_require__(165);
  */
 
 
-var sanitize = __webpack_require__(55); // sanitization schema
+var sanitize = __webpack_require__(54); // sanitization schema
 
 
 sanitize.tagNames.push('input'); // allow GitHub-style todo lists
@@ -21831,48 +21955,48 @@ var rehypeReact = __webpack_require__(353);
  */
 
 
-var Variable = __webpack_require__(49);
+var Variable = __webpack_require__(48);
 
 var GlossaryItem = __webpack_require__(375);
 
 var Code = __webpack_require__(381);
 
-var Table = __webpack_require__(407);
+var Table = __webpack_require__(408);
 
-var Anchor = __webpack_require__(408);
+var Anchor = __webpack_require__(409);
 
-var Heading = __webpack_require__(410);
+var Heading = __webpack_require__(411);
 
-var Callout = __webpack_require__(411);
+var Callout = __webpack_require__(412);
 
-var CodeTabs = __webpack_require__(414);
+var CodeTabs = __webpack_require__(415);
 
-var Image = __webpack_require__(417);
+var Image = __webpack_require__(418);
 /* Custom Unified Parsers
  */
 
 
-var flavorCodeTabs = __webpack_require__(418);
+var flavorCodeTabs = __webpack_require__(419);
 
-var flavorCallout = __webpack_require__(419);
+var flavorCallout = __webpack_require__(420);
 
-var magicBlockParser = __webpack_require__(420);
+var magicBlockParser = __webpack_require__(421);
 
-var variableParser = __webpack_require__(421);
+var variableParser = __webpack_require__(422);
 
-var gemojiParser = __webpack_require__(422);
+var gemojiParser = __webpack_require__(423);
 /* Custom Unified Compilers
  */
 
 
-var rdmeDivCompiler = __webpack_require__(424);
+var rdmeDivCompiler = __webpack_require__(425);
 
-var codeTabsCompiler = __webpack_require__(425);
+var codeTabsCompiler = __webpack_require__(426);
 
-var rdmeCalloutCompiler = __webpack_require__(426); // Default Unified Options
+var rdmeCalloutCompiler = __webpack_require__(427); // Default Unified Options
 
 
-var options = __webpack_require__(427); // Normalize Magic Block Raw Text
+var options = __webpack_require__(428); // Normalize Magic Block Raw Text
 
 
 function normalizeMagic(blocks) {
@@ -21974,7 +22098,7 @@ var ReadMeMarkdown = function ReadMeMarkdown(text, opts) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.11.0
+/** @license React v16.12.0
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -21997,7 +22121,7 @@ function da(a,b,c){var e=a.result,d=a.keyPrefix;a=a.func.call(a.context,b,a.coun
 var X={Children:{map:function(a,b,c){if(null==a)return a;var e=[];V(a,e,null,b,c);return e},forEach:function(a,b,c){if(null==a)return a;b=Q(null,null,b,c);U(a,ca,b);R(b)},count:function(a){return U(a,function(){return null},null)},toArray:function(a){var b=[];V(a,b,null,function(a){return a});return b},only:function(a){if(!N(a))throw Error(B(143));return a}},createRef:function(){return{current:null}},Component:E,PureComponent:G,createContext:function(a,b){void 0===b&&(b=null);a={$$typeof:w,_calculateChangedBits:b,
 _currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:v,_context:a};return a.Consumer=a},forwardRef:function(a){return{$$typeof:x,render:a}},lazy:function(a){return{$$typeof:aa,_ctor:a,_status:-1,_result:null}},memo:function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}},useCallback:function(a,b){return W().useCallback(a,b)},useContext:function(a,b){return W().useContext(a,b)},useEffect:function(a,b){return W().useEffect(a,b)},useImperativeHandle:function(a,
 b,c){return W().useImperativeHandle(a,b,c)},useDebugValue:function(){},useLayoutEffect:function(a,b){return W().useLayoutEffect(a,b)},useMemo:function(a,b){return W().useMemo(a,b)},useReducer:function(a,b,c){return W().useReducer(a,b,c)},useRef:function(a){return W().useRef(a)},useState:function(a){return W().useState(a)},Fragment:r,Profiler:u,StrictMode:t,Suspense:y,createElement:M,cloneElement:function(a,b,c){if(null===a||void 0===a)throw Error(B(267,a));var e=h({},a.props),d=a.key,g=a.ref,l=a._owner;
-if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.11.0",
+if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.12.0",
 __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,ReactCurrentBatchConfig:{suspense:null},ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:h}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default||Z;
 
 
@@ -22006,7 +22130,7 @@ __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,Rea
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.11.0
+/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.12.0
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -22024,11 +22148,11 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var _assign = __webpack_require__(22);
-var checkPropTypes = __webpack_require__(53);
+var checkPropTypes = __webpack_require__(52);
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.11.0';
+var ReactVersion = '16.12.0';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -24182,12 +24306,8 @@ function createScope() {
   return scopeComponent;
 }
 
-// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-
- // In some cases, StrictMode should also double-render lifecycles.
-// This can be confusing for tests though,
-// And it can be bad for performance in production.
-// This feature flag can be used to control the behavior:
+// Helps identify side effects in render-phase lifecycle hooks and setState
+// reducers by double invoking them in Strict Mode.
 
  // To preserve the "Pause on caught exceptions" behavior of the debugger, we
 // replay the begin phase of a failed component inside invokeGuardedCallback.
@@ -24223,7 +24343,7 @@ var enableFundamentalAPI = false; // Experimental Scope support.
 var enableScopeAPI = false; // New API for JSX transforms to target - https://github.com/reactjs/rfcs/pull/107
 
 var enableJSXTransformAPI = false; // We will enforce mocking scheduler with scheduler/unstable_mock at some point. (v17?)
-// Till then, we warn about the missing mock, but still fallback to a sync mode compatible version
+// Till then, we warn about the missing mock, but still fallback to a legacy mode compatible version
 
  // For tests, we flush suspense fallbacks in an act scope;
 // *except* in some of our own tests, where we test incremental loading states.
@@ -24237,6 +24357,12 @@ var enableJSXTransformAPI = false; // We will enforce mocking scheduler with sch
  // Part of the simplification of React.createElement so we can eventually move
 // from React.createElement to React.jsx
 // https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md
+
+
+
+
+
+ // Flag to turn event.target and event.currentTarget in ReactNative from a reactTag to a component instance
 
 var React = {
   Children: {
@@ -25158,7 +25284,7 @@ function index(value) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var path = __webpack_require__(54)
+var path = __webpack_require__(53)
 var replace = __webpack_require__(172)
 var buffer = __webpack_require__(173)
 
@@ -25336,7 +25462,7 @@ function assertPath(path, name) {
 "use strict";
 
 
-var path = __webpack_require__(54);
+var path = __webpack_require__(53);
 
 function replaceExt(npath, ext) {
   if (typeof npath !== 'string') {
@@ -25609,12 +25735,12 @@ module.exports = __webpack_require__(179)
 module.exports = toHast
 
 var xtend = __webpack_require__(0)
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 var visit = __webpack_require__(19)
 var position = __webpack_require__(35)
 var generated = __webpack_require__(181)
 var definitions = __webpack_require__(182)
-var one = __webpack_require__(57)
+var one = __webpack_require__(56)
 var footer = __webpack_require__(183)
 var handlers = __webpack_require__(184)
 
@@ -25724,7 +25850,7 @@ function toHast(tree, options) {
 
 module.exports = visitParents
 
-var is = __webpack_require__(56)
+var is = __webpack_require__(55)
 
 var CONTINUE = true
 var SKIP = 'skip'
@@ -25873,9 +25999,9 @@ function normalise(identifier) {
 
 module.exports = generateFootnotes
 
-var thematicBreak = __webpack_require__(58)
-var list = __webpack_require__(59)
-var wrap = __webpack_require__(10)
+var thematicBreak = __webpack_require__(57)
+var list = __webpack_require__(58)
+var wrap = __webpack_require__(11)
 
 function generateFootnotes(h) {
   var footnoteById = h.footnoteById
@@ -25951,7 +26077,7 @@ module.exports = {
   code: __webpack_require__(187),
   delete: __webpack_require__(189),
   emphasis: __webpack_require__(190),
-  footnoteReference: __webpack_require__(60),
+  footnoteReference: __webpack_require__(59),
   footnote: __webpack_require__(191),
   heading: __webpack_require__(192),
   html: __webpack_require__(193),
@@ -25961,13 +26087,13 @@ module.exports = {
   linkReference: __webpack_require__(197),
   link: __webpack_require__(198),
   listItem: __webpack_require__(199),
-  list: __webpack_require__(59),
+  list: __webpack_require__(58),
   paragraph: __webpack_require__(200),
   root: __webpack_require__(201),
   strong: __webpack_require__(202),
   table: __webpack_require__(203),
   text: __webpack_require__(204),
-  thematicBreak: __webpack_require__(58),
+  thematicBreak: __webpack_require__(57),
   toml: ignore,
   yaml: ignore,
   definition: ignore,
@@ -25989,7 +26115,7 @@ function ignore() {
 
 module.exports = blockquote
 
-var wrap = __webpack_require__(10)
+var wrap = __webpack_require__(11)
 var all = __webpack_require__(3)
 
 function blockquote(h, node) {
@@ -26006,7 +26132,7 @@ function blockquote(h, node) {
 
 module.exports = hardBreak
 
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 
 function hardBreak(h, node) {
   return [h(node, 'br'), u('text', '\n')]
@@ -26023,7 +26149,7 @@ function hardBreak(h, node) {
 module.exports = code
 
 var detab = __webpack_require__(188)
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 
 function code(h, node) {
   var value = node.value ? detab(node.value + '\n') : ''
@@ -26047,7 +26173,7 @@ function code(h, node) {
 
 module.exports = detab
 
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 
 var tab = 0x09
 var lineFeed = 0x0a
@@ -26132,7 +26258,7 @@ function emphasis(h, node) {
 
 module.exports = footnote
 
-var footnoteReference = __webpack_require__(60)
+var footnoteReference = __webpack_require__(59)
 
 function footnote(h, node) {
   var footnoteById = h.footnoteById
@@ -26189,7 +26315,7 @@ function heading(h, node) {
 
 module.exports = html
 
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 
 // Return either a `raw` node in dangerous mode, otherwise nothing.
 function html(h, node) {
@@ -26207,7 +26333,7 @@ function html(h, node) {
 module.exports = imageReference
 
 var normalize = __webpack_require__(23)
-var revert = __webpack_require__(61)
+var revert = __webpack_require__(60)
 
 function imageReference(h, node) {
   var def = h.definition(node.identifier)
@@ -26258,8 +26384,8 @@ function image(h, node) {
 
 module.exports = inlineCode
 
-var collapse = __webpack_require__(62)
-var u = __webpack_require__(5)
+var collapse = __webpack_require__(61)
+var u = __webpack_require__(4)
 
 function inlineCode(h, node) {
   return h(node, 'code', [u('text', collapse(node.value))])
@@ -26276,7 +26402,7 @@ function inlineCode(h, node) {
 module.exports = linkReference
 
 var normalize = __webpack_require__(23)
-var revert = __webpack_require__(61)
+var revert = __webpack_require__(60)
 var all = __webpack_require__(3)
 
 function linkReference(h, node) {
@@ -26329,8 +26455,8 @@ function link(h, node) {
 
 module.exports = listItem
 
-var u = __webpack_require__(5)
-var wrap = __webpack_require__(10)
+var u = __webpack_require__(4)
+var wrap = __webpack_require__(11)
 var all = __webpack_require__(3)
 
 function listItem(h, node, parent) {
@@ -26442,8 +26568,8 @@ function paragraph(h, node) {
 
 module.exports = root
 
-var u = __webpack_require__(5)
-var wrap = __webpack_require__(10)
+var u = __webpack_require__(4)
+var wrap = __webpack_require__(11)
 var all = __webpack_require__(3)
 
 function root(h, node) {
@@ -26477,7 +26603,7 @@ function strong(h, node) {
 module.exports = table
 
 var position = __webpack_require__(35)
-var wrap = __webpack_require__(10)
+var wrap = __webpack_require__(11)
 var all = __webpack_require__(3)
 
 function table(h, node) {
@@ -26536,7 +26662,7 @@ function table(h, node) {
 
 module.exports = text
 
-var u = __webpack_require__(5)
+var u = __webpack_require__(4)
 var trimLines = __webpack_require__(205)
 
 function text(h, node) {
@@ -26588,9 +26714,9 @@ var Parser = __webpack_require__(208)
 var pos = __webpack_require__(35)
 var fromParse5 = __webpack_require__(222)
 var toParse5 = __webpack_require__(238)
-var voids = __webpack_require__(103)
+var voids = __webpack_require__(102)
 var ns = __webpack_require__(20)
-var zwitch = __webpack_require__(102)
+var zwitch = __webpack_require__(101)
 var xtend = __webpack_require__(0)
 
 module.exports = wrap
@@ -26888,7 +27014,7 @@ const doctype = __webpack_require__(220);
 const foreignContent = __webpack_require__(221);
 const ERR = __webpack_require__(37);
 const unicode = __webpack_require__(36);
-const HTML = __webpack_require__(11);
+const HTML = __webpack_require__(12);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -30016,7 +30142,7 @@ module.exports = new Uint16Array([4,52,65,66,67,68,69,70,71,72,73,74,75,76,77,78
 "use strict";
 
 
-const HTML = __webpack_require__(11);
+const HTML = __webpack_require__(12);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -30695,9 +30821,9 @@ module.exports = FormattingElementList;
 
 const Mixin = __webpack_require__(9);
 const Tokenizer = __webpack_require__(24);
-const LocationInfoTokenizerMixin = __webpack_require__(63);
+const LocationInfoTokenizerMixin = __webpack_require__(62);
 const LocationInfoOpenElementStackMixin = __webpack_require__(214);
-const HTML = __webpack_require__(11);
+const HTML = __webpack_require__(12);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -30966,7 +31092,7 @@ module.exports = LocationInfoOpenElementStackMixin;
 
 const ErrorReportingMixinBase = __webpack_require__(38);
 const ErrorReportingTokenizerMixin = __webpack_require__(216);
-const LocationInfoTokenizerMixin = __webpack_require__(63);
+const LocationInfoTokenizerMixin = __webpack_require__(62);
 const Mixin = __webpack_require__(9);
 
 class ErrorReportingParserMixin extends ErrorReportingMixinBase {
@@ -31048,7 +31174,7 @@ module.exports = ErrorReportingTokenizerMixin;
 
 
 const ErrorReportingMixinBase = __webpack_require__(38);
-const PositionTrackingPreprocessorMixin = __webpack_require__(64);
+const PositionTrackingPreprocessorMixin = __webpack_require__(63);
 const Mixin = __webpack_require__(9);
 
 class ErrorReportingPreprocessorMixin extends ErrorReportingMixinBase {
@@ -31078,7 +31204,7 @@ module.exports = ErrorReportingPreprocessorMixin;
 "use strict";
 
 
-const { DOCUMENT_MODE } = __webpack_require__(11);
+const { DOCUMENT_MODE } = __webpack_require__(12);
 
 //Node construction
 exports.createDocument = function() {
@@ -31322,7 +31448,7 @@ module.exports = function mergeOptions(defaults, options) {
 "use strict";
 
 
-const { DOCUMENT_MODE } = __webpack_require__(11);
+const { DOCUMENT_MODE } = __webpack_require__(12);
 
 //Const
 const VALID_DOCTYPE_NAME = 'html';
@@ -31503,7 +31629,7 @@ exports.serializeContent = function(name, publicId, systemId) {
 
 
 const Tokenizer = __webpack_require__(24);
-const HTML = __webpack_require__(11);
+const HTML = __webpack_require__(12);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -32016,11 +32142,11 @@ function point(point) {
 "use strict";
 
 
-var merge = __webpack_require__(65)
-var xlink = __webpack_require__(67)
-var xml = __webpack_require__(71)
-var xmlns = __webpack_require__(72)
-var aria = __webpack_require__(75)
+var merge = __webpack_require__(64)
+var xlink = __webpack_require__(66)
+var xml = __webpack_require__(70)
+var xmlns = __webpack_require__(71)
+var aria = __webpack_require__(74)
 var html = __webpack_require__(224)
 
 module.exports = merge([xml, xlink, xmlns, aria, html])
@@ -32034,8 +32160,8 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 
 
 var types = __webpack_require__(25)
-var create = __webpack_require__(12)
-var caseInsensitiveTransform = __webpack_require__(73)
+var create = __webpack_require__(13)
+var caseInsensitiveTransform = __webpack_require__(72)
 
 var boolean = types.boolean
 var overloadedBoolean = types.overloadedBoolean
@@ -32345,11 +32471,11 @@ module.exports = create({
 "use strict";
 
 
-var merge = __webpack_require__(65)
-var xlink = __webpack_require__(67)
-var xml = __webpack_require__(71)
-var xmlns = __webpack_require__(72)
-var aria = __webpack_require__(75)
+var merge = __webpack_require__(64)
+var xlink = __webpack_require__(66)
+var xml = __webpack_require__(70)
+var xmlns = __webpack_require__(71)
+var aria = __webpack_require__(74)
 var svg = __webpack_require__(226)
 
 module.exports = merge([xml, xlink, xmlns, aria, svg])
@@ -32363,8 +32489,8 @@ module.exports = merge([xml, xlink, xmlns, aria, svg])
 
 
 var types = __webpack_require__(25)
-var create = __webpack_require__(12)
-var caseSensitiveTransform = __webpack_require__(74)
+var create = __webpack_require__(13)
+var caseSensitiveTransform = __webpack_require__(73)
 
 var boolean = types.boolean
 var number = types.number
@@ -32936,9 +33062,9 @@ module.exports = create({
 "use strict";
 
 
-var normalize = __webpack_require__(68)
-var DefinedInfo = __webpack_require__(69)
-var Info = __webpack_require__(70)
+var normalize = __webpack_require__(67)
+var DefinedInfo = __webpack_require__(68)
+var Info = __webpack_require__(69)
 
 var data = 'data'
 
@@ -33010,7 +33136,7 @@ function camelcase($0) {
 
 var schema = __webpack_require__(229)
 var caseSensitive = __webpack_require__(231)
-var factory = __webpack_require__(86)
+var factory = __webpack_require__(85)
 
 var svg = factory(schema, 'g', caseSensitive)
 svg.displayName = 'svg'
@@ -33025,11 +33151,11 @@ module.exports = svg
 "use strict";
 
 
-var merge = __webpack_require__(76)
-var xlink = __webpack_require__(78)
-var xml = __webpack_require__(81)
-var xmlns = __webpack_require__(82)
-var aria = __webpack_require__(85)
+var merge = __webpack_require__(75)
+var xlink = __webpack_require__(77)
+var xml = __webpack_require__(80)
+var xmlns = __webpack_require__(81)
+var aria = __webpack_require__(84)
 var svg = __webpack_require__(230)
 
 module.exports = merge([xml, xlink, xmlns, aria, svg])
@@ -33043,8 +33169,8 @@ module.exports = merge([xml, xlink, xmlns, aria, svg])
 
 
 var types = __webpack_require__(26)
-var create = __webpack_require__(13)
-var caseSensitiveTransform = __webpack_require__(84)
+var create = __webpack_require__(14)
+var caseSensitiveTransform = __webpack_require__(83)
 
 var boolean = types.boolean
 var number = types.number
@@ -33623,8 +33749,8 @@ module.exports = ["altGlyph","altGlyphDef","altGlyphItem","animateColor","animat
 
 
 var normalize = __webpack_require__(39)
-var DefinedInfo = __webpack_require__(79)
-var Info = __webpack_require__(80)
+var DefinedInfo = __webpack_require__(78)
+var Info = __webpack_require__(79)
 
 var data = 'data'
 
@@ -33766,7 +33892,7 @@ module.exports = __webpack_require__(235)
 
 
 var schema = __webpack_require__(236)
-var factory = __webpack_require__(86)
+var factory = __webpack_require__(85)
 
 var html = factory(schema, 'div')
 html.displayName = 'html'
@@ -33781,11 +33907,11 @@ module.exports = html
 "use strict";
 
 
-var merge = __webpack_require__(76)
-var xlink = __webpack_require__(78)
-var xml = __webpack_require__(81)
-var xmlns = __webpack_require__(82)
-var aria = __webpack_require__(85)
+var merge = __webpack_require__(75)
+var xlink = __webpack_require__(77)
+var xml = __webpack_require__(80)
+var xmlns = __webpack_require__(81)
+var aria = __webpack_require__(84)
 var html = __webpack_require__(237)
 
 module.exports = merge([xml, xlink, xmlns, aria, html])
@@ -33799,8 +33925,8 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 
 
 var types = __webpack_require__(26)
-var create = __webpack_require__(13)
-var caseInsensitiveTransform = __webpack_require__(83)
+var create = __webpack_require__(14)
+var caseInsensitiveTransform = __webpack_require__(82)
 
 var boolean = types.boolean
 var overloadedBoolean = types.overloadedBoolean
@@ -34111,12 +34237,12 @@ module.exports = create({
 
 
 var xtend = __webpack_require__(0)
-var html = __webpack_require__(87)
-var svg = __webpack_require__(99)
-var find = __webpack_require__(100)
+var html = __webpack_require__(86)
+var svg = __webpack_require__(98)
+var find = __webpack_require__(99)
 var toH = __webpack_require__(241)
 var ns = __webpack_require__(20)
-var zwitch = __webpack_require__(102)
+var zwitch = __webpack_require__(101)
 
 module.exports = transform
 
@@ -34269,8 +34395,8 @@ function patch(node, p5, parentSchema) {
 
 
 var types = __webpack_require__(29)
-var create = __webpack_require__(14)
-var caseInsensitiveTransform = __webpack_require__(96)
+var create = __webpack_require__(15)
+var caseInsensitiveTransform = __webpack_require__(95)
 
 var boolean = types.boolean
 var overloadedBoolean = types.overloadedBoolean
@@ -34581,8 +34707,8 @@ module.exports = create({
 
 
 var types = __webpack_require__(29)
-var create = __webpack_require__(14)
-var caseSensitiveTransform = __webpack_require__(97)
+var create = __webpack_require__(15)
+var caseSensitiveTransform = __webpack_require__(96)
 
 var boolean = types.boolean
 var number = types.number
@@ -35154,12 +35280,12 @@ module.exports = create({
 "use strict";
 
 
-var html = __webpack_require__(87)
-var svg = __webpack_require__(99)
-var find = __webpack_require__(100)
+var html = __webpack_require__(86)
+var svg = __webpack_require__(98)
+var find = __webpack_require__(99)
 var spaces = __webpack_require__(27)
 var commas = __webpack_require__(28)
-var style = __webpack_require__(101)
+var style = __webpack_require__(100)
 var ns = __webpack_require__(20)
 var convert = __webpack_require__(243)
 
@@ -36115,7 +36241,7 @@ function ok() {
 "use strict";
 
 
-var unherit = __webpack_require__(104)
+var unherit = __webpack_require__(103)
 var xtend = __webpack_require__(0)
 var Parser = __webpack_require__(246)
 
@@ -36169,7 +36295,7 @@ if (typeof Object.create === 'function') {
 
 
 var xtend = __webpack_require__(0)
-var toggle = __webpack_require__(105)
+var toggle = __webpack_require__(104)
 var vfileLocation = __webpack_require__(247)
 var unescape = __webpack_require__(248)
 var decode = __webpack_require__(249)
@@ -36200,7 +36326,7 @@ proto.setOptions = __webpack_require__(253)
 proto.parse = __webpack_require__(255)
 
 // Expose `defaults`.
-proto.options = __webpack_require__(111)
+proto.options = __webpack_require__(110)
 
 // Enter and exit helpers.
 proto.exitStart = toggle('atStart', true)
@@ -36324,10 +36450,8 @@ function keys(value) {
 "use strict";
 
 
-/* Expose. */
 module.exports = factory
 
-/* Factory. */
 function factory(file) {
   var contents = indices(String(file))
 
@@ -36337,13 +36461,12 @@ function factory(file) {
   }
 }
 
-/* Factory to get the line and column-based `position` for
- * `offset` in the bound indices. */
+// Factory to get the line and column-based `position` for `offset` in the bound
+// indices.
 function offsetToPositionFactory(indices) {
   return offsetToPosition
 
-  /* Get the line and column-based `position` for
-   * `offset` in the bound indices. */
+  // Get the line and column-based `position` for `offset` in the bound indices.
   function offsetToPosition(offset) {
     var index = -1
     var length = indices.length
@@ -36366,13 +36489,13 @@ function offsetToPositionFactory(indices) {
   }
 }
 
-/* Factory to get the `offset` for a line and column-based
- * `position` in the bound indices. */
+// Factory to get the `offset` for a line and column-based `position` in the
+// bound indices.
 function positionToOffsetFactory(indices) {
   return positionToOffset
 
-  /* Get the `offset` for a line and column-based
-   * `position` in the bound indices. */
+  // Get the `offset` for a line and column-based `position` in the bound
+  // indices.
   function positionToOffset(position) {
     var line = position && position.line
     var column = position && position.column
@@ -36385,7 +36508,7 @@ function positionToOffsetFactory(indices) {
   }
 }
 
-/* Get indices of line-breaks in `value`. */
+// Get indices of line-breaks in `value`.
 function indices(value) {
   var result = []
   var index = value.indexOf('\n')
@@ -36513,13 +36636,44 @@ function factory(ctx) {
 /* 250 */
 /***/ (function(module, exports) {
 
-module.exports = {"AEli":"Æ","AElig":"Æ","AM":"&","AMP":"&","Aacut":"Á","Aacute":"Á","Abreve":"Ă","Acir":"Â","Acirc":"Â","Acy":"А","Afr":"𝔄","Agrav":"À","Agrave":"À","Alpha":"Α","Amacr":"Ā","And":"⩓","Aogon":"Ą","Aopf":"𝔸","ApplyFunction":"⁡","Arin":"Å","Aring":"Å","Ascr":"𝒜","Assign":"≔","Atild":"Ã","Atilde":"Ã","Aum":"Ä","Auml":"Ä","Backslash":"∖","Barv":"⫧","Barwed":"⌆","Bcy":"Б","Because":"∵","Bernoullis":"ℬ","Beta":"Β","Bfr":"𝔅","Bopf":"𝔹","Breve":"˘","Bscr":"ℬ","Bumpeq":"≎","CHcy":"Ч","COP":"©","COPY":"©","Cacute":"Ć","Cap":"⋒","CapitalDifferentialD":"ⅅ","Cayleys":"ℭ","Ccaron":"Č","Ccedi":"Ç","Ccedil":"Ç","Ccirc":"Ĉ","Cconint":"∰","Cdot":"Ċ","Cedilla":"¸","CenterDot":"·","Cfr":"ℭ","Chi":"Χ","CircleDot":"⊙","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","Colon":"∷","Colone":"⩴","Congruent":"≡","Conint":"∯","ContourIntegral":"∮","Copf":"ℂ","Coproduct":"∐","CounterClockwiseContourIntegral":"∳","Cross":"⨯","Cscr":"𝒞","Cup":"⋓","CupCap":"≍","DD":"ⅅ","DDotrahd":"⤑","DJcy":"Ђ","DScy":"Ѕ","DZcy":"Џ","Dagger":"‡","Darr":"↡","Dashv":"⫤","Dcaron":"Ď","Dcy":"Д","Del":"∇","Delta":"Δ","Dfr":"𝔇","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","Diamond":"⋄","DifferentialD":"ⅆ","Dopf":"𝔻","Dot":"¨","DotDot":"⃜","DotEqual":"≐","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrow":"↓","DownArrowBar":"⤓","DownArrowUpArrow":"⇵","DownBreve":"̑","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVector":"↽","DownLeftVectorBar":"⥖","DownRightTeeVector":"⥟","DownRightVector":"⇁","DownRightVectorBar":"⥗","DownTee":"⊤","DownTeeArrow":"↧","Downarrow":"⇓","Dscr":"𝒟","Dstrok":"Đ","ENG":"Ŋ","ET":"Ð","ETH":"Ð","Eacut":"É","Eacute":"É","Ecaron":"Ě","Ecir":"Ê","Ecirc":"Ê","Ecy":"Э","Edot":"Ė","Efr":"𝔈","Egrav":"È","Egrave":"È","Element":"∈","Emacr":"Ē","EmptySmallSquare":"◻","EmptyVerySmallSquare":"▫","Eogon":"Ę","Eopf":"𝔼","Epsilon":"Ε","Equal":"⩵","EqualTilde":"≂","Equilibrium":"⇌","Escr":"ℰ","Esim":"⩳","Eta":"Η","Eum":"Ë","Euml":"Ë","Exists":"∃","ExponentialE":"ⅇ","Fcy":"Ф","Ffr":"𝔉","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","Fopf":"𝔽","ForAll":"∀","Fouriertrf":"ℱ","Fscr":"ℱ","GJcy":"Ѓ","G":">","GT":">","Gamma":"Γ","Gammad":"Ϝ","Gbreve":"Ğ","Gcedil":"Ģ","Gcirc":"Ĝ","Gcy":"Г","Gdot":"Ġ","Gfr":"𝔊","Gg":"⋙","Gopf":"𝔾","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","Gt":"≫","HARDcy":"Ъ","Hacek":"ˇ","Hat":"^","Hcirc":"Ĥ","Hfr":"ℌ","HilbertSpace":"ℋ","Hopf":"ℍ","HorizontalLine":"─","Hscr":"ℋ","Hstrok":"Ħ","HumpDownHump":"≎","HumpEqual":"≏","IEcy":"Е","IJlig":"Ĳ","IOcy":"Ё","Iacut":"Í","Iacute":"Í","Icir":"Î","Icirc":"Î","Icy":"И","Idot":"İ","Ifr":"ℑ","Igrav":"Ì","Igrave":"Ì","Im":"ℑ","Imacr":"Ī","ImaginaryI":"ⅈ","Implies":"⇒","Int":"∬","Integral":"∫","Intersection":"⋂","InvisibleComma":"⁣","InvisibleTimes":"⁢","Iogon":"Į","Iopf":"𝕀","Iota":"Ι","Iscr":"ℐ","Itilde":"Ĩ","Iukcy":"І","Ium":"Ï","Iuml":"Ï","Jcirc":"Ĵ","Jcy":"Й","Jfr":"𝔍","Jopf":"𝕁","Jscr":"𝒥","Jsercy":"Ј","Jukcy":"Є","KHcy":"Х","KJcy":"Ќ","Kappa":"Κ","Kcedil":"Ķ","Kcy":"К","Kfr":"𝔎","Kopf":"𝕂","Kscr":"𝒦","LJcy":"Љ","L":"<","LT":"<","Lacute":"Ĺ","Lambda":"Λ","Lang":"⟪","Laplacetrf":"ℒ","Larr":"↞","Lcaron":"Ľ","Lcedil":"Ļ","Lcy":"Л","LeftAngleBracket":"⟨","LeftArrow":"←","LeftArrowBar":"⇤","LeftArrowRightArrow":"⇆","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVector":"⇃","LeftDownVectorBar":"⥙","LeftFloor":"⌊","LeftRightArrow":"↔","LeftRightVector":"⥎","LeftTee":"⊣","LeftTeeArrow":"↤","LeftTeeVector":"⥚","LeftTriangle":"⊲","LeftTriangleBar":"⧏","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVector":"↿","LeftUpVectorBar":"⥘","LeftVector":"↼","LeftVectorBar":"⥒","Leftarrow":"⇐","Leftrightarrow":"⇔","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","LessLess":"⪡","LessSlantEqual":"⩽","LessTilde":"≲","Lfr":"𝔏","Ll":"⋘","Lleftarrow":"⇚","Lmidot":"Ŀ","LongLeftArrow":"⟵","LongLeftRightArrow":"⟷","LongRightArrow":"⟶","Longleftarrow":"⟸","Longleftrightarrow":"⟺","Longrightarrow":"⟹","Lopf":"𝕃","LowerLeftArrow":"↙","LowerRightArrow":"↘","Lscr":"ℒ","Lsh":"↰","Lstrok":"Ł","Lt":"≪","Map":"⤅","Mcy":"М","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","MinusPlus":"∓","Mopf":"𝕄","Mscr":"ℳ","Mu":"Μ","NJcy":"Њ","Nacute":"Ń","Ncaron":"Ň","Ncedil":"Ņ","Ncy":"Н","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","Nfr":"𝔑","NoBreak":"⁠","NonBreakingSpace":" ","Nopf":"ℕ","Not":"⫬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","NotLeftTriangle":"⋪","NotLeftTriangleBar":"⧏̸","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangle":"⋫","NotRightTriangleBar":"⧐̸","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","Nscr":"𝒩","Ntild":"Ñ","Ntilde":"Ñ","Nu":"Ν","OElig":"Œ","Oacut":"Ó","Oacute":"Ó","Ocir":"Ô","Ocirc":"Ô","Ocy":"О","Odblac":"Ő","Ofr":"𝔒","Ograv":"Ò","Ograve":"Ò","Omacr":"Ō","Omega":"Ω","Omicron":"Ο","Oopf":"𝕆","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","Or":"⩔","Oscr":"𝒪","Oslas":"Ø","Oslash":"Ø","Otild":"Õ","Otilde":"Õ","Otimes":"⨷","Oum":"Ö","Ouml":"Ö","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","PartialD":"∂","Pcy":"П","Pfr":"𝔓","Phi":"Φ","Pi":"Π","PlusMinus":"±","Poincareplane":"ℌ","Popf":"ℙ","Pr":"⪻","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","Prime":"″","Product":"∏","Proportion":"∷","Proportional":"∝","Pscr":"𝒫","Psi":"Ψ","QUO":"\"","QUOT":"\"","Qfr":"𝔔","Qopf":"ℚ","Qscr":"𝒬","RBarr":"⤐","RE":"®","REG":"®","Racute":"Ŕ","Rang":"⟫","Rarr":"↠","Rarrtl":"⤖","Rcaron":"Ř","Rcedil":"Ŗ","Rcy":"Р","Re":"ℜ","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","Rfr":"ℜ","Rho":"Ρ","RightAngleBracket":"⟩","RightArrow":"→","RightArrowBar":"⇥","RightArrowLeftArrow":"⇄","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVector":"⇂","RightDownVectorBar":"⥕","RightFloor":"⌋","RightTee":"⊢","RightTeeArrow":"↦","RightTeeVector":"⥛","RightTriangle":"⊳","RightTriangleBar":"⧐","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVector":"↾","RightUpVectorBar":"⥔","RightVector":"⇀","RightVectorBar":"⥓","Rightarrow":"⇒","Ropf":"ℝ","RoundImplies":"⥰","Rrightarrow":"⇛","Rscr":"ℛ","Rsh":"↱","RuleDelayed":"⧴","SHCHcy":"Щ","SHcy":"Ш","SOFTcy":"Ь","Sacute":"Ś","Sc":"⪼","Scaron":"Š","Scedil":"Ş","Scirc":"Ŝ","Scy":"С","Sfr":"𝔖","ShortDownArrow":"↓","ShortLeftArrow":"←","ShortRightArrow":"→","ShortUpArrow":"↑","Sigma":"Σ","SmallCircle":"∘","Sopf":"𝕊","Sqrt":"√","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","Sscr":"𝒮","Star":"⋆","Sub":"⋐","Subset":"⋐","SubsetEqual":"⊆","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","SuchThat":"∋","Sum":"∑","Sup":"⋑","Superset":"⊃","SupersetEqual":"⊇","Supset":"⋑","THOR":"Þ","THORN":"Þ","TRADE":"™","TSHcy":"Ћ","TScy":"Ц","Tab":"\t","Tau":"Τ","Tcaron":"Ť","Tcedil":"Ţ","Tcy":"Т","Tfr":"𝔗","Therefore":"∴","Theta":"Θ","ThickSpace":"  ","ThinSpace":" ","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","Topf":"𝕋","TripleDot":"⃛","Tscr":"𝒯","Tstrok":"Ŧ","Uacut":"Ú","Uacute":"Ú","Uarr":"↟","Uarrocir":"⥉","Ubrcy":"Ў","Ubreve":"Ŭ","Ucir":"Û","Ucirc":"Û","Ucy":"У","Udblac":"Ű","Ufr":"𝔘","Ugrav":"Ù","Ugrave":"Ù","Umacr":"Ū","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","Uopf":"𝕌","UpArrow":"↑","UpArrowBar":"⤒","UpArrowDownArrow":"⇅","UpDownArrow":"↕","UpEquilibrium":"⥮","UpTee":"⊥","UpTeeArrow":"↥","Uparrow":"⇑","Updownarrow":"⇕","UpperLeftArrow":"↖","UpperRightArrow":"↗","Upsi":"ϒ","Upsilon":"Υ","Uring":"Ů","Uscr":"𝒰","Utilde":"Ũ","Uum":"Ü","Uuml":"Ü","VDash":"⊫","Vbar":"⫫","Vcy":"В","Vdash":"⊩","Vdashl":"⫦","Vee":"⋁","Verbar":"‖","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","Vopf":"𝕍","Vscr":"𝒱","Vvdash":"⊪","Wcirc":"Ŵ","Wedge":"⋀","Wfr":"𝔚","Wopf":"𝕎","Wscr":"𝒲","Xfr":"𝔛","Xi":"Ξ","Xopf":"𝕏","Xscr":"𝒳","YAcy":"Я","YIcy":"Ї","YUcy":"Ю","Yacut":"Ý","Yacute":"Ý","Ycirc":"Ŷ","Ycy":"Ы","Yfr":"𝔜","Yopf":"𝕐","Yscr":"𝒴","Yuml":"Ÿ","ZHcy":"Ж","Zacute":"Ź","Zcaron":"Ž","Zcy":"З","Zdot":"Ż","ZeroWidthSpace":"​","Zeta":"Ζ","Zfr":"ℨ","Zopf":"ℤ","Zscr":"𝒵","aacut":"á","aacute":"á","abreve":"ă","ac":"∾","acE":"∾̳","acd":"∿","acir":"â","acirc":"â","acut":"´","acute":"´","acy":"а","aeli":"æ","aelig":"æ","af":"⁡","afr":"𝔞","agrav":"à","agrave":"à","alefsym":"ℵ","aleph":"ℵ","alpha":"α","amacr":"ā","amalg":"⨿","am":"&","amp":"&","and":"∧","andand":"⩕","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsd":"∡","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","aogon":"ą","aopf":"𝕒","ap":"≈","apE":"⩰","apacir":"⩯","ape":"≊","apid":"≋","apos":"'","approx":"≈","approxeq":"≊","arin":"å","aring":"å","ascr":"𝒶","ast":"*","asymp":"≈","asympeq":"≍","atild":"ã","atilde":"ã","aum":"ä","auml":"ä","awconint":"∳","awint":"⨑","bNot":"⫭","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","barvee":"⊽","barwed":"⌅","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","beta":"β","beth":"ℶ","between":"≬","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bnot":"⌐","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxDL":"╗","boxDR":"╔","boxDl":"╖","boxDr":"╓","boxH":"═","boxHD":"╦","boxHU":"╩","boxHd":"╤","boxHu":"╧","boxUL":"╝","boxUR":"╚","boxUl":"╜","boxUr":"╙","boxV":"║","boxVH":"╬","boxVL":"╣","boxVR":"╠","boxVh":"╫","boxVl":"╢","boxVr":"╟","boxbox":"⧉","boxdL":"╕","boxdR":"╒","boxdl":"┐","boxdr":"┌","boxh":"─","boxhD":"╥","boxhU":"╨","boxhd":"┬","boxhu":"┴","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxuL":"╛","boxuR":"╘","boxul":"┘","boxur":"└","boxv":"│","boxvH":"╪","boxvL":"╡","boxvR":"╞","boxvh":"┼","boxvl":"┤","boxvr":"├","bprime":"‵","breve":"˘","brvba":"¦","brvbar":"¦","bscr":"𝒷","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsol":"\\","bsolb":"⧅","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","bumpeq":"≏","cacute":"ć","cap":"∩","capand":"⩄","capbrcup":"⩉","capcap":"⩋","capcup":"⩇","capdot":"⩀","caps":"∩︀","caret":"⁁","caron":"ˇ","ccaps":"⩍","ccaron":"č","ccedi":"ç","ccedil":"ç","ccirc":"ĉ","ccups":"⩌","ccupssm":"⩐","cdot":"ċ","cedi":"¸","cedil":"¸","cemptyv":"⦲","cen":"¢","cent":"¢","centerdot":"·","cfr":"𝔠","chcy":"ч","check":"✓","checkmark":"✓","chi":"χ","cir":"○","cirE":"⧃","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledR":"®","circledS":"Ⓢ","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","clubs":"♣","clubsuit":"♣","colon":":","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","conint":"∮","copf":"𝕔","coprod":"∐","cop":"©","copy":"©","copysr":"℗","crarr":"↵","cross":"✗","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cup":"∪","cupbrcap":"⩈","cupcap":"⩆","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curre":"¤","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dArr":"⇓","dHar":"⥥","dagger":"†","daleth":"ℸ","darr":"↓","dash":"‐","dashv":"⊣","dbkarow":"⤏","dblac":"˝","dcaron":"ď","dcy":"д","dd":"ⅆ","ddagger":"‡","ddarr":"⇊","ddotseq":"⩷","de":"°","deg":"°","delta":"δ","demptyv":"⦱","dfisht":"⥿","dfr":"𝔡","dharl":"⇃","dharr":"⇂","diam":"⋄","diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","digamma":"ϝ","disin":"⋲","div":"÷","divid":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","dopf":"𝕕","dot":"˙","doteq":"≐","doteqdot":"≑","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","downarrow":"↓","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","dscr":"𝒹","dscy":"ѕ","dsol":"⧶","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","dzcy":"џ","dzigrarr":"⟿","eDDot":"⩷","eDot":"≑","eacut":"é","eacute":"é","easter":"⩮","ecaron":"ě","ecir":"ê","ecirc":"ê","ecolon":"≕","ecy":"э","edot":"ė","ee":"ⅇ","efDot":"≒","efr":"𝔢","eg":"⪚","egrav":"è","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","emacr":"ē","empty":"∅","emptyset":"∅","emptyv":"∅","emsp13":" ","emsp14":" ","emsp":" ","eng":"ŋ","ensp":" ","eogon":"ę","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","equals":"=","equest":"≟","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erDot":"≓","erarr":"⥱","escr":"ℯ","esdot":"≐","esim":"≂","eta":"η","et":"ð","eth":"ð","eum":"ë","euml":"ë","euro":"€","excl":"!","exist":"∃","expectation":"ℰ","exponentiale":"ⅇ","fallingdotseq":"≒","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","ffr":"𝔣","filig":"ﬁ","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","fopf":"𝕗","forall":"∀","fork":"⋔","forkv":"⫙","fpartint":"⨍","frac1":"¼","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac3":"¾","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","gE":"≧","gEl":"⪌","gacute":"ǵ","gamma":"γ","gammad":"ϝ","gap":"⪆","gbreve":"ğ","gcirc":"ĝ","gcy":"г","gdot":"ġ","ge":"≥","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","ges":"⩾","gescc":"⪩","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","gfr":"𝔤","gg":"≫","ggg":"⋙","gimel":"ℷ","gjcy":"ѓ","gl":"≷","glE":"⪒","gla":"⪥","glj":"⪤","gnE":"≩","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gneq":"⪈","gneqq":"≩","gnsim":"⋧","gopf":"𝕘","grave":"`","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","g":">","gt":">","gtcc":"⪧","gtcir":"⩺","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","hArr":"⇔","hairsp":" ","half":"½","hamilt":"ℋ","hardcy":"ъ","harr":"↔","harrcir":"⥈","harrw":"↭","hbar":"ℏ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","horbar":"―","hscr":"𝒽","hslash":"ℏ","hstrok":"ħ","hybull":"⁃","hyphen":"‐","iacut":"í","iacute":"í","ic":"⁣","icir":"î","icirc":"î","icy":"и","iecy":"е","iexc":"¡","iexcl":"¡","iff":"⇔","ifr":"𝔦","igrav":"ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","ijlig":"ĳ","imacr":"ī","image":"ℑ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","imof":"⊷","imped":"Ƶ","in":"∈","incare":"℅","infin":"∞","infintie":"⧝","inodot":"ı","int":"∫","intcal":"⊺","integers":"ℤ","intercal":"⊺","intlarhk":"⨗","intprod":"⨼","iocy":"ё","iogon":"į","iopf":"𝕚","iota":"ι","iprod":"⨼","iques":"¿","iquest":"¿","iscr":"𝒾","isin":"∈","isinE":"⋹","isindot":"⋵","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","itilde":"ĩ","iukcy":"і","ium":"ï","iuml":"ï","jcirc":"ĵ","jcy":"й","jfr":"𝔧","jmath":"ȷ","jopf":"𝕛","jscr":"𝒿","jsercy":"ј","jukcy":"є","kappa":"κ","kappav":"ϰ","kcedil":"ķ","kcy":"к","kfr":"𝔨","kgreen":"ĸ","khcy":"х","kjcy":"ќ","kopf":"𝕜","kscr":"𝓀","lAarr":"⇚","lArr":"⇐","lAtail":"⤛","lBarr":"⤎","lE":"≦","lEg":"⪋","lHar":"⥢","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","lambda":"λ","lang":"⟨","langd":"⦑","langle":"⟨","lap":"⪅","laqu":"«","laquo":"«","larr":"←","larrb":"⇤","larrbfs":"⤟","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","lat":"⪫","latail":"⤙","late":"⪭","lates":"⪭︀","lbarr":"⤌","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","lcaron":"ľ","lcedil":"ļ","lceil":"⌈","lcub":"{","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","leftarrow":"←","leftarrowtail":"↢","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","leftthreetimes":"⋋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","les":"⩽","lescc":"⪨","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","lessgtr":"≶","lesssim":"≲","lfisht":"⥼","lfloor":"⌊","lfr":"𝔩","lg":"≶","lgE":"⪑","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","ljcy":"љ","ll":"≪","llarr":"⇇","llcorner":"⌞","llhard":"⥫","lltri":"◺","lmidot":"ŀ","lmoust":"⎰","lmoustache":"⎰","lnE":"≨","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","longleftrightarrow":"⟷","longmapsto":"⟼","longrightarrow":"⟶","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","lstrok":"ł","l":"<","lt":"<","ltcc":"⪦","ltcir":"⩹","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltrPar":"⦖","ltri":"◃","ltrie":"⊴","ltrif":"◂","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","mDDot":"∺","mac":"¯","macr":"¯","male":"♂","malt":"✠","maltese":"✠","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","mcy":"м","mdash":"—","measuredangle":"∡","mfr":"𝔪","mho":"℧","micr":"µ","micro":"µ","mid":"∣","midast":"*","midcir":"⫰","middo":"·","middot":"·","minus":"−","minusb":"⊟","minusd":"∸","minusdu":"⨪","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","mopf":"𝕞","mp":"∓","mscr":"𝓂","mstpos":"∾","mu":"μ","multimap":"⊸","mumap":"⊸","nGg":"⋙̸","nGt":"≫⃒","nGtv":"≫̸","nLeftarrow":"⇍","nLeftrightarrow":"⇎","nLl":"⋘̸","nLt":"≪⃒","nLtv":"≪̸","nRightarrow":"⇏","nVDash":"⊯","nVdash":"⊮","nabla":"∇","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natur":"♮","natural":"♮","naturals":"ℕ","nbs":" ","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","ncaron":"ň","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","ncy":"н","ndash":"–","ne":"≠","neArr":"⇗","nearhk":"⤤","nearr":"↗","nearrow":"↗","nedot":"≐̸","nequiv":"≢","nesear":"⤨","nesim":"≂̸","nexist":"∄","nexists":"∄","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","ngsim":"≵","ngt":"≯","ngtr":"≯","nhArr":"⇎","nharr":"↮","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","njcy":"њ","nlArr":"⇍","nlE":"≦̸","nlarr":"↚","nldr":"‥","nle":"≰","nleftarrow":"↚","nleftrightarrow":"↮","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nlsim":"≴","nlt":"≮","nltri":"⋪","nltrie":"⋬","nmid":"∤","nopf":"𝕟","no":"¬","not":"¬","notin":"∉","notinE":"⋹̸","notindot":"⋵̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","npar":"∦","nparallel":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","npre":"⪯̸","nprec":"⊀","npreceq":"⪯̸","nrArr":"⇏","nrarr":"↛","nrarrc":"⤳̸","nrarrw":"↝̸","nrightarrow":"↛","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","ntild":"ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","nu":"ν","num":"#","numero":"№","numsp":" ","nvDash":"⊭","nvHarr":"⤄","nvap":"≍⃒","nvdash":"⊬","nvge":"≥⃒","nvgt":">⃒","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwArr":"⇖","nwarhk":"⤣","nwarr":"↖","nwarrow":"↖","nwnear":"⤧","oS":"Ⓢ","oacut":"ó","oacute":"ó","oast":"⊛","ocir":"ô","ocirc":"ô","ocy":"о","odash":"⊝","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","oelig":"œ","ofcir":"⦿","ofr":"𝔬","ogon":"˛","ograv":"ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","omacr":"ō","omega":"ω","omicron":"ο","omid":"⦶","ominus":"⊖","oopf":"𝕠","opar":"⦷","operp":"⦹","oplus":"⊕","or":"∨","orarr":"↻","ord":"º","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oscr":"ℴ","oslas":"ø","oslash":"ø","osol":"⊘","otild":"õ","otilde":"õ","otimes":"⊗","otimesas":"⨶","oum":"ö","ouml":"ö","ovbar":"⌽","par":"¶","para":"¶","parallel":"∥","parsim":"⫳","parsl":"⫽","part":"∂","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","pfr":"𝔭","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plus":"+","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plusdo":"∔","plusdu":"⨥","pluse":"⩲","plusm":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","pointint":"⨕","popf":"𝕡","poun":"£","pound":"£","pr":"≺","prE":"⪳","prap":"⪷","prcue":"≼","pre":"⪯","prec":"≺","precapprox":"⪷","preccurlyeq":"≼","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","precsim":"≾","prime":"′","primes":"ℙ","prnE":"⪵","prnap":"⪹","prnsim":"⋨","prod":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","propto":"∝","prsim":"≾","prurel":"⊰","pscr":"𝓅","psi":"ψ","puncsp":" ","qfr":"𝔮","qint":"⨌","qopf":"𝕢","qprime":"⁗","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quo":"\"","quot":"\"","rAarr":"⇛","rArr":"⇒","rAtail":"⤜","rBarr":"⤏","rHar":"⥤","race":"∽̱","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","rangd":"⦒","range":"⦥","rangle":"⟩","raqu":"»","raquo":"»","rarr":"→","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","rarrtl":"↣","rarrw":"↝","ratail":"⤚","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","rcaron":"ř","rcedil":"ŗ","rceil":"⌉","rcub":"}","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","rect":"▭","re":"®","reg":"®","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","rhard":"⇁","rharu":"⇀","rharul":"⥬","rho":"ρ","rhov":"ϱ","rightarrow":"→","rightarrowtail":"↣","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","rightthreetimes":"⋌","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoust":"⎱","rmoustache":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","roplus":"⨮","rotimes":"⨵","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","rsaquo":"›","rscr":"𝓇","rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","ruluhar":"⥨","rx":"℞","sacute":"ś","sbquo":"‚","sc":"≻","scE":"⪴","scap":"⪸","scaron":"š","sccue":"≽","sce":"⪰","scedil":"ş","scirc":"ŝ","scnE":"⪶","scnap":"⪺","scnsim":"⋩","scpolint":"⨓","scsim":"≿","scy":"с","sdot":"⋅","sdotb":"⊡","sdote":"⩦","seArr":"⇘","searhk":"⤥","searr":"↘","searrow":"↘","sec":"§","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","sfr":"𝔰","sfrown":"⌢","sharp":"♯","shchcy":"щ","shcy":"ш","shortmid":"∣","shortparallel":"∥","sh":"­","shy":"­","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","softcy":"ь","sol":"/","solb":"⧄","solbar":"⌿","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","squ":"□","square":"□","squarf":"▪","squf":"▪","srarr":"→","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","subE":"⫅","subdot":"⪽","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","subseteq":"⊆","subseteqq":"⫅","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succ":"≻","succapprox":"⪸","succcurlyeq":"≽","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","sum":"∑","sung":"♪","sup":"⊃","sup1":"¹","sup2":"²","sup3":"³","supE":"⫆","supdot":"⪾","supdsub":"⫘","supe":"⊇","supedot":"⫄","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swArr":"⇙","swarhk":"⤦","swarr":"↙","swarrow":"↙","swnwar":"⤪","szli":"ß","szlig":"ß","target":"⌖","tau":"τ","tbrk":"⎴","tcaron":"ť","tcedil":"ţ","tcy":"т","tdot":"⃛","telrec":"⌕","tfr":"𝔱","there4":"∴","therefore":"∴","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","thinsp":" ","thkap":"≈","thksim":"∼","thor":"þ","thorn":"þ","tilde":"˜","time":"×","times":"×","timesb":"⊠","timesbar":"⨱","timesd":"⨰","tint":"∭","toea":"⤨","top":"⊤","topbot":"⌶","topcir":"⫱","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","tscr":"𝓉","tscy":"ц","tshcy":"ћ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","uArr":"⇑","uHar":"⥣","uacut":"ú","uacute":"ú","uarr":"↑","ubrcy":"ў","ubreve":"ŭ","ucir":"û","ucirc":"û","ucy":"у","udarr":"⇅","udblac":"ű","udhar":"⥮","ufisht":"⥾","ufr":"𝔲","ugrav":"ù","ugrave":"ù","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","umacr":"ū","um":"¨","uml":"¨","uogon":"ų","uopf":"𝕦","uparrow":"↑","updownarrow":"↕","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","upsi":"υ","upsih":"ϒ","upsilon":"υ","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","uring":"ů","urtri":"◹","uscr":"𝓊","utdot":"⋰","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","uum":"ü","uuml":"ü","uwangle":"⦧","vArr":"⇕","vBar":"⫨","vBarv":"⫩","vDash":"⊨","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vcy":"в","vdash":"⊢","vee":"∨","veebar":"⊻","veeeq":"≚","vellip":"⋮","verbar":"|","vert":"|","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","vopf":"𝕧","vprop":"∝","vrtri":"⊳","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","vzigzag":"⦚","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","wedgeq":"≙","weierp":"℘","wfr":"𝔴","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","xfr":"𝔵","xhArr":"⟺","xharr":"⟷","xi":"ξ","xlArr":"⟸","xlarr":"⟵","xmap":"⟼","xnis":"⋻","xodot":"⨀","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrArr":"⟹","xrarr":"⟶","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","yacut":"ý","yacute":"ý","yacy":"я","ycirc":"ŷ","ycy":"ы","ye":"¥","yen":"¥","yfr":"𝔶","yicy":"ї","yopf":"𝕪","yscr":"𝓎","yucy":"ю","yum":"ÿ","yuml":"ÿ","zacute":"ź","zcaron":"ž","zcy":"з","zdot":"ż","zeetrf":"ℨ","zeta":"ζ","zfr":"𝔷","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","zscr":"𝓏","zwj":"‍","zwnj":"‌"}
+module.exports = {"0":"�","128":"€","130":"‚","131":"ƒ","132":"„","133":"…","134":"†","135":"‡","136":"ˆ","137":"‰","138":"Š","139":"‹","140":"Œ","142":"Ž","145":"‘","146":"’","147":"“","148":"”","149":"•","150":"–","151":"—","152":"˜","153":"™","154":"š","155":"›","156":"œ","158":"ž","159":"Ÿ"}
 
 /***/ }),
 /* 251 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = {"0":"�","128":"€","130":"‚","131":"ƒ","132":"„","133":"…","134":"†","135":"‡","136":"ˆ","137":"‰","138":"Š","139":"‹","140":"Œ","142":"Ž","145":"‘","146":"’","147":"“","148":"”","149":"•","150":"–","151":"—","152":"˜","153":"™","154":"š","155":"›","156":"œ","158":"ž","159":"Ÿ"}
+"use strict";
+
+
+/* eslint-env browser */
+
+var el
+
+var semicolon = 59 //  ';'
+
+module.exports = decodeEntity
+
+function decodeEntity(characters) {
+  var entity = '&' + characters + ';'
+  var char
+
+  el = el || document.createElement('i')
+  el.innerHTML = entity
+  char = el.textContent
+
+  // Some entities do not require the closing semicolon (`&not` - for instance),
+  // which leads to situations where parsing the assumed entity of &notit; will
+  // result in the string `¬it;`.  When we encounter a trailing semicolon after
+  // parsing and the entity to decode was not a semicolon (`&semi;`), we can
+  // assume that the matching was incomplete
+  if (char.charCodeAt(char.length - 1) === semicolon && characters !== 'semi') {
+    return false
+  }
+
+  // If the decoded string is equal to the input, the entity was not valid
+  return char === entity ? false : char
+}
+
 
 /***/ }),
 /* 252 */
@@ -36669,7 +36823,7 @@ function factory(type) {
     // throw on new, incorrect rules.
     function validateEat(subvalue) {
       /* istanbul ignore if */
-      if (value.substring(0, subvalue.length) !== subvalue) {
+      if (value.slice(0, subvalue.length) !== subvalue) {
         // Capture stack-trace.
         self.file.fail(
           new Error(
@@ -36763,7 +36917,7 @@ function factory(type) {
       reset.test = test
       apply.test = test
 
-      value = value.substring(subvalue.length)
+      value = value.slice(subvalue.length)
 
       updatePosition(subvalue)
 
@@ -36830,9 +36984,9 @@ function mergeText(prev, node) {
   return prev
 }
 
-// Merge two blockquotes: `node` into `prev`, unless in CommonMark mode.
+// Merge two blockquotes: `node` into `prev`, unless in CommonMark or gfm modes.
 function mergeBlockquote(prev, node) {
-  if (this.options.commonmark) {
+  if (this.options.commonmark || this.options.gfm) {
     return node
   }
 
@@ -36850,8 +37004,8 @@ function mergeBlockquote(prev, node) {
 
 
 var xtend = __webpack_require__(0)
-var escapes = __webpack_require__(110)
-var defaults = __webpack_require__(111)
+var escapes = __webpack_require__(109)
+var defaults = __webpack_require__(110)
 
 module.exports = setOptions
 
@@ -37032,7 +37186,6 @@ var visit = __webpack_require__(19)
 
 module.exports = removePosition
 
-/* Remove `position`s from `tree`. */
 function removePosition(node, force) {
   visit(node, force ? hard : soft)
   return node
@@ -37054,7 +37207,7 @@ function soft(node) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 
 module.exports = newline
 
@@ -37109,8 +37262,8 @@ function newline(eat, value, silent) {
 "use strict";
 
 
-var repeat = __webpack_require__(6)
-var trim = __webpack_require__(41)
+var repeat = __webpack_require__(5)
+var trim = __webpack_require__(111)
 
 module.exports = indentedCode
 
@@ -37214,8 +37367,6 @@ function indentedCode(eat, value, silent) {
 "use strict";
 
 
-var trim = __webpack_require__(41)
-
 module.exports = fencedCode
 
 var lineFeed = '\n'
@@ -37314,8 +37465,7 @@ function fencedCode(eat, value, silent) {
 
     if (
       character === lineFeed ||
-      character === tilde ||
-      character === graveAccent
+      (marker === graveAccent && character === marker)
     ) {
       break
     }
@@ -37356,6 +37506,7 @@ function fencedCode(eat, value, silent) {
   exdentedClosing = ''
   content = ''
   exdentedContent = ''
+  var skip = true
 
   // Eat content.
   while (index < length) {
@@ -37372,13 +37523,13 @@ function fencedCode(eat, value, silent) {
       continue
     }
 
-    // Add the newline to `subvalue` if its the first character.  Otherwise,
-    // add it to the `closing` queue.
-    if (content) {
+    // The first line feed is ignored. Others aren’t.
+    if (skip) {
+      subvalue += character
+      skip = false
+    } else {
       closing += character
       exdentedClosing += character
-    } else {
-      subvalue += character
     }
 
     queue = ''
@@ -37464,7 +37615,7 @@ function fencedCode(eat, value, silent) {
     type: 'code',
     lang: lang || flag || null,
     meta: meta || null,
-    value: trim(exdentedContent)
+    value: exdentedContent
   })
 }
 
@@ -37477,7 +37628,7 @@ function fencedCode(eat, value, silent) {
 
 
 var trim = __webpack_require__(8)
-var interrupt = __webpack_require__(42)
+var interrupt = __webpack_require__(41)
 
 module.exports = blockquote
 
@@ -37826,14 +37977,12 @@ function thematicBreak(eat, value, silent) {
 "use strict";
 
 
-/* eslint-disable max-params */
-
 var trim = __webpack_require__(8)
-var repeat = __webpack_require__(6)
-var decimal = __webpack_require__(15)
+var repeat = __webpack_require__(5)
+var decimal = __webpack_require__(16)
 var getIndent = __webpack_require__(112)
 var removeIndent = __webpack_require__(264)
-var interrupt = __webpack_require__(42)
+var interrupt = __webpack_require__(41)
 
 module.exports = list
 
@@ -38260,6 +38409,7 @@ function normalListItem(ctx, value, position) {
 
   return trimmedLines.join(lineFeed)
 
+  /* eslint-disable-next-line max-params */
   function replacer($0, $1, $2, $3, $4) {
     bullet = $1 + $2 + $3
     rest = $4
@@ -38286,7 +38436,7 @@ function normalListItem(ctx, value, position) {
 
 
 var trim = __webpack_require__(8)
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 var getIndent = __webpack_require__(112)
 
 module.exports = indentation
@@ -38596,8 +38746,8 @@ function blockHtml(eat, value, silent) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
-var normalize = __webpack_require__(43)
+var whitespace = __webpack_require__(6)
+var normalize = __webpack_require__(42)
 
 module.exports = footnoteDefinition
 footnoteDefinition.notInList = true
@@ -38789,12 +38939,10 @@ function footnoteDefinition(eat, value, silent) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
-var normalize = __webpack_require__(43)
+var whitespace = __webpack_require__(6)
+var normalize = __webpack_require__(42)
 
 module.exports = definition
-definition.notInList = true
-definition.notInBlock = true
 
 var quotationMark = '"'
 var apostrophe = "'"
@@ -39071,7 +39219,7 @@ function isUnclosedURLCharacter(character) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 
 module.exports = table
 
@@ -39081,7 +39229,6 @@ var space = ' '
 var dash = '-'
 var colon = ':'
 var backslash = '\\'
-var graveAccent = '`'
 var verticalBar = '|'
 
 var minColumns = 1
@@ -39106,8 +39253,6 @@ function table(eat, value, silent) {
   var align
   var cell
   var preamble
-  var count
-  var opening
   var now
   var position
   var lineCount
@@ -39233,8 +39378,6 @@ function table(eat, value, silent) {
     queue = ''
     cell = ''
     preamble = true
-    count = null
-    opening = null
 
     while (index < length) {
       character = line.charAt(index)
@@ -39254,12 +39397,6 @@ function table(eat, value, silent) {
         if (preamble) {
           eat(character)
         } else {
-          if (character && opening) {
-            queue += character
-            index++
-            continue
-          }
-
           if ((cell || character) && !preamble) {
             subvalue = cell
 
@@ -39298,22 +39435,6 @@ function table(eat, value, silent) {
           cell += line.charAt(index + 1)
           index++
         }
-
-        if (character === graveAccent) {
-          count = 1
-
-          while (line.charAt(index + 1) === character) {
-            cell += character
-            index++
-            count++
-          }
-
-          if (!opening) {
-            opening = count
-          } else if (count >= opening) {
-            opening = 0
-          }
-        }
       }
 
       preamble = false
@@ -39338,9 +39459,9 @@ function table(eat, value, silent) {
 
 
 var trim = __webpack_require__(8)
-var decimal = __webpack_require__(15)
-var trimTrailingLines = __webpack_require__(41)
-var interrupt = __webpack_require__(42)
+var decimal = __webpack_require__(16)
+var trimTrailingLines = __webpack_require__(111)
+var interrupt = __webpack_require__(41)
 
 module.exports = paragraph
 
@@ -39516,7 +39637,7 @@ function locate(value, fromIndex) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 var decode = __webpack_require__(30)
 var locate = __webpack_require__(114)
 
@@ -39621,7 +39742,7 @@ function autoLink(eat, value, silent) {
 
   if (hasAtCharacter) {
     if (link.slice(0, mailtoLength).toLowerCase() === mailto) {
-      content = content.substr(mailtoLength)
+      content = content.slice(mailtoLength)
       now.column += mailtoLength
       now.offset += mailtoLength
     } else {
@@ -39657,7 +39778,7 @@ function autoLink(eat, value, silent) {
 
 
 var decode = __webpack_require__(30)
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 var locate = __webpack_require__(275)
 
 module.exports = url
@@ -39781,7 +39902,7 @@ function url(eat, value, silent) {
       return
     }
 
-    content = content.substr(mailto.length)
+    content = content.slice(mailto.length)
   }
 
   /* istanbul ignore if - never used (yet) */
@@ -39849,7 +39970,7 @@ function locate(value, fromIndex) {
 "use strict";
 
 
-var alphabetical = __webpack_require__(109)
+var alphabetical = __webpack_require__(108)
 var locate = __webpack_require__(114)
 var tag = __webpack_require__(113).tag
 
@@ -39915,7 +40036,7 @@ function inlineHTML(eat, value, silent) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 var locate = __webpack_require__(115)
 
 module.exports = link
@@ -40303,9 +40424,9 @@ function link(eat, value, silent) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 var locate = __webpack_require__(115)
-var normalize = __webpack_require__(43)
+var normalize = __webpack_require__(42)
 
 module.exports = reference
 reference.locator = locate
@@ -40326,6 +40447,7 @@ var caret = '^'
 function reference(eat, value, silent) {
   var self = this
   var commonmark = self.options.commonmark
+  var footnotes = self.options.footnotes
   var character = value.charAt(0)
   var index = 0
   var length = value.length
@@ -40358,7 +40480,7 @@ function reference(eat, value, silent) {
   queue = ''
 
   // Check whether we’re eating a footnote.
-  if (self.options.footnotes && value.charAt(index) === caret) {
+  if (footnotes && value.charAt(index) === caret) {
     // Exit if `![^` is found, so the `!` will be seen as text after this,
     // and we’ll enter this function again when `[^` is found.
     if (type === image) {
@@ -40426,8 +40548,13 @@ function reference(eat, value, silent) {
 
   character = value.charAt(index)
 
-  // Inline footnotes cannot have an identifier.
-  if (type !== footnote && character === leftSquareBracket) {
+  // Inline footnotes cannot have a label.
+  // If footnotes are enabled, link labels cannot start with a caret.
+  if (
+    type !== footnote &&
+    character === leftSquareBracket &&
+    (!footnotes || value.charAt(index + 1) !== caret)
+  ) {
     identifier = ''
     queue += character
     index++
@@ -40526,7 +40653,7 @@ function reference(eat, value, silent) {
 
 
 var trim = __webpack_require__(8)
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 var locate = __webpack_require__(280)
 
 module.exports = strong
@@ -40644,7 +40771,7 @@ function locate(value, fromIndex) {
 
 var trim = __webpack_require__(8)
 var word = __webpack_require__(282)
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 var locate = __webpack_require__(283)
 
 module.exports = emphasis
@@ -40740,8 +40867,8 @@ module.exports = wordCharacter
 var fromCode = String.fromCharCode
 var re = /\w/
 
-/* Check if the given character code, or the character
- * code at the first character, is a word character. */
+// Check if the given character code, or the character code at the first
+// character, is a word character.
 function wordCharacter(character) {
   return re.test(
     typeof character === 'number' ? fromCode(character) : character.charAt(0)
@@ -40781,7 +40908,7 @@ function locate(value, fromIndex) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
+var whitespace = __webpack_require__(6)
 var locate = __webpack_require__(285)
 
 module.exports = strikethrough
@@ -40862,79 +40989,68 @@ function locate(value, fromIndex) {
 "use strict";
 
 
-var whitespace = __webpack_require__(4)
 var locate = __webpack_require__(287)
 
 module.exports = inlineCode
 inlineCode.locator = locate
 
-var graveAccent = '`'
+var lineFeed = 10 //  '\n'
+var space = 32 // ' '
+var graveAccent = 96 //  '`'
 
 function inlineCode(eat, value, silent) {
   var length = value.length
   var index = 0
-  var queue = ''
-  var tickQueue = ''
-  var contentQueue
-  var subqueue
-  var count
-  var openingCount
-  var subvalue
-  var character
-  var found
+  var openingFenceEnd
+  var closingFenceStart
+  var closingFenceEnd
+  var code
   var next
+  var found
 
   while (index < length) {
-    if (value.charAt(index) !== graveAccent) {
+    if (value.charCodeAt(index) !== graveAccent) {
       break
     }
 
-    queue += graveAccent
     index++
   }
 
-  if (!queue) {
+  if (index === 0 || index === length) {
     return
   }
 
-  subvalue = queue
-  openingCount = index
-  queue = ''
-  next = value.charAt(index)
-  count = 0
+  openingFenceEnd = index
+  next = value.charCodeAt(index)
 
   while (index < length) {
-    character = next
-    next = value.charAt(index + 1)
+    code = next
+    next = value.charCodeAt(index + 1)
 
-    if (character === graveAccent) {
-      count++
-      tickQueue += character
-    } else {
-      count = 0
-      queue += character
-    }
+    if (code === graveAccent) {
+      if (closingFenceStart === undefined) {
+        closingFenceStart = index
+      }
 
-    if (count && next !== graveAccent) {
-      if (count === openingCount) {
-        subvalue += queue + tickQueue
+      closingFenceEnd = index + 1
+
+      if (
+        next !== graveAccent &&
+        closingFenceEnd - closingFenceStart === openingFenceEnd
+      ) {
         found = true
         break
       }
-
-      queue += tickQueue
-      tickQueue = ''
+    } else if (closingFenceStart !== undefined) {
+      closingFenceStart = undefined
+      closingFenceEnd = undefined
     }
 
     index++
   }
 
   if (!found) {
-    if (openingCount % 2 !== 0) {
-      return
-    }
-
-    queue = ''
+    return
   }
 
   /* istanbul ignore if - never used (yet) */
@@ -40942,31 +41058,43 @@ function inlineCode(eat, value, silent) {
     return true
   }
 
-  contentQueue = ''
-  subqueue = ''
-  length = queue.length
-  index = -1
+  // Remove the initial and final space (or line feed), iff they exist and there
+  // are non-space characters in the content.
+  index = openingFenceEnd
+  length = closingFenceStart
+  code = value.charCodeAt(index)
+  next = value.charCodeAt(length - 1)
+  found = false
 
-  while (++index < length) {
-    character = queue.charAt(index)
+  if (
+    length - index > 2 &&
+    (code === space || code === lineFeed) &&
+    (next === space || next === lineFeed)
+  ) {
+    index++
+    length--
 
-    if (whitespace(character)) {
-      subqueue += character
-      continue
-    }
+    while (index < length) {
+      code = value.charCodeAt(index)
 
-    if (subqueue) {
-      if (contentQueue) {
-        contentQueue += subqueue
+      if (code !== space && code !== lineFeed) {
+        found = true
+        break
       }
 
-      subqueue = ''
+      index++
     }
 
-    contentQueue += character
+    if (found === true) {
+      openingFenceEnd++
+      closingFenceStart--
+    }
   }
 
-  return eat(subvalue)({type: 'inlineCode', value: contentQueue})
+  return eat(value.slice(0, closingFenceEnd))({
+    type: 'inlineCode',
+    value: value.slice(openingFenceEnd, closingFenceStart)
+  })
 }
 
 
@@ -41128,7 +41256,7 @@ function text(eat, value, silent) {
 "use strict";
 
 
-var unherit = __webpack_require__(104)
+var unherit = __webpack_require__(103)
 var xtend = __webpack_require__(0)
 var Compiler = __webpack_require__(292)
 
@@ -41154,7 +41282,7 @@ function stringify(options) {
 
 
 var xtend = __webpack_require__(0)
-var toggle = __webpack_require__(105)
+var toggle = __webpack_require__(104)
 
 module.exports = Compiler
 
@@ -41264,7 +41392,7 @@ function enter(compiler, node) {
 
 
 var xtend = __webpack_require__(0)
-var encode = __webpack_require__(44)
+var encode = __webpack_require__(43)
 var defaults = __webpack_require__(117)
 var escapeFactory = __webpack_require__(297)
 var identity = __webpack_require__(116)
@@ -41442,10 +41570,10 @@ module.exports = ["cent","copy","divide","gt","lt","not","para","times"]
 "use strict";
 
 
-var decimal = __webpack_require__(15)
+var decimal = __webpack_require__(16)
 var alphanumeric = __webpack_require__(298)
-var whitespace = __webpack_require__(4)
-var escapes = __webpack_require__(110)
+var whitespace = __webpack_require__(6)
+var escapes = __webpack_require__(109)
 var prefix = __webpack_require__(118)
 
 module.exports = factory
@@ -41937,7 +42065,7 @@ function block(node) {
       if (
         prev.type === 'list' &&
         ((child.type === 'list' && prev.ordered === child.ordered) ||
-          (child.type === 'code' && (!child.lang && !fences)))
+          (child.type === 'code' && !child.lang && !fences))
       ) {
         values.push(gap)
       } else {
@@ -42047,7 +42175,13 @@ var lineFeed = '\n'
 // Stringify a root.
 // Adds a final newline to ensure valid POSIX files. */
 function root(node) {
-  return this.block(node) + lineFeed
+  var doc = this.block(node)
+
+  if (doc.charAt(doc.length - 1) !== lineFeed) {
+    doc += lineFeed
+  }
+
+  return doc
 }
 
 
@@ -42084,7 +42218,7 @@ function text(node, parent) {
 "use strict";
 
 
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 
 module.exports = heading
 
@@ -42200,7 +42334,7 @@ function list(node) {
 "use strict";
 
 
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 var pad = __webpack_require__(119)
 
 module.exports = listItem
@@ -42283,7 +42417,7 @@ function listItem(node, parent, position, bullet) {
 
 
 var streak = __webpack_require__(120)
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 
 module.exports = inlineCode
 
@@ -42353,7 +42487,7 @@ function ws(code) {
 
 
 var streak = __webpack_require__(120)
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 var pad = __webpack_require__(119)
 
 module.exports = code
@@ -42466,7 +42600,7 @@ function html(node) {
 "use strict";
 
 
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 
 module.exports = thematic
 
@@ -42504,7 +42638,7 @@ function thematic() {
 "use strict";
 
 
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 
 module.exports = strong
 
@@ -42613,8 +42747,8 @@ function strikethrough(node) {
 "use strict";
 
 
-var uri = __webpack_require__(45)
-var title = __webpack_require__(46)
+var uri = __webpack_require__(44)
+var title = __webpack_require__(45)
 
 module.exports = link
 
@@ -42819,8 +42953,8 @@ function imageReference(node) {
 "use strict";
 
 
-var uri = __webpack_require__(45)
-var title = __webpack_require__(46)
+var uri = __webpack_require__(44)
+var title = __webpack_require__(45)
 
 module.exports = definition
 
@@ -42862,8 +42996,8 @@ function definition(node) {
 "use strict";
 
 
-var uri = __webpack_require__(45)
-var title = __webpack_require__(46)
+var uri = __webpack_require__(44)
+var title = __webpack_require__(45)
 
 module.exports = image
 
@@ -42959,7 +43093,7 @@ function footnoteReference(node) {
 "use strict";
 
 
-var repeat = __webpack_require__(6)
+var repeat = __webpack_require__(5)
 
 var lineFeed = '\n'
 var space = ' '
@@ -43439,7 +43573,7 @@ module.exports = __webpack_require__(336)
 
 /* Dependencies. */
 var xtend = __webpack_require__(0)
-var defaults = __webpack_require__(55)
+var defaults = __webpack_require__(54)
 
 /* Expose. */
 module.exports = wrapper
@@ -43806,7 +43940,7 @@ module.exports = __webpack_require__(339)
 
 var html = __webpack_require__(340)
 var svg = __webpack_require__(133)
-var voids = __webpack_require__(103)
+var voids = __webpack_require__(102)
 var omission = __webpack_require__(343)
 var one = __webpack_require__(139)
 
@@ -43884,7 +44018,7 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 
 
 var types = __webpack_require__(31)
-var create = __webpack_require__(16)
+var create = __webpack_require__(17)
 var caseInsensitiveTransform = __webpack_require__(130)
 
 var boolean = types.boolean
@@ -44179,6 +44313,7 @@ module.exports = create({
     allowTransparency: null,
     autoCorrect: null,
     autoSave: null,
+    disablePictureInPicture: boolean,
     prefix: null,
     property: null,
     results: number,
@@ -44196,7 +44331,7 @@ module.exports = create({
 
 
 var types = __webpack_require__(31)
-var create = __webpack_require__(16)
+var create = __webpack_require__(17)
 var caseSensitiveTransform = __webpack_require__(131)
 
 var boolean = types.boolean
@@ -44779,9 +44914,9 @@ exports.closing = __webpack_require__(137)
 "use strict";
 
 
-var convert = __webpack_require__(47)
+var convert = __webpack_require__(46)
 var element = __webpack_require__(134)
-var before = __webpack_require__(48).before
+var before = __webpack_require__(47).before
 var first = __webpack_require__(345)
 var place = __webpack_require__(346)
 var whiteSpaceLeft = __webpack_require__(136)
@@ -44885,7 +45020,7 @@ function tbody(node, index, parent) {
 "use strict";
 
 
-var after = __webpack_require__(48).after
+var after = __webpack_require__(47).after
 
 module.exports = first
 
@@ -44922,7 +45057,7 @@ var svg = __webpack_require__(133)
 var find = __webpack_require__(348)
 var spaces = __webpack_require__(27).stringify
 var commas = __webpack_require__(28).stringify
-var entities = __webpack_require__(44)
+var entities = __webpack_require__(43)
 var ccount = __webpack_require__(40)
 var all = __webpack_require__(140)
 var constants = __webpack_require__(349)
@@ -45541,9 +45676,9 @@ var svg = __webpack_require__(360)
 var find = __webpack_require__(362)
 var spaces = __webpack_require__(27)
 var commas = __webpack_require__(28)
-var style = __webpack_require__(101)
+var style = __webpack_require__(100)
 var ns = __webpack_require__(20)
-var is = __webpack_require__(56)
+var is = __webpack_require__(55)
 
 var dashes = /-([a-z])/g
 
@@ -45793,7 +45928,7 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 
 
 var types = __webpack_require__(32)
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 var caseInsensitiveTransform = __webpack_require__(150)
 
 var boolean = types.boolean
@@ -46036,7 +46171,7 @@ module.exports = merge([xml, xlink, xmlns, aria, svg])
 
 
 var types = __webpack_require__(32)
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 var caseSensitiveTransform = __webpack_require__(151)
 
 var boolean = types.boolean
@@ -46573,7 +46708,7 @@ function appendStyle(node, property, value) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.11.0
+/** @license React v16.12.0
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -46582,7 +46717,7 @@ function appendStyle(node, property, value) {
  * LICENSE file in the root directory of this source tree.
  */
 
-var h=__webpack_require__(50),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113;n&&Symbol.for("react.suspense_list");
+var h=__webpack_require__(49),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113;n&&Symbol.for("react.suspense_list");
 var z=n?Symbol.for("react.memo"):60115,aa=n?Symbol.for("react.lazy"):60116;n&&Symbol.for("react.fundamental");n&&Symbol.for("react.responder");n&&Symbol.for("react.scope");var A="function"===typeof Symbol&&Symbol.iterator;
 function B(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var C={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},D={};
 function E(a,b,c){this.props=a;this.context=b;this.refs=D;this.updater=c||C}E.prototype.isReactComponent={};E.prototype.setState=function(a,b){if("object"!==typeof a&&"function"!==typeof a&&null!=a)throw Error(B(85));this.updater.enqueueSetState(this,a,b,"setState")};E.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function F(){}F.prototype=E.prototype;function G(a,b,c){this.props=a;this.context=b;this.refs=D;this.updater=c||C}var H=G.prototype=new F;
@@ -46596,7 +46731,7 @@ function da(a,b,c){var e=a.result,d=a.keyPrefix;a=a.func.call(a.context,b,a.coun
 var X={Children:{map:function(a,b,c){if(null==a)return a;var e=[];V(a,e,null,b,c);return e},forEach:function(a,b,c){if(null==a)return a;b=Q(null,null,b,c);U(a,ca,b);R(b)},count:function(a){return U(a,function(){return null},null)},toArray:function(a){var b=[];V(a,b,null,function(a){return a});return b},only:function(a){if(!N(a))throw Error(B(143));return a}},createRef:function(){return{current:null}},Component:E,PureComponent:G,createContext:function(a,b){void 0===b&&(b=null);a={$$typeof:w,_calculateChangedBits:b,
 _currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:v,_context:a};return a.Consumer=a},forwardRef:function(a){return{$$typeof:x,render:a}},lazy:function(a){return{$$typeof:aa,_ctor:a,_status:-1,_result:null}},memo:function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}},useCallback:function(a,b){return W().useCallback(a,b)},useContext:function(a,b){return W().useContext(a,b)},useEffect:function(a,b){return W().useEffect(a,b)},useImperativeHandle:function(a,
 b,c){return W().useImperativeHandle(a,b,c)},useDebugValue:function(){},useLayoutEffect:function(a,b){return W().useLayoutEffect(a,b)},useMemo:function(a,b){return W().useMemo(a,b)},useReducer:function(a,b,c){return W().useReducer(a,b,c)},useRef:function(a){return W().useRef(a)},useState:function(a){return W().useState(a)},Fragment:r,Profiler:u,StrictMode:t,Suspense:y,createElement:M,cloneElement:function(a,b,c){if(null===a||void 0===a)throw Error(B(267,a));var e=h({},a.props),d=a.key,g=a.ref,l=a._owner;
-if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.11.0",
+if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.12.0",
 __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,ReactCurrentBatchConfig:{suspense:null},ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:h}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default||Z;
 
 
@@ -46605,7 +46740,7 @@ __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,Rea
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.11.0
+/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.12.0
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -46622,12 +46757,12 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(50);
+var _assign = __webpack_require__(49);
 var checkPropTypes = __webpack_require__(153);
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.11.0';
+var ReactVersion = '16.12.0';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -48781,12 +48916,8 @@ function createScope() {
   return scopeComponent;
 }
 
-// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-
- // In some cases, StrictMode should also double-render lifecycles.
-// This can be confusing for tests though,
-// And it can be bad for performance in production.
-// This feature flag can be used to control the behavior:
+// Helps identify side effects in render-phase lifecycle hooks and setState
+// reducers by double invoking them in Strict Mode.
 
  // To preserve the "Pause on caught exceptions" behavior of the debugger, we
 // replay the begin phase of a failed component inside invokeGuardedCallback.
@@ -48822,7 +48953,7 @@ var enableFundamentalAPI = false; // Experimental Scope support.
 var enableScopeAPI = false; // New API for JSX transforms to target - https://github.com/reactjs/rfcs/pull/107
 
 var enableJSXTransformAPI = false; // We will enforce mocking scheduler with scheduler/unstable_mock at some point. (v17?)
-// Till then, we warn about the missing mock, but still fallback to a sync mode compatible version
+// Till then, we warn about the missing mock, but still fallback to a legacy mode compatible version
 
  // For tests, we flush suspense fallbacks in an act scope;
 // *except* in some of our own tests, where we test incremental loading states.
@@ -48836,6 +48967,12 @@ var enableJSXTransformAPI = false; // We will enforce mocking scheduler with sch
  // Part of the simplification of React.createElement so we can eventually move
 // from React.createElement to React.jsx
 // https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md
+
+
+
+
+
+ // Flag to turn event.target and event.currentTarget in ReactNative from a reactTag to a component instance
 
 var React = {
   Children: {
@@ -49283,9 +49420,9 @@ exports.isSuspense = isSuspense;
 
 
 var ReactIs = __webpack_require__(154);
-var assign = __webpack_require__(50);
+var assign = __webpack_require__(49);
 
-var ReactPropTypesSecret = __webpack_require__(51);
+var ReactPropTypesSecret = __webpack_require__(50);
 var checkPropTypes = __webpack_require__(153);
 
 var has = Function.call.bind(Object.prototype.hasOwnProperty);
@@ -49881,7 +50018,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 
-var ReactPropTypesSecret = __webpack_require__(51);
+var ReactPropTypesSecret = __webpack_require__(50);
 
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
@@ -49976,7 +50113,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
 var GlossaryTermsContext = __webpack_require__(380); // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/replace-vars.js#L8
 
@@ -50005,11 +50142,10 @@ function GlossaryItem(_ref) {
 GlossaryItem.propTypes = {
   term: PropTypes.string.isRequired,
   terms: PropTypes.arrayOf(PropTypes.shape({
-    term: PropTypes.string.isRequired,
-    definition: PropTypes.string.isRequired
+    definition: PropTypes.string.isRequired,
+    term: PropTypes.string.isRequired
   })).isRequired
-};
-/* istanbul ignore next */
+}; // eslint-disable-next-line react/display-name
 
 module.exports = function (props) {
   return React.createElement(GlossaryTermsContext.Consumer, null, function (terms) {
@@ -50296,7 +50432,7 @@ var ReactIs = __webpack_require__(155);
 var assign = __webpack_require__(22);
 
 var ReactPropTypesSecret = __webpack_require__(34);
-var checkPropTypes = __webpack_require__(53);
+var checkPropTypes = __webpack_require__(52);
 
 var has = Function.call.bind(Object.prototype.hasOwnProperty);
 var printWarning = function() {};
@@ -50960,13 +51096,15 @@ module.exports = React.createContext([]);
 /* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 __webpack_require__(382);
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
-var syntaxHighlighter = __webpack_require__(386);
+var syntaxHighlighter = __webpack_require__(387);
 
 function Code(props) {
   var className = props.className,
@@ -50983,12 +51121,12 @@ function Code(props) {
   }));
 }
 
-Code.propTypes = {
+Code.propTypes = _defineProperty({
   className: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.string).isRequired
-};
+}, "className", PropTypes.string);
 Code.defaultProps = {
   className: '',
   lang: '',
@@ -51005,23 +51143,51 @@ module.exports = function (sanitizeSchema) {
 /* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
+
 var content = __webpack_require__(383);
 
-if (typeof content === 'string') {
-  content = [[module.i, content, '']];
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(51)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./style.scss", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./style.scss");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
 }
-
-var options = {}
-
-options.insert = "head";
-options.singleton = false;
-
-var update = __webpack_require__(52)(content, options);
-
-if (content.locals) {
-  module.exports = content.locals;
-}
-
 
 /***/ }),
 /* 383 */
@@ -51055,11 +51221,106 @@ exports.push([module.i, "/* neo theme for codemirror */\n\n/* Color scheme */\n\
 
 /***/ }),
 /* 386 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(156);
 
-var codemirror = __webpack_require__(391);
+var codemirror = __webpack_require__(392);
 
 module.exports = function (code, lang) {
   var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
@@ -51071,14 +51332,14 @@ module.exports = function (code, lang) {
   }, codemirror(typeof code === 'string' ? code : '', lang, opts));
 };
 
-module.exports.uppercase = __webpack_require__(406);
+module.exports.uppercase = __webpack_require__(407);
 
 /***/ }),
-/* 387 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.11.0
+/** @license React v16.12.0
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -51101,16 +51362,16 @@ function da(a,b,c){var e=a.result,d=a.keyPrefix;a=a.func.call(a.context,b,a.coun
 var X={Children:{map:function(a,b,c){if(null==a)return a;var e=[];V(a,e,null,b,c);return e},forEach:function(a,b,c){if(null==a)return a;b=Q(null,null,b,c);U(a,ca,b);R(b)},count:function(a){return U(a,function(){return null},null)},toArray:function(a){var b=[];V(a,b,null,function(a){return a});return b},only:function(a){if(!N(a))throw Error(B(143));return a}},createRef:function(){return{current:null}},Component:E,PureComponent:G,createContext:function(a,b){void 0===b&&(b=null);a={$$typeof:w,_calculateChangedBits:b,
 _currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:v,_context:a};return a.Consumer=a},forwardRef:function(a){return{$$typeof:x,render:a}},lazy:function(a){return{$$typeof:aa,_ctor:a,_status:-1,_result:null}},memo:function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}},useCallback:function(a,b){return W().useCallback(a,b)},useContext:function(a,b){return W().useContext(a,b)},useEffect:function(a,b){return W().useEffect(a,b)},useImperativeHandle:function(a,
 b,c){return W().useImperativeHandle(a,b,c)},useDebugValue:function(){},useLayoutEffect:function(a,b){return W().useLayoutEffect(a,b)},useMemo:function(a,b){return W().useMemo(a,b)},useReducer:function(a,b,c){return W().useReducer(a,b,c)},useRef:function(a){return W().useRef(a)},useState:function(a){return W().useState(a)},Fragment:r,Profiler:u,StrictMode:t,Suspense:y,createElement:M,cloneElement:function(a,b,c){if(null===a||void 0===a)throw Error(B(267,a));var e=h({},a.props),d=a.key,g=a.ref,l=a._owner;
-if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.11.0",
+if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.12.0",
 __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,ReactCurrentBatchConfig:{suspense:null},ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:h}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default||Z;
 
 
 /***/ }),
-/* 388 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.11.0
+/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.12.0
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -51128,11 +51389,11 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var _assign = __webpack_require__(157);
-var checkPropTypes = __webpack_require__(389);
+var checkPropTypes = __webpack_require__(390);
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.11.0';
+var ReactVersion = '16.12.0';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -53286,12 +53547,8 @@ function createScope() {
   return scopeComponent;
 }
 
-// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-
- // In some cases, StrictMode should also double-render lifecycles.
-// This can be confusing for tests though,
-// And it can be bad for performance in production.
-// This feature flag can be used to control the behavior:
+// Helps identify side effects in render-phase lifecycle hooks and setState
+// reducers by double invoking them in Strict Mode.
 
  // To preserve the "Pause on caught exceptions" behavior of the debugger, we
 // replay the begin phase of a failed component inside invokeGuardedCallback.
@@ -53327,7 +53584,7 @@ var enableFundamentalAPI = false; // Experimental Scope support.
 var enableScopeAPI = false; // New API for JSX transforms to target - https://github.com/reactjs/rfcs/pull/107
 
 var enableJSXTransformAPI = false; // We will enforce mocking scheduler with scheduler/unstable_mock at some point. (v17?)
-// Till then, we warn about the missing mock, but still fallback to a sync mode compatible version
+// Till then, we warn about the missing mock, but still fallback to a legacy mode compatible version
 
  // For tests, we flush suspense fallbacks in an act scope;
 // *except* in some of our own tests, where we test incremental loading states.
@@ -53341,6 +53598,12 @@ var enableJSXTransformAPI = false; // We will enforce mocking scheduler with sch
  // Part of the simplification of React.createElement so we can eventually move
 // from React.createElement to React.jsx
 // https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md
+
+
+
+
+
+ // Flag to turn event.target and event.currentTarget in ReactNative from a reactTag to a component instance
 
 var React = {
   Children: {
@@ -53432,7 +53695,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 389 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53448,7 +53711,7 @@ module.exports = react;
 var printWarning = function() {};
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactPropTypesSecret = __webpack_require__(390);
+  var ReactPropTypesSecret = __webpack_require__(391);
   var loggedTypeFailures = {};
   var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
@@ -53542,7 +53805,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 390 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53561,7 +53824,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 391 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -53576,27 +53839,25 @@ var CodeMirror = __webpack_require__(2);
 
 var React = __webpack_require__(156);
 
-var Variable = __webpack_require__(49);
+var Variable = __webpack_require__(48);
 
-var modes = __webpack_require__(392);
+var modes = __webpack_require__(393);
 
 var VARIABLE_REGEXP = Variable.VARIABLE_REGEXP;
 
-__webpack_require__(393);
-
 __webpack_require__(394);
-
-__webpack_require__(158);
 
 __webpack_require__(395);
 
-__webpack_require__(397);
+__webpack_require__(158);
+
+__webpack_require__(396);
+
+__webpack_require__(398);
 
 __webpack_require__(159);
 
 __webpack_require__(160);
-
-__webpack_require__(400);
 
 __webpack_require__(401);
 
@@ -53607,6 +53868,8 @@ __webpack_require__(403);
 __webpack_require__(404);
 
 __webpack_require__(405);
+
+__webpack_require__(406);
 
 function getMode(lang) {
   var mode = lang;
@@ -53678,7 +53941,7 @@ module.exports = function (code, lang) {
 };
 
 /***/ }),
-/* 392 */
+/* 393 */
 /***/ (function(module, exports) {
 
 // This is a mapping of potential languages
@@ -53718,7 +53981,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 393 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -53796,7 +54059,7 @@ CodeMirror.runMode = function(string, modespec, callback, options) {
 
 
 /***/ }),
-/* 394 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -54021,7 +54284,7 @@ CodeMirror.runMode = function(string, modespec, callback, options) {
 
 
 /***/ }),
-/* 395 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -54029,7 +54292,7 @@ CodeMirror.runMode = function(string, modespec, callback, options) {
 
 (function(mod) {
   if (true) // CommonJS
-    mod(__webpack_require__(2), __webpack_require__(396));
+    mod(__webpack_require__(2), __webpack_require__(397));
   else if (typeof define == "function" && define.amd) // AMD
     define(["../../lib/codemirror", "../../addon/mode/simple"], mod);
   else // Plain browser env
@@ -54238,7 +54501,7 @@ CodeMirror.runMode = function(string, modespec, callback, options) {
 
 
 /***/ }),
-/* 396 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -54460,7 +54723,7 @@ CodeMirror.runMode = function(string, modespec, callback, options) {
 
 
 /***/ }),
-/* 397 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -54653,7 +54916,7 @@ CodeMirror.defineMIME("text/x-go", "go");
 
 
 /***/ }),
-/* 398 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -55072,7 +55335,7 @@ if (!CodeMirror.mimeModes.hasOwnProperty("text/html"))
 
 
 /***/ }),
-/* 399 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -55909,7 +56172,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
 
 
 /***/ }),
-/* 400 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -56149,7 +56412,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
 
 
 /***/ }),
-/* 401 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -56553,7 +56816,7 @@ CodeMirror.defineMIME('application/x-powershell', 'powershell');
 
 
 /***/ }),
-/* 402 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -56958,7 +57221,7 @@ CodeMirror.defineMIME('application/x-powershell', 'powershell');
 
 
 /***/ }),
-/* 403 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -57262,7 +57525,7 @@ CodeMirror.defineMIME("text/x-ruby", "ruby");
 
 
 /***/ }),
-/* 404 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -57420,7 +57683,7 @@ CodeMirror.defineMIME('application/x-sh', 'shell');
 
 
 /***/ }),
-/* 405 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -57649,7 +57912,7 @@ CodeMirror.defineMIME('application/x-sh', 'shell');
 
 
 /***/ }),
-/* 406 */
+/* 407 */
 /***/ (function(module, exports) {
 
 var codeTypes = {
@@ -57713,12 +57976,12 @@ module.exports = function uppercase(language) {
 };
 
 /***/ }),
-/* 407 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
 function Table(props) {
   // console.log('Table', props);
@@ -57737,16 +58000,16 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 408 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
-var BaseUrlContext = __webpack_require__(409); // Nabbed from here:
+var BaseUrlContext = __webpack_require__(410); // Nabbed from here:
 // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/markdown/renderer.js#L52
 
 
@@ -57797,22 +58060,24 @@ function Anchor(props) {
       target = props.target,
       baseUrl = props.baseUrl,
       children = props.children;
-  return React.createElement("a", _extends({
-    href: getHref(href, baseUrl),
-    target: target
-  }, docLink(href)), children);
+  return (// eslint-disable-next-line react/jsx-props-no-spreading
+    React.createElement("a", _extends({
+      href: getHref(href, baseUrl),
+      target: target
+    }, docLink(href)), children)
+  );
 }
 
 Anchor.propTypes = {
-  href: PropTypes.string,
-  target: PropTypes.string,
   baseUrl: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  href: PropTypes.string,
+  target: PropTypes.string
 };
 Anchor.defaultProps = {
+  baseUrl: '/',
   href: '',
-  target: '_self',
-  baseUrl: '/'
+  target: '_self'
 };
 
 module.exports = function (sanitizeSchema) {
@@ -57829,7 +58094,7 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 409 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(7);
@@ -57837,7 +58102,7 @@ var React = __webpack_require__(7);
 module.exports = React.createContext('/');
 
 /***/ }),
-/* 410 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -57854,7 +58119,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
 function generateHeadingId(e) {
   if (_typeof(e) === 'object') {
@@ -57870,18 +58135,19 @@ function Heading(props) {
   return React.createElement(props.level, {
     className: 'header-scroll'
   }, [React.createElement("div", {
+    key: "anchor-".concat(id),
     className: "anchor waypoint",
-    id: id,
-    key: "anchor-".concat(id)
-  })].concat(_toConsumableArray(props.children), [// eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label
+    id: id
+  })].concat(_toConsumableArray(props.children), [// eslint-disable-next-line jsx-a11y/anchor-has-content
   React.createElement("a", {
+    key: "anchor-icon-".concat(id),
     className: "fa fa-anchor",
-    href: "#".concat(id),
-    key: "anchor-icon-".concat(id)
+    href: "#".concat(id)
   })]));
 }
 
 function createHeading(level) {
+  // eslint-disable-next-line react/display-name
   return function (props) {
     return React.createElement(Heading, _extends({
       level: level
@@ -57890,8 +58156,8 @@ function createHeading(level) {
 }
 
 Heading.propTypes = {
-  level: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired
+  children: PropTypes.arrayOf(PropTypes.string).isRequired,
+  level: PropTypes.string.isRequired
 };
 
 module.exports = function (level) {
@@ -57899,16 +58165,16 @@ module.exports = function (level) {
 };
 
 /***/ }),
-/* 411 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
-__webpack_require__(412);
+__webpack_require__(413);
 
 var Callout = function Callout(props) {
   var attributes = props.attributes,
@@ -57948,29 +58214,57 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 412 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var content = __webpack_require__(413);
 
-if (typeof content === 'string') {
-  content = [[module.i, content, '']];
+var content = __webpack_require__(414);
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(51)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./style.scss", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./style.scss");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
 }
-
-var options = {}
-
-options.insert = "head";
-options.singleton = false;
-
-var update = __webpack_require__(52)(content, options);
-
-if (content.locals) {
-  module.exports = content.locals;
-}
-
 
 /***/ }),
-/* 413 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(21)(false);
@@ -57979,16 +58273,16 @@ exports.push([module.i, "html[ng-app=\"hub\"] .markdown-body .callout{padding:1.
 
 
 /***/ }),
-/* 414 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
-__webpack_require__(415);
+__webpack_require__(416);
 
 var CodeTabs = function CodeTabs(props) {
   var attributes = props.attributes,
@@ -58041,29 +58335,57 @@ module.exports = function ()
 };
 
 /***/ }),
-/* 415 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var content = __webpack_require__(416);
 
-if (typeof content === 'string') {
-  content = [[module.i, content, '']];
+var content = __webpack_require__(417);
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(51)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./style.scss", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./style.scss");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
 }
-
-var options = {}
-
-options.insert = "head";
-options.singleton = false;
-
-var update = __webpack_require__(52)(content, options);
-
-if (content.locals) {
-  module.exports = content.locals;
-}
-
 
 /***/ }),
-/* 416 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(21)(false);
@@ -58072,7 +58394,7 @@ exports.push([module.i, "html[ng-app=\"hub\"] .markdown-body .CodeTabs,#root>.Ap
 
 
 /***/ }),
-/* 417 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -58087,7 +58409,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var React = __webpack_require__(7);
 
-var PropTypes = __webpack_require__(18);
+var PropTypes = __webpack_require__(10);
 
 var Image = function Image(props) {
   var _ref = props.title ? props.title.split(', ') : [],
@@ -58134,7 +58456,7 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 418 */
+/* 419 */
 /***/ (function(module, exports) {
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -58213,7 +58535,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 419 */
+/* 420 */
 /***/ (function(module, exports) {
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -58300,7 +58622,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 420 */
+/* 421 */
 /***/ (function(module, exports) {
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -58480,10 +58802,10 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 421 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _require = __webpack_require__(49),
+var _require = __webpack_require__(48),
     VARIABLE_REGEXP = _require.VARIABLE_REGEXP;
 
 function tokenizeVariable(eat, value, silent) {
@@ -58550,11 +58872,11 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 422 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Inspiration from https://github.com/remarkjs/remark-gemoji/blob/01b33f7f1536e6491ff0aefe859695b2639594dc/index.js
-var Emoji = __webpack_require__(423).emoji;
+var Emoji = __webpack_require__(424).emoji;
 
 var emojis = new Emoji();
 var colon = ':';
@@ -58623,7 +58945,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 423 */
+/* 424 */
 /***/ (function(module, exports) {
 
 // Autogenerated by tasks/deploy.js; do not edit!
@@ -58638,7 +58960,7 @@ function Emoji() {
 exports.emoji = Emoji;
 
 /***/ }),
-/* 424 */
+/* 425 */
 /***/ (function(module, exports) {
 
 /* div blocks directly alias the paragraph container; use for display only! */
@@ -58652,7 +58974,7 @@ module.exports = function div() {
 };
 
 /***/ }),
-/* 425 */
+/* 426 */
 /***/ (function(module, exports) {
 
 module.exports = function CodeTabsCompiler() {
@@ -58668,7 +58990,7 @@ module.exports = function CodeTabsCompiler() {
 };
 
 /***/ }),
-/* 426 */
+/* 427 */
 /***/ (function(module, exports) {
 
 module.exports = function callout() {
@@ -58683,7 +59005,7 @@ module.exports = function callout() {
 };
 
 /***/ }),
-/* 427 */
+/* 428 */
 /***/ (function(module, exports) {
 
 module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":false},"settings":{"position":false}}
