@@ -1,6 +1,7 @@
-# @readme/markdown
+<img align=right width=25% src=http://owlbert.io/images/owlberts-png/Reading.psd.png>
 
-ReadMe's React-based Markdown parser
+@ReadMe Markdown
+===
 
 [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown)
 
@@ -14,8 +15,36 @@ npm install --save @readme/markdown
 
 ## Usage
 
+By default, importing the markdown package will give you a function that takes a string of ReadMe-flavored markdown and returns a vdom tree of React components:
+
+```jsx
+import React from 'react';
+import rdmd from "@readme/markdown";
+
+export default ({ body }) => (
+  <div className="markdown-body">
+    {rdmd(body)}
+  </div>
+);
+```
+
+In addition to the default React processor, the package exports a few other methods for transforming ReadMe-flavored markdown:
+
+```jsx
+import * as rdmd from "@readme/markdown";
+```
+
+Which will give you:
+
+| `rdmd`[*`key`*] | Description                                    | Arguments        |
+| ---------------:|:---------------------------------------------- |:---------------- |
+| *`html`*        | transform markdown in to HTML                  | `text`, `options`|
+| *`ast`*         | transform markdown to an mdast object          | `text`, `options`|
+| *`md`*          | transform mdast in to ReadMe-flavored markdown | `tree`, `options`|
+| *`utils`*       | default options; various utility methods       | N/A              |
+
 ## Credits
-[Dom Harrington](https://github.com/domharrington/)
+[Dom Harrington](https://github.com/domharrington/), [Rafe Goldberg](https://github.com/rafegoldberg)
 
 ## License
 
