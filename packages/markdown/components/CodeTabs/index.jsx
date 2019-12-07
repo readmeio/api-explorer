@@ -1,5 +1,5 @@
-/* eslint-disable */
 const React = require('react');
+const PropTypes = require('prop-types');
 
 require('./style.scss');
 
@@ -25,7 +25,9 @@ const CodeTabs = props => {
         {children.map(({ props: pre }, i) => {
           const { meta, lang } = pre.children[0].props;
           return (
-            <button onClick={e => handleClick(e, i)}>{meta || `(${lang || 'plaintext'})`}</button>
+            <button type="button" onClick={e => handleClick(e, i)}>
+              {meta || `(${lang || 'plaintext'})`}
+            </button>
           );
         })}
       </div>
@@ -34,6 +36,15 @@ const CodeTabs = props => {
   );
 };
 
-module.exports = sanitizeSchema => {
+CodeTabs.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.any).isRequired,
+  attributes: PropTypes.shape({}),
+};
+
+CodeTabs.defaultProps = {
+  attributes: null,
+};
+
+module.exports = (/* sanitizeSchema */) => {
   return CodeTabs;
 };

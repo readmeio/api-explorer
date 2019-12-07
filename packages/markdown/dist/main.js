@@ -57904,20 +57904,20 @@ module.exports = function (level) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-/* eslint-disable */
-var React = __webpack_require__(7); // const PropTypes = require('prop-types');
+var React = __webpack_require__(7);
 
+var PropTypes = __webpack_require__(18);
 
 __webpack_require__(412);
 
 var Callout = function Callout(props) {
   var attributes = props.attributes,
       children = props.children,
-      node = props.node;
+      node = props.node; // console.log([attributes, node]);
 
   var _ref = node && node.data.toJSON() || props || {},
       theme = _ref.theme;
-  /*^Deal with varying methods of passing props
+  /* ^Deal with varying methods of passing props
    * between the hast-util and slate-mdast-serializer.
    */
 
@@ -57928,14 +57928,19 @@ var Callout = function Callout(props) {
   return React.createElement("blockquote", _extends({}, attributes, {
     className: "callout callout_".concat(theme)
   }), React.createElement("h3", null, React.createElement("span", null, heading[0]), heading[1]), content);
-}; // Callout.propTypes = {
-//   calloutStyle: PropTypes.string,
-//   children: PropTypes.arrayOf(PropTypes.any).isRequired,
-// };
-// Callout.defaultProps = {
-//   calloutStyle: 'info',
-// };
+};
 
+Callout.propTypes = {
+  calloutStyle: PropTypes.string,
+  children: PropTypes.arrayOf(PropTypes.any).isRequired,
+  attributes: PropTypes.shape({}),
+  node: PropTypes.shape()
+};
+Callout.defaultProps = {
+  calloutStyle: 'info',
+  attributes: null,
+  node: null
+};
 
 module.exports = function (sanitizeSchema) {
   sanitizeSchema.attributes['rdme-callout'] = ['icon', 'theme', 'title', 'value'];
@@ -57979,8 +57984,9 @@ exports.push([module.i, "html[ng-app=\"hub\"] .markdown-body .callout{padding:1.
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-/* eslint-disable */
 var React = __webpack_require__(7);
+
+var PropTypes = __webpack_require__(18);
 
 __webpack_require__(415);
 
@@ -58010,6 +58016,7 @@ var CodeTabs = function CodeTabs(props) {
         meta = _pre$children$0$props.meta,
         lang = _pre$children$0$props.lang;
     return React.createElement("button", {
+      type: "button",
       onClick: function onClick(e) {
         return handleClick(e, i);
       }
@@ -58019,7 +58026,17 @@ var CodeTabs = function CodeTabs(props) {
   }, children));
 };
 
-module.exports = function (sanitizeSchema) {
+CodeTabs.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.any).isRequired,
+  attributes: PropTypes.shape({})
+};
+CodeTabs.defaultProps = {
+  attributes: null
+};
+
+module.exports = function ()
+/* sanitizeSchema */
+{
   return CodeTabs;
 };
 
@@ -58216,11 +58233,10 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-/* eslint-disable */
 var rgx = /^>\s?(\W\D) (.+)\n((?:>(?: .*)?\n)*)/;
 
 function tokenizer(eat, value) {
-  if (!rgx.test(value)) return true;
+  if (!rgx.test(value)) return true; // eslint-disable-next-line prefer-const
 
   var _rgx$exec = rgx.exec(value),
       _rgx$exec2 = _slicedToArray(_rgx$exec, 4),
@@ -58230,8 +58246,7 @@ function tokenizer(eat, value) {
       text = _rgx$exec2[3];
 
   icon = icon.trim();
-  title = title.trim(); // text = text.replace(/>\n>(?:\s)+/gm, '\n').trim();
-
+  title = title.trim();
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
   var style = {
     ℹ️: 'info',
