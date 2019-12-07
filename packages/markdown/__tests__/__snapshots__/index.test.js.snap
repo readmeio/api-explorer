@@ -16,11 +16,11 @@ exports[`anchors 1`] = `
 `;
 
 exports[`anchors with baseUrl 1`] = `
-"<p><a href=\\"/child/v1.0/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br>
-<a href=\\"/child/v1.0/reference-link/slug\\" target=\\"_self\\">ref</a><br>
-<a href=\\"/child/v1.0/changelog/slug\\" target=\\"_self\\">blog</a><br>
-<a href=\\"/child/v1.0/changelog/slug\\" target=\\"_self\\">changelog</a><br>
-<a href=\\"/child/v1.0/page/slug\\" target=\\"_self\\">page</a><br>
+"<p><a href=\\"doc:slug\\">doc</a><br>
+<a href=\\"ref:slug\\">ref</a><br>
+<a href=\\"blog:slug\\">blog</a><br>
+<a href=\\"changelog:slug\\">changelog</a><br>
+<a href=\\"page:slug\\">page</a><br>
 </p>"
 `;
 
@@ -32,14 +32,14 @@ exports[`check list items 1`] = `
 `;
 
 exports[`code samples 1`] = `
-"<pre><code class=\\"lang-javascript\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
+"<pre><code class=\\"lang-javascript\\" name=\\"var\\" data-lang=\\"javascript\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
 </span></code></pre>
-<pre><code><span class=\\"cm-s-neo\\">code-without-language
+<pre><code name=\\"\\" data-lang=\\"\\"><span class=\\"cm-s-neo\\">code-without-language
 </span></code></pre>"
 `;
 
 exports[`emojis 1`] = `
-"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\"/><br/>
+"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" width=\\"auto\\" height=\\"auto\\"/><br/>
 <i class=\\"fa fa-lock\\"></i><br/>
 :unknown-emoji:<br/>
 </p>"
@@ -48,17 +48,17 @@ exports[`emojis 1`] = `
 exports[`glossary 1`] = `"<p></p>"`;
 
 exports[`headings 1`] = `
-"<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div>h1<a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
-<h2 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h2\\"></div>h2<a class=\\"fa fa-anchor\\" href=\\"#section-h2\\"></a></h2>
-<h3 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h3\\"></div>h3<a class=\\"fa fa-anchor\\" href=\\"#section-h3\\"></a></h3>
-<h4 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h4\\"></div>h4<a class=\\"fa fa-anchor\\" href=\\"#section-h4\\"></a></h4>
-<h5 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h5\\"></div>h5<a class=\\"fa fa-anchor\\" href=\\"#section-h5\\"></a></h5>
-<h6 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h6\\"></div>h6<a class=\\"fa fa-anchor\\" href=\\"#section-h6\\"></a></h6>
-<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-code\\"></div><code><span class=\\"cm-s-neo\\">code</span></code><a class=\\"fa fa-anchor\\" href=\\"#section-code\\"></a></h1>
-<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-with-some-more-content\\"></div>heading with some more CONTENT<a class=\\"fa fa-anchor\\" href=\\"#section-heading-with-some-more-content\\"></a></h1>"
+"<h1>h1</h1>
+<h2>h2</h2>
+<h3>h3</h3>
+<h4>h4</h4>
+<h5>h5</h5>
+<h6>h6</h6>
+<h1><code name=\\"\\" data-lang=\\"\\"><span class=\\"cm-s-neo\\">code</span></code></h1>
+<h1>heading with some more CONTENT</h1>"
 `;
 
-exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\"/></p>"`;
+exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" width=\\"auto\\" height=\\"auto\\"/></p>"`;
 
 exports[`list items 1`] = `
 "<ul>

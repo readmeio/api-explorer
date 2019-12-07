@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReadMe-Flavored Markdown Compilers Callouts 1`] = `
+"> 👍 **Success**
+> 
+> Vitae reprehenderit at aliquid error voluptates eum dignissimos.
+
+\`\`\`
+And this is a paragraph!
+\`\`\`
+"
+`;
+
+exports[`ReadMe-Flavored Markdown Compilers Code Tabs 1`] = `
+"\`\`\`javascript multiple.js
+console.log('a multi-file code block');
+\`\`\`
+\`\`\`javascript
+console.log('an unnamed sample snippet');
+\`\`\`
+"
+`;
