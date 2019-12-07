@@ -270,10 +270,8 @@ describe('export multiple Markdown renderers', () => {
   test('react', () => {
     const txt =
       "```javascript single.js\nconsole.log('a single sample code block');\n```\n\n***\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n```javascript\nconsole.log('an unnamed sample snippet');\n```\n\n \n";
-    const dom = markdown.react(txt, settings);
-    const out = markdown.html(dom, settings);
-    console.log(out);
-    expect('x').toMatch('x');
+    const out = markdown.react(txt, settings);
+    expect(out).toMatchSnapshot();
   });
   test('plain', () => {
     expect(markdown.plain(text, settings)).toMatchObject(xpct.plain);
