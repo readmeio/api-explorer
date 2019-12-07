@@ -23,7 +23,7 @@ function tokenizer(eat, value) {
   return eat(match)({
     type: 'rdme-callout',
     data: {
-      hName: 'rdme-callout',
+      hName: 'blockquote',
       hProperties: {
         theme: style,
         icon,
