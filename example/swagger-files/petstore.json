@@ -762,7 +762,8 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "description": "[block:callout]\n{\n  \"type\": \"info\",\n  \"body\": \"Praesentium vitae commodi magnam quia ea deserunt ipsum architecto illo at! Rem, incidunt minima. Odit exercitationem voluptate repellat porro ratione unde quam fugit qui aut laboriosam quis, natus voluptatibus iste soluta error sequi commodi in vel.\",\n  \"title\": \"ReadMe-Flavored Callouts\"\n}\n[/block]\n[block:code]\n{\n  \"codes\": [\n    {\n      \"code\": \"console.log('multi-file code block');\",\n      \"language\": \"javascript\",\n      \"name\": \"multiple.js\"\n    },\n    {\n      \"code\": \"console.log('an unnamed sample snippet');\",\n      \"language\": \"javascript\"\n    }\n  ]\n}\n[/block]\n\n&nbsp;"
         },
         "category": {
           "$ref": "#/definitions/Category"

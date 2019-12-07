@@ -29,7 +29,7 @@ const compile = tree =>
     .stringify(tree);
 
 describe('ReadMe-Flavored Markdown Compilers', () => {
-  test('Code Tabs', () => {
+  it('Code Tabs', () => {
     const txt = `[block:code]
     {
       "codes": [
@@ -50,7 +50,7 @@ describe('ReadMe-Flavored Markdown Compilers', () => {
     const out = compile(ast);
     expect(out).toMatchSnapshot();
   });
-  test('Callouts', () => {
+  it('Callouts', () => {
     const txt = `[block:callout]
     {
       "type": "success",

@@ -17,19 +17,19 @@ const process = (text, opts = options) =>
     .parse(text);
 
 describe('Parse ReadMe-Flavored Markdown Syntax', () => {
-  test('Callouts', () => {
+  it('Callouts', () => {
     const text = `> ℹ️ Info Callout
     > 
     > Lorem ipsum dolor  sit amet consectetur adipisicing elit.`;
     expect(process(text)).toMatchSnapshot();
   });
-  test('Multi-Block', () => {
+  it('Multi-Block', () => {
     const text =
       "\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n```javascript\nconsole.log('an unnamed sample snippet');\n```\n\n&nbsp;";
     const ast = process(text);
     expect(ast).toMatchSnapshot();
   });
-  test('Single Block', () => {
+  it('Single Block', () => {
     const text =
       "\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n\n&nbsp;";
     const ast = process(text);

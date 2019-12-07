@@ -110,7 +110,7 @@ function ResponseSchemaBody({ schema, oas }) {
         }}
       >
         {row.name}
-        {row.description && markdown(row.description)}
+        {row.description && markdown.react(row.description)}
       </td>
     </tr>
   ));

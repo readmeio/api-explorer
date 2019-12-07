@@ -9,7 +9,6 @@
     &:not(.CodeTabs_active) { display: none }
   }
 
-
   button {
     -webkit-appearance: none;
     appearance: none;
@@ -41,7 +40,14 @@
   }
 }
 
+#hub-content,
 html[ng-app="hub"] .markdown-body,
 #root > .App {
-  .CodeTabs { @include CodeTabs }
+  .CodeTabs {
+    @include CodeTabs;
+    pre {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+  }
 }

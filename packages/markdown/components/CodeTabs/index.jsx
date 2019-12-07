@@ -20,12 +20,13 @@ const CodeTabs = props => {
   }
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <div {...attributes} className="CodeTabs CodeTabs_initial">
       <div className="CodeTabs-toolbar">
         {children.map(({ props: pre }, i) => {
           const { meta, lang } = pre.children[0].props;
           return (
-            <button type="button" onClick={e => handleClick(e, i)}>
+            <button key={i} onClick={e => handleClick(e, i)} type="button">
               {meta || `(${lang || 'plaintext'})`}
             </button>
           );
@@ -37,8 +38,8 @@ const CodeTabs = props => {
 };
 
 CodeTabs.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.any).isRequired,
   attributes: PropTypes.shape({}),
+  children: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 CodeTabs.defaultProps = {

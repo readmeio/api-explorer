@@ -138,7 +138,7 @@ code-without-language
 });
 
 test('should render nothing if nothing passed in', () => {
-  expect(markdown.html('', settings)).toBe(null);
+  expect(markdown.html('', settings)).toBeNull();
 });
 
 test('`correctnewlines` option', () => {
@@ -196,7 +196,7 @@ test('should strip dangerous iframe tag', () => {
 test('should strip dangerous img attributes', () => {
   expect(
     shallow(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html(),
-  ).toBe('<img width="auto" height="auto" alt="Image Alternate Text" src="x"/>');
+  ).toBe('<img alt="Image Alternate Text" height="auto" src="x" width="auto"/>');
 });
 
 describe('export multiple Markdown renderers', () => {
@@ -230,16 +230,6 @@ describe('export multiple Markdown renderers', () => {
     ],
   };
   const xpct = {
-    react: {
-      type: 'h1',
-      key: 'h-1',
-      ref: null,
-      props: {
-        children: ['Hello World'],
-      },
-      _owner: null,
-      _store: {},
-    },
     plain: {
       key: 'h-1',
       ref: null,
@@ -267,22 +257,22 @@ describe('export multiple Markdown renderers', () => {
     md: '# Hello World\n',
     html: '<h1>Hello World</h1>',
   };
-  test('react', () => {
+  it('renders plain markdown as React', () => {
+    expect(markdown.plain(text, settings)).toMatchObject(xpct.plain);
+  });
+  it('renders custom React components', () => {
     const txt =
       "```javascript single.js\nconsole.log('a single sample code block');\n```\n\n***\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n```javascript\nconsole.log('an unnamed sample snippet');\n```\n\n \n";
     const out = markdown.react(txt, settings);
     expect(out).toMatchSnapshot();
   });
-  test('plain', () => {
-    expect(markdown.plain(text, settings)).toMatchObject(xpct.plain);
-  });
-  test('ast', () => {
+  it('renders AST', () => {
     expect(markdown.ast(text, settings)).toMatchObject(xpct.ast);
   });
-  test('md', () => {
+  it('renders MD', () => {
     expect(markdown.md(tree, settings)).toBe(xpct.md);
   });
-  test('html', () => {
+  it('renders HTML', () => {
     expect(markdown.html(text, settings)).toBe(xpct.html);
   });
 });

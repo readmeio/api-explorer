@@ -6,25 +6,26 @@ const Image = props => {
     ? props.title.split(', ')
     : [];
   const extras = { title, align, width, height };
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <img {...props} alt={props.alt} {...extras} />;
 };
 
 Image.propTypes = {
-  title: PropTypes.string,
   align: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   alt: PropTypes.string,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   src: PropTypes.string,
+  title: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 Image.defaultProps = {
-  title: '',
   align: '',
-  width: '',
-  height: '',
   alt: 'Image Alternate Text',
+  height: '',
   src: '',
+  title: '',
+  width: '',
 };
 
 module.exports = sanitizeSchema => {

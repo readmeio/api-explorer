@@ -5,15 +5,17 @@ require('./style.scss');
 
 const Callout = props => {
   const { attributes, children, node } = props;
-  // console.log([attributes, node]);
-  const { theme } = (node && node.data.toJSON()) || props || {};
-  /* ^Deal with varying methods of passing props
+
+  /* Deal with varying methods of passing props
    * between the hast-util and slate-mdast-serializer.
    */
+  const { theme } = (node && node.data.toJSON()) || props || {};
+
   const content = children.splice(1);
   const heading = children[0].props.children; // eek...
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <blockquote {...attributes} className={`callout callout_${theme}`}>
       <h3>
         <span>{heading[0]}</span>
@@ -25,15 +27,15 @@ const Callout = props => {
 };
 
 Callout.propTypes = {
+  attributes: PropTypes.shape({}),
   calloutStyle: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.any).isRequired,
-  attributes: PropTypes.shape({}),
   node: PropTypes.shape(),
 };
 
 Callout.defaultProps = {
-  calloutStyle: 'info',
   attributes: null,
+  calloutStyle: 'info',
   node: null,
 };
 
