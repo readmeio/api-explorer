@@ -28,6 +28,7 @@ const GlossaryItem = require('./components/GlossaryItem');
 const Code = require('./components/Code');
 const Table = require('./components/Table');
 const Anchor = require('./components/Anchor');
+const Heading = require('./components/Heading');
 const Callout = require('./components/Callout');
 const CodeTabs = require('./components/CodeTabs');
 const Image = require('./components/Image');
@@ -48,6 +49,22 @@ const rdmeCalloutCompiler = require('./processor/compile/callout');
 
 // Default Unified Options
 const options = require('./processor/options.json');
+
+// Normalize Magic Block Raw Text
+function normalizeMagic(blocks) {
+  // eslint-disable-next-line no-param-reassign
+  blocks = blocks
+    .replace(/\[block:/g, '\n[block:')
+    .replace(/\[\/block\]/g, '[/block]\n')
+    .trim();
+  return `${blocks}\n\n&nbsp;`;
+}
+
+export const utils = {
+  options,
+  normalizeMagic,
+  VariablesContext: Variable.VariablesContext,
+};
 
 function parseMarkdown(opts = {}) {
   /*
@@ -81,7 +98,7 @@ function parseMarkdown(opts = {}) {
     .use(rehypeSanitize);
 }
 
-function react(text, opts) {
+export function react(text, opts) {
   if (!text) return null;
 
   return parseMarkdown(opts)
@@ -94,6 +111,7 @@ function react(text, opts) {
         'readme-glossary-item': GlossaryItem(sanitize),
         table: Table(sanitize),
         a: Anchor(sanitize),
+        heading: Heading(sanitize),
         code: Code(sanitize),
         img: Image(sanitize),
         div: props => React.createElement(React.Fragment, props),
@@ -102,7 +120,7 @@ function react(text, opts) {
     .processSync(text).contents;
 }
 
-function plain(text, opts) {
+export function plain(text, opts) {
   if (!text) return null;
 
   return (
@@ -122,14 +140,14 @@ function plain(text, opts) {
   );
 }
 
-function ast(text, opts) {
+export function ast(text, opts) {
   if (!text) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
     .parse(text);
 }
 
-function md(tree, opts) {
+export function md(tree, opts) {
   if (!tree) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
@@ -137,7 +155,7 @@ function md(tree, opts) {
     .stringify(tree);
 }
 
-function html(text, opts) {
+export function html(text, opts) {
   if (!text) return null;
 
   return parseMarkdown(opts)
@@ -145,28 +163,6 @@ function html(text, opts) {
     .processSync(text).contents;
 }
 
-function normalizeMagic(blocks) {
-  // eslint-disable-next-line no-param-reassign
-  blocks = blocks
-    .replace(/\[block:/g, '\n[block:')
-    .replace(/\[\/block\]/g, '[/block]\n')
-    .trim();
-  return `${blocks}\n\n&nbsp;`;
-}
-
 const ReadMeMarkdown = (text, opts) => react(text, opts); // for backwards "compatibility"
 
-Object.assign(ReadMeMarkdown, {
-  react,
-  plain,
-  ast,
-  md,
-  html,
-  utils: {
-    options,
-    normalizeMagic,
-    VariablesContext: Variable.VariablesContext,
-  },
-});
-
-module.exports = ReadMeMarkdown;
+export default ReadMeMarkdown;

@@ -1,9 +1,8 @@
+require('./style.scss');
+
 const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
-
-require('@readme/syntax-highlighter/node_modules/codemirror/lib/codemirror.css');
-require('@readme/syntax-highlighter/node_modules/codemirror/theme/neo.css');
 
 function Code(props) {
   const { className, children, lang, meta } = props;
