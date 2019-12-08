@@ -8,6 +8,11 @@ const unified = require('unified');
 const sanitize = require('hast-util-sanitize/lib/github.json');
 
 // sanitization schema
+sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
+sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
+
+sanitize.attributes.a = ['href', 'title'];
+
 sanitize.tagNames.push('input'); // allow GitHub-style todo lists
 sanitize.ancestors.input = ['li'];
 
@@ -49,6 +54,7 @@ const gemojiParser = require('./processor/parse/gemoji-parser');
  */
 const rdmeDivCompiler = require('./processor/compile/div');
 const codeTabsCompiler = require('./processor/compile/code-tabs');
+const rdmeEmbedCompiler = require('./processor/compile/embed');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
 
 // Default Unified Options
@@ -89,12 +95,14 @@ function parseMarkdown(opts = {}) {
    * - sanitize and remove any disallowed attributes
    * - output the hast to a React vdom with our custom components
    */
+  const PLUGINTEST = require('./processor/PluginTest').default;
   return unified()
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
     .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize)])
     .use(variableParser.sanitize(sanitize))
+    .use(PLUGINTEST)
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkRehype, { allowDangerousHTML: true })
@@ -155,7 +163,7 @@ export function md(tree, opts) {
   if (!tree) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
-    .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler])
+    .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler])
     .stringify(tree);
 }
 

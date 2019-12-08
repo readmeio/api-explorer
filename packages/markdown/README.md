@@ -11,7 +11,7 @@ npm install --save @readme/markdown
 
 ## Usage
 
-By default, importing the markdown package will give you a function that takes a string of ReadMe-flavored markdown and returns a vdom tree of React components:
+By default, the updated markdown package exports a function which takes a string of [ReadMe-flavored markdown](https://paper.dropbox.com/doc/Magic-to-Markdown--AqDGfp1VbZ0vi8c6Wk7~31HiAQ-8cjE2igxdlRPpb5ywZrha) and returns a tree of React components:
 
 ```jsx
 import React from 'react';
