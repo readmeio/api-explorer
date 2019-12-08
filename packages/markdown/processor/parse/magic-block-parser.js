@@ -108,6 +108,27 @@ function tokenize(eat, value) {
         children,
       });
     }
+    case 'embed': {
+      // delete json.html;
+      const { title, url } = json;
+      json.provider = `@${new URL(url).hostname.split('.')[0]}`;
+      return eat(match)({
+        type: 'paragraph',
+        children: [
+          {
+            type: 'embed',
+            url,
+            title: json.provider,
+            children: [{ type: 'text', value: title || "Embed" }],
+            data: {
+              ...json,
+              hProperties: { ...json, href: url },
+              hName: 'a',
+            },
+          },
+        ],
+      });
+    }
     default:
       return eat(match)({
         type: 'div',
