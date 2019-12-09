@@ -1,4 +1,3 @@
-import visit from 'unist-util-visit';
 import map from 'unist-util-map';
 
 /**
@@ -9,26 +8,28 @@ import map from 'unist-util-map';
  *          https://github.com/unifiedjs/unified#function-transformernode-file-next
  * @example https://unifiedjs.com/create-a-plugin.html#plugin
  */
-function transform(tree) {
-  const now = map(tree, node => {
+const transform = tree =>
+  map(tree, node => {
+    if (node.type === 'embed')
+      return {
+        ...node,
+        data: { ...node.data, hName: 'embed' },
+      };
     if (node.type === 'link' && 'title' in node && node.title && node.title[0] === '@')
-      // eslint-disable-next-line no-param-reassign
-      node = {
+      return {
         ...node,
         type: 'embed',
+        children: [{ type: 'text', value: node.title }],
         data: {
           ...node.data,
-          hName: 'a',
           hProperties: { href: node.url, title: node.title },
+          hName: 'embed',
         },
       };
-    console.log(node)
     return node;
   });
-  return now;
-}
 
-function attacher(options) {
+function attacher() {
   return transform;
 }
 

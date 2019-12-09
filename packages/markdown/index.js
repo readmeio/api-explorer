@@ -3,6 +3,8 @@ require('./styles/main.scss');
 const React = require('react');
 const unified = require('unified');
 
+if (window) window.embedly = require('embedly');
+
 /* Unified Plugins
  */
 const sanitize = require('hast-util-sanitize/lib/github.json');
@@ -10,6 +12,9 @@ const sanitize = require('hast-util-sanitize/lib/github.json');
 // sanitization schema
 sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
 sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
+
+sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
+sanitize.attributes['rdme-embed'] = ['url', 'html', 'title', 'href'];
 
 sanitize.attributes.a = ['href', 'title'];
 
@@ -39,6 +44,7 @@ const Heading = require('./components/Heading');
 const Callout = require('./components/Callout');
 const CodeTabs = require('./components/CodeTabs');
 const Image = require('./components/Image');
+const Embed = require('./components/Embed');
 
 const DivFragment = props => React.createElement(React.Fragment, props);
 
@@ -46,6 +52,7 @@ const DivFragment = props => React.createElement(React.Fragment, props);
  */
 const flavorCodeTabs = require('./processor/parse/flavored/code-tabs');
 const flavorCallout = require('./processor/parse/flavored/callout');
+const flavorEmbed = require('./processor/parse/flavored/embed');
 const magicBlockParser = require('./processor/parse/magic-block-parser');
 const variableParser = require('./processor/parse/variable-parser');
 const gemojiParser = require('./processor/parse/gemoji-parser');
@@ -100,9 +107,13 @@ function parseMarkdown(opts = {}) {
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
-    .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize)])
+    .use([
+      flavorCodeTabs.sanitize(sanitize),
+      flavorCallout.sanitize(sanitize),
+      flavorEmbed.sanitize(sanitize),
+    ])
     .use(variableParser.sanitize(sanitize))
-    .use(PLUGINTEST)
+    // .use(PLUGINTEST)
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkRehype, { allowDangerousHTML: true })
@@ -121,6 +132,7 @@ export function react(text, opts) {
         'rdme-callout': Callout(sanitize),
         'readme-variable': Variable(sanitize),
         'readme-glossary-item': GlossaryItem(sanitize),
+        'rdme-embed': Embed(sanitize),
         table: Table(sanitize),
         a: Anchor(sanitize),
         heading: Heading(sanitize),

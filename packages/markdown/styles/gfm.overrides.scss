@@ -50,3 +50,19 @@
     text-decoration-color: transparent;
   }
 }
+
+.markdown-body .embed {
+  padding: 15px;
+  background: #eeeeee;
+  overflow: hidden;
+  border-radius: 3px;
+  &-media {
+    display: flex;
+    justify-content: center;
+    >:only-child {
+      flex: 1;
+      margin: -15px;
+      border-radius: 0 !important;
+    }
+  }
+}
