@@ -11,19 +11,42 @@
     border-radius: 3px;
   }
   .GroupsList {
+    position: relative;
     display: flex;
     justify-content: center;
     padding: .75rem;
     background: linear-gradient(to right, white 10%, darken($bg, 1.25%) 75%);
+    &:after {
+      content: '▼';
+      position: absolute;
+      top: 50%;
+      right: 0.75rem;
+      transform: translate(-12px, -50%);
+      z-index: 9999;
+      font-size: 0.88em;
+    }
+    &:focus-within:after {
+      color: $pop;
+    }
     >select {
       flex: 1;
+      margin: 0 4px;
+      padding: 2px 4px;
       font: inherit;
       color: $text;
-      border-color: darken($edge, 5%);
+      border: 1px solid darken($edge, 6%);
+      border-radius: 3px;
       outline-color: none;
       background: #fff;
       background-color: #fff;
-      &:focus { border-color: $pop }
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
+      outline: none;
+      &:focus {
+        border-color: $pop;
+      }
     }
   }
   details {
