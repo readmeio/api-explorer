@@ -80,5 +80,3 @@ module.exports = sanitizeSchema => {
   sanitizeSchema.protocols.href.push('doc', 'target', 'ref', 'blog', 'changelog', 'page');
   return AnchorContext;
 };
-
-module.exports.AnchorComponent = AnchorContext;

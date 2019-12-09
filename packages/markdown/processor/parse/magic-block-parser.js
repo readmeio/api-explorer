@@ -109,24 +109,26 @@ function tokenize(eat, value) {
       });
     }
     case 'embed': {
-      // delete json.html;
+      json.title = json.title || 'Embed';
       const { title, url } = json;
-      json.provider = `@${new URL(url).hostname.split('.')[0]}`;
+      json.provider = `@${new URL(url).hostname.split(/(?:www)?\./).filter(i => i).join('')}`;
+      const data = { url, title, provider: json.provider };
       return eat(match)({
-        type: 'paragraph',
+        type: 'embed',
+        ...data,
         children: [
           {
-            type: 'embed',
+            type: 'link',
             url,
             title: json.provider,
-            children: [{ type: 'text', value: title || "Embed" }],
-            data: {
-              ...json,
-              hProperties: { ...json, href: url },
-              hName: 'a',
-            },
+            children: [{ type: 'text', value: title }],
           },
         ],
+        data: {
+          ...data,
+          hProperties: { ...data, href: url },
+          hName: 'rdme-embed',
+        },
       });
     }
     default:

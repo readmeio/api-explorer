@@ -6,6 +6,7 @@
   "dependencies": {
     "@readme/syntax-highlighter": "^4.13.0",
     "@readme/variable": "^4.13.0",
+    "embedly": "^2.1.1",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
