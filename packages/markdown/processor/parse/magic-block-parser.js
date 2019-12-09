@@ -34,7 +34,7 @@ function tokenize(eat, value) {
     case 'api-header':
       return eat(match)({
         type: 'heading',
-        depth: json.level || 1,
+        depth: json.level || 2,
         children: this.tokenizeInline(json.title, eat.now()),
       });
     case 'image':
@@ -84,11 +84,11 @@ function tokenize(eat, value) {
       });
     }
     case 'parameters': {
-      const DATA = json.data;
-      const children = Object.keys(DATA)
+      const { data } = json;
+      const children = Object.keys(data)
         .sort()
         .reduce((sum, key) => {
-          const val = DATA[key];
+          const val = data[key];
           let [row, col] = key.split('-');
           row = row === 'h' ? 0 : parseInt(row, 10) + 1;
           col = parseInt(col, 10);
@@ -99,12 +99,11 @@ function tokenize(eat, value) {
             type: row ? 'tableCell' : 'tableHead',
             children: this.tokenizeInline(val, eat.now()),
           };
-
           return sum;
         }, []);
       return eat(match)({
         type: 'table',
-        align: [],
+        align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
         children,
       });
     }

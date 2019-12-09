@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack -w",
+    "watch": "webpack -w --progress",
     "lint": "eslint -f unix . --ext .jsx --ext .js",
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run inspect && npm run prettier",

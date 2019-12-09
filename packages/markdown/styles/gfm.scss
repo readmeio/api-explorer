@@ -355,6 +355,7 @@
     margin-top: 0
   }
 
+  rdme-callout,
   blockquote {
     margin: 0
   }
@@ -516,6 +517,7 @@
     text-decoration: none
   }
 
+  rdme-callout,
   blockquote,
   dl,
   ol,
@@ -535,16 +537,20 @@
     padding: 0
   }
 
+  rdme-callout,
   blockquote {
+    display: block;
     border-left: .25em solid #dfe2e5;
     color: #6a737d;
     padding: 0 1em
   }
 
+  rdme-callout>:first-child,
   blockquote>:first-child {
     margin-top: 0
   }
 
+  rdme-callout>:last-child,
   blockquote>:last-child {
     margin-bottom: 0
   }

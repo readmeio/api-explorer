@@ -1,7 +1,7 @@
+// require('./style.scss');
+
 const React = require('react');
 const PropTypes = require('prop-types');
-
-require('./style.scss');
 
 const CodeTabs = props => {
   const { attributes, children } = props;
