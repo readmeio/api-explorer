@@ -10,7 +10,9 @@ const markdown = require('@readme/markdown');
 // const markdown = require('api-explorer/packages/markdown/dist/main');
 
 const Content = props => (
-  <div className="markdown-body">{markdown.react(props.body, markdown.options)}</div>
+  <div className="markdown-body">
+    {markdown.react(markdown.normalize(props.body), markdown.options)}
+  </div>
 );
 
 Content.propTypes = {

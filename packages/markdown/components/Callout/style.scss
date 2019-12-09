@@ -1,26 +1,24 @@
 @mixin callout ($l-offset: 1.5rem) {
   padding: $l-offset;
-  &,
-  &_info {
+  &, &_info, &[theme=info] {
     background-color: #e3edf2;
     border-color: #5bc0de;
     h3, h4 { color: darken(#5bc0de, 5%) }
   }
-  &_warn,
-  &_warning {
+  &[theme=warn], &[theme=warning],
+  &_warn, &_warning {
     background-color: #fcf8f2;
     border-color: #f0ad4e;
     h3, h4 { color: darken(#f0ad4e, 5%) }
   }
-  &_ok,
-  &_okay,
-  &_success {
+  &[theme=ok], &[theme=okay], &[theme=success],
+  &_ok, &_okay, &_success {
     background-color: #f3f8f3;
     border-color: #50af51;
     h3, h4 { color: darken(#50af51, 5%) }
   }
-  &_err,
-  &_error {
+  &[theme=err], &[theme=error],
+  &_err, &_error {
     background-color: #fdf7f7;
     border-color: #d9534f;
     h3, h4 { color: darken(#d9534f, 5%) }
@@ -38,8 +36,8 @@
   }
 }
 #hub-content,
-html[ng-app="hub"] .markdown-body {
-  .callout {
+.markdown-body {
+  rdme-callout, .callout {
     @include callout;
   }
 }

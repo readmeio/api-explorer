@@ -774,3 +774,13 @@ form.rjsf {
     z-index: -1;
   }
 }
+
+
+#api-explorer .markdown-body {
+  $width-of-right-sidebar: 390px;
+  $offset: 3%;
+  margin: 0;
+  width: 50em;
+  max-width: calc(100% - #{$width-of-right-sidebar});
+  padding: 1em $offset;
+}

@@ -1,9 +1,7 @@
-require('./styles/main.scss');
+// require('./styles/main.scss');
 
 const React = require('react');
 const unified = require('unified');
-
-if (window) window.embedly = require('embedly');
 
 /* Unified Plugins
  */
@@ -68,18 +66,24 @@ const rdmeCalloutCompiler = require('./processor/compile/callout');
 const options = require('./processor/options.json');
 
 // Normalize Magic Block Raw Text
-function normalizeMagic(blocks) {
+export function normalize(blocks) {
+  // normalize magic block lines
   // eslint-disable-next-line no-param-reassign
   blocks = blocks
     .replace(/\[block:/g, '\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
     .trim();
+
+  // fix header hash syntax w/o spaces
+  // eslint-disable-next-line no-param-reassign
+  // blocks = blocks.replace(/^(#*)(\w*)/gm, '$1 $2')
+
   return `${blocks}\n\n&nbsp;`;
 }
 
 export const utils = {
   options,
-  normalizeMagic,
+  normalizeMagic: normalize,
   VariablesContext: Variable.VariablesContext,
 };
 
@@ -103,22 +107,24 @@ function parseMarkdown(opts = {}) {
    * - output the hast to a React vdom with our custom components
    */
   const PLUGINTEST = require('./processor/PluginTest').default;
-  return unified()
-    .use(remarkParse, opts.markdownOptions)
-    .data('settings', opts.settings)
-    .use(magicBlockParser.sanitize(sanitize))
-    .use([
-      flavorCodeTabs.sanitize(sanitize),
-      flavorCallout.sanitize(sanitize),
-      flavorEmbed.sanitize(sanitize),
-    ])
-    .use(variableParser.sanitize(sanitize))
-    // .use(PLUGINTEST)
-    .use(!opts.correctnewlines ? breaks : () => {})
-    .use(gemojiParser.sanitize(sanitize))
-    .use(remarkRehype, { allowDangerousHTML: true })
-    .use(rehypeRaw)
-    .use(rehypeSanitize);
+  return (
+    unified()
+      .use(remarkParse, opts.markdownOptions)
+      .data('settings', opts.settings)
+      .use(magicBlockParser.sanitize(sanitize))
+      .use([
+        flavorCodeTabs.sanitize(sanitize),
+        flavorCallout.sanitize(sanitize),
+        flavorEmbed.sanitize(sanitize),
+      ])
+      .use(variableParser.sanitize(sanitize))
+      // .use(PLUGINTEST)
+      .use(!opts.correctnewlines ? breaks : () => {})
+      .use(gemojiParser.sanitize(sanitize))
+      .use(remarkRehype, { allowDangerousHTML: true })
+      .use(rehypeRaw)
+      .use(rehypeSanitize)
+  );
 }
 
 export function react(text, opts) {
