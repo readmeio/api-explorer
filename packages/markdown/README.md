@@ -62,7 +62,7 @@ A tabbed interface for displaying multiple code blocks. These are written nearly
     export sub = (a, b) => a - b
     ```
 
-Which will render as:
+<p align=center>which renders as:</p>
 
 <p align=center><img src=docs/images/multi-code-block.png width=68% align=center></p>
 
@@ -74,7 +74,7 @@ Callouts are very similar to blockquotes in both display and syntax. They are de
     > 
     > This is a callout using the error theme.
 
-Which will renders as:
+<p align=center>which renders to:</p>
 
 <p align=center><img src=docs/images/callout.png width=75%></p>
 
