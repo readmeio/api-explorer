@@ -43,9 +43,59 @@ Which will give you:
 | *`md`*          | transform mdast in to ReadMe-flavored markdown | `tree`, `options`|
 | *`utils`*       | default options; various utility methods       | N/A              |
 
+## ReadMe-Flavored Syntax
+
+Our old editor compiled custom components, called "magic blocks", in to a custom JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this magic block format and compiling it to a markdown-compatible syntax. In the main, this looks like pure markdown, with a few additional options:
+
+### Multi-Code Blocks
+
+A tabbed interface for displaying multiple code blocks. These are written nearly identically to two plain markdown code blocks, except for the lack of an additional line break between them:
+
+    ```javascript
+    export sum from 'sum';
+    export sub from 'sub';
+    ```
+    ```javascript sum.js
+    export sum = (a, b) => a + b
+    ```
+    ```javascript sub.js
+    export sub = (a, b) => a - b
+    ```
+
+Which renders as:
+
+![](docs/images/multi-code-block.png)
+
+### Callout Blocks
+
+Callouts are very similar to blockquotes in both display and syntax. They are defined by an initial emoji, which determines the callout's theme:
+
+    > ❗️ Watch Out
+    > 
+    > This is a callout using the error theme.
+
+Which renders as:
+
+![](docs/images/callout.png)
+
+There are four potential styles:
+
+| Emoji | Theme Style |
+|:-----:|:------------|
+|ℹ|info (blue theme)|
+|👍|success (green theme)|
+|⚠️|warning (orange theme)|
+|❗️|danger (red theme)|
+
+### Embedded Content
+
+Embeds are written as links, with their title set to `@embed`:
+
+    [Embed Title](https://youtu.be/8bh238ekw3 "@embed")
+
+For now, embeds are rendered asynchronously in the user's browser.
+
 ## Credits
-[Dom Harrington](https://github.com/domharrington/), [Rafe Goldberg](https://github.com/rafegoldberg)
 
-## License
-
-ISC
+- **Lisence**: ISC
+- **Authors**: [Dom Harrington](https://github.com/domharrington/), [Rafe Goldberg](https://github.com/rafegoldberg)
