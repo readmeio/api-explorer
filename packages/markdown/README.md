@@ -49,7 +49,7 @@ Which gives you the following:
 
 Our old editor compiled custom "Magic Block" components in to a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this proprietary format and compiling it to a markdown-compatible syntax. Mostly this looks just like pure ol' markdown, but with a bit of syntactic sugar on top.
 
-### Multi-Code Blocks
+### [Multi-Code Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/code-blocks)
 
 A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for the lack of an additional line separating each subsequent block:
 
@@ -68,7 +68,7 @@ Wwhich will render to:
 
 <p align=center><img src=docs/images/multi-code-block.png width=68% align=center></p>
 
-### Callout Blocks
+### [Callout Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/callouts)
 
 Callouts are very similar to blockquotes in both display and syntax. They are defined by an initial emoji, which determines the callout's theme:
 
@@ -89,7 +89,7 @@ There are four potential styles:
 |⚠️|warning (orange theme)|
 |❗️|danger (red theme)|
 
-### Embedded Blocks
+### [Embedded Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds)
 
 Embeds are written as links, with their title set to `@embed`:
 
@@ -97,11 +97,17 @@ Embeds are written as links, with their title set to `@embed`:
 
 For now, embeds are rendered asynchronously in the user's browser.
 
-<img src=docs/images/blocks-selector.jpg align=left width=100>
+
+<img src=docs/images/blocks-selector.jpg align=left width=180>
 
 ### Other Blocks
 
-Other magic blocks are rendered to pure markdown representations of their various contents. In some instances certain minor data loss (such as image "smart sizing") may occur, while new functionalities (such as table text alignment) will be gained.
+Other magic blocks are rendered to pure markdown representations of their various contents. In some instances certain minor data loss (such as image "smart sizing") may occur, while new functionalities (such as table text alignment) will be gained. These pure converters include:
+
+- [Image Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/images)
+- [List Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/lists)
+- [Table Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/tables)
+- [Heading Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/headings)
 
 ## Updated Editor
 
