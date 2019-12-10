@@ -1,4 +1,4 @@
-<img align=right width=25% src=http://owlbert.io/images/owlberts-png/Reading.psd.png>
+<img align=right width=26% src=http://owlbert.io/images/owlberts-png/Reading.psd.png>
 
 @ReadMe Markdown
 ===
@@ -64,10 +64,6 @@ A tabbed interface for displaying multiple code blocks. These are written nearly
     export sub = (a, b) => a - b
     ```
 
-Which will render to:
-
-<p align=center><img src=docs/images/multi-code-block.png width=68% align=center></p>
-
 ### [Callout Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/callouts)
 
 Callouts are very similar to blockquotes in both display and syntax. They are defined by an initial emoji, which determines the callout's theme:
@@ -76,18 +72,14 @@ Callouts are very similar to blockquotes in both display and syntax. They are de
     > 
     > This is a callout using the error theme.
 
-Which renders as:
-
-<p align=center><img src=docs/images/callout.png width=75%></p>
-
 There are four potential styles:
 
 | Emoji Prefix | Callout Theme |
 |:-----:|:------------|
-|ℹ|info (blue theme)|
-|👍|success (green theme)|
-|⚠️|warning (orange theme)|
-|❗️|danger (red theme)|
+|ℹ|`.info` (blue theme)|
+|👍|`.success` (green theme)|
+|⚠️|`.warning` (orange theme)|
+|❗️|`.danger` (red theme)|
 
 ### [Embedded Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds)
 
