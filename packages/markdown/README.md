@@ -28,6 +28,11 @@ export default ({ body }) => (
 );
 ```
 
+<hr><details>
+<summary><b>Named Exports</b></summary>
+
+---
+
 In addition to the default React processor, the package exports a few other methods for transforming ReadMe-flavored markdown:
 
 ```jsx
@@ -44,6 +49,8 @@ Which will give you the following:
 | *`md`*        | transform mdast in to ReadMe-flavored markdown | `tree`, `options`|
 | *`normalize`* | normalize magic block syntax pre-processing    | `text`           |
 | *`utils`*     | default `options`, React contexts, other utils | N/A              |
+
+</details><hr>
 
 ## ReadMe-Flavored Syntax
 
