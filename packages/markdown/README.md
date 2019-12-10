@@ -43,11 +43,11 @@ Which gives you the following:
 
 ## ReadMe-Flavored Syntax
 
-Our old editor compiled custom components, called "magic blocks", in to a custom JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this magic block format and compiling it to a markdown-compatible syntax. In the main, this looks like pure markdown, with a few additional options:
+Our old editor compiled custom "Magic Block" components in to a proprietary, JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this magic blocks format and compiling it to a markdown-compatible syntax. Mostly this looks just like pure ol' markdown, but with a bit of syntactic sugar on top.
 
 ### Multi-Code Blocks
 
-A tabbed interface for displaying multiple code blocks. These are written nearly identically to two plain markdown code blocks, except for the lack of an additional line break between them:
+A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for the lack of an additional line separating each subsequent block:
 
     ```javascript
     export sum from 'sum';
@@ -60,7 +60,7 @@ A tabbed interface for displaying multiple code blocks. These are written nearly
     export sub = (a, b) => a - b
     ```
 
-<p align=center>which renders as:</p>
+<p align=center>which will render to:</p>
 
 <p align=center><img src=docs/images/multi-code-block.png width=68% align=center></p>
 
@@ -72,7 +72,7 @@ Callouts are very similar to blockquotes in both display and syntax. They are de
     > 
     > This is a callout using the error theme.
 
-<p align=center>which renders to:</p>
+<p align=center>which renders as:</p>
 
 <p align=center><img src=docs/images/callout.png width=75%></p>
 
@@ -85,13 +85,21 @@ There are four potential styles:
 |⚠️|warning (orange theme)|
 |❗️|danger (red theme)|
 
-### Embedded Content
+### Embedded Blocks
 
 Embeds are written as links, with their title set to `@embed`:
 
     [Embed Title](https://youtu.be/8bh238ekw3 "@embed")
 
 For now, embeds are rendered asynchronously in the user's browser.
+
+### Other Blocks
+
+<img src=docs/images/blocks-selector align=right width=154> Other magic blocks are rendered to pure markdown representations of their various contents. In these instances certain minor data loss (such as image widths) may occur, while new functionalities (such as table text alignment) will be gained.
+
+## Updated Editor
+
+Alongside the updates to our markdown parser, we're developing a new editor experience for ReadMe. You can [learn more about that project](https://github.com/readmeio/editor#readme-editor) at the link.
 
 ## Credits
 
