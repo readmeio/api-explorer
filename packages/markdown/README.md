@@ -36,12 +36,14 @@ import * as rdmd from "@readme/markdown";
 
 Which will give you:
 
-| `rdmd`[*`key`*] | Description                                    | Arguments        |
-| ---------------:|:---------------------------------------------- |:---------------- |
-| *`html`*        | transform markdown in to HTML                  | `text`, `options`|
-| *`ast`*         | transform markdown to an mdast object          | `text`, `options`|
-| *`md`*          | transform mdast in to ReadMe-flavored markdown | `tree`, `options`|
-| *`utils`*       | default options; various utility methods       | N/A              |
+| Export        | Description                                    | Arguments        |
+| -------------:|:---------------------------------------------- |:---------------- |
+| *`react`*     |_default;_ returns a VDOM tree object           | `text`, `options`|
+| *`html`*      | transform markdown in to HTML                  | `text`, `options`|
+| *`ast`*       | transform markdown to an mdast object          | `text`, `options`|
+| *`md`*        | transform mdast in to ReadMe-flavored markdown | `tree`, `options`|
+| *`normalize`* | normalize magic block syntax pre-processing    | `text`           |
+| *`utils`*     | default `options`, React contexts, other utils | N/A              |
 
 ## ReadMe-Flavored Syntax
 
@@ -80,7 +82,7 @@ Callouts are very similar to blockquotes in both display and syntax. They are de
 
 There are four potential styles:
 
-| Emoji | Theme Style |
+| Emoji Prefix | Callout Theme |
 |:-----:|:------------|
 |ℹ|info (blue theme)|
 |👍|success (green theme)|
