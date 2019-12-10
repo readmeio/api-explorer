@@ -3,7 +3,7 @@
 @ReadMe Markdown
 ===
 
-ReadMe's React-based Markdown parser
+A [Unified](https://github.com/unifiedjs)-based Markdown parser for ReadMe:
 
 ```
 npm install --save @readme/markdown
