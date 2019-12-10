@@ -47,8 +47,6 @@ Which gives you the following:
 
 ## ReadMe-Flavored Syntax
 
-<img src=docs/images/blocks-selector.jpg align=left width=180>
-
 Our old editor compiled custom "Magic Block" components in to a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this proprietary format and compiling it to a markdown-compatible syntax. Mostly this looks just like pure ol' markdown, but with a bit of syntactic sugar on top.
 
 ### Multi-Code Blocks
@@ -98,6 +96,8 @@ Embeds are written as links, with their title set to `@embed`:
     [Embed Title](https://youtu.be/8bh238ekw3 "@embed")
 
 For now, embeds are rendered asynchronously in the user's browser.
+
+<img src=docs/images/blocks-selector.jpg align=left width=100>
 
 ### Other Blocks
 
