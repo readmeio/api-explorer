@@ -43,7 +43,9 @@ Which gives you the following:
 
 ## ReadMe-Flavored Syntax
 
-Our old editor compiled custom "Magic Block" components in to a proprietary, JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this magic blocks format and compiling it to a markdown-compatible syntax. Mostly this looks just like pure ol' markdown, but with a bit of syntactic sugar on top.
+<img src=docs/images/blocks-selector.jpg align=left width=180>
+
+Our old editor compiled custom "Magic Block" components in to a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this proprietary format and compiling it to a markdown-compatible syntax. Mostly this looks just like pure ol' markdown, but with a bit of syntactic sugar on top.
 
 ### Multi-Code Blocks
 
@@ -95,7 +97,7 @@ For now, embeds are rendered asynchronously in the user's browser.
 
 ### Other Blocks
 
-<img src=docs/images/blocks-selector align=right width=154> Other magic blocks are rendered to pure markdown representations of their various contents. In these instances certain minor data loss (such as image widths) may occur, while new functionalities (such as table text alignment) will be gained.
+Other magic blocks are rendered to pure markdown representations of their various contents. In some instances certain minor data loss (such as image "smart sizing") may occur, while new functionalities (such as table text alignment) will be gained.
 
 ## Updated Editor
 
