@@ -83,11 +83,6 @@ Embeds are written as links, with their title set to `@embed`:
 
     [Embed Title](https://youtu.be/8bh238ekw3 "@embed")
 
-For now, embeds are rendered asynchronously in the user's browser.
-
-
-<img src=docs/images/blocks-selector.jpg align=left width=180>
-
 ### Other Blocks
 
 Other magic blocks are rendered to pure markdown representations of their various contents. In some instances certain minor data loss (such as image "smart sizing") may occur, while new functionalities (such as table text alignment) will be gained. These pure converters include:
