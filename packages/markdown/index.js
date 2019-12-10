@@ -1,4 +1,4 @@
-// require('./styles/main.scss');
+require('./styles/main.scss');
 
 const React = require('react');
 const unified = require('unified');
