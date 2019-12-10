@@ -34,7 +34,7 @@ In addition to the default React processor, the package exports a few other meth
 import * as rdmd from "@readme/markdown";
 ```
 
-Which will give you:
+Which gives you the following:
 
 | Export        | Description                                    | Arguments        |
 | -------------:|:---------------------------------------------- |:---------------- |
