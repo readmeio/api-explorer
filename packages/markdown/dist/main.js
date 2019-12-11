@@ -10134,7 +10134,7 @@ if (process.env.NODE_ENV === 'production') {
 "use strict";
 
 
-var assign = __webpack_require__(20)
+var assign = __webpack_require__(21)
 
 module.exports = u
 
@@ -11014,6 +11014,12 @@ function toComment(sourceMap) {
 
 /***/ }),
 /* 20 */
+/***/ (function(module, exports) {
+
+module.exports = {"html":"http://www.w3.org/1999/xhtml","mathml":"http://www.w3.org/1998/Math/MathML","svg":"http://www.w3.org/2000/svg","xlink":"http://www.w3.org/1999/xlink","xml":"http://www.w3.org/XML/1998/namespace","xmlns":"http://www.w3.org/2000/xmlns/"}
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11108,12 +11114,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-module.exports = {"html":"http://www.w3.org/1999/xhtml","mathml":"http://www.w3.org/1998/Math/MathML","svg":"http://www.w3.org/2000/svg","xlink":"http://www.w3.org/1999/xlink","xml":"http://www.w3.org/XML/1998/namespace","xmlns":"http://www.w3.org/2000/xmlns/"}
 
 /***/ }),
 /* 22 */
@@ -21659,11 +21659,11 @@ module.exports = __webpack_require__(161);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["normalize"] = normalize;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return utils; });
-/* harmony export (immutable) */ __webpack_exports__["react"] = react;
 /* harmony export (immutable) */ __webpack_exports__["plain"] = plain;
+/* harmony export (immutable) */ __webpack_exports__["react"] = react;
+/* harmony export (immutable) */ __webpack_exports__["html"] = html;
 /* harmony export (immutable) */ __webpack_exports__["ast"] = ast;
 /* harmony export (immutable) */ __webpack_exports__["md"] = md;
-/* harmony export (immutable) */ __webpack_exports__["html"] = html;
 __webpack_require__(162);
 
 var React = __webpack_require__(4);
@@ -21671,21 +21671,11 @@ var React = __webpack_require__(4);
 var unified = __webpack_require__(168);
 /* Unified Plugins
  */
+// const PLUGINTEST = require('./processor/PluginTest').default;
 
 
-var sanitize = __webpack_require__(53); // sanitization schema
+var sanitize = __webpack_require__(53); // remark plugins
 
-
-sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
-
-sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
-sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
-
-sanitize.attributes['rdme-embed'] = ['url', 'html', 'title', 'href'];
-sanitize.attributes.a = ['href', 'title'];
-sanitize.tagNames.push('input'); // allow GitHub-style todo lists
-
-sanitize.ancestors.input = ['li']; // remark plugins
 
 var remarkRehype = __webpack_require__(180);
 
@@ -21707,6 +21697,10 @@ var rehypeReact = __webpack_require__(367);
  */
 
 
+var DivFragment = function DivFragment(props) {
+  return React.createElement(React.Fragment, props);
+};
+
 var Variable = __webpack_require__(48);
 
 var GlossaryItem = __webpack_require__(393);
@@ -21726,10 +21720,6 @@ var CodeTabs = __webpack_require__(428);
 var Image = __webpack_require__(431);
 
 var Embed = __webpack_require__(432);
-
-var DivFragment = function DivFragment(props) {
-  return React.createElement(React.Fragment, props);
-};
 /* Custom Unified Parsers
  */
 
@@ -21755,19 +21745,30 @@ var codeTabsCompiler = __webpack_require__(458);
 
 var rdmeEmbedCompiler = __webpack_require__(459);
 
-var rdmeCalloutCompiler = __webpack_require__(460); // Default Unified Options
+var rdmeCalloutCompiler = __webpack_require__(460); // Processor Option Defaults
 
 
-var options = __webpack_require__(461); // Normalize Magic Block Raw Text
+var options = __webpack_require__(461); // Sanitization Schema Defaults
 
+
+sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
+
+sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
+sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
+
+sanitize.attributes['rdme-embed'] = ['url', 'html', 'title', 'href'];
+sanitize.attributes.a = ['href', 'title'];
+sanitize.tagNames.push('input'); // allow GitHub-style todo lists
+
+sanitize.ancestors.input = ['li'];
+/**
+ * Normalize Magic Block Raw Text
+ */
 
 function normalize(blocks) {
   // normalize magic block lines
   // eslint-disable-next-line no-param-reassign
-  blocks = blocks.replace(/\[block:/g, '\n[block:').replace(/\[\/block\]/g, '[/block]\n').trim(); // fix header hash syntax w/o spaces
-  // eslint-disable-next-line no-param-reassign
-  // blocks = blocks.replace(/^(#*)(\w*)/gm, '$1 $2')
-
+  blocks = blocks.replace(/\[block:/g, '\n[block:').replace(/\[\/block\]/g, '[/block]\n').trim();
   return "".concat(blocks, "\n\n&nbsp;");
 }
 var utils = {
@@ -21775,6 +21776,9 @@ var utils = {
   normalizeMagic: normalize,
   VariablesContext: Variable.VariablesContext
 };
+/**
+ * Core markdown text processor
+ */
 
 function parseMarkdown() {
   var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -21797,13 +21801,29 @@ function parseMarkdown() {
    * - sanitize and remove any disallowed attributes
    * - output the hast to a React vdom with our custom components
    */
-  var PLUGINTEST = __webpack_require__(462).default;
-
   return unified().use(remarkParse, opts.markdownOptions).data('settings', opts.settings).use(magicBlockParser.sanitize(sanitize)).use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)]).use(variableParser.sanitize(sanitize)) // .use(PLUGINTEST)
   .use(!opts.correctnewlines ? breaks : function () {}).use(gemojiParser.sanitize(sanitize)).use(remarkRehype, {
     allowDangerousHTML: true
   }).use(rehypeRaw).use(rehypeSanitize);
 }
+
+function plain(text, opts) {
+  if (!text) return null;
+  return parseMarkdown(opts).use(rehypeReact, {
+    createElement: React.createElement,
+    components: {
+      // 'readme-variable': props => <span {...props}>Variable</span>,
+      // 'readme-glossary-item': props => <span {...props}>Term</span>,
+      // 'readme-variable': Variable(sanitize),
+      // 'readme-glossary-item': GlossaryItem(sanitize),
+      div: DivFragment
+    }
+  }) // .parse(text)
+  .processSync(text).contents;
+}
+/**
+ *  return a React VDOM component tree
+ */
 
 function react(text, opts) {
   if (!text) return null;
@@ -21824,31 +21844,29 @@ function react(text, opts) {
     }
   }).processSync(text).contents;
 }
-function plain(text, opts) {
+/**
+ *  transform markdown in to HTML
+ */
+
+function html(text, opts) {
   if (!text) return null;
-  return parseMarkdown(opts).use(rehypeReact, {
-    createElement: React.createElement,
-    components: {
-      // 'readme-variable': props => <span {...props}>Variable</span>,
-      // 'readme-glossary-item': props => <span {...props}>Term</span>,
-      // 'readme-variable': Variable(sanitize),
-      // 'readme-glossary-item': GlossaryItem(sanitize),
-      div: DivFragment
-    }
-  }) // .parse(text)
-  .processSync(text).contents;
+  return parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
 }
+/**
+ *  convert markdown to an mdast object
+ */
+
 function ast(text, opts) {
   if (!text) return null;
   return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).parse(text);
 }
+/**
+ *  compile mdast to ReadMe-flavored markdown
+ */
+
 function md(tree, opts) {
   if (!tree) return null;
   return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler]).stringify(tree);
-}
-function html(text, opts) {
-  if (!text) return null;
-  return parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
 }
 
 var ReadMeMarkdown = function ReadMeMarkdown(text, opts) {
@@ -21924,7 +21942,7 @@ exports.push([module.i, "/* neo theme for codemirror */\n\n/* Color scheme */\n\
  * LICENSE file in the root directory of this source tree.
  */
 
-var h=__webpack_require__(20),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113;n&&Symbol.for("react.suspense_list");
+var h=__webpack_require__(21),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113;n&&Symbol.for("react.suspense_list");
 var z=n?Symbol.for("react.memo"):60115,aa=n?Symbol.for("react.lazy"):60116;n&&Symbol.for("react.fundamental");n&&Symbol.for("react.responder");n&&Symbol.for("react.scope");var A="function"===typeof Symbol&&Symbol.iterator;
 function B(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var C={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},D={};
 function E(a,b,c){this.props=a;this.context=b;this.refs=D;this.updater=c||C}E.prototype.isReactComponent={};E.prototype.setState=function(a,b){if("object"!==typeof a&&"function"!==typeof a&&null!=a)throw Error(B(85));this.updater.enqueueSetState(this,a,b,"setState")};E.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function F(){}F.prototype=E.prototype;function G(a,b,c){this.props=a;this.context=b;this.refs=D;this.updater=c||C}var H=G.prototype=new F;
@@ -21964,7 +21982,7 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(20);
+var _assign = __webpack_require__(21);
 var checkPropTypes = __webpack_require__(51);
 
 // TODO: this is special because it gets imported during build.
@@ -26893,7 +26911,7 @@ var pos = __webpack_require__(35)
 var fromParse5 = __webpack_require__(230)
 var toParse5 = __webpack_require__(246)
 var voids = __webpack_require__(100)
-var ns = __webpack_require__(21)
+var ns = __webpack_require__(20)
 var zwitch = __webpack_require__(99)
 var xtend = __webpack_require__(0)
 
@@ -32081,7 +32099,7 @@ exports.isIntegrationPoint = function(tn, ns, attrs, foreignNS) {
 var html = __webpack_require__(231)
 var svg = __webpack_require__(233)
 var find = __webpack_require__(235)
-var ns = __webpack_require__(21)
+var ns = __webpack_require__(20)
 var s = __webpack_require__(236)
 var h = __webpack_require__(242)
 var xtend = __webpack_require__(0)
@@ -34419,7 +34437,7 @@ var html = __webpack_require__(84)
 var svg = __webpack_require__(96)
 var find = __webpack_require__(97)
 var toH = __webpack_require__(249)
-var ns = __webpack_require__(21)
+var ns = __webpack_require__(20)
 var zwitch = __webpack_require__(99)
 
 module.exports = transform
@@ -35464,7 +35482,7 @@ var find = __webpack_require__(97)
 var spaces = __webpack_require__(26)
 var commas = __webpack_require__(27)
 var style = __webpack_require__(98)
-var ns = __webpack_require__(21)
+var ns = __webpack_require__(20)
 var convert = __webpack_require__(251)
 
 var root = convert('root')
@@ -46285,7 +46303,7 @@ var find = __webpack_require__(376)
 var spaces = __webpack_require__(26)
 var commas = __webpack_require__(27)
 var style = __webpack_require__(98)
-var ns = __webpack_require__(21)
+var ns = __webpack_require__(20)
 var is = __webpack_require__(377)
 
 var dashes = /-([a-z])/g
@@ -51378,7 +51396,7 @@ exports.isSuspense = isSuspense;
 
 
 var ReactIs = __webpack_require__(153);
-var assign = __webpack_require__(20);
+var assign = __webpack_require__(21);
 
 var ReactPropTypesSecret = __webpack_require__(34);
 var checkPropTypes = __webpack_require__(51);
@@ -58756,7 +58774,6 @@ var React = __webpack_require__(4);
 var PropTypes = __webpack_require__(10);
 
 function Table(props) {
-  console.log('Table', props);
   var children = props.children;
   return React.createElement("table", null, children);
 }
@@ -58955,20 +58972,18 @@ var Callout = function Callout(props) {
   var attributes = props.attributes,
       children = props.children,
       node = props.node;
-  /* Deal with varying methods of passing props
-   * between the hast-util and slate-mdast-serializer.
+  var content = children.splice(1);
+  /* deal with differing data structures between the
+   * hast-util's hProps and Slate's MDAST serializer
    */
 
   var _ref = node && node.data.toJSON() || props || {},
       theme = _ref.theme;
 
-  var content = children.splice(1);
-  var heading = children[0].props.children; // eek...
-
   return (// eslint-disable-next-line react/jsx-props-no-spreading
     React.createElement("blockquote", _extends({}, attributes, {
       className: "callout callout_".concat(theme)
-    }), React.createElement("h3", null, React.createElement("span", null, heading[0]), heading[1]), content)
+    }), React.createElement("h3", null, children), content)
   );
 };
 
@@ -59017,7 +59032,7 @@ if (content.locals) {
 
 exports = module.exports = __webpack_require__(19)(false);
 // Module
-exports.push([module.i, "#hub-content rdme-callout,#hub-content .callout,.markdown-body rdme-callout,.markdown-body .callout{padding:1.5rem}#hub-content rdme-callout,#hub-content rdme-callout_info,#hub-content rdme-callout[theme=info],#hub-content .callout,#hub-content .callout_info,#hub-content .callout[theme=info],.markdown-body rdme-callout,.markdown-body rdme-callout_info,.markdown-body rdme-callout[theme=info],.markdown-body .callout,.markdown-body .callout_info,.markdown-body .callout[theme=info]{background-color:#e3edf2;border-color:#5bc0de}#hub-content rdme-callout h3,#hub-content rdme-callout h4,#hub-content rdme-callout_info h3,#hub-content rdme-callout_info h4,#hub-content rdme-callout[theme=info] h3,#hub-content rdme-callout[theme=info] h4,#hub-content .callout h3,#hub-content .callout h4,#hub-content .callout_info h3,#hub-content .callout_info h4,#hub-content .callout[theme=info] h3,#hub-content .callout[theme=info] h4,.markdown-body rdme-callout h3,.markdown-body rdme-callout h4,.markdown-body rdme-callout_info h3,.markdown-body rdme-callout_info h4,.markdown-body rdme-callout[theme=info] h3,.markdown-body rdme-callout[theme=info] h4,.markdown-body .callout h3,.markdown-body .callout h4,.markdown-body .callout_info h3,.markdown-body .callout_info h4,.markdown-body .callout[theme=info] h3,.markdown-body .callout[theme=info] h4{color:#46b8da}#hub-content rdme-callout[theme=warn],#hub-content rdme-callout[theme=warning],#hub-content rdme-callout_warn,#hub-content rdme-callout_warning,#hub-content .callout[theme=warn],#hub-content .callout[theme=warning],#hub-content .callout_warn,#hub-content .callout_warning,.markdown-body rdme-callout[theme=warn],.markdown-body rdme-callout[theme=warning],.markdown-body rdme-callout_warn,.markdown-body rdme-callout_warning,.markdown-body .callout[theme=warn],.markdown-body .callout[theme=warning],.markdown-body .callout_warn,.markdown-body .callout_warning{background-color:#fcf8f2;border-color:#f0ad4e}#hub-content rdme-callout[theme=warn] h3,#hub-content rdme-callout[theme=warn] h4,#hub-content rdme-callout[theme=warning] h3,#hub-content rdme-callout[theme=warning] h4,#hub-content rdme-callout_warn h3,#hub-content rdme-callout_warn h4,#hub-content rdme-callout_warning h3,#hub-content rdme-callout_warning h4,#hub-content .callout[theme=warn] h3,#hub-content .callout[theme=warn] h4,#hub-content .callout[theme=warning] h3,#hub-content .callout[theme=warning] h4,#hub-content .callout_warn h3,#hub-content .callout_warn h4,#hub-content .callout_warning h3,#hub-content .callout_warning h4,.markdown-body rdme-callout[theme=warn] h3,.markdown-body rdme-callout[theme=warn] h4,.markdown-body rdme-callout[theme=warning] h3,.markdown-body rdme-callout[theme=warning] h4,.markdown-body rdme-callout_warn h3,.markdown-body rdme-callout_warn h4,.markdown-body rdme-callout_warning h3,.markdown-body rdme-callout_warning h4,.markdown-body .callout[theme=warn] h3,.markdown-body .callout[theme=warn] h4,.markdown-body .callout[theme=warning] h3,.markdown-body .callout[theme=warning] h4,.markdown-body .callout_warn h3,.markdown-body .callout_warn h4,.markdown-body .callout_warning h3,.markdown-body .callout_warning h4{color:#eea236}#hub-content rdme-callout[theme=ok],#hub-content rdme-callout[theme=okay],#hub-content rdme-callout[theme=success],#hub-content rdme-callout_ok,#hub-content rdme-callout_okay,#hub-content rdme-callout_success,#hub-content .callout[theme=ok],#hub-content .callout[theme=okay],#hub-content .callout[theme=success],#hub-content .callout_ok,#hub-content .callout_okay,#hub-content .callout_success,.markdown-body rdme-callout[theme=ok],.markdown-body rdme-callout[theme=okay],.markdown-body rdme-callout[theme=success],.markdown-body rdme-callout_ok,.markdown-body rdme-callout_okay,.markdown-body rdme-callout_success,.markdown-body .callout[theme=ok],.markdown-body .callout[theme=okay],.markdown-body .callout[theme=success],.markdown-body .callout_ok,.markdown-body .callout_okay,.markdown-body .callout_success{background-color:#f3f8f3;border-color:#50af51}#hub-content rdme-callout[theme=ok] h3,#hub-content rdme-callout[theme=ok] h4,#hub-content rdme-callout[theme=okay] h3,#hub-content rdme-callout[theme=okay] h4,#hub-content rdme-callout[theme=success] h3,#hub-content rdme-callout[theme=success] h4,#hub-content rdme-callout_ok h3,#hub-content rdme-callout_ok h4,#hub-content rdme-callout_okay h3,#hub-content rdme-callout_okay h4,#hub-content rdme-callout_success h3,#hub-content rdme-callout_success h4,#hub-content .callout[theme=ok] h3,#hub-content .callout[theme=ok] h4,#hub-content .callout[theme=okay] h3,#hub-content .callout[theme=okay] h4,#hub-content .callout[theme=success] h3,#hub-content .callout[theme=success] h4,#hub-content .callout_ok h3,#hub-content .callout_ok h4,#hub-content .callout_okay h3,#hub-content .callout_okay h4,#hub-content .callout_success h3,#hub-content .callout_success h4,.markdown-body rdme-callout[theme=ok] h3,.markdown-body rdme-callout[theme=ok] h4,.markdown-body rdme-callout[theme=okay] h3,.markdown-body rdme-callout[theme=okay] h4,.markdown-body rdme-callout[theme=success] h3,.markdown-body rdme-callout[theme=success] h4,.markdown-body rdme-callout_ok h3,.markdown-body rdme-callout_ok h4,.markdown-body rdme-callout_okay h3,.markdown-body rdme-callout_okay h4,.markdown-body rdme-callout_success h3,.markdown-body rdme-callout_success h4,.markdown-body .callout[theme=ok] h3,.markdown-body .callout[theme=ok] h4,.markdown-body .callout[theme=okay] h3,.markdown-body .callout[theme=okay] h4,.markdown-body .callout[theme=success] h3,.markdown-body .callout[theme=success] h4,.markdown-body .callout_ok h3,.markdown-body .callout_ok h4,.markdown-body .callout_okay h3,.markdown-body .callout_okay h4,.markdown-body .callout_success h3,.markdown-body .callout_success h4{color:#489e49}#hub-content rdme-callout[theme=err],#hub-content rdme-callout[theme=error],#hub-content rdme-callout_err,#hub-content rdme-callout_error,#hub-content .callout[theme=err],#hub-content .callout[theme=error],#hub-content .callout_err,#hub-content .callout_error,.markdown-body rdme-callout[theme=err],.markdown-body rdme-callout[theme=error],.markdown-body rdme-callout_err,.markdown-body rdme-callout_error,.markdown-body .callout[theme=err],.markdown-body .callout[theme=error],.markdown-body .callout_err,.markdown-body .callout_error{background-color:#fdf7f7;border-color:#d9534f}#hub-content rdme-callout[theme=err] h3,#hub-content rdme-callout[theme=err] h4,#hub-content rdme-callout[theme=error] h3,#hub-content rdme-callout[theme=error] h4,#hub-content rdme-callout_err h3,#hub-content rdme-callout_err h4,#hub-content rdme-callout_error h3,#hub-content rdme-callout_error h4,#hub-content .callout[theme=err] h3,#hub-content .callout[theme=err] h4,#hub-content .callout[theme=error] h3,#hub-content .callout[theme=error] h4,#hub-content .callout_err h3,#hub-content .callout_err h4,#hub-content .callout_error h3,#hub-content .callout_error h4,.markdown-body rdme-callout[theme=err] h3,.markdown-body rdme-callout[theme=err] h4,.markdown-body rdme-callout[theme=error] h3,.markdown-body rdme-callout[theme=error] h4,.markdown-body rdme-callout_err h3,.markdown-body rdme-callout_err h4,.markdown-body rdme-callout_error h3,.markdown-body rdme-callout_error h4,.markdown-body .callout[theme=err] h3,.markdown-body .callout[theme=err] h4,.markdown-body .callout[theme=error] h3,.markdown-body .callout[theme=error] h4,.markdown-body .callout_err h3,.markdown-body .callout_err h4,.markdown-body .callout_error h3,.markdown-body .callout_error h4{color:#d43f3a}#hub-content rdme-callout>*,#hub-content .callout>*,.markdown-body rdme-callout>*,.markdown-body .callout>*{margin-left:1.5rem;position:relative}#hub-content rdme-callout h3>:first-child,#hub-content .callout h3>:first-child,.markdown-body rdme-callout h3>:first-child,.markdown-body .callout h3>:first-child{display:inline-block;position:absolute;right:100%;transform:translateX(-12.5%);font-size:.75em}\n", ""]);
+exports.push([module.i, "#hub-content rdme-callout,#hub-content .callout,.markdown-body rdme-callout,.markdown-body .callout{padding:1.5rem}#hub-content rdme-callout_default,#hub-content .callout_default,.markdown-body rdme-callout_default,.markdown-body .callout_default{background-color:#f3f4f5;color:#6a737d}#hub-content rdme-callout_info,#hub-content .callout_info,.markdown-body rdme-callout_info,.markdown-body .callout_info{background-color:#e3edf2;border-color:#5bc0de}#hub-content rdme-callout_info h3,#hub-content rdme-callout_info h4,#hub-content .callout_info h3,#hub-content .callout_info h4,.markdown-body rdme-callout_info h3,.markdown-body rdme-callout_info h4,.markdown-body .callout_info h3,.markdown-body .callout_info h4{color:#46b8da}#hub-content rdme-callout_warn,#hub-content rdme-callout_warning,#hub-content .callout_warn,#hub-content .callout_warning,.markdown-body rdme-callout_warn,.markdown-body rdme-callout_warning,.markdown-body .callout_warn,.markdown-body .callout_warning{background-color:#fcf8f2;border-color:#f0ad4e}#hub-content rdme-callout_warn h3,#hub-content rdme-callout_warn h4,#hub-content rdme-callout_warning h3,#hub-content rdme-callout_warning h4,#hub-content .callout_warn h3,#hub-content .callout_warn h4,#hub-content .callout_warning h3,#hub-content .callout_warning h4,.markdown-body rdme-callout_warn h3,.markdown-body rdme-callout_warn h4,.markdown-body rdme-callout_warning h3,.markdown-body rdme-callout_warning h4,.markdown-body .callout_warn h3,.markdown-body .callout_warn h4,.markdown-body .callout_warning h3,.markdown-body .callout_warning h4{color:#eea236}#hub-content rdme-callout_ok,#hub-content rdme-callout_okay,#hub-content rdme-callout_success,#hub-content .callout_ok,#hub-content .callout_okay,#hub-content .callout_success,.markdown-body rdme-callout_ok,.markdown-body rdme-callout_okay,.markdown-body rdme-callout_success,.markdown-body .callout_ok,.markdown-body .callout_okay,.markdown-body .callout_success{background-color:#f3f8f3;border-color:#50af51}#hub-content rdme-callout_ok h3,#hub-content rdme-callout_ok h4,#hub-content rdme-callout_okay h3,#hub-content rdme-callout_okay h4,#hub-content rdme-callout_success h3,#hub-content rdme-callout_success h4,#hub-content .callout_ok h3,#hub-content .callout_ok h4,#hub-content .callout_okay h3,#hub-content .callout_okay h4,#hub-content .callout_success h3,#hub-content .callout_success h4,.markdown-body rdme-callout_ok h3,.markdown-body rdme-callout_ok h4,.markdown-body rdme-callout_okay h3,.markdown-body rdme-callout_okay h4,.markdown-body rdme-callout_success h3,.markdown-body rdme-callout_success h4,.markdown-body .callout_ok h3,.markdown-body .callout_ok h4,.markdown-body .callout_okay h3,.markdown-body .callout_okay h4,.markdown-body .callout_success h3,.markdown-body .callout_success h4{color:#489e49}#hub-content rdme-callout_err,#hub-content rdme-callout_error,#hub-content .callout_err,#hub-content .callout_error,.markdown-body rdme-callout_err,.markdown-body rdme-callout_error,.markdown-body .callout_err,.markdown-body .callout_error{background-color:#fdf7f7;border-color:#d9534f}#hub-content rdme-callout_err h3,#hub-content rdme-callout_err h4,#hub-content rdme-callout_error h3,#hub-content rdme-callout_error h4,#hub-content .callout_err h3,#hub-content .callout_err h4,#hub-content .callout_error h3,#hub-content .callout_error h4,.markdown-body rdme-callout_err h3,.markdown-body rdme-callout_err h4,.markdown-body rdme-callout_error h3,.markdown-body rdme-callout_error h4,.markdown-body .callout_err h3,.markdown-body .callout_err h4,.markdown-body .callout_error h3,.markdown-body .callout_error h4{color:#d43f3a}#hub-content rdme-callout>*,#hub-content .callout>*,.markdown-body rdme-callout>*,.markdown-body .callout>*{margin-left:1.5rem;position:relative}#hub-content rdme-callout h3:first-letter,#hub-content .callout h3:first-letter,.markdown-body rdme-callout h3:first-letter,.markdown-body .callout h3:first-letter{margin-left:-1.6em;margin-right:.4rem}\n", ""]);
 
 
 /***/ }),
@@ -59211,9 +59226,10 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var React = __webpack_require__(4);
 
+var propTypes = __webpack_require__(10);
+
 var Embedly = __webpack_require__(433);
 
-var useState = React.useState;
 var api = new Embedly({
   key: 'f2aa6fc3595946d0afc3d76cbbd25dc3'
 });
@@ -59230,27 +59246,24 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Embed).call(this, props));
     _this.state = {
-      test: false
+      embedly: false
     };
+
+    _this.getEmbed();
+
     return _this;
   }
 
   _createClass(Embed, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      this.getEmbed();
-    }
-  }, {
     key: "getGist",
     value: function getGist(data) {
       var _this2 = this;
 
       var _this$props$url$match = this.props.url.match(/(?:gist.github.com\/(?:.[-_a-zA-Z0-9]+\/)?([-_a-zA-Z0-9]*)(?:\.git|\.js)?)/),
           _this$props$url$match2 = _slicedToArray(_this$props$url$match, 2),
-          gist_id = _this$props$url$match2[1];
+          gistID = _this$props$url$match2[1];
 
-      console.log("https://api.github.com/gists/".concat(gist_id));
-      fetch('https://api.github.com/gists/f852004d6d1510eec1f6').then(function (r) {
+      fetch("https://api.github.com/gists/".concat(gistID)).then(function (r) {
         return r.json();
       }).then(function (gist) {
         var files = gist.files;
@@ -59259,7 +59272,7 @@ function (_React$Component) {
         data.media.html = "<pre><code>".concat(file.content, "</code></pre>");
 
         _this2.setState({
-          test: data
+          embedly: data
         });
       });
     }
@@ -59268,28 +59281,29 @@ function (_React$Component) {
     value: function getEmbed() {
       var _this3 = this;
 
+      console.log(this.props.url);
       api.extract({
         url: this.props.url
       }, function (err, obj) {
-        if (err) return console.error(err);
+        // eslint-disable-next-line no-console, no-bitwise
+        if (err) return console.error(err) | err;
         var result = obj[0];
         if (result.provider_display === 'gist.github.com') return _this3.getGist(result);
-
-        _this3.setState({
-          test: obj[0]
+        return _this3.setState({
+          embedly: result
         });
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var children = this.props.children;
+      // const { children } = this.props;
       return React.createElement("div", {
         className: "embed"
       }, React.createElement("div", {
         className: "embed-media",
-        dangerouslySetInnerHTML: _typeof(this.state.test) === 'object' && 'media' in this.state.test && {
-          __html: this.state.test.media.html
+        dangerouslySetInnerHTML: _typeof(this.state.embedly) === 'object' && 'media' in this.state.embedly && {
+          __html: this.state.embedly.media.html
         } || {
           __html: 'Loading...'
         }
@@ -59299,6 +59313,11 @@ function (_React$Component) {
 
   return Embed;
 }(React.Component);
+
+Embed.propTypes = {
+  children: propTypes.arrayOf(propTypes.string, propTypes.array, propTypes.object, propTypes.element),
+  url: propTypes.oneOfType(propTypes.string, propTypes.shape({}))
+};
 
 module.exports = function () {
   return Embed;
@@ -79073,8 +79092,8 @@ function tokenizer(eat, value) {
       text = _rgx$exec2[3];
 
   icon = icon.trim();
-  title = title.trim();
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
+  title = title.trim();
   var style = {
     ℹ️: 'info',
     '⚠️': 'warn',
@@ -79090,22 +79109,13 @@ function tokenizer(eat, value) {
     data: {
       hName: 'rdme-callout',
       hProperties: {
-        theme: style,
+        theme: style || 'default',
         icon: icon,
         title: title,
         value: text
       }
     },
-    children: [{
-      type: 'div',
-      children: [{
-        type: 'text',
-        value: "".concat(icon, " ")
-      }, {
-        type: 'strong',
-        children: this.tokenizeInline(title, eat.now())
-      }]
-    }].concat(_toConsumableArray(this.tokenizeBlock(text, eat.now())))
+    children: [].concat(_toConsumableArray(this.tokenizeBlock("".concat(icon, " ").concat(title), eat.now())), _toConsumableArray(this.tokenizeBlock(text, eat.now())))
   });
 }
 
@@ -79147,7 +79157,7 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var rgx = /^\[([\w ]*)\]\((\S*) ["'](\@\w*)"\)/;
+var rgx = /^\[([\w ]*)\]\((\S*) ["'](@\w*)"\)/;
 
 function tokenizer(eat, value) {
   if (!rgx.test(value)) return true; // eslint-disable-next-line prefer-const
@@ -79298,8 +79308,8 @@ function tokenize(eat, value) {
     case 'callout':
       {
         json.type = {
-          success: ['👍', 'okay'],
           info: ['ℹ', 'info'],
+          success: ['👍', 'okay'],
           warning: ['⚠️', 'warn'],
           danger: ['❗️', 'error']
         }[json.type];
@@ -79313,7 +79323,7 @@ function tokenize(eat, value) {
           data: {
             hName: 'rdme-callout',
             hProperties: {
-              theme: theme,
+              theme: theme || 'default',
               icon: icon,
               title: json.title,
               value: json.body
@@ -79324,10 +79334,7 @@ function tokenize(eat, value) {
             children: [{
               type: 'text',
               value: "".concat(icon, " ")
-            }, {
-              type: 'strong',
-              children: this.tokenizeInline(json.title, eat.now())
-            }]
+            }].concat(_toConsumableArray(this.tokenizeInline(json.title, eat.now())))
           }].concat(_toConsumableArray(this.tokenizeBlock(json.body, eat.now())))
         });
       }
@@ -79655,93 +79662,6 @@ module.exports = function CalloutCompiler() {
 /***/ (function(module, exports) {
 
 module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":false},"settings":{"position":false}}
-
-/***/ }),
-/* 462 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_unist_util_map__ = __webpack_require__(463);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_unist_util_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_unist_util_map__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/**
- * A transformer plugin for the Unified JS ecosyste,
- *---
- * @docs    https://github.com/syntax-tree/unist-util-map
- *          https://github.com/unifiedjs/unified#function-attacheroptions
- *          https://github.com/unifiedjs/unified#function-transformernode-file-next
- * @example https://unifiedjs.com/create-a-plugin.html#plugin
- */
-
-var transform = function transform(tree) {
-  return __WEBPACK_IMPORTED_MODULE_0_unist_util_map___default()(tree, function (node) {
-    if (node.type === 'embed') return _objectSpread({}, node, {
-      data: _objectSpread({}, node.data, {
-        hName: 'embed'
-      })
-    });
-    if (node.type === 'link' && 'title' in node && node.title && node.title[0] === '@') return _objectSpread({}, node, {
-      type: 'embed',
-      children: [{
-        type: 'text',
-        value: node.title
-      }],
-      data: _objectSpread({}, node.data, {
-        hProperties: {
-          href: node.url,
-          title: node.title
-        },
-        hName: 'embed'
-      })
-    });
-    return node;
-  });
-};
-
-function attacher() {
-  return transform;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (attacher);
-
-/***/ }),
-/* 463 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// LICENSE : MIT
-
-
-var assign = __webpack_require__(20)
-
-module.exports = map
-
-function map(tree, iteratee) {
-  return preorder(tree, null, null)
-
-  function preorder(node, index, parent) {
-    var children = node.children
-    var newNode = assign({}, iteratee(node, index, parent))
-
-    if (children) {
-      newNode.children = children.map(bound)
-    }
-
-    return newNode
-
-    function bound(child, index) {
-      return preorder(child, index, node)
-    }
-  }
-}
-
 
 /***/ })
 /******/ ]);

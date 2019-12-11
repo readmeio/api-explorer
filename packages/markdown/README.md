@@ -84,9 +84,9 @@ There are four potential styles:
 | Emoji Prefix | Callout Theme |
 |:-----:|:------------|
 |ℹ|`.info` (blue theme)|
-|👍|`.success` (green theme)|
-|⚠️|`.warning` (orange theme)|
-|❗️|`.danger` (red theme)|
+|👍|`.okay` (green theme)|
+|⚠️|`.warn` (orange theme)|
+|❗️|`.error` (red theme)|
 
 ### [Embedded Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds)
 

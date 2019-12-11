@@ -51,8 +51,8 @@ function tokenize(eat, value) {
       );
     case 'callout': {
       json.type = {
-        success: ['👍', 'okay'],
         info: ['ℹ', 'info'],
+        success: ['👍', 'okay'],
         warning: ['⚠️', 'warn'],
         danger: ['❗️', 'error'],
       }[json.type];
@@ -62,7 +62,7 @@ function tokenize(eat, value) {
         data: {
           hName: 'rdme-callout',
           hProperties: {
-            theme,
+            theme: theme || 'default',
             icon,
             title: json.title,
             value: json.body,
@@ -73,10 +73,7 @@ function tokenize(eat, value) {
             type: 'paragraph',
             children: [
               { type: 'text', value: `${icon} ` },
-              {
-                type: 'strong',
-                children: this.tokenizeInline(json.title, eat.now()),
-              },
+              ...this.tokenizeInline(json.title, eat.now()),
             ],
           },
           ...this.tokenizeBlock(json.body, eat.now()),
@@ -110,7 +107,10 @@ function tokenize(eat, value) {
     case 'embed': {
       json.title = json.title || 'Embed';
       const { title, url } = json;
-      json.provider = `@${new URL(url).hostname.split(/(?:www)?\./).filter(i => i).join('')}`;
+      json.provider = `@${new URL(url).hostname
+        .split(/(?:www)?\./)
+        .filter(i => i)
+        .join('')}`;
       const data = { url, title, provider: json.provider };
       return eat(match)({
         type: 'embed',
