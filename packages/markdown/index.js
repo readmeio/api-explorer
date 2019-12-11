@@ -5,19 +5,9 @@ const unified = require('unified');
 
 /* Unified Plugins
  */
+// const PLUGINTEST = require('./processor/PluginTest').default;
+
 const sanitize = require('hast-util-sanitize/lib/github.json');
-
-// sanitization schema
-sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
-sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
-
-sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
-sanitize.attributes['rdme-embed'] = ['url', 'html', 'title', 'href'];
-
-sanitize.attributes.a = ['href', 'title'];
-
-sanitize.tagNames.push('input'); // allow GitHub-style todo lists
-sanitize.ancestors.input = ['li'];
 
 // remark plugins
 const remarkRehype = require('remark-rehype');
@@ -33,6 +23,8 @@ const rehypeReact = require('rehype-react');
 
 /* React Custom Components
  */
+const DivFragment = props => React.createElement(React.Fragment, props);
+
 const Variable = require('@readme/variable');
 const GlossaryItem = require('./components/GlossaryItem');
 const Code = require('./components/Code');
@@ -43,8 +35,6 @@ const Callout = require('./components/Callout');
 const CodeTabs = require('./components/CodeTabs');
 const Image = require('./components/Image');
 const Embed = require('./components/Embed');
-
-const DivFragment = props => React.createElement(React.Fragment, props);
 
 /* Custom Unified Parsers
  */
@@ -62,10 +52,24 @@ const codeTabsCompiler = require('./processor/compile/code-tabs');
 const rdmeEmbedCompiler = require('./processor/compile/embed');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
 
-// Default Unified Options
+// Processor Option Defaults
 const options = require('./processor/options.json');
 
-// Normalize Magic Block Raw Text
+// Sanitization Schema Defaults
+sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
+sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
+
+sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
+sanitize.attributes['rdme-embed'] = ['url', 'html', 'title', 'href'];
+
+sanitize.attributes.a = ['href', 'title'];
+
+sanitize.tagNames.push('input'); // allow GitHub-style todo lists
+sanitize.ancestors.input = ['li'];
+
+/**
+ * Normalize Magic Block Raw Text
+ */
 export function normalize(blocks) {
   // normalize magic block lines
   // eslint-disable-next-line no-param-reassign
@@ -73,11 +77,6 @@ export function normalize(blocks) {
     .replace(/\[block:/g, '\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
     .trim();
-
-  // fix header hash syntax w/o spaces
-  // eslint-disable-next-line no-param-reassign
-  // blocks = blocks.replace(/^(#*)(\w*)/gm, '$1 $2')
-
   return `${blocks}\n\n&nbsp;`;
 }
 
@@ -87,6 +86,9 @@ export const utils = {
   VariablesContext: Variable.VariablesContext,
 };
 
+/**
+ * Core markdown text processor
+ */
 function parseMarkdown(opts = {}) {
   /*
    * This is kinda complicated: "markdown" within ReadMe is
@@ -106,7 +108,6 @@ function parseMarkdown(opts = {}) {
    * - sanitize and remove any disallowed attributes
    * - output the hast to a React vdom with our custom components
    */
-  const PLUGINTEST = require('./processor/PluginTest').default;
   return (
     unified()
       .use(remarkParse, opts.markdownOptions)
@@ -127,6 +128,29 @@ function parseMarkdown(opts = {}) {
   );
 }
 
+export function plain(text, opts) {
+  if (!text) return null;
+
+  return (
+    parseMarkdown(opts)
+      .use(rehypeReact, {
+        createElement: React.createElement,
+        components: {
+          // 'readme-variable': props => <span {...props}>Variable</span>,
+          // 'readme-glossary-item': props => <span {...props}>Term</span>,
+          // 'readme-variable': Variable(sanitize),
+          // 'readme-glossary-item': GlossaryItem(sanitize),
+          div: DivFragment,
+        },
+      })
+      // .parse(text)
+      .processSync(text).contents
+  );
+}
+
+/**
+ *  return a React VDOM component tree
+ */
 export function react(text, opts) {
   if (!text) return null;
 
@@ -150,26 +174,20 @@ export function react(text, opts) {
     .processSync(text).contents;
 }
 
-export function plain(text, opts) {
+/**
+ *  transform markdown in to HTML
+ */
+export function html(text, opts) {
   if (!text) return null;
 
-  return (
-    parseMarkdown(opts)
-      .use(rehypeReact, {
-        createElement: React.createElement,
-        components: {
-          // 'readme-variable': props => <span {...props}>Variable</span>,
-          // 'readme-glossary-item': props => <span {...props}>Term</span>,
-          // 'readme-variable': Variable(sanitize),
-          // 'readme-glossary-item': GlossaryItem(sanitize),
-          div: DivFragment,
-        },
-      })
-      // .parse(text)
-      .processSync(text).contents
-  );
+  return parseMarkdown(opts)
+    .use(rehypeStringify)
+    .processSync(text).contents;
 }
 
+/**
+ *  convert markdown to an mdast object
+ */
 export function ast(text, opts) {
   if (!text) return null;
   return parseMarkdown(opts)
@@ -177,20 +195,15 @@ export function ast(text, opts) {
     .parse(text);
 }
 
+/**
+ *  compile mdast to ReadMe-flavored markdown
+ */
 export function md(tree, opts) {
   if (!tree) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
     .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler])
     .stringify(tree);
-}
-
-export function html(text, opts) {
-  if (!text) return null;
-
-  return parseMarkdown(opts)
-    .use(rehypeStringify)
-    .processSync(text).contents;
 }
 
 const ReadMeMarkdown = (text, opts) => react(text, opts); // for backwards "compatibility"

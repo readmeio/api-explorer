@@ -5,22 +5,17 @@ const PropTypes = require('prop-types');
 
 const Callout = props => {
   const { attributes, children, node } = props;
+  const content = children.splice(1);
 
-  /* Deal with varying methods of passing props
-   * between the hast-util and slate-mdast-serializer.
+  /* deal with differing data structures between the
+   * hast-util's hProps and Slate's MDAST serializer
    */
   const { theme } = (node && node.data.toJSON()) || props || {};
-
-  const content = children.splice(1);
-  const heading = children[0].props.children; // eek...
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <blockquote {...attributes} className={`callout callout_${theme}`}>
-      <h3>
-        <span>{heading[0]}</span>
-        {heading[1]}
-      </h3>
+      <h3>{children}</h3>
       {content}
     </blockquote>
   );

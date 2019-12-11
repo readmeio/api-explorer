@@ -5,9 +5,11 @@ function tokenizer(eat, value) {
 
   // eslint-disable-next-line prefer-const
   let [match, icon, title, text] = rgx.exec(value);
+
   icon = icon.trim();
-  title = title.trim();
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
+  title = title.trim();
+
   const style = {
     ℹ️: 'info',
     '⚠️': 'warn',
@@ -24,23 +26,14 @@ function tokenizer(eat, value) {
     data: {
       hName: 'rdme-callout',
       hProperties: {
-        theme: style,
+        theme: style || 'default',
         icon,
         title,
         value: text,
       },
     },
     children: [
-      {
-        type: 'div',
-        children: [
-          { type: 'text', value: `${icon} ` },
-          {
-            type: 'strong',
-            children: this.tokenizeInline(title, eat.now()),
-          },
-        ],
-      },
+      ...this.tokenizeBlock(`${icon} ${title}`, eat.now()),
       ...this.tokenizeBlock(text, eat.now()),
     ],
   });

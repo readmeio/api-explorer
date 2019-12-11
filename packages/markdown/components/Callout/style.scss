@@ -1,23 +1,26 @@
 @mixin callout ($l-offset: 1.5rem) {
   padding: $l-offset;
-  &, &_info, &[theme=info] {
+  &_default {
+    $txt: #6a737d;
+    $bdr: #dfe2e5;
+    background-color: lighten($bdr, 7%);
+    color: $txt;
+  }
+  &_info {
     background-color: #e3edf2;
     border-color: #5bc0de;
     h3, h4 { color: darken(#5bc0de, 5%) }
   }
-  &[theme=warn], &[theme=warning],
   &_warn, &_warning {
     background-color: #fcf8f2;
     border-color: #f0ad4e;
     h3, h4 { color: darken(#f0ad4e, 5%) }
   }
-  &[theme=ok], &[theme=okay], &[theme=success],
   &_ok, &_okay, &_success {
     background-color: #f3f8f3;
     border-color: #50af51;
     h3, h4 { color: darken(#50af51, 5%) }
   }
-  &[theme=err], &[theme=error],
   &_err, &_error {
     background-color: #fdf7f7;
     border-color: #d9534f;
@@ -27,12 +30,9 @@
     margin-left: $l-offset;
     position: relative;
   }
-  h3 > :first-child {
-    display: inline-block;
-    position: absolute;
-    right: 100%;
-    transform: translateX(-12.5%);
-    font-size: .75em;
+  h3:first-letter {
+    margin-left: -1.6em;
+    margin-right: .4rem;
   }
 }
 #hub-content,

@@ -1,4 +1,4 @@
-const rgx = /^\[([\w ]*)\]\((\S*) ["'](\@\w*)"\)/;
+const rgx = /^\[([\w ]*)\]\((\S*) ["'](@\w*)"\)/;
 
 function tokenizer(eat, value) {
   if (!rgx.test(value)) return true;
