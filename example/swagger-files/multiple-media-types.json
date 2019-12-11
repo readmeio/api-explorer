@@ -129,7 +129,7 @@
                   }
                 }
               },
-              "text/plain": {
+              "application/json": {
                 "examples": {
                   "cat" : {
                     "summary": "An example of a cat",
