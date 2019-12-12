@@ -21753,10 +21753,10 @@ var options = __webpack_require__(461); // Sanitization Schema Defaults
 
 sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
 
-sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
+sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
 
-sanitize.attributes['rdme-embed'] = ['url', 'html', 'title', 'href'];
+sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href'];
 sanitize.attributes.a = ['href', 'title'];
 sanitize.tagNames.push('input'); // allow GitHub-style todo lists
 
@@ -21807,7 +21807,8 @@ function parseMarkdown() {
   }).use(rehypeRaw).use(rehypeSanitize);
 }
 
-function plain(text, opts) {
+function plain(text) {
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!text) return null;
   return parseMarkdown(opts).use(rehypeReact, {
     createElement: React.createElement,
@@ -21825,7 +21826,8 @@ function plain(text, opts) {
  *  return a React VDOM component tree
  */
 
-function react(text, opts) {
+function react(text) {
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!text) return null;
   return parseMarkdown(opts).use(rehypeReact, {
     createElement: React.createElement,
@@ -21848,7 +21850,8 @@ function react(text, opts) {
  *  transform markdown in to HTML
  */
 
-function html(text, opts) {
+function html(text) {
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!text) return null;
   return parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
 }
@@ -21856,7 +21859,8 @@ function html(text, opts) {
  *  convert markdown to an mdast object
  */
 
-function ast(text, opts) {
+function ast(text) {
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!text) return null;
   return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).parse(text);
 }
@@ -21864,15 +21868,15 @@ function ast(text, opts) {
  *  compile mdast to ReadMe-flavored markdown
  */
 
-function md(tree, opts) {
+function md(tree) {
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!tree) return null;
   return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler]).stringify(tree);
 }
 
-var ReadMeMarkdown = function ReadMeMarkdown(text, opts) {
-  return react(text, opts);
-}; // for backwards "compatibility"
-
+var ReadMeMarkdown = function ReadMeMarkdown(text) {
+  return react(normalize(text));
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (ReadMeMarkdown);
 
@@ -52109,9 +52113,10 @@ module.exports = function (sanitizeSchema) {
 
 var React = __webpack_require__(154);
 
-var codemirror = __webpack_require__(405);
+var codemirror = __webpack_require__(405); // eslint-disable-next-line react/display-name
 
-var SyntaxHighlighter = function SyntaxHighlighter(code, lang) {
+
+module.exports = function (code, lang) {
   var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
     dark: false,
     tokenizeVariables: false
@@ -52121,7 +52126,6 @@ var SyntaxHighlighter = function SyntaxHighlighter(code, lang) {
   }, codemirror(typeof code === 'string' ? code : '', lang, opts));
 };
 
-module.exports = SyntaxHighlighter;
 module.exports.uppercase = __webpack_require__(420);
 
 /***/ }),
@@ -59032,7 +59036,7 @@ if (content.locals) {
 
 exports = module.exports = __webpack_require__(19)(false);
 // Module
-exports.push([module.i, "#hub-content rdme-callout,#hub-content .callout,.markdown-body rdme-callout,.markdown-body .callout{padding:1.5rem}#hub-content rdme-callout_default,#hub-content .callout_default,.markdown-body rdme-callout_default,.markdown-body .callout_default{background-color:#f3f4f5;color:#6a737d}#hub-content rdme-callout_info,#hub-content .callout_info,.markdown-body rdme-callout_info,.markdown-body .callout_info{background-color:#e3edf2;border-color:#5bc0de}#hub-content rdme-callout_info h3,#hub-content rdme-callout_info h4,#hub-content .callout_info h3,#hub-content .callout_info h4,.markdown-body rdme-callout_info h3,.markdown-body rdme-callout_info h4,.markdown-body .callout_info h3,.markdown-body .callout_info h4{color:#46b8da}#hub-content rdme-callout_warn,#hub-content rdme-callout_warning,#hub-content .callout_warn,#hub-content .callout_warning,.markdown-body rdme-callout_warn,.markdown-body rdme-callout_warning,.markdown-body .callout_warn,.markdown-body .callout_warning{background-color:#fcf8f2;border-color:#f0ad4e}#hub-content rdme-callout_warn h3,#hub-content rdme-callout_warn h4,#hub-content rdme-callout_warning h3,#hub-content rdme-callout_warning h4,#hub-content .callout_warn h3,#hub-content .callout_warn h4,#hub-content .callout_warning h3,#hub-content .callout_warning h4,.markdown-body rdme-callout_warn h3,.markdown-body rdme-callout_warn h4,.markdown-body rdme-callout_warning h3,.markdown-body rdme-callout_warning h4,.markdown-body .callout_warn h3,.markdown-body .callout_warn h4,.markdown-body .callout_warning h3,.markdown-body .callout_warning h4{color:#eea236}#hub-content rdme-callout_ok,#hub-content rdme-callout_okay,#hub-content rdme-callout_success,#hub-content .callout_ok,#hub-content .callout_okay,#hub-content .callout_success,.markdown-body rdme-callout_ok,.markdown-body rdme-callout_okay,.markdown-body rdme-callout_success,.markdown-body .callout_ok,.markdown-body .callout_okay,.markdown-body .callout_success{background-color:#f3f8f3;border-color:#50af51}#hub-content rdme-callout_ok h3,#hub-content rdme-callout_ok h4,#hub-content rdme-callout_okay h3,#hub-content rdme-callout_okay h4,#hub-content rdme-callout_success h3,#hub-content rdme-callout_success h4,#hub-content .callout_ok h3,#hub-content .callout_ok h4,#hub-content .callout_okay h3,#hub-content .callout_okay h4,#hub-content .callout_success h3,#hub-content .callout_success h4,.markdown-body rdme-callout_ok h3,.markdown-body rdme-callout_ok h4,.markdown-body rdme-callout_okay h3,.markdown-body rdme-callout_okay h4,.markdown-body rdme-callout_success h3,.markdown-body rdme-callout_success h4,.markdown-body .callout_ok h3,.markdown-body .callout_ok h4,.markdown-body .callout_okay h3,.markdown-body .callout_okay h4,.markdown-body .callout_success h3,.markdown-body .callout_success h4{color:#489e49}#hub-content rdme-callout_err,#hub-content rdme-callout_error,#hub-content .callout_err,#hub-content .callout_error,.markdown-body rdme-callout_err,.markdown-body rdme-callout_error,.markdown-body .callout_err,.markdown-body .callout_error{background-color:#fdf7f7;border-color:#d9534f}#hub-content rdme-callout_err h3,#hub-content rdme-callout_err h4,#hub-content rdme-callout_error h3,#hub-content rdme-callout_error h4,#hub-content .callout_err h3,#hub-content .callout_err h4,#hub-content .callout_error h3,#hub-content .callout_error h4,.markdown-body rdme-callout_err h3,.markdown-body rdme-callout_err h4,.markdown-body rdme-callout_error h3,.markdown-body rdme-callout_error h4,.markdown-body .callout_err h3,.markdown-body .callout_err h4,.markdown-body .callout_error h3,.markdown-body .callout_error h4{color:#d43f3a}#hub-content rdme-callout>*,#hub-content .callout>*,.markdown-body rdme-callout>*,.markdown-body .callout>*{margin-left:1.5rem;position:relative}#hub-content rdme-callout h3:first-letter,#hub-content .callout h3:first-letter,.markdown-body rdme-callout h3:first-letter,.markdown-body .callout h3:first-letter{margin-left:-1.6em;margin-right:.4rem}\n", ""]);
+exports.push([module.i, "#hub-content rdme-callout,#hub-content .callout,.markdown-body rdme-callout,.markdown-body .callout{padding:1.5rem}#hub-content rdme-callout_default,#hub-content .callout_default,.markdown-body rdme-callout_default,.markdown-body .callout_default{background-color:#f3f4f5;color:#6a737d}#hub-content rdme-callout_info,#hub-content .callout_info,.markdown-body rdme-callout_info,.markdown-body .callout_info{background-color:#e3edf2;border-color:#5bc0de}#hub-content rdme-callout_info h3,#hub-content rdme-callout_info h4,#hub-content .callout_info h3,#hub-content .callout_info h4,.markdown-body rdme-callout_info h3,.markdown-body rdme-callout_info h4,.markdown-body .callout_info h3,.markdown-body .callout_info h4{color:#46b8da}#hub-content rdme-callout_warn,#hub-content rdme-callout_warning,#hub-content .callout_warn,#hub-content .callout_warning,.markdown-body rdme-callout_warn,.markdown-body rdme-callout_warning,.markdown-body .callout_warn,.markdown-body .callout_warning{background-color:#fcf8f2;border-color:#f0ad4e}#hub-content rdme-callout_warn h3,#hub-content rdme-callout_warn h4,#hub-content rdme-callout_warning h3,#hub-content rdme-callout_warning h4,#hub-content .callout_warn h3,#hub-content .callout_warn h4,#hub-content .callout_warning h3,#hub-content .callout_warning h4,.markdown-body rdme-callout_warn h3,.markdown-body rdme-callout_warn h4,.markdown-body rdme-callout_warning h3,.markdown-body rdme-callout_warning h4,.markdown-body .callout_warn h3,.markdown-body .callout_warn h4,.markdown-body .callout_warning h3,.markdown-body .callout_warning h4{color:#eea236}#hub-content rdme-callout_ok,#hub-content rdme-callout_okay,#hub-content rdme-callout_success,#hub-content .callout_ok,#hub-content .callout_okay,#hub-content .callout_success,.markdown-body rdme-callout_ok,.markdown-body rdme-callout_okay,.markdown-body rdme-callout_success,.markdown-body .callout_ok,.markdown-body .callout_okay,.markdown-body .callout_success{background-color:#f3f8f3;border-color:#50af51}#hub-content rdme-callout_ok h3,#hub-content rdme-callout_ok h4,#hub-content rdme-callout_okay h3,#hub-content rdme-callout_okay h4,#hub-content rdme-callout_success h3,#hub-content rdme-callout_success h4,#hub-content .callout_ok h3,#hub-content .callout_ok h4,#hub-content .callout_okay h3,#hub-content .callout_okay h4,#hub-content .callout_success h3,#hub-content .callout_success h4,.markdown-body rdme-callout_ok h3,.markdown-body rdme-callout_ok h4,.markdown-body rdme-callout_okay h3,.markdown-body rdme-callout_okay h4,.markdown-body rdme-callout_success h3,.markdown-body rdme-callout_success h4,.markdown-body .callout_ok h3,.markdown-body .callout_ok h4,.markdown-body .callout_okay h3,.markdown-body .callout_okay h4,.markdown-body .callout_success h3,.markdown-body .callout_success h4{color:#489e49}#hub-content rdme-callout_err,#hub-content rdme-callout_error,#hub-content .callout_err,#hub-content .callout_error,.markdown-body rdme-callout_err,.markdown-body rdme-callout_error,.markdown-body .callout_err,.markdown-body .callout_error{background-color:#fdf7f7;border-color:#d9534f}#hub-content rdme-callout_err h3,#hub-content rdme-callout_err h4,#hub-content rdme-callout_error h3,#hub-content rdme-callout_error h4,#hub-content .callout_err h3,#hub-content .callout_err h4,#hub-content .callout_error h3,#hub-content .callout_error h4,.markdown-body rdme-callout_err h3,.markdown-body rdme-callout_err h4,.markdown-body rdme-callout_error h3,.markdown-body rdme-callout_error h4,.markdown-body .callout_err h3,.markdown-body .callout_err h4,.markdown-body .callout_error h3,.markdown-body .callout_error h4{color:#d43f3a}#hub-content rdme-callout>*,#hub-content .callout>*,.markdown-body rdme-callout>*,.markdown-body .callout>*{margin-left:1.5rem;position:relative}#hub-content rdme-callout h3:first-letter,#hub-content .callout h3:first-letter,.markdown-body rdme-callout h3:first-letter,.markdown-body .callout h3:first-letter{margin-left:-1.6em;margin-right:.4rem;line-height:0}\n", ""]);
 
 
 /***/ }),
@@ -59245,6 +59249,7 @@ function (_React$Component) {
     _classCallCheck(this, Embed);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Embed).call(this, props));
+    console.log(props.url);
     _this.state = {
       embedly: false
     };
@@ -59281,7 +59286,6 @@ function (_React$Component) {
     value: function getEmbed() {
       var _this3 = this;
 
-      console.log(this.props.url);
       api.extract({
         url: this.props.url
       }, function (err, obj) {
@@ -59297,7 +59301,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      // const { children } = this.props;
       return React.createElement("div", {
         className: "embed"
       }, React.createElement("div", {
@@ -59316,7 +59319,7 @@ function (_React$Component) {
 
 Embed.propTypes = {
   children: propTypes.arrayOf(propTypes.string, propTypes.array, propTypes.object, propTypes.element),
-  url: propTypes.oneOfType(propTypes.string, propTypes.shape({}))
+  url: propTypes.oneOfType([propTypes.string, propTypes.shape({})])
 };
 
 module.exports = function () {
@@ -79260,13 +79263,8 @@ function tokenize(eat, value) {
 
   switch (type) {
     case 'code':
-      return eat(match)({
-        type: 'code-tabs',
-        className: 'tabs',
-        data: {
-          hName: 'code-tabs'
-        },
-        children: json.codes.map(function (obj) {
+      {
+        var children = json.codes.map(function (obj) {
           return {
             type: 'code',
             value: obj.code,
@@ -79281,33 +79279,47 @@ function tokenize(eat, value) {
               }
             }
           };
-        })
-      });
+        });
+        if (children.length === 1) return eat(match)(children[0]);
+        return eat(match)({
+          children: children,
+          className: 'tabs',
+          data: {
+            hName: 'code-tabs'
+          },
+          type: 'code-tabs'
+        });
+      }
 
     case 'api-header':
-      return eat(match)({
-        type: 'heading',
-        depth: json.level || 2,
-        children: this.tokenizeInline(json.title, eat.now())
-      });
+      {
+        return eat(match)({
+          type: 'heading',
+          depth: json.level || 2,
+          children: this.tokenizeInline(json.title, eat.now())
+        });
+      }
 
     case 'image':
-      return eat(match)(json.images.map(function (img) {
-        var _img$image = _slicedToArray(img.image, 2),
-            url = _img$image[0],
-            alt = _img$image[1];
+      {
+        return eat(match)(json.images.map(function (img) {
+          var _img$image = _slicedToArray(img.image, 2),
+              url = _img$image[0],
+              alt = _img$image[1];
 
-        return {
-          type: 'image',
-          title: img.caption,
-          url: url,
-          alt: alt
-        };
-      })[0]);
+          return {
+            type: 'image',
+            title: img.caption,
+            url: url,
+            alt: alt
+          };
+        })[0]);
+      }
 
     case 'callout':
       {
         json.type = {
+          // @todo: I should probably just be using the original class names here...
           info: ['ℹ', 'info'],
           success: ['👍', 'okay'],
           warning: ['⚠️', 'warn'],
@@ -79338,12 +79350,14 @@ function tokenize(eat, value) {
           }].concat(_toConsumableArray(this.tokenizeBlock(json.body, eat.now())))
         });
       }
+    // tables
 
     case 'parameters':
       {
         var _json = json,
             data = _json.data;
-        var children = Object.keys(data).sort().reduce(function (sum, key) {
+
+        var _children = Object.keys(data).sort().reduce(function (sum, key) {
           var val = data[key];
 
           var _key$split = key.split('-'),
@@ -79363,10 +79377,16 @@ function tokenize(eat, value) {
           };
           return sum;
         }, []);
+
         return eat(match)({
           type: 'table',
-          align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
-          children: children
+          align: new Array(json.cols).fill('right'),
+          children: _children,
+          data: {
+            hProperties: {
+              align: new Array(json.cols).fill('right')
+            }
+          }
         });
       }
 
@@ -79406,11 +79426,13 @@ function tokenize(eat, value) {
       }
 
     default:
-      return eat(match)({
-        type: 'div',
-        children: this.tokenizeBlock(json.body, eat.now()),
-        data: json
-      });
+      {
+        return eat(match)({
+          type: 'div',
+          children: this.tokenizeBlock(json.body, eat.now()),
+          data: json
+        });
+      }
   }
 }
 
@@ -79427,10 +79449,12 @@ module.exports = parser;
 module.exports.sanitize = function (sanitizeSchema) {
   // const tags = sanitizeSchema.tagNames;
   var attr = sanitizeSchema.attributes;
+  console.log(attr);
   attr.li = ['checked'];
   attr.pre = ['className', 'lang', 'meta'];
   attr.code = ['className', 'lang', 'meta'];
   attr.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
+  attr.table = ['align'];
   return parser;
 };
 
@@ -79544,7 +79568,10 @@ function tokenize(eat, value, silent) {
       url: "/img/emojis/".concat(subvalue, ".png"),
       data: {
         hProperties: {
-          className: 'emoji'
+          className: 'emoji',
+          align: 'absmiddle',
+          height: '20',
+          width: '20'
         }
       }
     });
@@ -79661,7 +79688,7 @@ module.exports = function CalloutCompiler() {
 /* 461 */
 /***/ (function(module, exports) {
 
-module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":false},"settings":{"position":false}}
+module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":false,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":true,"setext":true},"settings":{"position":false}}
 
 /***/ })
 /******/ ]);

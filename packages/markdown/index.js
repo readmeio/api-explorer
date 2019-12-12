@@ -57,10 +57,10 @@ const options = require('./processor/options.json');
 
 // Sanitization Schema Defaults
 sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
-sanitize.attributes.embed = ['url', 'html', 'title', 'href'];
+sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 
 sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
-sanitize.attributes['rdme-embed'] = ['url', 'html', 'title', 'href'];
+sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href'];
 
 sanitize.attributes.a = ['href', 'title'];
 
@@ -128,7 +128,7 @@ function parseMarkdown(opts = {}) {
   );
 }
 
-export function plain(text, opts) {
+export function plain(text, opts = options) {
   if (!text) return null;
 
   return (
@@ -151,7 +151,7 @@ export function plain(text, opts) {
 /**
  *  return a React VDOM component tree
  */
-export function react(text, opts) {
+export function react(text, opts = options) {
   if (!text) return null;
 
   return parseMarkdown(opts)
@@ -177,7 +177,7 @@ export function react(text, opts) {
 /**
  *  transform markdown in to HTML
  */
-export function html(text, opts) {
+export function html(text, opts = options) {
   if (!text) return null;
 
   return parseMarkdown(opts)
@@ -188,7 +188,7 @@ export function html(text, opts) {
 /**
  *  convert markdown to an mdast object
  */
-export function ast(text, opts) {
+export function ast(text, opts = options) {
   if (!text) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
@@ -198,7 +198,7 @@ export function ast(text, opts) {
 /**
  *  compile mdast to ReadMe-flavored markdown
  */
-export function md(tree, opts) {
+export function md(tree, opts = options) {
   if (!tree) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
@@ -206,6 +206,6 @@ export function md(tree, opts) {
     .stringify(tree);
 }
 
-const ReadMeMarkdown = (text, opts) => react(text, opts); // for backwards "compatibility"
+const ReadMeMarkdown = text => react(normalize(text));
 
 export default ReadMeMarkdown;
