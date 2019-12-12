@@ -107,7 +107,7 @@ function tokenize(eat, value) {
         }, []);
       return eat(match)({
         type: 'table',
-        align: new Array(json.cols).fill('right'),
+        align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
         children,
       });
     }
@@ -161,7 +161,6 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   // const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
-  console.log(attr)
   attr.li = ['checked'];
   attr.pre = ['className', 'lang', 'meta'];
   attr.code = ['className', 'lang', 'meta'];
