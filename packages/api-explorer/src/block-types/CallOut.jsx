@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 
 function Icon({ type }) {
   switch (type) {
@@ -37,7 +37,7 @@ const CallOut = ({ block, flags }) => {
         </span>
       )}
       {block.data && block.data.body && (
-        <div className="callout-body">{markdown.react(block.data.body, flags)}</div>
+        <div className="callout-body">{markdown(block.data.body, flags)}</div>
       )}
     </div>
   );

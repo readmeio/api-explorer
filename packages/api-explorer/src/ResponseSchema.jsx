@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 const Oas = require('oas');
 const { findSchemaDefinition } = require('oas/utils');
 
@@ -103,7 +103,7 @@ class ResponseSchema extends React.Component {
       >
         {this.renderHeader()}
         <div className="response-schema">
-          {response.description && <div className="desc">{markdown.react(response.description)}</div>}
+          {response.description && <div className="desc">{markdown(response.description)}</div>}
           {schema && <ResponseSchemaBody oas={oas} schema={schema} />}
         </div>
       </div>

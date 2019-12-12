@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 
 const Parameters = ({ block, flags }) => {
   const columns = block.data.cols;
@@ -24,7 +24,7 @@ const Parameters = ({ block, flags }) => {
     for (let c = 0; c < columns; c += 1) {
       tdCells.push(
         <div key={c} className="td">
-          {markdown.react(block.data.data[`${r}-${c}`] || '', flags)}
+          {markdown(block.data.data[`${r}-${c}`] || '', flags)}
         </div>,
       );
     }

@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const fetchHar = require('fetch-har');
 const extensions = require('@readme/oas-extensions');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 const Waypoint = require('react-waypoint');
 const oasToHar = require('@readme/oas-to-har');
 const Oas = require('oas');
@@ -327,7 +327,7 @@ class Doc extends React.Component {
                 </a>
               )}
               <h2>{doc.title}</h2>
-              {doc.excerpt && <div className="excerpt">{markdown.react(doc.excerpt)}</div>}
+              {doc.excerpt && <div className="excerpt">{markdown(doc.excerpt)}</div>}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>

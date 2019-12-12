@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 
 const ImageBlock = ({ block, flags }) => {
   const myImage = block.data.images.map((image, i) => {
@@ -19,7 +19,7 @@ const ImageBlock = ({ block, flags }) => {
                 <img alt={image.caption} src={image.image[0]} />
               </a>
             </figure>
-            {image.caption && <figcaption>{markdown.react(image.caption, flags)}</figcaption>}
+            {image.caption && <figcaption>{markdown(image.caption, flags)}</figcaption>}
           </div>
         )}
       </div>
