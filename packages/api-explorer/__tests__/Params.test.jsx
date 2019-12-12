@@ -2,6 +2,7 @@ const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas');
+const { ADDITIONAL_PROPERTY_FLAG } = require('react-jsonschema-form/lib/utils');
 
 const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
@@ -147,6 +148,18 @@ test('should convert `mixed type` to string', () => {
   const params = renderParams({ type: 'mixed type' });
 
   expect(params.find(`.field-string`)).toHaveLength(1);
+});
+
+test('additionalProperties object labels (keys) should be editable', () => {
+  const params = renderParams({
+    type: 'object',
+    additionalProperties: true,
+    // RJSF adds this property if you go through the `Form` object, but we aren't here so we're
+    // faking it.
+    [ADDITIONAL_PROPERTY_FLAG]: true,
+  });
+
+  expect(params.find('input#root_a-key')).toHaveLength(1);
 });
 
 describe('schema format handling', () => {
