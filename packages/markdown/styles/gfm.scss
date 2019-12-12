@@ -660,8 +660,12 @@
     width: 100%
   }
 
-  table th {
-    font-weight: 600
+  table th,
+  table thead td {
+    font-weight: 600;
+  }
+  table thead tr {
+    background: #f6f8fa;
   }
 
   table td,
@@ -676,7 +680,7 @@
   }
 
   table tr:nth-child(2n) {
-    background-color: #f6f8fa
+    background-color: lighten(#f6f8fa, 1.5%);
   }
 
   img {
