@@ -11,33 +11,37 @@ function tokenize(eat, value) {
   json = (json && JSON.parse(json)) || {};
 
   switch (type) {
-    case 'code':
+    case 'code': {
+      const children = json.codes.map(obj => ({
+        type: 'code',
+        value: obj.code,
+        meta: obj.name || null,
+        lang: obj.language,
+        className: 'tab-panel',
+        data: {
+          hName: 'code',
+          hProperties: {
+            meta: obj.name || null,
+            lang: obj.language,
+          },
+        },
+      }));
+      if (children.length === 1) return eat(match)(children[0]);
       return eat(match)({
-        type: 'code-tabs',
+        children,
         className: 'tabs',
         data: { hName: 'code-tabs' },
-        children: json.codes.map(obj => ({
-          type: 'code',
-          value: obj.code,
-          meta: obj.name || null,
-          lang: obj.language,
-          className: 'tab-panel',
-          data: {
-            hName: 'code',
-            hProperties: {
-              meta: obj.name || null,
-              lang: obj.language,
-            },
-          },
-        })),
+        type: 'code-tabs',
       });
-    case 'api-header':
+    }
+    case 'api-header': {
       return eat(match)({
         type: 'heading',
         depth: json.level || 2,
         children: this.tokenizeInline(json.title, eat.now()),
       });
-    case 'image':
+    }
+    case 'image': {
       return eat(match)(
         json.images.map(img => {
           const [url, alt] = img.image;
@@ -49,8 +53,10 @@ function tokenize(eat, value) {
           };
         })[0],
       );
+    }
     case 'callout': {
-      json.type = { // @todo: I should probably just be using the original class names here...
+      json.type = {
+        // @todo: I should probably just be using the original class names here...
         info: ['ℹ', 'info'],
         success: ['👍', 'okay'],
         warning: ['⚠️', 'warn'],
@@ -80,6 +86,7 @@ function tokenize(eat, value) {
         ],
       });
     }
+    // tables
     case 'parameters': {
       const { data } = json;
       const children = Object.keys(data)
@@ -100,7 +107,7 @@ function tokenize(eat, value) {
         }, []);
       return eat(match)({
         type: 'table',
-        align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
+        align: new Array(json.cols).fill('right'),
         children,
       });
     }
@@ -130,12 +137,13 @@ function tokenize(eat, value) {
         },
       });
     }
-    default:
+    default: {
       return eat(match)({
         type: 'div',
         children: this.tokenizeBlock(json.body, eat.now()),
         data: json,
       });
+    }
   }
 }
 
@@ -153,11 +161,12 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   // const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
-
+  console.log(attr)
   attr.li = ['checked'];
   attr.pre = ['className', 'lang', 'meta'];
   attr.code = ['className', 'lang', 'meta'];
   attr.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
+  attr.table = ['align'];
 
   return parser;
 };
