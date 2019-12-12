@@ -56,9 +56,22 @@ Which will give you the following:
 
 Our old editor compiled custom "Magic Block" components in to a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this proprietary format and compiling it to a markdown-compatible syntax. Mostly this looks just like pure ol' markdown, but with a bit of syntactic sugar on top.
 
-### [Multi-Code Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/code-blocks)
 
-A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for the lack of an additional line separating each subsequent block:
+### Standard Markdown Components
+
+Most of our magic blocks render neatly to pure markdown representations. In some instances certain minor data loss will occur (such as our "smart" image sizing), while new functionalities (such as table text alignment) will be gained. These components include:
+
+- [Image Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/images)
+- [List Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/lists)
+- [Table Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/tables)
+- [Heading Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/headings)
+- Inline Decorations (link, bold, and emphasis tags, etc)
+
+### ReadMe-Flavored Components
+
+#### Multi-Code Blocks [**↗**](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/code-blocks "Code Blocks Demo")
+
+() A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for their distinct *lack* of an additional line break separating each subsequent block:
 
     ```javascript
     export sum from 'sum';
@@ -71,15 +84,15 @@ A tabbed interface for displaying multiple code blocks. These are written nearly
     export sub = (a, b) => a - b
     ```
 
-### [Callout Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/callouts)
+#### Callout Blocks [**↗**](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/callouts "Callouts Demo")
 
-Callouts are very similar to blockquotes in both display and syntax. They are defined by an initial emoji, which determines the callout's theme:
+Callouts are very similar to blockquotes in both display and syntax. They are defined by a title with an initial emoji, which determines the callout's theme:
 
     > ❗️ Watch Out
     > 
     > This is a callout using the error theme.
 
-There are four potential styles:
+There are five potential themes:
 
 | Emoji Prefix | Callout Theme |
 |:-----:|:------------|
@@ -87,21 +100,13 @@ There are four potential styles:
 |👍|`.okay` (green theme)|
 |⚠️|`.warn` (orange theme)|
 |❗️|`.error` (red theme)|
+|*...rest*|`N/A` (gray theme)|
 
-### [Embedded Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds)
+#### Embedded Blocks [**↗**](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds "Embeds Demo")
 
 Embeds are written as links, with their title set to `@embed`:
 
     [Embed Title](https://youtu.be/8bh238ekw3 "@embed")
-
-### Other Blocks
-
-Other magic blocks are rendered to pure markdown representations of their various contents. In some instances certain minor data loss (such as image "smart sizing") may occur, while new functionalities (such as table text alignment) will be gained. These pure converters include:
-
-- [Image Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/images)
-- [List Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/lists)
-- [Table Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/tables)
-- [Heading Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/headings)
 
 ## Updated Editor
 
