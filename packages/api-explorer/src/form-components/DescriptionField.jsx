@@ -2,7 +2,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 
 function DescriptionField(props) {
   const { id, description } = props;
@@ -10,7 +10,7 @@ function DescriptionField(props) {
 
   return (
     <div className="field-description" id={id}>
-      {typeof description === 'string' ? markdown.react(description) : description}
+      {typeof description === 'string' ? markdown(description) : description}
     </div>
   );
 }
