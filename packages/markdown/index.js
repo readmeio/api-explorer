@@ -5,8 +5,6 @@ const unified = require('unified');
 
 /* Unified Plugins
  */
-// const PLUGINTEST = require('./processor/PluginTest').default;
-
 const sanitize = require('hast-util-sanitize/lib/github.json');
 
 // remark plugins
@@ -108,44 +106,37 @@ function parseMarkdown(opts = {}) {
    * - sanitize and remove any disallowed attributes
    * - output the hast to a React vdom with our custom components
    */
-  return (
-    unified()
-      .use(remarkParse, opts.markdownOptions)
-      .data('settings', opts.settings)
-      .use(magicBlockParser.sanitize(sanitize))
-      .use([
-        flavorCodeTabs.sanitize(sanitize),
-        flavorCallout.sanitize(sanitize),
-        flavorEmbed.sanitize(sanitize),
-      ])
-      .use(variableParser.sanitize(sanitize))
-      // .use(PLUGINTEST)
-      .use(!opts.correctnewlines ? breaks : () => {})
-      .use(gemojiParser.sanitize(sanitize))
-      .use(remarkRehype, { allowDangerousHTML: true })
-      .use(rehypeRaw)
-      .use(rehypeSanitize)
-  );
+  return unified()
+    .use(remarkParse, opts.markdownOptions)
+    .data('settings', opts.settings)
+    .use(magicBlockParser.sanitize(sanitize))
+    .use([
+      flavorCodeTabs.sanitize(sanitize),
+      flavorCallout.sanitize(sanitize),
+      flavorEmbed.sanitize(sanitize),
+    ])
+    .use(variableParser.sanitize(sanitize))
+    .use(!opts.correctnewlines ? breaks : () => {})
+    .use(gemojiParser.sanitize(sanitize))
+    .use(remarkRehype, { allowDangerousHTML: true })
+    .use(rehypeRaw)
+    .use(rehypeSanitize);
 }
 
 export function plain(text, opts = options) {
   if (!text) return null;
-
-  return (
-    parseMarkdown(opts)
-      .use(rehypeReact, {
-        createElement: React.createElement,
-        components: {
-          // 'readme-variable': props => <span {...props}>Variable</span>,
-          // 'readme-glossary-item': props => <span {...props}>Term</span>,
-          // 'readme-variable': Variable(sanitize),
-          // 'readme-glossary-item': GlossaryItem(sanitize),
-          div: DivFragment,
-        },
-      })
-      // .parse(text)
-      .processSync(text).contents
-  );
+  return parseMarkdown(opts)
+    .use(rehypeReact, {
+      createElement: React.createElement,
+      components: {
+        // 'readme-variable': props => <span {...props}>Variable</span>,
+        // 'readme-glossary-item': props => <span {...props}>Term</span>,
+        // 'readme-variable': Variable(sanitize),
+        // 'readme-glossary-item': GlossaryItem(sanitize),
+        div: DivFragment,
+      },
+    })
+    .processSync(text).contents;
 }
 
 /**
@@ -153,7 +144,6 @@ export function plain(text, opts = options) {
  */
 export function react(text, opts = options) {
   if (!text) return null;
-
   return parseMarkdown(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
