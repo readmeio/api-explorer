@@ -13,6 +13,7 @@ test('should output a variable node', () => {
           { type: 'text', value: 'This is a test ' },
           {
             type: 'readme-variable',
+            text: 'apiKey',
             data: {
               hName: 'readme-variable',
               hProperties: {

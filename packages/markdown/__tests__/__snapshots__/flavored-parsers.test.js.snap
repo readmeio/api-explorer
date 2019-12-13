@@ -9,19 +9,10 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "ℹ️ ",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "Info Callout",
-                },
-              ],
-              "type": "strong",
+              "value": "ℹ️ Info Callout",
             },
           ],
-          "type": "div",
+          "type": "paragraph",
         },
       ],
       "data": Object {
