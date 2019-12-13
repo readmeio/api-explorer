@@ -7,7 +7,6 @@ const api = new Embedly({ key: 'f2aa6fc3595946d0afc3d76cbbd25dc3' });
 class Embed extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.url)
     this.state = {
       embedly: false,
     };

@@ -86,7 +86,6 @@ function tokenize(eat, value) {
         ],
       });
     }
-    // tables
     case 'parameters': {
       const { data } = json;
       const children = Object.keys(data)
@@ -140,7 +139,7 @@ function tokenize(eat, value) {
     default: {
       return eat(match)({
         type: 'div',
-        children: this.tokenizeBlock(json.body, eat.now()),
+        children: this.tokenizeBlock(json.html, eat.now()),
         data: json,
       });
     }

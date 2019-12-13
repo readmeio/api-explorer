@@ -10134,7 +10134,7 @@ if (process.env.NODE_ENV === 'production') {
 "use strict";
 
 
-var assign = __webpack_require__(21)
+var assign = __webpack_require__(22)
 
 module.exports = u
 
@@ -10358,6 +10358,102 @@ if (process.env.NODE_ENV !== 'production') {
 "use strict";
 
 
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+// eslint-disable-next-line func-names
+module.exports = function (useSourceMap) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item, useSourceMap);
+
+      if (item[2]) {
+        return "@media ".concat(item[2], "{").concat(content, "}");
+      }
+
+      return content;
+    }).join('');
+  }; // import a list of modules into the list
+  // eslint-disable-next-line func-names
+
+
+  list.i = function (modules, mediaQuery) {
+    if (typeof modules === 'string') {
+      // eslint-disable-next-line no-param-reassign
+      modules = [[null, modules, '']];
+    }
+
+    var alreadyImportedModules = {};
+
+    for (var i = 0; i < this.length; i++) {
+      // eslint-disable-next-line prefer-destructuring
+      var id = this[i][0];
+
+      if (id != null) {
+        alreadyImportedModules[id] = true;
+      }
+    }
+
+    for (var _i = 0; _i < modules.length; _i++) {
+      var item = modules[_i]; // skip already imported module
+      // this implementation is not 100% perfect for weird media query combinations
+      // when a module is imported multiple times with different media queries.
+      // I hope this will never occur (Hey this way we have smaller bundles)
+
+      if (item[0] == null || !alreadyImportedModules[item[0]]) {
+        if (mediaQuery && !item[2]) {
+          item[2] = mediaQuery;
+        } else if (mediaQuery) {
+          item[2] = "(".concat(item[2], ") and (").concat(mediaQuery, ")");
+        }
+
+        list.push(item);
+      }
+    }
+  };
+
+  return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+  var content = item[1] || ''; // eslint-disable-next-line prefer-destructuring
+
+  var cssMapping = item[3];
+
+  if (!cssMapping) {
+    return content;
+  }
+
+  if (useSourceMap && typeof btoa === 'function') {
+    var sourceMapping = toComment(cssMapping);
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return "/*# sourceURL=".concat(cssMapping.sourceRoot).concat(source, " */");
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+  }
+
+  return [content].join('\n');
+} // Adapted from convert-source-map (MIT)
+
+
+function toComment(sourceMap) {
+  // eslint-disable-next-line no-undef
+  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+  var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
+  return "/*# ".concat(data, " */");
+}
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 module.exports = wrap
 
 var u = __webpack_require__(5)
@@ -10390,7 +10486,7 @@ function wrap(nodes, loose) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10669,7 +10765,7 @@ exports.SPECIAL_ELEMENTS = {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10715,7 +10811,7 @@ function create(definition) {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10761,7 +10857,7 @@ function create(definition) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10807,7 +10903,7 @@ function create(definition) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10825,7 +10921,7 @@ function decimal(character) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10871,7 +10967,7 @@ function create(definition) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10917,102 +11013,6 @@ function create(definition) {
 
 
 /***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-// eslint-disable-next-line func-names
-module.exports = function (useSourceMap) {
-  var list = []; // return the list of modules as css string
-
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = cssWithMappingToString(item, useSourceMap);
-
-      if (item[2]) {
-        return "@media ".concat(item[2], "{").concat(content, "}");
-      }
-
-      return content;
-    }).join('');
-  }; // import a list of modules into the list
-  // eslint-disable-next-line func-names
-
-
-  list.i = function (modules, mediaQuery) {
-    if (typeof modules === 'string') {
-      // eslint-disable-next-line no-param-reassign
-      modules = [[null, modules, '']];
-    }
-
-    var alreadyImportedModules = {};
-
-    for (var i = 0; i < this.length; i++) {
-      // eslint-disable-next-line prefer-destructuring
-      var id = this[i][0];
-
-      if (id != null) {
-        alreadyImportedModules[id] = true;
-      }
-    }
-
-    for (var _i = 0; _i < modules.length; _i++) {
-      var item = modules[_i]; // skip already imported module
-      // this implementation is not 100% perfect for weird media query combinations
-      // when a module is imported multiple times with different media queries.
-      // I hope this will never occur (Hey this way we have smaller bundles)
-
-      if (item[0] == null || !alreadyImportedModules[item[0]]) {
-        if (mediaQuery && !item[2]) {
-          item[2] = mediaQuery;
-        } else if (mediaQuery) {
-          item[2] = "(".concat(item[2], ") and (").concat(mediaQuery, ")");
-        }
-
-        list.push(item);
-      }
-    }
-  };
-
-  return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-  var content = item[1] || ''; // eslint-disable-next-line prefer-destructuring
-
-  var cssMapping = item[3];
-
-  if (!cssMapping) {
-    return content;
-  }
-
-  if (useSourceMap && typeof btoa === 'function') {
-    var sourceMapping = toComment(cssMapping);
-    var sourceURLs = cssMapping.sources.map(function (source) {
-      return "/*# sourceURL=".concat(cssMapping.sourceRoot).concat(source, " */");
-    });
-    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-  }
-
-  return [content].join('\n');
-} // Adapted from convert-source-map (MIT)
-
-
-function toComment(sourceMap) {
-  // eslint-disable-next-line no-undef
-  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-  var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
-  return "/*# ".concat(data, " */");
-}
-
-/***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
@@ -11020,6 +11020,294 @@ module.exports = {"html":"http://www.w3.org/1999/xhtml","mathml":"http://www.w3.
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stylesInDom = {};
+
+var isOldIE = function isOldIE() {
+  var memo;
+  return function memorize() {
+    if (typeof memo === 'undefined') {
+      // Test for IE <= 9 as proposed by Browserhacks
+      // @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+      // Tests for existence of standard globals is to allow style-loader
+      // to operate correctly into non-standard environments
+      // @see https://github.com/webpack-contrib/style-loader/issues/177
+      memo = Boolean(window && document && document.all && !window.atob);
+    }
+
+    return memo;
+  };
+}();
+
+var getTarget = function getTarget() {
+  var memo = {};
+  return function memorize(target) {
+    if (typeof memo[target] === 'undefined') {
+      var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+
+      if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+        try {
+          // This will throw an exception if access to iframe is blocked
+          // due to cross-origin restrictions
+          styleTarget = styleTarget.contentDocument.head;
+        } catch (e) {
+          // istanbul ignore next
+          styleTarget = null;
+        }
+      }
+
+      memo[target] = styleTarget;
+    }
+
+    return memo[target];
+  };
+}();
+
+function listToStyles(list, options) {
+  var styles = [];
+  var newStyles = {};
+
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var id = options.base ? item[0] + options.base : item[0];
+    var css = item[1];
+    var media = item[2];
+    var sourceMap = item[3];
+    var part = {
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    };
+
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = {
+        id: id,
+        parts: [part]
+      });
+    } else {
+      newStyles[id].parts.push(part);
+    }
+  }
+
+  return styles;
+}
+
+function addStylesToDom(styles, options) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i];
+    var domStyle = stylesInDom[item.id];
+    var j = 0;
+
+    if (domStyle) {
+      domStyle.refs++;
+
+      for (; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j]);
+      }
+
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j], options));
+      }
+    } else {
+      var parts = [];
+
+      for (; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j], options));
+      }
+
+      stylesInDom[item.id] = {
+        id: item.id,
+        refs: 1,
+        parts: parts
+      };
+    }
+  }
+}
+
+function insertStyleElement(options) {
+  var style = document.createElement('style');
+
+  if (typeof options.attributes.nonce === 'undefined') {
+    var nonce =  true ? __webpack_require__.nc : null;
+
+    if (nonce) {
+      options.attributes.nonce = nonce;
+    }
+  }
+
+  Object.keys(options.attributes).forEach(function (key) {
+    style.setAttribute(key, options.attributes[key]);
+  });
+
+  if (typeof options.insert === 'function') {
+    options.insert(style);
+  } else {
+    var target = getTarget(options.insert || 'head');
+
+    if (!target) {
+      throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
+    }
+
+    target.appendChild(style);
+  }
+
+  return style;
+}
+
+function removeStyleElement(style) {
+  // istanbul ignore if
+  if (style.parentNode === null) {
+    return false;
+  }
+
+  style.parentNode.removeChild(style);
+}
+/* istanbul ignore next  */
+
+
+var replaceText = function replaceText() {
+  var textStore = [];
+  return function replace(index, replacement) {
+    textStore[index] = replacement;
+    return textStore.filter(Boolean).join('\n');
+  };
+}();
+
+function applyToSingletonTag(style, index, remove, obj) {
+  var css = remove ? '' : obj.css; // For old IE
+
+  /* istanbul ignore if  */
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = replaceText(index, css);
+  } else {
+    var cssNode = document.createTextNode(css);
+    var childNodes = style.childNodes;
+
+    if (childNodes[index]) {
+      style.removeChild(childNodes[index]);
+    }
+
+    if (childNodes.length) {
+      style.insertBefore(cssNode, childNodes[index]);
+    } else {
+      style.appendChild(cssNode);
+    }
+  }
+}
+
+function applyToTag(style, options, obj) {
+  var css = obj.css;
+  var media = obj.media;
+  var sourceMap = obj.sourceMap;
+
+  if (media) {
+    style.setAttribute('media', media);
+  }
+
+  if (sourceMap && btoa) {
+    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
+  } // For old IE
+
+  /* istanbul ignore if  */
+
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    while (style.firstChild) {
+      style.removeChild(style.firstChild);
+    }
+
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var singleton = null;
+var singletonCounter = 0;
+
+function addStyle(obj, options) {
+  var style;
+  var update;
+  var remove;
+
+  if (options.singleton) {
+    var styleIndex = singletonCounter++;
+    style = singleton || (singleton = insertStyleElement(options));
+    update = applyToSingletonTag.bind(null, style, styleIndex, false);
+    remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+  } else {
+    style = insertStyleElement(options);
+    update = applyToTag.bind(null, style, options);
+
+    remove = function remove() {
+      removeStyleElement(style);
+    };
+  }
+
+  update(obj);
+  return function updateStyle(newObj) {
+    if (newObj) {
+      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap) {
+        return;
+      }
+
+      update(obj = newObj);
+    } else {
+      remove();
+    }
+  };
+}
+
+module.exports = function (list, options) {
+  options = options || {};
+  options.attributes = typeof options.attributes === 'object' ? options.attributes : {}; // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+  // tags it will allow on a page
+
+  if (!options.singleton && typeof options.singleton !== 'boolean') {
+    options.singleton = isOldIE();
+  }
+
+  var styles = listToStyles(list, options);
+  addStylesToDom(styles, options);
+  return function update(newList) {
+    var mayRemove = [];
+
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i];
+      var domStyle = stylesInDom[item.id];
+
+      if (domStyle) {
+        domStyle.refs--;
+        mayRemove.push(domStyle);
+      }
+    }
+
+    if (newList) {
+      var newStyles = listToStyles(newList, options);
+      addStylesToDom(newStyles, options);
+    }
+
+    for (var _i = 0; _i < mayRemove.length; _i++) {
+      var _domStyle = mayRemove[_i];
+
+      if (_domStyle.refs === 0) {
+        for (var j = 0; j < _domStyle.parts.length; j++) {
+          _domStyle.parts[j]();
+        }
+
+        delete stylesInDom[_domStyle.id];
+      }
+    }
+  };
+};
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11116,7 +11404,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11221,7 +11509,7 @@ module.exports = encode;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13424,28 +13712,6 @@ module.exports = Tokenizer;
 
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var powers = 0
-
-exports.boolean = increment()
-exports.booleanish = increment()
-exports.overloadedBoolean = increment()
-exports.number = increment()
-exports.spaceSeparated = increment()
-exports.commaSeparated = increment()
-exports.commaOrSpaceSeparated = increment()
-
-function increment() {
-  return Math.pow(2, ++powers)
-}
-
-
-/***/ }),
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13474,6 +13740,28 @@ function increment() {
 "use strict";
 
 
+var powers = 0
+
+exports.boolean = increment()
+exports.booleanish = increment()
+exports.overloadedBoolean = increment()
+exports.number = increment()
+exports.spaceSeparated = increment()
+exports.commaSeparated = increment()
+exports.commaOrSpaceSeparated = increment()
+
+function increment() {
+  return Math.pow(2, ++powers)
+}
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var trim = __webpack_require__(8)
 
 exports.parse = parse
@@ -13494,7 +13782,7 @@ function stringify(values) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13556,7 +13844,7 @@ function stringify(values, options) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13578,7 +13866,7 @@ function increment() {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13586,7 +13874,7 @@ function increment() {
 
 var legacy = __webpack_require__(103)
 var invalid = __webpack_require__(258)
-var decimal = __webpack_require__(16)
+var decimal = __webpack_require__(17)
 var hexadecimal = __webpack_require__(104)
 var alphanumerical = __webpack_require__(105)
 var decodeEntity = __webpack_require__(259)
@@ -14035,28 +14323,6 @@ function disallowed(code) {
 
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var powers = 0
-
-exports.boolean = increment()
-exports.booleanish = increment()
-exports.overloadedBoolean = increment()
-exports.number = increment()
-exports.spaceSeparated = increment()
-exports.commaSeparated = increment()
-exports.commaOrSpaceSeparated = increment()
-
-function increment() {
-  return Math.pow(2, ++powers)
-}
-
-
-/***/ }),
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14083,6 +14349,28 @@ function increment() {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+var powers = 0
+
+exports.boolean = increment()
+exports.booleanish = increment()
+exports.overloadedBoolean = increment()
+exports.number = increment()
+exports.spaceSeparated = increment()
+exports.commaSeparated = increment()
+exports.commaOrSpaceSeparated = increment()
+
+function increment() {
+  return Math.pow(2, ++powers)
+}
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
@@ -14092,294 +14380,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var stylesInDom = {};
-
-var isOldIE = function isOldIE() {
-  var memo;
-  return function memorize() {
-    if (typeof memo === 'undefined') {
-      // Test for IE <= 9 as proposed by Browserhacks
-      // @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-      // Tests for existence of standard globals is to allow style-loader
-      // to operate correctly into non-standard environments
-      // @see https://github.com/webpack-contrib/style-loader/issues/177
-      memo = Boolean(window && document && document.all && !window.atob);
-    }
-
-    return memo;
-  };
-}();
-
-var getTarget = function getTarget() {
-  var memo = {};
-  return function memorize(target) {
-    if (typeof memo[target] === 'undefined') {
-      var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
-
-      if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-        try {
-          // This will throw an exception if access to iframe is blocked
-          // due to cross-origin restrictions
-          styleTarget = styleTarget.contentDocument.head;
-        } catch (e) {
-          // istanbul ignore next
-          styleTarget = null;
-        }
-      }
-
-      memo[target] = styleTarget;
-    }
-
-    return memo[target];
-  };
-}();
-
-function listToStyles(list, options) {
-  var styles = [];
-  var newStyles = {};
-
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var id = options.base ? item[0] + options.base : item[0];
-    var css = item[1];
-    var media = item[2];
-    var sourceMap = item[3];
-    var part = {
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    };
-
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = {
-        id: id,
-        parts: [part]
-      });
-    } else {
-      newStyles[id].parts.push(part);
-    }
-  }
-
-  return styles;
-}
-
-function addStylesToDom(styles, options) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i];
-    var domStyle = stylesInDom[item.id];
-    var j = 0;
-
-    if (domStyle) {
-      domStyle.refs++;
-
-      for (; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j]);
-      }
-
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j], options));
-      }
-    } else {
-      var parts = [];
-
-      for (; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j], options));
-      }
-
-      stylesInDom[item.id] = {
-        id: item.id,
-        refs: 1,
-        parts: parts
-      };
-    }
-  }
-}
-
-function insertStyleElement(options) {
-  var style = document.createElement('style');
-
-  if (typeof options.attributes.nonce === 'undefined') {
-    var nonce =  true ? __webpack_require__.nc : null;
-
-    if (nonce) {
-      options.attributes.nonce = nonce;
-    }
-  }
-
-  Object.keys(options.attributes).forEach(function (key) {
-    style.setAttribute(key, options.attributes[key]);
-  });
-
-  if (typeof options.insert === 'function') {
-    options.insert(style);
-  } else {
-    var target = getTarget(options.insert || 'head');
-
-    if (!target) {
-      throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-    }
-
-    target.appendChild(style);
-  }
-
-  return style;
-}
-
-function removeStyleElement(style) {
-  // istanbul ignore if
-  if (style.parentNode === null) {
-    return false;
-  }
-
-  style.parentNode.removeChild(style);
-}
-/* istanbul ignore next  */
-
-
-var replaceText = function replaceText() {
-  var textStore = [];
-  return function replace(index, replacement) {
-    textStore[index] = replacement;
-    return textStore.filter(Boolean).join('\n');
-  };
-}();
-
-function applyToSingletonTag(style, index, remove, obj) {
-  var css = remove ? '' : obj.css; // For old IE
-
-  /* istanbul ignore if  */
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = replaceText(index, css);
-  } else {
-    var cssNode = document.createTextNode(css);
-    var childNodes = style.childNodes;
-
-    if (childNodes[index]) {
-      style.removeChild(childNodes[index]);
-    }
-
-    if (childNodes.length) {
-      style.insertBefore(cssNode, childNodes[index]);
-    } else {
-      style.appendChild(cssNode);
-    }
-  }
-}
-
-function applyToTag(style, options, obj) {
-  var css = obj.css;
-  var media = obj.media;
-  var sourceMap = obj.sourceMap;
-
-  if (media) {
-    style.setAttribute('media', media);
-  }
-
-  if (sourceMap && btoa) {
-    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  } // For old IE
-
-  /* istanbul ignore if  */
-
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    while (style.firstChild) {
-      style.removeChild(style.firstChild);
-    }
-
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var singleton = null;
-var singletonCounter = 0;
-
-function addStyle(obj, options) {
-  var style;
-  var update;
-  var remove;
-
-  if (options.singleton) {
-    var styleIndex = singletonCounter++;
-    style = singleton || (singleton = insertStyleElement(options));
-    update = applyToSingletonTag.bind(null, style, styleIndex, false);
-    remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-  } else {
-    style = insertStyleElement(options);
-    update = applyToTag.bind(null, style, options);
-
-    remove = function remove() {
-      removeStyleElement(style);
-    };
-  }
-
-  update(obj);
-  return function updateStyle(newObj) {
-    if (newObj) {
-      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap) {
-        return;
-      }
-
-      update(obj = newObj);
-    } else {
-      remove();
-    }
-  };
-}
-
-module.exports = function (list, options) {
-  options = options || {};
-  options.attributes = typeof options.attributes === 'object' ? options.attributes : {}; // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-  // tags it will allow on a page
-
-  if (!options.singleton && typeof options.singleton !== 'boolean') {
-    options.singleton = isOldIE();
-  }
-
-  var styles = listToStyles(list, options);
-  addStylesToDom(styles, options);
-  return function update(newList) {
-    var mayRemove = [];
-
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i];
-      var domStyle = stylesInDom[item.id];
-
-      if (domStyle) {
-        domStyle.refs--;
-        mayRemove.push(domStyle);
-      }
-    }
-
-    if (newList) {
-      var newStyles = listToStyles(newList, options);
-      addStylesToDom(newStyles, options);
-    }
-
-    for (var _i = 0; _i < mayRemove.length; _i++) {
-      var _domStyle = mayRemove[_i];
-
-      if (_domStyle.refs === 0) {
-        for (var j = 0; j < _domStyle.parts.length; j++) {
-          _domStyle.parts[j]();
-        }
-
-        delete stylesInDom[_domStyle.id];
-      }
-    }
-  };
-};
 
 /***/ }),
 /* 34 */
@@ -14784,7 +14784,7 @@ function normalize(value) {
 var entities = __webpack_require__(306)
 var legacy = __webpack_require__(103)
 var hexadecimal = __webpack_require__(104)
-var decimal = __webpack_require__(16)
+var decimal = __webpack_require__(17)
 var alphanumerical = __webpack_require__(105)
 var dangerous = __webpack_require__(307)
 
@@ -15155,7 +15155,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var React = __webpack_require__(32);
+var React = __webpack_require__(33);
 
 var classNames = __webpack_require__(384);
 
@@ -15969,7 +15969,7 @@ function thematicBreak(h, node) {
 
 module.exports = list
 
-var wrap = __webpack_require__(11)
+var wrap = __webpack_require__(12)
 var all = __webpack_require__(3)
 
 function list(h, node) {
@@ -16102,7 +16102,7 @@ function collapse(value) {
 
 
 const Mixin = __webpack_require__(9);
-const Tokenizer = __webpack_require__(23);
+const Tokenizer = __webpack_require__(24);
 const PositionTrackingPreprocessorMixin = __webpack_require__(61);
 
 class LocationInfoTokenizerMixin extends Mixin {
@@ -16385,7 +16385,7 @@ function Schema(property, normal, space) {
 "use strict";
 
 
-var create = __webpack_require__(13)
+var create = __webpack_require__(14)
 
 module.exports = create({
   space: 'xlink',
@@ -16428,7 +16428,7 @@ function normalize(value) {
 
 
 var Info = __webpack_require__(67)
-var types = __webpack_require__(24)
+var types = __webpack_require__(25)
 
 module.exports = DefinedInfo
 
@@ -16504,7 +16504,7 @@ function Info(property, attribute) {
 "use strict";
 
 
-var create = __webpack_require__(13)
+var create = __webpack_require__(14)
 
 module.exports = create({
   space: 'xml',
@@ -16528,7 +16528,7 @@ function xmlTransform(_, prop) {
 "use strict";
 
 
-var create = __webpack_require__(13)
+var create = __webpack_require__(14)
 var caseInsensitiveTransform = __webpack_require__(70)
 
 module.exports = create({
@@ -16581,8 +16581,8 @@ function caseSensitiveTransform(attributes, attribute) {
 "use strict";
 
 
-var types = __webpack_require__(24)
-var create = __webpack_require__(13)
+var types = __webpack_require__(25)
+var create = __webpack_require__(14)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -16715,7 +16715,7 @@ function Schema(property, normal, space) {
 "use strict";
 
 
-var create = __webpack_require__(14)
+var create = __webpack_require__(15)
 
 module.exports = create({
   space: 'xlink',
@@ -16744,7 +16744,7 @@ function xlinkTransform(_, prop) {
 
 
 var Info = __webpack_require__(77)
-var types = __webpack_require__(25)
+var types = __webpack_require__(26)
 
 module.exports = DefinedInfo
 
@@ -16820,7 +16820,7 @@ function Info(property, attribute) {
 "use strict";
 
 
-var create = __webpack_require__(14)
+var create = __webpack_require__(15)
 
 module.exports = create({
   space: 'xml',
@@ -16844,7 +16844,7 @@ function xmlTransform(_, prop) {
 "use strict";
 
 
-var create = __webpack_require__(14)
+var create = __webpack_require__(15)
 var caseInsensitiveTransform = __webpack_require__(80)
 
 module.exports = create({
@@ -16897,8 +16897,8 @@ function caseSensitiveTransform(attributes, attribute) {
 "use strict";
 
 
-var types = __webpack_require__(25)
-var create = __webpack_require__(14)
+var types = __webpack_require__(26)
+var create = __webpack_require__(15)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -16974,8 +16974,8 @@ function ariaTransform(_, prop) {
 var find = __webpack_require__(240)
 var normalize = __webpack_require__(39)
 var parseSelector = __webpack_require__(241)
-var spaces = __webpack_require__(26).parse
-var commas = __webpack_require__(27).parse
+var spaces = __webpack_require__(27).parse
+var commas = __webpack_require__(28).parse
 
 module.exports = factory
 
@@ -17267,7 +17267,7 @@ function Schema(property, normal, space) {
 "use strict";
 
 
-var create = __webpack_require__(15)
+var create = __webpack_require__(16)
 
 module.exports = create({
   space: 'xlink',
@@ -17310,7 +17310,7 @@ function normalize(value) {
 
 
 var Info = __webpack_require__(90)
-var types = __webpack_require__(28)
+var types = __webpack_require__(29)
 
 module.exports = DefinedInfo
 
@@ -17386,7 +17386,7 @@ function Info(property, attribute) {
 "use strict";
 
 
-var create = __webpack_require__(15)
+var create = __webpack_require__(16)
 
 module.exports = create({
   space: 'xml',
@@ -17410,7 +17410,7 @@ function xmlTransform(_, prop) {
 "use strict";
 
 
-var create = __webpack_require__(15)
+var create = __webpack_require__(16)
 var caseInsensitiveTransform = __webpack_require__(93)
 
 module.exports = create({
@@ -17463,8 +17463,8 @@ function caseSensitiveTransform(attributes, attribute) {
 "use strict";
 
 
-var types = __webpack_require__(28)
-var create = __webpack_require__(15)
+var types = __webpack_require__(29)
+var create = __webpack_require__(16)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -17820,7 +17820,7 @@ function hexadecimal(character) {
 
 
 var alphabetical = __webpack_require__(106)
-var decimal = __webpack_require__(16)
+var decimal = __webpack_require__(17)
 
 module.exports = alphanumerical
 
@@ -18131,7 +18131,7 @@ function stringLength(value) {
 "use strict";
 
 
-var decode = __webpack_require__(29)
+var decode = __webpack_require__(30)
 
 module.exports = length
 
@@ -18331,7 +18331,7 @@ function Schema(property, normal, space) {
 "use strict";
 
 
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 
 module.exports = create({
   space: 'xlink',
@@ -18374,7 +18374,7 @@ function normalize(value) {
 
 
 var Info = __webpack_require__(125)
-var types = __webpack_require__(30)
+var types = __webpack_require__(31)
 
 module.exports = DefinedInfo
 
@@ -18450,7 +18450,7 @@ function Info(property, attribute) {
 "use strict";
 
 
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 
 module.exports = create({
   space: 'xml',
@@ -18474,7 +18474,7 @@ function xmlTransform(_, prop) {
 "use strict";
 
 
-var create = __webpack_require__(17)
+var create = __webpack_require__(18)
 var caseInsensitiveTransform = __webpack_require__(128)
 
 module.exports = create({
@@ -18527,8 +18527,8 @@ function caseSensitiveTransform(attributes, attribute) {
 "use strict";
 
 
-var types = __webpack_require__(30)
-var create = __webpack_require__(17)
+var types = __webpack_require__(31)
+var create = __webpack_require__(18)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -19081,7 +19081,7 @@ function Schema(property, normal, space) {
 "use strict";
 
 
-var create = __webpack_require__(18)
+var create = __webpack_require__(19)
 
 module.exports = create({
   space: 'xlink',
@@ -19124,7 +19124,7 @@ function normalize(value) {
 
 
 var Info = __webpack_require__(145)
-var types = __webpack_require__(31)
+var types = __webpack_require__(32)
 
 module.exports = DefinedInfo
 
@@ -19191,7 +19191,7 @@ function Info(property, attribute) {
 "use strict";
 
 
-var create = __webpack_require__(18)
+var create = __webpack_require__(19)
 
 module.exports = create({
   space: 'xml',
@@ -19215,7 +19215,7 @@ function xmlTransform(_, prop) {
 "use strict";
 
 
-var create = __webpack_require__(18)
+var create = __webpack_require__(19)
 var caseInsensitiveTransform = __webpack_require__(148)
 
 module.exports = create({
@@ -19268,8 +19268,8 @@ function caseSensitiveTransform(attributes, attribute) {
 "use strict";
 
 
-var types = __webpack_require__(31)
-var create = __webpack_require__(18)
+var types = __webpack_require__(32)
+var create = __webpack_require__(19)
 
 var booleanish = types.booleanish
 var number = types.number
@@ -21712,42 +21712,44 @@ var Anchor = __webpack_require__(422);
 
 var Heading = __webpack_require__(424);
 
-var Callout = __webpack_require__(425);
+var Callout = __webpack_require__(427);
 
-var CodeTabs = __webpack_require__(428);
+var CodeTabs = __webpack_require__(430);
 
-var Image = __webpack_require__(431);
+var Image = __webpack_require__(433);
 
-var Embed = __webpack_require__(432);
+var Embed = __webpack_require__(434);
 /* Custom Unified Parsers
  */
 
 
-var flavorCodeTabs = __webpack_require__(450);
+var flavorCodeTabs = __webpack_require__(452);
 
-var flavorCallout = __webpack_require__(451);
+var flavorCallout = __webpack_require__(453);
 
-var flavorEmbed = __webpack_require__(452);
+var flavorEmbed = __webpack_require__(454);
 
-var magicBlockParser = __webpack_require__(453);
+var magicBlockParser = __webpack_require__(455);
 
-var variableParser = __webpack_require__(454);
+var variableParser = __webpack_require__(456);
 
-var gemojiParser = __webpack_require__(455);
+var gemojiParser = __webpack_require__(457);
 /* Custom Unified Compilers
  */
 
 
-var rdmeDivCompiler = __webpack_require__(457);
+var rdmeDivCompiler = __webpack_require__(459);
 
-var codeTabsCompiler = __webpack_require__(458);
+var codeTabsCompiler = __webpack_require__(460);
 
-var rdmeEmbedCompiler = __webpack_require__(459);
+var rdmeEmbedCompiler = __webpack_require__(461);
 
-var rdmeCalloutCompiler = __webpack_require__(460); // Processor Option Defaults
+var rdmeVarCompiler = __webpack_require__(464);
+
+var rdmeCalloutCompiler = __webpack_require__(462); // Processor Option Defaults
 
 
-var options = __webpack_require__(461); // Sanitization Schema Defaults
+var options = __webpack_require__(463); // Sanitization Schema Defaults
 
 
 sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
@@ -21773,7 +21775,8 @@ function normalize(blocks) {
 var utils = {
   options: options,
   normalizeMagic: normalize,
-  VariablesContext: Variable.VariablesContext
+  VariablesContext: Variable.VariablesContext,
+  GlossaryContext: GlossaryItem.GlossaryContext
 };
 /**
  * Core markdown text processor
@@ -21831,12 +21834,17 @@ function react(text) {
     components: {
       'code-tabs': CodeTabs(sanitize),
       'rdme-callout': Callout(sanitize),
-      'readme-variable': Variable(sanitize),
-      'readme-glossary-item': GlossaryItem(sanitize),
+      'readme-variable': Variable,
+      'readme-glossary-item': GlossaryItem,
       'rdme-embed': Embed(sanitize),
       table: Table(sanitize),
       a: Anchor(sanitize),
-      heading: Heading(sanitize),
+      h1: Heading(1),
+      h2: Heading(2),
+      h3: Heading(3),
+      h4: Heading(4),
+      h5: Heading(5),
+      h6: Heading(6),
       code: Code(sanitize),
       img: Image(sanitize),
       div: DivFragment
@@ -21868,7 +21876,7 @@ function ast(text) {
 function md(tree) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!tree) return null;
-  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler]).stringify(tree);
+  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler]).stringify(tree);
 }
 
 var ReadMeMarkdown = function ReadMeMarkdown(text) {
@@ -21892,7 +21900,7 @@ var options = {}
 options.insert = "head";
 options.singleton = false;
 
-var update = __webpack_require__(33)(content, options);
+var update = __webpack_require__(21)(content, options);
 
 if (content.locals) {
   module.exports = content.locals;
@@ -21903,19 +21911,19 @@ if (content.locals) {
 /* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(19)(false);
+exports = module.exports = __webpack_require__(11)(false);
 // Imports
 exports.i(__webpack_require__(164), "");
 exports.i(__webpack_require__(165), "");
 // Module
-exports.push([module.i, "@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format(\"woff\")}.field-description .octicon,.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.field-description .anchor,.markdown-body .anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.field-description .anchor:focus,.markdown-body .anchor:focus{outline:0}.field-description h1 .octicon-link,.field-description h2 .octicon-link,.field-description h3 .octicon-link,.field-description h4 .octicon-link,.field-description h5 .octicon-link,.field-description h6 .octicon-link,.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.field-description h1:hover .anchor,.field-description h2:hover .anchor,.field-description h3:hover .anchor,.field-description h4:hover .anchor,.field-description h5:hover .anchor,.field-description h6:hover .anchor,.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.field-description h1:hover .anchor .octicon-link,.field-description h2:hover .anchor .octicon-link,.field-description h3:hover .anchor .octicon-link,.field-description h4:hover .anchor .octicon-link,.field-description h5:hover .anchor .octicon-link,.field-description h6:hover .anchor .octicon-link,.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.field-description,.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;line-height:1.5;font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;font-size:16px;line-height:1.5;word-wrap:break-word}.field-description .pl-c,.markdown-body .pl-c{color:#6a737d}.field-description .pl-c1,.field-description .pl-s .pl-v,.markdown-body .pl-c1,.markdown-body .pl-s .pl-v{color:#005cc5}.field-description .pl-e,.field-description .pl-en,.markdown-body .pl-e,.markdown-body .pl-en{color:#6f42c1}.field-description .pl-s .pl-s1,.field-description .pl-smi,.markdown-body .pl-s .pl-s1,.markdown-body .pl-smi{color:#24292e}.field-description .pl-ent,.markdown-body .pl-ent{color:#22863a}.field-description .pl-k,.markdown-body .pl-k{color:#d73a49}.field-description .pl-pds,.field-description .pl-s,.field-description .pl-s .pl-pse .pl-s1,.field-description .pl-sr,.field-description .pl-sr .pl-cce,.field-description .pl-sr .pl-sra,.field-description .pl-sr .pl-sre,.markdown-body .pl-pds,.markdown-body .pl-s,.markdown-body .pl-s .pl-pse .pl-s1,.markdown-body .pl-sr,.markdown-body .pl-sr .pl-cce,.markdown-body .pl-sr .pl-sra,.markdown-body .pl-sr .pl-sre{color:#032f62}.field-description .pl-smw,.field-description .pl-v,.markdown-body .pl-smw,.markdown-body .pl-v{color:#e36209}.field-description .pl-bu,.markdown-body .pl-bu{color:#b31d28}.field-description .pl-ii,.markdown-body .pl-ii{background-color:#b31d28;color:#fafbfc}.field-description .pl-c2,.markdown-body .pl-c2{background-color:#d73a49;color:#fafbfc}.field-description .pl-c2:before,.markdown-body .pl-c2:before{content:\"^M\"}.field-description .pl-sr .pl-cce,.markdown-body .pl-sr .pl-cce{color:#22863a;font-weight:700}.field-description .pl-ml,.markdown-body .pl-ml{color:#735c0f}.field-description .pl-mh,.field-description .pl-mh .pl-en,.field-description .pl-ms,.markdown-body .pl-mh,.markdown-body .pl-mh .pl-en,.markdown-body .pl-ms{color:#005cc5;font-weight:700}.field-description .pl-mi,.markdown-body .pl-mi{color:#24292e;font-style:italic}.field-description .pl-mb,.markdown-body .pl-mb{color:#24292e;font-weight:700}.field-description .pl-md,.markdown-body .pl-md{background-color:#ffeef0;color:#b31d28}.field-description .pl-mi1,.markdown-body .pl-mi1{background-color:#f0fff4;color:#22863a}.field-description .pl-mc,.markdown-body .pl-mc{background-color:#ffebda;color:#e36209}.field-description .pl-mi2,.markdown-body .pl-mi2{background-color:#005cc5;color:#f6f8fa}.field-description .pl-mdr,.markdown-body .pl-mdr{color:#6f42c1;font-weight:700}.field-description .pl-ba,.markdown-body .pl-ba{color:#586069}.field-description .pl-sg,.markdown-body .pl-sg{color:#959da5}.field-description .pl-corl,.markdown-body .pl-corl{color:#032f62;text-decoration:underline}.field-description details,.markdown-body details{display:block}.field-description summary,.markdown-body summary{display:list-item}.field-description a,.markdown-body a{background-color:transparent}.field-description a:active,.field-description a:hover,.markdown-body a:active,.markdown-body a:hover{outline-width:0}.field-description strong,.markdown-body strong{font-weight:inherit;font-weight:bolder}.field-description h1,.markdown-body h1{font-size:2em;margin:.67em 0}.field-description img,.markdown-body img{border-style:none}.field-description code,.field-description kbd,.field-description pre,.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace, monospace;font-size:1em}.field-description hr,.markdown-body hr{box-sizing:content-box;height:0;overflow:visible}.field-description input,.markdown-body input{font:inherit;margin:0}.field-description input,.markdown-body input{overflow:visible}.field-description [type=checkbox],.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.field-description *,.markdown-body *{box-sizing:border-box}.field-description input,.markdown-body input{font-family:inherit;font-size:inherit;line-height:inherit}.field-description a,.markdown-body a{color:#0366d6;text-decoration:none}.field-description a:hover,.markdown-body a:hover{text-decoration:underline}.field-description strong,.markdown-body strong{font-weight:600}.field-description hr,.markdown-body hr{background:0 0;border:0;border-bottom:1px solid #dfe2e5;height:0;margin:15px 0;overflow:hidden}.field-description hr:before,.markdown-body hr:before{content:\"\";display:table}.field-description hr:after,.markdown-body hr:after{clear:both;content:\"\";display:table}.field-description table,.markdown-body table{border-collapse:collapse;border-spacing:0}.field-description td,.field-description th,.markdown-body td,.markdown-body th{padding:0}.field-description details summary,.markdown-body details summary{cursor:pointer}.field-description h1,.field-description h2,.field-description h3,.field-description h4,.field-description h5,.field-description h6,.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-bottom:0;margin-top:0}.field-description h1,.markdown-body h1{font-size:32px}.field-description h1,.field-description h2,.markdown-body h1,.markdown-body h2{font-weight:600}.field-description h2,.markdown-body h2{font-size:24px}.field-description h3,.markdown-body h3{font-size:20px}.field-description h3,.field-description h4,.markdown-body h3,.markdown-body h4{font-weight:600}.field-description h4,.markdown-body h4{font-size:16px}.field-description h5,.markdown-body h5{font-size:14px}.field-description h5,.field-description h6,.markdown-body h5,.markdown-body h6{font-weight:600}.field-description h6,.markdown-body h6{font-size:12px}.field-description p,.field-description .p,.markdown-body p,.markdown-body .p{margin-bottom:10px;margin-top:0}.field-description rdme-callout,.field-description blockquote,.markdown-body rdme-callout,.markdown-body blockquote{margin:0}.field-description ol,.field-description ul,.markdown-body ol,.markdown-body ul{margin-bottom:0;margin-top:0;padding-left:0}.field-description ol ol,.field-description ul ol,.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.field-description ol ol ol,.field-description ol ul ol,.field-description ul ol ol,.field-description ul ul ol,.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.field-description dd,.markdown-body dd{margin-left:0}.field-description code,.field-description pre,.markdown-body code,.markdown-body pre{font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:12px}.field-description pre,.markdown-body pre{margin-bottom:0;margin-top:0}.field-description input::-webkit-inner-spin-button,.field-description input::-webkit-outer-spin-button,.markdown-body input::-webkit-inner-spin-button,.markdown-body input::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}.field-description .border,.markdown-body .border{border:1px solid #e1e4e8 !important}.field-description .border-0,.markdown-body .border-0{border:0 !important}.field-description .border-bottom,.markdown-body .border-bottom{border-bottom:1px solid #e1e4e8 !important}.field-description .rounded-1,.markdown-body .rounded-1{border-radius:3px !important}.field-description .bg-white,.markdown-body .bg-white{background-color:#fff !important}.field-description .bg-gray-light,.markdown-body .bg-gray-light{background-color:#fafbfc !important}.field-description .text-gray-light,.markdown-body .text-gray-light{color:#6a737d !important}.field-description .mb-0,.markdown-body .mb-0{margin-bottom:0 !important}.field-description .my-2,.markdown-body .my-2{margin-bottom:8px !important;margin-top:8px !important}.field-description .pl-0,.markdown-body .pl-0{padding-left:0 !important}.field-description .py-0,.markdown-body .py-0{padding-bottom:0 !important;padding-top:0 !important}.field-description .pl-1,.markdown-body .pl-1{padding-left:4px !important}.field-description .pl-2,.markdown-body .pl-2{padding-left:8px !important}.field-description .py-2,.markdown-body .py-2{padding-bottom:8px !important;padding-top:8px !important}.field-description .pl-3,.field-description .px-3,.markdown-body .pl-3,.markdown-body .px-3{padding-left:16px !important}.field-description .px-3,.markdown-body .px-3{padding-right:16px !important}.field-description .pl-4,.markdown-body .pl-4{padding-left:24px !important}.field-description .pl-5,.markdown-body .pl-5{padding-left:32px !important}.field-description .pl-6,.markdown-body .pl-6{padding-left:40px !important}.field-description .f6,.markdown-body .f6{font-size:12px !important}.field-description .lh-condensed,.markdown-body .lh-condensed{line-height:1.25 !important}.field-description .text-bold,.markdown-body .text-bold{font-weight:600 !important}.field-description:before,.markdown-body:before{content:\"\";display:table}.field-description:after,.markdown-body:after{clear:both;content:\"\";display:table}.field-description>:first-child,.markdown-body>:first-child{margin-top:0 !important}.field-description>:last-child,.markdown-body>:last-child{margin-bottom:0 !important}.field-description a:not([href]),.markdown-body a:not([href]){color:inherit;text-decoration:none}.field-description rdme-callout,.field-description blockquote,.field-description dl,.field-description ol,.field-description p,.field-description pre,.field-description table,.field-description ul,.markdown-body rdme-callout,.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-bottom:16px;margin-top:0}.field-description hr,.markdown-body hr{background-color:#e1e4e8;border:0;height:.25em;margin:24px 0;padding:0}.field-description rdme-callout,.field-description blockquote,.markdown-body rdme-callout,.markdown-body blockquote{display:block;border-left:.25em solid #dfe2e5;color:#6a737d;padding:0 1em}.field-description rdme-callout>:first-child,.field-description blockquote>:first-child,.markdown-body rdme-callout>:first-child,.markdown-body blockquote>:first-child{margin-top:0}.field-description rdme-callout>:last-child,.field-description blockquote>:last-child,.markdown-body rdme-callout>:last-child,.markdown-body blockquote>:last-child{margin-bottom:0}.field-description kbd,.markdown-body kbd{background-color:#fafbfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5;color:#444d56;display:inline-block;font-size:11px;line-height:10px;padding:3px 5px;vertical-align:middle}.field-description h1,.field-description h2,.field-description h3,.field-description h4,.field-description h5,.field-description h6,.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{font-weight:600;line-height:1.25;margin-bottom:16px;margin-top:24px}.field-description h1,.markdown-body h1{font-size:2em}.field-description h1,.field-description h2,.markdown-body h1,.markdown-body h2{border-bottom:1px solid #eaecef;padding-bottom:.3em}.field-description h2,.markdown-body h2{font-size:1.5em}.field-description h3,.markdown-body h3{font-size:1.25em}.field-description h4,.markdown-body h4{font-size:1em}.field-description h5,.markdown-body h5{font-size:.875em}.field-description h6,.markdown-body h6{color:#6a737d;font-size:.85em}.field-description ol,.field-description ul,.markdown-body ol,.markdown-body ul{padding-left:2em}.field-description ol ol,.field-description ol ul,.field-description ul ol,.field-description ul ul,.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-bottom:0;margin-top:0}.field-description li,.markdown-body li{word-wrap:break-all}.field-description li>p,.markdown-body li>p{margin-top:16px}.field-description li+li,.markdown-body li+li{margin-top:.25em}.field-description dl,.markdown-body dl{padding:0}.field-description dl dt,.markdown-body dl dt{font-size:1em;font-style:italic;font-weight:600;margin-top:16px;padding:0}.field-description dl dd,.markdown-body dl dd{margin-bottom:16px;padding:0 16px}.field-description table,.markdown-body table{display:block;overflow:auto;width:100%}.field-description table th,.field-description table thead td,.markdown-body table th,.markdown-body table thead td{font-weight:600}.field-description table thead tr,.markdown-body table thead tr{background:#f6f8fa}.field-description table td,.field-description table th,.markdown-body table td,.markdown-body table th{border:1px solid #dfe2e5;padding:6px 13px}.field-description table tr,.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.field-description table tr:nth-child(2n),.markdown-body table tr:nth-child(2n){background-color:#fbfcfd}.field-description img,.markdown-body img{background-color:#fff;box-sizing:content-box;max-width:100%}.field-description img[align=right],.markdown-body img[align=right]{padding-left:20px}.field-description img[align=left],.markdown-body img[align=left]{padding-right:20px}.field-description code,.markdown-body code{background-color:rgba(27,31,35,0.05);border-radius:3px;font-size:85%;margin:0;padding:.2em .4em}.field-description pre,.markdown-body pre{word-wrap:normal}.field-description pre>code,.markdown-body pre>code{background:0 0;border:0;font-size:100%;margin:0;padding:0;white-space:pre;word-break:normal}.field-description .highlight,.markdown-body .highlight{margin-bottom:16px}.field-description .highlight pre,.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.field-description .highlight pre,.field-description pre,.markdown-body .highlight pre,.markdown-body pre{background-color:#f6f8fa;border-radius:3px;font-size:85%;line-height:1.45;overflow:auto;padding:16px}.field-description pre code,.markdown-body pre code{background-color:transparent;border:0;display:inline;line-height:inherit;margin:0;max-width:auto;overflow:visible;padding:0;word-wrap:normal}.field-description .commit-tease-sha,.markdown-body .commit-tease-sha{color:#444d56;display:inline-block;font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:90%}.field-description .blob-wrapper,.markdown-body .blob-wrapper{border-bottom-left-radius:3px;border-bottom-right-radius:3px;overflow-x:auto;overflow-y:hidden}.field-description .blob-wrapper-embedded,.markdown-body .blob-wrapper-embedded{max-height:240px;overflow-y:auto}.field-description .blob-num,.markdown-body .blob-num{-moz-user-select:none;-ms-user-select:none;-webkit-user-select:none;color:rgba(27,31,35,0.3);cursor:pointer;font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:12px;line-height:20px;min-width:50px;padding-left:10px;padding-right:10px;text-align:right;user-select:none;vertical-align:top;white-space:nowrap;width:1%}.field-description .blob-num:hover,.markdown-body .blob-num:hover{color:rgba(27,31,35,0.6)}.field-description .blob-num:before,.markdown-body .blob-num:before{content:attr(data-line-number)}.field-description .blob-code,.markdown-body .blob-code{line-height:20px;padding-left:10px;padding-right:10px;position:relative;vertical-align:top}.field-description .blob-code-inner,.markdown-body .blob-code-inner{color:#24292e;font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:12px;overflow:visible;white-space:pre;word-wrap:normal}.field-description .pl-token.active,.field-description .pl-token:hover,.markdown-body .pl-token.active,.markdown-body .pl-token:hover{background:#ffea7f;cursor:pointer}.field-description kbd,.markdown-body kbd{background-color:#fafbfc;border:1px solid #d1d5da;border-bottom-color:#c6cbd1;border-radius:3px;box-shadow:inset 0 -1px 0 #c6cbd1;color:#444d56;display:inline-block;font:11px SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;line-height:10px;padding:3px 5px;vertical-align:middle}.field-description :checked+.radio-label,.markdown-body :checked+.radio-label{border-color:#0366d6;position:relative;z-index:1}.field-description .tab-size[data-tab-size=\"1\"],.markdown-body .tab-size[data-tab-size=\"1\"]{-moz-tab-size:1;tab-size:1}.field-description .tab-size[data-tab-size=\"2\"],.markdown-body .tab-size[data-tab-size=\"2\"]{-moz-tab-size:2;tab-size:2}.field-description .tab-size[data-tab-size=\"3\"],.markdown-body .tab-size[data-tab-size=\"3\"]{-moz-tab-size:3;tab-size:3}.field-description .tab-size[data-tab-size=\"4\"],.markdown-body .tab-size[data-tab-size=\"4\"]{-moz-tab-size:4;tab-size:4}.field-description .tab-size[data-tab-size=\"5\"],.markdown-body .tab-size[data-tab-size=\"5\"]{-moz-tab-size:5;tab-size:5}.field-description .tab-size[data-tab-size=\"6\"],.markdown-body .tab-size[data-tab-size=\"6\"]{-moz-tab-size:6;tab-size:6}.field-description .tab-size[data-tab-size=\"7\"],.markdown-body .tab-size[data-tab-size=\"7\"]{-moz-tab-size:7;tab-size:7}.field-description .tab-size[data-tab-size=\"8\"],.markdown-body .tab-size[data-tab-size=\"8\"]{-moz-tab-size:8;tab-size:8}.field-description .tab-size[data-tab-size=\"9\"],.markdown-body .tab-size[data-tab-size=\"9\"]{-moz-tab-size:9;tab-size:9}.field-description .tab-size[data-tab-size=\"10\"],.markdown-body .tab-size[data-tab-size=\"10\"]{-moz-tab-size:10;tab-size:10}.field-description .tab-size[data-tab-size=\"11\"],.markdown-body .tab-size[data-tab-size=\"11\"]{-moz-tab-size:11;tab-size:11}.field-description .tab-size[data-tab-size=\"12\"],.markdown-body .tab-size[data-tab-size=\"12\"]{-moz-tab-size:12;tab-size:12}.field-description .task-list-item,.markdown-body .task-list-item{list-style-type:none}.field-description .task-list-item+.task-list-item,.markdown-body .task-list-item+.task-list-item{margin-top:3px}.field-description .task-list-item input,.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.field-description hr,.markdown-body hr{border-bottom-color:#eee}.field-description .pl-0,.markdown-body .pl-0{padding-left:0 !important}.field-description .pl-1,.markdown-body .pl-1{padding-left:4px !important}.field-description .pl-2,.markdown-body .pl-2{padding-left:8px !important}.field-description .pl-3,.markdown-body .pl-3{padding-left:16px !important}.field-description .pl-4,.markdown-body .pl-4{padding-left:24px !important}.field-description .pl-5,.markdown-body .pl-5{padding-left:32px !important}.field-description .pl-6,.markdown-body .pl-6{padding-left:40px !important}.field-description .pl-7,.markdown-body .pl-7{padding-left:48px !important}.field-description .pl-8,.markdown-body .pl-8{padding-left:64px !important}.field-description .pl-9,.markdown-body .pl-9{padding-left:80px !important}.field-description .pl-10,.markdown-body .pl-10{padding-left:96px !important}.field-description .pl-11,.markdown-body .pl-11{padding-left:112px !important}.field-description .pl-12,.markdown-body .pl-12{padding-left:128px !important}.markdown-body h5,.markdown-body h6{font-size:.9em}.markdown-body blockquote h1:last-child,.markdown-body blockquote h2:last-child{border-bottom:0}.markdown-body>*{margin-top:15px;margin-bottom:15px !important}.markdown-body img[align=left]{margin-right:20px}.markdown-body img[align=right]{margin-left:20px}.markdown-body img[align=center]{display:block;margin:20px auto}.markdown-body .task-list-item input{margin:0 .5em .25em -1.25em}.markdown-body a{transition:.3s;text-decoration:underline}.markdown-body a:not(:hover){text-decoration-color:transparent}.markdown-body a code{display:inline-block;text-decoration:underline;transition:.3s}.markdown-body a:hover code{color:inherit}.markdown-body a:not(:hover) code{text-decoration-color:transparent}.markdown-body ul{list-style:initial}.markdown-body .embed{padding:15px;background:#eeeeee;overflow:hidden;border-radius:3px}.markdown-body .embed-media{display:flex;justify-content:center}.markdown-body .embed-media>:only-child{flex:1;margin:-15px;border-radius:0 !important}\n", ""]);
+exports.push([module.i, "@font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format(\"woff\")}.field-description,.markdown-body{position:relative}.field-description table,.markdown-body table{display:table}.field-description ul,.markdown-body ul{list-style:initial}.field-description .octicon,.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.field-description .anchor,.markdown-body .anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.field-description .anchor:focus,.markdown-body .anchor:focus{outline:0}.field-description h1 .octicon-link,.field-description h2 .octicon-link,.field-description h3 .octicon-link,.field-description h4 .octicon-link,.field-description h5 .octicon-link,.field-description h6 .octicon-link,.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.field-description h1:hover .anchor,.field-description h2:hover .anchor,.field-description h3:hover .anchor,.field-description h4:hover .anchor,.field-description h5:hover .anchor,.field-description h6:hover .anchor,.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.field-description h1:hover .anchor .octicon-link,.field-description h2:hover .anchor .octicon-link,.field-description h3:hover .anchor .octicon-link,.field-description h4:hover .anchor .octicon-link,.field-description h5:hover .anchor .octicon-link,.field-description h6:hover .anchor .octicon-link,.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.field-description,.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;line-height:1.5;font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;font-size:16px;line-height:1.5;word-wrap:break-word}.field-description .pl-c,.markdown-body .pl-c{color:#6a737d}.field-description .pl-c1,.field-description .pl-s .pl-v,.markdown-body .pl-c1,.markdown-body .pl-s .pl-v{color:#005cc5}.field-description .pl-e,.field-description .pl-en,.markdown-body .pl-e,.markdown-body .pl-en{color:#6f42c1}.field-description .pl-s .pl-s1,.field-description .pl-smi,.markdown-body .pl-s .pl-s1,.markdown-body .pl-smi{color:#24292e}.field-description .pl-ent,.markdown-body .pl-ent{color:#22863a}.field-description .pl-k,.markdown-body .pl-k{color:#d73a49}.field-description .pl-pds,.field-description .pl-s,.field-description .pl-s .pl-pse .pl-s1,.field-description .pl-sr,.field-description .pl-sr .pl-cce,.field-description .pl-sr .pl-sra,.field-description .pl-sr .pl-sre,.markdown-body .pl-pds,.markdown-body .pl-s,.markdown-body .pl-s .pl-pse .pl-s1,.markdown-body .pl-sr,.markdown-body .pl-sr .pl-cce,.markdown-body .pl-sr .pl-sra,.markdown-body .pl-sr .pl-sre{color:#032f62}.field-description .pl-smw,.field-description .pl-v,.markdown-body .pl-smw,.markdown-body .pl-v{color:#e36209}.field-description .pl-bu,.markdown-body .pl-bu{color:#b31d28}.field-description .pl-ii,.markdown-body .pl-ii{background-color:#b31d28;color:#fafbfc}.field-description .pl-c2,.markdown-body .pl-c2{background-color:#d73a49;color:#fafbfc}.field-description .pl-c2:before,.markdown-body .pl-c2:before{content:\"^M\"}.field-description .pl-sr .pl-cce,.markdown-body .pl-sr .pl-cce{color:#22863a;font-weight:700}.field-description .pl-ml,.markdown-body .pl-ml{color:#735c0f}.field-description .pl-mh,.field-description .pl-mh .pl-en,.field-description .pl-ms,.markdown-body .pl-mh,.markdown-body .pl-mh .pl-en,.markdown-body .pl-ms{color:#005cc5;font-weight:700}.field-description .pl-mi,.markdown-body .pl-mi{color:#24292e;font-style:italic}.field-description .pl-mb,.markdown-body .pl-mb{color:#24292e;font-weight:700}.field-description .pl-md,.markdown-body .pl-md{background-color:#ffeef0;color:#b31d28}.field-description .pl-mi1,.markdown-body .pl-mi1{background-color:#f0fff4;color:#22863a}.field-description .pl-mc,.markdown-body .pl-mc{background-color:#ffebda;color:#e36209}.field-description .pl-mi2,.markdown-body .pl-mi2{background-color:#005cc5;color:#f6f8fa}.field-description .pl-mdr,.markdown-body .pl-mdr{color:#6f42c1;font-weight:700}.field-description .pl-ba,.markdown-body .pl-ba{color:#586069}.field-description .pl-sg,.markdown-body .pl-sg{color:#959da5}.field-description .pl-corl,.markdown-body .pl-corl{color:#032f62;text-decoration:underline}.field-description details,.markdown-body details{display:block}.field-description summary,.markdown-body summary{display:list-item}.field-description a,.markdown-body a{background-color:transparent}.field-description a:active,.field-description a:hover,.markdown-body a:active,.markdown-body a:hover{outline-width:0}.field-description strong,.markdown-body strong{font-weight:inherit;font-weight:bolder}.field-description h1,.markdown-body h1{font-size:2em;margin:.67em 0}.field-description img,.markdown-body img{border-style:none}.field-description code,.field-description kbd,.field-description pre,.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace, monospace;font-size:1em}.field-description hr,.markdown-body hr{box-sizing:content-box;height:0;overflow:visible}.field-description input,.markdown-body input{font:inherit;margin:0}.field-description input,.markdown-body input{overflow:visible}.field-description [type=checkbox],.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.field-description *,.markdown-body *{box-sizing:border-box}.field-description input,.markdown-body input{font-family:inherit;font-size:inherit;line-height:inherit}.field-description a,.markdown-body a{color:#0366d6;text-decoration:none}.field-description a:hover,.markdown-body a:hover{text-decoration:underline}.field-description strong,.markdown-body strong{font-weight:600}.field-description hr,.markdown-body hr{background:0 0;border:0;border-bottom:1px solid #dfe2e5;height:0;margin:15px 0;overflow:hidden}.field-description hr:before,.markdown-body hr:before{content:\"\";display:table}.field-description hr:after,.markdown-body hr:after{clear:both;content:\"\";display:table}.field-description table,.markdown-body table{border-collapse:collapse;border-spacing:0}.field-description td,.field-description th,.markdown-body td,.markdown-body th{padding:0}.field-description details summary,.markdown-body details summary{cursor:pointer}.field-description h1,.field-description h2,.field-description h3,.field-description h4,.field-description h5,.field-description h6,.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-bottom:0;margin-top:0}.field-description h1,.markdown-body h1{font-size:32px}.field-description h1,.field-description h2,.markdown-body h1,.markdown-body h2{font-weight:600}.field-description h2,.markdown-body h2{font-size:24px}.field-description h3,.markdown-body h3{font-size:20px}.field-description h3,.field-description h4,.markdown-body h3,.markdown-body h4{font-weight:600}.field-description h4,.markdown-body h4{font-size:16px}.field-description h5,.markdown-body h5{font-size:14px}.field-description h5,.field-description h6,.markdown-body h5,.markdown-body h6{font-weight:600}.field-description h6,.markdown-body h6{font-size:12px}.field-description p,.field-description .p,.markdown-body p,.markdown-body .p{margin-bottom:10px;margin-top:0}.field-description rdme-callout,.field-description blockquote,.markdown-body rdme-callout,.markdown-body blockquote{margin:0}.field-description ol,.field-description ul,.markdown-body ol,.markdown-body ul{margin-bottom:0;margin-top:0;padding-left:0}.field-description ol ol,.field-description ul ol,.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.field-description ol ol ol,.field-description ol ul ol,.field-description ul ol ol,.field-description ul ul ol,.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.field-description dd,.markdown-body dd{margin-left:0}.field-description code,.field-description pre,.markdown-body code,.markdown-body pre{font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:12px}.field-description pre,.markdown-body pre{margin-bottom:0;margin-top:0}.field-description input::-webkit-inner-spin-button,.field-description input::-webkit-outer-spin-button,.markdown-body input::-webkit-inner-spin-button,.markdown-body input::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}.field-description .border,.markdown-body .border{border:1px solid #e1e4e8 !important}.field-description .border-0,.markdown-body .border-0{border:0 !important}.field-description .border-bottom,.markdown-body .border-bottom{border-bottom:1px solid #e1e4e8 !important}.field-description .rounded-1,.markdown-body .rounded-1{border-radius:3px !important}.field-description .bg-white,.markdown-body .bg-white{background-color:#fff !important}.field-description .bg-gray-light,.markdown-body .bg-gray-light{background-color:#fafbfc !important}.field-description .text-gray-light,.markdown-body .text-gray-light{color:#6a737d !important}.field-description .mb-0,.markdown-body .mb-0{margin-bottom:0 !important}.field-description .my-2,.markdown-body .my-2{margin-bottom:8px !important;margin-top:8px !important}.field-description .pl-0,.markdown-body .pl-0{padding-left:0 !important}.field-description .py-0,.markdown-body .py-0{padding-bottom:0 !important;padding-top:0 !important}.field-description .pl-1,.markdown-body .pl-1{padding-left:4px !important}.field-description .pl-2,.markdown-body .pl-2{padding-left:8px !important}.field-description .py-2,.markdown-body .py-2{padding-bottom:8px !important;padding-top:8px !important}.field-description .pl-3,.field-description .px-3,.markdown-body .pl-3,.markdown-body .px-3{padding-left:16px !important}.field-description .px-3,.markdown-body .px-3{padding-right:16px !important}.field-description .pl-4,.markdown-body .pl-4{padding-left:24px !important}.field-description .pl-5,.markdown-body .pl-5{padding-left:32px !important}.field-description .pl-6,.markdown-body .pl-6{padding-left:40px !important}.field-description .f6,.markdown-body .f6{font-size:12px !important}.field-description .lh-condensed,.markdown-body .lh-condensed{line-height:1.25 !important}.field-description .text-bold,.markdown-body .text-bold{font-weight:600 !important}.field-description:before,.markdown-body:before{content:\"\";display:table}.field-description:after,.markdown-body:after{clear:both;content:\"\";display:table}.field-description>:first-child,.markdown-body>:first-child{margin-top:0 !important}.field-description>:last-child,.markdown-body>:last-child{margin-bottom:0 !important}.field-description a:not([href]),.markdown-body a:not([href]){color:inherit;text-decoration:none}.field-description rdme-callout,.field-description blockquote,.field-description dl,.field-description ol,.field-description p,.field-description pre,.field-description table,.field-description ul,.markdown-body rdme-callout,.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-bottom:16px;margin-top:0}.field-description hr,.markdown-body hr{background-color:#e1e4e8;border:0;height:.25em;margin:24px 0;padding:0}.field-description rdme-callout,.field-description blockquote,.markdown-body rdme-callout,.markdown-body blockquote{display:block;border-left:.25em solid #dfe2e5;color:#6a737d;padding:0 1em}.field-description rdme-callout>:first-child,.field-description blockquote>:first-child,.markdown-body rdme-callout>:first-child,.markdown-body blockquote>:first-child{margin-top:0}.field-description rdme-callout>:last-child,.field-description blockquote>:last-child,.markdown-body rdme-callout>:last-child,.markdown-body blockquote>:last-child{margin-bottom:0}.field-description kbd,.markdown-body kbd{background-color:#fafbfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5;color:#444d56;display:inline-block;font-size:11px;line-height:10px;padding:3px 5px;vertical-align:middle}.field-description h1,.field-description h2,.field-description h3,.field-description h4,.field-description h5,.field-description h6,.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{font-weight:600;line-height:1.25;margin-bottom:16px;margin-top:24px}.field-description h1,.markdown-body h1{font-size:2em}.field-description h1,.field-description h2,.markdown-body h1,.markdown-body h2{border-bottom:1px solid #eaecef;padding-bottom:.3em}.field-description h2,.markdown-body h2{font-size:1.5em}.field-description h3,.markdown-body h3{font-size:1.25em}.field-description h4,.markdown-body h4{font-size:1em}.field-description h5,.markdown-body h5{font-size:.875em}.field-description h6,.markdown-body h6{color:#6a737d;font-size:.85em}.field-description ol,.field-description ul,.markdown-body ol,.markdown-body ul{padding-left:2em}.field-description ol ol,.field-description ol ul,.field-description ul ol,.field-description ul ul,.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-bottom:0;margin-top:0}.field-description li,.markdown-body li{word-wrap:break-all}.field-description li>p,.markdown-body li>p{margin-top:16px}.field-description li+li,.markdown-body li+li{margin-top:.25em}.field-description dl,.markdown-body dl{padding:0}.field-description dl dt,.markdown-body dl dt{font-size:1em;font-style:italic;font-weight:600;margin-top:16px;padding:0}.field-description dl dd,.markdown-body dl dd{margin-bottom:16px;padding:0 16px}.field-description table,.markdown-body table{display:block;overflow:auto;width:100%}.field-description table th,.field-description table thead td,.markdown-body table th,.markdown-body table thead td{font-weight:600}.field-description table thead tr,.markdown-body table thead tr{background:#f6f8fa}.field-description table td,.field-description table th,.markdown-body table td,.markdown-body table th{border:1px solid #dfe2e5;padding:6px 13px}.field-description table tr,.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.field-description table tr:nth-child(2n),.markdown-body table tr:nth-child(2n){background-color:#fbfcfd}.field-description img,.markdown-body img{background-color:#fff;box-sizing:content-box;max-width:100%}.field-description img[align=right],.markdown-body img[align=right]{padding-left:20px}.field-description img[align=left],.markdown-body img[align=left]{padding-right:20px}.field-description code,.markdown-body code{background-color:rgba(27,31,35,0.05);border-radius:3px;font-size:85%;margin:0;padding:.2em .4em}.field-description pre,.markdown-body pre{word-wrap:normal}.field-description pre>code,.markdown-body pre>code{background:0 0;border:0;font-size:100%;margin:0;padding:0;white-space:pre;word-break:normal}.field-description .highlight,.markdown-body .highlight{margin-bottom:16px}.field-description .highlight pre,.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.field-description .highlight pre,.field-description pre,.markdown-body .highlight pre,.markdown-body pre{background-color:#f6f8fa;border-radius:3px;font-size:85%;line-height:1.45;overflow:auto;padding:16px}.field-description pre code,.markdown-body pre code{background-color:transparent;border:0;display:inline;line-height:inherit;margin:0;max-width:auto;overflow:visible;padding:0;word-wrap:normal}.field-description .commit-tease-sha,.markdown-body .commit-tease-sha{color:#444d56;display:inline-block;font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:90%}.field-description .blob-wrapper,.markdown-body .blob-wrapper{border-bottom-left-radius:3px;border-bottom-right-radius:3px;overflow-x:auto;overflow-y:hidden}.field-description .blob-wrapper-embedded,.markdown-body .blob-wrapper-embedded{max-height:240px;overflow-y:auto}.field-description .blob-num,.markdown-body .blob-num{-moz-user-select:none;-ms-user-select:none;-webkit-user-select:none;color:rgba(27,31,35,0.3);cursor:pointer;font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:12px;line-height:20px;min-width:50px;padding-left:10px;padding-right:10px;text-align:right;user-select:none;vertical-align:top;white-space:nowrap;width:1%}.field-description .blob-num:hover,.markdown-body .blob-num:hover{color:rgba(27,31,35,0.6)}.field-description .blob-num:before,.markdown-body .blob-num:before{content:attr(data-line-number)}.field-description .blob-code,.markdown-body .blob-code{line-height:20px;padding-left:10px;padding-right:10px;position:relative;vertical-align:top}.field-description .blob-code-inner,.markdown-body .blob-code-inner{color:#24292e;font-family:SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;font-size:12px;overflow:visible;white-space:pre;word-wrap:normal}.field-description .pl-token.active,.field-description .pl-token:hover,.markdown-body .pl-token.active,.markdown-body .pl-token:hover{background:#ffea7f;cursor:pointer}.field-description kbd,.markdown-body kbd{background-color:#fafbfc;border:1px solid #d1d5da;border-bottom-color:#c6cbd1;border-radius:3px;box-shadow:inset 0 -1px 0 #c6cbd1;color:#444d56;display:inline-block;font:11px SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;line-height:10px;padding:3px 5px;vertical-align:middle}.field-description :checked+.radio-label,.markdown-body :checked+.radio-label{border-color:#0366d6;position:relative;z-index:1}.field-description .tab-size[data-tab-size=\"1\"],.markdown-body .tab-size[data-tab-size=\"1\"]{-moz-tab-size:1;tab-size:1}.field-description .tab-size[data-tab-size=\"2\"],.markdown-body .tab-size[data-tab-size=\"2\"]{-moz-tab-size:2;tab-size:2}.field-description .tab-size[data-tab-size=\"3\"],.markdown-body .tab-size[data-tab-size=\"3\"]{-moz-tab-size:3;tab-size:3}.field-description .tab-size[data-tab-size=\"4\"],.markdown-body .tab-size[data-tab-size=\"4\"]{-moz-tab-size:4;tab-size:4}.field-description .tab-size[data-tab-size=\"5\"],.markdown-body .tab-size[data-tab-size=\"5\"]{-moz-tab-size:5;tab-size:5}.field-description .tab-size[data-tab-size=\"6\"],.markdown-body .tab-size[data-tab-size=\"6\"]{-moz-tab-size:6;tab-size:6}.field-description .tab-size[data-tab-size=\"7\"],.markdown-body .tab-size[data-tab-size=\"7\"]{-moz-tab-size:7;tab-size:7}.field-description .tab-size[data-tab-size=\"8\"],.markdown-body .tab-size[data-tab-size=\"8\"]{-moz-tab-size:8;tab-size:8}.field-description .tab-size[data-tab-size=\"9\"],.markdown-body .tab-size[data-tab-size=\"9\"]{-moz-tab-size:9;tab-size:9}.field-description .tab-size[data-tab-size=\"10\"],.markdown-body .tab-size[data-tab-size=\"10\"]{-moz-tab-size:10;tab-size:10}.field-description .tab-size[data-tab-size=\"11\"],.markdown-body .tab-size[data-tab-size=\"11\"]{-moz-tab-size:11;tab-size:11}.field-description .tab-size[data-tab-size=\"12\"],.markdown-body .tab-size[data-tab-size=\"12\"]{-moz-tab-size:12;tab-size:12}.field-description .task-list-item,.markdown-body .task-list-item{list-style-type:none}.field-description .task-list-item+.task-list-item,.markdown-body .task-list-item+.task-list-item{margin-top:3px}.field-description .task-list-item input,.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.field-description hr,.markdown-body hr{border-bottom-color:#eee}.field-description .pl-0,.markdown-body .pl-0{padding-left:0 !important}.field-description .pl-1,.markdown-body .pl-1{padding-left:4px !important}.field-description .pl-2,.markdown-body .pl-2{padding-left:8px !important}.field-description .pl-3,.markdown-body .pl-3{padding-left:16px !important}.field-description .pl-4,.markdown-body .pl-4{padding-left:24px !important}.field-description .pl-5,.markdown-body .pl-5{padding-left:32px !important}.field-description .pl-6,.markdown-body .pl-6{padding-left:40px !important}.field-description .pl-7,.markdown-body .pl-7{padding-left:48px !important}.field-description .pl-8,.markdown-body .pl-8{padding-left:64px !important}.field-description .pl-9,.markdown-body .pl-9{padding-left:80px !important}.field-description .pl-10,.markdown-body .pl-10{padding-left:96px !important}.field-description .pl-11,.markdown-body .pl-11{padding-left:112px !important}.field-description .pl-12,.markdown-body .pl-12{padding-left:128px !important}.markdown-body h5,.markdown-body h6{font-size:.9em}.markdown-body blockquote h1:last-child,.markdown-body blockquote h2:last-child{border-bottom:0}.markdown-body>*{margin-top:15px;margin-bottom:15px !important}.markdown-body img[align=left]{margin-right:20px}.markdown-body img[align=right]{margin-left:20px}.markdown-body img[align=center]{display:block;margin:20px auto}.markdown-body .task-list-item input{margin:0 .5em .25em -1.25em}.markdown-body a{transition:.3s;text-decoration:underline}.markdown-body a:not(:hover){text-decoration-color:transparent}.markdown-body a code{display:inline-block;text-decoration:underline;transition:.3s}.markdown-body a:hover code{color:inherit}.markdown-body a:not(:hover) code{text-decoration-color:transparent}.markdown-body .embed{padding:15px;background:#eeeeee;overflow:hidden;border-radius:3px}.markdown-body .embed-media{display:flex;justify-content:center}.markdown-body .embed-media>:only-child{flex:1;margin:-15px;border-radius:0 !important}.markdown-body .table{display:inline-block}.markdown-body .table>table{margin-bottom:0 !important}.markdown-body .table_centered{margin:30px auto !important;display:block}.markdown-body .table_rounded{border:1px solid #e0e2e5;border-radius:3px;overflow:hidden}.markdown-body .table_rounded tr,.markdown-body .table_rounded tr td,.markdown-body .table_rounded tr th{border-width:0 !important;border-color:#e0e2e5}.markdown-body .table_rounded thead+tbody tr:first-of-type,.markdown-body .table_rounded tr+tr{border-top-width:1px !important}.markdown-body .table_rounded tr td+td,.markdown-body .table_rounded tr th+th{border-left-width:1px !important}\n", ""]);
 
 
 /***/ }),
 /* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(19)(false);
+exports = module.exports = __webpack_require__(11)(false);
 // Module
 exports.push([module.i, "/* BASICS */\n\n.CodeMirror {\n  /* Set height, width, borders, and global font properties here */\n  font-family: monospace;\n  height: 300px;\n  color: black;\n  direction: ltr;\n}\n\n/* PADDING */\n\n.CodeMirror-lines {\n  padding: 4px 0; /* Vertical padding around content */\n}\n.CodeMirror pre.CodeMirror-line,\n.CodeMirror pre.CodeMirror-line-like {\n  padding: 0 4px; /* Horizontal padding of content */\n}\n\n.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {\n  background-color: white; /* The little square between H and V scrollbars */\n}\n\n/* GUTTER */\n\n.CodeMirror-gutters {\n  border-right: 1px solid #ddd;\n  background-color: #f7f7f7;\n  white-space: nowrap;\n}\n.CodeMirror-linenumbers {}\n.CodeMirror-linenumber {\n  padding: 0 3px 0 5px;\n  min-width: 20px;\n  text-align: right;\n  color: #999;\n  white-space: nowrap;\n}\n\n.CodeMirror-guttermarker { color: black; }\n.CodeMirror-guttermarker-subtle { color: #999; }\n\n/* CURSOR */\n\n.CodeMirror-cursor {\n  border-left: 1px solid black;\n  border-right: none;\n  width: 0;\n}\n/* Shown when moving in bi-directional text */\n.CodeMirror div.CodeMirror-secondarycursor {\n  border-left: 1px solid silver;\n}\n.cm-fat-cursor .CodeMirror-cursor {\n  width: auto;\n  border: 0 !important;\n  background: #7e7;\n}\n.cm-fat-cursor div.CodeMirror-cursors {\n  z-index: 1;\n}\n.cm-fat-cursor-mark {\n  background-color: rgba(20, 255, 20, 0.5);\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  -moz-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n}\n.cm-animate-fat-cursor {\n  width: auto;\n  border: 0;\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  -moz-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n  background-color: #7e7;\n}\n@-moz-keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n@-webkit-keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n@keyframes blink {\n  0% {}\n  50% { background-color: transparent; }\n  100% {}\n}\n\n/* Can style cursor different in overwrite (non-insert) mode */\n.CodeMirror-overwrite .CodeMirror-cursor {}\n\n.cm-tab { display: inline-block; text-decoration: inherit; }\n\n.CodeMirror-rulers {\n  position: absolute;\n  left: 0; right: 0; top: -50px; bottom: 0;\n  overflow: hidden;\n}\n.CodeMirror-ruler {\n  border-left: 1px solid #ccc;\n  top: 0; bottom: 0;\n  position: absolute;\n}\n\n/* DEFAULT THEME */\n\n.cm-s-default .cm-header {color: blue;}\n.cm-s-default .cm-quote {color: #090;}\n.cm-negative {color: #d44;}\n.cm-positive {color: #292;}\n.cm-header, .cm-strong {font-weight: bold;}\n.cm-em {font-style: italic;}\n.cm-link {text-decoration: underline;}\n.cm-strikethrough {text-decoration: line-through;}\n\n.cm-s-default .cm-keyword {color: #708;}\n.cm-s-default .cm-atom {color: #219;}\n.cm-s-default .cm-number {color: #164;}\n.cm-s-default .cm-def {color: #00f;}\n.cm-s-default .cm-variable,\n.cm-s-default .cm-punctuation,\n.cm-s-default .cm-property,\n.cm-s-default .cm-operator {}\n.cm-s-default .cm-variable-2 {color: #05a;}\n.cm-s-default .cm-variable-3, .cm-s-default .cm-type {color: #085;}\n.cm-s-default .cm-comment {color: #a50;}\n.cm-s-default .cm-string {color: #a11;}\n.cm-s-default .cm-string-2 {color: #f50;}\n.cm-s-default .cm-meta {color: #555;}\n.cm-s-default .cm-qualifier {color: #555;}\n.cm-s-default .cm-builtin {color: #30a;}\n.cm-s-default .cm-bracket {color: #997;}\n.cm-s-default .cm-tag {color: #170;}\n.cm-s-default .cm-attribute {color: #00c;}\n.cm-s-default .cm-hr {color: #999;}\n.cm-s-default .cm-link {color: #00c;}\n\n.cm-s-default .cm-error {color: #f00;}\n.cm-invalidchar {color: #f00;}\n\n.CodeMirror-composing { border-bottom: 2px solid; }\n\n/* Default styles for common addons */\n\ndiv.CodeMirror span.CodeMirror-matchingbracket {color: #0b0;}\ndiv.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}\n.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }\n.CodeMirror-activeline-background {background: #e8f2ff;}\n\n/* STOP */\n\n/* The rest of this file contains styles related to the mechanics of\n   the editor. You probably shouldn't touch them. */\n\n.CodeMirror {\n  position: relative;\n  overflow: hidden;\n  background: white;\n}\n\n.CodeMirror-scroll {\n  overflow: scroll !important; /* Things will break if this is overridden */\n  /* 30px is the magic margin used to hide the element's real scrollbars */\n  /* See overflow: hidden in .CodeMirror */\n  margin-bottom: -30px; margin-right: -30px;\n  padding-bottom: 30px;\n  height: 100%;\n  outline: none; /* Prevent dragging from highlighting the element */\n  position: relative;\n}\n.CodeMirror-sizer {\n  position: relative;\n  border-right: 30px solid transparent;\n}\n\n/* The fake, visible scrollbars. Used to force redraw during scrolling\n   before actual scrolling happens, thus preventing shaking and\n   flickering artifacts. */\n.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {\n  position: absolute;\n  z-index: 6;\n  display: none;\n}\n.CodeMirror-vscrollbar {\n  right: 0; top: 0;\n  overflow-x: hidden;\n  overflow-y: scroll;\n}\n.CodeMirror-hscrollbar {\n  bottom: 0; left: 0;\n  overflow-y: hidden;\n  overflow-x: scroll;\n}\n.CodeMirror-scrollbar-filler {\n  right: 0; bottom: 0;\n}\n.CodeMirror-gutter-filler {\n  left: 0; bottom: 0;\n}\n\n.CodeMirror-gutters {\n  position: absolute; left: 0; top: 0;\n  min-height: 100%;\n  z-index: 3;\n}\n.CodeMirror-gutter {\n  white-space: normal;\n  height: 100%;\n  display: inline-block;\n  vertical-align: top;\n  margin-bottom: -30px;\n}\n.CodeMirror-gutter-wrapper {\n  position: absolute;\n  z-index: 4;\n  background: none !important;\n  border: none !important;\n}\n.CodeMirror-gutter-background {\n  position: absolute;\n  top: 0; bottom: 0;\n  z-index: 4;\n}\n.CodeMirror-gutter-elt {\n  position: absolute;\n  cursor: default;\n  z-index: 4;\n}\n.CodeMirror-gutter-wrapper ::selection { background-color: transparent }\n.CodeMirror-gutter-wrapper ::-moz-selection { background-color: transparent }\n\n.CodeMirror-lines {\n  cursor: text;\n  min-height: 1px; /* prevents collapsing before first draw */\n}\n.CodeMirror pre.CodeMirror-line,\n.CodeMirror pre.CodeMirror-line-like {\n  /* Reset some styles that the rest of the page might have set */\n  -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;\n  border-width: 0;\n  background: transparent;\n  font-family: inherit;\n  font-size: inherit;\n  margin: 0;\n  white-space: pre;\n  word-wrap: normal;\n  line-height: inherit;\n  color: inherit;\n  z-index: 2;\n  position: relative;\n  overflow: visible;\n  -webkit-tap-highlight-color: transparent;\n  -webkit-font-variant-ligatures: contextual;\n  font-variant-ligatures: contextual;\n}\n.CodeMirror-wrap pre.CodeMirror-line,\n.CodeMirror-wrap pre.CodeMirror-line-like {\n  word-wrap: break-word;\n  white-space: pre-wrap;\n  word-break: normal;\n}\n\n.CodeMirror-linebackground {\n  position: absolute;\n  left: 0; right: 0; top: 0; bottom: 0;\n  z-index: 0;\n}\n\n.CodeMirror-linewidget {\n  position: relative;\n  z-index: 2;\n  padding: 0.1px; /* Force widget margins to stay inside of the container */\n}\n\n.CodeMirror-widget {}\n\n.CodeMirror-rtl pre { direction: rtl; }\n\n.CodeMirror-code {\n  outline: none;\n}\n\n/* Force content-box sizing for the elements where we expect it */\n.CodeMirror-scroll,\n.CodeMirror-sizer,\n.CodeMirror-gutter,\n.CodeMirror-gutters,\n.CodeMirror-linenumber {\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n}\n\n.CodeMirror-measure {\n  position: absolute;\n  width: 100%;\n  height: 0;\n  overflow: hidden;\n  visibility: hidden;\n}\n\n.CodeMirror-cursor {\n  position: absolute;\n  pointer-events: none;\n}\n.CodeMirror-measure pre { position: static; }\n\ndiv.CodeMirror-cursors {\n  visibility: hidden;\n  position: relative;\n  z-index: 3;\n}\ndiv.CodeMirror-dragcursors {\n  visibility: visible;\n}\n\n.CodeMirror-focused div.CodeMirror-cursors {\n  visibility: visible;\n}\n\n.CodeMirror-selected { background: #d9d9d9; }\n.CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }\n.CodeMirror-crosshair { cursor: crosshair; }\n.CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; }\n.CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; }\n\n.cm-searching {\n  background-color: #ffa;\n  background-color: rgba(255, 255, 0, .4);\n}\n\n/* Used to force a border model for a node */\n.cm-force-border { padding-right: .1px; }\n\n@media print {\n  /* Hide the cursor when printing */\n  .CodeMirror div.CodeMirror-cursors {\n    visibility: hidden;\n  }\n}\n\n/* See issue #2901 */\n.cm-tab-wrap-hack:after { content: ''; }\n\n/* Help users use markselection to safely style text background */\nspan.CodeMirror-selectedtext { background: none; }\n", ""]);
 
@@ -21924,7 +21932,7 @@ exports.push([module.i, "/* BASICS */\n\n.CodeMirror {\n  /* Set height, width, 
 /* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(19)(false);
+exports = module.exports = __webpack_require__(11)(false);
 // Module
 exports.push([module.i, "/* neo theme for codemirror */\n\n/* Color scheme */\n\n.cm-s-neo.CodeMirror {\n  background-color:#ffffff;\n  color:#2e383c;\n  line-height:1.4375;\n}\n.cm-s-neo .cm-comment { color:#75787b; }\n.cm-s-neo .cm-keyword, .cm-s-neo .cm-property { color:#1d75b3; }\n.cm-s-neo .cm-atom,.cm-s-neo .cm-number { color:#75438a; }\n.cm-s-neo .cm-node,.cm-s-neo .cm-tag { color:#9c3328; }\n.cm-s-neo .cm-string { color:#b35e14; }\n.cm-s-neo .cm-variable,.cm-s-neo .cm-qualifier { color:#047d65; }\n\n\n/* Editor styling */\n\n.cm-s-neo pre {\n  padding:0;\n}\n\n.cm-s-neo .CodeMirror-gutters {\n  border:none;\n  border-right:10px solid transparent;\n  background-color:transparent;\n}\n\n.cm-s-neo .CodeMirror-linenumber {\n  padding:0;\n  color:#e0e2e5;\n}\n\n.cm-s-neo .CodeMirror-guttermarker { color: #1d75b3; }\n.cm-s-neo .CodeMirror-guttermarker-subtle { color: #e0e2e5; }\n\n.cm-s-neo .CodeMirror-cursor {\n  width: auto;\n  border: 0;\n  background: rgba(155,157,162,0.37);\n  z-index: 1;\n}\n", ""]);
 
@@ -21943,7 +21951,7 @@ exports.push([module.i, "/* neo theme for codemirror */\n\n/* Color scheme */\n\
  * LICENSE file in the root directory of this source tree.
  */
 
-var h=__webpack_require__(21),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113;n&&Symbol.for("react.suspense_list");
+var h=__webpack_require__(22),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.forward_ref"):60112,y=n?Symbol.for("react.suspense"):60113;n&&Symbol.for("react.suspense_list");
 var z=n?Symbol.for("react.memo"):60115,aa=n?Symbol.for("react.lazy"):60116;n&&Symbol.for("react.fundamental");n&&Symbol.for("react.responder");n&&Symbol.for("react.scope");var A="function"===typeof Symbol&&Symbol.iterator;
 function B(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var C={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},D={};
 function E(a,b,c){this.props=a;this.context=b;this.refs=D;this.updater=c||C}E.prototype.isReactComponent={};E.prototype.setState=function(a,b){if("object"!==typeof a&&"function"!==typeof a&&null!=a)throw Error(B(85));this.updater.enqueueSetState(this,a,b,"setState")};E.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function F(){}F.prototype=E.prototype;function G(a,b,c){this.props=a;this.context=b;this.refs=D;this.updater=c||C}var H=G.prototype=new F;
@@ -21983,7 +21991,7 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(21);
+var _assign = __webpack_require__(22);
 var checkPropTypes = __webpack_require__(51);
 
 // TODO: this is special because it gets imported during build.
@@ -26198,7 +26206,7 @@ module.exports = generateFootnotes
 
 var thematicBreak = __webpack_require__(55)
 var list = __webpack_require__(56)
-var wrap = __webpack_require__(11)
+var wrap = __webpack_require__(12)
 
 function generateFootnotes(h) {
   var footnoteById = h.footnoteById
@@ -26312,7 +26320,7 @@ function ignore() {
 
 module.exports = blockquote
 
-var wrap = __webpack_require__(11)
+var wrap = __webpack_require__(12)
 var all = __webpack_require__(3)
 
 function blockquote(h, node) {
@@ -26529,7 +26537,7 @@ function html(h, node) {
 
 module.exports = imageReference
 
-var normalize = __webpack_require__(22)
+var normalize = __webpack_require__(23)
 var revert = __webpack_require__(58)
 
 function imageReference(h, node) {
@@ -26557,7 +26565,7 @@ function imageReference(h, node) {
 "use strict";
 
 
-var normalize = __webpack_require__(22)
+var normalize = __webpack_require__(23)
 
 module.exports = image
 
@@ -26598,7 +26606,7 @@ function inlineCode(h, node) {
 
 module.exports = linkReference
 
-var normalize = __webpack_require__(22)
+var normalize = __webpack_require__(23)
 var revert = __webpack_require__(58)
 var all = __webpack_require__(3)
 
@@ -26627,7 +26635,7 @@ function linkReference(h, node) {
 "use strict";
 
 
-var normalize = __webpack_require__(22)
+var normalize = __webpack_require__(23)
 var all = __webpack_require__(3)
 
 module.exports = link
@@ -26653,7 +26661,7 @@ function link(h, node) {
 module.exports = listItem
 
 var u = __webpack_require__(5)
-var wrap = __webpack_require__(11)
+var wrap = __webpack_require__(12)
 var all = __webpack_require__(3)
 
 function listItem(h, node, parent) {
@@ -26766,7 +26774,7 @@ function paragraph(h, node) {
 module.exports = root
 
 var u = __webpack_require__(5)
-var wrap = __webpack_require__(11)
+var wrap = __webpack_require__(12)
 var all = __webpack_require__(3)
 
 function root(h, node) {
@@ -26800,7 +26808,7 @@ function strong(h, node) {
 module.exports = table
 
 var position = __webpack_require__(35)
-var wrap = __webpack_require__(11)
+var wrap = __webpack_require__(12)
 var all = __webpack_require__(3)
 
 function table(h, node) {
@@ -27199,7 +27207,7 @@ function createParse5Location(node) {
 "use strict";
 
 
-const Tokenizer = __webpack_require__(23);
+const Tokenizer = __webpack_require__(24);
 const OpenElementStack = __webpack_require__(219);
 const FormattingElementList = __webpack_require__(220);
 const LocationInfoParserMixin = __webpack_require__(221);
@@ -27211,7 +27219,7 @@ const doctype = __webpack_require__(228);
 const foreignContent = __webpack_require__(229);
 const ERR = __webpack_require__(37);
 const unicode = __webpack_require__(36);
-const HTML = __webpack_require__(12);
+const HTML = __webpack_require__(13);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -30339,7 +30347,7 @@ module.exports = new Uint16Array([4,52,65,66,67,68,69,70,71,72,73,74,75,76,77,78
 "use strict";
 
 
-const HTML = __webpack_require__(12);
+const HTML = __webpack_require__(13);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -31017,10 +31025,10 @@ module.exports = FormattingElementList;
 
 
 const Mixin = __webpack_require__(9);
-const Tokenizer = __webpack_require__(23);
+const Tokenizer = __webpack_require__(24);
 const LocationInfoTokenizerMixin = __webpack_require__(60);
 const LocationInfoOpenElementStackMixin = __webpack_require__(222);
-const HTML = __webpack_require__(12);
+const HTML = __webpack_require__(13);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -31401,7 +31409,7 @@ module.exports = ErrorReportingPreprocessorMixin;
 "use strict";
 
 
-const { DOCUMENT_MODE } = __webpack_require__(12);
+const { DOCUMENT_MODE } = __webpack_require__(13);
 
 //Node construction
 exports.createDocument = function() {
@@ -31645,7 +31653,7 @@ module.exports = function mergeOptions(defaults, options) {
 "use strict";
 
 
-const { DOCUMENT_MODE } = __webpack_require__(12);
+const { DOCUMENT_MODE } = __webpack_require__(13);
 
 //Const
 const VALID_DOCTYPE_NAME = 'html';
@@ -31825,8 +31833,8 @@ exports.serializeContent = function(name, publicId, systemId) {
 "use strict";
 
 
-const Tokenizer = __webpack_require__(23);
-const HTML = __webpack_require__(12);
+const Tokenizer = __webpack_require__(24);
+const HTML = __webpack_require__(13);
 
 //Aliases
 const $ = HTML.TAG_NAMES;
@@ -32356,8 +32364,8 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 "use strict";
 
 
-var types = __webpack_require__(24)
-var create = __webpack_require__(13)
+var types = __webpack_require__(25)
+var create = __webpack_require__(14)
 var caseInsensitiveTransform = __webpack_require__(70)
 
 var boolean = types.boolean
@@ -32685,8 +32693,8 @@ module.exports = merge([xml, xlink, xmlns, aria, svg])
 "use strict";
 
 
-var types = __webpack_require__(24)
-var create = __webpack_require__(13)
+var types = __webpack_require__(25)
+var create = __webpack_require__(14)
 var caseSensitiveTransform = __webpack_require__(71)
 
 var boolean = types.boolean
@@ -33365,8 +33373,8 @@ module.exports = merge([xml, xlink, xmlns, aria, svg])
 "use strict";
 
 
-var types = __webpack_require__(25)
-var create = __webpack_require__(14)
+var types = __webpack_require__(26)
+var create = __webpack_require__(15)
 var caseSensitiveTransform = __webpack_require__(81)
 
 var boolean = types.boolean
@@ -34121,8 +34129,8 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 "use strict";
 
 
-var types = __webpack_require__(25)
-var create = __webpack_require__(14)
+var types = __webpack_require__(26)
+var create = __webpack_require__(15)
 var caseInsensitiveTransform = __webpack_require__(80)
 
 var boolean = types.boolean
@@ -34591,8 +34599,8 @@ function patch(node, p5, parentSchema) {
 "use strict";
 
 
-var types = __webpack_require__(28)
-var create = __webpack_require__(15)
+var types = __webpack_require__(29)
+var create = __webpack_require__(16)
 var caseInsensitiveTransform = __webpack_require__(93)
 
 var boolean = types.boolean
@@ -34903,8 +34911,8 @@ module.exports = create({
 "use strict";
 
 
-var types = __webpack_require__(28)
-var create = __webpack_require__(15)
+var types = __webpack_require__(29)
+var create = __webpack_require__(16)
 var caseSensitiveTransform = __webpack_require__(94)
 
 var boolean = types.boolean
@@ -35480,8 +35488,8 @@ module.exports = create({
 var html = __webpack_require__(84)
 var svg = __webpack_require__(96)
 var find = __webpack_require__(97)
-var spaces = __webpack_require__(26)
-var commas = __webpack_require__(27)
+var spaces = __webpack_require__(27)
+var commas = __webpack_require__(28)
 var style = __webpack_require__(98)
 var ns = __webpack_require__(20)
 var convert = __webpack_require__(251)
@@ -36772,7 +36780,7 @@ function factory(ctx, key) {
 
 
 var xtend = __webpack_require__(0)
-var entities = __webpack_require__(29)
+var entities = __webpack_require__(30)
 
 module.exports = factory
 
@@ -38391,7 +38399,7 @@ function thematicBreak(eat, value, silent) {
 
 var trim = __webpack_require__(8)
 var repeat = __webpack_require__(6)
-var decimal = __webpack_require__(16)
+var decimal = __webpack_require__(17)
 var getIndent = __webpack_require__(110)
 var removeIndent = __webpack_require__(275)
 var interrupt = __webpack_require__(41)
@@ -39871,7 +39879,7 @@ function table(eat, value, silent) {
 
 
 var trim = __webpack_require__(8)
-var decimal = __webpack_require__(16)
+var decimal = __webpack_require__(17)
 var trimTrailingLines = __webpack_require__(109)
 var interrupt = __webpack_require__(41)
 
@@ -40050,7 +40058,7 @@ function locate(value, fromIndex) {
 
 
 var whitespace = __webpack_require__(7)
-var decode = __webpack_require__(29)
+var decode = __webpack_require__(30)
 var locate = __webpack_require__(112)
 
 module.exports = autoLink
@@ -40189,7 +40197,7 @@ function autoLink(eat, value, silent) {
 "use strict";
 
 
-var decode = __webpack_require__(29)
+var decode = __webpack_require__(30)
 var whitespace = __webpack_require__(7)
 var locate = __webpack_require__(286)
 
@@ -41982,7 +41990,7 @@ module.exports = ["cent","copy","divide","gt","lt","not","para","times"]
 "use strict";
 
 
-var decimal = __webpack_require__(16)
+var decimal = __webpack_require__(17)
 var alphanumeric = __webpack_require__(309)
 var whitespace = __webpack_require__(7)
 var escapes = __webpack_require__(107)
@@ -44644,8 +44652,8 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 "use strict";
 
 
-var types = __webpack_require__(30)
-var create = __webpack_require__(17)
+var types = __webpack_require__(31)
+var create = __webpack_require__(18)
 var caseInsensitiveTransform = __webpack_require__(128)
 
 var boolean = types.boolean
@@ -44957,8 +44965,8 @@ module.exports = create({
 "use strict";
 
 
-var types = __webpack_require__(30)
-var create = __webpack_require__(17)
+var types = __webpack_require__(31)
+var create = __webpack_require__(18)
 var caseSensitiveTransform = __webpack_require__(129)
 
 var boolean = types.boolean
@@ -45682,8 +45690,8 @@ function place(parent, child) {
 var xtend = __webpack_require__(0)
 var svg = __webpack_require__(131)
 var find = __webpack_require__(362)
-var spaces = __webpack_require__(26).stringify
-var commas = __webpack_require__(27).stringify
+var spaces = __webpack_require__(27).stringify
+var commas = __webpack_require__(28).stringify
 var entities = __webpack_require__(43)
 var ccount = __webpack_require__(40)
 var all = __webpack_require__(138)
@@ -46301,8 +46309,8 @@ module.exports = function bind(that) {
 var html = __webpack_require__(372)
 var svg = __webpack_require__(374)
 var find = __webpack_require__(376)
-var spaces = __webpack_require__(26)
-var commas = __webpack_require__(27)
+var spaces = __webpack_require__(27)
+var commas = __webpack_require__(28)
 var style = __webpack_require__(98)
 var ns = __webpack_require__(20)
 var is = __webpack_require__(377)
@@ -46554,8 +46562,8 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 "use strict";
 
 
-var types = __webpack_require__(31)
-var create = __webpack_require__(18)
+var types = __webpack_require__(32)
+var create = __webpack_require__(19)
 var caseInsensitiveTransform = __webpack_require__(148)
 
 var boolean = types.boolean
@@ -46797,8 +46805,8 @@ module.exports = merge([xml, xlink, xmlns, aria, svg])
 "use strict";
 
 
-var types = __webpack_require__(31)
-var create = __webpack_require__(18)
+var types = __webpack_require__(32)
+var create = __webpack_require__(19)
 var caseSensitiveTransform = __webpack_require__(149)
 
 var boolean = types.boolean
@@ -51047,7 +51055,7 @@ module.exports = function() {
 /* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var React = __webpack_require__(32);
+var React = __webpack_require__(33);
 
 module.exports = React.createContext({
   user: {},
@@ -51058,7 +51066,7 @@ module.exports = React.createContext({
 /* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var React = __webpack_require__(32);
+var React = __webpack_require__(33);
 
 module.exports = React.createContext(false);
 
@@ -51066,7 +51074,7 @@ module.exports = React.createContext(false);
 /* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var React = __webpack_require__(32);
+var React = __webpack_require__(33);
 
 module.exports = React.createContext({
   selected: '',
@@ -51083,7 +51091,7 @@ var React = __webpack_require__(4);
 
 var PropTypes = __webpack_require__(10);
 
-var GlossaryTermsContext = __webpack_require__(398); // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/replace-vars.js#L8
+var GlossaryContext = __webpack_require__(398); // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/replace-vars.js#L8
 
 
 function GlossaryItem(_ref) {
@@ -51102,7 +51110,7 @@ function GlossaryItem(_ref) {
     className: "tooltip-content"
   }, React.createElement("span", {
     className: "tooltip-content-body"
-  }, "- ", React.createElement("strong", {
+  }, React.createElement("strong", {
     className: "term"
   }, foundTerm.term), " - ", foundTerm.definition)));
 }
@@ -51116,7 +51124,7 @@ GlossaryItem.propTypes = {
 }; // eslint-disable-next-line react/display-name
 
 module.exports = function (props) {
-  return React.createElement(GlossaryTermsContext.Consumer, null, function (terms) {
+  return React.createElement(GlossaryContext.Consumer, null, function (terms) {
     return React.createElement(GlossaryItem, _extends({}, props, {
       terms: terms
     }));
@@ -51124,6 +51132,7 @@ module.exports = function (props) {
 };
 
 module.exports.GlossaryItem = GlossaryItem;
+module.exports.GlossaryContext = GlossaryContext;
 
 /***/ }),
 /* 394 */
@@ -51397,7 +51406,7 @@ exports.isSuspense = isSuspense;
 
 
 var ReactIs = __webpack_require__(153);
-var assign = __webpack_require__(21);
+var assign = __webpack_require__(22);
 
 var ReactPropTypesSecret = __webpack_require__(34);
 var checkPropTypes = __webpack_require__(51);
@@ -58900,15 +58909,9 @@ module.exports = React.createContext('/');
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+__webpack_require__(425);
 
 var React = __webpack_require__(4);
 
@@ -58923,47 +58926,80 @@ function generateHeadingId(e) {
 }
 
 function Heading(props) {
-  // console.log('Heading', props);
   var id = "section-".concat(generateHeadingId(props.children[0]));
-  return React.createElement(props.level, {
-    className: 'header-scroll'
+  return React.createElement(props.tag, {
+    className: 'heading header-scroll'
   }, [React.createElement("div", {
     key: "anchor-".concat(id),
     className: "anchor waypoint",
     id: id
-  })].concat(_toConsumableArray(props.children), [// eslint-disable-next-line jsx-a11y/anchor-has-content
+  }), React.createElement("div", {
+    key: "heading-text-".concat(id)
+  }, props.children), // eslint-disable-next-line jsx-a11y/anchor-has-content
   React.createElement("a", {
     key: "anchor-icon-".concat(id),
     className: "fa fa-anchor",
     href: "#".concat(id)
-  })]));
+  })]);
 }
 
-function createHeading(level) {
+function CreateHeading() {
+  var level = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2;
   // eslint-disable-next-line react/display-name
   return function (props) {
     return React.createElement(Heading, _extends({
-      level: level
+      tag: "h".concat(level)
     }, props));
   };
 }
 
 Heading.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.string).isRequired,
-  level: PropTypes.string.isRequired
+  children: PropTypes.array.isRequired,
+  tag: PropTypes.string.isRequired
 };
 
 module.exports = function (level) {
-  return createHeading(level);
+  return CreateHeading(level);
 };
 
 /***/ }),
 /* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var content = __webpack_require__(426);
+
+if (typeof content === 'string') {
+  content = [[module.i, content, '']];
+}
+
+var options = {}
+
+options.insert = "head";
+options.singleton = false;
+
+var update = __webpack_require__(21)(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}
+
+
+/***/ }),
+/* 426 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(11)(false);
+// Module
+exports.push([module.i, ".markdown-body .heading.heading{display:flex;justify-content:flex-start;align-items:center;position:relative}.markdown-body .heading.heading .anchor,.markdown-body .heading.heading .fa-anchor{position:absolute !important;display:inline !important;order:-1;right:100%}.markdown-body .heading.heading .anchor,.markdown-body .heading.heading .fa-anchor{top:unset;margin-right:-.8rem;padding:.8em .2em .8em 0 !important;font-size:.8rem;text-decoration:none;color:inherit;transform:translateX(-100%);transition:.2s ease}.markdown-body .heading.heading .anchor:hover,.markdown-body .heading.heading .fa-anchor:hover{opacity:1}.markdown-body .heading.heading:not(:hover) .fa-anchor{opacity:0}\n", ""]);
+
+
+/***/ }),
+/* 427 */
+/***/ (function(module, exports, __webpack_require__) {
+
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-__webpack_require__(426);
+__webpack_require__(428);
 
 var React = __webpack_require__(4);
 
@@ -59006,10 +59042,10 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 426 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var content = __webpack_require__(427);
+var content = __webpack_require__(429);
 
 if (typeof content === 'string') {
   content = [[module.i, content, '']];
@@ -59020,7 +59056,7 @@ var options = {}
 options.insert = "head";
 options.singleton = false;
 
-var update = __webpack_require__(33)(content, options);
+var update = __webpack_require__(21)(content, options);
 
 if (content.locals) {
   module.exports = content.locals;
@@ -59028,21 +59064,21 @@ if (content.locals) {
 
 
 /***/ }),
-/* 427 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(19)(false);
+exports = module.exports = __webpack_require__(11)(false);
 // Module
 exports.push([module.i, "#hub-content rdme-callout,#hub-content .callout,.markdown-body rdme-callout,.markdown-body .callout{padding:1.5rem}#hub-content rdme-callout_default,#hub-content .callout_default,.markdown-body rdme-callout_default,.markdown-body .callout_default{background-color:#f3f4f5;color:#6a737d}#hub-content rdme-callout_info,#hub-content .callout_info,.markdown-body rdme-callout_info,.markdown-body .callout_info{background-color:#e3edf2;border-color:#5bc0de}#hub-content rdme-callout_info h3,#hub-content rdme-callout_info h4,#hub-content .callout_info h3,#hub-content .callout_info h4,.markdown-body rdme-callout_info h3,.markdown-body rdme-callout_info h4,.markdown-body .callout_info h3,.markdown-body .callout_info h4{color:#46b8da}#hub-content rdme-callout_warn,#hub-content rdme-callout_warning,#hub-content .callout_warn,#hub-content .callout_warning,.markdown-body rdme-callout_warn,.markdown-body rdme-callout_warning,.markdown-body .callout_warn,.markdown-body .callout_warning{background-color:#fcf8f2;border-color:#f0ad4e}#hub-content rdme-callout_warn h3,#hub-content rdme-callout_warn h4,#hub-content rdme-callout_warning h3,#hub-content rdme-callout_warning h4,#hub-content .callout_warn h3,#hub-content .callout_warn h4,#hub-content .callout_warning h3,#hub-content .callout_warning h4,.markdown-body rdme-callout_warn h3,.markdown-body rdme-callout_warn h4,.markdown-body rdme-callout_warning h3,.markdown-body rdme-callout_warning h4,.markdown-body .callout_warn h3,.markdown-body .callout_warn h4,.markdown-body .callout_warning h3,.markdown-body .callout_warning h4{color:#eea236}#hub-content rdme-callout_ok,#hub-content rdme-callout_okay,#hub-content rdme-callout_success,#hub-content .callout_ok,#hub-content .callout_okay,#hub-content .callout_success,.markdown-body rdme-callout_ok,.markdown-body rdme-callout_okay,.markdown-body rdme-callout_success,.markdown-body .callout_ok,.markdown-body .callout_okay,.markdown-body .callout_success{background-color:#f3f8f3;border-color:#50af51}#hub-content rdme-callout_ok h3,#hub-content rdme-callout_ok h4,#hub-content rdme-callout_okay h3,#hub-content rdme-callout_okay h4,#hub-content rdme-callout_success h3,#hub-content rdme-callout_success h4,#hub-content .callout_ok h3,#hub-content .callout_ok h4,#hub-content .callout_okay h3,#hub-content .callout_okay h4,#hub-content .callout_success h3,#hub-content .callout_success h4,.markdown-body rdme-callout_ok h3,.markdown-body rdme-callout_ok h4,.markdown-body rdme-callout_okay h3,.markdown-body rdme-callout_okay h4,.markdown-body rdme-callout_success h3,.markdown-body rdme-callout_success h4,.markdown-body .callout_ok h3,.markdown-body .callout_ok h4,.markdown-body .callout_okay h3,.markdown-body .callout_okay h4,.markdown-body .callout_success h3,.markdown-body .callout_success h4{color:#489e49}#hub-content rdme-callout_err,#hub-content rdme-callout_error,#hub-content .callout_err,#hub-content .callout_error,.markdown-body rdme-callout_err,.markdown-body rdme-callout_error,.markdown-body .callout_err,.markdown-body .callout_error{background-color:#fdf7f7;border-color:#d9534f}#hub-content rdme-callout_err h3,#hub-content rdme-callout_err h4,#hub-content rdme-callout_error h3,#hub-content rdme-callout_error h4,#hub-content .callout_err h3,#hub-content .callout_err h4,#hub-content .callout_error h3,#hub-content .callout_error h4,.markdown-body rdme-callout_err h3,.markdown-body rdme-callout_err h4,.markdown-body rdme-callout_error h3,.markdown-body rdme-callout_error h4,.markdown-body .callout_err h3,.markdown-body .callout_err h4,.markdown-body .callout_error h3,.markdown-body .callout_error h4{color:#d43f3a}#hub-content rdme-callout>*,#hub-content .callout>*,.markdown-body rdme-callout>*,.markdown-body .callout>*{margin-left:1.5rem;position:relative}#hub-content rdme-callout h3:first-letter,#hub-content .callout h3:first-letter,.markdown-body rdme-callout h3:first-letter,.markdown-body .callout h3:first-letter{margin-left:-1.6em;margin-right:.4rem;line-height:0}\n", ""]);
 
 
 /***/ }),
-/* 428 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-__webpack_require__(429);
+__webpack_require__(431);
 
 var React = __webpack_require__(4);
 
@@ -59102,10 +59138,10 @@ module.exports = function ()
 };
 
 /***/ }),
-/* 429 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var content = __webpack_require__(430);
+var content = __webpack_require__(432);
 
 if (typeof content === 'string') {
   content = [[module.i, content, '']];
@@ -59116,7 +59152,7 @@ var options = {}
 options.insert = "head";
 options.singleton = false;
 
-var update = __webpack_require__(33)(content, options);
+var update = __webpack_require__(21)(content, options);
 
 if (content.locals) {
   module.exports = content.locals;
@@ -59124,16 +59160,16 @@ if (content.locals) {
 
 
 /***/ }),
-/* 430 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(19)(false);
+exports = module.exports = __webpack_require__(11)(false);
 // Module
 exports.push([module.i, "#hub-content .CodeTabs,html[ng-app=\"hub\"] .markdown-body .CodeTabs,#root>.App .CodeTabs{background:#eaeaea;border-radius:0 0 3px 3px !important}#hub-content .CodeTabs pre,html[ng-app=\"hub\"] .markdown-body .CodeTabs pre,#root>.App .CodeTabs pre{border-radius:0 0 3px 3px !important;background:#f6f6f6;margin-bottom:0}#hub-content .CodeTabs pre:not(.CodeTabs_active),html[ng-app=\"hub\"] .markdown-body .CodeTabs pre:not(.CodeTabs_active),#root>.App .CodeTabs pre:not(.CodeTabs_active){display:none}#hub-content .CodeTabs button,html[ng-app=\"hub\"] .markdown-body .CodeTabs button,#root>.App .CodeTabs button{-webkit-appearance:none;appearance:none;display:inline-block;line-height:2;padding:.5em 1em;border:none;background:transparent;outline:none;color:#333;font:inherit;font-size:.75em;cursor:pointer}#hub-content .CodeTabs.CodeTabs_initial button:first-child,#hub-content .CodeTabs button.CodeTabs_active,html[ng-app=\"hub\"] .markdown-body .CodeTabs.CodeTabs_initial button:first-child,html[ng-app=\"hub\"] .markdown-body .CodeTabs button.CodeTabs_active,#root>.App .CodeTabs.CodeTabs_initial button:first-child,#root>.App .CodeTabs button.CodeTabs_active{background:#f6f6f6;color:black;pointer-events:none}#hub-content .CodeTabs button:not(.CodeTabs_active):hover,html[ng-app=\"hub\"] .markdown-body .CodeTabs button:not(.CodeTabs_active):hover,#root>.App .CodeTabs button:not(.CodeTabs_active):hover{background:rgba(0,0,0,0.075)}#hub-content .CodeTabs.CodeTabs_initial pre:first-child,html[ng-app=\"hub\"] .markdown-body .CodeTabs.CodeTabs_initial pre:first-child,#root>.App .CodeTabs.CodeTabs_initial pre:first-child{display:block}#hub-content .CodeTabs pre,html[ng-app=\"hub\"] .markdown-body .CodeTabs pre,#root>.App .CodeTabs pre{margin-top:0 !important;margin-bottom:0 !important}\n", ""]);
 
 
 /***/ }),
-/* 431 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -59196,7 +59232,7 @@ module.exports = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 432 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -59229,7 +59265,7 @@ var React = __webpack_require__(4);
 
 var propTypes = __webpack_require__(10);
 
-var Embedly = __webpack_require__(433);
+var Embedly = __webpack_require__(435);
 
 var api = new Embedly({
   key: 'f2aa6fc3595946d0afc3d76cbbd25dc3'
@@ -59246,7 +59282,6 @@ function (_React$Component) {
     _classCallCheck(this, Embed);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Embed).call(this, props));
-    console.log(props.url);
     _this.state = {
       embedly: false
     };
@@ -59324,15 +59359,15 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 433 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(434),
-    pkg = __webpack_require__(437),
-    request = __webpack_require__(438),
-    sprintf = __webpack_require__(444).sprintf,
-    hashish = __webpack_require__(445),
-    querystring = __webpack_require__(447);
+/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(436),
+    pkg = __webpack_require__(439),
+    request = __webpack_require__(440),
+    sprintf = __webpack_require__(446).sprintf,
+    hashish = __webpack_require__(447),
+    querystring = __webpack_require__(449);
 
 function defaultLogger() {
   try {
@@ -59492,7 +59527,7 @@ exports = module.exports = embedly
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 434 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -75901,10 +75936,10 @@ exports = module.exports = embedly
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(435)(module), __webpack_require__(436)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(437)(module), __webpack_require__(438)))
 
 /***/ }),
-/* 435 */
+/* 437 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -75932,7 +75967,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 436 */
+/* 438 */
 /***/ (function(module, exports) {
 
 var g;
@@ -75959,13 +75994,13 @@ module.exports = g;
 
 
 /***/ }),
-/* 437 */
+/* 439 */
 /***/ (function(module, exports) {
 
 module.exports = {"_from":"embedly","_id":"embedly@2.1.1","_inBundle":false,"_integrity":"sha512-S2JNLjwK5c2ZzZXIXIBd4guvA2N/7qe+5Q+f6gd6wdXC9fJoYynU8b1VRjcun5H1BzQcMNy94aj+Lp2bqxMLDQ==","_location":"/embedly","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"embedly","name":"embedly","escapedName":"embedly","rawSpec":"","saveSpec":null,"fetchSpec":"latest"},"_requiredBy":["#USER","/"],"_resolved":"https://registry.npmjs.org/embedly/-/embedly-2.1.1.tgz","_shasum":"fab10084450c9de5fceef2248b429ef5f3441c46","_spec":"embedly","_where":"/Users/rafegoldberg/Repos/ReadMe/api-explorer/packages/markdown","author":{"name":"Bob Corsaro","email":"bob@embed.ly","url":"http://www.google.com/profiles/rcorsaro"},"bin":{"embedly_extract":"./bin/embedly_generic.js","embedly_oembed":"./bin/embedly_generic.js"},"bugs":{"url":"http://github.com/embedly/embedly-node/issues/"},"bundleDependencies":false,"dependencies":{"hashish":"0.0.4","lodash":"4.13.1","sprintf":"0.1.1","superagent":"4.0.0"},"deprecated":false,"description":"Embedly client library for node","devDependencies":{"mocha":"1.8.2","should":"1.2.2","winston":"0.8.2"},"directories":{"doc":"./docs","lib":"./lib","test":"./test"},"engines":{"node":"*"},"homepage":"https://github.com/embedly/embedly-node","keywords":[],"name":"embedly","repository":{"type":"git","url":"git://github.com/embedly/embedly-node.git"},"scripts":{"test":"mocha"},"version":"2.1.1"}
 
 /***/ }),
-/* 438 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -75982,11 +76017,11 @@ if (typeof window !== 'undefined') { // Browser window
   root = this;
 }
 
-const Emitter = __webpack_require__(439);
-const RequestBase = __webpack_require__(440);
+const Emitter = __webpack_require__(441);
+const RequestBase = __webpack_require__(442);
 const isObject = __webpack_require__(159);
-const ResponseBase = __webpack_require__(441);
-const Agent = __webpack_require__(443);
+const ResponseBase = __webpack_require__(443);
+const Agent = __webpack_require__(445);
 
 /**
  * Noop.
@@ -76890,7 +76925,7 @@ request.put = (url, data, fn) => {
 
 
 /***/ }),
-/* 439 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -77071,7 +77106,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 440 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77773,7 +77808,7 @@ RequestBase.prototype._setTimeouts = function() {
 
 
 /***/ }),
-/* 441 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77783,7 +77818,7 @@ RequestBase.prototype._setTimeouts = function() {
  * Module dependencies.
  */
 
-const utils = __webpack_require__(442);
+const utils = __webpack_require__(444);
 
 /**
  * Expose `ResponseBase`.
@@ -77916,7 +77951,7 @@ ResponseBase.prototype._setStatusProperties = function(status){
 
 
 /***/ }),
-/* 442 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77988,7 +78023,7 @@ exports.cleanHeader = (header, changesOrigin) => {
 
 
 /***/ }),
-/* 443 */
+/* 445 */
 /***/ (function(module, exports) {
 
 function Agent() {
@@ -78014,7 +78049,7 @@ module.exports = Agent;
 
 
 /***/ }),
-/* 444 */
+/* 446 */
 /***/ (function(module, exports) {
 
 /**
@@ -78208,11 +78243,11 @@ exports.sprintf = sprintf;
 exports.vsprintf = vsprintf;
 
 /***/ }),
-/* 445 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = Hash;
-var Traverse = __webpack_require__(446);
+var Traverse = __webpack_require__(448);
 
 function Hash (hash, xs) {
     if (Array.isArray(hash) && Array.isArray(xs)) {
@@ -78467,7 +78502,7 @@ Hash.compact = function (ref) {
 
 
 /***/ }),
-/* 446 */
+/* 448 */
 /***/ (function(module, exports) {
 
 var traverse = module.exports = function (obj) {
@@ -78787,18 +78822,18 @@ var hasOwnProperty = Object.hasOwnProperty || function (obj, key) {
 
 
 /***/ }),
-/* 447 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(448);
-exports.encode = exports.stringify = __webpack_require__(449);
+exports.decode = exports.parse = __webpack_require__(450);
+exports.encode = exports.stringify = __webpack_require__(451);
 
 
 /***/ }),
-/* 448 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78889,7 +78924,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 449 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78981,7 +79016,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 450 */
+/* 452 */
 /***/ (function(module, exports) {
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -79060,7 +79095,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 451 */
+/* 453 */
 /***/ (function(module, exports) {
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -79138,7 +79173,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 452 */
+/* 454 */
 /***/ (function(module, exports) {
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -79216,7 +79251,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 453 */
+/* 455 */
 /***/ (function(module, exports) {
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -79347,7 +79382,6 @@ function tokenize(eat, value) {
           }].concat(_toConsumableArray(this.tokenizeBlock(json.body, eat.now())))
         });
       }
-    // tables
 
     case 'parameters':
       {
@@ -79421,7 +79455,7 @@ function tokenize(eat, value) {
       {
         return eat(match)({
           type: 'div',
-          children: this.tokenizeBlock(json.body, eat.now()),
+          children: this.tokenizeBlock(json.html, eat.now()),
           data: json
         });
       }
@@ -79450,7 +79484,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 454 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _require = __webpack_require__(48),
@@ -79484,6 +79518,7 @@ function tokenizeVariable(eat, value, silent) {
 
   return eat(match[0])({
     type: 'readme-variable',
+    text: match[1],
     data: {
       hName: 'readme-variable',
       hProperties: {
@@ -79520,11 +79555,11 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 455 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Inspiration from https://github.com/remarkjs/remark-gemoji/blob/01b33f7f1536e6491ff0aefe859695b2639594dc/index.js
-var Emoji = __webpack_require__(456).emoji;
+var Emoji = __webpack_require__(458).emoji;
 
 var emojis = new Emoji();
 var colon = ':';
@@ -79596,7 +79631,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 };
 
 /***/ }),
-/* 456 */
+/* 458 */
 /***/ (function(module, exports) {
 
 // Autogenerated by tasks/deploy.js; do not edit!
@@ -79611,7 +79646,7 @@ function Emoji() {
 exports.emoji = Emoji;
 
 /***/ }),
-/* 457 */
+/* 459 */
 /***/ (function(module, exports) {
 
 /* div blocks directly alias the paragraph container; use for display only! */
@@ -79625,7 +79660,7 @@ module.exports = function DivCompiler() {
 };
 
 /***/ }),
-/* 458 */
+/* 460 */
 /***/ (function(module, exports) {
 
 module.exports = function CodeTabsCompiler() {
@@ -79641,7 +79676,7 @@ module.exports = function CodeTabsCompiler() {
 };
 
 /***/ }),
-/* 459 */
+/* 461 */
 /***/ (function(module, exports) {
 
 module.exports = function EmbedCompiler() {
@@ -79649,9 +79684,6 @@ module.exports = function EmbedCompiler() {
   var visitors = Compiler.prototype.visitors;
 
   visitors.embed = function compile(node) {
-    // let block = this.block(node).replace(/\n/g, '\n> ');
-    // block = `> ${block}`;
-    // return block;
     var _node$data = node.data,
         title = _node$data.title,
         url = _node$data.url,
@@ -79661,7 +79693,7 @@ module.exports = function EmbedCompiler() {
 };
 
 /***/ }),
-/* 460 */
+/* 462 */
 /***/ (function(module, exports) {
 
 module.exports = function CalloutCompiler() {
@@ -79676,10 +79708,23 @@ module.exports = function CalloutCompiler() {
 };
 
 /***/ }),
-/* 461 */
+/* 463 */
 /***/ (function(module, exports) {
 
-module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":true,"paddedTable":true,"setext":true,"closeAtx":true},"settings":{"position":false}}
+module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":true,"paddedTable":true,"setext":true},"settings":{"position":false}}
+
+/***/ }),
+/* 464 */
+/***/ (function(module, exports) {
+
+module.exports = function RdmeVarCompiler() {
+  var Compiler = this.Compiler;
+  var visitors = Compiler.prototype.visitors;
+
+  visitors['readme-variable'] = function (node) {
+    return "<<".concat(node.data.variable, ">>");
+  };
+};
 
 /***/ })
 /******/ ]);

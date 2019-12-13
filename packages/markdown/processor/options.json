@@ -8,8 +8,7 @@
     "listItemIndent": "1",
     "spacedTable": true,
     "paddedTable": true,
-    "setext": true,
-    "closeAtx": true
+    "setext": true
   },
   "settings": {
     "position": false

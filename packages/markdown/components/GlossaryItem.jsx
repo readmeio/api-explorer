@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const GlossaryTermsContext = require('../contexts/GlossaryTerms');
+const GlossaryContext = require('../contexts/GlossaryTerms');
 
 // https://github.com/readmeio/api-explorer/blob/0dedafcf71102feedaa4145040d3f57d79d95752/packages/api-explorer/src/lib/replace-vars.js#L8
 function GlossaryItem({ term, terms }) {
@@ -14,7 +14,7 @@ function GlossaryItem({ term, terms }) {
       <span className="glossary-item highlight">{foundTerm.term}</span>
       <span className="tooltip-content">
         <span className="tooltip-content-body">
-          - <strong className="term">{foundTerm.term}</strong> - {foundTerm.definition}
+          <strong className="term">{foundTerm.term}</strong> - {foundTerm.definition}
         </span>
       </span>
     </span>
@@ -33,9 +33,10 @@ GlossaryItem.propTypes = {
 
 // eslint-disable-next-line react/display-name
 module.exports = props => (
-  <GlossaryTermsContext.Consumer>
+  <GlossaryContext.Consumer>
     {terms => <GlossaryItem {...props} terms={terms} />}
-  </GlossaryTermsContext.Consumer>
+  </GlossaryContext.Consumer>
 );
 
 module.exports.GlossaryItem = GlossaryItem;
+module.exports.GlossaryContext = GlossaryContext;
