@@ -84,23 +84,20 @@ function CustomTemplate(props) {
     onKeyChange,
   } = props;
 
-  let editableLabel = label;
-  if (ADDITIONAL_PROPERTY_FLAG in schema) {
-    editableLabel = (
-      <input
-        defaultValue={label}
-        id={`${id}-key`}
-        onBlur={event => onKeyChange(event.target.value)}
-        type="text"
-      />
-    );
-  }
+  const EditLabel = (
+    <input
+      defaultValue={label}
+      id={`${id}-key`}
+      onBlur={event => onKeyChange(event.target.value)}
+      type="text"
+    />
+  );
 
   return (
     <div className={`${classNames} param`}>
       <span className="label">
         <label className="label-name" htmlFor={id}>
-          {editableLabel}
+          {ADDITIONAL_PROPERTY_FLAG in schema ? EditLabel : label}
           {required && <span className="label-required">*</span>}
         </label>
         <span className="label-type">{getTypeLabel(schema)}</span>
