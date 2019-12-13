@@ -12,13 +12,8 @@ Object {
               "value": "👍 ",
             },
             Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "Callout Title",
-                },
-              ],
-              "type": "strong",
+              "type": "text",
+              "value": "Callout Title",
             },
           ],
           "type": "paragraph",
@@ -109,6 +104,45 @@ alert('test');",
 }
 `;
 
+exports[`Parse Magic Blocks Embed Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Embed",
+            },
+          ],
+          "title": "@youtube",
+          "type": "link",
+          "url": "https://youtu.be/J3-uKv1DShQ",
+        },
+      ],
+      "data": Object {
+        "hName": "rdme-embed",
+        "hProperties": Object {
+          "href": "https://youtu.be/J3-uKv1DShQ",
+          "provider": "@youtube",
+          "title": "Embed",
+          "url": "https://youtu.be/J3-uKv1DShQ",
+        },
+        "provider": "@youtube",
+        "title": "Embed",
+        "url": "https://youtu.be/J3-uKv1DShQ",
+      },
+      "provider": "@youtube",
+      "title": "Embed",
+      "type": "embed",
+      "url": "https://youtu.be/J3-uKv1DShQ",
+    },
+  ],
+  "type": "root",
+}
+`;
+
 exports[`Parse Magic Blocks Heading Blocks 1`] = `
 Object {
   "children": Array [
@@ -145,7 +179,11 @@ exports[`Parse Magic Blocks Table Blocks 1`] = `
 Object {
   "children": Array [
     Object {
-      "align": Array [],
+      "align": Array [
+        "left",
+        "left",
+        "left",
+      ],
       "children": Array [
         Object {
           "children": Array [
@@ -297,30 +335,7 @@ exports[`Parse Magic Blocks Unrecognized Blocks 1`] = `
 Object {
   "children": Array [
     Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "Lorem ipsum dolor sit amet, ",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "consectetur",
-                },
-              ],
-              "type": "emphasis",
-            },
-            Object {
-              "type": "text",
-              "value": " adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum",
-            },
-          ],
-          "type": "paragraph",
-        },
-      ],
+      "children": Array [],
       "data": Object {
         "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum",
         "color": "#f00",

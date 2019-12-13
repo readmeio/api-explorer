@@ -92,6 +92,18 @@ describe('Parse Magic Blocks', () => {
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
+  it('Embed Blocks', () => {
+    const text = `[block:embed]
+    {
+      "html": false,
+      "url": "https://youtu.be/J3-uKv1DShQ",
+      "title": null,
+      "favicon": "https://youtu.be/favicon.ico",
+      "iframe": false
+    }
+    [/block]`;
+    expect(process(text)).toMatchSnapshot();
+  });
   it('Callout Blocks', () => {
     const text = `[block:callout]
     {

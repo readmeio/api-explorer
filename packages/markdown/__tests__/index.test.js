@@ -142,10 +142,10 @@ test('should render nothing if nothing passed in', () => {
 });
 
 test('`correctnewlines` option', () => {
-  expect(shallow(markdown.default('test\ntest\ntest', { correctnewlines: true })).html()).toBe(
+  expect(shallow(markdown.react('test\ntest\ntest', { correctnewlines: true })).html()).toBe(
     '<p>test\ntest\ntest</p>',
   );
-  expect(shallow(markdown.default('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
+  expect(shallow(markdown.react('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
     '<p>test<br/>\ntest<br/>\ntest</p>',
   );
 });
@@ -160,35 +160,37 @@ test.skip('glossary', () => {
 
 // TODO not sure if this needs to work or not?
 // Isn't it a good thing to always strip HTML?
-describe.skip('`stripHtml` option', () => {
+describe('`stripHtml` option', () => {
   it('should allow html by default', () => {
-    expect(markdown('<p>Test</p>')).toBe('<p><p>Test</p></p>\n');
-    expect(markdown('<p>Test</p>', { stripHtml: false })).toBe('<p><p>Test</p></p>\n');
+    expect(markdown.html('<p>Test</p>')).toBe('<p><p>Test</p></p>\n');
+    expect(markdown.html('<p>Test</p>', { stripHtml: false })).toBe('<p><p>Test</p></p>\n');
   });
 
   it('should escape unknown tags', () => {
-    expect(markdown('<unknown-tag>Test</unknown-tag>')).toBe(
+    expect(markdown.html('<unknown-tag>Test</unknown-tag>')).toBe(
       '<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>\n',
     );
   });
 
   it('should allow certain attributes', () => {
-    expect(markdown('<p id="test">Test</p>')).toBe('<p><p id="test">Test</p></p>\n');
+    expect(markdown.html('<p id="test">Test</p>')).toBe('<p><p id="test">Test</p></p>\n');
   });
 
   it('should strip unknown attributes', () => {
-    expect(markdown('<p unknown="test">Test</p>')).toBe('<p><p>Test</p></p>\n');
+    expect(markdown.html('<p unknown="test">Test</p>')).toBe('<p><p>Test</p></p>\n');
   });
 
   it('should escape everything if `stripHtml=true`', () => {
-    expect(markdown('<p>Test</p>', { stripHtml: true })).toBe('<p>&lt;p&gt;Test&lt;/p&gt;</p>\n');
+    expect(markdown.html('<p>Test</p>', { stripHtml: true })).toBe(
+      '<p>&lt;p&gt;Test&lt;/p&gt;</p>\n',
+    );
   });
 });
 
 test('should strip dangerous iframe tag', () => {
   expect(
     shallow(
-      markdown.default('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>', settings),
+      markdown.react('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>', settings),
     ).html(),
   ).toBe('<p></p>');
 });
@@ -196,11 +198,26 @@ test('should strip dangerous iframe tag', () => {
 test('should strip dangerous img attributes', () => {
   expect(
     shallow(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html(),
-  ).toBe('<img alt="Image Alternate Text" height="auto" src="x" width="auto"/>');
+  ).toBe('<img src="x" alt="Image Alternate Text" height="auto" width="auto"/>\n<p> </p>');
 });
 
 describe('export multiple Markdown renderers', () => {
-  const text = `# Hello World`;
+  const text = markdown.normalize(`# Hello World
+
+  | Col. A  | Col. B  | Col. C  |
+  |:-------:|:-------:|:-------:|
+  | Cell A1 | Cell B1 | Cell C1 |
+  | Cell A2 | Cell B2 | Cell C2 |
+  | Cell A3 | Cell B3 | Cell C3 |
+
+  [Embed Title](https://jsfiddle.net/rafegoldberg/5VA5j/ "@embed")
+
+  > ❗️ UhOh
+  >
+  > Lorem ipsum dolor sit amet consectetur adipisicing elit.
+
+
+  `);
   const tree = {
     type: 'root',
     children: [
@@ -211,68 +228,24 @@ describe('export multiple Markdown renderers', () => {
           {
             type: 'text',
             value: 'Hello World',
-            position: {
-              start: {
-                line: 1,
-                column: 3,
-                offset: 2,
-              },
-              end: {
-                line: 1,
-                column: 14,
-                offset: 13,
-              },
-              indent: [],
-            },
           },
         ],
       },
     ],
   };
-  const xpct = {
-    plain: {
-      key: 'h-1',
-      ref: null,
-      props: {
-        children: ['Hello World'],
-      },
-      _owner: null,
-      _store: {},
-    },
-    ast: {
-      type: 'root',
-      children: [
-        {
-          type: 'heading',
-          depth: 1,
-          children: [
-            {
-              type: 'text',
-              value: 'Hello World',
-            },
-          ],
-        },
-      ],
-    },
-    md: '# Hello World\n',
-    html: '<h1>Hello World</h1>',
-  };
   it('renders plain markdown as React', () => {
-    expect(markdown.plain(text, settings)).toMatchObject(xpct.plain);
+    expect(markdown.plain(text, settings)).toMatchSnapshot();
   });
   it('renders custom React components', () => {
-    const txt =
-      "```javascript single.js\nconsole.log('a single sample code block');\n```\n\n***\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n```javascript\nconsole.log('an unnamed sample snippet');\n```\n\n \n";
-    const out = markdown.react(txt, settings);
-    expect(out).toMatchSnapshot();
+    expect(markdown.react(text, settings)).toMatchSnapshot();
   });
   it('renders AST', () => {
-    expect(markdown.ast(text, settings)).toMatchObject(xpct.ast);
+    expect(markdown.ast(text, settings)).toMatchSnapshot();
   });
   it('renders MD', () => {
-    expect(markdown.md(tree, settings)).toBe(xpct.md);
+    expect(markdown.md(tree, settings)).toMatchSnapshot();
   });
   it('renders HTML', () => {
-    expect(markdown.html(text, settings)).toBe(xpct.html);
+    expect(markdown.html(text, settings)).toMatchSnapshot();
   });
 });

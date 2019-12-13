@@ -1,26 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`anchor target: should allow _blank if using HTML 1`] = `"<p><a href=\\"https://example.com\\" target=\\"_blank\\">test</a></p>"`;
+exports[`anchor target: should allow _blank if using HTML 1`] = `
+"<p><a href=\\"https://example.com\\" target=\\"_blank\\" title=\\"\\">test</a></p>
+<p> </p>"
+`;
 
-exports[`anchor target: should default to _self 1`] = `"<p><a href=\\"https://example.com\\" target=\\"_self\\">test</a></p>"`;
+exports[`anchor target: should default to _self 1`] = `
+"<p><a href=\\"https://example.com\\" target=\\"_self\\" title=\\"\\">test</a></p>
+<p> </p>"
+`;
 
 exports[`anchors 1`] = `
-"<p><a href=\\"http://example.com\\" target=\\"_self\\">link</a><br/>
-<a href=\\"\\" target=\\"_self\\">xss</a><br/>
-<a href=\\"/docs/slug\\" target=\\"_self\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a><br/>
-<a href=\\"/reference-link/slug\\" target=\\"_self\\">ref</a><br/>
-<a href=\\"/changelog/slug\\" target=\\"_self\\">blog</a><br/>
-<a href=\\"/changelog/slug\\" target=\\"_self\\">changelog</a><br/>
-<a href=\\"/page/slug\\" target=\\"_self\\">page</a><br/>
-</p>"
+"<p><a href=\\"http://example.com\\" target=\\"_self\\" title=\\"\\">link</a>
+<a href=\\"\\" target=\\"_self\\" title=\\"\\">xss</a>
+<a href=\\"/docs/slug\\" target=\\"_self\\" title=\\"\\" class=\\"doc-link\\" data-sidebar=\\"slug\\">doc</a>
+<a href=\\"/reference-link/slug\\" target=\\"_self\\" title=\\"\\">ref</a>
+<a href=\\"/changelog/slug\\" target=\\"_self\\" title=\\"\\">blog</a>
+<a href=\\"/changelog/slug\\" target=\\"_self\\" title=\\"\\">changelog</a>
+<a href=\\"/page/slug\\" target=\\"_self\\" title=\\"\\">page</a></p>
+<p> </p>"
 `;
 
 exports[`anchors with baseUrl 1`] = `
-"<p><a href=\\"doc:slug\\">doc</a><br>
-<a href=\\"ref:slug\\">ref</a><br>
-<a href=\\"blog:slug\\">blog</a><br>
-<a href=\\"changelog:slug\\">changelog</a><br>
-<a href=\\"page:slug\\">page</a><br>
+"<p><a href=\\"doc:slug\\">doc</a>
+<a href=\\"ref:slug\\">ref</a>
+<a href=\\"blog:slug\\">blog</a>
+<a href=\\"changelog:slug\\">changelog</a>
+<a href=\\"page:slug\\">page</a>
 </p>"
 `;
 
@@ -28,89 +34,683 @@ exports[`check list items 1`] = `
 "<ul>
 <li><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
 <li><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
-</ul>"
+</ul>
+<p> </p>"
 `;
 
 exports[`code samples 1`] = `
 "<pre><code class=\\"lang-javascript\\" data-lang=\\"javascript\\" name=\\"var\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
 </span></code></pre>
 <pre><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code-without-language
-</span></code></pre>"
+</span></code></pre>
+<p> </p>"
 `;
 
 exports[`emojis 1`] = `
-"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" height=\\"auto\\" width=\\"auto\\"/><br/>
-<i class=\\"fa fa-lock\\"></i><br/>
-:unknown-emoji:<br/>
-</p>"
+"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" height=\\"auto\\" width=\\"auto\\"/>
+<i class=\\"fa fa-lock\\"></i>
+:unknown-emoji:</p>
+<p> </p>"
+`;
+
+exports[`export multiple Markdown renderers renders AST 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Hello World",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "align": Array [
+        "center",
+        "center",
+        "center",
+      ],
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Col. A",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Col. B",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Col. C",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell A1",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell B1",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell C1",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell A2",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell B2",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell C2",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell A3",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell B3",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell C3",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "  ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Embed Title",
+            },
+          ],
+          "title": "@embed",
+          "type": "link",
+          "url": "https://jsfiddle.net/rafegoldberg/5VA5j/",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "❗️ UhOh",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`export multiple Markdown renderers renders HTML 1`] = `
+"<h1>Hello World</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align=\\"center\\">Col. A</th><th align=\\"center\\">Col. B</th><th align=\\"center\\">Col. C</th></tr></thead><tbody><tr><td align=\\"center\\">Cell A1</td><td align=\\"center\\">Cell B1</td><td align=\\"center\\">Cell C1</td></tr><tr><td align=\\"center\\">Cell A2</td><td align=\\"center\\">Cell B2</td><td align=\\"center\\">Cell C2</td></tr><tr><td align=\\"center\\">Cell A3</td><td align=\\"center\\">Cell B3</td><td align=\\"center\\">Cell C3</td></tr></tbody></table>
+<p>  <a href=\\"https://jsfiddle.net/rafegoldberg/5VA5j/\\" title=\\"@embed\\">Embed Title</a></p>
+<blockquote>
+<p>❗️ UhOh</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+</blockquote>
+<p> </p>"
+`;
+
+exports[`export multiple Markdown renderers renders MD 1`] = `
+"Hello World
+===========
+"
 `;
 
 exports[`export multiple Markdown renderers renders custom React components 1`] = `
 <DivFragment>
-  <pre>
-    <Code
-      className="language-javascript"
-      lang="javascript"
-      meta="single.js"
+  <Unknown>
+    Hello World
+  </Unknown>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <Table>
+    <thead>
+      <tr>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. A
+        </th>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. B
+        </th>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. C
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A1
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B1
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C1
+        </td>
+      </tr>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A2
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B2
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C2
+        </td>
+      </tr>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A3
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B3
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C3
+        </td>
+      </tr>
+    </tbody>
+  </Table>
+  
+
+  <p>
+      
+    <AnchorContext
+      href="https://jsfiddle.net/rafegoldberg/5VA5j/"
+      title="@embed"
     >
-      console.log('a single sample code block');
-
-    </Code>
-  </pre>
+      Embed Title
+    </AnchorContext>
+  </p>
   
 
-  <hr />
+  <blockquote>
+    
+
+    <p>
+      ❗️ UhOh
+    </p>
+    
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    </p>
+    
+
+  </blockquote>
   
 
-  <CodeTabs
-    attributes={null}
-  >
-    <pre>
-      <Code
-        className="language-javascript"
-        lang="javascript"
-        meta="multiple.js"
-      >
-        console.log('a multi-file code block');
+  <p>
+     
+  </p>
+</DivFragment>
+`;
 
-      </Code>
-    </pre>
-    <pre>
-      <Code
-        className="language-javascript"
-        lang="javascript"
-        meta=""
-      >
-        console.log('an unnamed sample snippet');
+exports[`export multiple Markdown renderers renders plain markdown as React 1`] = `
+<DivFragment>
+  <h1>
+    Hello World
+  </h1>
+  
 
-      </Code>
-    </pre>
-  </CodeTabs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. A
+        </th>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. B
+        </th>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. C
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A1
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B1
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C1
+        </td>
+      </tr>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A2
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B2
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C2
+        </td>
+      </tr>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A3
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B3
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C3
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+
+  <p>
+      
+    <a
+      href="https://jsfiddle.net/rafegoldberg/5VA5j/"
+      title="@embed"
+    >
+      Embed Title
+    </a>
+  </p>
+  
+
+  <blockquote>
+    
+
+    <p>
+      ❗️ UhOh
+    </p>
+    
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    </p>
+    
+
+  </blockquote>
+  
+
+  <p>
+     
+  </p>
 </DivFragment>
 `;
 
 exports[`glossary 1`] = `"<p></p>"`;
 
 exports[`headings 1`] = `
-"<h1>h1</h1>
-<h2>h2</h2>
-<h3>h3</h3>
-<h4>h4</h4>
-<h5>h5</h5>
-<h6>h6</h6>
-<h1><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code</span></code></h1>
-<h1>heading with some more CONTENT</h1>"
+"<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div><div>h1</div><a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
+<h2 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h2\\"></div><div>h2</div><a class=\\"fa fa-anchor\\" href=\\"#section-h2\\"></a></h2>
+<h3 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h3\\"></div><div>h3</div><a class=\\"fa fa-anchor\\" href=\\"#section-h3\\"></a></h3>
+<h4 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h4\\"></div><div>h4</div><a class=\\"fa fa-anchor\\" href=\\"#section-h4\\"></a></h4>
+<h5 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h5\\"></div><div>h5</div><a class=\\"fa fa-anchor\\" href=\\"#section-h5\\"></a></h5>
+<h6 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h6\\"></div><div>h6</div><a class=\\"fa fa-anchor\\" href=\\"#section-h6\\"></a></h6>
+<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-code\\"></div><div><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code</span></code></div><a class=\\"fa fa-anchor\\" href=\\"#section-code\\"></a></h1>
+<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-with-some-more-content\\"></div><div>heading with some more CONTENT</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-with-some-more-content\\"></a></h1>
+<p> </p>"
 `;
 
-exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" height=\\"auto\\" width=\\"auto\\"/></p>"`;
+exports[`image 1`] = `
+"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" height=\\"auto\\" width=\\"auto\\"/></p>
+<p> </p>"
+`;
 
 exports[`list items 1`] = `
 "<ul>
 <li>listitem1</li>
-</ul>"
+</ul>
+<p> </p>"
 `;
 
-exports[`should strip out inputs 1`] = `""`;
+exports[`should strip out inputs 1`] = `
+"
+<p> </p>"
+`;
 
 exports[`tables 1`] = `
 "
@@ -138,7 +738,8 @@ exports[`tables 1`] = `
 
 
 
-<div class=\\"marked-table\\"><table><thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody></table></div>"
+<table><thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody></table>
+<p> </p>"
 `;
 
 exports[`variables 1`] = `"<p><span>APIKEY</span></p>"`;
