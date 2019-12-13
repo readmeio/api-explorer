@@ -21744,12 +21744,12 @@ var codeTabsCompiler = __webpack_require__(460);
 
 var rdmeEmbedCompiler = __webpack_require__(461);
 
-var rdmeVarCompiler = __webpack_require__(464);
+var rdmeVarCompiler = __webpack_require__(462);
 
-var rdmeCalloutCompiler = __webpack_require__(462); // Processor Option Defaults
+var rdmeCalloutCompiler = __webpack_require__(463); // Processor Option Defaults
 
 
-var options = __webpack_require__(463); // Sanitization Schema Defaults
+var options = __webpack_require__(464); // Sanitization Schema Defaults
 
 
 sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
@@ -79696,6 +79696,19 @@ module.exports = function EmbedCompiler() {
 /* 462 */
 /***/ (function(module, exports) {
 
+module.exports = function RdmeVarCompiler() {
+  var Compiler = this.Compiler;
+  var visitors = Compiler.prototype.visitors;
+
+  visitors['readme-variable'] = function (node) {
+    return "<<".concat(node.data.variable, ">>");
+  };
+};
+
+/***/ }),
+/* 463 */
+/***/ (function(module, exports) {
+
 module.exports = function CalloutCompiler() {
   var Compiler = this.Compiler;
   var visitors = Compiler.prototype.visitors;
@@ -79708,23 +79721,10 @@ module.exports = function CalloutCompiler() {
 };
 
 /***/ }),
-/* 463 */
-/***/ (function(module, exports) {
-
-module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":true,"paddedTable":true,"setext":true},"settings":{"position":false}}
-
-/***/ }),
 /* 464 */
 /***/ (function(module, exports) {
 
-module.exports = function RdmeVarCompiler() {
-  var Compiler = this.Compiler;
-  var visitors = Compiler.prototype.visitors;
-
-  visitors['readme-variable'] = function (node) {
-    return "<<".concat(node.data.variable, ">>");
-  };
-};
+module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":true,"paddedTable":true,"setext":true},"settings":{"position":false}}
 
 /***/ })
 /******/ ]);
