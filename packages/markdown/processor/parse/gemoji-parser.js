@@ -41,8 +41,8 @@ function tokenize(eat, value, silent) {
       data: {
         hProperties: {
           className: 'emoji',
-          align: 'absmiddle',	
-          height: '20',	
+          align: 'absmiddle',
+          height: '20',
           width: '20',
         },
       },

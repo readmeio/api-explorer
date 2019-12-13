@@ -48,6 +48,7 @@ const gemojiParser = require('./processor/parse/gemoji-parser');
 const rdmeDivCompiler = require('./processor/compile/div');
 const codeTabsCompiler = require('./processor/compile/code-tabs');
 const rdmeEmbedCompiler = require('./processor/compile/embed');
+const rdmeVarCompiler = require('./processor/compile/var');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
 
 // Processor Option Defaults
@@ -82,6 +83,7 @@ export const utils = {
   options,
   normalizeMagic: normalize,
   VariablesContext: Variable.VariablesContext,
+  GlossaryContext: GlossaryItem.GlossaryContext,
 };
 
 /**
@@ -150,12 +152,17 @@ export function react(text, opts = options) {
       components: {
         'code-tabs': CodeTabs(sanitize),
         'rdme-callout': Callout(sanitize),
-        'readme-variable': Variable(sanitize),
-        'readme-glossary-item': GlossaryItem(sanitize),
+        'readme-variable': Variable,
+        'readme-glossary-item': GlossaryItem,
         'rdme-embed': Embed(sanitize),
         table: Table(sanitize),
         a: Anchor(sanitize),
-        heading: Heading(sanitize),
+        h1: Heading(1),
+        h2: Heading(2),
+        h3: Heading(3),
+        h4: Heading(4),
+        h5: Heading(5),
+        h6: Heading(6),
         code: Code(sanitize),
         img: Image(sanitize),
         div: DivFragment,
@@ -192,7 +199,13 @@ export function md(tree, opts = options) {
   if (!tree) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
-    .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler])
+    .use([
+      rdmeDivCompiler,
+      codeTabsCompiler,
+      rdmeCalloutCompiler,
+      rdmeEmbedCompiler,
+      rdmeVarCompiler,
+    ])
     .stringify(tree);
 }
 

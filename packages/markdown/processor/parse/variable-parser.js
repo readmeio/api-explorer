@@ -29,6 +29,7 @@ function tokenizeVariable(eat, value, silent) {
 
   return eat(match[0])({
     type: 'readme-variable',
+    text: match[1],
     data: { hName: 'readme-variable', hProperties: { variable: match[1] } },
   });
 }
