@@ -4,6 +4,18 @@
 }
 
 @mixin markdown-body {
+  & {
+    position: relative;
+  }
+
+  table {
+    display: table;
+  }
+
+  ul {
+    list-style: initial;
+  }
+  
   .octicon {
     display: inline-block;
     fill: currentColor;
