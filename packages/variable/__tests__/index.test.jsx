@@ -64,6 +64,7 @@ describe('multiple variables', () => {
     selected: '',
     changeSelected: () => {},
   };
+
   it('should render the first of multiple values', () => {
     const variable = shallow(<Variable {...props} />);
 
