@@ -70,6 +70,7 @@ describe('oauth2', () => {
   });
 
   it.skip('should display markdown description', () => {});
+
   it.skip('should work for multiple oauths and allow selection', () => {});
 
   it('should send auth apiKey into onChange()', () => {
