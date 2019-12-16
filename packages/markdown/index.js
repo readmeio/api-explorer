@@ -12,7 +12,7 @@ const remarkRehype = require('remark-rehype');
 const rehypeRaw = require('rehype-raw');
 const remarkParse = require('remark-parse');
 const remarkStringify = require('remark-stringify');
-const breaks = require('remark-breaks');
+const remarkBreaks = require('remark-breaks');
 
 // rehype plugins
 const rehypeSanitize = require('rehype-sanitize');
@@ -55,13 +55,16 @@ const rdmeCalloutCompiler = require('./processor/compile/callout');
 const options = require('./processor/options.json');
 
 // Sanitization Schema Defaults
-sanitize.tagNames.push('embed'); // allow GitHub-style todo lists
+sanitize.tagNames.push('embed');
 sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 
-sanitize.tagNames.push('rdme-embed'); // allow GitHub-style todo lists
+sanitize.tagNames.push('rdme-embed');
 sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href'];
 
 sanitize.attributes.a = ['href', 'title'];
+
+sanitize.tagNames.push('figure');
+sanitize.tagNames.push('figcaption');
 
 sanitize.tagNames.push('input'); // allow GitHub-style todo lists
 sanitize.ancestors.input = ['li'];
@@ -75,7 +78,8 @@ export function normalize(blocks) {
   blocks = blocks
     .replace(/\[block:/g, '\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
-    .trim();
+    .trim()
+    .replace(/^(#+)(.+)/gm, '$1 $2');
   return `${blocks}\n\n&nbsp;`;
 }
 
@@ -118,7 +122,7 @@ function parseMarkdown(opts = {}) {
       flavorEmbed.sanitize(sanitize),
     ])
     .use(variableParser.sanitize(sanitize))
-    .use(!opts.correctnewlines ? breaks : () => {})
+    .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkRehype, { allowDangerousHTML: true })
     .use(rehypeRaw)

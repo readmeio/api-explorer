@@ -3,13 +3,14 @@
   justify-content: flex-start;
   align-items: center;
   position: relative;
+  .anchor {
+    top: -1rem !important;
+  }
   .anchor, .fa-anchor {
     position: absolute !important;
     display: inline !important;
     order: -1;
     right: 100%;
-  }
-  .anchor, .fa-anchor {
     top: unset;
     margin-right: -.8rem;
     padding: .8em .2em .8em 0 !important;

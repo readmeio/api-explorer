@@ -322,17 +322,17 @@
     margin-top: 0
   }
 
-  h1 {
-    font-size: 32px
-  }
-
   h1,
   h2 {
-    font-weight: 600
+    font-size: 24px;
+  }
+
+  h1 {
+    font-weight: 900;
   }
 
   h2 {
-    font-size: 24px
+    font-weight: 400;
   }
 
   h3 {
@@ -594,17 +594,23 @@
   }
 
   h1 {
-    font-size: 2em
+    font-size: 2em;
+    font-weight: 700;
   }
 
   h1,
   h2 {
+    font-size: 1.5em;
     border-bottom: 1px solid #eaecef;
-    padding-bottom: .3em
+    padding-bottom: .3em;
   }
 
   h2 {
-    font-size: 1.5em
+    font-weight: 400;
+  }
+
+  h1 + h2 {
+    border-bottom: 0;
   }
 
   h3 {
@@ -729,6 +735,20 @@
     padding: 0;
     white-space: pre;
     word-break: normal
+  }
+
+  figure {
+    margin: 30px 0;
+    img {
+      margin: 0;
+    }
+    figcaption {
+      font-size: 0.88em;
+      font-style: italic;
+    }
+    [align=center] + figcaption {
+      text-align: center;
+    }
   }
 
   .highlight {
