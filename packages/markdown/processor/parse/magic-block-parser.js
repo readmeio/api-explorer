@@ -47,9 +47,9 @@ function tokenize(eat, value) {
           const [url, alt] = img.image;
           return {
             type: 'image',
-            title: img.caption,
             url,
-            alt,
+            title: alt,
+            alt: img.caption,
           };
         })[0],
       );

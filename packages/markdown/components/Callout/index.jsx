@@ -10,12 +10,12 @@ const Callout = props => {
   /* deal with differing data structures between the
    * hast-util's hProps and Slate's MDAST serializer
    */
-  const { theme } = (node && node.data.toJSON()) || props || {};
+  const { theme, title } = (node && node.data.toJSON()) || props || {};
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <blockquote {...attributes} className={`callout callout_${theme}`}>
-      <h3>{children}</h3>
+      <h3 className={[!title && 'floated']}>{children}</h3>
       {content}
     </blockquote>
   );

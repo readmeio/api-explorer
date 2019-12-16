@@ -34,7 +34,7 @@ GlossaryItem.propTypes = {
 // eslint-disable-next-line react/display-name
 module.exports = props => (
   <GlossaryContext.Consumer>
-    {terms => <GlossaryItem {...props} terms={terms} />}
+    {terms => terms && <GlossaryItem {...props} terms={terms} />}
   </GlossaryContext.Consumer>
 );
 
