@@ -10,7 +10,6 @@ class Embed extends React.Component {
     this.state = {
       embedly: false,
     };
-    console.log(props);
     this.getEmbed();
   }
 
@@ -39,15 +38,15 @@ class Embed extends React.Component {
     });
   }
 
-  render(props) {
+  render() {
     return (
       <div className="embed">
-        {this.state.embedly && console.log(this.state.embedly)}
         <div
           className="embed-media"
           dangerouslySetInnerHTML={
             (typeof this.state.embedly === 'object' &&
-              'media' in this.state.embedly && 'html' in this.state.embedly.media && { __html: this.state.embedly.media.html }) || {
+              'media' in this.state.embedly &&
+              'html' in this.state.embedly.media && { __html: this.state.embedly.media.html }) || {
               __html: this.state.embedly.error_message,
             } || {
               __html: 'Loading...',

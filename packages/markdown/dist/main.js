@@ -58917,12 +58917,18 @@ var React = __webpack_require__(4);
 
 var PropTypes = __webpack_require__(10);
 
-function generateHeadingId(e) {
-  if (_typeof(e) === 'object') {
-    return generateHeadingId(e.props.children[0]);
-  }
+var count = {};
 
-  return e.toLowerCase().replace(/[^\w]+/g, '-');
+function generateHeadingId(e) {
+  if (_typeof(e) === 'object') return generateHeadingId(e.props.children[0]);
+  var id = e.toLowerCase().replace(/[^\w]+/g, '-');
+
+  if (e in count) {
+    id += "-".concat(count[e]);
+    count[e] += 1;
+  } else count[e] = 1;
+
+  return id;
 }
 
 function Heading(props) {
@@ -59292,7 +59298,6 @@ function (_React$Component) {
     _this.state = {
       embedly: false
     };
-    console.log(props);
 
     _this.getEmbed();
 
@@ -59340,10 +59345,10 @@ function (_React$Component) {
     }
   }, {
     key: "render",
-    value: function render(props) {
+    value: function render() {
       return React.createElement("div", {
         className: "embed"
-      }, this.state.embedly && console.log(this.state.embedly), React.createElement("div", {
+      }, React.createElement("div", {
         className: "embed-media",
         dangerouslySetInnerHTML: _typeof(this.state.embedly) === 'object' && 'media' in this.state.embedly && 'html' in this.state.embedly.media && {
           __html: this.state.embedly.media.html

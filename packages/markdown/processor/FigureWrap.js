@@ -14,7 +14,7 @@ const transform = tree =>
       return {
         type: 'figure',
         data: {
-          hProperties: { hName: 'figure' }
+          hProperties: { hName: 'figure' },
         },
         children: [node, { type: 'figcaption', children: [{ type: 'text', value: node.alt }] }],
       };
@@ -32,8 +32,7 @@ const transform = tree =>
     return node;
   });
 
-function attacher(vars) {
-  console.log(vars);
+function attacher() {
   return transform;
 }
 

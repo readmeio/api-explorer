@@ -3,11 +3,19 @@ require('./style.scss');
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const count = {};
+
 function generateHeadingId(e) {
-  if (typeof e === 'object') {
-    return generateHeadingId(e.props.children[0]);
-  }
-  return e.toLowerCase().replace(/[^\w]+/g, '-');
+  if (typeof e === 'object') return generateHeadingId(e.props.children[0]);
+
+  let id = e.toLowerCase().replace(/[^\w]+/g, '-');
+
+  if (e in count) {
+    id += `-${count[e]}`;
+    count[e] += 1;
+  } else count[e] = 1;
+
+  return id;
 }
 
 function Heading(props) {
