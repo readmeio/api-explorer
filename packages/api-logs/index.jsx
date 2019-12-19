@@ -30,7 +30,7 @@ const LoadingSvg = props => (
 );
 
 function getLanguage(log) {
-  const header = log.request.log.entries[0].request.headers.find(
+  const header = log.requestHeaders.find(
     e => e.name.toLowerCase() === 'user-agent',
   );
   if (header) return header.value;
@@ -154,12 +154,11 @@ class Logs extends React.Component {
     const { logs } = this.state;
 
     return logs.map(log => {
-      const entry = log.request.log.entries[0];
       return (
         <tr key={log._id} onClick={this.visitLogItem.bind(this, log)}>
-          <td>{entry.request.method}</td>
-          <td>{entry.response.status}</td>
-          <td>{entry.request.url}</td>
+          <td>{log.method}</td>
+          <td>{log.status}</td>
+          <td>{log.url}</td>
           <td>{log.group.label}</td>
           <td>{getLanguage(log)}</td>
           <td>{new Date(log.createdAt).toLocaleString()}</td>
