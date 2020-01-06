@@ -32,7 +32,7 @@
     "jsinspect": "^0.12.7",
     "nock": "^11.3.5",
     "prettier": "^1.18.2",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "terser-webpack-plugin": "^2.3.1",
     "webpack": "^4.41.0",
     "webpack-merge": "^4.2.2"
   }
