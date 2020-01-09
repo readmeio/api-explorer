@@ -97,7 +97,7 @@ form.rjsf fieldset .form-group:first-of-type {
 form.rjsf fieldset .form-group {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
+  align-items: flex-start;
   align-content: center;
 }
 
