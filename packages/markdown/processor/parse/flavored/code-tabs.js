@@ -11,7 +11,7 @@ function tokenizer(eat, value) {
     .map(val => {
       // eslint-disable-next-line no-param-reassign
       val = ['```', val.replace('```', ''), '```'].join('');
-      const [, lang, meta = null, code = ''] = /```(\w+)?(?:\s+([\w-.]+))?\s([^]+)```/gm.exec(val);
+      const [, lang, meta = null, code = ''] = /```(\w+)?(?: ([\w-.]+))?\s?([^]+)```/gm.exec(val);
       return {
         type: 'code',
         className: 'tab-panel',
