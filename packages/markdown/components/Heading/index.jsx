@@ -3,7 +3,14 @@ require('./style.scss');
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const count = {};
+let count = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  if ('$' in window)
+    $(document).on('pjax:start', () => {
+      count = {};
+    });
+});
 
 function generateHeadingId(e) {
   if (typeof e === 'object') return generateHeadingId(e.props.children[0]);
