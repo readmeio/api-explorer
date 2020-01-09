@@ -36,13 +36,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-      - run: chmod +x ./cc-test-reporter
-      - run: ./cc-test-reporter before-build
       - run: npm test
-      - run: ./cc-test-reporter format-coverage -t lcov packages/api-explorer/coverage/lcov.info -o coverage/api-explorer.json
-      - run: ./cc-test-reporter format-coverage -t lcov packages/api-logs/coverage/lcov.info -o coverage/api-logs.json
-      - run: ./cc-test-reporter format-coverage -t lcov packages/markdown/coverage/lcov.info -o coverage/markdown.json
-      - run: ./cc-test-reporter format-coverage -t lcov packages/syntax-highlighter/coverage/lcov.info -o coverage/syntax-highlighter.json
-      - run: ./cc-test-reporter format-coverage -t lcov packages/variable/coverage/lcov.info -o coverage/variable.json
-      - run: ./cc-test-reporter sum-coverage --output - --parts 5 coverage/*.json | ./cc-test-reporter upload-coverage --input -
