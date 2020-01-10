@@ -30,6 +30,7 @@ describe('Parse Magic Blocks', () => {
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
+
   it('Image Blocks', () => {
     const text = `[block:image]
     {
@@ -51,6 +52,7 @@ describe('Parse Magic Blocks', () => {
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
+
   it('Code Blocks', () => {
     const text = `[block:code]
     {
@@ -69,6 +71,7 @@ describe('Parse Magic Blocks', () => {
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
+
   it('Table Blocks', () => {
     const text = `[block:parameters]
     {
@@ -92,6 +95,7 @@ describe('Parse Magic Blocks', () => {
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
+
   it('Embed Blocks', () => {
     const text = `[block:embed]
     {
@@ -104,6 +108,7 @@ describe('Parse Magic Blocks', () => {
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
+
   it('Callout Blocks', () => {
     const text = `[block:callout]
     {
@@ -114,6 +119,7 @@ describe('Parse Magic Blocks', () => {
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
+
   it('Unrecognized Blocks', () => {
     const text = `[block:unrecognized]
     {
