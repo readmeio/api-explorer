@@ -52,7 +52,7 @@ describe('Logs', () => {
   it('should render a log with no user-agent', () => {
     const comp = shallow(<LogTest {...props} />);
     const clonedLog = JSON.parse(JSON.stringify(requestmodel));
-    clonedLog.request.log.entries[0].request.headers[0].name = '';
+    clonedLog.requestHeaders[0].name = '';
     comp.setState({ logs: [clonedLog] });
 
     expect(
@@ -195,7 +195,7 @@ describe('Logs', () => {
 
   it('when parsed agent is not Other', () => {
     const comp = shallow(<LogTest {...props} />);
-    requestmodel.request.log.entries[0].request.headers[0].value = 'IE4.0';
+    requestmodel.requestHeaders[0].value = 'IE4.0';
     comp.setState({ logs: [requestmodel] });
     expect(comp.contains(<td>IE4.0</td>)).toBe(true);
   });

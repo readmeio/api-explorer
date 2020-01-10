@@ -44,6 +44,7 @@ describe('url', () => {
     const proxyOas = new Oas({
       [extensions.PROXY_ENABLED]: true,
     });
+
     it('should not be prefixed with without option', () => {
       expect(oasToHar(proxyOas, { path: '/path', method: 'get' }).log.entries[0].request.url).toBe(
         'https://example.com/path',

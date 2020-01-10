@@ -5,7 +5,7 @@
   "scripts": {
     "build": "./build.sh & lerna run build",
     "deploy": "gh-pages --dotfiles -d example/dist",
-    "lint": "eslint example --ext js --ext jsx",
+    "lint": "eslint example lib *.js --ext js --ext jsx",
     "publish": "lerna publish",
     "start": "node scripts/update-example-swagger-files && webpack-dev-server",
     "test": "node scripts/update-example-swagger-files && npm run lint && lerna run test --stream",
@@ -44,8 +44,7 @@
     "prettier": "^1.19.1",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
-    "uglify-es": "^3.2.1",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "terser-webpack-plugin": "^2.3.1",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2",

@@ -1,9 +1,14 @@
 <img align=right width=26% src=http://owlbert.io/images/owlberts-png/Reading.psd.png>
 
-@ReadMe Markdown
+@readme/markdown
 ===
 
 A [Unified](https://github.com/unifiedjs)-based Markdown parser for ReadMe:
+
+[![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown)
+
+
+## Installation
 
 ```
 npm install --save @readme/markdown
@@ -85,7 +90,7 @@ Most of our magic blocks render neatly to pure markdown representations. In some
 Callouts are very similar to blockquotes in both display and syntax. They are defined by a title with an initial emoji, which determines the callout's theme:
 
     > ❗️ Watch Out
-    > 
+    >
     > This is a callout using the error theme.
 
 There are five potential themes:

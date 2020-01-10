@@ -2,7 +2,7 @@
 
 Open source components that make up ReadMe's API explorer.
 
-[![CircleCI](https://circleci.com/gh/readmeio/api-explorer.svg?style=svg&circle-token=2a91256819c6da2e388896859d4f7fbb34ec9d84)](https://circleci.com/gh/readmeio/api-explorer)
+[![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer)
 
 [![](https://d3vv6lp55qjaqc.cloudfront.net/items/1M3C3j0I0s0j3T362344/Untitled-2.png)](https://readme.io)
 

@@ -1,173 +1,320 @@
-{ 
-    "_id" : "some_id", 
-    "group" : {
-        "id" : "someid", 
-        "label" : "readme"
-    }, 
-    "request" : {
-        "log" : {
-            "creator" : {
-                "name" : "readmeio", 
-                "version" : "0.0.0", 
-                "comment" : "linux/v8.11.2"
-            }, 
-            "entries" : [
+{
+    "_id": "some_id",
+    "group": {
+        "id": "someid",
+        "label": "readme"
+    },
+    "request": {
+        "log": {
+            "creator": {
+                "name": "readmeio",
+                "version": "0.0.0",
+                "comment": "linux/v8.11.2"
+            },
+            "entries": [
                 {
-                    "request" : {
-                        "postData" : {
-                            "mimeType" : "application/json", 
-                            "params" : [
+                    "request": {
+                        "postData": {
+                            "mimeType": "application/json",
+                            "params": [
 
                             ]
-                        }, 
-                        "method" : "GET", 
-                        "url" : "https://dash.readme.io/api/v1/docs/search?query=test", 
-                        "httpVersion" : "1.1", 
-                        "headers" : [
+                        },
+                        "method": "GET",
+                        "url": "https://dash.readme.io/api/v1/docs/search?query=test",
+                        "httpVersion": "1.1",
+                        "headers": [
                             {
-                                "name" : "user-agent", 
-                                "value" : "curl/7.54.0", 
-                                "_id" : "5b74bf05774f44001dd990f1"
-                            }, 
+                                "name": "user-agent",
+                                "value": "curl/7.54.0",
+                                "_id": "5b74bf05774f44001dd990f1"
+                            },
                             {
-                                "name" : "host", 
-                                "value" : "readme.readme.io", 
-                                "_id" : "5b74bf05774f44001dd990f6"
-                            }, 
+                                "name": "host",
+                                "value": "readme.readme.io",
+                                "_id": "5b74bf05774f44001dd990f6"
+                            },
                             {
-                                "name" : "connection", 
-                                "value" : "close", 
-                                "_id" : "5b74bf05774f44001dd990f5"
-                            }, 
+                                "name": "connection",
+                                "value": "close",
+                                "_id": "5b74bf05774f44001dd990f5"
+                            },
                             {
-                                "name" : "x-forwarded-host", 
-                                "value" : "dash.readme.io", 
-                                "_id" : "5b74bf05774f44001dd990f4"
-                            }, 
+                                "name": "x-forwarded-host",
+                                "value": "dash.readme.io",
+                                "_id": "5b74bf05774f44001dd990f4"
+                            },
                             {
-                                "name" : "accept", 
-                                "value" : "*/*", 
-                                "_id" : "5b74bf05774f44001dd990f3"
-                            }, 
+                                "name": "accept",
+                                "value": "*/*",
+                                "_id": "5b74bf05774f44001dd990f3"
+                            },
                             {
-                                "name" : "x-forwarded-for", 
-                                "value" : "136.24.201.16, 54.210.159.126", 
-                                "_id" : "5b74bf05774f44001dd990f0"
-                            }, 
+                                "name": "x-forwarded-for",
+                                "value": "136.24.201.16, 54.210.159.126",
+                                "_id": "5b74bf05774f44001dd990f0"
+                            },
                             {
-                                "name" : "x-forwarded-port", 
-                                "value" : "443", 
-                                "_id" : "5b74bf05774f44001dd990ef"
-                            }, 
+                                "name": "x-forwarded-port",
+                                "value": "443",
+                                "_id": "5b74bf05774f44001dd990ef"
+                            },
                             {
-                                "name" : "x-forwarded-proto", 
-                                "value" : "https", 
-                                "_id" : "5b74bf05774f44001dd990ee"
-                            }, 
+                                "name": "x-forwarded-proto",
+                                "value": "https",
+                                "_id": "5b74bf05774f44001dd990ee"
+                            },
                             {
-                                "name" : "x-request-id", 
-                                "value" : "b2dd95ae-04fb-4e44-ad0a-2e5b73162317", 
-                                "_id" : "5b74bf05774f44001dd990ed"
-                            }, 
+                                "name": "x-request-id",
+                                "value": "b2dd95ae-04fb-4e44-ad0a-2e5b73162317",
+                                "_id": "5b74bf05774f44001dd990ed"
+                            },
                             {
-                                "name" : "via", 
-                                "value" : "1.1 vegur", 
-                                "_id" : "5b74bf05774f44001dd990ec"
-                            }, 
+                                "name": "via",
+                                "value": "1.1 vegur",
+                                "_id": "5b74bf05774f44001dd990ec"
+                            },
                             {
-                                "name" : "connect-time", 
-                                "value" : "0", 
-                                "_id" : "5b74bf05774f44001dd990eb"
+                                "name": "connect-time",
+                                "value": "0",
+                                "_id": "5b74bf05774f44001dd990eb"
                             }
-                        ], 
-                        "queryString" : [
+                        ],
+                        "queryString": [
                             {
-                                "name" : "query", 
-                                "value" : "test", 
-                                "_id" : "5b74bf05774f44001dd990f7"
-                            }
-                        ]
-                    }, 
-                    "response" : {
-                        "status" : 400, 
-                        "statusText" : "Bad Request", 
-                        "headers" : [
-                            {
-                                "name" : "x-xss-protection", 
-                                "value" : "1; mode=block", 
-                                "_id" : "5b74bf05774f44001dd99102"
-                            }, 
-                            {
-                                "name" : "x-dns-prefetch-control", 
-                                "value" : "off", 
-                                "_id" : "5b74bf05774f44001dd99101"
-                            }, 
-                            {
-                                "name" : "x-frame-options", 
-                                "value" : "Deny", 
-                                "_id" : "5b74bf05774f44001dd99100"
-                            }, 
-                            {
-                                "name" : "strict-transport-security", 
-                                "value" : "max-age=15552000; includeSubDomains", 
-                                "_id" : "5b74bf05774f44001dd990ff"
-                            }, 
-                            {
-                                "name" : "x-download-options", 
-                                "value" : "noopen", 
-                                "_id" : "5b74bf05774f44001dd990fe"
-                            }, 
-                            {
-                                "name" : "x-content-type-options", 
-                                "value" : "nosniff", 
-                                "_id" : "5b74bf05774f44001dd990fd"
-                            }, 
-                            {
-                                "name" : "x-powered-by", 
-                                "value" : "Express", 
-                                "_id" : "5b74bf05774f44001dd990fc"
-                            }, 
-                            {
-                                "name" : "content-type", 
-                                "value" : "application/json; charset=utf-8", 
-                                "_id" : "5b74bf05774f44001dd990fb"
-                            }, 
-                            {
-                                "name" : "content-length", 
-                                "value" : "80", 
-                                "_id" : "5b74bf05774f44001dd990fa"
-                            }, 
-                            {
-                                "name" : "etag", 
-                                "value" : "W/\"50-iwDQZvKva0kjfFp1QELFLv23tQg\"", 
-                                "_id" : "5b74bf05774f44001dd990f9"
-                            }, 
-                            {
-                                "name" : "vary", 
-                                "value" : "Accept-Encoding", 
-                                "_id" : "5b74bf05774f44001dd990f8"
-                            }
-                        ], 
-                        "content" : [
-                            {
-                                "text" : "{\"error\":\"Bad Request\",\"description\":\"You must provide a version\",\"errors\":null}", 
-                                "size" : 80, 
-                                "mimeType" : "application/json; charset=utf-8", 
-                                "_id" : "5b74bf05774f44001dd99103"
+                                "name": "query",
+                                "value": "test",
+                                "_id": "5b74bf05774f44001dd990f7"
                             }
                         ]
-                    }, 
-                    "pageref" : "", 
-                    "startedDateTime" : "2018-08-16T00:02:12.999+0000", 
-                    "time" : 3, 
-                    "_id" : "5b74bf05774f44001dd99104"
+                    },
+                    "response": {
+                        "status": 400,
+                        "statusText": "Bad Request",
+                        "headers": [
+                            {
+                                "name": "x-xss-protection",
+                                "value": "1; mode=block",
+                                "_id": "5b74bf05774f44001dd99102"
+                            },
+                            {
+                                "name": "x-dns-prefetch-control",
+                                "value": "off",
+                                "_id": "5b74bf05774f44001dd99101"
+                            },
+                            {
+                                "name": "x-frame-options",
+                                "value": "Deny",
+                                "_id": "5b74bf05774f44001dd99100"
+                            },
+                            {
+                                "name": "strict-transport-security",
+                                "value": "max-age=15552000; includeSubDomains",
+                                "_id": "5b74bf05774f44001dd990ff"
+                            },
+                            {
+                                "name": "x-download-options",
+                                "value": "noopen",
+                                "_id": "5b74bf05774f44001dd990fe"
+                            },
+                            {
+                                "name": "x-content-type-options",
+                                "value": "nosniff",
+                                "_id": "5b74bf05774f44001dd990fd"
+                            },
+                            {
+                                "name": "x-powered-by",
+                                "value": "Express",
+                                "_id": "5b74bf05774f44001dd990fc"
+                            },
+                            {
+                                "name": "content-type",
+                                "value": "application/json; charset=utf-8",
+                                "_id": "5b74bf05774f44001dd990fb"
+                            },
+                            {
+                                "name": "content-length",
+                                "value": "80",
+                                "_id": "5b74bf05774f44001dd990fa"
+                            },
+                            {
+                                "name": "etag",
+                                "value": "W/\"50-iwDQZvKva0kjfFp1QELFLv23tQg\"",
+                                "_id": "5b74bf05774f44001dd990f9"
+                            },
+                            {
+                                "name": "vary",
+                                "value": "Accept-Encoding",
+                                "_id": "5b74bf05774f44001dd990f8"
+                            }
+                        ],
+                        "content": [
+                            {
+                                "text": "{\"error\":\"Bad Request\",\"description\":\"You must provide a version\",\"errors\":null}",
+                                "size": 80,
+                                "mimeType": "application/json; charset=utf-8",
+                                "_id": "5b74bf05774f44001dd99103"
+                            }
+                        ]
+                    },
+                    "pageref": "",
+                    "startedDateTime": "2018-08-16T00:02:12.999+0000",
+                    "time": 3,
+                    "_id": "5b74bf05774f44001dd99104"
                 }
             ]
         }
-    }, 
-    "subdomain" : "readme", 
-    "clientIPAddress" : "someip", 
-    "development" : false, 
-    "createdAt" : "2018-08-16T00:02:13.081+0000", 
-    "updatedAt" : "2018-08-16T00:02:13.081+0000"
+    },
+    "subdomain": "readme",
+    "clientIPAddress": "someip",
+    "development": false,
+    "creator": {
+        "name": "readmeio",
+        "version": "0.0.0",
+        "comment": "linux/v8.11.2"
+    },
+    "startedDateTime": "2018-08-16T00:02:12.999+0000",
+    "responseTime": 3,
+    "method": "GET",
+    "url": "https://dash.readme.io/api/v1/docs/search?query=test",
+    "httpVersion": "1.1",
+    "requestHeaders": [
+        {
+            "name": "user-agent",
+            "value": "curl/7.54.0",
+            "_id": "5b74bf05774f44001dd990f1"
+        },
+        {
+            "name": "host",
+            "value": "readme.readme.io",
+            "_id": "5b74bf05774f44001dd990f6"
+        },
+        {
+            "name": "connection",
+            "value": "close",
+            "_id": "5b74bf05774f44001dd990f5"
+        },
+        {
+            "name": "x-forwarded-host",
+            "value": "dash.readme.io",
+            "_id": "5b74bf05774f44001dd990f4"
+        },
+        {
+            "name": "accept",
+            "value": "*/*",
+            "_id": "5b74bf05774f44001dd990f3"
+        },
+        {
+            "name": "x-forwarded-for",
+            "value": "136.24.201.16, 54.210.159.126",
+            "_id": "5b74bf05774f44001dd990f0"
+        },
+        {
+            "name": "x-forwarded-port",
+            "value": "443",
+            "_id": "5b74bf05774f44001dd990ef"
+        },
+        {
+            "name": "x-forwarded-proto",
+            "value": "https",
+            "_id": "5b74bf05774f44001dd990ee"
+        },
+        {
+            "name": "x-request-id",
+            "value": "b2dd95ae-04fb-4e44-ad0a-2e5b73162317",
+            "_id": "5b74bf05774f44001dd990ed"
+        },
+        {
+            "name": "via",
+            "value": "1.1 vegur",
+            "_id": "5b74bf05774f44001dd990ec"
+        },
+        {
+            "name": "connect-time",
+            "value": "0",
+            "_id": "5b74bf05774f44001dd990eb"
+        }
+    ],
+    "queryString": [
+        {
+            "name": "query",
+            "value": "test",
+            "_id": "5b74bf05774f44001dd990f7"
+        }
+    ],
+    "requestBody": {
+        "mimeType": "application/json",
+        "params": [
+
+        ]
+    },
+    "status": 400,
+    "statusText": "Bad Request",
+    "headers": [
+        {
+            "name": "x-xss-protection",
+            "value": "1; mode=block",
+            "_id": "5b74bf05774f44001dd99102"
+        },
+        {
+            "name": "x-dns-prefetch-control",
+            "value": "off",
+            "_id": "5b74bf05774f44001dd99101"
+        },
+        {
+            "name": "x-frame-options",
+            "value": "Deny",
+            "_id": "5b74bf05774f44001dd99100"
+        },
+        {
+            "name": "strict-transport-security",
+            "value": "max-age=15552000; includeSubDomains",
+            "_id": "5b74bf05774f44001dd990ff"
+        },
+        {
+            "name": "x-download-options",
+            "value": "noopen",
+            "_id": "5b74bf05774f44001dd990fe"
+        },
+        {
+            "name": "x-content-type-options",
+            "value": "nosniff",
+            "_id": "5b74bf05774f44001dd990fd"
+        },
+        {
+            "name": "x-powered-by",
+            "value": "Express",
+            "_id": "5b74bf05774f44001dd990fc"
+        },
+        {
+            "name": "content-type",
+            "value": "application/json; charset=utf-8",
+            "_id": "5b74bf05774f44001dd990fb"
+        },
+        {
+            "name": "content-length",
+            "value": "80",
+            "_id": "5b74bf05774f44001dd990fa"
+        },
+        {
+            "name": "etag",
+            "value": "W/\"50-iwDQZvKva0kjfFp1QELFLv23tQg\"",
+            "_id": "5b74bf05774f44001dd990f9"
+        },
+        {
+            "name": "vary",
+            "value": "Accept-Encoding",
+            "_id": "5b74bf05774f44001dd990f8"
+        }
+    ],
+    "responseBody": [
+        {
+            "text": "{\"error\":\"Bad Request\",\"description\":\"You must provide a version\",\"errors\":null}",
+            "size": 80,
+            "mimeType": "application/json; charset=utf-8",
+            "_id": "5b74bf05774f44001dd99103"
+        }
+    ],
+    "createdAt": "2018-08-16T00:02:13.081+0000",
+    "updatedAt": "2018-08-16T00:02:13.081+0000"
 }

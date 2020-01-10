@@ -11,6 +11,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const BaseSchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
+const { ADDITIONAL_PROPERTY_FLAG } = require('react-jsonschema-form/lib/utils');
 
 function getDefaultNumFormat(type) {
   if (type === 'integer') return 'int32';
@@ -70,13 +71,33 @@ function getTypeLabel(schema) {
 }
 
 function CustomTemplate(props) {
-  const { id, classNames, label, help, required, description, errors, children, schema } = props;
+  const {
+    id,
+    classNames,
+    label,
+    help,
+    required,
+    description,
+    errors,
+    children,
+    schema,
+    onKeyChange,
+  } = props;
+
+  const EditLabel = (
+    <input
+      defaultValue={label}
+      id={`${id}-key`}
+      onBlur={event => onKeyChange(event.target.value)}
+      type="text"
+    />
+  );
 
   return (
     <div className={`${classNames} param`}>
       <span className="label">
         <label className="label-name" htmlFor={id}>
-          {label}
+          {ADDITIONAL_PROPERTY_FLAG in schema ? EditLabel : label}
           {required && <span className="label-required">*</span>}
         </label>
         <span className="label-type">{getTypeLabel(schema)}</span>
@@ -141,9 +162,14 @@ CustomTemplate.propTypes = {
   errors: PropTypes.node.isRequired,
   help: PropTypes.node.isRequired,
   id: PropTypes.node.isRequired,
-  label: PropTypes.string.isRequired,
-  required: PropTypes.node.isRequired,
+  label: PropTypes.string,
+  onKeyChange: PropTypes.func,
+  required: PropTypes.bool,
   schema: PropTypes.shape({}).isRequired,
+};
+
+CustomTemplate.defaultProps = {
+  onKeyChange: () => {},
 };
 
 SchemaField.propTypes = {

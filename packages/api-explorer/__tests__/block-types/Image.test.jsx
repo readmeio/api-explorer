@@ -27,6 +27,7 @@ describe('Image', () => {
       'https://files.readme.io/924824e-fullsizeoutput_314.jpeg',
     );
   });
+
   it('Image will render caption if given in props', () => {
     const block = {
       type: 'image',
