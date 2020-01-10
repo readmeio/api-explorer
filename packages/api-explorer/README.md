@@ -2,6 +2,8 @@
 
 UI components for the API explorer
 
+[![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/api-explorer)
+
 [![](https://d3vv6lp55qjaqc.cloudfront.net/items/1M3C3j0I0s0j3T362344/Untitled-2.png)](https://readme.io)
 
 ## Installation
@@ -18,7 +20,7 @@ npm install --save @readme/api-explorer
   oasFiles={Object}
   flags={Object}
   appearance={{
-    referenceLayout: String,  
+    referenceLayout: String,
   }},
   oauth={Boolean}
   suggestedEdits={Boolean}
