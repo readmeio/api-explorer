@@ -233,18 +233,23 @@ describe('export multiple Markdown renderers', () => {
       },
     ],
   };
+
   it('renders plain markdown as React', () => {
     expect(markdown.plain(text, settings)).toMatchSnapshot();
   });
+
   it('renders custom React components', () => {
     expect(markdown.react(text, settings)).toMatchSnapshot();
   });
+
   it('renders AST', () => {
     expect(markdown.ast(text, settings)).toMatchSnapshot();
   });
+
   it('renders MD', () => {
     expect(markdown.md(tree, settings)).toMatchSnapshot();
   });
+
   it('renders HTML', () => {
     expect(markdown.html(text, settings)).toMatchSnapshot();
   });

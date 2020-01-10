@@ -50,6 +50,7 @@ describe('ReadMe-Flavored Markdown Compilers', () => {
     const out = compile(ast);
     expect(out).toMatchSnapshot();
   });
+
   it('Callouts', () => {
     const txt = `[block:callout]
     {
@@ -58,7 +59,7 @@ describe('ReadMe-Flavored Markdown Compilers', () => {
       "body": "Vitae reprehenderit at aliquid error voluptates eum dignissimos."
     }
     [/block]
-    
+
     And this is a paragraph!
     `;
     const ast = parse(txt);
