@@ -7,9 +7,39 @@
   ],
   "info": {
     "version": "1.0.0",
-    "title": "allOf keyword - NOT CURRENTLY SUPPORTED"
+    "title": "allOf keyword support"
   },
   "paths": {
+    "/pets": {
+      "patch": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Cat"
+                  },
+                  {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Dog"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "pet_type"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      }
+    },
     "/anything/all-of-object": {
       "post": {
         "summary": "allOf object - NOT CURRENTLY SUPPORTED",
@@ -18,6 +48,7 @@
           "content": {
             "application/json": {
               "schema": {
+                "type": "object",
                 "allOf": [
                   {
                     "title": "First type of object",
@@ -47,31 +78,68 @@
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
-    },
-    "/anything/all-of-primitive": {
-      "post": {
-        "summary": "allOf primitive - NOT CURRENTLY SUPPORTED",
-        "description": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "title": "First type of primitive",
-                    "type": "string"
-                  },
-                  {
-                    "title": "Second type of primitive",
-                    "type": "integer"
-                  }
-                ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "required": [
+          "pet_type"
+        ],
+        "properties": {
+          "pet_type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "pet_type"
+        }
+      },
+      "Dog": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Pet"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "bark": {
+                "type": "boolean"
+              },
+              "breed": {
+                "type": "string",
+                "enum": ["Dingo", "Husky", "Retriever", "Shepherd"]
               }
             }
           }
-        }
+        ]
+      },
+      "Cat": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Pet"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "hunts": {
+                "type": "boolean"
+              },
+              "age": {
+                "type": "integer"
+              }
+            }
+          }
+        ]
       }
     }
   }
