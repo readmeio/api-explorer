@@ -1,0 +1,19 @@
+# Allow schema definitions to not have to start with `#/definitions`.
+#
+# Originally fixed in https://github.com/rjsf-team/react-jsonschema-form/pull/954, but a new
+# solution has been done in https://github.com/rjsf-team/react-jsonschema-form/pull/1506. Until that
+# solution is in the react-jsonschema-form master branch, we'll need to patch in our change in order
+# to use the library here without having to maintain a full fork.
+
+--- node_modules/react-jsonschema-form/lib/utils.js	2020-01-10 15:11:35.000000000 -0800
++++ forked-repo/utils.js	2020-01-10 14:59:30.000000000 -0800
+@@ -567,7 +567,7 @@
+ function findSchemaDefinition($ref) {
+   var definitions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+   // Extract and use the referenced definition if we have it.
+-  var match = /^#\/definitions\/(.*)$/.exec($ref);
++  var match = /^#(?:\/definitions)?\/(.*)$/.exec($ref);
+
+   if (match && match[1]) {
+     var parts = match[1].split("/");
+

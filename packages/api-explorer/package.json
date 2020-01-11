@@ -20,7 +20,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-debounce-input": "^3.2.0",
     "react-json-view": "^1.19.1",
-    "react-jsonschema-form": "github:readmeio/react-jsonschema-form#dist-committed",
+    "react-jsonschema-form": "^1.8.1",
     "react-waypoint": "^7.3.1",
     "whatwg-fetch": "^3.0.0"
   },
@@ -28,6 +28,7 @@
     "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
     "lint": "eslint . --ext js --ext jsx",
+    "postinstall": "./patches/patch-rjsf.bash",
     "pretest": "npm run lint && npm run inspect && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
