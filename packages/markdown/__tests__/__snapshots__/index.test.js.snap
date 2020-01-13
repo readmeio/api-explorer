@@ -682,14 +682,13 @@ exports[`export multiple Markdown renderers renders plain markdown as React 1`] 
 `;
 
 exports[`headings 1`] = `
-"<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h1\\"></div><div>h1</div><a class=\\"fa fa-anchor\\" href=\\"#section-h1\\"></a></h1>
-<h2 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h2\\"></div><div>h2</div><a class=\\"fa fa-anchor\\" href=\\"#section-h2\\"></a></h2>
-<h3 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h3\\"></div><div>h3</div><a class=\\"fa fa-anchor\\" href=\\"#section-h3\\"></a></h3>
-<h4 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h4\\"></div><div>h4</div><a class=\\"fa fa-anchor\\" href=\\"#section-h4\\"></a></h4>
-<h5 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h5\\"></div><div>h5</div><a class=\\"fa fa-anchor\\" href=\\"#section-h5\\"></a></h5>
-<h6 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h6\\"></div><div>h6</div><a class=\\"fa fa-anchor\\" href=\\"#section-h6\\"></a></h6>
-<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-code\\"></div><div><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code</span></code></div><a class=\\"fa fa-anchor\\" href=\\"#section-code\\"></a></h1>
-<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-with-some-more-content\\"></div><div>heading with some more CONTENT</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-with-some-more-content\\"></a></h1>
+"<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-1\\"></div><div>Heading 1</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-1\\"></a></h1>
+<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-1-1\\"></div><div>Heading 1</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-1-1\\"></a></h1>
+<h2 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-2\\"></div><div>Heading 2</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-2\\"></a></h2>
+<h3 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-3\\"></div><div>Heading 3</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-3\\"></a></h3>
+<h4 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-4\\"></div><div>Heading 4</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-4\\"></a></h4>
+<h5 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-5\\"></div><div>Heading 5</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-5\\"></a></h5>
+<h6 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-6\\"></div><div>Heading 6</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-6\\"></a></h6>
 <p> </p>"
 `;
 
