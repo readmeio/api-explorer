@@ -164,7 +164,7 @@ export function react(text, opts = options) {
         table: Table(sanitize),
         a: Anchor(sanitize),
         h1: Heading(1),
-        h2: Heading(2),
+        h2: Heading(),
         h3: Heading(3),
         h4: Heading(4),
         h5: Heading(5),

@@ -2,7 +2,14 @@ const React = require('react');
 const propTypes = require('prop-types');
 const Embedly = require('embedly');
 
-const api = new Embedly({ key: 'f2aa6fc3595946d0afc3d76cbbd25dc3' });
+const api =
+  process.env.NODE_ENV !== 'test'
+    ? new Embedly({ key: 'f2aa6fc3595946d0afc3d76cbbd25dc3' })
+    : {
+        extract: (opts, cb) => {
+          cb(false, [{ media: { html: 'testing' } }]);
+        },
+      };
 
 class Embed extends React.Component {
   constructor(props) {
@@ -10,6 +17,9 @@ class Embed extends React.Component {
     this.state = {
       embedly: false,
     };
+  }
+
+  componentDidMount() {
     this.getEmbed();
   }
 

@@ -227,7 +227,7 @@ describe('export multiple Markdown renderers', () => {
   };
 
   it('renders plain markdown as React', () => {
-    expect(markdown.plain(text, settings)).toMatchSnapshot();
+    expect(markdown.plain(text)).toMatchSnapshot();
   });
 
   it('renders custom React components', () => {
@@ -235,14 +235,22 @@ describe('export multiple Markdown renderers', () => {
   });
 
   it('renders AST', () => {
-    expect(markdown.ast(text, settings)).toMatchSnapshot();
+    expect(markdown.ast(text)).toMatchSnapshot();
   });
 
   it('renders MD', () => {
-    expect(markdown.md(tree, settings)).toMatchSnapshot();
+    expect(markdown.md(tree)).toMatchSnapshot();
   });
 
   it('renders HTML', () => {
     expect(markdown.html(text, settings)).toMatchSnapshot();
+  });
+
+  it('returns null for blank input', () => {
+    expect(markdown.html('')).toBeNull();
+    expect(markdown.plain('')).toBeNull();
+    expect(markdown.react('')).toBeNull();
+    expect(markdown.ast('')).toBeNull();
+    expect(markdown.md('')).toBeNull();
   });
 });

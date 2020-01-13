@@ -10,16 +10,17 @@ if (process.env.NODE_ENV !== 'test') {
 const React = require('react');
 const PropTypes = require('prop-types');
 
-let count = {};
+const count = {};
+// let count = {};
+// document.addEventListener('DOMContentLoaded', () => {
+//   if ('$' in window) {
+//     // eslint-disable-next-line no-undef
+//     $(document).on('pjax:start', () => {
+//       count = {};
+//     });
+//   }
+// });
 
-document.addEventListener('DOMContentLoaded', () => {
-  if ('$' in window) {
-    // eslint-disable-next-line no-undef
-    $(document).on('pjax:start', () => {
-      count = {};
-    });
-  }
-});
 
 function generateHeadingId(e) {
   if (typeof e === 'object') return generateHeadingId(e.props.children[0]);

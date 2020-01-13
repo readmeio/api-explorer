@@ -20,3 +20,8 @@ console.log('an unnamed sample snippet');
 \`\`\`
 "
 `;
+
+exports[`ReadMe-Flavored Markdown Compilers Embed 1`] = `
+"[Embed](https://youtu.be/J3-uKv1DShQ \\"@youtube\\")
+"
+`;

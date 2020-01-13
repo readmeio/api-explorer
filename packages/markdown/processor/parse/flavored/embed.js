@@ -42,10 +42,6 @@ module.exports = parser;
 
 module.exports.sanitize = sanitizeSchema => {
   const tags = sanitizeSchema.tagNames;
-  const attr = sanitizeSchema.attributes;
-
   tags.push('embed');
-  attr.embed = [...attr.embed];
-
   return parser;
 };

@@ -1,4 +1,4 @@
-const { mount, shallow } = require('enzyme');
+const { mount } = require('enzyme');
 const React = require('react');
 const markdown = require('../index');
 
@@ -41,13 +41,22 @@ describe('Data Replacements', () => {
   });
 });
 
-const callout = `
+const callout = [
+  `
 
 > ❗️ Error Callout
 >
 > Lorem ipsum dolor.
 
-`;
+`,
+  `
+
+> 🎟  
+> 
+> Callout with no title or theme.
+
+`,
+];
 
 const codetabs = `
 
@@ -62,24 +71,37 @@ world
 
 describe('Components', () => {
   it('Callout', () => {
-    const wrap = mount(markdown.react(callout));
-    expect(wrap.html()).toBe(
+    const wrap = [mount(markdown.react(callout[0])), mount(markdown.react(callout[1]))];
+    expect(wrap[0].html()).toBe(
       '<blockquote class="callout callout_error"><h3 class="false"><p>❗️ Error Callout</p></h3><p>Lorem ipsum dolor.</p></blockquote>',
+    );
+    expect(wrap[1].html()).toBe(
+      '<blockquote class="callout callout_default"><h3 class="floated"><p>🎟 </p></h3><p>Callout with no title or theme.</p></blockquote>',
     );
   });
 
   it('Multi Code Block', () => {
-    const wrap = mount(markdown.react(codetabs));
+    const rdmd = markdown.react(codetabs);
+    const wrap = mount(rdmd);
+
+    wrap
+      .find('button')
+      .last()
+      .simulate('click')
+      .simulate('click');
+
     expect(wrap.html()).toBe(
-      '<div class="CodeTabs CodeTabs_initial"><div class="CodeTabs-toolbar"><button type="button">(plaintext)</button><button type="button">(plaintext)</button></div><div class="CodeTabs-inner"><pre><code data-lang="" name=""><span class="cm-s-neo">hello\n</span></code></pre><pre><code data-lang="" name=""><span class="cm-s-neo">world\n</span></code></pre></div></div>',
+      '<div class="CodeTabs"><div class="CodeTabs-toolbar"><button type="button">(plaintext)</button><button type="button" class="CodeTabs_active">(plaintext)</button></div><div class="CodeTabs-inner"><pre><code data-lang="" name=""><span class="cm-s-neo">hello\n</span></code></pre><pre class="CodeTabs_active"><code data-lang="" name=""><span class="cm-s-neo">world\n</span></code></pre></div></div>',
     );
   });
 
   it('Embed', () => {
-    const wrap = shallow(
-      markdown.react('[Embed Title](https://jsfiddle.net/rafegoldberg/5VA5j/ "@jsfiddle")'),
+    const wrap = mount(
+      markdown.react(
+        '[Embed Title](https://gist.github.com/chaddy81/f852004d6d1510eec1f6 "@jsfiddle")',
+      ),
     );
-    expect(wrap.html()).toBe('<div class="embed"><div class="embed-media"></div></div>');
+    expect(wrap.html()).toBe('<div class="embed"><div class="embed-media">testing</div></div>');
   });
 
   it('Heading', () => {
