@@ -152,6 +152,7 @@ export function plain(text, opts = options) {
  */
 export function react(text, opts = options) {
   if (!text) return null;
+  const count = {};
   return parseMarkdown(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
@@ -163,12 +164,12 @@ export function react(text, opts = options) {
         'rdme-embed': Embed(sanitize),
         table: Table(sanitize),
         a: Anchor(sanitize),
-        h1: Heading(1),
-        h2: Heading(),
-        h3: Heading(3),
-        h4: Heading(4),
-        h5: Heading(5),
-        h6: Heading(6),
+        h1: Heading(1, count),
+        h2: Heading(2, count),
+        h3: Heading(3, count),
+        h4: Heading(4, count),
+        h5: Heading(5, count),
+        h6: Heading(6, count),
         code: Code(sanitize),
         img: Image(sanitize),
         div: DivFragment,

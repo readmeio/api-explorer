@@ -23,6 +23,7 @@ class Embed extends React.Component {
     this.getEmbed();
   }
 
+  /* istanbul ignore next */
   getGist(data) {
     const [, gistID] = this.props.url.match(
       /(?:gist.github.com\/(?:.[-_a-zA-Z0-9]+\/)?([-_a-zA-Z0-9]*)(?:\.git|\.js)?)/,
@@ -38,10 +39,14 @@ class Embed extends React.Component {
       });
   }
 
+  /* istanbul ignore next */
   getEmbed() {
     api.extract({ url: this.props.url }, (err, obj) => {
-      // eslint-disable-next-line no-console, no-bitwise
-      if (err) return console.error(err) | err;
+      if (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        return err;
+      }
       const result = obj[0];
       if (result.provider_display === 'gist.github.com') return this.getGist(result);
       return this.setState({ embedly: result });

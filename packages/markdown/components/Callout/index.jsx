@@ -2,6 +2,7 @@
 // this file, so let's not include this when running tests since we aren't doing visual testing
 // anyways.
 // https://github.com/jsdom/jsdom/issues/217
+/* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
   // eslint-disable-next-line global-require
   require('./style.scss');
