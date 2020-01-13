@@ -150,14 +150,6 @@ test('`correctnewlines` option', () => {
   );
 });
 
-test.skip('variables', () => {
-  expect(shallow(markdown.default(`<<apiKey>>`)).html()).toMatchSnapshot();
-});
-
-test.skip('glossary', () => {
-  expect(shallow(markdown.default(`<<glossary:term>>`)).html()).toMatchSnapshot();
-});
-
 // TODO not sure if this needs to work or not?
 // Isn't it a good thing to always strip HTML?
 describe('`stripHtml` option', () => {
@@ -166,7 +158,7 @@ describe('`stripHtml` option', () => {
     expect(markdown.html('<p>Test</p>', { stripHtml: false })).toBe('<p>Test</p>');
   });
 
-  it.skip('should escape unknown tags', () => {
+  it('should escape unknown tags', () => {
     expect(markdown.html('<unknown-tag>Test</unknown-tag>')).toBe(
       '<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>',
     );
@@ -180,7 +172,7 @@ describe('`stripHtml` option', () => {
     expect(markdown.html('<p unknown="test">Test</p>')).toBe('<p>Test</p>');
   });
 
-  it.skip('should escape everything if `stripHtml=true`', () => {
+  it('should escape everything if `stripHtml=true`', () => {
     expect(markdown.html('<p>Test</p>', { stripHtml: true })).toBe(
       '<p>&lt;p&gt;Test&lt;/p&gt;</p>\n',
     );
