@@ -165,8 +165,8 @@ exports[`Parse Magic Blocks Image Blocks 1`] = `
 Object {
   "children": Array [
     Object {
-      "alt": "White Center Blue BG.svg",
-      "title": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+      "alt": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+      "title": "White Center Blue BG.svg",
       "type": "image",
       "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
     },

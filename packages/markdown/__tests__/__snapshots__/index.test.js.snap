@@ -39,7 +39,7 @@ exports[`check list items 1`] = `
 `;
 
 exports[`code samples 1`] = `
-"<pre><code class=\\"lang-javascript\\" data-lang=\\"javascript\\" name=\\"var\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
+"<pre><code class=\\"lang-javascript\\" data-lang=\\"javascript\\" name=\\"\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
 </span></code></pre>
 <pre><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code-without-language
 </span></code></pre>
