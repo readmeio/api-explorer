@@ -55,6 +55,8 @@ const rdmeCalloutCompiler = require('./processor/compile/callout');
 const options = require('./processor/options.json');
 
 // Sanitization Schema Defaults
+sanitize.clobberPrefix = '';
+
 sanitize.tagNames.push('embed');
 sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 
