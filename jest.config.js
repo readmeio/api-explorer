@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   testURL: 'http://localhost',
-  coverageReporters: ['json', 'text', 'lcovonly', 'clover'], // per https://github.com/facebook/jest/issues/9396#issuecomment-573328488
+  coverageReporters: ['json', 'text', 'lcov', 'clover'], // per https://github.com/facebook/jest/issues/9396#issuecomment-573328488
   coverageThreshold: {
     global: {
       branches: 90,
