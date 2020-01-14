@@ -166,6 +166,11 @@ Object {
   "children": Array [
     Object {
       "alt": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+      "data": Object {
+        "hProperties": Object {
+          "caption": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+        },
+      },
       "title": "White Center Blue BG.svg",
       "type": "image",
       "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",

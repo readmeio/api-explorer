@@ -11,6 +11,35 @@ test('image', () => {
   ).toMatchSnapshot();
 });
 
+test('magic image', () => {
+  expect(
+    shallow(
+      markdown.default(
+        `
+    [block:image]
+    {
+      "images": [
+        {
+          "image": [
+            "https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg",
+            "man-eating-pizza-and-making-an-ok-gesture.jpg",
+            1024,
+            682,
+            "#d1c8c5"
+          ],
+          "caption": "A guy. Eating pizza. And making an OK gesture.",
+          "sizing": "full"
+        }
+      ]
+    }
+    [/block]
+    `,
+        settings,
+      ),
+    ).html(),
+  ).toMatchSnapshot();
+});
+
 test('list items', () => {
   expect(shallow(markdown.default('- listitem1', settings)).html()).toMatchSnapshot();
 });
@@ -189,7 +218,7 @@ test('should strip dangerous iframe tag', () => {
 test('should strip dangerous img attributes', () => {
   expect(
     shallow(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html(),
-  ).toBe('<img src="x" alt="" height="auto" width="auto"/>\n<p> </p>');
+  ).toBe('<img src="x" alt="" caption="" height="auto" width="auto"/>\n<p> </p>');
 });
 
 describe('export multiple Markdown renderers', () => {

@@ -32,8 +32,8 @@ exports[`anchors with baseUrl 1`] = `
 
 exports[`check list items 1`] = `
 "<ul>
-<li><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
-<li><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
 </ul>
 <p> </p>"
 `;
@@ -47,7 +47,7 @@ exports[`code samples 1`] = `
 `;
 
 exports[`emojis 1`] = `
-"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" height=\\"auto\\" width=\\"auto\\"/>
+"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" height=\\"auto\\" width=\\"auto\\" caption=\\"\\"/>
 <i class=\\"fa fa-lock\\"></i>
 :unknown-emoji:</p>
 <p> </p>"
@@ -693,7 +693,7 @@ exports[`headings 1`] = `
 `;
 
 exports[`image 1`] = `
-"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" height=\\"auto\\" width=\\"auto\\"/></p>
+"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" caption=\\"\\" height=\\"auto\\" width=\\"auto\\"/></p>
 <p> </p>"
 `;
 
@@ -701,6 +701,11 @@ exports[`list items 1`] = `
 "<ul>
 <li>listitem1</li>
 </ul>
+<p> </p>"
+`;
+
+exports[`magic image 1`] = `
+"<figure width=\\"auto\\" height=\\"auto\\" style=\\"width:auto\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" alt=\\"A guy. Eating pizza. And making an OK gesture.\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" caption=\\"A guy. Eating pizza. And making an OK gesture.\\" align=\\"\\" height=\\"\\" width=\\"\\"/><figcaption>A guy. Eating pizza. And making an OK gesture.</figcaption></figure>
 <p> </p>"
 `;
 
