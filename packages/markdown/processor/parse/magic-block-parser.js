@@ -44,12 +44,17 @@ function tokenize(eat, value) {
     case 'image': {
       return eat(match)(
         json.images.map(img => {
-          const [url, alt] = img.image;
+          const [url, title] = img.image;
           return {
             type: 'image',
             url,
-            title: alt,
+            title,
             alt: img.caption,
+            data: {
+              hProperties: {
+                caption: img.caption,
+              },
+            },
           };
         })[0],
       );
@@ -160,10 +165,9 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   // const tags = sanitizeSchema.tagNames;
   const attr = sanitizeSchema.attributes;
-  attr.li = ['checked'];
+  attr.li = ['className', 'checked'];
   attr.pre = ['className', 'lang', 'meta'];
   attr.code = ['className', 'lang', 'meta'];
-  attr.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
   attr.table = ['align'];
 
   return parser;

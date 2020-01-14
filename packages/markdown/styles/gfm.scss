@@ -15,7 +15,7 @@
   ul {
     list-style: initial;
   }
-  
+
   .octicon {
     display: inline-block;
     fill: currentColor;
@@ -609,7 +609,7 @@
     font-weight: 400;
   }
 
-  h1 + h2 {
+  h1+h2 {
     border-bottom: 0;
   }
 
@@ -682,6 +682,7 @@
   table thead td {
     font-weight: 600;
   }
+
   table thead tr {
     background: #f6f8fa;
   }
@@ -738,15 +739,23 @@
   }
 
   figure {
-    margin: 30px 0;
-    img {
-      margin: 0;
+    & {
+      margin: 15px auto;
     }
     figcaption {
       font-size: 0.88em;
       font-style: italic;
     }
-    [align=center] + figcaption {
+    &[align=right] {
+      float: right;
+      margin-left: 15px;
+    }
+    &[align=left] {
+      float: left;
+      margin-right: 15px;
+    }
+    figcaption {
+      font-size: small;
       text-align: center;
     }
   }
