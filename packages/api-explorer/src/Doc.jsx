@@ -162,7 +162,7 @@ class Doc extends React.Component {
               <div className="hub-reference-right switcher">
                 {this.renderResponseSchema('dark')}
               </div>
-              <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
+              {/* <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" /> */}
             </div>
           </React.Fragment>
         </div>

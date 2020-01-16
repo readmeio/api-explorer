@@ -15,10 +15,14 @@ const Content = props => (
 
 Content.propTypes = {
   body: PropTypes.string,
+  flags: PropTypes.shape({}),
+  isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 Content.defaultProps = {
   body: '',
+  flags: {},
+  isThreeColumn: true,
 };
 
 module.exports = Content;
