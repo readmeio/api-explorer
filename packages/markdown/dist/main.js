@@ -21697,13 +21697,16 @@ var rdmeEmbedCompiler = __webpack_require__(461);
 
 var rdmeVarCompiler = __webpack_require__(462);
 
-var rdmeCalloutCompiler = __webpack_require__(463); // Processor Option Defaults
+var rdmeCalloutCompiler = __webpack_require__(463);
+
+var rdmePinCompiler = __webpack_require__(464); // Processor Option Defaults
 
 
-var options = __webpack_require__(464); // Sanitization Schema Defaults
+var options = __webpack_require__(465); // Sanitization Schema Defaults
 
 
 sanitize.clobberPrefix = '';
+sanitize.tagNames.push('rdme-pin');
 sanitize.tagNames.push('embed');
 sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 sanitize.tagNames.push('rdme-embed');
@@ -21782,6 +21785,14 @@ function react(text) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!text) return null;
   var count = {};
+
+  var PinWrap = function PinWrap(_ref) {
+    var children = _ref.children;
+    return React.createElement("div", {
+      className: "pin"
+    }, children);
+  };
+
   return parseMarkdown(opts).use(rehypeReact, {
     createElement: React.createElement,
     components: {
@@ -21790,6 +21801,7 @@ function react(text) {
       'readme-variable': Variable,
       'readme-glossary-item': GlossaryItem,
       'rdme-embed': Embed(sanitize),
+      'rdme-pin': PinWrap,
       table: Table(sanitize),
       a: Anchor(sanitize),
       h1: Heading(1, count),
@@ -21829,7 +21841,7 @@ function ast(text) {
 function md(tree) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!tree) return null;
-  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler]).stringify(tree);
+  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler, rdmePinCompiler]).stringify(tree);
 }
 
 var ReadMeMarkdown = function ReadMeMarkdown(text) {
@@ -79332,6 +79344,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /* eslint-disable consistent-return */
 var RGXP = /^\[block:(.*)\]([^]+?)\[\/block\]/;
 
+var WrapPinnedBlocks = function WrapPinnedBlocks(node, json) {
+  if (!json.sidebar) return node;
+  return {
+    children: [node],
+    type: 'rdme-pin',
+    data: {
+      hName: 'rdme-pin',
+      className: 'pin'
+    }
+  };
+};
+
 function tokenize(eat, value) {
   var _this = this;
 
@@ -79365,29 +79389,29 @@ function tokenize(eat, value) {
             }
           };
         });
-        if (children.length === 1) return eat(match)(children[0]);
-        return eat(match)({
+        if (children.length === 1) return eat(match)(WrapPinnedBlocks(children[0], json));
+        return eat(match)(WrapPinnedBlocks({
           children: children,
           className: 'tabs',
           data: {
             hName: 'code-tabs'
           },
           type: 'code-tabs'
-        });
+        }, json));
       }
 
     case 'api-header':
       {
-        return eat(match)({
+        return eat(match)(WrapPinnedBlocks({
           type: 'heading',
           depth: json.level || 2,
           children: this.tokenizeInline(json.title, eat.now())
-        });
+        }, json));
       }
 
     case 'image':
       {
-        return eat(match)(json.images.map(function (img) {
+        return eat(match)(WrapPinnedBlocks(json.images.map(function (img) {
           var _img$image = _slicedToArray(img.image, 2),
               url = _img$image[0],
               title = _img$image[1];
@@ -79403,7 +79427,7 @@ function tokenize(eat, value) {
               }
             }
           };
-        })[0]);
+        })[0], json));
       }
 
     case 'callout':
@@ -79420,7 +79444,7 @@ function tokenize(eat, value) {
             icon = _json$type[0],
             theme = _json$type[1];
 
-        return eat(match)({
+        return eat(match)(WrapPinnedBlocks({
           type: 'rdme-callout',
           data: {
             hName: 'rdme-callout',
@@ -79438,7 +79462,7 @@ function tokenize(eat, value) {
               value: "".concat(icon, " ")
             }].concat(_toConsumableArray(this.tokenizeInline(json.title, eat.now())))
           }].concat(_toConsumableArray(this.tokenizeBlock(json.body, eat.now())))
-        });
+        }, json));
       }
 
     case 'parameters':
@@ -79467,11 +79491,11 @@ function tokenize(eat, value) {
           return sum;
         }, []);
 
-        return eat(match)({
+        return eat(match)(WrapPinnedBlocks({
           type: 'table',
           align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
           children: _children
-        });
+        }, json));
       }
 
     case 'embed':
@@ -79488,7 +79512,7 @@ function tokenize(eat, value) {
           title: title,
           provider: json.provider
         };
-        return eat(match)(_objectSpread({
+        return eat(match)(WrapPinnedBlocks(_objectSpread({
           type: 'embed'
         }, _data, {
           children: [{
@@ -79506,16 +79530,16 @@ function tokenize(eat, value) {
             }),
             hName: 'rdme-embed'
           })
-        }));
+        }), json));
       }
 
     default:
       {
-        return eat(match)({
+        return eat(match)(WrapPinnedBlocks({
           type: 'div',
           children: this.tokenizeBlock(json.text || json.html, eat.now()),
           data: json
-        });
+        }, json));
       }
   }
 }
@@ -79779,6 +79803,20 @@ module.exports = function CalloutCompiler() {
 
 /***/ }),
 /* 464 */
+/***/ (function(module, exports) {
+
+/* div blocks directly alias the paragraph container; use for display only! */
+module.exports = function DivCompiler() {
+  var Compiler = this.Compiler;
+  var visitors = Compiler.prototype.visitors;
+
+  visitors.div = function compile(node) {
+    return 'PINNNED';
+  };
+};
+
+/***/ }),
+/* 465 */
 /***/ (function(module, exports) {
 
 module.exports = {"correctnewlines":true,"markdownOptions":{"fences":true,"commonmark":true,"gfm":true,"ruleSpaces":false,"listItemIndent":"1","spacedTable":true,"paddedTable":true,"setext":true},"settings":{"position":false}}

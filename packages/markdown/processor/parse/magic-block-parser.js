@@ -1,6 +1,18 @@
 /* eslint-disable consistent-return */
 const RGXP = /^\[block:(.*)\]([^]+?)\[\/block\]/;
 
+const WrapPinnedBlocks = (node, json) => {
+  if (!json.sidebar) return node;
+  return {
+    children: [node],
+    type: 'rdme-pin',
+    data: {
+      hName: 'rdme-pin',
+      className: 'pin',
+    },
+  };
+};
+
 function tokenize(eat, value) {
   let [match, type, json] = RGXP.exec(value) || [];
 
@@ -26,37 +38,50 @@ function tokenize(eat, value) {
           },
         },
       }));
-      if (children.length === 1) return eat(match)(children[0]);
-      return eat(match)({
-        children,
-        className: 'tabs',
-        data: { hName: 'code-tabs' },
-        type: 'code-tabs',
-      });
+      if (children.length === 1) return eat(match)(WrapPinnedBlocks(children[0], json));
+      return eat(match)(
+        WrapPinnedBlocks(
+          {
+            children,
+            className: 'tabs',
+            data: { hName: 'code-tabs' },
+            type: 'code-tabs',
+          },
+          json,
+        ),
+      );
     }
     case 'api-header': {
-      return eat(match)({
-        type: 'heading',
-        depth: json.level || 2,
-        children: this.tokenizeInline(json.title, eat.now()),
-      });
+      return eat(match)(
+        WrapPinnedBlocks(
+          {
+            type: 'heading',
+            depth: json.level || 2,
+            children: this.tokenizeInline(json.title, eat.now()),
+          },
+          json,
+        ),
+      );
     }
     case 'image': {
       return eat(match)(
-        json.images.map(img => {
-          const [url, title] = img.image;
-          return {
-            type: 'image',
-            url,
-            title,
-            alt: img.caption,
-            data: {
-              hProperties: {
-                caption: img.caption,
+        WrapPinnedBlocks(
+          json.images.map(img => {
+            const [url, title] = img.image;
+            return {
+              type: 'image',
+              url,
+              title,
+              alt: img.caption,
+              data: {
+                hProperties: {
+                  caption: img.caption,
+                },
               },
-            },
-          };
-        })[0],
+            };
+          })[0],
+          json,
+        ),
       );
     }
     case 'callout': {
@@ -68,28 +93,33 @@ function tokenize(eat, value) {
         danger: ['❗️', 'error'],
       }[json.type];
       const [icon, theme] = json.type;
-      return eat(match)({
-        type: 'rdme-callout',
-        data: {
-          hName: 'rdme-callout',
-          hProperties: {
-            theme: theme || 'default',
-            icon,
-            title: json.title,
-            value: json.body,
-          },
-        },
-        children: [
+      return eat(match)(
+        WrapPinnedBlocks(
           {
-            type: 'paragraph',
+            type: 'rdme-callout',
+            data: {
+              hName: 'rdme-callout',
+              hProperties: {
+                theme: theme || 'default',
+                icon,
+                title: json.title,
+                value: json.body,
+              },
+            },
             children: [
-              { type: 'text', value: `${icon} ` },
-              ...this.tokenizeInline(json.title, eat.now()),
+              {
+                type: 'paragraph',
+                children: [
+                  { type: 'text', value: `${icon} ` },
+                  ...this.tokenizeInline(json.title, eat.now()),
+                ],
+              },
+              ...this.tokenizeBlock(json.body, eat.now()),
             ],
           },
-          ...this.tokenizeBlock(json.body, eat.now()),
-        ],
-      });
+          json,
+        ),
+      );
     }
     case 'parameters': {
       const { data } = json;
@@ -109,11 +139,16 @@ function tokenize(eat, value) {
           };
           return sum;
         }, []);
-      return eat(match)({
-        type: 'table',
-        align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
-        children,
-      });
+      return eat(match)(
+        WrapPinnedBlocks(
+          {
+            type: 'table',
+            align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
+            children,
+          },
+          json,
+        ),
+      );
     }
     case 'embed': {
       json.title = json.title || 'Embed';
@@ -123,30 +158,40 @@ function tokenize(eat, value) {
         .filter(i => i)
         .join('')}`;
       const data = { url, title, provider: json.provider };
-      return eat(match)({
-        type: 'embed',
-        ...data,
-        children: [
+      return eat(match)(
+        WrapPinnedBlocks(
           {
-            type: 'link',
-            url,
-            title: json.provider,
-            children: [{ type: 'text', value: title }],
+            type: 'embed',
+            ...data,
+            children: [
+              {
+                type: 'link',
+                url,
+                title: json.provider,
+                children: [{ type: 'text', value: title }],
+              },
+            ],
+            data: {
+              ...data,
+              hProperties: { ...data, href: url },
+              hName: 'rdme-embed',
+            },
           },
-        ],
-        data: {
-          ...data,
-          hProperties: { ...data, href: url },
-          hName: 'rdme-embed',
-        },
-      });
+          json,
+        ),
+      );
     }
     default: {
-      return eat(match)({
-        type: 'div',
-        children: this.tokenizeBlock(json.text || json.html, eat.now()),
-        data: json,
-      });
+      return eat(match)(
+        WrapPinnedBlocks(
+          {
+            type: 'div',
+            children: this.tokenizeBlock(json.text || json.html, eat.now()),
+            data: json,
+          },
+          json,
+        ),
+      );
     }
   }
 }

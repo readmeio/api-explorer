@@ -58,12 +58,15 @@ const codeTabsCompiler = require('./processor/compile/code-tabs');
 const rdmeEmbedCompiler = require('./processor/compile/embed');
 const rdmeVarCompiler = require('./processor/compile/var');
 const rdmeCalloutCompiler = require('./processor/compile/callout');
+const rdmePinCompiler = require('./processor/compile/pin');
 
 // Processor Option Defaults
 const options = require('./processor/options.json');
 
 // Sanitization Schema Defaults
 sanitize.clobberPrefix = '';
+
+sanitize.tagNames.push('rdme-pin');
 
 sanitize.tagNames.push('embed');
 sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
@@ -160,7 +163,11 @@ export function plain(text, opts = options) {
  */
 export function react(text, opts = options) {
   if (!text) return null;
+
+  // eslint-disable-next-line react/prop-types
+  const PinWrap = ({ children }) => <div className="pin">{children}</div>;
   const count = {};
+
   return parseMarkdown(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
@@ -170,6 +177,7 @@ export function react(text, opts = options) {
         'readme-variable': Variable,
         'readme-glossary-item': GlossaryItem,
         'rdme-embed': Embed(sanitize),
+        'rdme-pin': PinWrap,
         table: Table(sanitize),
         a: Anchor(sanitize),
         h1: Heading(1, count),
@@ -220,6 +228,7 @@ export function md(tree, opts = options) {
       rdmeCalloutCompiler,
       rdmeEmbedCompiler,
       rdmeVarCompiler,
+      rdmePinCompiler,
     ])
     .stringify(tree);
 }
