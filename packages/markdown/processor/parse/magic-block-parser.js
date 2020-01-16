@@ -144,7 +144,7 @@ function tokenize(eat, value) {
     default: {
       return eat(match)({
         type: 'div',
-        children: this.tokenizeBlock(json.html, eat.now()),
+        children: this.tokenizeBlock(json.text || json.html, eat.now()),
         data: json,
       });
     }
