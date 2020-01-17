@@ -1,6 +1,8 @@
 @mixin CodeTabs {
+  color: #333;
   background: #eaeaea;
-  border-radius: 0 0 3px 3px !important;
+  border-radius: 3px !important;
+  overflow: hidden;
 
   &-toolbar {
     display: flex;
@@ -8,8 +10,12 @@
     overflow: hidden;
     overflow-x: auto;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
     &::-webkit-scrollbar {
       display: none;
+    }
+    > button {
+      white-space: nowrap;
     }
   }
 
@@ -29,7 +35,7 @@
     border: none;
     background: transparent;
     outline: none;
-    color: #333;
+    color: inherit;
     font: inherit;
     font-size: .75em;
     cursor: pointer;
