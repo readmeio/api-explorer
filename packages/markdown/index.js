@@ -93,7 +93,7 @@ export function normalize(blocks) {
     .replace(/\[\/block\]/g, '[/block]\n')
     .trim()
     .replace(/^(#+)(.+)/gm, '$1 $2');
-  return `${blocks}\n\n&nbsp;`;
+  return `${blocks}\n\n `;
 }
 
 export const utils = {
