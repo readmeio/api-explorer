@@ -1,3 +1,5 @@
+@import "./markdown-overrides.scss";
+
 /* Add margin to left- and right-sides of RJSF component. */
 form.rjsf {
   margin: 0% 3%;
@@ -772,53 +774,5 @@ form.rjsf {
     background-color: #f0f2f4;
     border-left: 1px solid #dee5e8;
     z-index: -1;
-  }
-}
-
-#api-explorer .markdown-body {
-  padding: 0 3%;
-}
-.hub-reference-left .markdown-body {
-  #api-explorer & {
-    width: 100%;
-    max-width: 100%;
-    > .pin {
-      display: none !important;
-    }
-  }
-}
-.hub-reference-right .markdown-body {
-  #api-explorer & {
-    width: 100%;
-    min-width: 100%;
-    > :not(.pin) {
-      display: none !important;
-    }
-  }
-  .hub-reference-theme-column & {
-    & {
-      color: white;
-    }
-    pre {
-      color: #2a3136;
-    }
-    table {
-      width: 100%;
-      min-width: 100%;
-      display: table;
-    }
-    table thead tr {
-      background-color: rgba(0, 0, 0, .2);
-    }
-    table tbody tr {
-      background-color: transparent;
-    }
-    table tbody tr:nth-child(even) {
-      background-color: rgba(0, 0, 0, .075);
-    }
-    table th,
-    table td {
-      border-color: black;
-    }
   }
 }
