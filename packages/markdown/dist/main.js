@@ -21783,8 +21783,7 @@ function plain(text) {
 
 function react(text) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
-  if (!text) return null;
-  var count = {};
+  if (!text) return null; // eslint-disable-next-line react/prop-types
 
   var PinWrap = function PinWrap(_ref) {
     var children = _ref.children;
@@ -21793,6 +21792,7 @@ function react(text) {
     }, children);
   };
 
+  var count = {};
   return parseMarkdown(opts).use(rehypeReact, {
     createElement: React.createElement,
     components: {
@@ -79810,7 +79810,9 @@ module.exports = function DivCompiler() {
   var Compiler = this.Compiler;
   var visitors = Compiler.prototype.visitors;
 
-  visitors.div = function compile(node) {
+  visitors.div = function compile()
+  /* node */
+  {
     return 'PINNNED';
   };
 };

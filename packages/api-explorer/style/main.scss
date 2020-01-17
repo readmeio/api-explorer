@@ -780,8 +780,8 @@ form.rjsf {
   margin: 0;
   padding: 1em 3%;
 }
-@media (min-width: 1100px) {
-  .hub-reference > .markdown-body {
+#api-explorer .hub-reference > .markdown-body {
+  @media (min-width: 1100px) {
     width: calc(100% - 390px);
   }
 }
