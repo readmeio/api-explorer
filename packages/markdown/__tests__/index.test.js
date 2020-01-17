@@ -218,7 +218,7 @@ test('should strip dangerous iframe tag', () => {
 test('should strip dangerous img attributes', () => {
   expect(
     shallow(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html(),
-  ).toBe('<img src="x" alt="" caption="" height="auto" width="auto"/>\n<p> </p>');
+  ).toBe('<img alt="" caption="" height="auto" src="x" width="auto"/>');
 });
 
 describe('export multiple Markdown renderers', () => {
