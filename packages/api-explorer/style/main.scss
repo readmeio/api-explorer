@@ -776,45 +776,51 @@ form.rjsf {
 }
 
 
+
 #api-explorer .markdown-body {
-  margin: 0;
-  padding: 1em 3%;
+  padding: 0 3%;
 }
-#api-explorer .hub-reference > .markdown-body {
-  @media (min-width: 1100px) {
-    width: calc(100% - 390px);
+.hub-reference-left .markdown-body {
+  #api-explorer & {
+    width: 100%;
+    max-width: 100%;
+    > .pin {
+      display: none !important;
+    }
   }
-}
-.hub-reference-left .markdown-body > .pin {
-  display: none !important;
 }
 .hub-reference-right .markdown-body {
-  > :not(.pin) {
-    display: none !important;
-  }
-  & {
-    color: white;
-  }
-  pre {
-    color: #2a3136;
-  }
-  table {
-    table-layout: unset;
+  #api-explorer & {
     width: 100%;
     min-width: 100%;
-    display: table;
+    > :not(.pin) {
+      display: none !important;
+    }
   }
-  table thead tr {
-    background-color: rgba(0, 0, 0, .2);
-  }
-  table tbody tr {
-    background-color: transparent;
-  }
-  table tbody tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, .075);
-  }
-  table th,
-  table td {
-    border-color: black;
+  .hub-reference-theme-column & {
+    & {
+      color: white;
+    }
+    pre {
+      color: #2a3136;
+    }
+    table {
+      width: 100%;
+      min-width: 100%;
+      display: table;
+    }
+    table thead tr {
+      background-color: rgba(0, 0, 0, .2);
+    }
+    table tbody tr {
+      background-color: transparent;
+    }
+    table tbody tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, .075);
+    }
+    table th,
+    table td {
+      border-color: black;
+    }
   }
 }

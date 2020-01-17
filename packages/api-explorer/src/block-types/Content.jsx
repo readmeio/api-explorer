@@ -9,9 +9,25 @@ const PropTypes = require('prop-types');
 const markdown = require('@readme/markdown').default;
 // const markdown = require('api-explorer/packages/markdown/dist/main');
 
-const Content = props => (
-  <div className="markdown-body">{markdown(props.body, markdown.options)}</div>
-);
+const Content = props => {
+  const { body, isThreeColumn } = props;
+  const content = markdown(body);
+
+  if (isThreeColumn === true) {
+    return (
+      <div className="hub-reference-section">
+        <div className="hub-reference-left">
+          <div className="markdown-body">{content}</div>
+        </div>
+        <div className="hub-reference-right">
+          <div className="markdown-body">{content}</div>
+        </div>
+      </div>
+    );
+  }
+
+  return <div className="markdown-body">{content}</div>;
+};
 
 Content.propTypes = {
   body: PropTypes.string,
