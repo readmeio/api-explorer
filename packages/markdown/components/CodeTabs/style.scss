@@ -2,6 +2,17 @@
   background: #eaeaea;
   border-radius: 0 0 3px 3px !important;
 
+  &-toolbar {
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   pre {
     border-radius: 0 0 3px 3px !important;
     background: #f6f6f6;
