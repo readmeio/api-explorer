@@ -3,16 +3,7 @@
 @readme/markdown
 ===
 
-[![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown)
-
-[![](https://d3vv6lp55qjaqc.cloudfront.net/items/1M3C3j0I0s0j3T362344/Untitled-2.png)](https://readme.io)
-
-## Installation
-
-[![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown)
-
-
-## Installation
+A [Unified](https://github.com/unifiedjs)-based Markdown parser for ReadMe. [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown) [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown)
 
 ```
 npm install --save @readme/markdown
@@ -57,14 +48,12 @@ Which will give you the following:
 
 </details><hr>
 
-## ReadMe-Flavored Syntax
+## Custom Syntax
 
-Our old editor compiled custom "Magic Block" components in to a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this proprietary format and compiling it to a markdown-compatible syntax. Mostly this looks just like pure ol' markdown, but with a bit of syntactic sugar on top.
+Our old editor compiled custom "Magic Block" components from a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this old format and transpiling it in to standard, GitHub-flavored markdown. We've also sprinkled a bit of our own syntactic sugar on top, which let's you supercharge your docs.
 
-
-### Standard Markdown Components
-
-Most of our magic blocks render neatly to pure markdown representations. In some instances certain minor data loss will occur (such as our "smart" image sizing), while new functionalities (such as table text alignment) will be gained. These components include:
+<details>
+  <summary><b>Standard Markdown</b></summary><br>
 
 - [Image Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/images)
 - [List Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/lists)
@@ -72,11 +61,13 @@ Most of our magic blocks render neatly to pure markdown representations. In some
 - [Heading Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/headings)
 - Inline Decorations (link, bold, and emphasis tags, etc)
 
-### ReadMe-Flavored Components
+</details>
+<details>
+  <summary><b>
+    <a href="http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/code-blocks">Code Tabs</a>
+  </b></summary><br>
 
-#### Multi-Code Blocks [**↗**](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/code-blocks "Code Blocks Demo")
-
-() A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for their distinct *lack* of an additional line break separating each subsequent block:
+A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for their distinct *lack* of an additional line break separating each subsequent block:
 
     ```javascript
     export sum from 'sum';
@@ -89,7 +80,12 @@ Most of our magic blocks render neatly to pure markdown representations. In some
     export sub = (a, b) => a - b
     ```
 
-#### Callout Blocks [**↗**](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/callouts "Callouts Demo")
+</details>
+
+<details>
+  <summary><b>
+    <a href="http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/callouts">Callouts</a>
+  </b></summary><br>
 
 Callouts are very similar to blockquotes in both display and syntax. They are defined by a title with an initial emoji, which determines the callout's theme:
 
@@ -107,11 +103,63 @@ There are five potential themes:
 |❗️|`.error` (red theme)|
 |*...rest*|`N/A` (gray theme)|
 
-#### Embedded Blocks [**↗**](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds "Embeds Demo")
+</details>
+<details>
+  <summary><b>
+    <a href="http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds">Embeds</a>
+  </b></summary><br>
 
 Embeds are written as links, with their title set to `@embed`:
 
     [Embed Title](https://youtu.be/8bh238ekw3 "@embed")
+
+</details>
+
+## CSS Selectors
+
+By and large, the new markdown processor outputs standard HTML. This means most basic CSS element selectors will continue to work seamlessly! You'll only need to update your custom styles for ReadMe-flavored markdown components (see below.) When writing custom styles for the new processor make sure to use this class prefix so your CSS doesn't bleed:
+
+```css
+#api-explorer .markdown-body .callout {}
+```
+
+<details>
+  <summary><b>Callouts</b></summary><br>
+
+Customize the default callout theme:
+
+```scss
+#api-explorer .markdown-body .callout {
+  background: lightblue;
+  border-color: dodgerblue;
+}
+```
+
+Override the built-in theme styles:
+
+```scss
+#api-explorer .markdown-body .callout {}       // gray (default)
+#api-explorer .markdown-body .callout_info {}  // blue
+#api-explorer .markdown-body .callout_okay {}  // green
+#api-explorer .markdown-body .callout_warn {}  // orange
+#api-explorer .markdown-body .callout_error {} // red
+```
+
+</details>
+
+<details>
+  <summary><b>Tables</b></summary><br>
+
+Tables are no longer wrapped in extra divs, and have a simplified baseline display that more closely mirrors standard markdown implementations. They should be easier to style.
+
+```css
+#api-explorer .markdown-body table {}
+#api-explorer .markdown-body tr {}
+#api-explorer .markdown-body th {}
+#api-explorer .markdown-body td {}
+```
+
+</details>
 
 ## Updated Editor
 
