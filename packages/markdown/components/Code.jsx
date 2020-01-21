@@ -1,5 +1,3 @@
-// require('./style.scss');
-
 const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
@@ -10,7 +8,6 @@ function Code(props) {
 
   return (
     <code className={language ? `lang-${language}` : null} data-lang={lang} name={meta}>
-      {/* {children} */}
       {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
     </code>
   );
