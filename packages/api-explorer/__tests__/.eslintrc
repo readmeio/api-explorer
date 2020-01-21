@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "@readme/eslint-config/testing"
-  ],
+  "extends": "@readme/eslint-config/testing",
   "rules": {
     "react/jsx-props-no-spreading": "off"
   }
