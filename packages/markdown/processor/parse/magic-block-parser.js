@@ -86,7 +86,6 @@ function tokenize(eat, value) {
     }
     case 'callout': {
       json.type = {
-        // @todo: I should probably just be using the original class names here...
         info: ['ℹ', 'info'],
         success: ['👍', 'okay'],
         warning: ['⚠️', 'warn'],
