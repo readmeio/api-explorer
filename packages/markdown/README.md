@@ -3,7 +3,7 @@
 @readme/markdown
 ===
 
-A [Unified](https://github.com/unifiedjs)-based Markdown parser for ReadMe. [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown) [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown)
+A [Unified](https://github.com/unifiedjs)-based Markdown parser for ReadMe. [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/markdown)
 
 ```
 npm install --save @readme/markdown
