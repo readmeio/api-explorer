@@ -41,36 +41,24 @@ describe('Data Replacements', () => {
   });
 });
 
-const callout = [
-  `
-
-> ❗️ Error Callout
->
-> Lorem ipsum dolor.
-
-`,
-  `
-
-> 🎟  
-> 
-> Callout with no title or theme.
-
-`,
-];
-
-const codetabs = `
-
-\`\`\`
-hello
-\`\`\`
-\`\`\`
-world
-\`\`\`
-
-`;
-
 describe('Components', () => {
   it('Callout', () => {
+    const callout = [
+      `
+    
+    > ❗️ Error Callout
+    >
+    > Lorem ipsum dolor.
+    
+    `,
+      `
+    
+    > 🎟  
+    > 
+    > Callout with no title or theme.
+    
+    `,
+    ];    
     const wrap = [mount(markdown.react(callout[0])), mount(markdown.react(callout[1]))];
     expect(wrap[0].html()).toBe(
       '<blockquote class="callout callout_error"><h3 class="false"><p>❗️ Error Callout</p></h3><p>Lorem ipsum dolor.</p></blockquote>',
@@ -81,6 +69,17 @@ describe('Components', () => {
   });
 
   it('Multi Code Block', () => {
+    const codetabs = `
+
+    \`\`\`
+    hello
+    \`\`\`
+    \`\`\`
+    world
+    \`\`\`
+    
+    `;
+
     const rdmd = markdown.react(codetabs);
     const wrap = mount(rdmd);
 
