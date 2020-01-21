@@ -118,7 +118,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
   expect(docComponent.find('Content')).toHaveLength(1);
 });
 
-test.skip('should still display `Content` with column-style layout', () => {
+test('should still display `Content` with column-style layout', () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
     <Doc
