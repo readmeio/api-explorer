@@ -55,17 +55,15 @@ Our old editor compiled custom "Magic Block" components from a JSON-based syntax
 <details>
   <summary><b>Standard Markdown</b></summary><br>
 
-- [Image Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/images)
-- [List Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/lists)
-- [Table Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/tables)
-- [Heading Blocks](http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/headings)
-- Inline Decorations (link, bold, and emphasis tags, etc)
+- images
+- lists
+- tables
+- headings
+- inline decorations (link, bold, and emphasis tags, etc)
 
 </details>
 <details>
-  <summary><b>
-    <a href="http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/code-blocks">Code Tabs</a>
-  </b></summary><br>
+  <summary><b>Code Tabs</b></summary><br>
 
 A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for their distinct *lack* of an additional line break separating each subsequent block:
 
@@ -83,9 +81,7 @@ A tabbed interface for displaying multiple code blocks. These are written nearly
 </details>
 
 <details>
-  <summary><b>
-    <a href="http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/callouts">Callouts</a>
-  </b></summary><br>
+  <summary><b>Callouts</b></summary><br>
 
 Callouts are very similar to blockquotes in both display and syntax. They are defined by a title with an initial emoji, which determines the callout's theme:
 
@@ -105,9 +101,7 @@ There are five potential themes:
 
 </details>
 <details>
-  <summary><b>
-    <a href="http://md-edit-test.readme-stage-pr-2116.readme.ninja/docs/embeds">Embeds</a>
-  </b></summary><br>
+  <summary><b>Embeds</b></summary><br>
 
 Embeds are written as links, with their title set to `@embed`:
 
