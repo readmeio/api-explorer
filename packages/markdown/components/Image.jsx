@@ -23,7 +23,7 @@ Image.propTypes = {
   alt: PropTypes.string,
   caption: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  src: PropTypes.string,
+  src: PropTypes.string.isRequired,
   title: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
