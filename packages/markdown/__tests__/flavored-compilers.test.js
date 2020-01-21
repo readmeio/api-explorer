@@ -34,7 +34,7 @@ const compile = tree =>
     .use([DivCompiler, CodeTabsCompiler, CalloutCompiler, EmbedCompiler])
     .stringify(tree);
 
-describe('ReadMe-Flavored Markdown Compilers', () => {
+describe('ReadMe Magic Blocks', () => {
   it('Embed', () => {
     const txt = `[block:embed]
     {
