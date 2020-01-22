@@ -33,7 +33,7 @@
   "devDependencies": {
     "@readme/eslint-config": "^1.7.0",
     "eslint": "^6.5.0",
-    "jest": "^24.8.0",
+    "jest": "^25.1.0",
     "jsinspect": "^0.12.7",
     "prettier": "^1.18.2"
   }
