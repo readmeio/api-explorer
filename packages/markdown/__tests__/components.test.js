@@ -100,7 +100,7 @@ world
         '[Embed Title](https://gist.github.com/chaddy81/f852004d6d1510eec1f6 "@jsfiddle")',
       ),
     );
-    expect(wrap.html()).toBe('<div class="embed"><div class="embed-media">testing</div></div>');
+    expect(wrap.html()).toBe('<div class="embed"><div class="embed-media"></div></div>');
   });
 
   it('Heading', () => {
