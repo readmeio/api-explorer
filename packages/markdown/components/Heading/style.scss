@@ -1,0 +1,29 @@
+.markdown-body .heading.heading {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  .anchor {
+    top: -1rem !important;
+  }
+  .anchor, .fa-anchor {
+    position: absolute !important;
+    display: inline !important;
+    order: -1;
+    right: 100%;
+    top: unset;
+    margin-right: -.8rem;
+    padding: .8em .2em .8em 0 !important;
+    font-size: .8rem;
+    text-decoration: none;
+    color: inherit;
+    transform: translateX(-100%);
+    transition: .2s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &:not(:hover) .fa-anchor {
+    opacity: 0;
+  }
+}

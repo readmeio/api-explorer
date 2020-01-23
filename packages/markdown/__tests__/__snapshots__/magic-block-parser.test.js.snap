@@ -1,0 +1,363 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parse Magic Blocks Callout Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "👍 ",
+            },
+            Object {
+              "type": "text",
+              "value": "Callout Title",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Lorem ipsum dolor sit amet, ",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "consectetur",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": " adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "data": Object {
+        "hName": "rdme-callout",
+        "hProperties": Object {
+          "icon": "👍",
+          "theme": "okay",
+          "title": "Callout Title",
+          "value": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum",
+        },
+      },
+      "type": "rdme-callout",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse Magic Blocks Code Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "className": "tab-panel",
+          "data": Object {
+            "hName": "code",
+            "hProperties": Object {
+              "lang": "javascript",
+              "meta": null,
+            },
+          },
+          "lang": "javascript",
+          "meta": null,
+          "type": "code",
+          "value": "$http.post('/someUrl', data).success(successCallback);
+
+alert('test');",
+        },
+        Object {
+          "className": "tab-panel",
+          "data": Object {
+            "hName": "code",
+            "hProperties": Object {
+              "lang": "text",
+              "meta": "custom title",
+            },
+          },
+          "lang": "text",
+          "meta": "custom title",
+          "type": "code",
+          "value": "second tab",
+        },
+      ],
+      "className": "tabs",
+      "data": Object {
+        "hName": "code-tabs",
+      },
+      "type": "code-tabs",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse Magic Blocks Embed Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Embed",
+            },
+          ],
+          "title": "@youtube",
+          "type": "link",
+          "url": "https://youtu.be/J3-uKv1DShQ",
+        },
+      ],
+      "data": Object {
+        "hName": "rdme-embed",
+        "hProperties": Object {
+          "href": "https://youtu.be/J3-uKv1DShQ",
+          "html": false,
+          "provider": "@youtube",
+          "title": "Embed",
+          "url": "https://youtu.be/J3-uKv1DShQ",
+        },
+        "html": false,
+        "provider": "@youtube",
+        "title": "Embed",
+        "url": "https://youtu.be/J3-uKv1DShQ",
+      },
+      "html": false,
+      "provider": "@youtube",
+      "title": "Embed",
+      "type": "embed",
+      "url": "https://youtu.be/J3-uKv1DShQ",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse Magic Blocks Heading Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "MagicBlock Conversion",
+        },
+      ],
+      "depth": 2,
+      "type": "heading",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse Magic Blocks Image Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "alt": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+      "data": Object {
+        "hProperties": Object {
+          "caption": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+        },
+      },
+      "title": "White Center Blue BG.svg",
+      "type": "image",
+      "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse Magic Blocks Table Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "align": Array [
+        "left",
+        "left",
+        "left",
+      ],
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Left",
+                },
+              ],
+              "type": "tableHead",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Center",
+                },
+              ],
+              "type": "tableHead",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Right",
+                },
+              ],
+              "type": "tableHead",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "L0",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bold",
+                    },
+                  ],
+                  "type": "emphasis",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "$1600",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "L1",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "inlineCode",
+                  "value": "code",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "$12",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "L2",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "italic",
+                    },
+                  ],
+                  "type": "emphasis",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "$1",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse Magic Blocks Unrecognized Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "data": Object {
+        "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum",
+        "color": "#f00",
+        "title": "Title",
+      },
+      "type": "div",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Sanitize Schema 1`] = `
+Object {
+  "attributes": Array [],
+}
+`;

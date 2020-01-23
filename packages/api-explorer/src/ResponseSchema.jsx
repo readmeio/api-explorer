@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 const Oas = require('oas');
 const { findSchemaDefinition } = require('oas/utils');
 

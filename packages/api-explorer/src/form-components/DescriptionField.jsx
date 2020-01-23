@@ -2,7 +2,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 
 function DescriptionField(props) {
   const { id, description } = props;

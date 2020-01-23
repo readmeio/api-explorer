@@ -259,7 +259,7 @@ test('should render markdown in the description', () => {
     mount(<ResponseSchemaBody oas={oas} schema={schema} />)
       .find('a')
       .html(),
-  ).toBe('<a href="https://example.com" target="_self">Description</a>');
+  ).toBe('<a href="https://example.com" target="_self" title="">Description</a>');
 });
 
 test('should show "string" response type for a simple `string` schema', () => {

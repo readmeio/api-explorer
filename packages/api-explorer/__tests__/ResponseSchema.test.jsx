@@ -36,13 +36,14 @@ test('selectedStatus should change state of selectedStatus', () => {
 
 test('should display response schema description', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
-
-  expect(
-    responseSchema
-      .find('div.desc')
-      .first()
-      .text(),
-  ).toBe(props.operation.responses['200'].description);
+  const text = responseSchema
+    .find('div.desc')
+    .first()
+    .find('div.desc')
+    .find('p')
+    .first()
+    .text();
+  expect(text).toBe(props.operation.responses['200'].description);
 });
 
 test('should work if there are no responses', () => {

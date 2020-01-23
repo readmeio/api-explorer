@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
 const { findSchemaDefinition } = require('oas/utils');
 
 const flatten = list => list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReadMe Magic Blocks Callouts 1`] = `
+"> 👍 Success
+> 
+> Vitae reprehenderit at aliquid error voluptates eum dignissimos.
+
+\`\`\`
+And this is a paragraph!
+\`\`\`
+"
+`;
+
+exports[`ReadMe Magic Blocks Code Tabs 1`] = `
+"\`\`\`javascript multiple.js
+console.log('a multi-file code block');
+\`\`\`
+\`\`\`javascript
+console.log('an unnamed sample snippet');
+\`\`\`
+"
+`;
+
+exports[`ReadMe Magic Blocks Embed 1`] = `
+"[Embed](https://youtu.be/J3-uKv1DShQ \\"@youtube\\")
+"
+`;

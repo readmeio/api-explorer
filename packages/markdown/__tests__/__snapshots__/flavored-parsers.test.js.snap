@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parse ReadMe-Flavored Markdown Syntax Callouts 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "ℹ️ Info Callout",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "data": Object {
+        "hName": "rdme-callout",
+        "hProperties": Object {
+          "icon": "ℹ️",
+          "theme": "info",
+          "title": "Info Callout",
+          "value": "",
+        },
+      },
+      "type": "rdme-callout",
+    },
+    Object {
+      "lang": null,
+      "meta": null,
+      "type": "code",
+      "value": ">
+> Lorem ipsum dolor  sit amet consectetur adipisicing elit.",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse ReadMe-Flavored Markdown Syntax Multi-Block 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "className": "tab-panel",
+          "data": Object {
+            "hName": "code",
+            "hProperties": Object {
+              "lang": "javascript",
+              "meta": "multiple.js",
+            },
+          },
+          "lang": "javascript",
+          "meta": "multiple.js",
+          "type": "code",
+          "value": "console.log('a multi-file code block');",
+        },
+        Object {
+          "className": "tab-panel",
+          "data": Object {
+            "hName": "code",
+            "hProperties": Object {
+              "lang": "javascript",
+              "meta": null,
+            },
+          },
+          "lang": "javascript",
+          "meta": null,
+          "type": "code",
+          "value": "console.log('an unnamed sample snippet');",
+        },
+      ],
+      "className": "tabs",
+      "data": Object {
+        "hName": "code-tabs",
+      },
+      "type": "code-tabs",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse ReadMe-Flavored Markdown Syntax Single Block 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "className": "tab-panel",
+      "data": Object {
+        "hName": "code",
+        "hProperties": Object {
+          "lang": "javascript",
+          "meta": "multiple.js",
+        },
+      },
+      "lang": "javascript",
+      "meta": "multiple.js",
+      "type": "code",
+      "value": "console.log('a multi-file code block');",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
