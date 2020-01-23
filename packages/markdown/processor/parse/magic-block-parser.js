@@ -151,12 +151,12 @@ function tokenize(eat, value) {
     }
     case 'embed': {
       json.title = json.title || 'Embed';
-      const { title, url } = json;
+      const { title, url, html } = json;
       json.provider = `@${new URL(url).hostname
         .split(/(?:www)?\./)
         .filter(i => i)
         .join('')}`;
-      const data = { url, title, provider: json.provider };
+      const data = { url, html, title, provider: json.provider };
       return eat(match)(
         WrapPinnedBlocks(
           {
