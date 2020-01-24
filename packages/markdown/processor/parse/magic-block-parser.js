@@ -133,18 +133,16 @@ function tokenize(eat, value) {
             type: row ? 'tableCell' : 'tableHead',
             children: this.tokenizeInline(val, eat.now()),
           };
+          // convert falsey values to empty strings
+          sum[row].children = [...sum[row].children].map(v => v || '');
           return sum;
         }, []);
-      return eat(match)(
-        WrapPinnedBlocks(
-          {
-            type: 'table',
-            align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
-            children,
-          },
-          json
-        )
-      );
+      const table = {
+        type: 'table',
+        align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
+        children: children.filter(v => v || false),
+      };
+      return eat(match)(WrapPinnedBlocks(table, json));
     }
     case 'embed': {
       json.title = json.title || 'Embed';
