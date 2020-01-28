@@ -3,8 +3,6 @@ const { shallow, mount } = require('enzyme');
 const Oas = require('oas');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
-const { flattenResponseSchema } = require('../src/ResponseSchemaBody');
-const { flatten } = require('../src/ResponseSchemaBody');
 const petstore = require('./fixtures/petstore/oas.json');
 
 const oas = new Oas(petstore);
@@ -40,27 +38,6 @@ test('display properties if object contains $ref type', () => {
       .map(a => a.text())
       .filter(a => a === 'category.name'),
   ).toHaveLength(1);
-});
-
-test('should flatten schema to an array', () => {
-  const responseSchema = {
-    type: 'object',
-    properties: {
-      category: {
-        type: 'array',
-        items: {
-          type: 'string',
-        },
-      },
-    },
-  };
-  expect(flattenResponseSchema(responseSchema)).toStrictEqual([
-    {
-      name: 'category',
-      type: '[String]',
-      description: undefined,
-    },
-  ]);
 });
 
 test('display object properties inside another object in the table', () => {
@@ -307,9 +284,4 @@ test('should show "array" response schema type', () => {
       .find('p')
       .text(),
   ).toBe('Response schema type: array of objects');
-});
-
-test('should flatten array', () => {
-  const array = [[1], [2, 3], [[4, 5]]];
-  expect(flatten(array)).toStrictEqual([1, 2, 3, 4, 5]);
 });
