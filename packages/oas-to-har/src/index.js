@@ -88,6 +88,18 @@ module.exports = (
     har.url = `https://try.readme.io/${har.url}`;
   }
 
+  if (!pathOperation.parameters) {
+    // eslint-disable-next-line no-param-reassign
+    pathOperation.parameters = [];
+  }
+
+  // Does this operation have any common parameters?
+  if (oas.paths && oas.paths[pathOperation.path] && oas.paths[pathOperation.path].parameters) {
+    oas.paths[pathOperation.path].parameters.forEach(param => {
+      pathOperation.parameters.push(param);
+    });
+  }
+
   if (pathOperation.parameters) {
     pathOperation.parameters.forEach((param, i, params) => {
       if (param.$ref) {

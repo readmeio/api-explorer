@@ -5,10 +5,6 @@
       "url": "http://httpbin.org"
     }
   ],
-  "info": {
-    "version": "1.0.0",
-    "title": "An example of how we render $ref usage on resource parameters"
-  },
   "paths": {
     "/anything/{id}": {
       "parameters": [
@@ -27,11 +23,6 @@
           }
         }
       ],
-      "get": {
-        "summary": "Get anything",
-        "description": "",
-        "responses": {}
-      },
       "post": {
         "summary": "Post anything",
         "description": "",
