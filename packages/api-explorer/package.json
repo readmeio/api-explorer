@@ -1,12 +1,12 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "main": "dist/index.js",
   "dependencies": {
     "@readme/markdown": "^5.0.0-alpha.0",
     "@readme/oas-extensions": "^5.0.0-alpha.0",
-    "@readme/oas-to-har": "^5.0.0-alpha.1",
+    "@readme/oas-to-har": "^5.0.0-alpha.2",
     "@readme/syntax-highlighter": "^5.0.0-alpha.0",
     "@readme/variable": "^5.0.0-alpha.0",
     "classnames": "^2.2.5",
