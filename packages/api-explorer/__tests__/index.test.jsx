@@ -44,7 +44,8 @@ test('ApiExplorer should not render a common parameter OAS operation method', ()
 
   const explorer = shallow(<ApiExplorer {...propsCommon} />);
 
-  expect(explorer.find('Doc')).toHaveLength(docsCommon.length - 1);
+  // Doc should have neither `servers` or `parameters` from the spec because those aren't real HTTP methods.
+  expect(explorer.find('Doc')).toHaveLength(docsCommon.length - 2);
 });
 
 test('should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
