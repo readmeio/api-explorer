@@ -1135,7 +1135,7 @@ describe('common parameters', () => {
     });
   });
 
-  it.only('should not mutate the original pathOperation that was passed in', () => {
+  it('should not mutate the original pathOperation that was passed in', () => {
     const existingCount = operation.parameters.length;
 
     oasToHar(new Oas(commonParameters), operation, {
