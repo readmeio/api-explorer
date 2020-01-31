@@ -88,40 +88,39 @@ module.exports = (
     har.url = `https://try.readme.io/${har.url}`;
   }
 
-  if (!pathOperation.parameters) {
-    // eslint-disable-next-line no-param-reassign
-    pathOperation.parameters = [];
+  // Does this operation have any parameters?
+  const parameters = [];
+  if (pathOperation.parameters) {
+    pathOperation.parameters.forEach(param => {
+      if (param.$ref) {
+        parameters.push(findSchemaDefinition(param.$ref, oas));
+      } else {
+        parameters.push(param);
+      }
+    });
   }
 
   // Does this operation have any common parameters?
   if (oas.paths && oas.paths[pathOperation.path] && oas.paths[pathOperation.path].parameters) {
     oas.paths[pathOperation.path].parameters.forEach(param => {
-      pathOperation.parameters.push(param);
-    });
-  }
-
-  if (pathOperation.parameters) {
-    pathOperation.parameters.forEach((param, i, params) => {
       if (param.$ref) {
-        // eslint-disable-next-line no-param-reassign
-        params[i] = findSchemaDefinition(param.$ref, oas);
+        parameters.push(findSchemaDefinition(param.$ref, oas));
+      } else {
+        parameters.push(param);
       }
     });
   }
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
-    if (!pathOperation || !pathOperation.parameters) return key; // No path params at all
+    if (!pathOperation || !parameters) return key; // No path params at all
+
     // Find the path parameter or set a default value if it does not exist
-    const parameter = pathOperation.parameters.find(param => param.name === key) || { name: key };
+    const parameter = parameters.find(param => param.name === key) || { name: key };
 
     return encodeURIComponent(formatter(formData, parameter, 'path'));
   });
 
-  const queryStrings =
-    pathOperation &&
-    pathOperation.parameters &&
-    pathOperation.parameters.filter(param => param.in === 'query');
-
+  const queryStrings = parameters && parameters.filter(param => param.in === 'query');
   if (queryStrings && queryStrings.length) {
     queryStrings.forEach(queryString => {
       const value = formatter(formData, queryString, 'query', true);
@@ -132,11 +131,6 @@ module.exports = (
       });
     });
   }
-
-  const headers =
-    pathOperation &&
-    pathOperation.parameters &&
-    pathOperation.parameters.filter(param => param.in === 'header');
 
   // Does this response have any documented content types?
   if (pathOperation.responses) {
@@ -156,6 +150,7 @@ module.exports = (
   }
 
   // Do we have any `header` parameters on the operation?
+  const headers = parameters && parameters.filter(param => param.in === 'header');
   if (headers && headers.length) {
     headers.forEach(header => {
       const value = formatter(formData, header, 'header', true);
