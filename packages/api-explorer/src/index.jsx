@@ -172,6 +172,7 @@ class ApiExplorer extends React.Component {
       // operation.
       if (
         typeof doc.api !== 'undefined' &&
+        typeof doc.api.method !== 'undefined' &&
         !supportedHttpMethods.includes(doc.api.method.toLowerCase())
       ) {
         return false;
