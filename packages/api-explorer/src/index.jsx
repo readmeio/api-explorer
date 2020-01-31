@@ -13,6 +13,18 @@ const Doc = require('./Doc');
 
 const getAuth = require('./lib/get-auth');
 
+const supportedHttpMethods = [
+  'connect',
+  'delete',
+  'get',
+  'head',
+  'options',
+  'patch',
+  'post',
+  'put',
+  'trace',
+];
+
 class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -156,9 +168,12 @@ class ApiExplorer extends React.Component {
 
   render() {
     const docs = this.props.docs.filter(doc => {
-      // If the HTTP method is `parameters`, then it represents common parameters and we shouldn't
-      // attempt to render it as a normal API operation.
-      if (typeof doc.api !== 'undefined' && doc.api.method === 'parameters') {
+      // If the HTTP method is something we don't support, then we shouldn't attempt to render it as a normal API
+      // operation.
+      if (
+        typeof doc.api !== 'undefined' &&
+        !supportedHttpMethods.includes(doc.api.method.toLowerCase())
+      ) {
         return false;
       }
 

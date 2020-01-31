@@ -1,9 +1,9 @@
 {
   "name": "@readme/syntax-highlighter",
   "description": "Syntax highlighter used on ReadMe.io",
-  "version": "4.15.0",
+  "version": "4.16.0",
   "dependencies": {
-    "@readme/variable": "^4.15.0",
+    "@readme/variable": "^4.16.0",
     "codemirror": "^5.48.2",
     "react": "^16.4.2"
   },
@@ -24,7 +24,7 @@
   "devDependencies": {
     "@readme/eslint-config": "^1.7.0",
     "eslint": "^6.5.0",
-    "jest": "^24.8.0",
+    "jest": "^25.1.0",
     "jsinspect": "^0.12.6",
     "prettier": "^1.18.2"
   }

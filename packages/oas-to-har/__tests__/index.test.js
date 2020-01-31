@@ -3,6 +3,7 @@ const extensions = require('@readme/oas-extensions');
 const Oas = require('oas');
 
 const oasToHar = require('../src/index');
+const commonParameters = require('./fixtures/common-parameters');
 
 const oas = new Oas();
 
@@ -1108,6 +1109,42 @@ describe('formData values', () => {
         { formData: { a: 'test', b: [1, 2, 3] } },
       ).log.entries[0].request.postData.text,
     ).toBe(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
+  });
+});
+
+describe('common parameters', () => {
+  const operation = {
+    ...commonParameters.paths['/anything/{id}'].post,
+    path: '/anything/{id}',
+    method: 'post',
+  };
+
+  it('should work for common parameters', () => {
+    expect(
+      oasToHar(new Oas(commonParameters), operation, {
+        path: { id: 1234 },
+        header: { 'x-extra-id': 'abcd' },
+        query: { limit: 10 },
+      }).log.entries[0].request,
+    ).toStrictEqual({
+      headers: [{ name: 'x-extra-id', value: 'abcd' }],
+      queryString: [{ name: 'limit', value: '10' }],
+      postData: {},
+      method: 'POST',
+      url: 'http://httpbin.org/anything/1234',
+    });
+  });
+
+  it('should not mutate the original pathOperation that was passed in', () => {
+    const existingCount = operation.parameters.length;
+
+    oasToHar(new Oas(commonParameters), operation, {
+      path: { id: 1234 },
+      header: { 'x-extra-id': 'abcd' },
+      query: { limit: 10 },
+    });
+
+    expect(operation.parameters).toHaveLength(existingCount);
   });
 });
 

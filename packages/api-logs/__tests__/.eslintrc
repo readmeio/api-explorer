@@ -1,17 +1,12 @@
 {
-  "extends": [
-    "@readme/eslint-config/testing"
-  ],
+  "extends": "@readme/eslint-config/testing",
   "rules": {
     "jest/expect-expect": [
-      "warn",
+      "error",
       {
         "assertFunctionNames": [
           "expect",
-
-          // This rule doesn't recognize supertest assertions.
-          // https://github.com/jest-community/eslint-plugin-jest/issues/471
-          "nock"
+          "nock.*.reply"
         ]
       }
     ],

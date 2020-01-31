@@ -34,6 +34,11 @@
   ],
   "paths": {
     "/pet/{petId}": {
+      "servers": [
+        {
+          "url": "http://petstore.swagger.io/v3"
+        }
+      ],
       "parameters": [
         {
           "name": "petId",
