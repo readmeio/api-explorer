@@ -1113,21 +1113,19 @@ describe('formData values', () => {
 });
 
 describe('common parameters', () => {
+  const operation = {
+    ...commonParameters.paths['/anything/{id}'].post,
+    path: '/anything/{id}',
+    method: 'post',
+  };
+
   it('should work for common parameters', () => {
     expect(
-      oasToHar(
-        new Oas(commonParameters),
-        {
-          ...commonParameters.paths['/anything/{id}'].post,
-          path: '/anything/{id}',
-          method: 'post',
-        },
-        {
-          path: { id: 1234 },
-          header: { 'x-extra-id': 'abcd' },
-          query: { limit: 10 },
-        },
-      ).log.entries[0].request,
+      oasToHar(new Oas(commonParameters), operation, {
+        path: { id: 1234 },
+        header: { 'x-extra-id': 'abcd' },
+        query: { limit: 10 },
+      }).log.entries[0].request,
     ).toStrictEqual({
       headers: [{ name: 'x-extra-id', value: 'abcd' }],
       queryString: [{ name: 'limit', value: '10' }],
@@ -1135,6 +1133,18 @@ describe('common parameters', () => {
       method: 'POST',
       url: 'http://httpbin.org/anything/1234',
     });
+  });
+
+  it('should not mutate the original pathOperation that was passed in', () => {
+    const existingCount = operation.parameters.length;
+
+    oasToHar(new Oas(commonParameters), operation, {
+      path: { id: 1234 },
+      header: { 'x-extra-id': 'abcd' },
+      query: { limit: 10 },
+    });
+
+    expect(operation.parameters).toHaveLength(existingCount);
   });
 });
 
