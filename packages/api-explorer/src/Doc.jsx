@@ -21,6 +21,8 @@ const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
+const pkg = require('../package.json');
+
 class Doc extends React.Component {
   constructor(props) {
     super(props);
@@ -70,7 +72,7 @@ class Doc extends React.Component {
       proxyUrl: true,
     });
 
-    return fetchHar(har, 'ReadMe API Explorer').then(async res => {
+    return fetchHar(har, `ReadMe API Explorer/${pkg.version}`).then(async res => {
       this.props.tryItMetrics(har, res);
 
       this.setState({
