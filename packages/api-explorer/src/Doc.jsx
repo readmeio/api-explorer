@@ -70,7 +70,7 @@ class Doc extends React.Component {
       proxyUrl: true,
     });
 
-    return fetchHar(har).then(async res => {
+    return fetchHar(har, 'ReadMe API Explorer').then(async res => {
       this.props.tryItMetrics(har, res);
 
       this.setState({
