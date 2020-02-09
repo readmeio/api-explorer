@@ -29,7 +29,7 @@ describe('tabs', () => {
             servers: [{ url: 'http://example.com' }],
           })
         }
-      />,
+      />
     );
 
     expect(codeSample.find('ul.code-sample-tabs li')).toHaveLength(2);
@@ -46,7 +46,7 @@ describe('tabs', () => {
             [extensions.SAMPLES_LANGUAGES]: ['node'],
           })
         }
-      />,
+      />
     );
 
     expect(codeSample.find('.hub-no-code').text()).toBe('No code samples available');
@@ -77,7 +77,7 @@ describe('code examples', () => {
             servers: [{ url: 'http://example.com' }],
           })
         }
-      />,
+      />
     );
 
     expect(codeSample.find('.code-sample-body')).toHaveLength(1);
@@ -105,7 +105,7 @@ describe('code examples', () => {
             servers: [{ url: 'http://example.com' }],
           })
         }
-      />,
+      />
     );
 
     expect(codeSample.find('.code-sample-body')).toHaveLength(1);
@@ -135,8 +135,8 @@ describe('code examples', () => {
               servers: [{ url: 'http://example.com' }],
             })
           }
-        />,
-      ),
+        />
+      )
     ).not.toThrow(/Cannot read property 'split' of undefined/);
   });
 
@@ -193,7 +193,7 @@ describe('code examples', () => {
             servers: [{ url: 'http://example.com' }],
           })
         }
-      />,
+      />
     );
 
     expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
@@ -226,7 +226,7 @@ describe('code examples', () => {
             servers: [{ url: 'http://example.com' }],
           })
         }
-      />,
+      />
     );
     expect(codeSample.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
   });
@@ -243,7 +243,7 @@ describe('code examples', () => {
             servers: [{ url: 'http://example.com' }],
           })
         }
-      />,
+      />
     );
 
     expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
@@ -282,7 +282,7 @@ describe('code examples', () => {
             servers: [{ url: 'http://example.com' }],
           })
         }
-      />,
+      />
     );
 
     expect(codeSample.find('.code-sample-tabs a.selected')).toHaveLength(1);
@@ -304,7 +304,7 @@ describe('updating language', () => {
           })
         }
         setLanguage={setLanguage}
-      />,
+      />
     );
 
     codeSample.find('.hub-lang-switch-node').simulate('click', { preventDefault: () => {} });

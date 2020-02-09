@@ -107,7 +107,7 @@ PathUrl.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-    }),
+    })
   ),
   loading: PropTypes.bool.isRequired,
   needsAuth: PropTypes.bool,

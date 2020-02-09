@@ -36,15 +36,7 @@ function getCustomType(schema) {
       if (schema.format === 'binary') return 'file';
       if (schema.format === 'dateTime') return 'date-time';
 
-      const supportedStringFormats = [
-        'date',
-        'date-time',
-        'json',
-        'password',
-        'timestamp',
-        'uri',
-        'url',
-      ];
+      const supportedStringFormats = ['date', 'date-time', 'json', 'password', 'timestamp', 'uri', 'url'];
 
       if (supportedStringFormats.includes(schema.format)) {
         return schema.format;
@@ -52,10 +44,7 @@ function getCustomType(schema) {
     }
   }
 
-  if (
-    isNumType(schema, 'integer', /int8|int16|int32|int64/) ||
-    isNumType(schema, 'number', /float|double/)
-  ) {
+  if (isNumType(schema, 'integer', /int8|int16|int32|int64/) || isNumType(schema, 'number', /float|double/)) {
     return schema.format;
   }
 
@@ -71,26 +60,10 @@ function getTypeLabel(schema) {
 }
 
 function CustomTemplate(props) {
-  const {
-    id,
-    classNames,
-    label,
-    help,
-    required,
-    description,
-    errors,
-    children,
-    schema,
-    onKeyChange,
-  } = props;
+  const { id, classNames, label, help, required, description, errors, children, schema, onKeyChange } = props;
 
   const EditLabel = (
-    <input
-      defaultValue={label}
-      id={`${id}-key`}
-      onBlur={event => onKeyChange(event.target.value)}
-      type="text"
-    />
+    <input defaultValue={label} id={`${id}-key`} onBlur={event => onKeyChange(event.target.value)} type="text" />
   );
 
   return (
@@ -111,8 +84,7 @@ function CustomTemplate(props) {
 }
 
 function SchemaField(props) {
-  if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format))
-    props.schema.format = undefined;
+  if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format)) props.schema.format = undefined;
 
   // If there's no name on this field, then it's a lone schema with no label or children and as such
   // we shouldn't try to render it with the custom template.
@@ -132,12 +104,7 @@ function SchemaField(props) {
 
   const customType = getCustomType(props.schema);
   if (customType) {
-    return (
-      <BaseSchemaField
-        {...props}
-        uiSchema={{ ...props.uiSchema, classNames: `field-${customType}` }}
-      />
-    );
+    return <BaseSchemaField {...props} uiSchema={{ ...props.uiSchema, classNames: `field-${customType}` }} />;
   }
 
   if (props.schema.type === 'boolean') {

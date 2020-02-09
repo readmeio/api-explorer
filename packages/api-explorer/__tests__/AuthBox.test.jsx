@@ -20,9 +20,7 @@ const props = {
 };
 
 test('should not display if no auth', () => {
-  expect(
-    shallow(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html(),
-  ).toBeNull();
+  expect(shallow(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBeNull();
 });
 
 test('should display a single heading heading for single auth type', () => {
@@ -41,10 +39,7 @@ test.skip('should display a dropdown for when multiple oauths are present', () =
   const authBox = shallow(<AuthBox {...props} path="/multiple-oauths" />);
 
   expect(authBox.find('select option')).toHaveLength(2);
-  expect(authBox.find('select option').map(option => option.text())).toStrictEqual([
-    'oauth',
-    'oauthDiff',
-  ]);
+  expect(authBox.find('select option').map(option => option.text())).toStrictEqual(['oauth', 'oauthDiff']);
 });
 
 test('should mask password inputs for basic http auth', () => {

@@ -19,9 +19,7 @@ describe('single variable', () => {
   });
 
   it('should render default if value not set', () => {
-    const variable = shallow(
-      <Variable {...props} defaults={[{ name: 'apiKey', default: 'default' }]} user={{}} />,
-    );
+    const variable = shallow(<Variable {...props} defaults={[{ name: 'apiKey', default: 'default' }]} user={{}} />);
 
     expect(variable.text()).toBe('default');
   });
@@ -34,7 +32,7 @@ describe('single variable', () => {
 
   it('should render auth dropdown if default and oauth enabled', () => {
     const variable = shallow(
-      <Variable {...props} defaults={[{ name: 'apiKey', default: 'default' }]} oauth user={{}} />,
+      <Variable {...props} defaults={[{ name: 'apiKey', default: 'default' }]} oauth user={{}} />
     );
     variable.find('.variable-underline').simulate('click');
 
@@ -82,10 +80,7 @@ describe('multiple variables', () => {
 
     variable.find('.variable-underline').simulate('click');
 
-    expect(variable.find('select option').map(el => el.text())).toStrictEqual([
-      'project1',
-      'project2',
-    ]);
+    expect(variable.find('select option').map(el => el.text())).toStrictEqual(['project1', 'project2']);
   });
 
   it('should select value when clicked', () => {
@@ -100,13 +95,9 @@ describe('multiple variables', () => {
         changeSelected={changeSelected}
         selected="project1"
         user={{
-          keys: [
-            { name: 'project1', apiKey: '123' },
-            { name: 'project2', apiKey: '456' },
-            { name: 'project3' },
-          ],
+          keys: [{ name: 'project1', apiKey: '123' }, { name: 'project2', apiKey: '456' }, { name: 'project3' }],
         }}
-      />,
+      />
     );
 
     variable.find('.variable-underline').simulate('click');

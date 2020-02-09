@@ -179,11 +179,7 @@ class ResponseExample extends React.Component {
       <div className="hub-reference-results-examples code-sample">
         {examples && examples.length > 0 && hasExamples && (
           <span>
-            <ExampleTabs
-              examples={examples}
-              selected={selectedTab}
-              setExampleTab={this.setExampleTab}
-            />
+            <ExampleTabs examples={examples} selected={selectedTab} setExampleTab={this.setExampleTab} />
 
             <div className="code-sample-body">
               {examples.map((ex, index) => {
@@ -218,27 +214,17 @@ class ResponseExample extends React.Component {
                       className={`tomorrow-night tabber-body tabber-body-${index}`}
                       style={{ display: index === selectedTab ? 'block' : '' }}
                     >
-                      {!example.multipleExamples &&
-                        this.showMediaTypes(ex, responseMediaType, true)}
+                      {!example.multipleExamples && this.showMediaTypes(ex, responseMediaType, true)}
 
                       {example.multipleExamples &&
-                        this.showExamples(
-                          example.multipleExamples,
-                          mediaTypes,
-                          ex,
-                          responseMediaType,
-                        )}
+                        this.showExamples(example.multipleExamples, mediaTypes, ex, responseMediaType)}
 
                       {isJson && !example.multipleExamples ? (
-                        <div className="example example_json">
-                          {transformExampleIntoReactJson(example)}
-                        </div>
+                        <div className="example example_json">{transformExampleIntoReactJson(example)}</div>
                       ) : (
                         // json + multiple examples is already handled in `showExamples`.
                         <div className="example">
-                          {isJson && example.multipleExamples
-                            ? null
-                            : getHighlightedExample(example)}
+                          {isJson && example.multipleExamples ? null : getHighlightedExample(example)}
                         </div>
                       )}
                     </pre>
@@ -251,9 +237,7 @@ class ResponseExample extends React.Component {
 
         {(examples.length === 0 || (!hasExamples && result === null)) && (
           <div className="hub-no-code">
-            {oas[extensions.EXPLORER_ENABLED]
-              ? 'Try the API to see Results'
-              : 'No response examples available'}
+            {oas[extensions.EXPLORER_ENABLED] ? 'Try the API to see Results' : 'No response examples available'}
           </div>
         )}
       </div>

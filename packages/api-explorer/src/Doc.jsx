@@ -159,9 +159,7 @@ class Doc extends React.Component {
                   <div className="hub-reference-results tabber-parent">{this.renderResponse()}</div>
                 </div>
               )}
-              <div className="hub-reference-right switcher">
-                {this.renderResponseSchema('dark')}
-              </div>
+              <div className="hub-reference-right switcher">{this.renderResponseSchema('dark')}</div>
               <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
             </div>
           </React.Fragment>
@@ -217,9 +215,7 @@ class Doc extends React.Component {
 
     return (
       operation &&
-      operation.responses && (
-        <ResponseSchema oas={this.oas} operation={this.getOperation()} theme={theme} />
-      )
+      operation.responses && <ResponseSchema oas={this.oas} operation={this.getOperation()} theme={theme} />
     );
   }
 
@@ -228,9 +224,7 @@ class Doc extends React.Component {
 
     return (
       <EndpointErrorBoundary>
-        {this.props.appearance.referenceLayout === 'column'
-          ? this.columnTheme(doc)
-          : this.mainTheme(doc)}
+        {this.props.appearance.referenceLayout === 'column' ? this.columnTheme(doc) : this.mainTheme(doc)}
       </EndpointErrorBoundary>
     );
   }
@@ -318,10 +312,7 @@ class Doc extends React.Component {
           <div className="hub-reference-left">
             <header>
               {this.props.suggestedEdits && (
-                <a
-                  className="hub-reference-edit pull-right"
-                  href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}
-                >
+                <a className="hub-reference-edit pull-right" href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}>
                   <i className="icon icon-register" />
                   Suggest Edits
                 </a>
@@ -339,11 +330,7 @@ class Doc extends React.Component {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
         }
-        <input
-          id={`swagger-${extensions.SEND_DEFAULTS}`}
-          type="hidden"
-          value={oas[extensions.SEND_DEFAULTS]}
-        />
+        <input id={`swagger-${extensions.SEND_DEFAULTS}`} type="hidden" value={oas[extensions.SEND_DEFAULTS]} />
       </div>
     );
   }
@@ -363,7 +350,7 @@ Doc.propTypes = {
           PropTypes.shape({
             code: PropTypes.string.isRequired,
             language: PropTypes.string.isRequired,
-          }),
+          })
         ),
       }),
       method: PropTypes.string.isRequired,
@@ -388,7 +375,7 @@ Doc.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-    }),
+    })
   ),
   language: PropTypes.string.isRequired,
   lazy: PropTypes.bool,

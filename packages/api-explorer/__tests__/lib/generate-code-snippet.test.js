@@ -38,23 +38,13 @@ test('should generate a HTML snippet for each lang', () => {
 test('should pass through values to code snippet', () => {
   const { snippet } = generateCodeSnippet(oas, operation, values, {}, 'node');
 
-  expect(shallow(snippet).text()).toStrictEqual(
-    expect.stringMatching('https://example.com/path/123'),
-  );
+  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('should not contain proxy url', () => {
-  const { snippet } = generateCodeSnippet(
-    new Oas({ [extensions.PROXY_ENABLED]: true }),
-    operation,
-    values,
-    {},
-    'node',
-  );
+  const { snippet } = generateCodeSnippet(new Oas({ [extensions.PROXY_ENABLED]: true }), operation, values, {}, 'node');
 
-  expect(shallow(snippet).text()).toStrictEqual(
-    expect.stringMatching('https://example.com/path/123'),
-  );
+  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('javascript should not contain `withCredentials`', () => {

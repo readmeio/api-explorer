@@ -40,10 +40,7 @@ function getMultipleExamples(response, lang) {
   return Object.keys(examples).map(key => {
     return {
       label: key,
-      code:
-        typeof examples[key] === 'object'
-          ? JSON.stringify(examples[key], undefined, 2)
-          : examples[key],
+      code: typeof examples[key] === 'object' ? JSON.stringify(examples[key], undefined, 2) : examples[key],
     };
   });
 }
