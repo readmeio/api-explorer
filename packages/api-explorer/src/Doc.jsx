@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const fetchHar = require('fetch-har');
+const { constructRequest } = require('fetch-har');
 const extensions = require('@readme/oas-extensions');
 const markdown = require('@readme/markdown');
 const Waypoint = require('react-waypoint');
@@ -72,7 +72,16 @@ class Doc extends React.Component {
       proxyUrl: true,
     });
 
-    return fetchHar(har, `ReadMe API Explorer/${pkg.version}`).then(async res => {
+    const request = constructRequest(har);
+
+    // There's a bug in Firefox and Chrome where they don't respect setting a custom User-Agent on fetch() requests,
+    // so instead to let API metrics know that this request came from the Explorer, we're setting a vendor header
+    // instead.
+    //
+    // https://stackoverflow.com/questions/42815087/sending-a-custom-user-agent-string-along-with-my-headers-fetch
+    request.headers.append('x-readme-api-explorer', pkg.version);
+
+    return fetch(request).then(async res => {
       this.props.tryItMetrics(har, res);
 
       this.setState({
