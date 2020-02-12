@@ -17,9 +17,7 @@ module.exports = merge(common, {
         // Simulate some loading time
         setTimeout(() => {
           // res.json([]); // no data state
-          res.json(
-            [...new Array(5).keys()].map(() => ({ ...log, _id: Math.random().toString(5) })),
-          );
+          res.json([...new Array(5).keys()].map(() => ({ ...log, _id: Math.random().toString(5) })));
         }, 500);
       });
     },

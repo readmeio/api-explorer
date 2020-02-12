@@ -14,8 +14,8 @@ describe('configure-security', () => {
           components: { securitySchemes: { test: security } },
         },
         {},
-        'test',
-      ),
+        'test'
+      )
     ).toBeUndefined();
   });
 
@@ -28,8 +28,8 @@ describe('configure-security', () => {
           components: { securitySchemes: { test: security } },
         },
         {},
-        'test',
-      ),
+        'test'
+      )
     ).toBeUndefined();
   });
 
@@ -44,8 +44,8 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           { test: { user, pass } },
-          'test',
-        ),
+          'test'
+        )
       ).toStrictEqual({
         type: 'headers',
         value: {
@@ -62,8 +62,8 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           { test: { user: '', pass: '' } },
-          'test',
-        ),
+          'test'
+        )
       ).toBe(false);
     });
 
@@ -76,8 +76,8 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
           },
           { test: { user, pass: '' } },
-          'test',
-        ),
+          'test'
+        )
       ).toStrictEqual({
         type: 'headers',
         value: {
@@ -98,8 +98,8 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'bearer' } } },
           },
           { test: apiKey },
-          'test',
-        ),
+          'test'
+        )
       ).toStrictEqual({
         type: 'headers',
         value: {
@@ -120,8 +120,8 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'http', scheme: 'bearer' } } },
           },
           values,
-          'test',
-        ),
+          'test'
+        )
       ).toBe(false);
     });
   });
@@ -136,8 +136,8 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'oauth2' } } },
           },
           { test: apiKey },
-          'test',
-        ),
+          'test'
+        )
       ).toStrictEqual({
         type: 'headers',
         value: {
@@ -154,8 +154,8 @@ describe('configure-security', () => {
             components: { securitySchemes: { test: { type: 'oauth2' } } },
           },
           { test: '' },
-          'test',
-        ),
+          'test'
+        )
       ).toBe(false);
     });
   });
@@ -172,8 +172,8 @@ describe('configure-security', () => {
               components: { securitySchemes: { test: security } },
             },
             values,
-            'test',
-          ),
+            'test'
+          )
         ).toStrictEqual({
           type: 'queryString',
           value: {
@@ -195,8 +195,8 @@ describe('configure-security', () => {
               components: { securitySchemes: { test: security } },
             },
             values,
-            'test',
-          ),
+            'test'
+          )
         ).toStrictEqual({
           type: 'headers',
           value: {
@@ -222,8 +222,8 @@ describe('configure-security', () => {
                 components: { securitySchemes: { test: security } },
               },
               values,
-              'test',
-            ),
+              'test'
+            )
           ).toStrictEqual({
             type: 'headers',
             value: {
@@ -248,8 +248,8 @@ describe('configure-security', () => {
                 components: { securitySchemes: { test: security } },
               },
               values,
-              'test',
-            ),
+              'test'
+            )
           ).toStrictEqual({
             type: 'headers',
             value: {
@@ -274,8 +274,8 @@ describe('configure-security', () => {
                 components: { securitySchemes: { test: security } },
               },
               values,
-              'test',
-            ),
+              'test'
+            )
           ).toStrictEqual({
             type: 'headers',
             value: {

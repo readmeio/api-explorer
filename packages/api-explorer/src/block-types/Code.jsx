@@ -42,9 +42,7 @@ class BlockCode extends React.Component {
                   >
                     {code.status ? (
                       <span>
-                        <span
-                          className={`status-icon status-icon-${statusCodes(code.status)[2]}`}
-                        />
+                        <span className={`status-icon status-icon-${statusCodes(code.status)[2]}`} />
                         {!statusCodes(code.status)[3] && statusCodes(code.status)[0]}
                         <em>{code.name ? code.name : statusCodes(code.status)[1]}</em>
                       </span>
@@ -61,14 +59,7 @@ class BlockCode extends React.Component {
 
           <div className="block-code-code">
             {codes.map((code, i) => {
-              return (
-                <CodeElement
-                  key={i}
-                  activeTab={i === this.state.activeTab}
-                  code={code}
-                  dark={dark}
-                />
-              );
+              return <CodeElement key={i} activeTab={i === this.state.activeTab} code={code} dark={dark} />;
             })}
           </div>
         </div>

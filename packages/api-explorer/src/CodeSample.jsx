@@ -67,10 +67,7 @@ class CodeSample extends React.Component {
             return (
               <div key={key} style={{ display: selected ? 'block' : 'none' }}>
                 <CopyCode key={`copy-${key}`} code={example.code} />
-                <pre
-                  className="tomorrow-night tabber-body"
-                  style={{ display: selected ? 'block' : '' }}
-                >
+                <pre className="tomorrow-night tabber-body" style={{ display: selected ? 'block' : '' }}>
                   {syntaxHighlighter(example.code, example.language, { dark: true })}
                 </pre>
               </div>
@@ -132,7 +129,7 @@ CodeSample.propTypes = {
     PropTypes.shape({
       code: PropTypes.string.isRequired,
       language: PropTypes.string.isRequired,
-    }),
+    })
   ),
   formData: PropTypes.shape({}).isRequired,
   language: PropTypes.string.isRequired,

@@ -6,9 +6,7 @@ const getAuth = require('../../src/lib/get-auth');
 const oas = new Oas(multipleSecurities);
 
 test('should fetch all auths from the OAS files', () => {
-  expect(
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas }),
-  ).toStrictEqual({
+  expect(getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas })).toStrictEqual({
     oauthScheme: 'oauth',
     oauthDiff: '',
     apiKeyScheme: 'apikey',
@@ -37,17 +35,11 @@ test('should not error if oas.components is not set', () => {
   }).not.toThrow();
 
   expect(() => {
-    getAuth(
-      { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
-      { 'api-setting': { components: {} } },
-    );
+    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': { components: {} } });
   }).not.toThrow();
 
   expect(() => {
-    getAuth(
-      { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
-      { 'api-setting': { components: { requestBodies: {} } } },
-    );
+    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': { components: { requestBodies: {} } } });
   }).not.toThrow();
 });
 
@@ -102,19 +94,11 @@ describe('#getSingle', () => {
   });
 
   it('should return item by scheme name if no apiKey/user/pass', () => {
-    expect(getSingle(topLevelSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe(
-      'scheme-key',
-    );
-    expect(
-      getSingle(topLevelSchemeUser, { type: 'http', scheme: 'bearer', _key: 'schemeName' }),
-    ).toBe('scheme-key');
+    expect(getSingle(topLevelSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key');
+    expect(getSingle(topLevelSchemeUser, { type: 'http', scheme: 'bearer', _key: 'schemeName' })).toBe('scheme-key');
     expect(getSingle(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' })).toBe('scheme-key-1');
-    expect(getSingle(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' }, 'app-2')).toBe(
-      'scheme-key-2',
-    );
-    expect(
-      getSingle(keysSchemeUser, { type: 'http', scheme: 'basic', _key: 'schemeName' }, 'app-3'),
-    ).toStrictEqual({
+    expect(getSingle(keysSchemeUser, { type: 'oauth2', _key: 'schemeName' }, 'app-2')).toBe('scheme-key-2');
+    expect(getSingle(keysSchemeUser, { type: 'http', scheme: 'basic', _key: 'schemeName' }, 'app-3')).toStrictEqual({
       user: 'user',
       pass: 'pass',
     });

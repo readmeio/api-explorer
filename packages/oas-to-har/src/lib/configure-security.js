@@ -18,9 +18,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
 
       return harValue('headers', {
         name: 'Authorization',
-        value: `Basic ${Buffer.from(`${values[scheme].user}:${values[scheme].pass}`).toString(
-          'base64',
-        )}`,
+        value: `Basic ${Buffer.from(`${values[scheme].user}:${values[scheme].pass}`).toString('base64')}`,
       });
     }
 
@@ -49,9 +47,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
 
       if (security['x-bearer-format']) {
         // Uppercase: token -> Token
-        const bearerFormat =
-          security['x-bearer-format'].charAt(0).toUpperCase() +
-          security['x-bearer-format'].slice(1);
+        const bearerFormat = security['x-bearer-format'].charAt(0).toUpperCase() + security['x-bearer-format'].slice(1);
         header.name = security.name;
         header.value = `${bearerFormat} ${header.value}`;
       }

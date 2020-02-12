@@ -69,7 +69,7 @@ function renderParams(schema, customProps) {
           })
         }
       />
-    </div>,
+    </div>
   );
 }
 
@@ -79,10 +79,10 @@ describe('form id attribute', () => {
       mount(
         <div>
           <Params {...props} />
-        </div>,
+        </div>
       )
         .html()
-        .match(new RegExp(`form-${operation.operationId}`, 'g')),
+        .match(new RegExp(`form-${operation.operationId}`, 'g'))
     ).toHaveLength(1);
   });
 });
@@ -91,7 +91,7 @@ test('should use custom description component', () => {
   const params = mount(
     <div>
       <Params {...props} />
-    </div>,
+    </div>
   );
   expect(params.find(Description)).toHaveLength(1);
 });
@@ -100,7 +100,7 @@ test('boolean should render as <select>', () => {
   const params = mount(
     <div>
       <Params {...props} operation={booleanOas.operation('/boolean-with-default', 'get')} />
-    </div>,
+    </div>
   );
   expect(params.find('input[type="checkbox"]')).toHaveLength(0);
 
@@ -115,7 +115,7 @@ test('boolean should render empty item if default is undefined', () => {
   const params = mount(
     <div>
       <Params {...props} operation={booleanOas.operation('/boolean-without-default', 'get')} />
-    </div>,
+    </div>
   );
   expect(params.find('input[type="checkbox"]')).toHaveLength(0);
 
@@ -131,14 +131,14 @@ test('should not throw on unknown string format', () => {
     mount(
       <div>
         <Params {...props} operation={stringOas.operation('/format-unknown', 'get')} />
-      </div>,
+      </div>
     );
   }).not.toThrow(/No widget "some-unknown-format" for type "string"/);
 
   const params = mount(
     <div>
       <Params {...props} operation={stringOas.operation('/format-unknown', 'get')} />
-    </div>,
+    </div>
   );
 
   expect(params.find('input')).toHaveLength(1);
@@ -168,7 +168,7 @@ describe('schema format handling', () => {
       const params = mount(
         <div>
           <Params {...props} operation={jsonOperation} />
-        </div>,
+        </div>
       );
 
       expect(params.find('textarea')).toHaveLength(1);
@@ -180,7 +180,7 @@ describe('schema format handling', () => {
       const params = mount(
         <div>
           <Params {...props} operation={oas.operation('/pet/{petId}/uploadImage', 'post')} />
-        </div>,
+        </div>
       );
 
       expect(params.find('input[type="file"]')).toHaveLength(1);
@@ -198,7 +198,7 @@ describe('schema format handling', () => {
       const params = mount(
         <div>
           <Params {...props} operation={stringOperation} />
-        </div>,
+        </div>
       );
 
       expect(params.find(`input[type="${inputType}"]`)).toHaveLength(1);
@@ -225,9 +225,7 @@ describe('schema format handling', () => {
 
       expect(params.find('input[type="number"]')).toHaveLength(1);
       expect(params.find('span.label-type').text()).toBe(format);
-      expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`)).toHaveLength(
-        1,
-      );
+      expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`)).toHaveLength(1);
     });
 
     it('should default integer to int32 if missing format', () => {
@@ -260,7 +258,7 @@ describe('x-explorer-enabled', () => {
         {...props}
         oas={new Oas(oasWithExplorerDisabled)}
         operation={oas.operation('/pet', 'post')}
-      />,
+      />
     );
 
     expect(elem.find('.field-array .array-item-add')).toHaveLength(2);
@@ -277,15 +275,13 @@ describe('x-explorer-enabled', () => {
       elem
         .find('input')
         .at(0)
-        .props().type,
+        .props().type
     ).toBe('hidden');
   });
 
   it('should not render any <input>', () => {
     expect(
-      mount(<ParamsWithExplorerDisabled {...props} oas={new Oas(oasWithExplorerDisabled)} />).find(
-        'input',
-      ),
+      mount(<ParamsWithExplorerDisabled {...props} oas={new Oas(oasWithExplorerDisabled)} />).find('input')
     ).toHaveLength(0);
   });
 
@@ -296,20 +292,16 @@ describe('x-explorer-enabled', () => {
           {...props}
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet', 'post')}
-        />,
-      ).find('select'),
+        />
+      ).find('select')
     ).toHaveLength(0);
   });
 
   it('should not render any <textarea>', () => {
     expect(
       mount(
-        <ParamsWithExplorerDisabled
-          {...props}
-          oas={new Oas(oasWithExplorerDisabled)}
-          operation={jsonOperation}
-        />,
-      ).find('textarea'),
+        <ParamsWithExplorerDisabled {...props} oas={new Oas(oasWithExplorerDisabled)} operation={jsonOperation} />
+      ).find('textarea')
     ).toHaveLength(0);
   });
 
@@ -320,8 +312,8 @@ describe('x-explorer-enabled', () => {
           {...props}
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet/{petId}/uploadImage', 'post')}
-        />,
-      ).find('input[type="file"]'),
+        />
+      ).find('input[type="file"]')
     ).toHaveLength(0);
   });
 
@@ -332,8 +324,8 @@ describe('x-explorer-enabled', () => {
           {...props}
           oas={new Oas(oasWithExplorerDisabled)}
           operation={oas.operation('/pet/{petId}', 'post')}
-        />,
-      ).find('input[type="file"]'),
+        />
+      ).find('input[type="file"]')
     ).toHaveLength(0);
   });
 });
@@ -344,8 +336,8 @@ describe('readOnly', () => {
       mount(
         <div>
           <Params {...props} operation={oas.operation('/pet', 'post')} />
-        </div>,
-      ).find('input#addPet_id[type="hidden"]'),
+        </div>
+      ).find('input#addPet_id[type="hidden"]')
     ).toHaveLength(1);
   });
 });
@@ -369,8 +361,8 @@ describe('should not contains error message when property key missing in object 
       mount(
         <div>
           <Params {...props} operation={oas.operation('/pet/{petId}', 'post')} />
-        </div>,
-      ).html(),
+        </div>
+      ).html()
     ).not.toContain('Invalid empty object object field configuration');
   });
 });

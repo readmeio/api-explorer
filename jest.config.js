@@ -12,12 +12,7 @@ module.exports = {
   },
   setupFiles: [path.join(__dirname, '/lib/enzyme')],
   coveragePathIgnorePatterns: ['<rootDir>/webpack.*.js', '<rootDir>/src/form-components', 'dist/'],
-  collectCoverageFrom: [
-    '**/*.{js,jsx}',
-    '!**/node_modules/**',
-    '!jest.config.js',
-    '!**/coverage/lcov-report/**',
-  ],
+  collectCoverageFrom: ['**/*.{js,jsx}', '!**/node_modules/**', '!jest.config.js', '!**/coverage/lcov-report/**'],
   transform: {
     '^.+\\.jsx?$': path.join(__dirname, '/lib/babel-jest'),
     '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css',
