@@ -2,10 +2,8 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('react-jsonschema-form').default;
 
-const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget')
-  .default;
-const PasswordWidget = require('react-jsonschema-form/lib/components/widgets/PasswordWidget')
-  .default;
+const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget').default;
+const PasswordWidget = require('react-jsonschema-form/lib/components/widgets/PasswordWidget').default;
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 

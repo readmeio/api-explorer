@@ -12,7 +12,7 @@ const Parameters = ({ block, flags }) => {
       thCells.push(
         <div key={c} className="th">
           {block.data.data[`h-${c}`]}
-        </div>,
+        </div>
       );
     }
     return thCells;
@@ -25,7 +25,7 @@ const Parameters = ({ block, flags }) => {
       tdCells.push(
         <div key={c} className="td">
           {markdown(block.data.data[`${r}-${c}`] || '', flags)}
-        </div>,
+        </div>
       );
     }
     return tdCells;
@@ -38,7 +38,7 @@ const Parameters = ({ block, flags }) => {
       trCells.push(
         <div key={r} className="tr">
           {td(r)}
-        </div>,
+        </div>
       );
     }
     return trCells;

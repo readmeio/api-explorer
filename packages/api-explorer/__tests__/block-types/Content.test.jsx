@@ -7,11 +7,9 @@ test('should output one of each block type', () => {
   const body = fs.readFileSync(`${__dirname}/blocks.txt`, 'utf8');
   const content = mount(<Content body={body} isThreeColumn />);
 
-  ['textarea', 'html', 'embed', 'api-header', 'code', 'callout', 'parameters', 'image'].forEach(
-    type => {
-      expect(content.find(`.magic-block-${type}`)).toHaveLength(1);
-    },
-  );
+  ['textarea', 'html', 'embed', 'api-header', 'code', 'callout', 'parameters', 'image'].forEach(type => {
+    expect(content.find(`.magic-block-${type}`)).toHaveLength(1);
+  });
 });
 
 const body = `
@@ -56,7 +54,7 @@ test('should make code not-dark if it is in the left column', () => {
         [/block]
       `}
       isThreeColumn="left"
-    />,
+    />
   );
 
   expect(content.html()).toContain('cm-s-neo');
@@ -79,7 +77,7 @@ test('should make code `dark` if it is in right column', () => {
         [/block]
       `}
       isThreeColumn="right"
-    />,
+    />
   );
 
   expect(content.html()).toContain('cm-s-tomorrow-night');

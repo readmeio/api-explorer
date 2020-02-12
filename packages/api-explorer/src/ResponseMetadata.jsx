@@ -18,10 +18,7 @@ Meta.propTypes = {
 
 function ResponseMetadata({ result }) {
   return (
-    <div
-      className="hub-reference-results-meta tabber-body-metadata tabber-body"
-      style={{ display: 'block' }}
-    >
+    <div className="hub-reference-results-meta tabber-body-metadata tabber-body" style={{ display: 'block' }}>
       <Meta label="Method">
         <div>{result.method.toString()}</div>
       </Meta>

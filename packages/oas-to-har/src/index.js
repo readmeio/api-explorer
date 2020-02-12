@@ -72,7 +72,7 @@ module.exports = (
   pathOperation = { path: '', method: '' },
   values = {},
   auth = {},
-  opts = { proxyUrl: false },
+  opts = { proxyUrl: false }
 ) => {
   const formData = { ...defaultValues, ...values };
   const har = {
@@ -173,11 +173,7 @@ module.exports = (
   }
 
   // Do we have an `Accept` header set up in the form, but it hasn't been added yet?
-  if (
-    formData.header &&
-    formData.header.Accept &&
-    har.headers.find(hdr => hdr.name === 'Accept') === undefined
-  ) {
+  if (formData.header && formData.header.Accept && har.headers.find(hdr => hdr.name === 'Accept') === undefined) {
     har.headers.push({
       name: 'Accept',
       value: String(formData.header.Accept),
@@ -188,9 +184,7 @@ module.exports = (
 
   function stringify(json) {
     // Default to JSON.stringify
-    return JSON.stringify(
-      removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json),
-    );
+    return JSON.stringify(removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json));
   }
 
   if (schema.schema && Object.keys(schema.schema).length) {
@@ -211,7 +205,7 @@ module.exports = (
         // because we need to manually JSON.parse them before submit, otherwise
         // they'll be escaped instead of actual objects
         const jsonTypes = Object.keys(schema.schema.properties).filter(
-          key => schema.schema.properties[key].format === 'json',
+          key => schema.schema.properties[key].format === 'json'
         );
 
         if (jsonTypes.length) {

@@ -42,9 +42,7 @@ describe('icons', () => {
           type,
         },
       };
-      expect(mount(<CallOut block={block} />).find(`.noTitleIcon .fa-${className}`)).toHaveLength(
-        1,
-      );
+      expect(mount(<CallOut block={block} />).find(`.noTitleIcon .fa-${className}`)).toHaveLength(1);
     });
   });
 });
@@ -72,7 +70,7 @@ test('should render body', () => {
     callout
       .render()
       .find('.callout-body')
-      .html(),
+      .html()
   ).toMatchSnapshot();
 });
 
@@ -89,6 +87,6 @@ test('should render markdown in body', () => {
     callout
       .render()
       .find('.callout-body')
-      .html(),
+      .html()
   ).toMatchSnapshot();
 });

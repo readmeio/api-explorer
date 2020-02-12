@@ -54,7 +54,7 @@ test('should show different component tabs based on state', () => {
         method: 'post',
         responseHeaders: [],
       }}
-    />,
+    />
   );
   expect(doc.find('ResponseBody')).toHaveLength(1);
   doc.instance().setTab('metadata');

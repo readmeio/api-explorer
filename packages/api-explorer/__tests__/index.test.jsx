@@ -64,7 +64,7 @@ describe('selected language', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-      />,
+      />
     );
 
     expect(explorer.state('language')).toBe('curl');
@@ -110,7 +110,7 @@ describe('selected language', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-      />,
+      />
     );
 
     expect(explorer.state('language')).toBe('curl');
@@ -136,7 +136,7 @@ describe('oas', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-      />,
+      />
     );
 
     expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
@@ -151,7 +151,7 @@ describe('oas', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-      />,
+      />
     );
 
     expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
@@ -165,7 +165,7 @@ describe('oas', () => {
         oasFiles={{
           'api-setting': oas,
         }}
-      />,
+      />
     );
 
     expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
@@ -174,7 +174,7 @@ describe('oas', () => {
   // Of course... `typeof null === 'object'`
   it('should not error if `doc.api.apiSetting` is null', () => {
     const explorer = shallow(
-      <ApiExplorer {...props} docs={[{ ...baseDoc, api: { method: 'get', apiSetting: null } }]} />,
+      <ApiExplorer {...props} docs={[{ ...baseDoc, api: { method: 'get', apiSetting: null } }]} />
     );
 
     expect(explorer.find('Doc').get(0).props.oas).toStrictEqual({});
@@ -199,9 +199,7 @@ describe('auth', () => {
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
     const apiKey = '123456';
 
-    const explorer = shallow(
-      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />,
-    );
+    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />);
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '123456' });
   });
@@ -210,10 +208,7 @@ describe('auth', () => {
     const apiKey = '123456';
 
     const explorer = shallow(
-      <ApiExplorer
-        {...props}
-        variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] } }}
-      />,
+      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] } }} />
     );
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '' });

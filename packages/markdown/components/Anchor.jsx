@@ -73,8 +73,6 @@ module.exports = sanitizeSchema => {
 
   // eslint-disable-next-line react/display-name
   return props => (
-    <BaseUrlContext.Consumer>
-      {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
-    </BaseUrlContext.Consumer>
+    <BaseUrlContext.Consumer>{baseUrl => <Anchor baseUrl={baseUrl} {...props} />}</BaseUrlContext.Consumer>
   );
 };

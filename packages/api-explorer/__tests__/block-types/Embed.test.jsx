@@ -17,9 +17,7 @@ describe('Embed', () => {
       sidebar: undefined,
     };
     const embedInput = shallow(<Embed block={block} />);
-    expect(embedInput.find('iframe').prop('src')).toBe(
-      'http://jsbin.com/fewilipowi/edit?js,output',
-    );
+    expect(embedInput.find('iframe').prop('src')).toBe('http://jsbin.com/fewilipowi/edit?js,output');
     // expect(embedInput.find('iframe').text()).toBe('');
   });
 
@@ -59,7 +57,7 @@ describe('Embed', () => {
     };
     const embedInput = shallow(<Embed block={block} />);
     expect(embedInput.find('strong').html()).toBe(
-      '<strong><img alt="" class="favicon" src="http://static.jsbin.com/images/favicon.png"/><a href="http://jsbin.com/fewilipowi/edit?js,output" target="_new">http://jsbin.com/fewilipowi/edit?js,output</a></strong>',
+      '<strong><img alt="" class="favicon" src="http://static.jsbin.com/images/favicon.png"/><a href="http://jsbin.com/fewilipowi/edit?js,output" target="_new">http://jsbin.com/fewilipowi/edit?js,output</a></strong>'
     );
   });
 });

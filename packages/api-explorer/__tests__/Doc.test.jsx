@@ -59,7 +59,7 @@ test('should render straight away if `appearance.splitReferenceDocs` is true', (
       appearance={{
         splitReferenceDocs: true,
       }}
-    />,
+    />
   );
 
   expect(doc.find('Waypoint')).toHaveLength(0);
@@ -89,7 +89,7 @@ test('should render a manual endpoint', () => {
       appearance={{
         splitReferenceDocs: true,
       }}
-    />,
+    />
   );
 
   assertDocElements(doc, props.doc);
@@ -108,7 +108,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
-    />,
+    />
   );
   expect(docComponent.find('Waypoint')).toHaveLength(1);
   docComponent.setState({ showEndpoint: true });
@@ -131,7 +131,7 @@ test('should still display `Content` with column-style layout', () => {
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
-    />,
+    />
   );
   docComponent.setState({ showEndpoint: true });
 
@@ -204,7 +204,7 @@ describe('onSubmit', () => {
       return Promise.resolve(
         new Response(JSON.stringify({ id: 1 }), {
           headers: { 'content-type': 'application/json' },
-        }),
+        })
       );
     };
 
@@ -256,7 +256,7 @@ describe('onSubmit', () => {
         tryItMetrics={() => {
           called = true;
         }}
-      />,
+      />
     );
 
     window.fetch = () => {
@@ -305,9 +305,7 @@ describe('suggest edits', () => {
 
   it('should have child project if baseUrl is set', () => {
     const doc = shallow(<Doc {...{ baseUrl: '/child', ...props }} suggestedEdits />);
-    expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(
-      `/child/reference-edit/${props.doc.slug}`,
-    );
+    expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(`/child/reference-edit/${props.doc.slug}`);
   });
 });
 
@@ -331,7 +329,7 @@ describe('Response Schema', () => {
           onSubmit: () => {},
         }}
         oas={multipleSecurities}
-      />,
+      />
     );
     expect(doc.find('ResponseSchema')).toHaveLength(0);
   });
@@ -380,7 +378,7 @@ test('should output with an error message if the endpoint fails to load', () => 
         api: { method: 'post' },
       }}
       oas={brokenOas}
-    />,
+    />
   );
 
   doc.setState({ showEndpoint: true });

@@ -7,7 +7,7 @@ function render(Component) {
     <AppContainer>
       <Component />
     </AppContainer>,
-    document.getElementById('hub-content'),
+    document.getElementById('hub-content')
   );
 }
 
