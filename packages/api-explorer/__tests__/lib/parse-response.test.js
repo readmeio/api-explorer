@@ -61,9 +61,9 @@ test('should pass through URL with query string', async () => {
             },
           ],
         }),
-        response,
+        response
       )
-    ).url,
+    ).url
   ).toBe('http://petstore.swagger.io/v2/pet?a=123456');
 });
 
@@ -88,9 +88,9 @@ test('should return array for request headers', async () => {
           ],
           url,
         }),
-        response,
+        response
       )
-    ).requestHeaders,
+    ).requestHeaders
   ).toStrictEqual(['Authorization: Bearer api-key', 'Authorization1: Bearer api-key1']);
 });
 
@@ -105,9 +105,9 @@ test('should return with post data if set', async () => {
           },
           url,
         }),
-        response,
+        response
       )
-    ).requestBody,
+    ).requestBody
   ).toBe(JSON.stringify({ a: 1 }));
 });
 
@@ -120,9 +120,9 @@ test('should return with null if postData is empty object', async () => {
           postData: {},
           url,
         }),
-        response,
+        response
       )
-    ).requestBody,
+    ).requestBody
   ).toBeNull();
 });
 
@@ -134,9 +134,9 @@ test('should return with null if postData is undefined', async () => {
           headers: [],
           url,
         }),
-        response,
+        response
       )
-    ).requestBody,
+    ).requestBody
   ).toBeNull();
 });
 
@@ -152,9 +152,7 @@ test('should return `type` from content-type header', async () => {
 });
 
 test('should autodetect a content-type if content-type header missing', async () => {
-  expect((await parseResponse(har, new Response(responseBody))).type).toBe(
-    'text/plain;charset=UTF-8',
-  );
+  expect((await parseResponse(har, new Response(responseBody))).type).toBe('text/plain;charset=UTF-8');
 });
 
 test('should remove x-final-url header set by the proxy', async () => {
@@ -164,9 +162,9 @@ test('should remove x-final-url header set by the proxy', async () => {
         har,
         new Response('', {
           headers: { 'x-final-url': 'http://example.com' },
-        }),
+        })
       )
-    ).responseHeaders,
+    ).responseHeaders
   ).toStrictEqual(['content-type: text/plain;charset=UTF-8']);
 });
 
@@ -178,9 +176,7 @@ test('should pass through status', async () => {
 test('isBinary should be true if there is a content-disposition response header', async () => {
   const binaryHeaders = new Headers();
   binaryHeaders.set('Content-Disposition', 'attachment; filename="example.txt"');
-  expect((await parseResponse(har, new Response('', { headers: binaryHeaders }))).isBinary).toBe(
-    true,
-  );
+  expect((await parseResponse(har, new Response('', { headers: binaryHeaders }))).isBinary).toBe(true);
 });
 
 test('should parse application/json response as json', async () => {
@@ -200,9 +196,7 @@ test('should parse non-json response as text', async () => {
     },
   });
 
-  expect((await parseResponse(har, nonJsonResponse)).responseBody).toStrictEqual(
-    nonJsonResponseBody,
-  );
+  expect((await parseResponse(har, nonJsonResponse)).responseBody).toStrictEqual(nonJsonResponseBody);
 });
 
 test('should not error if invalid json is returned', async () => {

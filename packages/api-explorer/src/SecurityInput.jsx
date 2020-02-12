@@ -13,13 +13,7 @@ const types = {
 
 class Input extends React.Component {
   render() {
-    return (
-      <DebounceInput
-        {...this.props}
-        debounceTimeout={process.env.NODE_ENV === 'test' ? 0 : 300}
-        minLength={0}
-      />
-    );
+    return <DebounceInput {...this.props} debounceTimeout={process.env.NODE_ENV === 'test' ? 0 : 300} minLength={0} />;
   }
 }
 
@@ -32,14 +26,7 @@ function SecurityInput(props) {
     case 'apiKey':
     case 'oauth2': {
       const Component = types[props.scheme.type];
-      return (
-        <Component
-          {...props}
-          apiKey={props.auth[props.scheme._key]}
-          change={change}
-          Input={Input}
-        />
-      );
+      return <Component {...props} apiKey={props.auth[props.scheme._key]} change={change} Input={Input} />;
     }
     case 'http':
       // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
@@ -55,9 +42,7 @@ function SecurityInput(props) {
         );
       }
       if (props.scheme.scheme === 'bearer') {
-        return (
-          <Oauth2 {...props} apiKey={props.auth[props.scheme._key]} change={change} Input={Input} />
-        );
+        return <Oauth2 {...props} apiKey={props.auth[props.scheme._key]} change={change} Input={Input} />;
       }
       break;
     default:

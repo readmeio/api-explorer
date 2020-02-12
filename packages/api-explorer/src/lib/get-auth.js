@@ -22,7 +22,7 @@ function getSingle(user, scheme = {}, selectedApp = false) {
     if (selectedApp) {
       return getKey(
         user.keys.find(key => key.name === selectedApp),
-        scheme,
+        scheme
       );
     }
 
@@ -54,7 +54,7 @@ function getAuth(user, oasFiles, selectedApp = false) {
                 _key: scheme,
                 selectedApp,
               },
-              selectedApp,
+              selectedApp
             ),
           };
         })

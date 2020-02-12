@@ -27,7 +27,7 @@ test('should select matching tab by index', () => {
     exampleTabs
       .find('a')
       .first()
-      .hasClass('selected'),
+      .hasClass('selected')
   ).toBe(true);
 });
 

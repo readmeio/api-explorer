@@ -8,12 +8,7 @@ function ApiKey({ apiKey, scheme, authInputRef, change, Input }) {
         <label htmlFor="apiKey">{scheme.name}</label>
       </div>
       <div className="col-xs-7">
-        <Input
-          inputRef={authInputRef}
-          onChange={e => change(e.target.value)}
-          type="text"
-          value={apiKey}
-        />
+        <Input inputRef={authInputRef} onChange={e => change(e.target.value)} type="text" value={apiKey} />
       </div>
     </div>
   );

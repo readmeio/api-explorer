@@ -20,12 +20,7 @@ function Basic({ user, pass, change, authInputRef, Input }) {
       </div>
       <div className="col-xs-6">
         <label htmlFor="password">password</label>
-        <Input
-          name="pass"
-          onChange={e => inputChange(e.target.name, e.target.value)}
-          type="password"
-          value={pass}
-        />
+        <Input name="pass" onChange={e => inputChange(e.target.name, e.target.value)} type="password" value={pass} />
       </div>
     </div>
   );

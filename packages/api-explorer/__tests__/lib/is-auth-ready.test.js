@@ -16,7 +16,7 @@ describe('isAuthReady', () => {
         oauthScheme: 'bearer',
         apiKeyScheme: 'bearer',
         basicAuth: { user: 'test', password: 'pass' },
-      }),
+      })
     ).toBe(true);
   });
 
@@ -27,7 +27,7 @@ describe('isAuthReady', () => {
       isAuthReady(operation, {
         oauthScheme: '',
         apiKeyScheme: 'bearer',
-      }),
+      })
     ).toBe(false);
   });
 
@@ -38,7 +38,7 @@ describe('isAuthReady', () => {
       isAuthReady(operation, {
         oauthScheme: '',
         apiKeyScheme: '',
-      }),
+      })
     ).toBe(false);
   });
 
@@ -49,14 +49,14 @@ describe('isAuthReady', () => {
       isAuthReady(operation, {
         oauthScheme: 'bearer',
         apiKeyScheme: '',
-      }),
+      })
     ).toBe(true);
 
     expect(
       isAuthReady(operation, {
         oauthScheme: '',
         apiKeyScheme: 'bearer',
-      }),
+      })
     ).toBe(true);
   });
 
@@ -67,7 +67,7 @@ describe('isAuthReady', () => {
       isAuthReady(operation, {
         oauthScheme: '',
         oauthDiff: '',
-      }),
+      })
     ).toBe(false);
   });
 
@@ -79,7 +79,7 @@ describe('isAuthReady', () => {
         oauthScheme: 'bearer',
         apiKeyScheme: '',
         oauthDiff: '',
-      }),
+      })
     ).toBe(false);
 
     expect(
@@ -87,7 +87,7 @@ describe('isAuthReady', () => {
         oauthScheme: '',
         apiKeyScheme: 'key',
         oauthDiff: '',
-      }),
+      })
     ).toBe(false);
 
     expect(
@@ -95,7 +95,7 @@ describe('isAuthReady', () => {
         oauthScheme: '',
         apiKeyScheme: '',
         oauthDiff: '',
-      }),
+      })
     ).toBe(false);
   });
 
@@ -107,7 +107,7 @@ describe('isAuthReady', () => {
         oauthScheme: 'bearer',
         apiKeyScheme: '',
         oauthDiff: 'test',
-      }),
+      })
     ).toBe(true);
 
     expect(
@@ -115,7 +115,7 @@ describe('isAuthReady', () => {
         oauthScheme: '',
         apiKeyScheme: '',
         oauthDiff: 'test',
-      }),
+      })
     ).toBe(true);
 
     expect(
@@ -123,7 +123,7 @@ describe('isAuthReady', () => {
         oauthScheme: 'bearer',
         apiKeyScheme: 'key',
         oauthDiff: '',
-      }),
+      })
     ).toBe(true);
   });
 

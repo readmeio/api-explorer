@@ -23,9 +23,7 @@ describe('Image', () => {
     };
     const imageInput = shallow(<Image block={block} />);
 
-    expect(imageInput.find('a').prop('href')).toBe(
-      'https://files.readme.io/924824e-fullsizeoutput_314.jpeg',
-    );
+    expect(imageInput.find('a').prop('href')).toBe('https://files.readme.io/924824e-fullsizeoutput_314.jpeg');
   });
 
   it('Image will render caption if given in props', () => {
@@ -54,7 +52,7 @@ describe('Image', () => {
       imageInput
         .find('figcaption')
         .render()
-        .text(),
+        .text()
     ).toBe('doggo');
   });
 });

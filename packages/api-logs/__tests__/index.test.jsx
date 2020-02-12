@@ -59,7 +59,7 @@ describe('Logs', () => {
       comp
         .find('tbody tr')
         .childAt(4)
-        .text(),
+        .text()
     ).toBe('-');
   });
 
@@ -162,7 +162,7 @@ describe('Logs', () => {
   it('should render a "view more" button', () => {
     const comp = shallow(<LogTest {...props} />);
     expect(comp.find('a[target="_blank"]').prop('href')).toBe(
-      'https://docs.readme.com/logs?url=https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D&method=delete&id=someid',
+      'https://docs.readme.com/logs?url=https%3A%2F%2Fdash.readme.io%2Fapi%2Fv1%2Fdocs%2F%7Bslug%7D&method=delete&id=someid'
     );
   });
 

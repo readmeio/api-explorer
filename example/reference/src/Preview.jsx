@@ -43,11 +43,10 @@ class Preview extends React.Component {
                     <div className="hub-preview-owlbert" />
                     <i className="icon icon-readme" />
                     <p>
-                      <strong>Like what you see?</strong> ReadMe makes it easy to create beautiful
-                      documentation for your API! You can import a Swagger/OAS file&hellip; but
-                      that&apos;s not all! ReadMe also helps you build a community, document non-API
-                      references and much more! Sign up now to get awesome docs for your Swagger/OAS
-                      file!
+                      <strong>Like what you see?</strong> ReadMe makes it easy to create beautiful documentation for
+                      your API! You can import a Swagger/OAS file&hellip; but that&apos;s not all! ReadMe also helps you
+                      build a community, document non-API references and much more! Sign up now to get awesome docs for
+                      your Swagger/OAS file!
                     </p>
                     <a className="btn btn-primary btn-lg" href="https://dash.readme.io/signup">
                       Sign Up for ReadMe
@@ -62,9 +61,7 @@ class Preview extends React.Component {
                   <div className="hub-reference-loading-error-box">
                     {invalidSpec ? (
                       <div>
-                        <h3 className="hub-reference-loading-error-header">
-                          Invalid API Specification
-                        </h3>
+                        <h3 className="hub-reference-loading-error-header">Invalid API Specification</h3>
                         <p>{invalidSpec}</p>
                         <p>
                           <a
@@ -77,9 +74,7 @@ class Preview extends React.Component {
                       </div>
                     ) : (
                       <div>
-                        <h3 className="hub-reference-loading-error-header">
-                          Couldn&apos;t be loaded
-                        </h3>
+                        <h3 className="hub-reference-loading-error-header">Couldn&apos;t be loaded</h3>
                         <p>There was an error fetching your API Specification.</p>
                       </div>
                     )}

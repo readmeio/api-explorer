@@ -26,10 +26,7 @@ test('should show no examples if endpoint does not any', () => {
 
 test('should notify about no examples being available if explorer disabled', () => {
   const example = shallow(
-    <ResponseExample
-      {...props}
-      oas={new Oas({ ...petstore, [extensions.EXPLORER_ENABLED]: false })}
-    />,
+    <ResponseExample {...props} oas={new Oas({ ...petstore, [extensions.EXPLORER_ENABLED]: false })} />
   );
 
   expect(example.containsMatchingElement(<div>No response examples available</div>)).toBe(true);
@@ -38,11 +35,7 @@ test('should notify about no examples being available if explorer disabled', () 
 test('should show each example', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <ResponseExample
-      {...props}
-      oas={exampleOas}
-      operation={exampleOas.operation('/results', 'get')}
-    />,
+    <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />
   );
 
   expect(example.find('pre')).toHaveLength(2);
@@ -51,11 +44,7 @@ test('should show each example', () => {
 test('should display json viewer', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <ResponseExample
-      {...props}
-      oas={exampleOas}
-      operation={exampleOas.operation('/results', 'get')}
-    />,
+    <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />
   );
 
   // Asserting all JSON examples are displayed with JSON viewer from the example oas.json
@@ -64,18 +53,14 @@ test('should display json viewer', () => {
       .find('pre')
       .at(0)
       .render()
-      .find('.react-json-view'),
+      .find('.react-json-view')
   ).toHaveLength(1);
 });
 
 test('should not fail to parse invalid json and instead show the standard syntax highlighter', () => {
   const exampleOas = new Oas(string);
   const example = shallow(
-    <ResponseExample
-      {...props}
-      oas={exampleOas}
-      operation={exampleOas.operation('/format-uuid', 'get')}
-    />,
+    <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/format-uuid', 'get')} />
   );
 
   // Asserting that instead of failing with the invalid JSON we attempted to render, we fallback
@@ -85,18 +70,14 @@ test('should not fail to parse invalid json and instead show the standard syntax
       .find('pre')
       .at(0)
       .render()
-      .find('.cm-number'),
+      .find('.cm-number')
   ).toHaveLength(4);
 });
 
 test('should correctly highlight XML syntax', () => {
   const exampleOas = new Oas(exampleResults);
   const example = shallow(
-    <ResponseExample
-      {...props}
-      oas={exampleOas}
-      operation={exampleOas.operation('/results', 'get')}
-    />,
+    <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />
   );
 
   // Asserting that there are XML tags
@@ -105,7 +86,7 @@ test('should correctly highlight XML syntax', () => {
       .find('pre')
       .at(1)
       .render()
-      .find('.cm-tag'),
+      .find('.cm-tag')
   ).toHaveLength(25);
 });
 
@@ -116,7 +97,7 @@ test('should show select for multiple examples on a single media type', () => {
       {...props}
       oas={exampleOas}
       operation={exampleOas.operation('/single-media-type-multiple-examples', 'get')}
-    />,
+    />
   );
 
   const html = example.html();
@@ -132,7 +113,7 @@ test('should not show a select if a media type has a single example', () => {
       {...props}
       oas={exampleOas}
       operation={exampleOas.operation('/single-media-type-single-example', 'get')}
-    />,
+    />
   );
 
   expect(example.html()).not.toContain('<select');
