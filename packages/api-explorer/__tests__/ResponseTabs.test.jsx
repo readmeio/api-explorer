@@ -22,14 +22,12 @@ beforeEach(async () => {
   props.result = await parseResponse(
     {
       log: {
-        entries: [
-          { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
-        ],
+        entries: [{ request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } }],
       },
     },
     new FetchResponse('{}', {
       headers: {},
-    }),
+    })
   );
 });
 
@@ -46,7 +44,7 @@ test('should select matching tab by name', () => {
     exampleTabs
       .find('a')
       .at(0)
-      .hasClass('selected'),
+      .hasClass('selected')
   ).toBe(true);
 });
 
@@ -77,7 +75,7 @@ test('should call hideResults() on click', () => {
       hideResults={hideResults}
       oas={exampleResultsOas}
       operation={exampleResultsOas.operation('/results', 'get')}
-    />,
+    />
   );
 
   exampleTabs.find('a.pull-right').simulate('click', { preventDefault() {} });

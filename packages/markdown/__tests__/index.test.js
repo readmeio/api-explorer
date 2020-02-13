@@ -29,8 +29,8 @@ test('tables', () => {
 | col 3 is      | right-aligned | $1600 |
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -46,8 +46,8 @@ test('headings', () => {
 ###### h6
 # \`code\`
 # heading with some more CONTENT
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -62,8 +62,8 @@ test('anchors', () => {
 [blog](blog:slug)
 [changelog](changelog:slug)
 [page](page:slug)
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -72,9 +72,7 @@ test('anchor target: should default to _self', () => {
 });
 
 test('anchor target: should allow _blank if using HTML', () => {
-  expect(
-    shallow(markdown('<a href="https://example.com" target="_blank">test</a>')).html(),
-  ).toMatchSnapshot();
+  expect(shallow(markdown('<a href="https://example.com" target="_blank">test</a>')).html()).toMatchSnapshot();
 });
 
 test('anchors with baseUrl', () => {
@@ -91,9 +89,9 @@ test('anchors with baseUrl', () => {
 [blog](blog:slug)
 [changelog](changelog:slug)
 [page](page:slug)
-  `,
-      ),
-    ),
+  `
+      )
+    )
   );
   expect(wrapper.html()).toMatchSnapshot();
 });
@@ -105,8 +103,8 @@ test('emojis', () => {
 :joy:
 :fa-lock:
 :unknown-emoji:
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -121,8 +119,8 @@ var a = 1;
 \`\`\`
 code-without-language
 \`\`\`
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -131,11 +129,9 @@ test('should render nothing if nothing passed in', () => {
 });
 
 test('`correctnewlines` option', () => {
-  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: true })).html()).toBe(
-    '<p>test\ntest\ntest</p>',
-  );
+  expect(shallow(markdown('test\ntest\ntest', { correctnewlines: true })).html()).toBe('<p>test\ntest\ntest</p>');
   expect(shallow(markdown('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
-    '<p>test<br/>\ntest<br/>\ntest</p>',
+    '<p>test<br/>\ntest<br/>\ntest</p>'
   );
 });
 
@@ -156,9 +152,7 @@ describe.skip('`stripHtml` option', () => {
   });
 
   it('should escape unknown tags', () => {
-    expect(markdown('<unknown-tag>Test</unknown-tag>')).toBe(
-      '<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>\n',
-    );
+    expect(markdown('<unknown-tag>Test</unknown-tag>')).toBe('<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>\n');
   });
 
   it('should allow certain attributes', () => {
@@ -175,13 +169,9 @@ describe.skip('`stripHtml` option', () => {
 });
 
 test('should strip dangerous iframe tag', () => {
-  expect(
-    shallow(markdown('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>')).html(),
-  ).toBe('<p></p>');
+  expect(shallow(markdown('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>')).html()).toBe('<p></p>');
 });
 
 test('should strip dangerous img attributes', () => {
-  expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
-    '<img src="x"/>',
-  );
+  expect(shallow(markdown('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe('<img src="x"/>');
 });

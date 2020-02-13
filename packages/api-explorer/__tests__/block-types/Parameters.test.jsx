@@ -23,7 +23,7 @@ describe('Parameters', () => {
       parametersInput
         .find('div.td')
         .render()
-        .text(),
+        .text()
     ).toBe('arbitrary');
   });
 });

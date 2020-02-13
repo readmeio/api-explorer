@@ -129,7 +129,7 @@ class Logs extends React.Component {
           const parsedLogs = await this.getLogs(true);
           return checkFreshness(this.state.logs, parsedLogs);
         },
-        { retries: 6, minTimeout: 50 },
+        { retries: 6, minTimeout: 50 }
       );
       this.setState({ logs });
     } catch (e) {
@@ -254,7 +254,7 @@ Logs.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-    }),
+    })
   ),
   query: PropTypes.shape({}).isRequired,
   result: PropTypes.shape({}),

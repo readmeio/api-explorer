@@ -60,7 +60,7 @@ module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
         // eslint-disable-next-line no-plusplus
         <span key={++key} className={`${curStyle.replace(/(^|\s+)/g, '$1cm-')}`}>
           {accum}
-        </span>,
+        </span>
       );
     } else {
       output.push(accum);

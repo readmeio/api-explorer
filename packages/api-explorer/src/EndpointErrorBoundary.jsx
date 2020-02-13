@@ -22,8 +22,7 @@ class EndpointErrorBoundary extends React.Component {
         <div className="hub-reference-section">
           <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
             <h3>
-              There was an error rendering this endpoint. If you are the owner of this project
-              please contact&nbsp;
+              There was an error rendering this endpoint. If you are the owner of this project please contact&nbsp;
               <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a>
               &nbsp;with the following error:
             </h3>

@@ -6,7 +6,7 @@ test('should highlight a block of code', () => {
 
   expect(code.hasClass('cm-s-neo')).toBe(true);
   expect(code.html()).toBe(
-    '<span class="cm-s-neo"><span class="cm-keyword">var</span> <span class="cm-def">a</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span>',
+    '<span class="cm-s-neo"><span class="cm-keyword">var</span> <span class="cm-def">a</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span>'
   );
 });
 
@@ -15,9 +15,7 @@ test('should work when passed a non-string value', () => {
 });
 
 test('should sanitize plain text language', () => {
-  expect(shallow(syntaxHighlighter('& < > " \' /', 'text')).html()).toContain(
-    '&amp; &lt; &gt; &quot; &#x27; /',
-  );
+  expect(shallow(syntaxHighlighter('& < > " \' /', 'text')).html()).toContain('&amp; &lt; &gt; &quot; &#x27; /');
 });
 
 test('should sanitize mode', () => {
@@ -32,48 +30,40 @@ test('should concat the same style items', () => {
 
 test('should work with modes', () => {
   expect(shallow(syntaxHighlighter('{ "a": 1 }', 'json')).html()).toBe(
-    '<span class="cm-s-neo">{ <span class="cm-property">&quot;a&quot;</span>: <span class="cm-number">1</span> }</span>',
+    '<span class="cm-s-neo">{ <span class="cm-property">&quot;a&quot;</span>: <span class="cm-number">1</span> }</span>'
   );
 });
 
 test('should have a dark theme', () => {
-  expect(
-    shallow(syntaxHighlighter('{ "a": 1 }', 'json', { dark: true })).hasClass(
-      'cm-s-tomorrow-night',
-    ),
-  ).toBe(true);
+  expect(shallow(syntaxHighlighter('{ "a": 1 }', 'json', { dark: true })).hasClass('cm-s-tomorrow-night')).toBe(true);
 });
 
 test('should tokenize variables (double quotes)', () => {
-  expect(
-    mount(syntaxHighlighter('"<<apiKey>>"', 'json', { tokenizeVariables: true })).find('Variable'),
-  ).toHaveLength(1);
+  expect(mount(syntaxHighlighter('"<<apiKey>>"', 'json', { tokenizeVariables: true })).find('Variable')).toHaveLength(
+    1
+  );
 });
 
 test('should tokenize variables (single quotes)', () => {
-  expect(
-    mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).find('Variable'),
-  ).toHaveLength(1);
+  expect(mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).find('Variable')).toHaveLength(
+    1
+  );
 });
 
 test('should keep enclosing characters around the variable', () => {
-  expect(mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).text()).toBe(
-    "'APIKEY'",
-  );
+  expect(mount(syntaxHighlighter("'<<apiKey>>'", 'json', { tokenizeVariables: true })).text()).toBe("'APIKEY'");
 });
 
 describe('specific languages', () => {
   it('should work for modes with an array like java', () => {
-    expect(
-      shallow(syntaxHighlighter('service = client.service().messaging();', 'java')).html(),
-    ).toBe(
-      '<span class="cm-s-neo"><span class="cm-variable">service</span> <span class="cm-operator">=</span> <span class="cm-variable">client</span>.<span class="cm-variable">service</span>().<span class="cm-variable">messaging</span>();</span>',
+    expect(shallow(syntaxHighlighter('service = client.service().messaging();', 'java')).html()).toBe(
+      '<span class="cm-s-neo"><span class="cm-variable">service</span> <span class="cm-operator">=</span> <span class="cm-variable">client</span>.<span class="cm-variable">service</span>().<span class="cm-variable">messaging</span>();</span>'
     );
   });
 
   it('should work for html', () => {
     expect(shallow(syntaxHighlighter('<p>test</p>', 'html')).html()).toBe(
-      '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span></span>',
+      '<span class="cm-s-neo"><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span>test<span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">p</span><span class="cm-tag cm-bracket">&gt;</span></span>'
     );
   });
 
@@ -82,15 +72,11 @@ describe('specific languages', () => {
   });
 
   it('should work for dockerfiles', () => {
-    expect(shallow(syntaxHighlighter('FROM alpine:3.4', 'dockerfile')).html()).toContain(
-      'cm-keyword',
-    );
+    expect(shallow(syntaxHighlighter('FROM alpine:3.4', 'dockerfile')).html()).toContain('cm-keyword');
   });
 
   it('should work for kotlin', () => {
-    expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain(
-      'cm-variable',
-    );
+    expect(shallow(syntaxHighlighter('println("$index: $element")', 'kotlin')).html()).toContain('cm-variable');
   });
 
   it('should work for go', () => {
@@ -98,17 +84,15 @@ describe('specific languages', () => {
   });
 
   it('should work for powershell', () => {
-    expect(
-      shallow(syntaxHighlighter('$headers.Add("accept", "application/json")', 'powershell')).html(),
-    ).toContain('cm-variable');
+    expect(shallow(syntaxHighlighter('$headers.Add("accept", "application/json")', 'powershell')).html()).toContain(
+      'cm-variable'
+    );
   });
 
   it('should work for typescript', () => {
-    expect(
-      shallow(
-        syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript'),
-      ).html(),
-    ).toContain('cm-variable');
+    expect(shallow(syntaxHighlighter('let { a, b }: { a: string, b: number } = o;', 'typescript')).html()).toContain(
+      'cm-variable'
+    );
   });
 
   it('should work for swift', () => {

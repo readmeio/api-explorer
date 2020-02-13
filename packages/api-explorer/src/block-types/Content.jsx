@@ -71,13 +71,7 @@ const Content = props => {
     );
   }
 
-  return (
-    <Loop
-      column={isThreeColumn}
-      content={isThreeColumn === 'left' ? left : right}
-      flags={props.flags}
-    />
-  );
+  return <Loop column={isThreeColumn} content={isThreeColumn === 'left' ? left : right} flags={props.flags} />;
 };
 
 Loop.propTypes = {
@@ -85,7 +79,7 @@ Loop.propTypes = {
   content: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,

@@ -33,7 +33,7 @@ function Sidebar({ title, docs }) {
         ))}
       </ul>
     </div>,
-    document.getElementById('hub-sidebar-content'),
+    document.getElementById('hub-sidebar-content')
   );
 }
 

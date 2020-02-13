@@ -15,10 +15,7 @@ function encodeJsonExample(json) {
 
 describe('createCodeShower', () => {
   it.each([
-    [
-      'should return codes array if there are examples for the operation',
-      oas.operation('/results', 'get'),
-    ],
+    ['should return codes array if there are examples for the operation', oas.operation('/results', 'get')],
     [
       // The response for this should be identical to `GET /results`, just the way they're formed in
       // the OAS is different.

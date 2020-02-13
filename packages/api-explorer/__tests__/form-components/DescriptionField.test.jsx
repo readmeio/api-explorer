@@ -10,6 +10,6 @@ test('should parse description as markdown', () => {
   expect(
     shallow(<DescriptionField description={actual} />)
       .html()
-      .indexOf(shallow(markdown(actual)).html()) > 1,
+      .indexOf(shallow(markdown(actual)).html()) > 1
   ).toBe(true);
 });

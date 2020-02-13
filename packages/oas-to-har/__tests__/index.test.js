@@ -36,9 +36,9 @@ describe('url', () => {
 
   // TODO this should probably happen within the Operation class
   it('should replace whitespace with %20', () => {
-    expect(
-      oasToHar(oas, { path: '/path with spaces', method: '' }).log.entries[0].request.url,
-    ).toBe('https://example.com/path%20with%20spaces');
+    expect(oasToHar(oas, { path: '/path with spaces', method: '' }).log.entries[0].request.url).toBe(
+      'https://example.com/path%20with%20spaces'
+    );
   });
 
   describe('proxy url', () => {
@@ -48,14 +48,13 @@ describe('url', () => {
 
     it('should not be prefixed with without option', () => {
       expect(oasToHar(proxyOas, { path: '/path', method: 'get' }).log.entries[0].request.url).toBe(
-        'https://example.com/path',
+        'https://example.com/path'
       );
     });
 
     it('should be prefixed with try.readme.io with option', () => {
       expect(
-        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log
-          .entries[0].request.url,
+        oasToHar(proxyOas, { path: '/path', method: 'get' }, {}, {}, { proxyUrl: true }).log.entries[0].request.url
       ).toBe('https://try.readme.io/https://example.com/path');
     });
   });
@@ -64,7 +63,7 @@ describe('url', () => {
 describe('path values', () => {
   it('should pass through unknown path params', () => {
     expect(oasToHar(oas, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
-      'https://example.com/param-path/id',
+      'https://example.com/param-path/id'
     );
     expect(
       oasToHar(oas, {
@@ -77,7 +76,7 @@ describe('path values', () => {
             required: true,
           },
         ],
-      }).log.entries[0].request.url,
+      }).log.entries[0].request.url
     ).toBe('https://example.com/param-path/id');
   });
 
@@ -96,8 +95,8 @@ describe('path values', () => {
             },
           ],
         },
-        {},
-      ).log.entries[0].request.url,
+        {}
+      ).log.entries[0].request.url
     ).toBe('https://example.com/param-path/id');
   });
 
@@ -114,7 +113,7 @@ describe('path values', () => {
             example: '123',
           },
         ],
-      }).log.entries[0].request.url,
+      }).log.entries[0].request.url
     ).toBe('https://example.com/param-path/123');
   });
 
@@ -133,8 +132,8 @@ describe('path values', () => {
             },
           ],
         },
-        { path: { id: '456' } },
-      ).log.entries[0].request.url,
+        { path: { id: '456' } }
+      ).log.entries[0].request.url
     ).toBe('https://example.com/param-path/456');
   });
 
@@ -153,8 +152,8 @@ describe('path values', () => {
             },
           ],
         },
-        { path: { id: 0 } },
-      ).log.entries[0].request.url,
+        { path: { id: 0 } }
+      ).log.entries[0].request.url
     ).toBe('https://example.com/param-path/0');
   });
 });
@@ -171,7 +170,7 @@ describe('query values', () => {
             in: 'query',
           },
         ],
-      }).log.entries[0].request.queryString,
+      }).log.entries[0].request.queryString
     ).toStrictEqual([]);
   });
 
@@ -188,7 +187,7 @@ describe('query values', () => {
             example: 'value',
           },
         ],
-      }).log.entries[0].request.queryString,
+      }).log.entries[0].request.queryString
     ).toStrictEqual([{ name: 'a', value: 'value' }]);
   });
 
@@ -208,8 +207,8 @@ describe('query values', () => {
             },
           ],
         },
-        { query: { a: 'test' } },
-      ).log.entries[0].request.queryString,
+        { query: { a: 'test' } }
+      ).log.entries[0].request.queryString
     ).toStrictEqual([{ name: 'a', value: 'test' }]);
   });
 
@@ -227,8 +226,8 @@ describe('query values', () => {
             },
           ],
         },
-        { query: { id: 0 } },
-      ).log.entries[0].request.queryString,
+        { query: { id: 0 } }
+      ).log.entries[0].request.queryString
     ).toStrictEqual([{ name: 'id', value: '0' }]);
   });
 });
@@ -245,7 +244,7 @@ describe('header values', () => {
             in: 'header',
           },
         ],
-      }).log.entries[0].request.headers,
+      }).log.entries[0].request.headers
     ).toStrictEqual([]);
   });
 
@@ -262,7 +261,7 @@ describe('header values', () => {
             example: 'value',
           },
         ],
-      }).log.entries[0].request.headers,
+      }).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'a', value: 'value' }]);
   });
 
@@ -282,8 +281,8 @@ describe('header values', () => {
             },
           ],
         },
-        { header: { a: 'test' } },
-      ).log.entries[0].request.headers,
+        { header: { a: 'test' } }
+      ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'a', value: 'test' }]);
   });
 
@@ -312,7 +311,7 @@ describe('header values', () => {
             },
           },
         },
-      }).log.entries[0].request.headers,
+      }).log.entries[0].request.headers
     ).toStrictEqual([
       { name: 'Accept', value: 'application/xml' },
       { name: 'a', value: 'value' },
@@ -337,7 +336,7 @@ describe('header values', () => {
             },
           },
         },
-      }).log.entries[0].request.headers,
+      }).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
@@ -363,8 +362,8 @@ describe('header values', () => {
             },
           },
         },
-        { header: { Accept: 'application/xml' } },
-      ).log.entries[0].request.headers,
+        { header: { Accept: 'application/xml' } }
+      ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
@@ -385,8 +384,8 @@ describe('header values', () => {
             },
           },
         },
-        { header: { Accept: 'application/xml' } },
-      ).log.entries[0].request.headers,
+        { header: { Accept: 'application/xml' } }
+      ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
   });
 
@@ -404,8 +403,8 @@ describe('header values', () => {
             },
           ],
         },
-        { header: { id: 0 } },
-      ).log.entries[0].request.headers,
+        { header: { id: 0 } }
+      ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'id', value: '0' }]);
   });
 });
@@ -455,7 +454,7 @@ describe('body values', () => {
             },
           },
         },
-      }).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text
     ).toBe(JSON.stringify({ a: 'value' }));
   });
 
@@ -482,8 +481,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { a: 'test' } },
-      ).log.entries[0].request.postData.text,
+        { body: { a: 'test' } }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify({ a: 'test' }));
   });
 
@@ -509,8 +508,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { RAW_BODY: 'test' } },
-      ).log.entries[0].request.postData.text,
+        { body: { RAW_BODY: 'test' } }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify('test'));
   });
 
@@ -537,8 +536,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { RAW_BODY: '{ "a": 1 }' } },
-      ).log.entries[0].request.postData.text,
+        { body: { RAW_BODY: '{ "a": 1 }' } }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify({ a: 1 }));
   });
 
@@ -564,8 +563,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { RAW_BODY: '' } },
-      ).log.entries[0].request.postData.text,
+        { body: { RAW_BODY: '' } }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify(''));
   });
 
@@ -596,8 +595,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { RAW_BODY: { a: 'test' } } },
-      ).log.entries[0].request.postData.text,
+        { body: { RAW_BODY: { a: 'test' } } }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify({ a: 'test' }));
   });
 
@@ -628,8 +627,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { RAW_BODY: {} } },
-      ).log.entries[0].request.postData.text,
+        { body: { RAW_BODY: {} } }
+      ).log.entries[0].request.postData.text
     ).toBeUndefined();
   });
 
@@ -655,8 +654,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { a: undefined } },
-      ).log.entries[0].request.postData.text,
+        { body: { a: undefined } }
+      ).log.entries[0].request.postData.text
     ).toBeUndefined();
   });
 
@@ -683,8 +682,8 @@ describe('body values', () => {
             $ref: '#/components/requestBodies/schema',
           },
         },
-        { body: { a: 123 } },
-      ).log.entries[0].request.postData.text,
+        { body: { a: 123 } }
+      ).log.entries[0].request.postData.text
     ).toStrictEqual(JSON.stringify({ a: 123 }));
   });
 
@@ -709,8 +708,8 @@ describe('body values', () => {
             },
           ],
         },
-        { header: { Authorization: 'test' } },
-      ).log.entries[0].request.headers[0].value,
+        { header: { Authorization: 'test' } }
+      ).log.entries[0].request.headers[0].value
     ).toBe('test');
   });
 
@@ -731,8 +730,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: 'string' },
-      ).log.entries[0].request.postData.text,
+        { body: 'string' }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify('string'));
 
     expect(
@@ -752,8 +751,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: 123 },
-      ).log.entries[0].request.postData.text,
+        { body: 123 }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify(123));
 
     expect(
@@ -772,8 +771,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: true },
-      ).log.entries[0].request.postData.text,
+        { body: true }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify(true));
   });
 
@@ -794,8 +793,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: '' },
-      ).log.entries[0].request.postData.text,
+        { body: '' }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify(''));
 
     expect(
@@ -815,8 +814,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: 0 },
-      ).log.entries[0].request.postData.text,
+        { body: 0 }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify(0));
 
     expect(
@@ -835,8 +834,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: false },
-      ).log.entries[0].request.postData.text,
+        { body: false }
+      ).log.entries[0].request.postData.text
     ).toBe(JSON.stringify(false));
   });
 
@@ -867,8 +866,8 @@ describe('body values', () => {
               $ref: '#/components/requestBodies/schema',
             },
           },
-          { body: { a: '{ "b": 1 }' } },
-        ).log.entries[0].request.postData.text,
+          { body: { a: '{ "b": 1 }' } }
+        ).log.entries[0].request.postData.text
       ).toBe(JSON.stringify({ a: JSON.parse('{ "b": 1 }') }));
     });
 
@@ -896,8 +895,8 @@ describe('body values', () => {
               },
             },
           },
-          { body: { a: '{ "b": invalid json' } },
-        ).log.entries[0].request.postData.text,
+          { body: { a: '{ "b": invalid json' } }
+        ).log.entries[0].request.postData.text
       ).toBe(JSON.stringify({ a: '{ "b": invalid json' }));
     });
 
@@ -925,8 +924,8 @@ describe('body values', () => {
               },
             },
           },
-          { body: { a: '{ "b": "valid json" }' } },
-        ).log.entries[0].request.postData.text,
+          { body: { a: '{ "b": "valid json" }' } }
+        ).log.entries[0].request.postData.text
       ).toBe(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
     });
 
@@ -954,8 +953,8 @@ describe('body values', () => {
               },
             },
           },
-          { body: { a: '{}' } },
-        ).log.entries[0].request.postData.text,
+          { body: { a: '{}' } }
+        ).log.entries[0].request.postData.text
       ).toBe(JSON.stringify({ a: {} }));
     });
   });
@@ -995,8 +994,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: { a: { b: undefined, c: { d: undefined } } } },
-      ).log.entries[0].request.postData.text,
+        { body: { a: { b: undefined, c: { d: undefined } } } }
+      ).log.entries[0].request.postData.text
     ).toBeUndefined();
   });
 
@@ -1027,8 +1026,8 @@ describe('body values', () => {
             },
           },
         },
-        { body: undefined },
-      ).log.entries[0].request.postData.text,
+        { body: undefined }
+      ).log.entries[0].request.postData.text
     ).toBeUndefined();
   });
 });
@@ -1053,7 +1052,7 @@ describe('formData values', () => {
             },
           },
         },
-      }).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text
     ).toBeUndefined();
   });
 
@@ -1079,7 +1078,7 @@ describe('formData values', () => {
             },
           },
         },
-      }).log.entries[0].request.postData.text,
+      }).log.entries[0].request.postData.text
     ).toBe(querystring.stringify({ a: 'value' }));
   });
 
@@ -1106,8 +1105,8 @@ describe('formData values', () => {
             },
           },
         },
-        { formData: { a: 'test', b: [1, 2, 3] } },
-      ).log.entries[0].request.postData.text,
+        { formData: { a: 'test', b: [1, 2, 3] } }
+      ).log.entries[0].request.postData.text
     ).toBe(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
   });
 });
@@ -1125,7 +1124,7 @@ describe('common parameters', () => {
         path: { id: 1234 },
         header: { 'x-extra-id': 'abcd' },
         query: { limit: 10 },
-      }).log.entries[0].request,
+      }).log.entries[0].request
     ).toStrictEqual({
       headers: [{ name: 'x-extra-id', value: 'abcd' }],
       queryString: [{ name: 'limit', value: '10' }],
@@ -1171,8 +1170,8 @@ describe('auth', () => {
         {},
         {
           'auth-header': 'value',
-        },
-      ).log.entries[0].request.headers,
+        }
+      ).log.entries[0].request.headers
     ).toStrictEqual([
       {
         name: 'x-auth-header',
@@ -1203,8 +1202,8 @@ describe('auth', () => {
         {},
         {
           'auth-query': 'value',
-        },
-      ).log.entries[0].request.queryString,
+        }
+      ).log.entries[0].request.queryString
     ).toStrictEqual([
       {
         name: 'authQuery',
@@ -1241,8 +1240,8 @@ describe('auth', () => {
         {
           'auth-header': 'value',
           'auth-header2': 'value',
-        },
-      ).log.entries[0].request.headers,
+        }
+      ).log.entries[0].request.headers
     ).toStrictEqual([
       {
         name: 'x-auth-header',
@@ -1283,8 +1282,8 @@ describe('auth', () => {
         {
           'auth-header': 'value',
           'auth-header2': 'value',
-        },
-      ).log.entries[0].request.headers,
+        }
+      ).log.entries[0].request.headers
     ).toStrictEqual([
       {
         name: 'x-auth-header',
@@ -1317,8 +1316,8 @@ describe('auth', () => {
           security: [{ 'auth-header': [] }],
         },
         {},
-        {},
-      ).log.entries[0].request.headers,
+        {}
+      ).log.entries[0].request.headers
     ).toStrictEqual([]);
   });
 });
@@ -1349,21 +1348,21 @@ describe('content-type & accept header', () => {
     expect(oasToHar(oas, operation, {}).log.entries[0].request.headers).toStrictEqual([
       { name: 'Content-Type', value: 'application/json' },
     ]);
-    expect(
-      oasToHar(oas, operation, { query: { a: 1 } }).log.entries[0].request.headers,
-    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    expect(oasToHar(oas, operation, { query: { a: 1 } }).log.entries[0].request.headers).toStrictEqual([
+      { name: 'Content-Type', value: 'application/json' },
+    ]);
   });
 
   it('should be sent through if there are any body values', () => {
-    expect(
-      oasToHar(oas, operation, { body: { a: 'test' } }).log.entries[0].request.headers,
-    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    expect(oasToHar(oas, operation, { body: { a: 'test' } }).log.entries[0].request.headers).toStrictEqual([
+      { name: 'Content-Type', value: 'application/json' },
+    ]);
   });
 
   it('should be sent through if there are any formData values', () => {
-    expect(
-      oasToHar(oas, operation, { formData: { a: 'test' } }).log.entries[0].request.headers,
-    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
+    expect(oasToHar(oas, operation, { formData: { a: 'test' } }).log.entries[0].request.headers).toStrictEqual([
+      { name: 'Content-Type', value: 'application/json' },
+    ]);
   });
 
   it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', () => {
@@ -1390,8 +1389,8 @@ describe('content-type & accept header', () => {
             },
           },
         },
-        { body: { a: 'test' } },
-      ).log.entries[0].request.headers,
+        { body: { a: 'test' } }
+      ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'Content-Type', value: 'text/xml' }]);
   });
 
@@ -1432,8 +1431,8 @@ describe('content-type & accept header', () => {
             },
           },
         },
-        { body: { a: 'test' } },
-      ).log.entries[0].request.headers,
+        { body: { a: 'test' } }
+      ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 });
@@ -1449,8 +1448,8 @@ describe('x-headers', () => {
               value: '123456',
             },
           ],
-        }),
-      ).log.entries[0].request.headers,
+        })
+      ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'x-api-key', value: '123456' }]);
   });
 });

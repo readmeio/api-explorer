@@ -47,9 +47,7 @@ describe('loading prop', () => {
   it('should disable submit button when loading', () => {
     expect(shallow(<PathUrl {...props} loading />).find('button[disabled=true]')).toHaveLength(1);
 
-    expect(
-      shallow(<PathUrl {...props} loading={false} />).find('button[disabled=false]'),
-    ).toHaveLength(1);
+    expect(shallow(<PathUrl {...props} loading={false} />).find('button[disabled=false]')).toHaveLength(1);
   });
 });
 
@@ -68,11 +66,7 @@ test('button click should call onSubmit', () => {
   }
 
   shallow(
-    <PathUrl
-      {...props}
-      onSubmit={onSubmit}
-      operation={new Operation({}, '/path', 'get', { operationId: '123' })}
-    />,
+    <PathUrl {...props} onSubmit={onSubmit} operation={new Operation({}, '/path', 'get', { operationId: '123' })} />
   )
     .find('button[type="submit"]')
     .simulate('click');
@@ -83,9 +77,7 @@ test('button click should call onSubmit', () => {
 describe('splitPath()', () => {
   it('should work for multiple path params', () => {
     expect(splitPath('/{a}/{b}/c')).toHaveLength(5);
-    expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}')).toHaveLength(
-      4,
-    );
+    expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}')).toHaveLength(4);
   });
 
   it('should create unique keys for duplicate values', () => {

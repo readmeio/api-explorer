@@ -19,16 +19,14 @@ beforeEach(async () => {
   props.result = await parseResponse(
     {
       log: {
-        entries: [
-          { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
-        ],
+        entries: [{ request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } }],
       },
     },
     new FetchResponse('{}', {
       headers: {
         'content-type': 'application/json',
       },
-    }),
+    })
   );
 });
 
@@ -43,16 +41,14 @@ describe('Response body', () => {
     props.result = await parseResponse(
       {
         log: {
-          entries: [
-            { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
-          ],
+          entries: [{ request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } }],
         },
       },
       new FetchResponse('{}', {
         headers: {
           'content-type': 'application/json; charset=utf-8',
         },
-      }),
+      })
     );
 
     const responseBody = mount(<ResponseBody {...props} oas={oas} />);
@@ -64,16 +60,14 @@ describe('Response body', () => {
     props.result = await parseResponse(
       {
         log: {
-          entries: [
-            { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
-          ],
+          entries: [{ request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } }],
         },
       },
       new FetchResponse('ok', {
         headers: {
           'content-type': 'application/json',
         },
-      }),
+      })
     );
 
     const responseBody = mount(<ResponseBody {...props} oas={oas} />);
@@ -86,9 +80,7 @@ describe('Response body', () => {
     props.result = await parseResponse(
       {
         log: {
-          entries: [
-            { request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } },
-          ],
+          entries: [{ request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } }],
         },
       },
       new FetchResponse(
@@ -97,8 +89,8 @@ describe('Response body', () => {
           headers: {
             'content-type': 'application/xml',
           },
-        },
-      ),
+        }
+      )
     );
 
     const responseBody = mount(<ResponseBody {...props} oas={oas} />);
@@ -123,7 +115,7 @@ describe('Response body', () => {
         },
         new FetchResponse('{}', {
           headers: { 'content-disposition': 'attachment' },
-        }),
+        })
       ),
       operation: new Operation({}, '/pet', 'post'),
       oauth: false,
@@ -155,7 +147,7 @@ describe('Response body', () => {
           new FetchResponse('{}', {
             headers: {},
             status: 401,
-          }),
+          })
         ),
         operation: oas.operation('/pet', 'post'),
         isOauth: true,
@@ -167,9 +159,7 @@ describe('Response body', () => {
       const responseBody = mount(<ResponseBody {...oauthInvalidResponse} oas={oas} />);
 
       expect(responseBody.find('.hub-expired-token')).toHaveLength(1);
-      expect(
-        responseBody.containsMatchingElement(<p>Your OAuth2 token is incorrect or has expired</p>),
-      ).toBe(true);
+      expect(responseBody.containsMatchingElement(<p>Your OAuth2 token is incorrect or has expired</p>)).toBe(true);
     });
 
     it('should display message if OAuth is expired with oauth', () => {
@@ -177,9 +167,7 @@ describe('Response body', () => {
 
       expect(responseBody.find('p').text()).toBe('Your OAuth2 token has expired');
       expect(responseBody.find('a').text()).toBe('Reauthenticate via OAuth2');
-      expect(responseBody.find('a').prop('href')).toBe(
-        `/oauth?redirect=${window.location.pathname}`,
-      );
+      expect(responseBody.find('a').prop('href')).toBe(`/oauth?redirect=${window.location.pathname}`);
     });
   });
 
@@ -202,15 +190,13 @@ describe('Response body', () => {
         new FetchResponse('{}', {
           headers: {},
           status: 401,
-        }),
+        })
       ),
       operation: oas.operation('/pet/{petId}', 'get'),
       oauth: false,
     };
     const responseBody = mount(<ResponseBody {...nonOAuthInvalidResponse} oas={oas} />);
 
-    expect(responseBody.containsMatchingElement(<p>You couldn&apos;t be authenticated</p>)).toBe(
-      true,
-    );
+    expect(responseBody.containsMatchingElement(<p>You couldn&apos;t be authenticated</p>)).toBe(true);
   });
 });

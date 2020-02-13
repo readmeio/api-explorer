@@ -114,10 +114,10 @@ test('should uppercase known languages', () => {
             ],
           },
         }}
-      />,
+      />
     )
       .find('li a')
-      .text(),
+      .text()
   ).toBe('HTTP');
 });
 
@@ -135,9 +135,9 @@ test('should pass through unknown languages', () => {
             ],
           },
         }}
-      />,
+      />
     )
       .find('li a')
-      .text(),
+      .text()
   ).toBe('unknown-language-somehow');
 });
