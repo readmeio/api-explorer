@@ -12,17 +12,16 @@
   "paths": {
     "/pets": {
       "patch": {
+        "description": "oneOf request with a nested allOf",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "oneOf": [
                   {
-                    "type": "object",
                     "$ref": "#/components/schemas/Cat"
                   },
                   {
-                    "type": "object",
                     "$ref": "#/components/schemas/Dog"
                   }
                 ],
@@ -42,8 +41,7 @@
     },
     "/anything/all-of-object": {
       "post": {
-        "summary": "allOf object - NOT CURRENTLY SUPPORTED",
-        "description": "",
+        "description": "allOf request",
         "requestBody": {
           "content": {
             "application/json": {
