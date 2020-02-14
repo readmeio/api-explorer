@@ -1,6 +1,6 @@
 const extensions = require('@readme/oas-extensions');
 
-const FileWidget = require('react-jsonschema-form/lib/components/widgets/FileWidget').default;
+const FileWidget = require('@readme/react-jsonschema-form/lib/components/widgets/FileWidget').default;
 
 function createFileWidget(oas) {
   const explorerEnabled = oas[extensions.EXPLORER_ENABLED];

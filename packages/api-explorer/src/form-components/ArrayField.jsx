@@ -2,8 +2,8 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 
-const BaseArrayField = require('react-jsonschema-form/lib/components/fields/ArrayField').default;
-const { getDefaultRegistry, retrieveSchema } = require('react-jsonschema-form/lib/utils');
+const BaseArrayField = require('@readme/react-jsonschema-form/lib/components/fields/ArrayField').default;
+const { getDefaultRegistry, retrieveSchema } = require('@readme/react-jsonschema-form/lib/utils');
 
 function createArrayField(oas) {
   const explorerEnabled = oas[extensions.EXPLORER_ENABLED];

@@ -10,8 +10,8 @@ if (process.env.NODE_ENV !== 'test') {
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const BaseSchemaField = require('react-jsonschema-form/lib/components/fields/SchemaField').default;
-const { ADDITIONAL_PROPERTY_FLAG } = require('react-jsonschema-form/lib/utils');
+const BaseSchemaField = require('@readme/react-jsonschema-form/lib/components/fields/SchemaField').default;
+const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/react-jsonschema-form/lib/utils');
 
 function getDefaultNumFormat(type) {
   if (type === 'integer') return 'int32';

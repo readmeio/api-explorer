@@ -1,11 +1,11 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Form = require('react-jsonschema-form').default;
+const Form = require('@readme/react-jsonschema-form').default;
 
-const DateTimeWidget = require('react-jsonschema-form/lib/components/widgets/DateTimeWidget').default;
-const PasswordWidget = require('react-jsonschema-form/lib/components/widgets/PasswordWidget').default;
-const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
-const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
+const DateTimeWidget = require('@readme/react-jsonschema-form/lib/components/widgets/DateTimeWidget').default;
+const PasswordWidget = require('@readme/react-jsonschema-form/lib/components/widgets/PasswordWidget').default;
+const TextWidget = require('@readme/react-jsonschema-form/lib/components/widgets/TextWidget').default;
+const UpDownWidget = require('@readme/react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 
 const Oas = require('oas');
 const { parametersToJsonSchema } = require('oas/utils');
