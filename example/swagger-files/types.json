@@ -72,6 +72,10 @@
                     "type": "string",
                     "format": "json"
                   },
+                  "string (format: blob)": {
+                    "type": "string",
+                    "format": "blob"
+                  },
                   "string (format: date)": {
                     "type": "string",
                     "format": "date"

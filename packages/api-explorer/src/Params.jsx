@@ -64,6 +64,7 @@ function Params({
             // If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
             BaseInput,
             binary: FileWidget,
+            blob: TextareaWidget,
             byte: TextWidget,
             date: TextWidget,
             dateTime: DateTimeWidget,
