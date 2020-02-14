@@ -9,6 +9,25 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/format-blob": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string blob": {
+                    "type": "string",
+                    "format": "blob"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/format-date": {
       "get": {
         "requestBody": {
@@ -58,6 +77,25 @@
                   "string dateTime": {
                     "type": "string",
                     "format": "dateTime"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/format-html": {
+      "get": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "string html": {
+                    "type": "string",
+                    "format": "html"
                   }
                 }
               }

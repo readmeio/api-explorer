@@ -164,16 +164,20 @@ test('additionalProperties object labels (keys) should be editable', () => {
 
 describe('schema format handling', () => {
   describe('string types', () => {
-    it('json should render as <textarea>', () => {
+    it.each([
+      ['json', jsonOperation, 'json'],
+      ['blob', stringOas.operation('/format-blob', 'get'), 'blob'],
+      ['html', stringOas.operation('/format-html', 'get'), 'html'],
+    ])(`%s should render as <textarea>>`, (type, stringOperation, label) => {
       const params = mount(
         <div>
-          <Params {...props} operation={jsonOperation} />
+          <Params {...props} operation={stringOperation} />
         </div>
       );
 
       expect(params.find('textarea')).toHaveLength(1);
-      expect(params.find('.field-json')).toHaveLength(1);
-      expect(params.find('span.label-type').text()).toBe('json');
+      expect(params.find(`.field-${type}`)).toHaveLength(1);
+      expect(params.find('span.label-type').text()).toBe(label);
     });
 
     it('binary should render as <input type="file">', () => {
