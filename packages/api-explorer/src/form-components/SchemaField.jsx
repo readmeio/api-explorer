@@ -1,7 +1,7 @@
 // There's a bug in jsdom where Jest spits out heaps of errors from it not being able to interpret
 // this file, so let's not include this when running tests since we aren't doing visual testing
 // anyways.
-// https://github.com/jsdom/jsdom/issues/217
+// https://github.com/jsdom/jsdom/issues/2177
 if (process.env.NODE_ENV !== 'test') {
   // eslint-disable-next-line global-require
   require('../../style/main.scss');

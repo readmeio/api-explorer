@@ -67,12 +67,8 @@
                     "type": "string",
                     "format": "binary"
                   },
-                  "string (format: json)": {
-                    "description": "This is a special ReadMe type to render a <textarea> to be parsed as JSON",
-                    "type": "string",
-                    "format": "json"
-                  },
                   "string (format: blob)": {
+                    "description": "Strings with `format: blob` should render a `<textarea>`.",
                     "type": "string",
                     "format": "blob"
                   },
@@ -83,6 +79,16 @@
                   "string (format: date-time)": {
                     "type": "string",
                     "format": "date-time"
+                  },
+                  "string (format: html)": {
+                    "description": "Strings with `format: html` should render a `<textarea>`.",
+                    "type": "string",
+                    "format": "html"
+                  },
+                  "string (format: json)": {
+                    "description": "This is a special ReadMe type to render a `<textarea>` to be parsed as JSON",
+                    "type": "string",
+                    "format": "json"
                   },
                   "string (format: string)": {
                     "type": "string",

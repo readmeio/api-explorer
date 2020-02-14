@@ -72,6 +72,7 @@ function Params({
             double: UpDownWidget,
             duration: TextWidget,
             float: UpDownWidget,
+            html: TextareaWidget,
             int8: UpDownWidget,
             int16: UpDownWidget,
             int32: UpDownWidget,
