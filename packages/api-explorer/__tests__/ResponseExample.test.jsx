@@ -103,7 +103,7 @@ test('should show select for multiple examples on a single media type', () => {
   const html = example.html();
 
   expect(html).not.toContain('>Response type');
-  expect(html).toContain('>Set an example');
+  expect(html).toContain('>Choose an example');
 });
 
 test('should not show a select if a media type has a single example', () => {
@@ -117,6 +117,35 @@ test('should not show a select if a media type has a single example', () => {
   );
 
   expect(example.html()).not.toContain('<select');
+});
+
+test('should correctly handle non-json legacy manual api examples', () => {
+  const exampleResponses = [
+    {
+      status: 200,
+      language: 'xml',
+      code: '<?xml version="1.0" encoding="UTF-8"?><message>OK</message>',
+      name: '',
+    },
+    {
+      name: 'Invalid Credentials',
+      status: 200,
+      language: 'xml',
+      code: '<?xml version="1.0" encoding="UTF-8"?><message>Invalid Credentials</message>',
+    },
+    {
+      status: 404,
+      language: 'xml',
+      code: '<?xml version="1.0" encoding="UTF-8"?><detail>404 Erroror</detail>',
+    },
+  ];
+
+  const example = shallow(<ResponseExample {...props} exampleResponses={exampleResponses} />);
+
+  const html = example.html();
+
+  expect(html).not.toContain('>Response type');
+  expect(html).toContain('>Choose an example');
 });
 
 describe('exampleTab', () => {
