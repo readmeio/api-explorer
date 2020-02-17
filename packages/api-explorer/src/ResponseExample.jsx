@@ -121,7 +121,7 @@ class ResponseExample extends React.Component {
     );
   }
 
-  showExamples(examples, mediaTypes, ex, responseMediaType) {
+  showExamples(language, examples, mediaTypes, ex, responseMediaType) {
     const { responseExample } = this.state;
     let responseExampleCopy = responseExample;
     if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
@@ -132,7 +132,7 @@ class ResponseExample extends React.Component {
           {mediaTypes.length > 1 && this.showMediaTypes(ex, responseMediaType)}
 
           <span className="tabber-select-row">
-            <h3>Set an example</h3>
+            <h3>Choose an example</h3>
             <span className="select-wrapper">
               <select
                 className="response-select"
@@ -149,8 +149,24 @@ class ResponseExample extends React.Component {
           </span>
         </div>
 
-        {examples.map(example => {
-          return getReactJson(example, responseExampleCopy);
+        {examples.map((example, index) => {
+          try {
+            return (
+              <div key={index} className="example example_json">
+                {getReactJson(example, responseExampleCopy)}
+              </div>
+            );
+          } catch (e) {
+            return (
+              <div key={index} className="example">
+                <div style={{ display: isDisplayable(example, responseExampleCopy) ? 'block' : 'none' }}>
+                  {syntaxHighlighter(example.code, language, {
+                    dark: true,
+                  })}
+                </div>
+              </div>
+            );
+          }
         })}
       </div>
     );
@@ -175,6 +191,24 @@ class ResponseExample extends React.Component {
       return e.languages.find(ee => (ee.code && ee.code !== '{}') || 'multipleExamples' in ee);
     });
 
+    const getHighlightedExample = hx => {
+      return (
+        <div className="example">
+          {syntaxHighlighter(hx.code, hx.language, {
+            dark: true,
+          })}
+        </div>
+      );
+    };
+
+    const transformExampleIntoReactJson = rx => {
+      try {
+        return <div className="example example_json">{getReactJson(rx)}</div>;
+      } catch (e) {
+        return getHighlightedExample(rx);
+      }
+    };
+
     return (
       <div className="hub-reference-results-examples code-sample">
         {examples && examples.length > 0 && hasExamples && (
@@ -194,20 +228,6 @@ class ResponseExample extends React.Component {
 
                 const isJson = example.language && contentTypeIsJson(example.language);
 
-                const getHighlightedExample = hx => {
-                  return syntaxHighlighter(hx.code, hx.language, {
-                    dark: true,
-                  });
-                };
-
-                const transformExampleIntoReactJson = rx => {
-                  try {
-                    return getReactJson(rx);
-                  } catch (e) {
-                    return getHighlightedExample(rx);
-                  }
-                };
-
                 return (
                   <div key={index}>
                     <pre
@@ -217,15 +237,19 @@ class ResponseExample extends React.Component {
                       {!example.multipleExamples && this.showMediaTypes(ex, responseMediaType, true)}
 
                       {example.multipleExamples &&
-                        this.showExamples(example.multipleExamples, mediaTypes, ex, responseMediaType)}
+                        this.showExamples(
+                          example.language,
+                          example.multipleExamples,
+                          mediaTypes,
+                          ex,
+                          responseMediaType
+                        )}
 
                       {isJson && !example.multipleExamples ? (
                         <div className="example example_json">{transformExampleIntoReactJson(example)}</div>
                       ) : (
                         // json + multiple examples is already handled in `showExamples`.
-                        <div className="example">
-                          {isJson && example.multipleExamples ? null : getHighlightedExample(example)}
-                        </div>
+                        <>{isJson && example.multipleExamples ? null : getHighlightedExample(example)}</>
                       )}
                     </pre>
                   </div>
