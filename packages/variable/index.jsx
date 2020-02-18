@@ -49,11 +49,7 @@ class Variable extends React.Component {
   static renderAuthDropdown() {
     return (
       <div
-        className={classNames(
-          'ns-popover-dropdown-theme',
-          'ns-popover-bottom-placement',
-          'ns-popover-right-align',
-        )}
+        className={classNames('ns-popover-dropdown-theme', 'ns-popover-bottom-placement', 'ns-popover-right-align')}
         style={{ position: 'absolute' }}
       >
         <div className="ns-popover-tooltip" id="loginDropdown">
@@ -121,9 +117,7 @@ class Variable extends React.Component {
 
 Variable.propTypes = {
   changeSelected: PropTypes.func.isRequired,
-  defaults: PropTypes.arrayOf(
-    PropTypes.shape({ default: PropTypes.string, name: PropTypes.string }),
-  ).isRequired,
+  defaults: PropTypes.arrayOf(PropTypes.shape({ default: PropTypes.string, name: PropTypes.string })).isRequired,
   oauth: PropTypes.bool,
   selected: PropTypes.string.isRequired,
   user: PropTypes.shape({

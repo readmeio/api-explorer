@@ -27,17 +27,7 @@ function GroupsList({ group, groups, onGroupChange }) {
   );
 }
 
-function Securities({
-  auth,
-  authInputRef,
-  group,
-  groups,
-  oauth,
-  onChange,
-  onGroupChange,
-  onSubmit,
-  operation,
-}) {
+function Securities({ auth, authInputRef, group, groups, oauth, onChange, onGroupChange, onSubmit, operation }) {
   const securityTypes = operation.prepareSecurity();
   return (
     <div className="AuthBox">
@@ -142,7 +132,7 @@ const commonProps = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-    }),
+    })
   ),
   onGroupChange: PropTypes.func.isRequired,
 };

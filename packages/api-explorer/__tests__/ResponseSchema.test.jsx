@@ -18,11 +18,7 @@ test('should display a header with a dropdown', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
 
   expect(responseSchema.find('h3').text()).toContain('Response');
-  expect(responseSchema.find('select option').map(el => el.text())).toStrictEqual([
-    '200',
-    '400',
-    '404',
-  ]);
+  expect(responseSchema.find('select option').map(el => el.text())).toStrictEqual(['200', '400', '404']);
 });
 
 test('selectedStatus should change state of selectedStatus', () => {
@@ -57,7 +53,7 @@ test('should work if there are no responses', () => {
           responses: undefined,
         })
       }
-    />,
+    />
   );
 
   expect(responseSchema.html()).toBeNull();
@@ -67,10 +63,8 @@ test('should work if responses is an empty object', () => {
   const responseSchema = shallow(
     <ResponseSchema
       {...props}
-      operation={
-        new Operation({}, '/', 'get', { ...oas.operation('/pet/{petId}', 'get'), responses: {} })
-      }
-    />,
+      operation={new Operation({}, '/', 'get', { ...oas.operation('/pet/{petId}', 'get'), responses: {} })}
+    />
   );
 
   expect(responseSchema.html()).toBeNull();
@@ -171,11 +165,7 @@ test('should allow $ref lookup at the responses object level', () => {
   });
 
   const responseSchema = shallow(
-    <ResponseSchema
-      {...props}
-      oas={testOas}
-      operation={testOas.operation('/ref-responses', 'get')}
-    />,
+    <ResponseSchema {...props} oas={testOas} operation={testOas.operation('/ref-responses', 'get')} />
   );
 
   expect(responseSchema.find('.desc')).toHaveLength(1);

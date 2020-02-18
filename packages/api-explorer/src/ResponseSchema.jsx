@@ -27,11 +27,7 @@ class ResponseSchema extends React.Component {
 
     const firstContentType = Object.keys(content)[0];
 
-    if (
-      content[firstContentType] &&
-      content[firstContentType].schema &&
-      content[firstContentType].schema.$ref
-    ) {
+    if (content[firstContentType] && content[firstContentType].schema && content[firstContentType].schema.$ref) {
       return findSchemaDefinition(content[firstContentType].schema.$ref, oas);
     }
 
@@ -66,11 +62,7 @@ class ResponseSchema extends React.Component {
     return (
       <h3>
         <div className="pull-right">
-          <select
-            className="switcher-switch"
-            onChange={this.changeHandler}
-            value={this.state.selectedStatus}
-          >
+          <select className="switcher-switch" onChange={this.changeHandler} value={this.state.selectedStatus}>
             {keys.map(status => (
               <option key={status} value={status}>
                 {status}

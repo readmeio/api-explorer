@@ -32,7 +32,7 @@ test('should output a variable node', () => {
       .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
-      .parse(markdown),
+      .parse(markdown)
   ).toStrictEqual(ast);
 });
 
@@ -65,7 +65,7 @@ test('should output a glossary node', () => {
       .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
-      .parse(markdown),
+      .parse(markdown)
   ).toStrictEqual(ast);
 });
 
@@ -98,7 +98,7 @@ test('should allow whitespace in glossary names', () => {
       .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
-      .parse(markdown),
+      .parse(markdown)
   ).toStrictEqual(ast);
 });
 
@@ -123,6 +123,6 @@ test('should allow escape variables to remain', () => {
       .use(remarkParse)
       .use(parser)
       .data('settings', { position: false })
-      .parse(markdown),
+      .parse(markdown)
   ).toStrictEqual(ast);
 });

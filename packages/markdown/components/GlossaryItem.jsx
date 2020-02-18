@@ -27,7 +27,7 @@ GlossaryItem.propTypes = {
     PropTypes.shape({
       definition: PropTypes.string.isRequired,
       term: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
 };
 

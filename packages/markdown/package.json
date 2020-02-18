@@ -4,6 +4,7 @@
   "description": "ReadMe's React-based Markdown parser",
   "version": "5.0.0-alpha.0",
   "dependencies": {
+    "@readme/emojis": "^1.0.0",
     "@readme/syntax-highlighter": "^5.0.0-alpha.0",
     "@readme/variable": "^5.0.0-alpha.0",
     "hast-util-sanitize": "^1.2.0",

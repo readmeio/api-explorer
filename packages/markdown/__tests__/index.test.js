@@ -65,8 +65,8 @@ test('tables', () => {
 | col 3 is      | right-aligned | $1600 |
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -97,8 +97,8 @@ test('anchors', () => {
 [blog](blog:slug)
 [changelog](changelog:slug)
 [page](page:slug)
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -130,9 +130,9 @@ test('anchors with baseUrl', () => {
 [blog](blog:slug)
 [changelog](changelog:slug)
 [page](page:slug)
-  `,
-      ),
-    ),
+  `
+      )
+    )
   );
   expect(wrapper.html()).toMatchSnapshot();
 });
@@ -144,8 +144,8 @@ test('emojis', () => {
 :joy:
 :fa-lock:
 :unknown-emoji:
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -160,8 +160,8 @@ var a = 1;
 \`\`\`
 code-without-language
 \`\`\`
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 

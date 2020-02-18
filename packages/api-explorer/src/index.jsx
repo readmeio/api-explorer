@@ -13,17 +13,7 @@ const Doc = require('./Doc');
 
 const getAuth = require('./lib/get-auth');
 
-const supportedHttpMethods = [
-  'connect',
-  'delete',
-  'get',
-  'head',
-  'options',
-  'patch',
-  'post',
-  'put',
-  'trace',
-];
+const supportedHttpMethods = ['connect', 'delete', 'get', 'head', 'options', 'patch', 'post', 'put', 'trace'];
 
 class ApiExplorer extends React.Component {
   constructor(props) {
@@ -46,8 +36,7 @@ class ApiExplorer extends React.Component {
 
     this.onGroupChange = this.onGroupChange.bind(this);
     this.groups =
-      this.props.variables.user.keys &&
-      this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
+      this.props.variables.user.keys && this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
 
     this.lazyHash = this.buildLazyHash();
   }
@@ -172,6 +161,7 @@ class ApiExplorer extends React.Component {
       // operation.
       if (
         typeof doc.api !== 'undefined' &&
+        typeof doc.api.method !== 'undefined' &&
         !supportedHttpMethods.includes(doc.api.method.toLowerCase())
       ) {
         return false;
@@ -240,7 +230,7 @@ ApiExplorer.propTypes = {
     PropTypes.shape({
       definition: PropTypes.string.isRequired,
       term: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
   Logs: PropTypes.func,
   oasFiles: PropTypes.shape({}).isRequired,
@@ -252,7 +242,7 @@ ApiExplorer.propTypes = {
       PropTypes.shape({
         default: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-      }),
+      })
     ).isRequired,
     user: PropTypes.shape({
       id: PropTypes.string,
