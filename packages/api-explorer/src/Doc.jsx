@@ -133,8 +133,8 @@ class Doc extends React.Component {
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
-                {this.renderLogs()}
                 {this.renderParams()}
+                {this.renderLogs()}
               </div>
               <div className="hub-reference-right switcher">{this.renderResponseSchema()}</div>
             </div>
@@ -155,8 +155,8 @@ class Doc extends React.Component {
               {doc.type === 'endpoint' && (
                 <React.Fragment>
                   {this.renderPathUrl()}
-                  {this.renderLogs()}
                   {this.renderParams()}
+                  {this.renderLogs()}
                 </React.Fragment>
               )}
 
