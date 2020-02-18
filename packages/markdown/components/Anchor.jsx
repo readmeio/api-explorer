@@ -70,9 +70,7 @@ Anchor.defaultProps = {
 };
 
 const AnchorContext = props => (
-  <BaseUrlContext.Consumer>
-    {baseUrl => <Anchor baseUrl={baseUrl} {...props} />}
-  </BaseUrlContext.Consumer>
+  <BaseUrlContext.Consumer>{baseUrl => <Anchor baseUrl={baseUrl} {...props} />}</BaseUrlContext.Consumer>
 );
 
 module.exports = sanitizeSchema => {

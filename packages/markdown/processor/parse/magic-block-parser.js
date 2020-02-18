@@ -47,8 +47,8 @@ function tokenize(eat, value) {
             data: { hName: 'code-tabs' },
             type: 'code-tabs',
           },
-          json,
-        ),
+          json
+        )
       );
     }
     case 'api-header': {
@@ -59,8 +59,8 @@ function tokenize(eat, value) {
             depth: json.level || 2,
             children: this.tokenizeInline(json.title, eat.now()),
           },
-          json,
-        ),
+          json
+        )
       );
     }
     case 'image': {
@@ -80,8 +80,8 @@ function tokenize(eat, value) {
               },
             };
           })[0],
-          json,
-        ),
+          json
+        )
       );
     }
     case 'callout': {
@@ -108,16 +108,13 @@ function tokenize(eat, value) {
             children: [
               {
                 type: 'paragraph',
-                children: [
-                  { type: 'text', value: `${icon} ` },
-                  ...this.tokenizeInline(json.title, eat.now()),
-                ],
+                children: [{ type: 'text', value: `${icon} ` }, ...this.tokenizeInline(json.title, eat.now())],
               },
               ...this.tokenizeBlock(json.body, eat.now()),
             ],
           },
-          json,
-        ),
+          json
+        )
       );
     }
     case 'parameters': {
@@ -145,8 +142,8 @@ function tokenize(eat, value) {
             align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
             children,
           },
-          json,
-        ),
+          json
+        )
       );
     }
     case 'embed': {
@@ -176,8 +173,8 @@ function tokenize(eat, value) {
               hName: 'rdme-embed',
             },
           },
-          json,
-        ),
+          json
+        )
       );
     }
     default: {
@@ -188,8 +185,8 @@ function tokenize(eat, value) {
             children: this.tokenizeBlock(json.text || json.html, eat.now()),
             data: json,
           },
-          json,
-        ),
+          json
+        )
       );
     }
   }

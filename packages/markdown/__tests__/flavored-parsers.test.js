@@ -32,8 +32,7 @@ describe('Parse ReadMe-Flavored Markdown Syntax', () => {
   });
 
   it('Single Block', () => {
-    const text =
-      "\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n\n&nbsp;";
+    const text = "\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n\n&nbsp;";
     const ast = process(text);
     expect(ast).toMatchSnapshot();
   });

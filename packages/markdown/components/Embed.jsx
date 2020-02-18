@@ -75,12 +75,7 @@ class Embed extends React.Component {
 }
 
 Embed.propTypes = {
-  children: propTypes.oneOfType([
-    propTypes.string,
-    propTypes.array,
-    propTypes.shape({}),
-    propTypes.element,
-  ]),
+  children: propTypes.oneOfType([propTypes.string, propTypes.array, propTypes.shape({}), propTypes.element]),
   html: propTypes.string,
   url: propTypes.oneOfType([propTypes.string, propTypes.shape({})]),
 };

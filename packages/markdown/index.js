@@ -129,11 +129,7 @@ function parseMarkdown(opts = {}) {
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
-    .use([
-      flavorCodeTabs.sanitize(sanitize),
-      flavorCallout.sanitize(sanitize),
-      flavorEmbed.sanitize(sanitize),
-    ])
+    .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)])
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
@@ -222,14 +218,7 @@ export function md(tree, opts = options) {
   if (!tree) return null;
   return parseMarkdown(opts)
     .use(remarkStringify, opts.markdownOptions)
-    .use([
-      rdmeDivCompiler,
-      codeTabsCompiler,
-      rdmeCalloutCompiler,
-      rdmeEmbedCompiler,
-      rdmeVarCompiler,
-      rdmePinCompiler,
-    ])
+    .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler, rdmePinCompiler])
     .stringify(tree);
 }
 

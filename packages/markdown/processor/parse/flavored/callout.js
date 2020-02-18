@@ -32,10 +32,7 @@ function tokenizer(eat, value) {
         value: text,
       },
     },
-    children: [
-      ...this.tokenizeBlock(`${icon} ${title}`, eat.now()),
-      ...this.tokenizeBlock(text, eat.now()),
-    ],
+    children: [...this.tokenizeBlock(`${icon} ${title}`, eat.now()), ...this.tokenizeBlock(text, eat.now())],
   });
 }
 

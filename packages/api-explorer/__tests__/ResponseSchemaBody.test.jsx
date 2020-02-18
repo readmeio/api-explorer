@@ -235,7 +235,7 @@ test('should render markdown in the description', () => {
   expect(
     mount(<ResponseSchemaBody oas={oas} schema={schema} />)
       .find('a')
-      .html(),
+      .html()
   ).toBe('<a href="https://example.com" target="_self" title="">Description</a>');
 });
 

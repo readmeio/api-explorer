@@ -19,11 +19,7 @@ const process = unified()
   .use(remarkParse, options)
   .data('settings', { position: false })
   .use(parser.sanitize(sanitize))
-  .use([
-    parseCallouts.sanitize(sanitize),
-    parseEmbeds.sanitize(sanitize),
-    parseCodeTabs.sanitize(sanitize),
-  ])
+  .use([parseCallouts.sanitize(sanitize), parseEmbeds.sanitize(sanitize), parseCodeTabs.sanitize(sanitize)])
   .use(rehypeSanitize);
 
 const parse = text => text && process().parse(text);

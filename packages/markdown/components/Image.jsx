@@ -4,9 +4,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const Image = props => {
-  const [title, align, width = 'auto', height = 'auto'] = props.title
-    ? props.title.split(', ')
-    : [];
+  const [title, align, width = 'auto', height = 'auto'] = props.title ? props.title.split(', ') : [];
   const extras = { align, width, height };
   if (props.caption)
     return (
@@ -39,15 +37,6 @@ Image.defaultProps = {
 };
 
 module.exports = sanitizeSchema => {
-  sanitizeSchema.attributes.img = [
-    'className',
-    'title',
-    'alt',
-    'width',
-    'height',
-    'align',
-    'src',
-    'caption',
-  ];
+  sanitizeSchema.attributes.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src', 'caption'];
   return Image;
 };

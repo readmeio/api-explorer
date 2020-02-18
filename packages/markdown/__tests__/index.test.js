@@ -6,9 +6,7 @@ const markdown = require('../index');
 const settings = require('../processor/options.json');
 
 test('image', () => {
-  expect(
-    shallow(markdown.default('![Image](http://example.com/image.png)', settings)).html(),
-  ).toMatchSnapshot();
+  expect(shallow(markdown.default('![Image](http://example.com/image.png)', settings)).html()).toMatchSnapshot();
 });
 
 test('magic image', () => {
@@ -34,9 +32,9 @@ test('magic image', () => {
     }
     [/block]
     `,
-        settings,
-      ),
-    ).html(),
+        settings
+      )
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -45,15 +43,11 @@ test('list items', () => {
 });
 
 test('check list items', () => {
-  expect(
-    shallow(markdown.default('- [ ] checklistitem1\n- [x] checklistitem1', settings)).html(),
-  ).toMatchSnapshot();
+  expect(shallow(markdown.default('- [ ] checklistitem1\n- [x] checklistitem1', settings)).html()).toMatchSnapshot();
 });
 
 test('should strip out inputs', () => {
-  expect(
-    shallow(markdown.default('<input type="text" value="value" />', settings)).html(),
-  ).toMatchSnapshot();
+  expect(shallow(markdown.default('<input type="text" value="value" />', settings)).html()).toMatchSnapshot();
 });
 
 test('tables', () => {
@@ -81,8 +75,8 @@ test('headings', () => {
 #### Heading 4
 ##### Heading 5
 ###### Heading 6
-  `),
-    ).html(),
+  `)
+    ).html()
   ).toMatchSnapshot();
 });
 
@@ -103,16 +97,12 @@ test('anchors', () => {
 });
 
 test('anchor target: should default to _self', () => {
-  expect(
-    shallow(markdown.default('[test](https://example.com)', settings)).html(),
-  ).toMatchSnapshot();
+  expect(shallow(markdown.default('[test](https://example.com)', settings)).html()).toMatchSnapshot();
 });
 
 test('anchor target: should allow _blank if using HTML', () => {
   expect(
-    shallow(
-      markdown.default('<a href="https://example.com" target="_blank">test</a>', settings),
-    ).html(),
+    shallow(markdown.default('<a href="https://example.com" target="_blank">test</a>', settings)).html()
   ).toMatchSnapshot();
 });
 
@@ -170,11 +160,9 @@ test('should render nothing if nothing passed in', () => {
 });
 
 test('`correctnewlines` option', () => {
-  expect(shallow(markdown.react('test\ntest\ntest', { correctnewlines: true })).html()).toBe(
-    '<p>test\ntest\ntest</p>',
-  );
+  expect(shallow(markdown.react('test\ntest\ntest', { correctnewlines: true })).html()).toBe('<p>test\ntest\ntest</p>');
   expect(shallow(markdown.react('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
-    '<p>test<br/>\ntest<br/>\ntest</p>',
+    '<p>test<br/>\ntest<br/>\ntest</p>'
   );
 });
 
@@ -187,9 +175,7 @@ describe('`stripHtml` option', () => {
   });
 
   it.skip('should escape unknown tags', () => {
-    expect(markdown.html('<unknown-tag>Test</unknown-tag>')).toBe(
-      '<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>',
-    );
+    expect(markdown.html('<unknown-tag>Test</unknown-tag>')).toBe('<p>&lt;unknown-tag&gt;Test&lt;/unknown-tag&gt;</p>');
   });
 
   it('should allow certain attributes', () => {
@@ -201,24 +187,20 @@ describe('`stripHtml` option', () => {
   });
 
   it.skip('should escape everything if `stripHtml=true`', () => {
-    expect(markdown.html('<p>Test</p>', { stripHtml: true })).toBe(
-      '<p>&lt;p&gt;Test&lt;/p&gt;</p>\n',
-    );
+    expect(markdown.html('<p>Test</p>', { stripHtml: true })).toBe('<p>&lt;p&gt;Test&lt;/p&gt;</p>\n');
   });
 });
 
 test('should strip dangerous iframe tag', () => {
-  expect(
-    shallow(
-      markdown.react('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>', settings),
-    ).html(),
-  ).toBe('<p></p>');
+  expect(shallow(markdown.react('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>', settings)).html()).toBe(
+    '<p></p>'
+  );
 });
 
 test('should strip dangerous img attributes', () => {
-  expect(
-    shallow(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html(),
-  ).toBe('<img alt="" caption="" height="auto" src="x" width="auto"/>');
+  expect(shallow(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html()).toBe(
+    '<img alt="" caption="" height="auto" src="x" width="auto"/>'
+  );
 });
 
 describe('export multiple Markdown renderers', () => {
