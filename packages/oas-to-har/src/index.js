@@ -150,11 +150,17 @@ module.exports = (
   }
 
   // Do we have any `header` parameters on the operation?
+  let hasContentType = false;
   const headers = parameters && parameters.filter(param => param.in === 'header');
   if (headers && headers.length) {
     headers.forEach(header => {
       const value = formatter(formData, header, 'header', true);
       if (typeof value === 'undefined') return;
+
+      if (header.name.toLowerCase() === 'content-type') {
+        hasContentType = true;
+      }
+
       har.headers.push({
         name: header.name,
         value: String(value),
@@ -165,6 +171,10 @@ module.exports = (
   // Are there `x-static` static headers configured for this OAS?
   if (oas['x-headers']) {
     oas['x-headers'].forEach(header => {
+      if (header.key.toLowerCase() === 'content-type') {
+        hasContentType = true;
+      }
+
       har.headers.push({
         name: header.key,
         value: String(header.value),
@@ -235,10 +245,11 @@ module.exports = (
     }
   }
 
-  // Add content-type header if there are any body values setup above ^^
-  // or if there is a schema defined
-  if (har.postData.text || Object.keys(schema.schema).length) {
+  // Add a `Content-Type` header if there are any body values setup above or if there is a schema defined, but only do
+  // so if we don't already have a `Content-Type` present as it's impossible for a request to have multiple.
+  if ((har.postData.text || Object.keys(schema.schema).length) && !hasContentType) {
     const type = getContentType(pathOperation);
+
     har.headers.push({
       name: 'Content-Type',
       value: type,
