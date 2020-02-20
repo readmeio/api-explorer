@@ -1435,6 +1435,38 @@ describe('content-type & accept header', () => {
       ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
+
+  it("should only add a content-type if one isn't already present", () => {
+    const har = oasToHar(
+      new Oas({
+        'x-headers': [{ key: 'Content-Type', value: 'multipart/form-data' }],
+      }),
+      {
+        path: '/',
+        method: 'put',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
+                  },
+                },
+              },
+              example: { a: 'value' },
+            },
+          },
+        },
+      }
+    );
+
+    // `Content-Type: application/json` would normally appear here if there were no `x-headers`, but since there is
+    // we should default to that so as to we don't double up on Content-Type headers.
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'multipart/form-data' }]);
+  });
 });
 
 describe('x-headers', () => {
