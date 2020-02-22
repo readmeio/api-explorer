@@ -28,7 +28,7 @@
     "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
     "lint": "eslint . --ext js --ext jsx",
-    "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "pretest": "npm run prettier && npm run lint && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
     "watch": "webpack -w --progress"
