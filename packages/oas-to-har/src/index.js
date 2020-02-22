@@ -1,6 +1,6 @@
 const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
-const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('oas/utils');
+const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');

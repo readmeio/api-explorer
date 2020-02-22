@@ -7,8 +7,8 @@ const PasswordWidget = require('react-jsonschema-form/lib/components/widgets/Pas
 const TextWidget = require('react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const UpDownWidget = require('react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 
-const Oas = require('oas');
-const { parametersToJsonSchema } = require('oas/utils');
+const Oas = require('@readme/oas-tooling');
+const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 
 const DescriptionField = require('./form-components/DescriptionField');
 const createBaseInput = require('./form-components/BaseInput');
