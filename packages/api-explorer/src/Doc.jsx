@@ -5,8 +5,8 @@ const extensions = require('@readme/oas-extensions');
 const markdown = require('@readme/markdown');
 const Waypoint = require('react-waypoint');
 const oasToHar = require('@readme/oas-to-har');
-const Oas = require('oas');
-const { getPath } = require('oas/utils');
+const Oas = require('@readme/oas-tooling');
+const { getPath } = require('@readme/oas-tooling/utils');
 
 const isAuthReady = require('./lib/is-auth-ready');
 

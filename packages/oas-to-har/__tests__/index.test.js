@@ -1,6 +1,6 @@
 const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 
 const oasToHar = require('../src/index');
 const commonParameters = require('./fixtures/common-parameters');

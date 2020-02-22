@@ -1,4 +1,4 @@
-const { findSchemaDefinition } = require('oas/utils');
+const { findSchemaDefinition } = require('@readme/oas-tooling/utils');
 
 function getLanguage(response) {
   return response.content ? Object.keys(response.content)[0] : '';
