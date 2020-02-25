@@ -190,8 +190,8 @@ describe('schema format handling', () => {
     it.each([
       ['password', 'password', stringOas.operation('/format-password', 'get'), 'password'],
       ['date', 'text', stringOas.operation('/format-date', 'get'), 'date'],
-      ['date-time', 'datetime-local', stringOas.operation('/format-date-time', 'get'), 'date-time'],
-      ['dateTime', 'datetime-local', stringOas.operation('/format-dateTime', 'get'), 'date-time'],
+      ['date-time', 'text', stringOas.operation('/format-date-time', 'get'), 'string'],
+      ['dateTime', 'text', stringOas.operation('/format-dateTime', 'get'), 'string'],
       ['uri', 'url', stringOas.operation('/format-uri', 'get'), 'uri'],
       ['url', 'url', stringOas.operation('/format-url', 'get'), 'url'],
     ])(`%s should render as <input type="%s">`, (type, inputType, stringOperation, label) => {
