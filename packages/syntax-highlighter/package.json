@@ -1,9 +1,9 @@
 {
   "name": "@readme/syntax-highlighter",
   "description": "Syntax highlighter used on ReadMe.io",
-  "version": "4.18.2",
+  "version": "4.19.2",
   "dependencies": {
-    "@readme/variable": "^4.18.2",
+    "@readme/variable": "^4.19.2",
     "codemirror": "^5.48.2",
     "react": "^16.4.2"
   },
