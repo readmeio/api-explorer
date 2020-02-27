@@ -1,11 +1,11 @@
 {
   "name": "api-explorer",
-  "description": "Open source components that make up ReadMe&#39;s API explorer",
   "private": true,
-  "version": "0.0.0",
+  "description": "Open source components that make up ReadMe's API explorer",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "./build.sh & lerna run build",
+    "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",
     "lint": "eslint example lib *.js --ext js --ext jsx",
     "publish": "lerna publish",

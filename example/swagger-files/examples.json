@@ -38,8 +38,7 @@
                 "examples": {
                   "cat" : {
                     "summary": "An example of a cat",
-                    "value":
-                    {
+                    "value": {
                       "name": "Fluffy",
                       "petType": "Cat",
                       "color": "White",

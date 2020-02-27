@@ -2,13 +2,13 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('@readme/react-jsonschema-form').default;
 
-const DateTimeWidget = require('@readme/react-jsonschema-form/lib/components/widgets/DateTimeWidget').default;
+// const DateTimeWidget = require('@readme/react-jsonschema-form/lib/components/widgets/DateTimeWidget').default;
 const PasswordWidget = require('@readme/react-jsonschema-form/lib/components/widgets/PasswordWidget').default;
 const TextWidget = require('@readme/react-jsonschema-form/lib/components/widgets/TextWidget').default;
 const UpDownWidget = require('@readme/react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
 
-const Oas = require('oas');
-const { parametersToJsonSchema } = require('oas/utils');
+const Oas = require('@readme/oas-tooling');
+const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 
 const DescriptionField = require('./form-components/DescriptionField');
 const createBaseInput = require('./form-components/BaseInput');
@@ -67,8 +67,10 @@ function Params({
             blob: TextareaWidget,
             byte: TextWidget,
             date: TextWidget,
-            dateTime: DateTimeWidget,
-            'date-time': DateTimeWidget,
+            // Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
+            // browsers that don't fully support it.
+            /* dateTime: DateTimeWidget,
+            'date-time': DateTimeWidget, */
             double: UpDownWidget,
             duration: TextWidget,
             float: UpDownWidget,

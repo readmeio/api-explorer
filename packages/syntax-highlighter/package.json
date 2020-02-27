@@ -1,16 +1,16 @@
 {
   "name": "@readme/syntax-highlighter",
   "description": "Syntax highlighter used on ReadMe.io",
-  "version": "4.16.0",
+  "version": "4.18.2",
   "dependencies": {
-    "@readme/variable": "^4.16.0",
+    "@readme/variable": "^4.18.2",
     "codemirror": "^5.48.2",
     "react": "^16.4.2"
   },
   "scripts": {
     "inspect": "jsinspect",
     "lint": "eslint . --ext .jsx --ext .js",
-    "pretest": "npm run lint && npm run inspect && npm run prettier",
+    "pretest": "npm run prettier && npm run lint && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand"
   },
