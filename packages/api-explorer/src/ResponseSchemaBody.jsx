@@ -32,6 +32,7 @@ function ResponseSchemaBody({ schema, oas }) {
           width: '70%',
           overflow: 'hidden',
           paddingLeft: '15px',
+          wordBreak: 'break-all',
         }}
       >
         {row.name}
