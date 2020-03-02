@@ -107,6 +107,7 @@ function SchemaField(props) {
     return <BaseSchemaField {...props} uiSchema={{ ...props.uiSchema, classNames: `field-${customType}` }} />;
   }
 
+  // Transform booleans from a checkbox into a dropdown.
   if (props.schema.type === 'boolean') {
     props.schema.enumNames = ['true', 'false'];
     return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
