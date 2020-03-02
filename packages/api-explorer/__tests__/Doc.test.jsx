@@ -340,7 +340,7 @@ describe('RenderLogs', () => {
     const doc = mount(<Doc {...props} />);
     doc.setProps({ Logs: {} });
     const res = doc.instance().renderLogs();
-    expect(res).toBeTruthy();
+    expect(typeof res).toBe('object');
   });
 });
 
