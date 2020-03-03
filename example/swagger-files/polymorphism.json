@@ -84,7 +84,6 @@
         }
       }
     },
-
     "/anything/any-of-object": {
       "post": {
         "summary": "anyOf object",
