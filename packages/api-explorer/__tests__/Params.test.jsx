@@ -8,9 +8,9 @@ const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
 
 const { Operation } = Oas;
-const petstore = require('./fixtures/petstore/oas.json');
-const boolean = require('./fixtures/boolean/oas.json');
-const string = require('./fixtures/string/oas.json');
+const petstore = require('./__fixtures__/petstore/oas.json');
+const boolean = require('./__fixtures__/boolean/oas.json');
+const string = require('./__fixtures__/string/oas.json');
 
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet/{petId}', 'get');

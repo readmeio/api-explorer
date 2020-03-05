@@ -3,8 +3,8 @@ const Oas = require('@readme/oas-tooling');
 const createCodeShower = require('../../src/lib/create-code-shower')('results');
 const createCodeShower2 = require('../../src/lib/create-code-shower')('examples');
 
-const example = require('../fixtures/example-results/oas');
-const petstore = require('../fixtures/petstore/oas');
+const example = require('../__fixtures__/example-results/oas');
+const petstore = require('../__fixtures__/petstore/oas');
 
 const oas = new Oas(example);
 const oas2 = new Oas(petstore);

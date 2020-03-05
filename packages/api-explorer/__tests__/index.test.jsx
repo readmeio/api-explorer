@@ -6,8 +6,8 @@ const WrappedApiExplorer = require('../src');
 
 const { ApiExplorer } = WrappedApiExplorer;
 
-const oas = require('./fixtures/petstore/oas');
-const oasCommon = require('./fixtures/parameters/common');
+const oas = require('./__fixtures__/petstore/oas');
+const oasCommon = require('./__fixtures__/parameters/common');
 
 const createDocs = require('../lib/create-docs');
 
@@ -188,10 +188,12 @@ describe('oas', () => {
 });
 
 describe('auth', () => {
+  const defaults = [];
+
   it('should read apiKey from `variables.user.apiKey`', () => {
     const apiKey = '123456';
 
-    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
+    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey }, defaults }} />);
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '123456' });
   });
@@ -199,7 +201,9 @@ describe('auth', () => {
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
     const apiKey = '123456';
 
-    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />);
+    const explorer = shallow(
+      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] }, defaults }} />
+    );
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '123456' });
   });
@@ -208,7 +212,7 @@ describe('auth', () => {
     const apiKey = '123456';
 
     const explorer = shallow(
-      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] } }} />
+      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] }, defaults }} />
     );
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '' });

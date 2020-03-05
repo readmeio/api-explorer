@@ -7,7 +7,7 @@ const PathUrl = require('../src/PathUrl');
 const { splitPath } = PathUrl;
 
 const { Operation } = Oas;
-const petstore = require('./fixtures/petstore/oas');
+const petstore = require('./__fixtures__/petstore/oas');
 
 const oas = new Oas(petstore);
 
@@ -18,6 +18,7 @@ const props = {
   oas,
   oauth: false,
   onChange: () => {},
+  onGroupChange: () => {},
   onSubmit: () => {},
   operation: oas.operation('/pet/{petId}', 'get'),
   toggleAuth: () => {},

@@ -1,8 +1,8 @@
 const Oas = require('@readme/oas-tooling');
 
 const isAuthReady = require('../../src/lib/is-auth-ready');
-const authTypesOas = require('../fixtures/auth-types/oas');
-const multipleSchemes = require('../fixtures/multiple-securities/oas');
+const authTypesOas = require('../__fixtures__/auth-types/oas');
+const multipleSchemes = require('../__fixtures__/multiple-securities/oas');
 
 const oas = new Oas(authTypesOas);
 const oas2 = new Oas(multipleSchemes);

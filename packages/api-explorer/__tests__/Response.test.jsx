@@ -2,7 +2,7 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Oas = require('@readme/oas-tooling');
 
-const petstore = require('./fixtures/petstore/oas');
+const petstore = require('./__fixtures__/petstore/oas');
 
 const Response = require('../src/Response');
 

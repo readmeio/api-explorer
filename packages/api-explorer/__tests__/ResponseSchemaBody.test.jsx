@@ -3,7 +3,7 @@ const { shallow, mount } = require('enzyme');
 const Oas = require('@readme/oas-tooling');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
-const petstore = require('./fixtures/petstore/oas.json');
+const petstore = require('./__fixtures__/petstore/oas.json');
 
 const oas = new Oas(petstore);
 
