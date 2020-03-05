@@ -10,8 +10,9 @@ function createArrayField(oas) {
 
   function hasPrimitives(props) {
     const { schema, registry = getDefaultRegistry() } = props;
-    const { definitions } = registry;
-    const itemsSchema = retrieveSchema(schema.items, definitions);
+    const { rootSchema } = registry;
+
+    const itemsSchema = retrieveSchema(schema.items, rootSchema);
 
     return itemsSchema.type !== 'array' && itemsSchema.type !== 'object';
   }
