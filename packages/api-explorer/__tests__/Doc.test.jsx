@@ -318,11 +318,11 @@ describe('suggest edits', () => {
 });
 
 describe('Response Schema', () => {
-  /* it('should render Response Schema if endpoint does have a response', () => {
-    const doc = mount(<Doc {...props} />);
+  it('should render Response Schema if endpoint does have a response', () => {
+    const doc = mount(<Doc {...props} oas={petstoreWithAuth} />);
     doc.setState({ showEndpoint: true });
     expect(doc.find('ResponseSchema')).toHaveLength(1);
-  }); */
+  });
 
   it('should not render Response Schema if endpoint does not have a response', () => {
     const doc = shallow(
