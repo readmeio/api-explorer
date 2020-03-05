@@ -4,18 +4,18 @@
   "description": "Open source components that make up ReadMe's API explorer",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "./build.sh & lerna run build",
+    "build": "./build.sh; lerna run build",
     "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",
     "lint": "eslint example example/ lib/ scripts/ *.js --ext js --ext jsx",
     "publish": "lerna publish",
-    "pretest": "npm run lint",
-    "start": "npm run update:examples && webpack-dev-server --open",
+    "pretest": "npm run update:examples; npm run lint",
+    "start": "npm run update:examples; webpack-dev-server --open",
     "test": "lerna run test --stream",
-    "update:emojis": "rm -rf example/img/emojis && mkdir example/img/emojis && cp packages/markdown/node_modules/@readme/emojis/src/img/* example/img/emojis",
+    "update:emojis": "rm -rf example/img/emojis; mkdir example/img/emojis; cp packages/markdown/node_modules/@readme/emojis/src/img/* example/img/emojis",
     "update:examples": "node scripts/update-example-swagger-files",
     "watch": "lerna run watch --stream",
-    "version": "auto-changelog -v $(node -e \"console.log('v' + require('./lerna.json').version)\") && git add CHANGELOG.md"
+    "version": "auto-changelog -v $(node -e \"console.log('v' + require('./lerna.json').version)\"); git add CHANGELOG.md"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
