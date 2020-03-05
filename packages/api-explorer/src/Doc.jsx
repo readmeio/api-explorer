@@ -365,7 +365,7 @@ Doc.propTypes = {
         ),
       }),
       method: PropTypes.string.isRequired,
-      params: PropTypes.object,
+      params: PropTypes.arrayOf(PropTypes.object),
       results: PropTypes.shape({
         codes: PropTypes.arrayOf(PropTypes.shape({})),
       }),

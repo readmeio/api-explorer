@@ -164,4 +164,7 @@ AuthBox.defaultProps = {
 Securities.propTypes = { ...AuthBox.propTypes };
 Securities.defaultProps = { ...AuthBox.defaultProps };
 
+// `props.toggle` is not used in Securities, and passing it through as a required prop throws errors in dev.
+delete Securities.propTypes.toggle;
+
 module.exports = AuthBox;
