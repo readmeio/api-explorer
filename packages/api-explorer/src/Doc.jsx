@@ -232,6 +232,7 @@ class Doc extends React.Component {
 
   renderEndpoint() {
     const { doc } = this.props;
+    this.props.onDocRender(doc._id);
 
     return (
       <EndpointErrorBoundary>
@@ -336,7 +337,7 @@ class Doc extends React.Component {
         </div>
 
         {renderEndpoint()}
-
+        {!this.props.rendered && <Content body={doc.body} flags={this.props.flags} isThreeColumn />}
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -355,6 +356,7 @@ Doc.propTypes = {
   auth: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string,
   doc: PropTypes.shape({
+    _id: PropTypes.string,
     api: PropTypes.shape({
       examples: PropTypes.shape({
         codes: PropTypes.arrayOf(
@@ -370,6 +372,7 @@ Doc.propTypes = {
         codes: PropTypes.arrayOf(PropTypes.shape({})),
       }),
     }),
+    body: PropTypes.string,
     excerpt: PropTypes.string,
     slug: PropTypes.string.isRequired,
     swagger: PropTypes.shape({
@@ -394,7 +397,9 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  onDocRender: PropTypes.func.isRequired,
   onGroupChange: PropTypes.func.isRequired,
+  rendered: PropTypes.bool,
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,

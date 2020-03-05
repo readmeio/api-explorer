@@ -307,3 +307,18 @@ describe('auth', () => {
     expect(explorer.state('auth')).toStrictEqual({ api_key: '7890', petstore_auth: '123456' });
   });
 });
+
+describe('onDocRender()', () => {
+  it('should set a key to true if passed', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+    explorer.instance().onDocRender({ '123': true });
+    expect(explorer.state('docRenderMap')).toStrictEqual({ '123': true });
+  });
+
+  it('should not set key if previously set', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+    explorer.instance().onDocRender({ '123': true });
+    explorer.instance().onDocRender({ '123': false });
+    expect(explorer.state('docRenderMap')).toStrictEqual({ '123': true });
+  });
+});
