@@ -36,7 +36,17 @@ function getCustomType(schema) {
       if (schema.format === 'binary') return 'file';
       if (schema.format === 'dateTime') return 'date-time';
 
-      const supportedStringFormats = ['date', 'date-time', 'json', 'password', 'timestamp', 'uri', 'url'];
+      const supportedStringFormats = [
+        'blob',
+        'date',
+        'date-time',
+        'html',
+        'json',
+        'password',
+        'timestamp',
+        'uri',
+        'url',
+      ];
 
       if (supportedStringFormats.includes(schema.format)) {
         return schema.format;
