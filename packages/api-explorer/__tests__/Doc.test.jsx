@@ -25,6 +25,7 @@ const props = {
   oauth: false,
   onAuthChange: () => {},
   setLanguage: () => {},
+  onDocRender: () => {},
   suggestedEdits: false,
   tryItMetrics: () => {},
 };
@@ -105,6 +106,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       language="node"
       oauth={false}
       onAuthChange={() => {}}
+      onDocRender={() => {}}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
@@ -128,6 +130,7 @@ test('should still display `Content` with column-style layout', () => {
       language="node"
       oauth={false}
       onAuthChange={() => {}}
+      onDocRender={() => {}}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
