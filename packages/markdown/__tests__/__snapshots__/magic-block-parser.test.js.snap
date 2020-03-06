@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Blank Magic Blocks 1`] = `
+Object {
+  "children": Array [],
+  "type": "root",
+}
+`;
+
 exports[`Parse Magic Blocks Callout Blocks 1`] = `
 Object {
   "children": Array [
@@ -99,6 +106,75 @@ alert('test');",
       },
       "type": "code-tabs",
     },
+    Object {
+      "children": Array [
+        Object {
+          "className": "tab-panel",
+          "data": Object {
+            "hName": "code",
+            "hProperties": Object {
+              "lang": "javascript",
+              "meta": null,
+            },
+          },
+          "lang": "javascript",
+          "meta": null,
+          "type": "code",
+          "value": "$http.post('/someUrl', data).success(successCallback);
+
+alert('test');",
+        },
+      ],
+      "data": Object {
+        "className": "pin",
+        "hName": "rdme-pin",
+      },
+      "type": "rdme-pin",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse Magic Blocks Custom Callout Blocks 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "✨ ",
+            },
+            Object {
+              "type": "text",
+              "value": "Callout Title",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Lorem ipsum dolor sit amet...",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "data": Object {
+        "hName": "rdme-callout",
+        "hProperties": Object {
+          "icon": "✨",
+          "theme": "custom_theme",
+          "title": "Callout Title",
+          "value": "Lorem ipsum dolor sit amet...",
+        },
+      },
+      "type": "rdme-callout",
+    },
   ],
   "type": "root",
 }
@@ -158,6 +234,14 @@ Object {
       ],
       "depth": 2,
       "type": "heading",
+    },
+    Object {
+      "lang": null,
+      "meta": null,
+      "type": "code",
+      "value": "[block:api-header]
+{}
+[/block]",
     },
   ],
   "type": "root",

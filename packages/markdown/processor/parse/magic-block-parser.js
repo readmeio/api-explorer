@@ -20,7 +20,13 @@ function tokenize(eat, value) {
 
   match = match.trim();
   type = type.trim();
-  json = (json && JSON.parse(json)) || {};
+  try {
+    json = JSON.parse(json);
+  } catch (err) {
+    json = {};
+    // eslint-disable-next-line no-console
+    console.error('Invalid Magic Block JSON:', err);
+  }
 
   if (Object.keys(json).length < 1) return eat(match);
 

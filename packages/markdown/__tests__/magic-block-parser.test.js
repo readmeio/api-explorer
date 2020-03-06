@@ -15,6 +15,12 @@ const process = (text, opts = options) =>
     .use(rehypeSanitize)
     .parse(text);
 
+test('Blank Magic Blocks', () => {
+  const text = `[block:api-header]
+  [/block]`;
+  expect(process(text)).toMatchSnapshot();
+});
+
 test('Sanitize Schema', () => {
   parser.sanitize(sanitize);
   expect(sanitize).toMatchSnapshot();
@@ -27,6 +33,10 @@ describe('Parse Magic Blocks', () => {
       "title": "MagicBlock Conversion",
       "level": 2
     }
+    [/block]
+
+    [block:api-header]
+    {}
     [/block]`;
     expect(process(text)).toMatchSnapshot();
   });
@@ -65,6 +75,17 @@ describe('Parse Magic Blocks', () => {
           "code": "second tab",
           "language": "text",
           "name": "custom title"
+        }
+      ]
+    }
+
+    [/block][block:code]
+    {
+      "sidebar": true,
+      "codes": [
+        {
+          "code": "$http.post('/someUrl', data).success(successCallback);\\n\\nalert('test');",
+          "language": "javascript"
         }
       ]
     }
@@ -115,6 +136,18 @@ describe('Parse Magic Blocks', () => {
       "type": "success",
       "title": "Callout Title",
       "body": "Lorem ipsum dolor sit amet, _consectetur_ adipiscing elit. Praesent nec massa tristique arcu fermentum dapibus. Integer orci turpis, mollis vel augue eget, placerat rhoncus orci. Mauris metus libero, rutrum"
+    }
+    [/block]`;
+    expect(process(text)).toMatchSnapshot();
+  });
+
+  it('Custom Callout Blocks', () => {
+    const text = `[block:callout]
+    {
+      "type": "custom_theme",
+      "icon": "✨",
+      "title": "Callout Title",
+      "body": "Lorem ipsum dolor sit amet..."
     }
     [/block]`;
     expect(process(text)).toMatchSnapshot();
