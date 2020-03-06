@@ -312,13 +312,13 @@ describe('onDocRender()', () => {
   it('should set a key to true if passed', () => {
     const explorer = mount(<ApiExplorer {...props} />);
     explorer.instance().onDocRender({ '123': true });
-    expect(explorer.state('docRenderMap')).toStrictEqual({ '123': true });
+    expect(explorer.state('docRenderMap')['123']).toBe(true);
   });
 
   it('should not set key if previously set', () => {
     const explorer = mount(<ApiExplorer {...props} />);
     explorer.instance().onDocRender({ '123': true });
     explorer.instance().onDocRender({ '123': false });
-    expect(explorer.state('docRenderMap')).toStrictEqual({ '123': true });
+    expect(explorer.state('docRenderMap')['123']).toBe(true);
   });
 });

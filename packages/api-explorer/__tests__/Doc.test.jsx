@@ -37,7 +37,8 @@ function assertDocElements(component, doc) {
 }
 
 test('should output a div', () => {
-  const doc = shallow(<Doc {...props} />);
+  const onRender = () => {};
+  const doc = shallow(<Doc {...props} onDocRender={onRender} />);
 
   doc.setState({ showEndpoint: true });
 
@@ -68,6 +69,8 @@ test('should render straight away if `appearance.splitReferenceDocs` is true', (
 
 test('should render a manual endpoint', () => {
   const myProps = JSON.parse(JSON.stringify(props));
+  const onRender = () => {};
+
   myProps.doc.swagger.path = '/nonexistant';
   myProps.doc.api.examples = {
     codes: [],
@@ -90,6 +93,7 @@ test('should render a manual endpoint', () => {
       appearance={{
         splitReferenceDocs: true,
       }}
+      onDocRender={onRender}
     />
   );
 
@@ -107,6 +111,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       oauth={false}
       onAuthChange={() => {}}
       onDocRender={() => {}}
+      rendered={true}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
@@ -131,6 +136,7 @@ test('should still display `Content` with column-style layout', () => {
       oauth={false}
       onAuthChange={() => {}}
       onDocRender={() => {}}
+      rendered={true}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
