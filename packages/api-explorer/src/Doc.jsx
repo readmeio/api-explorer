@@ -356,7 +356,6 @@ Doc.propTypes = {
   auth: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string,
   doc: PropTypes.shape({
-    _id: PropTypes.string,
     api: PropTypes.shape({
       examples: PropTypes.shape({
         codes: PropTypes.arrayOf(
