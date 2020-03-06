@@ -7,6 +7,7 @@ function tokenizeVariable(eat, value, silent) {
 
   if (!match) return false;
 
+  /* istanbul ignore if */
   if (silent) return true;
 
   // Escaped variables should just return the text

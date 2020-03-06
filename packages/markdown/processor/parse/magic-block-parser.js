@@ -20,7 +20,15 @@ function tokenize(eat, value) {
 
   match = match.trim();
   type = type.trim();
-  json = (json && JSON.parse(json)) || {};
+  try {
+    json = JSON.parse(json);
+  } catch (err) {
+    json = {};
+    // eslint-disable-next-line no-console
+    console.error('Invalid Magic Block JSON:', err);
+  }
+
+  if (Object.keys(json).length < 1) return eat(match);
 
   switch (type) {
     case 'code': {
@@ -57,40 +65,40 @@ function tokenize(eat, value) {
           {
             type: 'heading',
             depth: json.level || 2,
-            children: this.tokenizeInline(json.title, eat.now()),
+            children: 'title' in json ? this.tokenizeInline(json.title, eat.now()) : '',
           },
           json
         )
       );
     }
     case 'image': {
-      return eat(match)(
-        WrapPinnedBlocks(
-          json.images.map(img => {
-            const [url, title] = img.image;
-            return {
-              type: 'image',
-              url,
-              title,
-              alt: img.caption,
-              data: {
-                hProperties: {
-                  caption: img.caption,
-                },
-              },
-            };
-          })[0],
-          json
-        )
-      );
+      const imgs = json.images.map(img => {
+        const [url, title] = img.image;
+        return {
+          type: 'image',
+          url,
+          title,
+          alt: img.caption,
+          data: {
+            hProperties: {
+              caption: img.caption,
+            },
+          },
+        };
+      });
+      const img = imgs[0];
+
+      if (!img.url) return eat(match);
+      return eat(match)(WrapPinnedBlocks(img, json));
     }
     case 'callout': {
-      json.type = {
+      const types = {
         info: ['ℹ', 'info'],
         success: ['👍', 'okay'],
         warning: ['⚠️', 'warn'],
         danger: ['❗️', 'error'],
-      }[json.type];
+      };
+      json.type = json.type in types ? types[json.type] : [json.icon || '👍', json.type];
       const [icon, theme] = json.type;
       return eat(match)(
         WrapPinnedBlocks(
@@ -133,18 +141,16 @@ function tokenize(eat, value) {
             type: row ? 'tableCell' : 'tableHead',
             children: this.tokenizeInline(val, eat.now()),
           };
+          // convert falsey values to empty strings
+          sum[row].children = [...sum[row].children].map(v => v || '');
           return sum;
         }, []);
-      return eat(match)(
-        WrapPinnedBlocks(
-          {
-            type: 'table',
-            align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
-            children,
-          },
-          json
-        )
-      );
+      const table = {
+        type: 'table',
+        align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
+        children: children.filter(v => v || false),
+      };
+      return eat(match)(WrapPinnedBlocks(table, json));
     }
     case 'embed': {
       json.title = json.title || 'Embed';
