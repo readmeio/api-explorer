@@ -22,6 +22,8 @@ function tokenize(eat, value) {
   type = type.trim();
   json = (json && JSON.parse(json)) || {};
 
+  if (Object.keys(json).length < 1) return eat(match);
+
   switch (type) {
     case 'code': {
       const children = json.codes.map(obj => ({
@@ -64,33 +66,33 @@ function tokenize(eat, value) {
       );
     }
     case 'image': {
-      return eat(match)(
-        WrapPinnedBlocks(
-          json.images.map(img => {
-            const [url, title] = img.image;
-            return {
-              type: 'image',
-              url,
-              title,
-              alt: img.caption,
-              data: {
-                hProperties: {
-                  caption: img.caption,
-                },
-              },
-            };
-          })[0],
-          json,
-        ),
-      );
+      const imgs = json.images.map(img => {
+        const [url, title] = img.image;
+        return {
+          type: 'image',
+          url,
+          title,
+          alt: img.caption,
+          data: {
+            hProperties: {
+              caption: img.caption,
+            },
+          },
+        };
+      });
+      const img = imgs[0];
+
+      if (!img.url) return eat(match);
+      return eat(match)(WrapPinnedBlocks(img, json));
     }
     case 'callout': {
-      json.type = {
+      const types = {
         info: ['ℹ', 'info'],
         success: ['👍', 'okay'],
         warning: ['⚠️', 'warn'],
         danger: ['❗️', 'error'],
-      }[json.type || 'info'];
+      };
+      json.type = json.type in types ? types[json.type] : [json.icon || '👍', json.type];
       const [icon, theme] = json.type;
       return eat(match)(
         WrapPinnedBlocks(
@@ -137,7 +139,7 @@ function tokenize(eat, value) {
             children: this.tokenizeInline(val, eat.now()),
           };
           // convert falsey values to empty strings
-          sum[row].children = [...sum[row].children].map(v => v || ''); // TODO: set default to &nbsp; (th cells are required in MD)
+          sum[row].children = [...sum[row].children].map(v => v || '');
           return sum;
         }, []);
       const table = {
