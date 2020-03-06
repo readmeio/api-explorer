@@ -57,7 +57,7 @@ function tokenize(eat, value) {
           {
             type: 'heading',
             depth: json.level || 2,
-            children: this.tokenizeInline(json.title, eat.now()),
+            children: 'title' in json ? this.tokenizeInline(json.title, eat.now()) : '',
           },
           json
         )
@@ -90,7 +90,7 @@ function tokenize(eat, value) {
         success: ['👍', 'okay'],
         warning: ['⚠️', 'warn'],
         danger: ['❗️', 'error'],
-      }[json.type];
+      }[json.type || 'info'];
       const [icon, theme] = json.type;
       return eat(match)(
         WrapPinnedBlocks(
@@ -134,7 +134,7 @@ function tokenize(eat, value) {
             children: this.tokenizeInline(val, eat.now()),
           };
           // convert falsey values to empty strings
-          sum[row].children = [...sum[row].children].map(v => v || '');
+          sum[row].children = [...sum[row].children].map(v => v || ''); // TODO: set default to &nbsp; (th cells are required in MD)
           return sum;
         }, []);
       const table = {
