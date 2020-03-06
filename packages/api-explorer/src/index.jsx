@@ -111,11 +111,11 @@ class ApiExplorer extends React.Component {
     });
   }
 
-  onDocRender(docId) {
-    if (!(docId in this.state.docRenderMap)) {
+  onDocRender(slug) {
+    if (!(slug in this.state.docRenderMap)) {
       this.setState(prevState => {
         const docRenderMap = { ...prevState.docRenderMap };
-        docRenderMap[docId] = true;
+        docRenderMap[slug] = true;
         return { docRenderMap };
       });
     }
@@ -211,7 +211,7 @@ class ApiExplorer extends React.Component {
                         onAuthChange={this.onAuthChange}
                         onDocRender={this.onDocRender}
                         onGroupChange={this.onGroupChange}
-                        rendered={this.state.docRenderMap[doc._id]}
+                        rendered={this.state.docRenderMap[doc.slug]}
                         setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
                         tryItMetrics={this.props.tryItMetrics}

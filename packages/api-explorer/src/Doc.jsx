@@ -232,7 +232,7 @@ class Doc extends React.Component {
 
   renderEndpoint() {
     const { doc } = this.props;
-    this.props.onDocRender(doc._id);
+    this.props.onDocRender(doc.slug);
 
     return (
       <EndpointErrorBoundary>
