@@ -48,7 +48,8 @@ test('should output a div', () => {
   expect(doc.find('CodeSample')).toHaveLength(1);
 
   // This test needs the component to be `mount()`ed but for some reason when I mount in this test it makes the test
-  // below that uses `jest.useFakeTimers()` fail ¯\_(ツ)_/¯. Skipping for now expect(doc.find('Params').length).toBe(1);
+  // below that uses `jest.useFakeTimers()` fail ¯\_(ツ)_/¯. Skipping for now.
+  // expect(doc.find('Params').length).toBe(1);
   expect(doc.find('Content')).toHaveLength(1);
 });
 
