@@ -419,6 +419,7 @@ Doc.defaultProps = {
   lazy: true,
   Logs: undefined,
   oas: {},
+  rendered: false,
   user: {},
 };
 
