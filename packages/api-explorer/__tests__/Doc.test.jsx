@@ -37,8 +37,7 @@ function assertDocElements(component, doc) {
 }
 
 test('should output a div', () => {
-  const onRender = () => {};
-  const doc = shallow(<Doc {...props} onDocRender={onRender} />);
+  const doc = shallow(<Doc {...props} rendered={true} />);
 
   doc.setState({ showEndpoint: true });
 
