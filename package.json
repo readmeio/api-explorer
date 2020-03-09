@@ -3,6 +3,7 @@
   "private": true,
   "description": "Open source components that make up ReadMe's API explorer",
   "scripts": {
+    "heroku-prebuild": "npm run bootstrap",
     "bootstrap": "lerna bootstrap",
     "build": "./build.sh & lerna run build",
     "clean": "lerna clean",
