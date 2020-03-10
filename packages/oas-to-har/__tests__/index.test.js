@@ -1,6 +1,6 @@
 const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 
 const oasToHar = require('../src/index');
 const commonParameters = require('./fixtures/common-parameters');
@@ -1434,6 +1434,38 @@ describe('content-type & accept header', () => {
         { body: { a: 'test' } }
       ).log.entries[0].request.headers
     ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
+  });
+
+  it("should only add a content-type if one isn't already present", () => {
+    const har = oasToHar(
+      new Oas({
+        'x-headers': [{ key: 'Content-Type', value: 'multipart/form-data' }],
+      }),
+      {
+        path: '/',
+        method: 'put',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
+                  },
+                },
+              },
+              example: { a: 'value' },
+            },
+          },
+        },
+      }
+    );
+
+    // `Content-Type: application/json` would normally appear here if there were no `x-headers`, but since there is
+    // we should default to that so as to we don't double up on Content-Type headers.
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'multipart/form-data' }]);
   });
 });
 

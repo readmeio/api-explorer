@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 
 const AuthBox = require('./AuthBox');
 

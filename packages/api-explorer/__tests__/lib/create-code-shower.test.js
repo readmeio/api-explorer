@@ -1,4 +1,4 @@
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 
 const createCodeShower = require('../../src/lib/create-code-shower')('results');
 const createCodeShower2 = require('../../src/lib/create-code-shower')('examples');

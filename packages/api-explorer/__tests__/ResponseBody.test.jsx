@@ -1,7 +1,7 @@
 const React = require('react');
 const { mount } = require('enzyme');
 const FetchResponse = require('node-fetch').Response;
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 
 const petstore = require('./fixtures/petstore/oas');
 

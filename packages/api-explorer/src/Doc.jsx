@@ -5,8 +5,8 @@ const extensions = require('@readme/oas-extensions');
 const markdown = require('@readme/markdown').default;
 const Waypoint = require('react-waypoint');
 const oasToHar = require('@readme/oas-to-har');
-const Oas = require('oas');
-const { getPath } = require('oas/utils');
+const Oas = require('@readme/oas-tooling');
+const { getPath } = require('@readme/oas-tooling/utils');
 
 const isAuthReady = require('./lib/is-auth-ready');
 
@@ -133,8 +133,8 @@ class Doc extends React.Component {
 
             <div className="hub-reference-section">
               <div className="hub-reference-left">
-                {this.renderLogs()}
                 {this.renderParams()}
+                {this.renderLogs()}
               </div>
               <div className="hub-reference-right switcher">{this.renderResponseSchema()}</div>
             </div>
@@ -155,8 +155,8 @@ class Doc extends React.Component {
               {doc.type === 'endpoint' && (
                 <React.Fragment>
                   {this.renderPathUrl()}
-                  {this.renderLogs()}
                   {this.renderParams()}
+                  {this.renderLogs()}
                 </React.Fragment>
               )}
 
@@ -232,6 +232,7 @@ class Doc extends React.Component {
 
   renderEndpoint() {
     const { doc } = this.props;
+    this.props.onDocRender(doc.slug);
 
     return (
       <EndpointErrorBoundary>
@@ -336,7 +337,7 @@ class Doc extends React.Component {
         </div>
 
         {renderEndpoint()}
-
+        {!this.props.rendered && <Content body={doc.body} flags={this.props.flags} isThreeColumn />}
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -370,6 +371,7 @@ Doc.propTypes = {
         codes: PropTypes.arrayOf(PropTypes.shape({})),
       }),
     }),
+    body: PropTypes.string,
     excerpt: PropTypes.string,
     slug: PropTypes.string.isRequired,
     swagger: PropTypes.shape({
@@ -394,7 +396,9 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  onDocRender: PropTypes.func.isRequired,
   onGroupChange: PropTypes.func.isRequired,
+  rendered: PropTypes.bool,
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
@@ -415,6 +419,7 @@ Doc.defaultProps = {
   lazy: true,
   Logs: undefined,
   oas: {},
+  rendered: false,
   user: {},
 };
 

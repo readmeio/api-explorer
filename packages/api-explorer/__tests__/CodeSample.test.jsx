@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 
 const CodeSample = require('../src/CodeSample');
 
@@ -15,7 +15,7 @@ const props = {
 
 describe('tabs', () => {
   // TODO this doesnt work in readme
-  it.skip('should display tabs if there are examples in the oas file', () => {});
+  it.todo('should display tabs if there are examples in the oas file');
 
   it('should display tabs if SAMPLES_ENABLED is true', () => {
     const languages = ['node', 'curl'];
