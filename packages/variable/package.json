@@ -1,7 +1,7 @@
 {
   "name": "@mia-platform/variable",
   "description": "React component for Variables",
-  "version": "6.0.1",
+  "version": "6.0.2-alpha.1",
   "main": "index.jsx",
   "dependencies": {
     "classnames": "^2.2.6",

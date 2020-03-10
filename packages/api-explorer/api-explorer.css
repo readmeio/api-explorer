@@ -519,3 +519,13 @@ form.rjsf .form-group button i.glyphicon.glyphicon-remove::after {
 form.rjsf .form-group select {
   background: white;
 }
+
+.multiple-select-choices-list .multiple-select-item {
+  background-color: #1890ff;
+  border: 1px solid #1890ff;
+}
+
+.choices__list--multiple .choices__item.is-highlighted {
+  background-color: #1890ff;
+  border: 1px solid #1890ff;
+}

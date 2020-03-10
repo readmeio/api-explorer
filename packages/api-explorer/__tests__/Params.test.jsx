@@ -1,5 +1,5 @@
 import React from 'react'
-import {mount} from 'enzyme'
+import {mountWithIntl as mount} from 'enzyme-react-intl'
 
 import JsonForm from '../src/JsonForm'
 import Params from '../src/Params'
@@ -16,6 +16,7 @@ const props = {
   formData: {},
   onChange:jest.fn(),
   onSubmit: jest.fn(),
+  setFormSubmissionListener: jest.fn()
 };
 
 describe('Params', () => {

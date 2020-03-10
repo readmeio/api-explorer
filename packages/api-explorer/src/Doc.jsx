@@ -85,7 +85,9 @@ class Doc extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
-    this.onAuthReset = this.onAuthReset.bind(this)
+    this.onAuthReset = this.onAuthReset.bind(this);
+    this.setFormSubmissionListener = this.setFormSubmissionListener.bind(this);
+    this.formSubmitSubscribers = [];
 
     const list = getContentTypeFromOperation(this.getOperation())
     if (list && list.length > 0) {
@@ -105,6 +107,15 @@ class Doc extends React.Component {
   }
 
   onSubmit() {
+    if (this.formSubmitSubscribers && this.formSubmitSubscribers.length > 0) {
+      try {
+        this.formSubmitSubscribers.forEach(subscriber => subscriber.onFormSubmission())
+      } catch(e) {
+        console.error('Form submission interrupted:', e.message)
+        return false
+      }
+    }
+
     const {auth, selectedContentType} = this.state
     const operation = this.getOperation();
     if (!isAuthReady(operation, auth || this.props.auth)) {
@@ -158,6 +169,10 @@ class Doc extends React.Component {
 
   onAuthReset(){
     this.setState({auth: null})
+  }
+
+  setFormSubmissionListener(listener) {
+    this.formSubmitSubscribers.push(listener)
   }
 
   getOperation() {
@@ -348,6 +363,7 @@ class Doc extends React.Component {
         formData={this.state.formData}
         onChange={this.onChange}
         onSubmit={this.onSubmit}
+        setFormSubmissionListener={this.setFormSubmissionListener}
       />
     );
   }

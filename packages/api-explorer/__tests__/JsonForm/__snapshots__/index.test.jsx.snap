@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JSONForm  renders json-editor 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <button
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    type="submit"
+  />
+</form>
+`;

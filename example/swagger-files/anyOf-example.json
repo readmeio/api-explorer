@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://example.com"
+    }
+  ],
+  "info": {
+    "title": "example results",
+    "version": "1.0"
+  },
+  "paths": {
+    "/pets": {
+      "patch": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "title": "Pet by Type",
+                    "type": "object",
+                    "properties": {
+                      "pet_type": {
+                        "type": "string"
+                      },
+                      "pet_children": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "title": "Pet by Name",
+                    "type": "object",
+                    "properties": {
+                      "pet_name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Pet by Address",
+                    "type": "object",
+                    "properties": {
+                      "pet_type": {
+                        "type": "number"
+                      },
+                      "pet_country": {
+                        "type": "any"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "title": "Pet by Type",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "pet_type": {
+                          "type": "string"
+                        },
+                        "pet_children": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "title": "Pet by Name",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "pet_name": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "title": "PetName",
+                    "type": "string"
+                  },
+                  {
+                    "title": "PetAge",
+                    "type": "number"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "parameters": {},
+    "examples": {},
+    "requestBodies": {},
+    "securitySchemes": {},
+    "headers": {}
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": [
+    "curl",
+    "node",
+    "ruby",
+    "javascript",
+    "python"
+  ]
+}

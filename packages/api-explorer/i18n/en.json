@@ -4,5 +4,7 @@
   "response.noBody": "The response has no body",
   "api.auth.failed": "You couldn't be authenticated",
   "schemaTabs.missing.response": "Response schema not set",
-  "schemaTabs.missing.request": "Request schema not set"
+  "schemaTabs.missing.request": "Request schema not set",
+  "jsonform.anyof.notCompatibleSchemas": "The selected schemas are not compatible",
+  "jsonform.anyof.emptySelection": "Select at least one schema"
 }
