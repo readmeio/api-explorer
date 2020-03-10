@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 
 const showCodeResults = require('./lib/show-code-results');
 const contentTypeIsJson = require('./lib/content-type-is-json');
@@ -249,7 +249,9 @@ class ResponseExample extends React.Component {
                         <div className="example example_json">{transformExampleIntoReactJson(example)}</div>
                       ) : (
                         // json + multiple examples is already handled in `showExamples`.
-                        <>{isJson && example.multipleExamples ? null : getHighlightedExample(example)}</>
+                        <React.Fragment>
+                          {isJson && example.multipleExamples ? null : getHighlightedExample(example)}
+                        </React.Fragment>
                       )}
                     </pre>
                   </div>

@@ -1,0 +1,1 @@
+web: npx http-server example/dist --port $PORT

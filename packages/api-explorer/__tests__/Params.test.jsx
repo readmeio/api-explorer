@@ -1,7 +1,7 @@
 const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas');
+const Oas = require('@readme/oas-tooling');
 const { ADDITIONAL_PROPERTY_FLAG } = require('react-jsonschema-form/lib/utils');
 
 const Description = require('../src/form-components/DescriptionField');
@@ -190,8 +190,8 @@ describe('schema format handling', () => {
     it.each([
       ['password', 'password', stringOas.operation('/format-password', 'get'), 'password'],
       ['date', 'text', stringOas.operation('/format-date', 'get'), 'date'],
-      ['date-time', 'datetime-local', stringOas.operation('/format-date-time', 'get'), 'date-time'],
-      ['dateTime', 'datetime-local', stringOas.operation('/format-dateTime', 'get'), 'date-time'],
+      ['date-time', 'text', stringOas.operation('/format-date-time', 'get'), 'string'],
+      ['dateTime', 'text', stringOas.operation('/format-dateTime', 'get'), 'string'],
       ['uri', 'url', stringOas.operation('/format-uri', 'get'), 'uri'],
       ['url', 'url', stringOas.operation('/format-url', 'get'), 'url'],
     ])(`%s should render as <input type="%s">`, (type, inputType, stringOperation, label) => {

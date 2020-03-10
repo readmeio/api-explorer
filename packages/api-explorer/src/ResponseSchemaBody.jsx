@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const markdown = require('@readme/markdown').default;
-const { flattenArray, flattenSchema } = require('oas/utils');
+const { flattenArray, flattenSchema } = require('@readme/oas-tooling/utils');
 
 function getSchemaType(schema) {
   if (schema.type !== 'array') {

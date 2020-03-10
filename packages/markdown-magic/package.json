@@ -1,0 +1,41 @@
+{
+  "name": "@readme/markdown-magic",
+  "description": "ReadMe's React-based legacy Markdown parser",
+  "version": "4.19.2",
+  "dependencies": {
+    "@readme/emojis": "^1.0.0",
+    "@readme/syntax-highlighter": "^5.0.0-alpha.4",
+    "@readme/variable": "^5.0.0-alpha.4",
+    "hast-util-sanitize": "^1.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.4.2",
+    "rehype-raw": "^4.0.1",
+    "rehype-react": "^3.1.0",
+    "rehype-sanitize": "^2.0.1",
+    "remark-breaks": "^1.0.0",
+    "remark-parse": "^7.0.2",
+    "remark-rehype": "^5.0.0",
+    "unified": "^8.4.0"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .jsx --ext .js",
+    "inspect": "jsinspect",
+    "pretest": "npm run lint && npm run prettier && npm run inspect",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
+    "test": "jest --coverage --runInBand"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org",
+    "access": "public"
+  },
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown-magic",
+  "devDependencies": {
+    "@readme/eslint-config": "^1.7.0",
+    "eslint": "^6.5.0",
+    "jest": "^25.1.0",
+    "jsinspect": "^0.12.7",
+    "prettier": "^1.18.2"
+  }
+}

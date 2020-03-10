@@ -76,7 +76,7 @@
     },
     "/anything/one-of-object-ref": {
       "post": {
-        "summary": "oneOf object with $ref pointers (does not work)",
+        "summary": "oneOf object with $ref pointers",
         "description": "",
         "requestBody": {
           "content": {
@@ -90,6 +90,34 @@
                     "$ref": "#/components/schemas/object2"
                   }
                 ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/nested-one-of-object-ref": {
+      "post": {
+        "summary": "nested oneOf object with $ref pointers",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "config": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/object1"
+                      },
+                      {
+                        "$ref": "#/components/schemas/object2"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
               }
             }
           }

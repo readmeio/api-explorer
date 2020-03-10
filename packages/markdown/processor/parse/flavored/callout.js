@@ -1,3 +1,4 @@
+// eslint-disable-next-line unicorn/no-unsafe-regex
 const rgx = /^>\s?(\W\D) (.+)\n((?:>(?: .*)?\n)*)/;
 
 function tokenizer(eat, value) {

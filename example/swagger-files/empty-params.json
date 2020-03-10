@@ -1,0 +1,81 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Bug Test",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://httpbin.org/"
+    }
+  ],
+  "paths": {
+    "/post": {
+      "post": {
+        "tags": [],
+        "operationId": "requestWithEmptyParams",
+        "parameters": [
+          {
+            "name": "param3",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "param4",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "default": "tktktktk"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emptyParams": {
+                    "type": "object",
+                    "description": "",
+                    "properties": {
+                      "param1": {
+                        "type": "string",
+                        "description": "",
+                        "required": false,
+                        "default": ""
+                      },
+                      "param2": {
+                        "type": "string",
+                        "description": "",
+                        "required": false,
+                        "default": "tktktk"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "x-headers": [],
+  "x-explorer-enabled": true,
+  "x-proxy-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": [
+    "curl",
+    "node",
+    "ruby",
+    "javascript",
+    "python"
+  ]
+}
