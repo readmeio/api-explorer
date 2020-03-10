@@ -27,6 +27,7 @@ const props = {
   onAuthChange: () => {},
   onGroupChange: () => {},
   setLanguage: () => {},
+  onDocRender: () => {},
   suggestedEdits: false,
   tryItMetrics: () => {},
 };
@@ -38,7 +39,7 @@ function assertDocElements(component, doc) {
 }
 
 test('should output a div', () => {
-  const doc = shallow(<Doc {...props} />);
+  const doc = shallow(<Doc {...props} rendered={true} />);
 
   doc.setState({ showEndpoint: true });
 
@@ -70,11 +71,11 @@ test('should render a manual endpoint', () => {
   // Transforming `props` like this is weird, but without it some auth timer tests will break. 🤷‍♂️
   const manualProps = JSON.parse(JSON.stringify(props));
   manualProps.onAuthChange = () => {};
+  manualProps.onRender = () => {};
   manualProps.onGroupChange = () => {};
   manualProps.setLanguage = () => {};
   manualProps.tryItMetrics = () => {};
 
-  manualProps.doc.swagger.path = '/nonexistant';
   manualProps.doc.api.examples = {
     codes: [],
   };
@@ -112,7 +113,9 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       language="node"
       oauth={false}
       onAuthChange={() => {}}
+      onDocRender={() => {}}
       onGroupChange={() => {}}
+      rendered={true}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
@@ -136,7 +139,9 @@ test('should still display `Content` with column-style layout', () => {
       language="node"
       oauth={false}
       onAuthChange={() => {}}
+      onDocRender={() => {}}
       onGroupChange={() => {}}
+      rendered={true}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}

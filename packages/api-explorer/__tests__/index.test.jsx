@@ -311,3 +311,11 @@ describe('auth', () => {
     expect(explorer.state('auth')).toStrictEqual({ api_key: '7890', petstore_auth: '123456' });
   });
 });
+
+describe('onDocRender()', () => {
+  it('should set a key to true if passed', () => {
+    const explorer = mount(<ApiExplorer {...props} />);
+    explorer.instance().onDocRender('123');
+    expect(explorer.state('docRenderMap')['123']).toBe(true);
+  });
+});
