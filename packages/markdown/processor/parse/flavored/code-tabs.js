@@ -11,6 +11,7 @@ function tokenizer(eat, value) {
     .map(val => {
       // eslint-disable-next-line no-param-reassign
       val = ['```', val.replace('```', ''), '```'].join('');
+      // eslint-disable-next-line unicorn/no-unsafe-regex
       const [, lang, meta = null, code = ''] = /```(\w+)?(?: ([\w-.]+))?\s?([^]+)```/gm.exec(val);
       return {
         type: 'code',
