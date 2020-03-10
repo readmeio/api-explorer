@@ -3,6 +3,7 @@ const PropTypes = require('prop-types');
 const { constructRequest } = require('fetch-har');
 const extensions = require('@readme/oas-extensions');
 const markdown = require('@readme/markdown').default;
+const markdownMagic = require('@readme/markdown-magic');
 const Waypoint = require('react-waypoint');
 const oasToHar = require('@readme/oas-to-har');
 const Oas = require('@readme/oas-tooling');
@@ -119,6 +120,8 @@ class Doc extends React.Component {
   }
 
   mainTheme(doc) {
+    const { useNewMarkdownEngine } = this.props;
+
     return (
       <React.Fragment>
         {doc.type === 'endpoint' && (
@@ -141,12 +144,14 @@ class Doc extends React.Component {
           </div>
         )}
 
-        <Content body={doc.body} flags={this.props.flags} isThreeColumn />
+        <Content body={doc.body} flags={this.props.flags} isThreeColumn useNewMarkdownEngine={useNewMarkdownEngine} />
       </React.Fragment>
     );
   }
 
   columnTheme(doc) {
+    const { useNewMarkdownEngine } = this.props;
+
     return (
       <div className="hub-api">
         <div className="hub-reference-section">
@@ -160,7 +165,12 @@ class Doc extends React.Component {
                 </React.Fragment>
               )}
 
-              <Content body={doc.body} flags={this.props.flags} isThreeColumn="left" />
+              <Content
+                body={doc.body}
+                flags={this.props.flags}
+                isThreeColumn="left"
+                useNewMarkdownEngine={useNewMarkdownEngine}
+              />
             </div>
 
             <div className="hub-reference-right">
@@ -171,7 +181,12 @@ class Doc extends React.Component {
                 </div>
               )}
               <div className="hub-reference-right switcher">{this.renderResponseSchema('dark')}</div>
-              <Content body={doc.body} flags={this.props.flags} isThreeColumn="right" />
+              <Content
+                body={doc.body}
+                flags={this.props.flags}
+                isThreeColumn="right"
+                useNewMarkdownEngine={useNewMarkdownEngine}
+              />
             </div>
           </React.Fragment>
         </div>
@@ -222,11 +237,19 @@ class Doc extends React.Component {
   }
 
   renderResponseSchema(theme = 'light') {
+    const { useNewMarkdownEngine } = this.props;
     const operation = this.getOperation();
 
     return (
       operation &&
-      operation.responses && <ResponseSchema oas={this.oas} operation={this.getOperation()} theme={theme} />
+      operation.responses && (
+        <ResponseSchema
+          oas={this.oas}
+          operation={this.getOperation()}
+          theme={theme}
+          useNewMarkdownEngine={useNewMarkdownEngine}
+        />
+      )
     );
   }
 
@@ -299,7 +322,7 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, lazy } = this.props;
+    const { doc, lazy, useNewMarkdownEngine } = this.props;
     const { oas } = this;
 
     const renderEndpoint = () => {
@@ -329,15 +352,22 @@ class Doc extends React.Component {
                   Suggest Edits
                 </a>
               )}
+
               <h2>{doc.title}</h2>
-              {doc.excerpt && <div className="excerpt">{markdown(doc.excerpt)}</div>}
+              {doc.excerpt && (
+                <div className="excerpt">
+                  {useNewMarkdownEngine ? markdown(doc.excerpt) : markdownMagic(doc.excerpt)}
+                </div>
+              )}
             </header>
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
 
         {renderEndpoint()}
-        {!this.props.rendered && <Content body={doc.body} flags={this.props.flags} isThreeColumn />}
+        {!this.props.rendered && (
+          <Content body={doc.body} flags={this.props.flags} isThreeColumn useNewMarkdownEngine={useNewMarkdownEngine} />
+        )}
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -402,6 +432,7 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
+  useNewMarkdownEngine: PropTypes.bool,
   user: PropTypes.shape({}),
 };
 
@@ -420,6 +451,7 @@ Doc.defaultProps = {
   Logs: undefined,
   oas: {},
   rendered: false,
+  useNewMarkdownEngine: false,
   user: {},
 };
 

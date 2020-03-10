@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "dependencies": {
     "@readme/markdown": "^5.0.0-alpha.4",
+    "@readme/markdown-magic": "^4.19.2",
     "@readme/oas-extensions": "^5.0.0-alpha.4",
     "@readme/oas-to-har": "^5.0.0-alpha.4",
     "@readme/oas-tooling": "^2.1.1",
@@ -28,7 +29,7 @@
     "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
     "lint": "eslint . --ext js --ext jsx",
-    "pretest": "npm run prettier && npm run lint && npm run inspect",
+    "pretest": "npm run lint && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
     "watch": "webpack -w --progress"

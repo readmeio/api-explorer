@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render body 1`] = `"<p>body</p>"`;
+
+exports[`should render markdown in body 1`] = `
+"<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading\\"></div>heading<a class=\\"fa fa-anchor\\" href=\\"#section-heading\\"></a></h1>
+<p><code><span class=\\"cm-s-neo\\">test</span></code></p>"
+`;
