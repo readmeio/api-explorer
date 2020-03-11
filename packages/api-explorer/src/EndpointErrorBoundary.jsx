@@ -1,44 +1,81 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const shortid = require('shortid');
 
-const BoundaryStackTrace = require('./BoundaryStackTrace');
+// const BoundaryStackTrace = require('./BoundaryStackTrace');
 
 class EndpointErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { error: false };
+
+    this.state = {
+      error: false,
+      errorCode: false,
+      info: false,
+    };
   }
 
   componentDidCatch(error, info) {
-    this.setState({ error, info });
-    // TODO add bugsnag here?
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
+    const errorEventId = `ERR-${shortid.generate()}`;
+    const errorCode = this.props.onError(error, { errorEventId, componentStack: info });
+
+    this.setState({
+      error,
+      errorCode: typeof errorCode !== 'undefined' ? errorCode : errorEventId,
+      info,
+    });
   }
 
   render() {
-    if (this.state.error) {
+    const { error, errorCode } = this.state;
+    const { children, maskErrorMessages } = this.props;
+
+    if (!error) {
+      return children;
+    }
+
+    function getErrorMessage() {
+      if (maskErrorMessages) {
+        return "This endpoint's documentation is currently experiencing difficulties and will be back online shortly.";
+      }
+
       return (
-        <div className="hub-reference-section">
-          <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
-            <h3>
-              There was an error rendering this endpoint. If you are the owner of this project please contact&nbsp;
-              <a href="mailto:support@readme.io?subject=API Explorer Error">support@readme.io</a>
-              &nbsp;with the following error:
-            </h3>
-            <BoundaryStackTrace error={this.state.error} info={this.state.info} />
-          </div>
-          <div className="hub-reference-right" />
-        </div>
+        <span>
+          This endpoint&apos;s documentation is currently experiencing difficulties and will be back online shortly.
+          Please contact{' '}
+          <a href={`mailto:support@readme.io?subject=API Explorer Error ${errorCode}`}>support@readme.io</a> with your
+          error code.
+        </span>
       );
     }
 
-    return this.props.children;
+    return (
+      <div className="hub-reference-section">
+        <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
+          <div className="hub-reference-error">
+            <div>
+              <span aria-label="Experiencing difficulties" role="img">
+                🚧
+              </span>
+            </div>
+            <div>{getErrorMessage()}</div>
+            {!maskErrorMessages && errorCode ? <div>{errorCode}</div> : null}
+          </div>
+        </div>
+        <div className="hub-reference-right" />
+      </div>
+    );
   }
 }
 
 EndpointErrorBoundary.propTypes = {
   children: PropTypes.node.isRequired,
+  maskErrorMessages: PropTypes.bool.isRequired,
+  onError: PropTypes.func,
+};
+
+EndpointErrorBoundary.defaultProps = {
+  onError: () => {},
 };
 
 module.exports = EndpointErrorBoundary;

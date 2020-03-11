@@ -231,11 +231,11 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc } = this.props;
+    const { doc, maskErrorMessages } = this.props;
     this.props.onDocRender(doc.slug);
 
     return (
-      <EndpointErrorBoundary>
+      <EndpointErrorBoundary maskErrorMessages={maskErrorMessages}>
         {this.props.appearance.referenceLayout === 'column' ? this.columnTheme(doc) : this.mainTheme(doc)}
       </EndpointErrorBoundary>
     );
@@ -393,10 +393,12 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   lazy: PropTypes.bool,
   Logs: PropTypes.func,
+  maskErrorMessages: PropTypes.bool,
   oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
   onDocRender: PropTypes.func.isRequired,
+  onError: PropTypes.func,
   onGroupChange: PropTypes.func.isRequired,
   rendered: PropTypes.bool,
   setLanguage: PropTypes.func.isRequired,
@@ -418,7 +420,9 @@ Doc.defaultProps = {
   groups: [],
   lazy: true,
   Logs: undefined,
+  maskErrorMessages: false,
   oas: {},
+  onError: () => {},
   rendered: false,
   user: {},
 };

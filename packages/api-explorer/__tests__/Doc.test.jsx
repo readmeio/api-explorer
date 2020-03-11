@@ -1,5 +1,6 @@
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
+const shortid = require('shortid');
 
 global.Request = Request;
 
@@ -368,7 +369,7 @@ describe('themes', () => {
   });
 });
 
-test('should output with an error message if the endpoint fails to load', () => {
+describe('error handling', () => {
   const brokenOas = {
     paths: {
       '/path': {
@@ -381,21 +382,55 @@ test('should output with an error message if the endpoint fails to load', () => 
     },
   };
 
-  const doc = mount(
-    <Doc
-      {...props}
-      doc={{
-        title: 'title',
-        slug: 'slug',
-        type: 'endpoint',
-        swagger: { path: '/path' },
-        api: { method: 'post' },
-      }}
-      oas={brokenOas}
-    />
-  );
+  const docProps = {
+    title: 'title',
+    slug: 'slug',
+    type: 'endpoint',
+    swagger: { path: '/path' },
+    api: { method: 'post' },
+  };
 
-  doc.setState({ showEndpoint: true });
+  it('should output with a masked error message if the endpoint fails to load', () => {
+    const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={true} oas={brokenOas} />);
 
-  expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
+    doc.setState({ showEndpoint: true });
+
+    expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
+    expect(doc.html()).not.toMatch('support@readme.io');
+  });
+
+  describe('support-focused error messaging', () => {
+    it('should output with an error message if the endpoint fails to load, with a unique error event id', () => {
+      const spy = jest.spyOn(shortid, 'generate');
+      const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={false} oas={brokenOas} />);
+
+      doc.setState({ showEndpoint: true });
+
+      expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
+      expect(doc.html()).toMatch('support@readme.io');
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  it('should output with an error message if the endpoint fails to load, with a defined error event id', () => {
+    const spy = jest.spyOn(shortid, 'generate');
+    const doc = mount(
+      <Doc
+        {...props}
+        doc={docProps}
+        maskErrorMessages={false}
+        oas={brokenOas}
+        onError={() => {
+          return 'API-EXPLORER-1';
+        }}
+      />
+    );
+
+    doc.setState({ showEndpoint: true });
+
+    expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
+    expect(doc.html()).toMatch('support@readme.io');
+    expect(doc.html()).toMatch('API-EXPLORER-1');
+    expect(spy).not.toHaveBeenCalled();
+  });
 });
