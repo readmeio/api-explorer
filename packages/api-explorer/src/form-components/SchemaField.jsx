@@ -4,7 +4,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const BaseSchemaField = require('@readme/react-jsonschema-form/lib/components/fields/SchemaField').default;
-const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/react-jsonschema-form/lib/utils');
+const { ADDITIONAL_PROPERTY_FLAG, findSchemaDefinition } = require('@readme/react-jsonschema-form/lib/utils');
 
 function getDefaultNumFormat(type) {
   if (type === 'integer') return 'int32';
@@ -99,15 +99,23 @@ function CustomTemplate(props) {
 }
 
 function SchemaField(props) {
-  if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format)) {
-    props.schema.format = undefined;
+  let { schema } = props;
+
+  // If this schema is going to be loaded with a $ref, prefetch it so we'll have a schema type to work with.
+  if ('$ref' in schema) {
+    schema = Object.assign(props.schema, findSchemaDefinition(schema.$ref, props.registry.rootSchema));
+    delete schema.$ref;
+  }
+
+  if (!doesFormatExist(props.registry.widgets, schema.type, schema.format)) {
+    schema.format = undefined;
   }
 
   if ('name' in props) {
     // If there's no name on this field, then it's a lone schema with no label or children and as such we shouldn't try
     // to render it with the custom template.
     props.registry.FieldTemplate = CustomTemplate;
-  } else if ('schema' in props && ('oneOf' in props.schema || 'anyOf' in props.schema)) {
+  } else if ('oneOf' in schema || 'anyOf' in schema) {
     // If this is a oneOf or anyOf schema, render it using a shell of a CustomTemplate that will render it within our
     // `div.param` work so it doesn't look like hot garbage.
     //
@@ -115,7 +123,7 @@ function SchemaField(props) {
     props.registry.FieldTemplate = CustomTemplateShell;
   }
 
-  if (props.schema.readOnly) {
+  if ('readOnly' in schema && schema.readOnly) {
     // Maybe use this when it's been merged?
     // Though that just sets `input[readonly]` which still shows
     // the input, which isnt exactly what we want
@@ -124,28 +132,30 @@ function SchemaField(props) {
     // parameters-to-json-schema because we may only have
     // a $ref at that point
     // https://github.com/mozilla-services/react-jsonschema-form/pull/888
-    return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'hidden' }} />;
+    return <BaseSchemaField {...props} schema={schema} uiSchema={{ 'ui:widget': 'hidden' }} />;
   }
 
-  const customType = getCustomType(props.schema);
+  const customType = getCustomType(schema);
   if (customType) {
-    return <BaseSchemaField {...props} uiSchema={{ ...props.uiSchema, classNames: `field-${customType}` }} />;
+    return (
+      <BaseSchemaField {...props} schema={schema} uiSchema={{ ...props.uiSchema, classNames: `field-${customType}` }} />
+    );
   }
 
   // Transform booleans from a checkbox into a dropdown.
-  if (props.schema.type === 'boolean') {
-    props.schema.enumNames = ['true', 'false'];
-    return <BaseSchemaField {...props} uiSchema={{ 'ui:widget': 'select' }} />;
+  if (schema.type === 'boolean') {
+    schema.enumNames = ['true', 'false'];
+    return <BaseSchemaField {...props} schema={schema} uiSchema={{ 'ui:widget': 'select' }} />;
   }
 
   // The current ReadMe manual API editor saves mixed types as "mixed type", which isn't a real type
   // that's supported by the OAS. Since we don't have knowledge as to what those types are, let's
   // just convert it to a string so the parameter will at least render out.
-  if (props.schema.type === 'mixed type') {
-    props.schema.type = 'string';
+  if (schema.type === 'mixed type') {
+    schema.type = 'string';
   }
 
-  return <BaseSchemaField {...props} />;
+  return <BaseSchemaField {...props} schema={schema} />;
 }
 
 CustomTemplate.propTypes = {
@@ -175,9 +185,11 @@ CustomTemplateShell.propTypes = {
 SchemaField.propTypes = {
   registry: PropTypes.shape({
     FieldTemplate: PropTypes.func,
+    rootSchema: PropTypes.object,
     widgets: PropTypes.object,
   }).isRequired,
   schema: PropTypes.shape({
+    $ref: PropTypes.string,
     enumNames: PropTypes.array,
     format: PropTypes.string,
     readOnly: PropTypes.bool,

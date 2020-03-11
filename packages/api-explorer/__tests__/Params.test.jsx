@@ -12,12 +12,12 @@ const petstore = require('./__fixtures__/petstore/oas.json');
 const boolean = require('./__fixtures__/boolean/oas.json');
 const string = require('./__fixtures__/string/oas.json');
 const polymorphism = require('./__fixtures__/polymorphism/oas.json');
+const polymorphismNestedOneOfRef = require('./__fixtures__/polymorphism/oneof-nested-ref.json');
 
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet/{petId}', 'get');
 const booleanOas = new Oas(boolean);
 const stringOas = new Oas(string);
-const polymorphismOas = new Oas(polymorphism);
 
 const props = {
   formData: {},
@@ -167,15 +167,30 @@ test('additionalProperties object labels (keys) should be editable', () => {
 
 describe('oneOf/anyOf', () => {
   it('should render the select container with our CustomTemplateShell component', () => {
+    const testOas = new Oas(polymorphism);
+
     const params = mount(
       <div>
-        <Params {...props} oas={polymorphismOas} operation={polymorphismOas.operation('/pets', 'patch')} />
+        <Params {...props} oas={testOas} operation={testOas.operation('/pets', 'patch')} />
       </div>
     );
 
     // This might look like a weird assertion, but RJSF returns `undefined` for oneOf and anyOf schemas, so if we have
     // that here, it means that we loaded it with our CustomTemplateShell component in SchemaField.
     expect(params.find('div.field.field-undefined.param')).toHaveLength(1);
+  });
+
+  // https://github.com/readmeio/api-explorer/issues/495
+  it('should not error on a oneOf $ref nested inside another object', () => {
+    const testOas = new Oas(polymorphismNestedOneOfRef);
+
+    const params = mount(
+      <div>
+        <Params {...props} oas={testOas} operation={testOas.operation('/post', 'post')} />
+      </div>
+    );
+
+    expect(params.html()).not.toMatch('Unknown field type undefined');
   });
 });
 
@@ -185,7 +200,7 @@ describe('schema format handling', () => {
       ['json', jsonOperation, 'json'],
       ['blob', stringOas.operation('/format-blob', 'get'), 'blob'],
       ['html', stringOas.operation('/format-html', 'get'), 'html'],
-    ])(`%s should render as <textarea>>`, (type, stringOperation, label) => {
+    ])(`%s should render as <textarea>`, (type, stringOperation, label) => {
       const params = mount(
         <div>
           <Params {...props} operation={stringOperation} />

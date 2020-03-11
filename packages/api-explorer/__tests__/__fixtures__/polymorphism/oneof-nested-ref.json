@@ -1,0 +1,52 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://httpbin.org"
+    }
+  ],
+  "paths": {
+    "/post": {
+      "post": {
+        "requestBody": {
+          "$ref": "#/components/requestBodies/body"
+        }
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "body": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "config": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/schema1"
+                    },
+                    {
+                      "$ref": "#/components/schemas/schema2"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "schema1": {
+        "type": "string"
+      },
+      "schema2": {
+        "type": "string"
+      }
+    }
+  }
+}

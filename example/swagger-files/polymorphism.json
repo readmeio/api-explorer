@@ -262,6 +262,14 @@
         }
       }
     },
+    "/anything/nested-one-of-ref": {
+      "post": {
+        "description": "Use case for https://github.com/readmeio/api-explorer/issues/495",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/nested-one-of-ref"
+        }
+      }
+    },
     "/anything/nested-one-of-object-with-nested-one-of": {
       "post": {
         "requestBody": {
@@ -303,6 +311,31 @@
     }
   },
   "components": {
+    "requestBodies": {
+      "nested-one-of-ref": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "config": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/string1"
+                    },
+                    {
+                      "$ref": "#/components/schemas/string2"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
     "schemas": {
       "Pet": {
         "type": "object",
@@ -379,6 +412,12 @@
             "type": "string"
           }
         }
+      },
+      "string1": {
+        "type": "string"
+      },
+      "string2": {
+        "type": "string"
       }
     }
   }
