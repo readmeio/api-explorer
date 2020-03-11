@@ -73,6 +73,7 @@ test('should render a manual endpoint', () => {
   manualProps.onAuthChange = () => {};
   manualProps.onRender = () => {};
   manualProps.onGroupChange = () => {};
+  manualProps.onDocRender = () => {};
   manualProps.setLanguage = () => {};
   manualProps.tryItMetrics = () => {};
 
