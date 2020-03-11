@@ -18,9 +18,11 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      brokenExplorerState: false,
       maskErrorMessages: false,
     };
 
+    this.toggleBrokenState = this.toggleBrokenState.bind(this);
     this.toggleErrorMasking = this.toggleErrorMasking.bind(this);
   }
 
@@ -29,9 +31,21 @@ class Demo extends React.Component {
     this.forceUpdate();
   }
 
+  toggleBrokenState(e) {
+    this.setState({ brokenExplorerState: e.target.checked });
+    this.forceUpdate();
+  }
+
   render() {
     const { fetchSwagger, status, docs, oas, oauth } = this.props;
-    const { maskErrorMessages } = this.state;
+    const { brokenExplorerState, maskErrorMessages } = this.state;
+
+    const additionalProps = {};
+    if (!brokenExplorerState) {
+      additionalProps.oasFiles = {
+        'api-setting': Object.assign(extensions.defaults, oas),
+      };
+    }
 
     return (
       <div>
@@ -43,13 +57,16 @@ class Demo extends React.Component {
           ) : (
             <p>
               <input checked={maskErrorMessages} onChange={this.toggleErrorMasking} type="checkbox" /> Mask error
-              messages?
+              messages? &nbsp;
+              <input checked={brokenExplorerState} onChange={this.toggleBrokenState} type="checkbox" /> Show fully
+              broken state
             </p>
           )}
         </div>
 
         {status.length === 0 && (
           <ApiExplorer
+            {...additionalProps}
             // Uncomment this in for column layout
             // appearance={{ referenceLayout: 'column' }}
             appearance={{ referenceLayout: 'row' }}
@@ -65,9 +82,6 @@ class Demo extends React.Component {
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
             Logs={Logs}
             maskErrorMessages={maskErrorMessages}
-            oasFiles={{
-              'api-setting': Object.assign(extensions.defaults, oas),
-            }}
             oauth={oauth}
             suggestedEdits
             variables={{

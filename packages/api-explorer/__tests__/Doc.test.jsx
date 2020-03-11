@@ -7,6 +7,7 @@ global.Request = Request;
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
+const ErrorBoundary = require('../src/ErrorBoundary');
 
 const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 const petstoreWithAuth = require('./__fixtures__/petstore/oas.json');
@@ -391,15 +392,30 @@ describe('error handling', () => {
   };
 
   const spy = jest.spyOn(shortid, 'generate');
+  const originalConsole = console;
+
+  // We're testing errors here, so we don't need `console.error` logs spamming the test output.
+  beforeEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = () => {};
+  });
+
+  afterEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = originalConsole.error;
+  });
 
   it('should output with a masked error message if the endpoint fails to load', () => {
     const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={true} oas={brokenOas} />);
 
     doc.setState({ showEndpoint: true });
 
+    const html = doc.html();
+
     expect(spy).toHaveBeenCalled();
-    expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
-    expect(doc.html()).not.toMatch('support@readme.io');
+    expect(doc.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).not.toMatch('support@readme.io');
+    expect(html).toMatch("endpoint's documentation");
   });
 
   describe('support-focused error messaging', () => {
@@ -408,9 +424,12 @@ describe('error handling', () => {
 
       doc.setState({ showEndpoint: true });
 
+      const html = doc.html();
+
       expect(spy).toHaveBeenCalled();
-      expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
-      expect(doc.html()).toMatch('support@readme.io');
+      expect(doc.find(ErrorBoundary)).toHaveLength(1);
+      expect(html).toMatch('support@readme.io');
+      expect(html).toMatch("endpoint's documentation");
     });
   });
 
@@ -429,9 +448,12 @@ describe('error handling', () => {
 
     doc.setState({ showEndpoint: true });
 
+    const html = doc.html();
+
     expect(spy).toHaveBeenCalled();
-    expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
-    expect(doc.html()).toMatch('support@readme.io');
-    expect(doc.html()).toMatch('API-EXPLORER-1');
+    expect(doc.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).toMatch('support@readme.io');
+    expect(html).toMatch("endpoint's documentation");
+    expect(html).toMatch('API-EXPLORER-1');
   });
 });

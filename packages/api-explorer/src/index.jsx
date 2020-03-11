@@ -253,6 +253,7 @@ ApiExplorer.propTypes = {
   maskErrorMessages: PropTypes.bool,
   oasFiles: PropTypes.shape({}).isRequired,
   oauth: PropTypes.bool,
+  onError: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
   variables: PropTypes.shape({
@@ -278,12 +279,14 @@ ApiExplorer.defaultProps = {
   Logs: undefined,
   maskErrorMessages: true,
   oauth: false,
+  onError: () => {},
   tryItMetrics: () => {},
 };
 
 // eslint-disable-next-line react/display-name
 module.exports = props => (
-  <ErrorBoundary>
+  // eslint-disable-next-line react/prop-types
+  <ErrorBoundary appContext="explorer" maskErrorMessages={props.maskErrorMessages} onError={props.onError}>
     <ApiExplorer {...props} />
   </ErrorBoundary>
 );

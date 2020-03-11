@@ -15,7 +15,7 @@ const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
-const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const ErrorBoundary = require('./ErrorBoundary');
 
 const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
@@ -235,9 +235,9 @@ class Doc extends React.Component {
     this.props.onDocRender(doc.slug);
 
     return (
-      <EndpointErrorBoundary maskErrorMessages={maskErrorMessages} onError={onError}>
+      <ErrorBoundary appContext="endpoint" maskErrorMessages={maskErrorMessages} onError={onError}>
         {this.props.appearance.referenceLayout === 'column' ? this.columnTheme(doc) : this.mainTheme(doc)}
-      </EndpointErrorBoundary>
+      </ErrorBoundary>
     );
   }
 
