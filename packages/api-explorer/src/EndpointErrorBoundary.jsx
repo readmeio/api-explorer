@@ -53,13 +53,11 @@ class EndpointErrorBoundary extends React.Component {
       <div className="hub-reference-section">
         <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
           <div className="hub-reference-error">
-            <div>
-              <span aria-label="Experiencing difficulties" role="img">
-                🚧
-              </span>
-            </div>
-            <div>{getErrorMessage()}</div>
-            {!maskErrorMessages && errorCode ? <div>{errorCode}</div> : null}
+            <span className="hub-reference-error-icon" aria-label="Experiencing difficulties" role="img">
+              🚧
+            </span>
+            <p className="hub-reference-error-text">{getErrorMessage()}</p>
+            {!maskErrorMessages && errorCode ? <code className="hub-reference-error-code">{errorCode}</code> : null}
           </div>
         </div>
         <div className="hub-reference-right" />
