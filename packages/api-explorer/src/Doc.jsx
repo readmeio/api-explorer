@@ -231,11 +231,11 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc, maskErrorMessages } = this.props;
+    const { doc, maskErrorMessages, onError } = this.props;
     this.props.onDocRender(doc.slug);
 
     return (
-      <EndpointErrorBoundary maskErrorMessages={maskErrorMessages}>
+      <EndpointErrorBoundary maskErrorMessages={maskErrorMessages} onError={onError}>
         {this.props.appearance.referenceLayout === 'column' ? this.columnTheme(doc) : this.mainTheme(doc)}
       </EndpointErrorBoundary>
     );

@@ -390,30 +390,31 @@ describe('error handling', () => {
     api: { method: 'post' },
   };
 
+  const spy = jest.spyOn(shortid, 'generate');
+
   it('should output with a masked error message if the endpoint fails to load', () => {
     const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={true} oas={brokenOas} />);
 
     doc.setState({ showEndpoint: true });
 
+    expect(spy).toHaveBeenCalled();
     expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
     expect(doc.html()).not.toMatch('support@readme.io');
   });
 
   describe('support-focused error messaging', () => {
     it('should output with an error message if the endpoint fails to load, with a unique error event id', () => {
-      const spy = jest.spyOn(shortid, 'generate');
       const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={false} oas={brokenOas} />);
 
       doc.setState({ showEndpoint: true });
 
+      expect(spy).toHaveBeenCalled();
       expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
       expect(doc.html()).toMatch('support@readme.io');
-      expect(spy).toHaveBeenCalled();
     });
   });
 
   it('should output with an error message if the endpoint fails to load, with a defined error event id', () => {
-    const spy = jest.spyOn(shortid, 'generate');
     const doc = mount(
       <Doc
         {...props}
@@ -428,9 +429,9 @@ describe('error handling', () => {
 
     doc.setState({ showEndpoint: true });
 
+    expect(spy).toHaveBeenCalled();
     expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
     expect(doc.html()).toMatch('support@readme.io');
     expect(doc.html()).toMatch('API-EXPLORER-1');
-    expect(spy).not.toHaveBeenCalled();
   });
 });

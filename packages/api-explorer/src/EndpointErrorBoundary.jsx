@@ -43,7 +43,7 @@ class EndpointErrorBoundary extends React.Component {
         <span>
           This endpoint&apos;s documentation is currently experiencing difficulties and will be back online shortly.
           Please contact{' '}
-          <a href={`mailto:support@readme.io?subject=API Explorer Error ${errorCode}`}>support@readme.io</a> with your
+          <a href={`mailto:support@readme.io?subject=API Explorer Error [${errorCode}]`}>support@readme.io</a> with your
           error code.
         </span>
       );
@@ -53,11 +53,11 @@ class EndpointErrorBoundary extends React.Component {
       <div className="hub-reference-section">
         <div className="hub-reference-left" style={{ paddingLeft: '2%' }}>
           <div className="hub-reference-error">
-            <span className="hub-reference-error-icon" aria-label="Experiencing difficulties" role="img">
+            <span aria-label="Experiencing difficulties" className="hub-reference-error-icon" role="img">
               🚧
             </span>
             <p className="hub-reference-error-text">{getErrorMessage()}</p>
-            {!maskErrorMessages && errorCode ? <code className="hub-reference-error-code">{errorCode}</code> : null}
+            {!maskErrorMessages && errorCode && <code className="hub-reference-error-code">{errorCode}</code>}
           </div>
         </div>
         <div className="hub-reference-right" />
