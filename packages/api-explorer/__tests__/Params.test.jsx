@@ -56,6 +56,7 @@ function renderParams(schema, customProps) {
         {...customProps}
         operation={
           new Operation(oas, '/path', 'post', {
+            operationId: 'createPath',
             requestBody: {
               content: {
                 'application/json': {
@@ -161,11 +162,11 @@ test('additionalProperties object labels (keys) should be editable', () => {
     [ADDITIONAL_PROPERTY_FLAG]: true,
   });
 
-  expect(params.find('input#root_a-key')).toHaveLength(1);
+  expect(params.find('input#createPath_a-key')).toHaveLength(1);
 });
 
 describe('oneOf/anyOf', () => {
-  it('should render the oneOf/anyOf array with our CustomTemplateShell', () => {
+  it('should render the select container with our CustomTemplateShell component', () => {
     const params = mount(
       <div>
         <Params {...props} oas={polymorphismOas} operation={polymorphismOas.operation('/pets', 'patch')} />

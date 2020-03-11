@@ -1,11 +1,14 @@
 const React = require('react');
 const PropTypes = require('prop-types');
+const shortid = require('shortid');
 const Form = require('@readme/react-jsonschema-form').default;
 
-// const DateTimeWidget = require('@readme/react-jsonschema-form/lib/components/widgets/DateTimeWidget').default;
-const PasswordWidget = require('@readme/react-jsonschema-form/lib/components/widgets/PasswordWidget').default;
-const TextWidget = require('@readme/react-jsonschema-form/lib/components/widgets/TextWidget').default;
-const UpDownWidget = require('@readme/react-jsonschema-form/lib/components/widgets/UpDownWidget').default;
+const {
+  // DateTimeWidget,
+  PasswordWidget,
+  TextWidget,
+  UpDownWidget,
+} = require('@readme/react-jsonschema-form/lib/components/widgets').default;
 
 const Oas = require('@readme/oas-tooling');
 const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
@@ -37,6 +40,10 @@ function Params({
 }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
 
+  // If this operation doesn't have a set operationID, generate a random string to be one so we have unique form IDs
+  // across the explorer.
+  const operationId = 'operationId' in operation ? operation.operationId : shortid.generate();
+
   return (
     jsonSchema &&
     jsonSchema.map(schema => {
@@ -53,24 +60,26 @@ function Params({
             SchemaField,
           }}
           formData={formData[schema.type]}
-          id={`form-${schema.type}-${operation.operationId}`}
-          idPrefix={operation.operationId}
+          id={`form-${schema.type}-${operationId}`}
+          idPrefix={operationId}
           onChange={form => {
             return onChange({ [schema.type]: form.formData });
           }}
           onSubmit={onSubmit}
           schema={schema.schema}
           widgets={{
-            // If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
+            // 🚧 If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
             BaseInput,
             binary: FileWidget,
             blob: TextareaWidget,
             byte: TextWidget,
             date: TextWidget,
-            // Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
+
+            // 🚨 Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
             // browsers that don't fully support it.
             /* dateTime: DateTimeWidget,
             'date-time': DateTimeWidget, */
+
             double: UpDownWidget,
             duration: TextWidget,
             float: UpDownWidget,
