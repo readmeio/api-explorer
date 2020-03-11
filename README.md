@@ -10,6 +10,7 @@ This repo consists of the following npm modules:
 
 - [@readme/api-explorer](https://npm.im/@readme/api-explorer) - the React components that make up the explorer
 - [@readme/markdown](https://npm.im/@readme/markdown) - the markdown parser
+- [@readme/markdown-magic](https://npm.im/@readme/markdown-magic) - the legacy "magic block"-based markdown parser
 - [@readme/oas-extensions](https://npm.im/@readme/oas-extensions) - an exported object of our [OAS extensions](https://docs.readme.com/docs/swagger-extensions)
 - [@readme/oas-to-har](https://npm.im/@readme/oas-to-har) - utility to transform an OAS operation into a HAR representation
 - [@readme/syntax-highlighter](https://npm.im/@readme/syntax-highlighter) - the syntax highlighter in use on ReadMe
