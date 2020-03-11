@@ -1,11 +1,13 @@
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
+const shortid = require('shortid');
 
 global.Request = Request;
 
 const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Doc = require('../src/Doc');
+const ErrorBoundary = require('../src/ErrorBoundary');
 
 const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 const petstoreWithAuth = require('./__fixtures__/petstore/oas.json');
@@ -368,7 +370,7 @@ describe('themes', () => {
   });
 });
 
-test('should output with an error message if the endpoint fails to load', () => {
+describe('error handling', () => {
   const brokenOas = {
     paths: {
       '/path': {
@@ -381,21 +383,77 @@ test('should output with an error message if the endpoint fails to load', () => 
     },
   };
 
-  const doc = mount(
-    <Doc
-      {...props}
-      doc={{
-        title: 'title',
-        slug: 'slug',
-        type: 'endpoint',
-        swagger: { path: '/path' },
-        api: { method: 'post' },
-      }}
-      oas={brokenOas}
-    />
-  );
+  const docProps = {
+    title: 'title',
+    slug: 'slug',
+    type: 'endpoint',
+    swagger: { path: '/path' },
+    api: { method: 'post' },
+  };
 
-  doc.setState({ showEndpoint: true });
+  const spy = jest.spyOn(shortid, 'generate');
+  const originalConsole = console;
 
-  expect(doc.find('EndpointErrorBoundary')).toHaveLength(1);
+  // We're testing errors here, so we don't need `console.error` logs spamming the test output.
+  beforeEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = () => {};
+  });
+
+  afterEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = originalConsole.error;
+  });
+
+  it('should output with a masked error message if the endpoint fails to load', () => {
+    const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={true} oas={brokenOas} />);
+
+    doc.setState({ showEndpoint: true });
+
+    const html = doc.html();
+
+    expect(spy).toHaveBeenCalled();
+    expect(doc.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).not.toMatch('support@readme.io');
+    expect(html).toMatch("endpoint's documentation");
+  });
+
+  describe('support-focused error messaging', () => {
+    it('should output with an error message if the endpoint fails to load, with a unique error event id', () => {
+      const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={false} oas={brokenOas} />);
+
+      doc.setState({ showEndpoint: true });
+
+      const html = doc.html();
+
+      expect(spy).toHaveBeenCalled();
+      expect(doc.find(ErrorBoundary)).toHaveLength(1);
+      expect(html).toMatch('support@readme.io');
+      expect(html).toMatch("endpoint's documentation");
+    });
+  });
+
+  it('should output with an error message if the endpoint fails to load, with a defined error event id', () => {
+    const doc = mount(
+      <Doc
+        {...props}
+        doc={docProps}
+        maskErrorMessages={false}
+        oas={brokenOas}
+        onError={() => {
+          return 'API-EXPLORER-1';
+        }}
+      />
+    );
+
+    doc.setState({ showEndpoint: true });
+
+    const html = doc.html();
+
+    expect(spy).toHaveBeenCalled();
+    expect(doc.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).toMatch('support@readme.io');
+    expect(html).toMatch("endpoint's documentation");
+    expect(html).toMatch('API-EXPLORER-1');
+  });
 });

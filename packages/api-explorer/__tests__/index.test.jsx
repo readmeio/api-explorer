@@ -2,7 +2,9 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
+const shortid = require('shortid');
 const WrappedApiExplorer = require('../src');
+const ErrorBoundary = require('../src/ErrorBoundary');
 
 const { ApiExplorer } = WrappedApiExplorer;
 
@@ -48,12 +50,42 @@ test('ApiExplorer should not render a common parameter OAS operation method', ()
   expect(explorer.find('Doc')).toHaveLength(docsCommon.length - 2);
 });
 
-test('should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
-  // Prompting an error with an array of nulls instead of Docs
-  // This is to simulate some unknown error state during initial render
-  const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
+describe('error handling', () => {
+  const spy = jest.spyOn(shortid, 'generate');
+  const originalConsole = console;
 
-  expect(explorer.find('ErrorBoundary')).toHaveLength(1);
+  // We're testing errors here, so we don't need `console.error` logs spamming the test output.
+  beforeEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = () => {};
+  });
+
+  afterEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = originalConsole.error;
+  });
+
+  it('should display a masked error message if it fails to render', () => {
+    const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} maskErrorMessages={true} />);
+
+    const html = explorer.html();
+
+    expect(spy).toHaveBeenCalled();
+    expect(explorer.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).not.toMatch('support@readme.io');
+    expect(html).toMatch('API Explorer');
+  });
+
+  it('should output a support-focused error message if it fails to render', () => {
+    const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} maskErrorMessages={false} />);
+
+    const html = explorer.html();
+
+    expect(spy).toHaveBeenCalled();
+    expect(explorer.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).toMatch('support@readme.io');
+    expect(html).toMatch('API Explorer');
+  });
 });
 
 describe('selected language', () => {

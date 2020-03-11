@@ -15,7 +15,7 @@ const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
-const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const ErrorBoundary = require('./ErrorBoundary');
 
 const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
@@ -231,13 +231,13 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc } = this.props;
+    const { doc, maskErrorMessages, onError } = this.props;
     this.props.onDocRender(doc.slug);
 
     return (
-      <EndpointErrorBoundary>
+      <ErrorBoundary appContext="endpoint" maskErrorMessages={maskErrorMessages} onError={onError}>
         {this.props.appearance.referenceLayout === 'column' ? this.columnTheme(doc) : this.mainTheme(doc)}
-      </EndpointErrorBoundary>
+      </ErrorBoundary>
     );
   }
 
@@ -393,10 +393,12 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   lazy: PropTypes.bool,
   Logs: PropTypes.func,
+  maskErrorMessages: PropTypes.bool,
   oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
   onDocRender: PropTypes.func.isRequired,
+  onError: PropTypes.func,
   onGroupChange: PropTypes.func.isRequired,
   rendered: PropTypes.bool,
   setLanguage: PropTypes.func.isRequired,
@@ -418,7 +420,9 @@ Doc.defaultProps = {
   groups: [],
   lazy: true,
   Logs: undefined,
+  maskErrorMessages: true,
   oas: {},
+  onError: () => {},
   rendered: false,
   user: {},
 };
