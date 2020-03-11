@@ -168,6 +168,8 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
+    const { maskErrorMessages } = this.props;
+
     const docs = this.props.docs.filter(doc => {
       // If the HTTP method is something we don't support, then we shouldn't attempt to render it as a normal API
       // operation.
@@ -206,6 +208,7 @@ class ApiExplorer extends React.Component {
                         language={this.state.language}
                         lazy={this.isLazy(index)}
                         Logs={this.props.Logs}
+                        maskErrorMessages={maskErrorMessages}
                         oas={this.getOas(doc)}
                         oauth={this.props.oauth}
                         onAuthChange={this.onAuthChange}
@@ -247,6 +250,7 @@ ApiExplorer.propTypes = {
     })
   ).isRequired,
   Logs: PropTypes.func,
+  maskErrorMessages: PropTypes.bool,
   oasFiles: PropTypes.shape({}).isRequired,
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -272,6 +276,7 @@ ApiExplorer.defaultProps = {
     correctnewlines: false,
   },
   Logs: undefined,
+  maskErrorMessages: true,
   oauth: false,
   tryItMetrics: () => {},
 };

@@ -420,7 +420,7 @@ Doc.defaultProps = {
   groups: [],
   lazy: true,
   Logs: undefined,
-  maskErrorMessages: false,
+  maskErrorMessages: true,
   oas: {},
   onError: () => {},
   rendered: false,
