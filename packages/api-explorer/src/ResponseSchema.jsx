@@ -1,7 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
+const markdownMagic = require('@readme/markdown-magic');
 const Oas = require('@readme/oas-tooling');
 const { findSchemaDefinition } = require('@readme/oas-tooling/utils');
 
@@ -76,7 +77,7 @@ class ResponseSchema extends React.Component {
   }
 
   render() {
-    const { operation, oas } = this.props;
+    const { operation, oas, useNewMarkdownEngine } = this.props;
     if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
     const schema = this.getSchema(operation);
 
@@ -95,8 +96,13 @@ class ResponseSchema extends React.Component {
       >
         {this.renderHeader()}
         <div className="response-schema">
-          {response.description && <div className="desc">{markdown(response.description)}</div>}
-          {schema && <ResponseSchemaBody oas={oas} schema={schema} />}
+          {response.description && (
+            <div className="desc">
+              {useNewMarkdownEngine ? markdown(response.description) : markdownMagic(response.description)}
+            </div>
+          )}
+
+          {schema && <ResponseSchemaBody oas={oas} schema={schema} useNewMarkdownEngine={useNewMarkdownEngine} />}
         </div>
       </div>
     );
@@ -107,6 +113,11 @@ ResponseSchema.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   theme: PropTypes.string.isRequired,
+  useNewMarkdownEngine: PropTypes.bool,
+};
+
+ResponseSchema.defaultProps = {
+  useNewMarkdownEngine: false,
 };
 
 module.exports = ResponseSchema;

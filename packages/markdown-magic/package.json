@@ -4,8 +4,8 @@
   "version": "4.19.2",
   "dependencies": {
     "@readme/emojis": "^1.0.0",
-    "@readme/syntax-highlighter": "^4.19.2",
-    "@readme/variable": "^4.19.2",
+    "@readme/syntax-highlighter": "^5.0.0-alpha.4",
+    "@readme/variable": "^5.0.0-alpha.4",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",

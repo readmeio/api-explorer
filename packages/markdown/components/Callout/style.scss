@@ -1,0 +1,52 @@
+@mixin callout ($l-offset: 1.5rem) {
+  padding: $l-offset;
+  &_default {
+    $txt: #6a737d;
+    $bdr: #dfe2e5;
+    background-color: lighten($bdr, 7%);
+    color: $txt;
+  }
+  &_info {
+    background-color: #e3edf2;
+    border-color: #5bc0de;
+    h3, h4 { color: darken(#5bc0de, 5%) }
+  }
+  &_warn, &_warning {
+    background-color: #fcf8f2;
+    border-color: #f0ad4e;
+    h3, h4 { color: darken(#f0ad4e, 5%) }
+  }
+  &_ok, &_okay, &_success {
+    background-color: #f3f8f3;
+    border-color: #50af51;
+    h3, h4 { color: darken(#50af51, 5%) }
+  }
+  &_err, &_error {
+    background-color: #fdf7f7;
+    border-color: #d9534f;
+    h3, h4 { color: darken(#d9534f, 5%) }
+  }
+  >* {
+    margin-left: $l-offset;
+    position: relative;
+  }
+  h3 {
+    &.floated {
+      float: left;
+    }
+    > p {
+      margin-bottom: 0;
+    }  
+    &:first-letter {
+      margin-left: -1.6em;
+      margin-right: .4rem;
+      line-height: 0;
+    }
+  }
+}
+#hub-content,
+.markdown-body {
+  rdme-callout, .callout {
+    @include callout;
+  }
+}

@@ -1,0 +1,49 @@
+#api-explorer .hub-reference .markdown-body {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 0 30px;
+}
+
+#api-explorer .hub-reference-left .markdown-body {
+  width: 100%;
+  max-width: 100%;
+  > .pin {
+    display: none !important;
+  }
+}
+
+.hub-reference-right .markdown-body {
+  #api-explorer & {
+    width: 100%;
+    min-width: 100%;
+    > :not(.pin) {
+      display: none !important;
+    }
+  }
+  .hub-reference-theme-column & {
+    & {
+      color: white;
+    }
+    pre {
+      color: #2a3136;
+    }
+    table {
+      width: 100%;
+      min-width: 100%;
+      display: table;
+    }
+    table thead tr {
+      background-color: rgba(0, 0, 0, .2);
+    }
+    table tbody tr {
+      background-color: transparent;
+    }
+    table tbody tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, .075);
+    }
+    table th,
+    table td {
+      border-color: black;
+    }
+  }
+}

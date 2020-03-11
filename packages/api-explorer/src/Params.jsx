@@ -34,6 +34,7 @@ function Params({
   SelectWidget,
   TextareaWidget,
   URLWidget,
+  useNewMarkdownEngine,
 }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
 
@@ -51,6 +52,9 @@ function Params({
             DescriptionField,
             ArrayField,
             SchemaField,
+          }}
+          formContext={{
+            useNewMarkdownEngine,
           }}
           formData={formData[schema.type]}
           id={`form-${operation.operationId}`}
@@ -111,6 +115,12 @@ Params.propTypes = {
   SchemaField: PropTypes.func.isRequired,
   SelectWidget: PropTypes.func.isRequired,
   TextareaWidget: PropTypes.func.isRequired,
+  URLWidget: PropTypes.func.isRequired,
+  useNewMarkdownEngine: PropTypes.bool,
+};
+
+Params.defaultProps = {
+  useNewMarkdownEngine: false,
 };
 
 function createParams(oas) {

@@ -1,0 +1,16 @@
+{
+  "correctnewlines": true,
+  "markdownOptions": {
+    "fences": true,
+    "commonmark": true,
+    "gfm": true,
+    "ruleSpaces": false,
+    "listItemIndent": "1",
+    "spacedTable": true,
+    "paddedTable": true,
+    "setext": true
+  },
+  "settings": {
+    "position": false
+  }
+}

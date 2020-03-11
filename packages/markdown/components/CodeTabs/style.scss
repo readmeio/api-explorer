@@ -1,0 +1,70 @@
+@mixin CodeTabs {
+  color: #333;
+  background: #eaeaea;
+  border-radius: 3px !important;
+  overflow: hidden;
+
+  &-toolbar {
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    > button {
+      white-space: nowrap;
+    }
+  }
+
+  pre {
+    border-radius: 0 0 3px 3px !important;
+    background: #f6f6f6;
+    margin-bottom: 0;
+    &:not(.CodeTabs_active) { display: none }
+  }
+
+  button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    line-height: 2;
+    padding: .5em 1em;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: inherit;
+    font: inherit;
+    font-size: .75em;
+    cursor: pointer;
+  }
+
+  &.CodeTabs_initial button:first-child,
+  button.CodeTabs_active {
+    background: #f6f6f6;
+    color: black;
+    pointer-events: none;
+  }
+
+  button:not(.CodeTabs_active):hover {
+    background: rgba(0, 0, 0, .075);
+  }
+
+  &.CodeTabs_initial pre:first-child {
+    display: block;
+  }
+}
+
+#hub-content,
+html[ng-app="hub"] .markdown-body,
+#root > .App {
+  .CodeTabs {
+    @include CodeTabs;
+    pre {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+  }
+}

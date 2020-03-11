@@ -221,7 +221,10 @@ test('render top level array of objects', () => {
   ).toHaveLength(1);
 });
 
-test('should render markdown in the description', () => {
+test.each([
+  [true, '<a href="https://example.com" target="_self" title="">Description</a>'],
+  [false, '<a href="https://example.com" target="_self">Description</a>'],
+])('should render markdown in the description [new markdown engine=%s]', (useNewMarkdownEngine, expected) => {
   const schema = {
     type: 'object',
     properties: {
@@ -233,10 +236,10 @@ test('should render markdown in the description', () => {
   };
 
   expect(
-    mount(<ResponseSchemaBody oas={oas} schema={schema} />)
+    mount(<ResponseSchemaBody oas={oas} schema={schema} useNewMarkdownEngine={useNewMarkdownEngine} />)
       .find('a')
       .html()
-  ).toBe('<a href="https://example.com" target="_self">Description</a>');
+  ).toBe(expected);
 });
 
 test('should show "string" response type for a simple `string` schema', () => {
