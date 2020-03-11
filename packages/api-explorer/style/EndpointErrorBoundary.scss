@@ -1,0 +1,35 @@
+.hub-reference-error {
+  display: inline-flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1.5em auto;
+  padding: 1em;
+  border-radius: .33em;
+  font-size: 1rem;
+  background: #f8f8f8;
+  color: #3f494e;
+}
+.hub-reference-error > * + * {
+  margin-left: 1em;
+}
+
+.hub-reference-error-icon {
+  margin: .5rem;
+  font-size: 1.5em;
+  line-height: 0;
+}
+.hub-reference-error-text {
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 37.5em;
+  color: inherit;
+}
+.hub-reference-error-text a {
+  font-weight: bold;
+}
+.hub-reference-error-code {
+  background: #e5e8ec;
+  color: #7f8693;
+  padding: .25em .4em;
+  border-radius: 3px;
+}
