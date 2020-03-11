@@ -11,11 +11,13 @@ const { Operation } = Oas;
 const petstore = require('./__fixtures__/petstore/oas.json');
 const boolean = require('./__fixtures__/boolean/oas.json');
 const string = require('./__fixtures__/string/oas.json');
+const polymorphism = require('./__fixtures__/polymorphism/oas.json');
 
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet/{petId}', 'get');
 const booleanOas = new Oas(boolean);
 const stringOas = new Oas(string);
+const polymorphismOas = new Oas(polymorphism);
 
 const props = {
   formData: {},
@@ -74,7 +76,7 @@ function renderParams(schema, customProps) {
 }
 
 describe('form id attribute', () => {
-  it('should be set to the operationId', () => {
+  it('should be set to the schema type+operationId', () => {
     expect(
       mount(
         <div>
@@ -82,7 +84,7 @@ describe('form id attribute', () => {
         </div>
       )
         .html()
-        .match(new RegExp(`form-${operation.operationId}`, 'g'))
+        .match(new RegExp(`form-path-${operation.operationId}`, 'g'))
     ).toHaveLength(1);
   });
 });
@@ -160,6 +162,20 @@ test('additionalProperties object labels (keys) should be editable', () => {
   });
 
   expect(params.find('input#root_a-key')).toHaveLength(1);
+});
+
+describe('oneOf/anyOf', () => {
+  it('should render the oneOf/anyOf array with our CustomTemplateShell', () => {
+    const params = mount(
+      <div>
+        <Params {...props} oas={polymorphismOas} operation={polymorphismOas.operation('/pets', 'patch')} />
+      </div>
+    );
+
+    // This might look like a weird assertion, but RJSF returns `undefined` for oneOf and anyOf schemas, so if we have
+    // that here, it means that we loaded it with our CustomTemplateShell component in SchemaField.
+    expect(params.find('div.field.field-undefined.param')).toHaveLength(1);
+  });
 });
 
 describe('schema format handling', () => {

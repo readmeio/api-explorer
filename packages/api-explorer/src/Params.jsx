@@ -48,12 +48,12 @@ function Params({
         <Form
           key={`${schema.type}-form`}
           fields={{
-            DescriptionField,
             ArrayField,
+            DescriptionField,
             SchemaField,
           }}
           formData={formData[schema.type]}
-          id={`form-${operation.operationId}`}
+          id={`form-${schema.type}-${operation.operationId}`}
           idPrefix={operation.operationId}
           onChange={form => {
             return onChange({ [schema.type]: form.formData });

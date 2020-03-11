@@ -62,6 +62,18 @@ function getTypeLabel(schema) {
   return type;
 }
 
+function CustomTemplateShell(props) {
+  const { classNames, help, errors, children } = props;
+
+  return (
+    <div className={`${classNames} param`}>
+      {children}
+      {errors && <div className="errors">{errors}</div>}
+      {help && <div className="help">{help}</div>}
+    </div>
+  );
+}
+
 function CustomTemplate(props) {
   const { id, classNames, label, help, required, description, errors, children, schema, onKeyChange } = props;
 
@@ -87,11 +99,21 @@ function CustomTemplate(props) {
 }
 
 function SchemaField(props) {
-  if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format)) props.schema.format = undefined;
+  if (!doesFormatExist(props.registry.widgets, props.schema.type, props.schema.format)) {
+    props.schema.format = undefined;
+  }
 
-  // If there's no name on this field, then it's a lone schema with no label or children and as such
-  // we shouldn't try to render it with the custom template.
-  if ('name' in props) props.registry.FieldTemplate = CustomTemplate;
+  if ('name' in props) {
+    // If there's no name on this field, then it's a lone schema with no label or children and as such we shouldn't try
+    // to render it with the custom template.
+    props.registry.FieldTemplate = CustomTemplate;
+  } else if ('schema' in props && ('oneOf' in props.schema || 'anyOf' in props.schema)) {
+    // If this is a oneOf or anyOf schema, render it using a shell of a CustomTemplate that will render it within our
+    // `div.param` work so it doesn't look like hot garbage.
+    //
+    // See https://github.com/readmeio/api-explorer/pull/436#issuecomment-597428988 for more info.
+    props.registry.FieldTemplate = CustomTemplateShell;
+  }
 
   if (props.schema.readOnly) {
     // Maybe use this when it's been merged?
@@ -141,6 +163,13 @@ CustomTemplate.propTypes = {
 
 CustomTemplate.defaultProps = {
   onKeyChange: () => {},
+};
+
+CustomTemplateShell.propTypes = {
+  children: PropTypes.node.isRequired,
+  classNames: PropTypes.string.isRequired,
+  errors: PropTypes.node.isRequired,
+  help: PropTypes.node.isRequired,
 };
 
 SchemaField.propTypes = {
