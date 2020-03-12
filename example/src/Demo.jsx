@@ -9,9 +9,6 @@ const ApiExplorer = require('../../packages/api-explorer/src');
 const Logs = require('../../packages/api-logs/index');
 const ApiList = require('./ApiList');
 
-require('../../example/swagger-files/types.json');
-require('../../example/swagger-files/response-schemas.json');
-
 require('../../packages/api-logs/main.css');
 
 class Demo extends React.Component {
@@ -21,30 +18,60 @@ class Demo extends React.Component {
       brokenExplorerState: false,
       maskErrorMessages: false,
     };
-
-    this.toggleBrokenState = this.toggleBrokenState.bind(this);
-    this.toggleErrorMasking = this.toggleErrorMasking.bind(this);
   }
 
-  toggleErrorMasking(e) {
-    this.setState({ maskErrorMessages: e.target.checked });
-    this.forceUpdate();
-  }
+  experimentToggles() {
+    const experiments = {
+      'Mask error messages?': {
+        description: 'Switch between our different error states: consumer and project/API owner.',
+        stateKey: 'maskErrorMessages',
+      },
+      'Show fully broken state?': {
+        description: "Send the Explorer into a broken state. You'll need to refresh the page to get it working again.",
+        stateKey: 'brokenExplorerState',
+      },
+    };
 
-  toggleBrokenState(e) {
-    this.setState({ brokenExplorerState: e.target.checked });
-    this.forceUpdate();
+    return (
+      <div className="api-experiments">
+        <ul>
+          {Object.keys(experiments).map(name => {
+            const experiment = experiments[name];
+
+            return (
+              <li key={name}>
+                <label htmlFor={experiment.stateKey} title={experiment.description}>
+                  {name}
+                </label>
+                <input
+                  checked={this.state[experiment.stateKey]}
+                  name={experiment.stateKey}
+                  onChange={e => {
+                    this.setState({ [experiment.stateKey]: e.target.checked });
+                    this.forceUpdate();
+                  }}
+                  type="checkbox"
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
   }
 
   render() {
     const { fetchSwagger, status, docs, oas, oauth } = this.props;
     const { brokenExplorerState, maskErrorMessages } = this.state;
 
-    const additionalProps = {};
-    if (!brokenExplorerState) {
-      additionalProps.oasFiles = {
+    const additionalProps = {
+      oasFiles: {
         'api-setting': Object.assign(extensions.defaults, oas),
-      };
+      },
+    };
+
+    if (brokenExplorerState) {
+      delete additionalProps.oasFiles;
     }
 
     return (
@@ -52,16 +79,7 @@ class Demo extends React.Component {
         <div className="api-list-header">
           <ApiList fetchSwagger={fetchSwagger} />
 
-          {status.length > 0 ? (
-            <pre>{status.join('\n')}</pre>
-          ) : (
-            <p>
-              <input checked={maskErrorMessages} onChange={this.toggleErrorMasking} type="checkbox" /> Mask error
-              messages? &nbsp;
-              <input checked={brokenExplorerState} onChange={this.toggleBrokenState} type="checkbox" /> Show fully
-              broken state
-            </p>
-          )}
+          {status.length > 0 ? <pre>{status.join('\n')}</pre> : this.experimentToggles()}
         </div>
 
         {status.length === 0 && (
