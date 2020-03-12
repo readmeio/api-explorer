@@ -74,7 +74,7 @@ module.exports.sanitize = sanitizeSchema => {
   sanitizeSchema.attributes.i = ['className'];
 
   // This is for `emoji` class name
-  sanitizeSchema.attributes.img.push('className');
+  sanitizeSchema.attributes.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
 
   return parser;
 };

@@ -30,16 +30,30 @@ test('selectedStatus should change state of selectedStatus', () => {
   expect(responseSchema.state('selectedStatus')).toBe('400');
 });
 
-test('should display response schema description', () => {
-  const responseSchema = shallow(<ResponseSchema {...props} />);
+test.each([[true], [false]])(
+  'should display response schema description [new markdown engine=%s]',
+  useNewMarkdownEngine => {
+    const responseSchema = shallow(<ResponseSchema {...props} useNewMarkdownEngine={useNewMarkdownEngine} />);
+    let text;
 
-  expect(
-    responseSchema
-      .find('div.desc')
-      .first()
-      .text()
-  ).toBe(props.operation.responses['200'].description);
-});
+    if (useNewMarkdownEngine) {
+      text = responseSchema
+        .find('div.desc')
+        .first()
+        .find('div.desc')
+        .find('p')
+        .first()
+        .text();
+    } else {
+      text = responseSchema
+        .find('div.desc')
+        .first()
+        .text();
+    }
+
+    expect(text).toBe(props.operation.responses['200'].description);
+  }
+);
 
 test('should work if there are no responses', () => {
   // Need to create a new operation without any responses

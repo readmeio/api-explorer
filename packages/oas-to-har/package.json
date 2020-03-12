@@ -1,10 +1,10 @@
 {
   "name": "@readme/oas-to-har",
   "description": "Utility to transform an OAS operation into a HAR representation",
-  "version": "4.19.2",
+  "version": "5.0.0",
   "main": "src/index.js",
   "dependencies": {
-    "@readme/oas-extensions": "^4.18.2",
+    "@readme/oas-extensions": "^5.0.0",
     "@readme/oas-tooling": "^3.0.0",
     "querystring": "^0.2.0"
   },

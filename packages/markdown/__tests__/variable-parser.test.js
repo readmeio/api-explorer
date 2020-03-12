@@ -1,6 +1,6 @@
 const unified = require('unified');
 const remarkParse = require('remark-parse');
-const parser = require('../variable-parser');
+const parser = require('../processor/parse/variable-parser');
 
 test('should output a variable node', () => {
   const markdown = 'This is a test <<apiKey>>.';
@@ -13,6 +13,7 @@ test('should output a variable node', () => {
           { type: 'text', value: 'This is a test ' },
           {
             type: 'readme-variable',
+            text: 'apiKey',
             data: {
               hName: 'readme-variable',
               hProperties: {

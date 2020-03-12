@@ -1,6 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown').default;
+const markdownMagic = require('@readme/markdown-magic');
 const { flattenArray, flattenSchema } = require('@readme/oas-tooling/utils');
 
 function getSchemaType(schema) {
@@ -13,7 +14,15 @@ function getSchemaType(schema) {
   return `array of ${schema.items.type}s`;
 }
 
-function ResponseSchemaBody({ schema, oas }) {
+function getDescriptionMarkdown(useNewMarkdownEngine, description) {
+  if (useNewMarkdownEngine) {
+    return markdown(description);
+  }
+
+  return markdownMagic(description);
+}
+
+function ResponseSchemaBody({ schema, oas, useNewMarkdownEngine }) {
   const rows = flattenArray(flattenSchema(schema, oas)).map(row => (
     <tr key={Math.random().toString(10)}>
       <th
@@ -36,7 +45,7 @@ function ResponseSchemaBody({ schema, oas }) {
         }}
       >
         {row.name}
-        {row.description && markdown(row.description)}
+        {row.description && getDescriptionMarkdown(useNewMarkdownEngine, row.description)}
       </td>
     </tr>
   ));
@@ -63,6 +72,11 @@ ResponseSchemaBody.propTypes = {
     properties: PropTypes.object,
     type: PropTypes.string.isRequired,
   }).isRequired,
+  useNewMarkdownEngine: PropTypes.bool,
+};
+
+ResponseSchemaBody.defaultProps = {
+  useNewMarkdownEngine: false,
 };
 
 module.exports = ResponseSchemaBody;

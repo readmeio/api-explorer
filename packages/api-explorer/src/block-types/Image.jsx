@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown-magic');
 
 const ImageBlock = ({ block, flags }) => {
   const myImage = block.data.images.map((image, i) => {

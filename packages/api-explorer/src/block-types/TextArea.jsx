@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const markdown = require('@readme/markdown');
+const markdown = require('@readme/markdown-magic');
 
 const Textarea = ({ block, flags }) => {
   return <div className="magic-block-textarea">{markdown(block.text, flags)}</div>;
