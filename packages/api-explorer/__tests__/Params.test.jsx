@@ -165,6 +165,31 @@ test('additionalProperties object labels (keys) should be editable', () => {
   expect(params.find('input#createPath_a-key')).toHaveLength(1);
 });
 
+test('if no operationId is present, one should be generated', () => {
+  const params = mount(
+    <div>
+      <Params
+        {...props}
+        operation={
+          new Operation(oas, '/path/create', 'post', {
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                  },
+                },
+              },
+            },
+          })
+        }
+      />
+    </div>
+  );
+
+  expect(params.find('form#form-body-postpathcreate')).toHaveLength(1);
+});
+
 describe('oneOf/anyOf', () => {
   it('should render the select container with our CustomTemplateShell component', () => {
     const testOas = new Oas(polymorphism);

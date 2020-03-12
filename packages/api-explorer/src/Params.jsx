@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const shortid = require('shortid');
 const Form = require('@readme/react-jsonschema-form').default;
+const slug = require('lodash.kebabcase');
 
 const {
   // DateTimeWidget,
@@ -41,9 +41,14 @@ function Params({
 }) {
   const jsonSchema = parametersToJsonSchema(operation, oas);
 
-  // If this operation doesn't have a set operationID, generate a random string to be one so we have unique form IDs
-  // across the explorer.
-  const operationId = 'operationId' in operation ? operation.operationId : shortid.generate();
+  // If this operation doesn't have a set operationID (it's not required per the spec!) generate a hash off the
+  // path+method to be one so we have unique form IDs across the explorer.
+  let operationId;
+  if ('operationId' in operation) {
+    operationId = operation.operationId;
+  } else {
+    operationId = slug(`${operation.method} ${operation.path}`).replace(/-/g, '');
+  }
 
   return (
     <div id={`form-${operationId}`}>
