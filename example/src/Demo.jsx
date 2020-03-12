@@ -17,6 +17,7 @@ class Demo extends React.Component {
     this.state = {
       brokenExplorerState: false,
       maskErrorMessages: false,
+      useNewMarkdownEngine: false,
     };
   }
 
@@ -24,11 +25,15 @@ class Demo extends React.Component {
     const experiments = {
       'Mask error messages?': {
         description: 'Switch between our different error states: consumer and project/API owner.',
-        stateKey: 'maskErrorMessages',
+        stateProp: 'maskErrorMessages',
       },
       'Show fully broken state?': {
         description: "Send the Explorer into a broken state. You'll need to refresh the page to get it working again.",
-        stateKey: 'brokenExplorerState',
+        stateProp: 'brokenExplorerState',
+      },
+      'Use new Markdown engine?': {
+        description: null,
+        stateProp: 'useNewMarkdownEngine',
       },
     };
 
@@ -40,18 +45,18 @@ class Demo extends React.Component {
 
             return (
               <li key={name}>
-                <label htmlFor={experiment.stateKey} title={experiment.description}>
-                  {name}
-                </label>
                 <input
-                  checked={this.state[experiment.stateKey]}
-                  name={experiment.stateKey}
+                  checked={this.state[experiment.stateProp]}
+                  name={experiment.stateProp}
                   onChange={e => {
-                    this.setState({ [experiment.stateKey]: e.target.checked });
+                    this.setState({ [experiment.stateProp]: e.target.checked });
                     this.forceUpdate();
                   }}
                   type="checkbox"
                 />
+                <label htmlFor={experiment.stateProp} title={experiment.description}>
+                  {name}
+                </label>
               </li>
             );
           })}
@@ -62,7 +67,7 @@ class Demo extends React.Component {
 
   render() {
     const { fetchSwagger, status, docs, oas, oauth } = this.props;
-    const { brokenExplorerState, maskErrorMessages } = this.state;
+    const { brokenExplorerState, maskErrorMessages, useNewMarkdownEngine } = this.state;
 
     const additionalProps = {
       oasFiles: {
@@ -102,6 +107,7 @@ class Demo extends React.Component {
             maskErrorMessages={maskErrorMessages}
             oauth={oauth}
             suggestedEdits
+            useNewMarkdownEngine={useNewMarkdownEngine}
             variables={{
               // Uncomment this to test without logs
               // user: {}
