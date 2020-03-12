@@ -215,6 +215,7 @@ class ApiExplorer extends React.Component {
                         setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
                         tryItMetrics={this.props.tryItMetrics}
+                        useNewMarkdownEngine={this.props.useNewMarkdownEngine}
                         user={this.props.variables.user}
                       />
                     </SelectedAppContext.Provider>
@@ -251,6 +252,7 @@ ApiExplorer.propTypes = {
   oauth: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
+  useNewMarkdownEngine: PropTypes.bool,
   variables: PropTypes.shape({
     defaults: PropTypes.arrayOf(
       PropTypes.shape({
@@ -274,6 +276,7 @@ ApiExplorer.defaultProps = {
   Logs: undefined,
   oauth: false,
   tryItMetrics: () => {},
+  useNewMarkdownEngine: false,
 };
 
 // eslint-disable-next-line react/display-name
