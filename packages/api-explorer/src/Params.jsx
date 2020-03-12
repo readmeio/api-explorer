@@ -46,71 +46,73 @@ function Params({
   const operationId = 'operationId' in operation ? operation.operationId : shortid.generate();
 
   return (
-    jsonSchema &&
-    jsonSchema.map(schema => {
-      return [
-        <div key={`${schema.type}-header`} className="param-type-header">
-          <h3>{schema.label}</h3>
-          <div className="param-header-border" />
-        </div>,
-        <Form
-          key={`${schema.type}-form`}
-          fields={{
-            ArrayField,
-            DescriptionField,
-            SchemaField,
-          }}
-          formContext={{
-            useNewMarkdownEngine,
-          }}
-          formData={formData[schema.type]}
-          id={`form-${schema.type}-${operationId}`}
-          idPrefix={operationId}
-          onChange={form => {
-            return onChange({ [schema.type]: form.formData });
-          }}
-          onSubmit={onSubmit}
-          schema={schema.schema}
-          widgets={{
-            // 🚧 If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
-            BaseInput,
-            binary: FileWidget,
-            blob: TextareaWidget,
-            byte: TextWidget,
-            date: TextWidget,
+    <div id={`form-${operationId}`}>
+      {jsonSchema &&
+        jsonSchema.map(schema => {
+          return [
+            <div key={`${schema.type}-header`} className="param-type-header">
+              <h3>{schema.label}</h3>
+              <div className="param-header-border" />
+            </div>,
+            <Form
+              key={`${schema.type}-form`}
+              fields={{
+                ArrayField,
+                DescriptionField,
+                SchemaField,
+              }}
+              formContext={{
+                useNewMarkdownEngine,
+              }}
+              formData={formData[schema.type]}
+              id={`form-${schema.type}-${operationId}`}
+              idPrefix={operationId}
+              onChange={form => {
+                return onChange({ [schema.type]: form.formData });
+              }}
+              onSubmit={onSubmit}
+              schema={schema.schema}
+              widgets={{
+                // 🚧 If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
+                BaseInput,
+                binary: FileWidget,
+                blob: TextareaWidget,
+                byte: TextWidget,
+                date: TextWidget,
 
-            // 🚨 Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
-            // browsers that don't fully support it.
-            /* dateTime: DateTimeWidget,
-            'date-time': DateTimeWidget, */
+                // 🚨 Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
+                // browsers that don't fully support it.
+                /* dateTime: DateTimeWidget,
+              'date-time': DateTimeWidget, */
 
-            double: UpDownWidget,
-            duration: TextWidget,
-            float: UpDownWidget,
-            html: TextareaWidget,
-            int8: UpDownWidget,
-            int16: UpDownWidget,
-            int32: UpDownWidget,
-            int64: UpDownWidget,
-            integer: UpDownWidget,
-            json: TextareaWidget,
-            password: PasswordWidget,
-            SelectWidget,
-            string: TextWidget,
-            timestamp: TextWidget,
-            uint8: UpDownWidget,
-            uint16: UpDownWidget,
-            uint32: UpDownWidget,
-            uint64: UpDownWidget,
-            uri: URLWidget,
-            url: URLWidget,
-            uuid: TextWidget,
-          }}
-        >
-          <button style={{ display: 'none' }} type="submit" />
-        </Form>,
-      ];
-    })
+                double: UpDownWidget,
+                duration: TextWidget,
+                float: UpDownWidget,
+                html: TextareaWidget,
+                int8: UpDownWidget,
+                int16: UpDownWidget,
+                int32: UpDownWidget,
+                int64: UpDownWidget,
+                integer: UpDownWidget,
+                json: TextareaWidget,
+                password: PasswordWidget,
+                SelectWidget,
+                string: TextWidget,
+                timestamp: TextWidget,
+                uint8: UpDownWidget,
+                uint16: UpDownWidget,
+                uint32: UpDownWidget,
+                uint64: UpDownWidget,
+                uri: URLWidget,
+                url: URLWidget,
+                uuid: TextWidget,
+              }}
+            >
+              <button style={{ display: 'none' }} type="submit" />
+            </Form>,
+          ];
+        })}
+    </div>
   );
 }
 
