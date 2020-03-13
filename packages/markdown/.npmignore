@@ -1,4 +1,5 @@
 __tests__/
+coverage/
 .babelrc
 .eslint*
 .jsinspectrc
