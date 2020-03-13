@@ -1,8 +1,5 @@
 __tests__/
-coverage/
-.eslintignore
-.eslintrc
+.eslint*
 .jsinspectrc
-.prettierignore
-.prettierrc
+.prettier*
 jest.config.js
