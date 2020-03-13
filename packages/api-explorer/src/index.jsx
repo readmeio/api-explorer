@@ -168,8 +168,6 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
-    const { maskErrorMessages } = this.props;
-
     const docs = this.props.docs.filter(doc => {
       // If the HTTP method is something we don't support, then we shouldn't attempt to render it as a normal API
       // operation.
@@ -208,12 +206,13 @@ class ApiExplorer extends React.Component {
                         language={this.state.language}
                         lazy={this.isLazy(index)}
                         Logs={this.props.Logs}
-                        maskErrorMessages={maskErrorMessages}
+                        maskErrorMessages={this.props.maskErrorMessages}
                         oas={this.getOas(doc)}
                         oauth={this.props.oauth}
                         onAuthChange={this.onAuthChange}
                         onAuthGroupChange={this.onAuthGroupChange}
                         onDocRender={this.onDocRender}
+                        onError={this.props.onError}
                         rendered={this.state.docRenderMap[doc.slug]}
                         setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
