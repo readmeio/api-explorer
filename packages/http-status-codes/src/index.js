@@ -6,7 +6,7 @@ const codes = {
   100: ['Continue', true],
   101: ['Switching Protocols', true],
   102: ['Processing', true],
-  103: ['Early Hints', true],
+  103: ['Early Hints', true], // Also informally used as "Checkpoint".
 
   '2XX': ['Success', true],
   200: ['OK', true],
@@ -18,6 +18,7 @@ const codes = {
   206: ['Partial Content', true],
   207: ['Multi-Status', true],
   208: ['Already Reported', true],
+  218: ['This is fine', true], // Unofficial
   226: ['IM Used', true],
 
   '3XX': ['Redirection', true],
@@ -51,7 +52,8 @@ const codes = {
   416: ['Range Not Satisfiable', false],
   417: ['Expectation Failed', false],
   418: ["I'm a teapot", false],
-  420: ['Enhance Your Calm', false],
+  419: ['Page Expired', false], // Unofficial
+  420: ['Enhance Your Calm', false], // Unofficial
   421: ['Misdirected Request', false],
   422: ['Unprocessable Entity', false],
   423: ['Locked', false],
@@ -60,8 +62,19 @@ const codes = {
   426: ['Upgrade Required', false],
   428: ['Precondition Required', false],
   429: ['Too Many Requests', false],
+  430: ['Request Header Fields Too Large', false], // Unofficial
   431: ['Request Header Fields Too Large', false],
+  440: ['Login Time-out', false], // Unofficial
+  444: ['No Response', false], // Unofficial
+  449: ['Retry With', false], // Unofficial
+  450: ['Blocked by Windows Parental Controls', false], // Unofficial
   451: ['Unavailable For Legal Reasons', false],
+  494: ['Request Header Too Large', false], // Unofficial
+  495: ['SSL Certificate Error', false], // Unofficial
+  496: ['SSL Certificate Required', false], // Unofficial
+  497: ['HTTP Request Sent to HTTPS Port', false], // Unofficial
+  498: ['Invalid Token', false], // Unofficial
+  499: ['Client Error', false], // "Token Request" on ArcGIS, "Client Closed Request" on nginx
 
   '5XX': ['Server Error', false],
   500: ['Internal Server Error', false],
@@ -76,6 +89,17 @@ const codes = {
   509: ['Bandwidth Limit Exceeded', false],
   510: ['Not Extended', false],
   511: ['Network Authentication Required', false],
+  520: ['Web Server Returned an Unknown Error', false], // Unofficial
+  521: ['Web Server Is Down', false], // Unofficial
+  522: ['Connection Timed Out', false], // Unofficial
+  523: ['Origin Is Unreachable', false], // Unofficial
+  524: ['A Timeout Occurred', false], // Unofficial
+  525: ['SSL Handshake Failed', false], // Unofficial
+  526: ['Invalid SSL Certificate', false], // Unofficial
+  527: ['Railgun Error', false], // Unofficial
+  529: ['Site is Overloaded', false], // Unofficial
+  530: ['Site is Frozen', false], // Unofficial
+  598: ['Network Read Timeout Error', false], // Unofficial
 };
 
 function getStatusCode(code) {
