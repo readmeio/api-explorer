@@ -40,6 +40,10 @@ describe('#isStatusCodeSuccessful()', () => {
   it.each([['4XX'], [400], ['5XX'], [500]])('should return false for a %s status code', code => {
     expect(isStatusCodeSuccessful(code)).toBe(false);
   });
+
+  it('should return false when given an invalid status code', () => {
+    expect(isStatusCodeSuccessful(1000)).toBe(false);
+  });
 });
 
 describe('#isStatusCodeValid()', () => {
