@@ -1,26 +1,23 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-
-const statusCodes = require('./lib/statuscodes');
+const { isValidStatusCode, getStatusCode } = require('@readme/http-status-codes');
 
 function IconStatus({ status, name }) {
-  const statusCode = statusCodes(status);
+  if (!isValidStatusCode(status)) {
+    return <span />;
+  }
 
-  if (!statusCode) return <span />;
+  const statusCode = getStatusCode(status);
 
   return (
     <span
       className={classNames({
-        httpsuccess: statusCode[2] === 'success',
-        httperror: statusCode[2] !== 'success',
+        httpsuccess: statusCode.success,
+        httperror: !statusCode.success,
       })}
     >
-      <i className="fa fa-circle" />
-      &nbsp;
-      {statusCode[0]}
-      &nbsp;
-      <em>{name || statusCode[1]}</em>
+      <i className="fa fa-circle" /> {statusCode.code} <em>{name || statusCode.message}</em>
     </span>
   );
 }
