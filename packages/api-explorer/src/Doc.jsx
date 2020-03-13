@@ -274,7 +274,7 @@ class Doc extends React.Component {
     return (
       <Logs
         baseUrl={this.props.baseUrl}
-        changeGroup={this.props.onGroupChange}
+        changeGroup={this.props.onAuthGroupChange}
         group={this.props.group}
         groups={this.props.groups}
         query={{
@@ -311,8 +311,8 @@ class Doc extends React.Component {
         needsAuth={this.state.needsAuth}
         oas={this.oas}
         oauth={this.props.oauth}
+        onAuthGroupChange={this.props.onAuthGroupChange}
         onChange={this.props.onAuthChange}
-        onGroupChange={this.props.onGroupChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
         showAuthBox={this.state.showAuthBox}
@@ -427,9 +427,9 @@ Doc.propTypes = {
   oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  onAuthGroupChange: PropTypes.func.isRequired,
   onDocRender: PropTypes.func.isRequired,
   onError: PropTypes.func,
-  onGroupChange: PropTypes.func.isRequired,
   rendered: PropTypes.bool,
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,

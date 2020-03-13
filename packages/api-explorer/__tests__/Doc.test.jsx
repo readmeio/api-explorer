@@ -27,7 +27,7 @@ const props = {
   oas: petstore,
   oauth: false,
   onAuthChange: () => {},
-  onGroupChange: () => {},
+  onAuthGroupChange: () => {},
   setLanguage: () => {},
   onDocRender: () => {},
   suggestedEdits: false,
@@ -73,8 +73,8 @@ test('should render a manual endpoint', () => {
   // Transforming `props` like this is weird, but without it some auth timer tests will break. 🤷‍♂️
   const manualProps = JSON.parse(JSON.stringify(props));
   manualProps.onAuthChange = () => {};
+  manualProps.onAuthGroupChange = () => {};
   manualProps.onRender = () => {};
-  manualProps.onGroupChange = () => {};
   manualProps.onDocRender = () => {};
   manualProps.setLanguage = () => {};
   manualProps.tryItMetrics = () => {};
@@ -116,8 +116,8 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       language="node"
       oauth={false}
       onAuthChange={() => {}}
+      onAuthGroupChange={() => {}}
       onDocRender={() => {}}
-      onGroupChange={() => {}}
       rendered={true}
       setLanguage={() => {}}
       suggestedEdits
@@ -142,8 +142,8 @@ test('should still display `Content` with column-style layout', () => {
       language="node"
       oauth={false}
       onAuthChange={() => {}}
+      onAuthGroupChange={() => {}}
       onDocRender={() => {}}
-      onGroupChange={() => {}}
       rendered={true}
       setLanguage={() => {}}
       suggestedEdits

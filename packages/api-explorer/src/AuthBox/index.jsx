@@ -7,9 +7,9 @@ const { Operation } = require('@readme/oas-tooling');
 
 const SecurityInput = require('../SecurityInput');
 
-function GroupsList({ group, groups, onGroupChange }) {
+function GroupsList({ group, groups, onAuthGroupChange }) {
   function onSelect({ target }) {
-    onGroupChange(target.value);
+    onAuthGroupChange(target.value);
   }
 
   if (!groups || (groups && groups.length <= 1)) {
@@ -27,13 +27,13 @@ function GroupsList({ group, groups, onGroupChange }) {
   );
 }
 
-function Securities({ auth, authInputRef, group, groups, oauth, onChange, onGroupChange, onSubmit, operation }) {
+function Securities({ auth, authInputRef, group, groups, oauth, onChange, onAuthGroupChange, onSubmit, operation }) {
   const securityTypes = operation.prepareSecurity();
   return (
     <div className="AuthBox">
       {groups && groups.length > 1 && (
         <div className="GroupsList">
-          <GroupsList group={group} groups={groups} onGroupChange={onGroupChange} />
+          <GroupsList group={group} groups={groups} onAuthGroupChange={onAuthGroupChange} />
         </div>
       )}
       {Object.keys(securityTypes).map(type => {
@@ -84,7 +84,7 @@ function AuthBox({
   needsAuth,
   oauth,
   onChange,
-  onGroupChange,
+  onAuthGroupChange,
   onSubmit,
   open,
   operation,
@@ -106,8 +106,8 @@ function AuthBox({
             group={group}
             groups={groups}
             oauth={oauth}
+            onAuthGroupChange={onAuthGroupChange}
             onChange={onChange}
-            onGroupChange={onGroupChange}
             onSubmit={e => {
               e.preventDefault();
               onSubmit();
@@ -134,7 +134,7 @@ const commonProps = {
       name: PropTypes.string,
     })
   ),
-  onGroupChange: PropTypes.func.isRequired,
+  onAuthGroupChange: PropTypes.func.isRequired,
 };
 
 GroupsList.propTypes = {

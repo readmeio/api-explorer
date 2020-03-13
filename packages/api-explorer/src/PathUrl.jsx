@@ -33,8 +33,8 @@ function PathUrl({
   needsAuth,
   oas,
   oauth,
+  onAuthGroupChange,
   onChange,
-  onGroupChange,
   onSubmit,
   operation,
   showAuthBox,
@@ -53,8 +53,8 @@ function PathUrl({
                 groups={groups}
                 needsAuth={needsAuth}
                 oauth={oauth}
+                onAuthGroupChange={onAuthGroupChange}
                 onChange={onChange}
-                onGroupChange={onGroupChange}
                 onSubmit={onSubmit}
                 open={showAuthBox}
                 operation={operation}
@@ -113,8 +113,8 @@ PathUrl.propTypes = {
   needsAuth: PropTypes.bool,
   oas: PropTypes.instanceOf(Oas).isRequired,
   oauth: PropTypes.bool.isRequired,
+  onAuthGroupChange: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onGroupChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   showAuthBox: PropTypes.bool,
