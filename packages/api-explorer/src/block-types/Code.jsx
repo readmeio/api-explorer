@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const React = require('react');
 const classNames = require('classnames');
 const { uppercase } = require('@readme/syntax-highlighter');
-const { isValidStatusCode, isSuccess, getStatusCode } = require('@readme/http-status-codes');
+const { isStatusCodeSuccessful, isStatusCodeValid, getStatusCode } = require('@readme/http-status-codes');
 
 const CodeElement = require('./CodeElement');
 
@@ -38,9 +38,13 @@ class BlockCode extends React.Component {
                       this.showCode(i);
                     }}
                   >
-                    {code.status && isValidStatusCode(code.status) ? (
+                    {code.status && isStatusCodeValid(code.status) ? (
                       <span>
-                        <span className={`status-icon status-icon-${isSuccess(code.status) ? 'success' : 'error'}`} />
+                        <span
+                          className={`status-icon status-icon-${
+                            isStatusCodeSuccessful(code.status) ? 'success' : 'error'
+                          }`}
+                        />
                         {code.status}
                         <em>{code.name ? code.name : getStatusCode(code.status).message}</em>
                       </span>

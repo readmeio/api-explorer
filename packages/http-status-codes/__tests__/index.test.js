@@ -1,4 +1,4 @@
-const { codes, getStatusCode, isSuccess, isValidStatusCode } = require('../src');
+const { codes, getStatusCode, isStatusCodeSuccessful, isStatusCodeValid } = require('../src');
 
 test('assure that every code is properly defined', () => {
   expect.hasAssertions();
@@ -32,22 +32,26 @@ describe('#getStatusCode()', () => {
   });
 });
 
-describe('#isSuccess()', () => {
+describe('#isStatusCodeSuccessful()', () => {
   it.each([['1XX'], [100], ['2XX'], [200], ['3XX'], [300]])('should return true for a %s status code', code => {
-    expect(isSuccess(code)).toBe(true);
+    expect(isStatusCodeSuccessful(code)).toBe(true);
   });
 
   it.each([['4XX'], [400], ['5XX'], [500]])('should return false for a %s status code', code => {
-    expect(isSuccess(code)).toBe(false);
+    expect(isStatusCodeSuccessful(code)).toBe(false);
+  });
+
+  it('should return false when given an invalid status code', () => {
+    expect(isStatusCodeSuccessful(1000)).toBe(false);
   });
 });
 
-describe('#isValidStatusCode()', () => {
+describe('#isStatusCodeValid()', () => {
   it('should return true for a valid status code', () => {
-    expect(isValidStatusCode(200)).toBe(true);
+    expect(isStatusCodeValid(200)).toBe(true);
   });
 
   it('should return false for an invalid status code', () => {
-    expect(isValidStatusCode(1000)).toBe(false);
+    expect(isStatusCodeValid(1000)).toBe(false);
   });
 });

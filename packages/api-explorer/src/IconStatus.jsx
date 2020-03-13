@@ -1,14 +1,15 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-const { isValidStatusCode, getStatusCode } = require('@readme/http-status-codes');
+const { getStatusCode } = require('@readme/http-status-codes');
 
 function IconStatus({ status, name }) {
-  if (!isValidStatusCode(status)) {
+  let statusCode;
+  try {
+    statusCode = getStatusCode(status);
+  } catch (e) {
     return <span />;
   }
-
-  const statusCode = getStatusCode(status);
 
   return (
     <span
