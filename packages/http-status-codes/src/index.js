@@ -103,7 +103,7 @@ const codes = {
 };
 
 function getStatusCode(code) {
-  if (!isValidStatusCode(code)) {
+  if (!isStatusCodeValid(code)) {
     throw new Error(`${code} is not a known HTTP status code.`);
   }
 
@@ -114,17 +114,21 @@ function getStatusCode(code) {
   };
 }
 
-function isSuccess(code) {
-  return getStatusCode(code).success;
+function isStatusCodeSuccessful(code) {
+  try {
+    return getStatusCode(code).success;
+  } catch (e) {
+    return false;
+  }
 }
 
-function isValidStatusCode(code) {
+function isStatusCodeValid(code) {
   return code in codes;
 }
 
 module.exports = {
   codes,
   getStatusCode,
-  isSuccess,
-  isValidStatusCode,
+  isStatusCodeSuccessful,
+  isStatusCodeValid,
 };
