@@ -1,4 +1,4 @@
-# api-logs
+# @readme/api-logs
 
 [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/api-logs)
 
@@ -7,7 +7,7 @@
 ## Installation
 
 ```
-npm install --save api-logs
+npm install --save @readme/api-logs
 ```
 
 ## Usage

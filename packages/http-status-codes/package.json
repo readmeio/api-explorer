@@ -1,0 +1,31 @@
+{
+  "name": "@readme/http-status-codes",
+  "description": "Utility to lookup HTTP status codes",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "inspect": "jsinspect",
+    "lint": "eslint .",
+    "pretest": "npm run prettier && npm run lint && npm run inspect",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
+    "test": "jest --coverage --runInBand"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org",
+    "access": "public"
+  },
+  "author": "Jon Ursenbach <jon@ursenba.ch>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readmeio/api-explorer.git",
+    "directory": "packages/http-status-codes"
+  },
+  "devDependencies": {
+    "@readme/eslint-config": "^1.7.0",
+    "eslint": "^6.5.0",
+    "jest": "^25.1.0",
+    "jsinspect": "^0.12.6",
+    "prettier": "^1.18.2"
+  }
+}
