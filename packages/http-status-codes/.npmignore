@@ -1,0 +1,8 @@
+__tests__/
+coverage/
+.eslintignore
+.eslintrc
+.jsinpsectrc
+.prettierignore
+.prettierrc
+jest.config.js
