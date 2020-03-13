@@ -36,7 +36,7 @@ class ApiExplorer extends React.Component {
       docRenderMap: {},
     };
 
-    this.onGroupChange = this.onGroupChange.bind(this);
+    this.onAuthGroupChange = this.onAuthGroupChange.bind(this);
     this.groups =
       this.props.variables.user.keys && this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
 
@@ -92,11 +92,11 @@ class ApiExplorer extends React.Component {
   }
 
   /**
-   * Change the current selected group and refresh the instance auth keys based on that selection.
+   * Change the current selected auth group and refresh the instance auth keys based on that selection.
    *
    * @param {string} group
    */
-  onGroupChange(group) {
+  onAuthGroupChange(group) {
     const { user } = this.props.variables;
     let groupName = false;
     if (user.keys) {
@@ -168,6 +168,8 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
+    const { maskErrorMessages } = this.props;
+
     const docs = this.props.docs.filter(doc => {
       // If the HTTP method is something we don't support, then we shouldn't attempt to render it as a normal API
       // operation.
@@ -206,11 +208,12 @@ class ApiExplorer extends React.Component {
                         language={this.state.language}
                         lazy={this.isLazy(index)}
                         Logs={this.props.Logs}
+                        maskErrorMessages={maskErrorMessages}
                         oas={this.getOas(doc)}
                         oauth={this.props.oauth}
                         onAuthChange={this.onAuthChange}
+                        onAuthGroupChange={this.onAuthGroupChange}
                         onDocRender={this.onDocRender}
-                        onGroupChange={this.onGroupChange}
                         rendered={this.state.docRenderMap[doc.slug]}
                         setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
@@ -248,8 +251,10 @@ ApiExplorer.propTypes = {
     })
   ).isRequired,
   Logs: PropTypes.func,
+  maskErrorMessages: PropTypes.bool,
   oasFiles: PropTypes.shape({}).isRequired,
   oauth: PropTypes.bool,
+  onError: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
   useNewMarkdownEngine: PropTypes.bool,
@@ -274,14 +279,17 @@ ApiExplorer.defaultProps = {
     correctnewlines: false,
   },
   Logs: undefined,
+  maskErrorMessages: true,
   oauth: false,
+  onError: () => {},
   tryItMetrics: () => {},
   useNewMarkdownEngine: false,
 };
 
 // eslint-disable-next-line react/display-name
 module.exports = props => (
-  <ErrorBoundary>
+  // eslint-disable-next-line react/prop-types
+  <ErrorBoundary appContext="explorer" maskErrorMessages={props.maskErrorMessages} onError={props.onError}>
     <ApiExplorer {...props} />
   </ErrorBoundary>
 );

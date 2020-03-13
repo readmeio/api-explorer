@@ -67,10 +67,10 @@
                     "type": "string",
                     "format": "binary"
                   },
-                  "string (format: json)": {
-                    "description": "This is a special ReadMe type to render a <textarea> to be parsed as JSON",
+                  "string (format: blob)": {
+                    "description": "Strings with `format: blob` should render a `<textarea>`.",
                     "type": "string",
-                    "format": "json"
+                    "format": "blob"
                   },
                   "string (format: date)": {
                     "type": "string",
@@ -80,6 +80,16 @@
                     "description": "Temporarily disabled back to a simple string input due to a bug in RJSF",
                     "type": "string",
                     "format": "date-time"
+                  },
+                  "string (format: html)": {
+                    "description": "Strings with `format: html` should render a `<textarea>`.",
+                    "type": "string",
+                    "format": "html"
+                  },
+                  "string (format: json)": {
+                    "description": "This is a special ReadMe type to render a `<textarea>` to be parsed as JSON",
+                    "type": "string",
+                    "format": "json"
                   },
                   "string (format: string)": {
                     "type": "string",

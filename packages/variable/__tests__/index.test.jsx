@@ -46,7 +46,7 @@ describe('single variable', () => {
     expect(variable.find('#loginDropdown')).toHaveLength(1);
   });
 
-  it.skip('should set `selected` if nothing is selected', () => {});
+  it.todo('should set `selected` if nothing is selected');
 });
 
 describe('multiple variables', () => {
@@ -115,5 +115,5 @@ describe('multiple variables', () => {
     expect(variable.state('showDropdown')).toBe(false);
   });
 
-  it.skip('should render auth dropdown if default and oauth enabled', () => {});
+  it.todo('should render auth dropdown if default and oauth enabled');
 });

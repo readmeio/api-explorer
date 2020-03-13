@@ -4,7 +4,7 @@ const Oas = require('@readme/oas-tooling');
 
 const AuthBox = require('../src/AuthBox');
 
-const multipleSecurities = require('./fixtures/multiple-securities/oas');
+const multipleSecurities = require('./__fixtures__/multiple-securities/oas');
 
 const oas = new Oas(multipleSecurities);
 
@@ -13,8 +13,8 @@ const props = {
   oauth: false,
   open: false,
   operation: oas.operation('/or-security', 'post'),
+  onAuthGroupChange: () => {},
   onChange: () => {},
-  onGroupChange: () => {},
   onSubmit: () => {},
   toggle: () => {},
 };
@@ -87,12 +87,12 @@ describe('group selection', () => {
   });
 
   it('should update auth on changes', () => {
-    const comp = mount(<AuthBox {...props} {...groupProps} onGroupChange={jest.fn()} />);
+    const comp = mount(<AuthBox {...props} {...groupProps} onAuthGroupChange={jest.fn()} />);
 
     const select = comp.find('select');
     select.instance().value = '7000';
     select.simulate('change');
 
-    expect(comp.props().onGroupChange).toHaveBeenCalledWith('7000');
+    expect(comp.props().onAuthGroupChange).toHaveBeenCalledWith('7000');
   });
 });

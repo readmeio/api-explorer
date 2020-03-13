@@ -2,15 +2,17 @@ const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
-const { ADDITIONAL_PROPERTY_FLAG } = require('react-jsonschema-form/lib/utils');
+const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/react-jsonschema-form/lib/utils');
 
 const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
 
 const { Operation } = Oas;
-const petstore = require('./fixtures/petstore/oas.json');
-const boolean = require('./fixtures/boolean/oas.json');
-const string = require('./fixtures/string/oas.json');
+const petstore = require('./__fixtures__/petstore/oas.json');
+const boolean = require('./__fixtures__/boolean/oas.json');
+const string = require('./__fixtures__/string/oas.json');
+const polymorphism = require('./__fixtures__/polymorphism/oas.json');
+const polymorphismNestedOneOfRef = require('./__fixtures__/polymorphism/oneof-nested-ref.json');
 
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet/{petId}', 'get');
@@ -54,6 +56,7 @@ function renderParams(schema, customProps) {
         {...customProps}
         operation={
           new Operation(oas, '/path', 'post', {
+            operationId: 'createPath',
             requestBody: {
               content: {
                 'application/json': {
@@ -74,7 +77,7 @@ function renderParams(schema, customProps) {
 }
 
 describe('form id attribute', () => {
-  it('should be set to the operationId', () => {
+  it('should be set to the schema type+operationId', () => {
     expect(
       mount(
         <div>
@@ -82,7 +85,7 @@ describe('form id attribute', () => {
         </div>
       )
         .html()
-        .match(new RegExp(`form-${operation.operationId}`, 'g'))
+        .match(new RegExp(`form-path-${operation.operationId}`, 'g'))
     ).toHaveLength(1);
   });
 });
@@ -159,21 +162,79 @@ test('additionalProperties object labels (keys) should be editable', () => {
     [ADDITIONAL_PROPERTY_FLAG]: true,
   });
 
-  expect(params.find('input#root_a-key')).toHaveLength(1);
+  expect(params.find('input#createPath_a-key')).toHaveLength(1);
+});
+
+test('if no operationId is present, one should be generated', () => {
+  const params = mount(
+    <div>
+      <Params
+        {...props}
+        operation={
+          new Operation(oas, '/path/create', 'post', {
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                  },
+                },
+              },
+            },
+          })
+        }
+      />
+    </div>
+  );
+
+  expect(params.find('form#form-body-postpathcreate')).toHaveLength(1);
+});
+
+describe('oneOf/anyOf', () => {
+  it('should render the select container with our CustomTemplateShell component', () => {
+    const testOas = new Oas(polymorphism);
+
+    const params = mount(
+      <div>
+        <Params {...props} oas={testOas} operation={testOas.operation('/pets', 'patch')} />
+      </div>
+    );
+
+    // This might look like a weird assertion, but RJSF returns `undefined` for oneOf and anyOf schemas, so if we have
+    // that here, it means that we loaded it with our CustomTemplateShell component in SchemaField.
+    expect(params.find('div.field.field-undefined.param')).toHaveLength(1);
+  });
+
+  // https://github.com/readmeio/api-explorer/issues/495
+  it('should not error on a oneOf $ref nested inside another object', () => {
+    const testOas = new Oas(polymorphismNestedOneOfRef);
+
+    const params = mount(
+      <div>
+        <Params {...props} oas={testOas} operation={testOas.operation('/post', 'post')} />
+      </div>
+    );
+
+    expect(params.html()).not.toMatch('Unknown field type undefined');
+  });
 });
 
 describe('schema format handling', () => {
   describe('string types', () => {
-    it('json should render as <textarea>', () => {
+    it.each([
+      ['json', jsonOperation, 'json'],
+      ['blob', stringOas.operation('/format-blob', 'get'), 'blob'],
+      ['html', stringOas.operation('/format-html', 'get'), 'html'],
+    ])(`%s should render as <textarea>`, (type, stringOperation, label) => {
       const params = mount(
         <div>
-          <Params {...props} operation={jsonOperation} />
+          <Params {...props} operation={stringOperation} />
         </div>
       );
 
       expect(params.find('textarea')).toHaveLength(1);
-      expect(params.find('.field-json')).toHaveLength(1);
-      expect(params.find('span.label-type').text()).toBe('json');
+      expect(params.find(`.field-${type}`)).toHaveLength(1);
+      expect(params.find('span.label-type').text()).toBe(label);
     });
 
     it('binary should render as <input type="file">', () => {
@@ -188,10 +249,10 @@ describe('schema format handling', () => {
     });
 
     it.each([
-      ['password', 'password', stringOas.operation('/format-password', 'get'), 'password'],
       ['date', 'text', stringOas.operation('/format-date', 'get'), 'date'],
       ['date-time', 'text', stringOas.operation('/format-date-time', 'get'), 'string'],
       ['dateTime', 'text', stringOas.operation('/format-dateTime', 'get'), 'string'],
+      ['password', 'password', stringOas.operation('/format-password', 'get'), 'password'],
       ['uri', 'url', stringOas.operation('/format-uri', 'get'), 'uri'],
       ['url', 'url', stringOas.operation('/format-url', 'get'), 'url'],
     ])(`%s should render as <input type="%s">`, (type, inputType, stringOperation, label) => {

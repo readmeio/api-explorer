@@ -23,7 +23,4 @@ const directory = files
   })
   .reduce((prev, next) => Object.assign(prev, next));
 
-writeFileSync(
-  join(__dirname, '../example/swagger-files/directory.json'),
-  JSON.stringify(directory, null, 2),
-);
+writeFileSync(join(__dirname, '../example/swagger-files/directory.json'), JSON.stringify(directory, null, 2));

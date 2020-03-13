@@ -1,6 +1,6 @@
 const extensions = require('@readme/oas-extensions');
 
-const BaseInput = require('react-jsonschema-form/lib/components/widgets/BaseInput').default;
+const BaseInput = require('@readme/react-jsonschema-form/lib/components/widgets/BaseInput').default;
 
 function createBaseInput(oas) {
   const explorerEnabled = oas[extensions.EXPLORER_ENABLED];

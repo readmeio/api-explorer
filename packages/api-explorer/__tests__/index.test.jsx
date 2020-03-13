@@ -2,12 +2,14 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
+const shortid = require('shortid');
 const WrappedApiExplorer = require('../src');
+const ErrorBoundary = require('../src/ErrorBoundary');
 
 const { ApiExplorer } = WrappedApiExplorer;
 
-const oas = require('./fixtures/petstore/oas');
-const oasCommon = require('./fixtures/parameters/common');
+const oas = require('./__fixtures__/petstore/oas');
+const oasCommon = require('./__fixtures__/parameters/common');
 
 const createDocs = require('../lib/create-docs');
 
@@ -48,12 +50,42 @@ test('ApiExplorer should not render a common parameter OAS operation method', ()
   expect(explorer.find('Doc')).toHaveLength(docsCommon.length - 2);
 });
 
-test('should display an error message if it fails to render (wrapped in ErrorBoundary)', () => {
-  // Prompting an error with an array of nulls instead of Docs
-  // This is to simulate some unknown error state during initial render
-  const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} />);
+describe('error handling', () => {
+  const spy = jest.spyOn(shortid, 'generate');
+  const originalConsole = console;
 
-  expect(explorer.find('ErrorBoundary')).toHaveLength(1);
+  // We're testing errors here, so we don't need `console.error` logs spamming the test output.
+  beforeEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = () => {};
+  });
+
+  afterEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = originalConsole.error;
+  });
+
+  it('should display a masked error message if it fails to render', () => {
+    const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} maskErrorMessages={true} />);
+
+    const html = explorer.html();
+
+    expect(spy).toHaveBeenCalled();
+    expect(explorer.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).not.toMatch('support@readme.io');
+    expect(html).toMatch('API Explorer');
+  });
+
+  it('should output a support-focused error message if it fails to render', () => {
+    const explorer = mount(<WrappedApiExplorer {...props} docs={[null, null]} maskErrorMessages={false} />);
+
+    const html = explorer.html();
+
+    expect(spy).toHaveBeenCalled();
+    expect(explorer.find(ErrorBoundary)).toHaveLength(1);
+    expect(html).toMatch('support@readme.io');
+    expect(html).toMatch('API Explorer');
+  });
 });
 
 describe('selected language', () => {
@@ -188,10 +220,12 @@ describe('oas', () => {
 });
 
 describe('auth', () => {
+  const defaults = [];
+
   it('should read apiKey from `variables.user.apiKey`', () => {
     const apiKey = '123456';
 
-    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey } }} />);
+    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { apiKey }, defaults }} />);
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '123456' });
   });
@@ -199,7 +233,9 @@ describe('auth', () => {
   it('should read apiKey from `variables.user.keys[].apiKey`', () => {
     const apiKey = '123456';
 
-    const explorer = shallow(<ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] } }} />);
+    const explorer = shallow(
+      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'a', apiKey }] }, defaults }} />
+    );
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '123456' });
   });
@@ -208,7 +244,7 @@ describe('auth', () => {
     const apiKey = '123456';
 
     const explorer = shallow(
-      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] } }} />
+      <ApiExplorer {...props} variables={{ user: { keys: [{ name: 'project1', api_key: apiKey }] }, defaults }} />
     );
 
     expect(explorer.state('auth')).toStrictEqual({ api_key: '123456', petstore_auth: '' });

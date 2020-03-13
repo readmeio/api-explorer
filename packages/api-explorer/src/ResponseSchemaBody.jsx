@@ -41,6 +41,7 @@ function ResponseSchemaBody({ schema, oas, useNewMarkdownEngine }) {
           width: '70%',
           overflow: 'hidden',
           paddingLeft: '15px',
+          wordBreak: 'break-word',
         }}
       >
         {row.name}

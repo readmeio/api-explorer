@@ -2,7 +2,7 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Oas = require('@readme/oas-tooling');
 
-const example = require('./fixtures/example-results/oas');
+const example = require('./__fixtures__/example-results/oas');
 
 const ExampleTabs = require('../src/ExampleTabs');
 const showCodeResults = require('../src/lib/show-code-results');

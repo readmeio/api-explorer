@@ -1,0 +1,424 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://httpbin.org"
+    }
+  ],
+  "info": {
+    "version": "1.0.0",
+    "title": "polymorphism support"
+  },
+  "paths": {
+    "/pets": {
+      "patch": {
+        "summary": "oneOf request with a nested allOf",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Cat"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Dog"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "pet_type"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      }
+    },
+    "/anything/all-of-object": {
+      "post": {
+        "summary": "allOf with listed objects",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {
+                    "title": "First type of object",
+                    "type": "object",
+                    "properties": {
+                      "a": {
+                        "type": "string"
+                      },
+                      "b": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Second type of object",
+                    "type": "object",
+                    "properties": {
+                      "c": {
+                        "type": "string"
+                      },
+                      "d": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/anything/any-of-object": {
+      "post": {
+        "summary": "anyOf object",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "title": "First type of object",
+                    "type": "object",
+                    "properties": {
+                      "a": {
+                        "type": "string"
+                      },
+                      "b": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Second type of object",
+                    "type": "object",
+                    "properties": {
+                      "c": {
+                        "type": "string"
+                      },
+                      "d": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/any-of-primitive": {
+      "post": {
+        "summary": "anyOf primitive",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "title": "First type of primitive",
+                    "type": "string"
+                  },
+                  {
+                    "title": "Second type of primitive",
+                    "type": "integer"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/one-of-object": {
+      "post": {
+        "summary": "oneOf object",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "title": "First type of object",
+                    "type": "object",
+                    "properties": {
+                      "a": {
+                        "type": "string"
+                      },
+                      "b": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "title": "Second type of object",
+                    "type": "object",
+                    "properties": {
+                      "c": {
+                        "type": "string"
+                      },
+                      "d": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/one-of-primitive": {
+      "post": {
+        "summary": "oneOf primitive",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "title": "First type of primitive",
+                    "type": "string"
+                  },
+                  {
+                    "title": "Second type of primitive",
+                    "type": "integer"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/one-of-object-ref": {
+      "post": {
+        "summary": "oneOf object with $ref pointers",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/object1"
+                  },
+                  {
+                    "$ref": "#/components/schemas/object2"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/nested-one-of-object-ref": {
+      "post": {
+        "summary": "nested oneOf object with $ref pointers",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "config": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/object1"
+                      },
+                      {
+                        "$ref": "#/components/schemas/object2"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anything/nested-one-of-ref": {
+      "post": {
+        "description": "Use case for https://github.com/readmeio/api-explorer/issues/495",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/nested-one-of-ref"
+        }
+      }
+    },
+    "/anything/nested-one-of-object-with-nested-one-of": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "config": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/object1"
+                      },
+                      {
+                        "$ref": "#/components/schemas/object2"
+                      },
+                      {
+                        "oneOf": [
+                          {
+                            "$ref": "#/components/schemas/Cat"
+                          },
+                          {
+                            "$ref": "#/components/schemas/Dog"
+                          }
+                        ],
+                        "discriminator": {
+                          "propertyName": "pet_type"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "nested-one-of-ref": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "config": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/string1"
+                    },
+                    {
+                      "$ref": "#/components/schemas/string2"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "required": [
+          "pet_type"
+        ],
+        "properties": {
+          "pet_type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "pet_type"
+        }
+      },
+      "Dog": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Pet"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "bark": {
+                "type": "boolean"
+              },
+              "breed": {
+                "type": "string",
+                "enum": ["Dingo", "Husky", "Retriever", "Shepherd"]
+              }
+            }
+          }
+        ]
+      },
+      "Cat": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Pet"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "hunts": {
+                "type": "boolean"
+              },
+              "age": {
+                "type": "integer"
+              }
+            }
+          }
+        ]
+      },
+      "object1": {
+        "title": "First type of object",
+        "type": "object",
+        "properties": {
+          "a": {
+            "type": "string"
+          },
+          "b": {
+            "type": "string"
+          }
+        }
+      },
+      "object2": {
+        "title": "Second type of object",
+        "type": "object",
+        "properties": {
+          "c": {
+            "type": "string"
+          },
+          "d": {
+            "type": "string"
+          }
+        }
+      },
+      "string1": {
+        "type": "string"
+      },
+      "string2": {
+        "type": "string"
+      }
+    }
+  }
+}

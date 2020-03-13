@@ -6,7 +6,8 @@
     }
   ],
   "info": {
-    "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+    "description":
+      "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
     "version": "1.0.0",
     "title": "Swagger Petstore",
     "termsOfService": "http://swagger.io/terms/",
@@ -17,6 +18,10 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
   },
   "tags": [
     {
@@ -43,9 +48,7 @@
   "paths": {
     "/pet": {
       "post": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Add a new pet to the store",
         "description": "",
         "operationId": "addPet",
@@ -57,104 +60,15 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": ["write:pets", "read:pets"]
           }
         ],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "name",
-                  "photoUrls"
-                ],
-                "properties": {
-                  "id": {
-                    "type": "integer",
-                    "format": "int64"
-                  },
-                  "category": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer",
-                        "format": "int64"
-                      },
-                      "name": {
-                        "type": "string"
-                      }
-                    },
-                    "xml": {
-                      "name": "Category"
-                    }
-                  },
-                  "name": {
-                    "type": "string",
-                    "example": "doggie"
-                  },
-                  "photoUrls": {
-                    "type": "array",
-                    "xml": {
-                      "name": "photoUrl",
-                      "wrapped": true
-                    },
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "tags": {
-                    "type": "array",
-                    "xml": {
-                      "name": "tag",
-                      "wrapped": true
-                    },
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer",
-                          "format": "int64"
-                        },
-                        "name": {
-                          "type": "string"
-                        }
-                      },
-                      "xml": {
-                        "name": "Tag"
-                      }
-                    }
-                  },
-                  "status": {
-                    "type": "string",
-                    "description": "pet status in the store",
-                    "enum": [
-                      "available",
-                      "pending",
-                      "sold"
-                    ]
-                  }
-                },
-                "xml": {
-                  "name": "Pet"
-                }
-              }
-            },
-            "application/xml": {
-              "schema": "~paths~/pet~post~requestBody~content~application/json~schema"
-            }
-          },
-          "description": "Pet object that needs to be added to the store",
-          "required": true
+          "$ref": "#/components/requestBodies/Pet"
         }
       },
       "put": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Update an existing pet",
         "description": "",
         "operationId": "updatePet",
@@ -172,20 +86,17 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": ["write:pets", "read:pets"]
           }
         ],
-        "requestBody": "~paths~/pet~post~requestBody"
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Pet"
+        }
       }
     },
     "/pet/findByStatus": {
       "get": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Finds Pets by status",
         "description": "Multiple status values can be provided with comma separated strings",
         "operationId": "findPetsByStatus",
@@ -200,11 +111,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "available",
-                  "pending",
-                  "sold"
-                ],
+                "enum": ["available", "pending", "sold"],
                 "default": "available"
               }
             }
@@ -217,13 +124,17 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
-                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
                 }
               }
             }
@@ -234,21 +145,17 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": ["write:pets", "read:pets"]
           }
         ]
       }
     },
     "/pet/findByTags": {
       "get": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Finds Pets by tags",
-        "description": "Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+        "description":
+          "Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         "operationId": "findPetsByTags",
         "parameters": [
           {
@@ -272,13 +179,17 @@
               "application/xml": {
                 "schema": {
                   "type": "array",
-                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": "~paths~/pet~post~requestBody~content~application/json~schema"
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
                 }
               }
             }
@@ -289,10 +200,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": ["write:pets", "read:pets"]
           }
         ],
         "deprecated": true
@@ -300,9 +208,7 @@
     },
     "/pet/{petId}": {
       "get": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Find pet by ID",
         "description": "Returns a single pet",
         "operationId": "getPetById",
@@ -323,10 +229,14 @@
             "description": "successful operation",
             "content": {
               "application/xml": {
-                "schema": "~paths~/pet~post~requestBody~content~application/json~schema"
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
               },
               "application/json": {
-                "schema": "~paths~/pet~post~requestBody~content~application/json~schema"
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
               }
             }
           },
@@ -344,9 +254,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Updates a pet in the store with form data",
         "description": "",
         "operationId": "updatePetWithForm",
@@ -369,10 +277,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": ["write:pets", "read:pets"]
           }
         ],
         "requestBody": {
@@ -396,9 +301,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "Deletes a pet",
         "description": "",
         "operationId": "deletePet",
@@ -432,19 +335,14 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": ["write:pets", "read:pets"]
           }
         ]
       }
     },
     "/pet/{petId}/uploadImage": {
       "post": {
-        "tags": [
-          "pet"
-        ],
+        "tags": ["pet"],
         "summary": "uploads an image",
         "description": "",
         "operationId": "uploadFile",
@@ -466,19 +364,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "format": "int32"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -486,10 +372,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": ["write:pets", "read:pets"]
           }
         ],
         "requestBody": {
@@ -506,9 +389,7 @@
     },
     "/store/inventory": {
       "get": {
-        "tags": [
-          "store"
-        ],
+        "tags": ["store"],
         "summary": "Returns pet inventories by status",
         "description": "Returns a map of status codes to quantities",
         "operationId": "getInventory",
@@ -538,9 +419,7 @@
     },
     "/store/order": {
       "post": {
-        "tags": [
-          "store"
-        ],
+        "tags": ["store"],
         "summary": "Place an order for a pet",
         "description": "",
         "operationId": "placeOrder",
@@ -551,45 +430,13 @@
             "content": {
               "application/xml": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "format": "int64"
-                    },
-                    "petId": {
-                      "type": "integer",
-                      "format": "int64"
-                    },
-                    "quantity": {
-                      "type": "integer",
-                      "format": "int32"
-                    },
-                    "shipDate": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "status": {
-                      "type": "string",
-                      "description": "Order Status",
-                      "enum": [
-                        "placed",
-                        "approved",
-                        "delivered"
-                      ]
-                    },
-                    "complete": {
-                      "type": "boolean",
-                      "default": false
-                    }
-                  },
-                  "xml": {
-                    "name": "Order"
-                  }
+                  "$ref": "#/components/schemas/Order"
                 }
               },
               "application/json": {
-                "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
               }
             }
           },
@@ -600,7 +447,9 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
             }
           },
           "description": "order placed for purchasing the pet",
@@ -610,11 +459,10 @@
     },
     "/store/order/{orderId}": {
       "get": {
-        "tags": [
-          "store"
-        ],
+        "tags": ["store"],
         "summary": "Find purchase order by ID",
-        "description": "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
+        "description":
+          "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
         "operationId": "getOrderById",
         "parameters": [
           {
@@ -635,10 +483,14 @@
             "description": "successful operation",
             "content": {
               "application/xml": {
-                "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
               },
               "application/json": {
-                "schema": "~paths~/store/order~post~responses~200~content~application/xml~schema"
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
               }
             }
           },
@@ -651,11 +503,10 @@
         }
       },
       "delete": {
-        "tags": [
-          "store"
-        ],
+        "tags": ["store"],
         "summary": "Delete purchase order by ID",
-        "description": "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
+        "description":
+          "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
         "operationId": "deleteOrder",
         "parameters": [
           {
@@ -682,9 +533,7 @@
     },
     "/user": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Create user",
         "description": "This can only be done by the logged in user.",
         "operationId": "createUser",
@@ -698,39 +547,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "integer",
-                    "format": "int64"
-                  },
-                  "username": {
-                    "type": "string"
-                  },
-                  "firstName": {
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "phone": {
-                    "type": "string"
-                  },
-                  "userStatus": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "User Status"
-                  }
-                },
-                "xml": {
-                  "name": "User"
-                }
+                "$ref": "#/components/schemas/User"
               }
             }
           },
@@ -741,9 +558,7 @@
     },
     "/user/createWithArray": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Creates list of users with given input array",
         "description": "",
         "operationId": "createUsersWithArrayInput",
@@ -754,24 +569,13 @@
           }
         },
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": "~paths~/user~post~requestBody~content~application/json~schema"
-              }
-            }
-          },
-          "description": "List of user object",
-          "required": true
+          "$ref": "#/components/requestBodies/UserArray"
         }
       }
     },
     "/user/createWithList": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Creates list of users with given input array",
         "description": "",
         "operationId": "createUsersWithListInput",
@@ -781,14 +585,14 @@
             "description": "successful operation"
           }
         },
-        "requestBody": "~paths~/user/createWithArray~post~requestBody"
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UserArray"
+        }
       }
     },
     "/user/login": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Logs user into the system",
         "description": "",
         "operationId": "loginUser",
@@ -852,9 +656,7 @@
     },
     "/user/logout": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Logs out current logged in user session",
         "description": "",
         "operationId": "logoutUser",
@@ -868,9 +670,7 @@
     },
     "/user/{username}": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get user by user name",
         "description": "",
         "operationId": "getUserByName",
@@ -890,10 +690,14 @@
             "description": "successful operation",
             "content": {
               "application/xml": {
-                "schema": "~paths~/user~post~requestBody~content~application/json~schema"
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
               },
               "application/json": {
-                "schema": "~paths~/user~post~requestBody~content~application/json~schema"
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
               }
             }
           },
@@ -906,9 +710,7 @@
         }
       },
       "put": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Updated user",
         "description": "This can only be done by the logged in user.",
         "operationId": "updateUser",
@@ -934,7 +736,9 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": "~paths~/user~post~requestBody~content~application/json~schema"
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
             }
           },
           "description": "Updated user object",
@@ -942,9 +746,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Delete user",
         "description": "This can only be done by the logged in user.",
         "operationId": "deleteUser",
@@ -970,34 +772,202 @@
       }
     }
   },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
-  },
-  "x-explorer-enabled": true,
-  "x-samples-enabled": true,
-  "x-samples-languages": [
-    "curl",
-    "node",
-    "ruby",
-    "javascript",
-    "python"
-  ],
   "components": {
     "schemas": {
-      "Order": "~paths~/store/order~post~responses~200~content~application/xml~schema",
-      "Category": "~paths~/pet~post~requestBody~content~application/json~schema~properties~category",
-      "User": "~paths~/user~post~requestBody~content~application/json~schema",
-      "Tag": "~paths~/pet~post~requestBody~content~application/json~schema~properties~tags~items",
-      "Pet": "~paths~/pet~post~requestBody~content~application/json~schema",
-      "ApiResponse": "~paths~/pet/{petId}/uploadImage~post~responses~200~content~application/json~schema"
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "petId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "shipDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "description": "Order Status",
+            "enum": ["placed", "approved", "delivered"]
+          },
+          "complete": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "xml": {
+          "name": "Order"
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Category"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "userStatus": {
+            "type": "integer",
+            "format": "int32",
+            "description": "User Status"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Tag"
+        }
+      },
+      "Pet": {
+        "type": "object",
+        "required": ["name", "photoUrls"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "name": {
+            "type": "string",
+            "example": "doggie"
+          },
+          "photoUrls": {
+            "type": "array",
+            "xml": {
+              "name": "photoUrl",
+              "wrapped": true
+            },
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "xml": {
+              "name": "tag",
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "pet status in the store",
+            "enum": ["available", "pending", "sold"]
+          }
+        },
+        "xml": {
+          "name": "Pet"
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
     },
     "responses": {},
     "parameters": {},
     "examples": {},
     "requestBodies": {
-      "Pet": "~paths~/pet~post~requestBody",
-      "UserArray": "~paths~/user/createWithArray~post~requestBody"
+      "Pet": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Pet"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Pet"
+            }
+          }
+        },
+        "description": "Pet object that needs to be added to the store",
+        "required": true
+      },
+      "UserArray": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "description": "List of user object",
+        "required": true
+      }
     },
     "securitySchemes": {
       "petstore_auth": {
@@ -1019,5 +989,8 @@
       }
     },
     "headers": {}
-  }
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
 }

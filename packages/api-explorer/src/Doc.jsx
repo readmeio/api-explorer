@@ -16,7 +16,7 @@ const createParams = require('./Params');
 const CodeSample = require('./CodeSample');
 const Response = require('./Response');
 const ResponseSchema = require('./ResponseSchema');
-const EndpointErrorBoundary = require('./EndpointErrorBoundary');
+const ErrorBoundary = require('./ErrorBoundary');
 
 const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
@@ -254,13 +254,13 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const { doc } = this.props;
+    const { doc, maskErrorMessages, onError } = this.props;
     this.props.onDocRender(doc.slug);
 
     return (
-      <EndpointErrorBoundary>
+      <ErrorBoundary appContext="endpoint" maskErrorMessages={maskErrorMessages} onError={onError}>
         {this.props.appearance.referenceLayout === 'column' ? this.columnTheme(doc) : this.mainTheme(doc)}
-      </EndpointErrorBoundary>
+      </ErrorBoundary>
     );
   }
 
@@ -274,7 +274,7 @@ class Doc extends React.Component {
     return (
       <Logs
         baseUrl={this.props.baseUrl}
-        changeGroup={this.props.onGroupChange}
+        changeGroup={this.props.onAuthGroupChange}
         group={this.props.group}
         groups={this.props.groups}
         query={{
@@ -311,8 +311,8 @@ class Doc extends React.Component {
         needsAuth={this.state.needsAuth}
         oas={this.oas}
         oauth={this.props.oauth}
+        onAuthGroupChange={this.props.onAuthGroupChange}
         onChange={this.props.onAuthChange}
-        onGroupChange={this.props.onGroupChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
         showAuthBox={this.state.showAuthBox}
@@ -396,7 +396,7 @@ Doc.propTypes = {
         ),
       }),
       method: PropTypes.string.isRequired,
-      params: PropTypes.object,
+      params: PropTypes.arrayOf(PropTypes.object),
       results: PropTypes.shape({
         codes: PropTypes.arrayOf(PropTypes.shape({})),
       }),
@@ -423,11 +423,13 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   lazy: PropTypes.bool,
   Logs: PropTypes.func,
+  maskErrorMessages: PropTypes.bool,
   oas: PropTypes.shape({}),
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
+  onAuthGroupChange: PropTypes.func.isRequired,
   onDocRender: PropTypes.func.isRequired,
-  onGroupChange: PropTypes.func.isRequired,
+  onError: PropTypes.func,
   rendered: PropTypes.bool,
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
@@ -449,7 +451,9 @@ Doc.defaultProps = {
   groups: [],
   lazy: true,
   Logs: undefined,
+  maskErrorMessages: true,
   oas: {},
+  onError: () => {},
   rendered: false,
   useNewMarkdownEngine: false,
   user: {},

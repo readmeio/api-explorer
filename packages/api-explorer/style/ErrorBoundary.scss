@@ -1,0 +1,53 @@
+.hub-reference-error {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 1.5em auto;
+  padding: 1em;
+  -webkit-border-radius: .33em;
+  -moz-border-radius: .33em;
+  border-radius: .33em;
+  font-size: 1rem;
+  background: #f8f8f8;
+  color: #3f494e;
+
+  & > * + * {
+    margin-left: 1em;
+  }
+
+  &-icon {
+    margin: .5rem;
+    font-size: 1.5em;
+    line-height: 0;
+  }
+
+  &-text {
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 37.5em;
+    color: inherit;
+  }
+
+  &-text a {
+    font-weight: bold;
+  }
+
+  &-code {
+    background: #e5e8ec;
+    color: #7f8693;
+    padding: .25em .4em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+}
