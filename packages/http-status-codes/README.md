@@ -15,11 +15,10 @@ npm install --save @readme/http-status-codes
 ## Usage
 
 ```js
-const Oas = require('@readme/oas-tooling');
-const oasToHar = require('@readme/oas-to-har');
+const { getStatusCode } = require('@readme/http-status-codes');
+console.log(getStatusCode(429));
 
-const spec = new Oas('petstore.json');
-console.log(oasToHar(spec));
+// { code: 429, message: 'Too Many Requests', success: false }
 ```
 
 ## Credits
