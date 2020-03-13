@@ -1,1 +1,4 @@
-coverage/
+__tests__/
+.eslint*
+.jsinspectrc
+.prettier*
