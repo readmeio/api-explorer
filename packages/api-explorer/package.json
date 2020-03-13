@@ -4,6 +4,7 @@
   "version": "5.0.0",
   "main": "dist/index.js",
   "dependencies": {
+    "@readme/http-status-codes": "^1.0.0",
     "@readme/markdown": "^5.0.0",
     "@readme/markdown-magic": "^5.0.0",
     "@readme/oas-extensions": "^5.0.0",
