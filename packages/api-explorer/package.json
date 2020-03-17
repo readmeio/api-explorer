@@ -24,7 +24,6 @@
     "react-debounce-input": "^3.2.0",
     "react-json-view": "^1.19.1",
     "react-waypoint": "^9.0.2",
-    "shortid": "^2.2.15",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {

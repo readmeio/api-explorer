@@ -1,6 +1,5 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const shortid = require('shortid');
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -14,12 +13,15 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    const errorEventId = `ERR-${shortid.generate()}`;
-    const errorCode = this.props.onError(error, { errorEventId, componentStack: info });
+    const supportErrorCode = `ERR-${Math.random()
+      .toString(36)
+      .substr(2, 7)}`;
+
+    this.props.onError(error, { supportErrorCode, componentStack: info });
 
     this.setState({
       error,
-      errorCode: typeof errorCode !== 'undefined' ? errorCode : errorEventId,
+      errorCode: supportErrorCode,
       info,
     });
   }

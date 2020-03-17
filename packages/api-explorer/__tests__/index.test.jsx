@@ -2,7 +2,6 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
-const shortid = require('shortid');
 const WrappedApiExplorer = require('../src');
 const ErrorBoundary = require('../src/ErrorBoundary');
 
@@ -51,7 +50,6 @@ test('ApiExplorer should not render a common parameter OAS operation method', ()
 });
 
 describe('error handling', () => {
-  const spy = jest.spyOn(shortid, 'generate');
   const originalConsole = console;
 
   // We're testing errors here, so we don't need `console.error` logs spamming the test output.
@@ -70,7 +68,6 @@ describe('error handling', () => {
 
     const html = explorer.html();
 
-    expect(spy).toHaveBeenCalled();
     expect(explorer.find(ErrorBoundary)).toHaveLength(1);
     expect(html).not.toMatch('support@readme.io');
     expect(html).toMatch('API Explorer');
@@ -81,7 +78,6 @@ describe('error handling', () => {
 
     const html = explorer.html();
 
-    expect(spy).toHaveBeenCalled();
     expect(explorer.find(ErrorBoundary)).toHaveLength(1);
     expect(html).toMatch('support@readme.io');
     expect(html).toMatch('API Explorer');
