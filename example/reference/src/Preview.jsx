@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const extensions = require('../../../packages/oas-extensions/');
+const extensions = require('../../../packages/oas-extensions');
 
 const Sidebar = require('./Sidebar');
 const Version = require('./Version');
