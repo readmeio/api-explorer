@@ -1,6 +1,5 @@
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
-const shortid = require('shortid');
 
 global.Request = Request;
 
@@ -391,7 +390,6 @@ describe('error handling', () => {
     api: { method: 'post' },
   };
 
-  const spy = jest.spyOn(shortid, 'generate');
   const originalConsole = console;
 
   // We're testing errors here, so we don't need `console.error` logs spamming the test output.
@@ -412,7 +410,6 @@ describe('error handling', () => {
 
     const html = doc.html();
 
-    expect(spy).toHaveBeenCalled();
     expect(doc.find(ErrorBoundary)).toHaveLength(1);
     expect(html).not.toMatch('support@readme.io');
     expect(html).toMatch("endpoint's documentation");
@@ -426,34 +423,27 @@ describe('error handling', () => {
 
       const html = doc.html();
 
-      expect(spy).toHaveBeenCalled();
       expect(doc.find(ErrorBoundary)).toHaveLength(1);
       expect(html).toMatch('support@readme.io');
       expect(html).toMatch("endpoint's documentation");
     });
   });
 
-  it('should output with an error message if the endpoint fails to load, with a defined error event id', () => {
+  it('should call the onError handler', () => {
+    const mockErrorHandler = jest.fn();
+
     const doc = mount(
-      <Doc
-        {...props}
-        doc={docProps}
-        maskErrorMessages={false}
-        oas={brokenOas}
-        onError={() => {
-          return 'API-EXPLORER-1';
-        }}
-      />
+      <Doc {...props} doc={docProps} maskErrorMessages={false} oas={brokenOas} onError={() => mockErrorHandler()} />
     );
 
     doc.setState({ showEndpoint: true });
 
     const html = doc.html();
 
-    expect(spy).toHaveBeenCalled();
+    expect(mockErrorHandler).toHaveBeenCalled();
     expect(doc.find(ErrorBoundary)).toHaveLength(1);
     expect(html).toMatch('support@readme.io');
     expect(html).toMatch("endpoint's documentation");
-    expect(html).toMatch('API-EXPLORER-1');
+    expect(html).toMatch(/ERR-([0-9a-z]{7})/);
   });
 });
