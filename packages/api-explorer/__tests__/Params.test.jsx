@@ -219,92 +219,108 @@ describe('oneOf/anyOf', () => {
   });
 });
 
-describe('schema format handling', () => {
-  describe('string types', () => {
-    it.each([
-      ['json', jsonOperation, 'json'],
-      ['blob', stringOas.operation('/format-blob', 'get'), 'blob'],
-      ['html', stringOas.operation('/format-html', 'get'), 'html'],
-    ])(`%s should render as <textarea>`, (type, stringOperation, label) => {
+describe('schema handling', () => {
+  describe('minLength / maxLength', () => {
+    it('should put a `min` and `max` attribute on an input', () => {
       const params = mount(
         <div>
-          <Params {...props} operation={stringOperation} />
+          <Params {...props} operation={stringOas.operation('/format-password', 'get')} />
         </div>
       );
 
-      expect(params.find('textarea')).toHaveLength(1);
-      expect(params.find(`.field-${type}`)).toHaveLength(1);
-      expect(params.find('span.label-type').text()).toBe(label);
-    });
-
-    it('binary should render as <input type="file">', () => {
-      const params = mount(
-        <div>
-          <Params {...props} operation={oas.operation('/pet/{petId}/uploadImage', 'post')} />
-        </div>
-      );
-
-      expect(params.find('input[type="file"]')).toHaveLength(1);
-      expect(params.find('.field-file')).toHaveLength(1);
-    });
-
-    it.each([
-      ['date', 'text', stringOas.operation('/format-date', 'get'), 'date'],
-      ['date-time', 'text', stringOas.operation('/format-date-time', 'get'), 'string'],
-      ['dateTime', 'text', stringOas.operation('/format-dateTime', 'get'), 'string'],
-      ['password', 'password', stringOas.operation('/format-password', 'get'), 'password'],
-      ['uri', 'url', stringOas.operation('/format-uri', 'get'), 'uri'],
-      ['url', 'url', stringOas.operation('/format-url', 'get'), 'url'],
-    ])(`%s should render as <input type="%s">`, (type, inputType, stringOperation, label) => {
-      const params = mount(
-        <div>
-          <Params {...props} operation={stringOperation} />
-        </div>
-      );
-
-      expect(params.find(`input[type="${inputType}"]`)).toHaveLength(1);
-      expect(params.find('span.label-type').text()).toBe(label);
+      expect(params.find('input')).toHaveLength(1);
+      expect(params.find('input').props()).toHaveProperty('min', 5);
+      expect(params.find('input').props()).toHaveProperty('max', 20);
     });
   });
 
-  describe('number types', () => {
-    it.each([
-      ['integer', 'int8'],
-      ['integer', 'int16'],
-      ['integer', 'int32'],
-      ['integer', 'int64'],
-      ['integer', 'uint8'],
-      ['integer', 'uint16'],
-      ['integer', 'uint32'],
-      ['integer', 'uint64'],
-      ['number', 'double'],
-      ['number', 'float'],
-    ])(`%ss with a %s format should render as <input type="number">`, (type, format) => {
-      const schema = { type, format };
-      const clonedSchema = JSON.parse(JSON.stringify(schema));
-      const params = renderParams(schema);
+  describe('format', () => {
+    describe('string types', () => {
+      it.each([
+        ['json', jsonOperation, 'json'],
+        ['blob', stringOas.operation('/format-blob', 'get'), 'blob'],
+        ['html', stringOas.operation('/format-html', 'get'), 'html'],
+      ])(`%s should render as <textarea>`, (type, stringOperation, label) => {
+        const params = mount(
+          <div>
+            <Params {...props} operation={stringOperation} />
+          </div>
+        );
 
-      expect(params.find('input[type="number"]')).toHaveLength(1);
-      expect(params.find('span.label-type').text()).toBe(format);
-      expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`)).toHaveLength(1);
+        expect(params.find('textarea')).toHaveLength(1);
+        expect(params.find(`.field-${type}`)).toHaveLength(1);
+        expect(params.find('span.label-type').text()).toBe(label);
+      });
+
+      it('binary should render as <input type="file">', () => {
+        const params = mount(
+          <div>
+            <Params {...props} operation={oas.operation('/pet/{petId}/uploadImage', 'post')} />
+          </div>
+        );
+
+        expect(params.find('input[type="file"]')).toHaveLength(1);
+        expect(params.find('.field-file')).toHaveLength(1);
+      });
+
+      it.each([
+        ['date', 'text', stringOas.operation('/format-date', 'get'), 'date'],
+        ['date-time', 'text', stringOas.operation('/format-date-time', 'get'), 'string'],
+        ['dateTime', 'text', stringOas.operation('/format-dateTime', 'get'), 'string'],
+        ['password', 'password', stringOas.operation('/format-password', 'get'), 'password'],
+        ['uri', 'url', stringOas.operation('/format-uri', 'get'), 'uri'],
+        ['url', 'url', stringOas.operation('/format-url', 'get'), 'url'],
+      ])(`%s should render as <input type="%s">`, (type, inputType, stringOperation, label) => {
+        const params = mount(
+          <div>
+            <Params {...props} operation={stringOperation} />
+          </div>
+        );
+
+        expect(params.find(`input[type="${inputType}"]`)).toHaveLength(1);
+        expect(params.find('span.label-type').text()).toBe(label);
+      });
     });
 
-    it('should default integer to int32 if missing format', () => {
-      const params = renderParams({ type: 'integer' });
+    describe('number types', () => {
+      it.each([
+        ['integer', 'int8'],
+        ['integer', 'int16'],
+        ['integer', 'int32'],
+        ['integer', 'int64'],
+        ['integer', 'uint8'],
+        ['integer', 'uint16'],
+        ['integer', 'uint32'],
+        ['integer', 'uint64'],
+        ['number', 'double'],
+        ['number', 'float'],
+      ])(`%ss with a %s format should render as <input type="number">`, (type, format) => {
+        const schema = { type, format };
+        const clonedSchema = JSON.parse(JSON.stringify(schema));
+        const params = renderParams(schema);
 
-      expect(params.find(`.field-integer.field-int32`)).toHaveLength(1);
-    });
+        expect(params.find('input[type="number"]')).toHaveLength(1);
+        expect(params.find('span.label-type').text()).toBe(format);
+        expect(params.find(`.field-${clonedSchema.type}.field-${clonedSchema.format}`)).toHaveLength(1);
+      });
 
-    it('should not error if `integer|number` are missing `format`', () => {
-      expect(() => {
-        renderParams({ type: 'integer' });
-      }).not.toThrow(/Cannot read property 'match' of undefined/);
-    });
+      it('should default integer to int32 if missing format', () => {
+        const params = renderParams({ type: 'integer' });
 
-    it('should default number to float if missing format', () => {
-      const params = renderParams({ type: 'number' });
+        expect(params.find(`.field-integer.field-int32`)).toHaveLength(1);
+      });
 
-      expect(params.find(`.field-number.field-float`)).toHaveLength(1);
+      it('should not error if `integer|number` are missing `format`', () => {
+        expect(() => {
+          renderParams({ type: 'integer' });
+        }).not.toThrow(/Cannot read property 'match' of undefined/);
+      });
+
+      it('should default number to float if missing format', () => {
+        const params = renderParams({ type: 'number' });
+
+        expect(params.find(`.field-number.field-float`)).toHaveLength(1);
+      });
     });
   });
 });

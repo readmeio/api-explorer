@@ -114,7 +114,9 @@
                 "properties": {
                   "string password": {
                     "type": "string",
-                    "format": "password"
+                    "format": "password",
+                    "minLength": 5,
+                    "maxLength": 20
                   }
                 }
               }
