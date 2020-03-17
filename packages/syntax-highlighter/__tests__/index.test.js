@@ -1,5 +1,5 @@
 const { mount, shallow } = require('enzyme');
-const syntaxHighlighter = require('../');
+const syntaxHighlighter = require('..');
 
 test('should highlight a block of code', () => {
   const code = shallow(syntaxHighlighter('var a = 1;', 'javascript'));
