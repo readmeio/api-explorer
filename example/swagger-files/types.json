@@ -95,9 +95,11 @@
                     "type": "string",
                     "format": "string"
                   },
-                  "string (format: password)": {
+                  "string (format: password, minLength: 5, maxLength: 20)": {
                     "type": "string",
-                    "format": "password"
+                    "format": "password",
+                    "minLength": 5,
+                    "maxLength": 20
                   },
                   "string (format: url)": {
                     "type": "string",
