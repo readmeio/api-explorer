@@ -1,4 +1,4 @@
-const CodeMirror = require('codemirror');
+const CodeMirror = require('codemirror/addon/runmode/runmode.node.js');
 const React = require('react');
 const Variable = require('@readme/variable');
 const modes = require('./modes');
