@@ -39,6 +39,8 @@ object-assign
  * Licensed under the MIT License.
  */
 
+/*! Isomorphic Style Loader | MIT License | https://github.com/kriasoft/isomorphic-style-loader */
+
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 
 /** @license React v16.13.0
