@@ -1,5 +1,5 @@
 const React = require('react');
-const { shallow } = require('enzyme');
+const { mount, shallow } = require('enzyme');
 const markdown = require('@readme/markdown');
 const markdownMagic = require('@readme/markdown-magic');
 const DescriptionField = require('../../src/form-components/DescriptionField');
@@ -9,7 +9,7 @@ test.each([[true], [false]])('should parse description as markdown [new markdown
 
   let html;
   if (useNewMarkdownEngine) {
-    html = shallow(markdown.react(actual)).html();
+    html = mount(markdown.react(actual)).html();
   } else {
     html = shallow(markdownMagic(actual)).html();
   }
