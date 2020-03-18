@@ -17,7 +17,13 @@ class ErrorBoundary extends React.Component {
       .toString(36)
       .substr(2, 7)}`;
 
-    this.props.onError(error, { supportErrorCode, componentStack: info });
+    const errorData = {
+      supportErrorCode,
+      componentStack: info,
+      ...error,
+    };
+
+    this.props.onError(error, errorData);
 
     this.setState({
       error,
