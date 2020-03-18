@@ -103,8 +103,6 @@ world
 
   it('Heading', () => {
     const wrap = mount(markdown.react('### Heading Level 3\n\n### Heading Level 3'));
-    expect(wrap.html()).toBe(
-      '<h3 class="heading header-scroll"><div class="anchor waypoint" id="section-heading-level-3"></div><div>Heading Level 3</div><a class="fa fa-anchor" href="#section-heading-level-3"></a></h3>\n<h3 class="heading header-scroll"><div class="anchor waypoint" id="section-heading-level-3-1"></div><div>Heading Level 3</div><a class="fa fa-anchor" href="#section-heading-level-3-1"></a></h3>'
-    );
+    expect(wrap.find('Heading')).toHaveLength(2);
   });
 });

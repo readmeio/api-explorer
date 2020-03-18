@@ -1,4 +1,4 @@
-const { shallow, mount } = require('enzyme');
+const { mount } = require('enzyme');
 const React = require('react');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
@@ -6,12 +6,12 @@ const markdown = require('../index');
 const settings = require('../processor/options.json');
 
 test('image', () => {
-  expect(shallow(markdown.default('![Image](http://example.com/image.png)', settings)).html()).toMatchSnapshot();
+  expect(mount(markdown.default('![Image](http://example.com/image.png)', settings)).html()).toMatchSnapshot();
 });
 
 test('magic image', () => {
   expect(
-    shallow(
+    mount(
       markdown.default(
         `
     [block:image]
@@ -39,50 +39,45 @@ test('magic image', () => {
 });
 
 test('list items', () => {
-  expect(shallow(markdown.default('- listitem1', settings)).html()).toMatchSnapshot();
+  expect(mount(markdown.default('- listitem1', settings)).html()).toMatchSnapshot();
 });
 
 test('check list items', () => {
-  expect(shallow(markdown.default('- [ ] checklistitem1\n- [x] checklistitem1', settings)).html()).toMatchSnapshot();
+  expect(mount(markdown.default('- [ ] checklistitem1\n- [x] checklistitem1', settings)).html()).toMatchSnapshot();
 });
 
 test('should strip out inputs', () => {
-  expect(shallow(markdown.default('<input type="text" value="value" />', settings)).html()).toMatchSnapshot();
+  const wrap = mount(markdown.default('<input type="text" value="value" />', settings));
+  expect(wrap.exists()).toBe(false);
 });
 
 test('tables', () => {
-  expect(
-    shallow(
-      markdown.default(`
-| Tables        | Are           | Cool  |
+  const wrap = mount(
+    markdown.default(`| Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
 | col 3 is      | right-aligned | $1600 |
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
   `)
-    ).html()
-  ).toMatchSnapshot();
+  );
+  expect(wrap.find('Table').html()).toMatchSnapshot();
 });
 
 test('headings', () => {
-  expect(
-    shallow(
-      markdown.default(`
-# Heading 1
-# Heading 1
+  const wrap = mount(
+    markdown.default(`# Heading 1
 ## Heading 2
 ### Heading 3
 #### Heading 4
 ##### Heading 5
-###### Heading 6
-  `)
-    ).html()
-  ).toMatchSnapshot();
+###### Heading 6`)
+  );
+  expect(wrap.find('Heading')).toHaveLength(6);
 });
 
 test('anchors', () => {
   expect(
-    shallow(
+    mount(
       markdown.default(`
 [link](http://example.com)
 [xss](javascript:alert)
@@ -97,12 +92,12 @@ test('anchors', () => {
 });
 
 test('anchor target: should default to _self', () => {
-  expect(shallow(markdown.default('[test](https://example.com)', settings)).html()).toMatchSnapshot();
+  expect(mount(markdown.default('[test](https://example.com)', settings)).html()).toMatchSnapshot();
 });
 
 test('anchor target: should allow _blank if using HTML', () => {
   expect(
-    shallow(markdown.default('<a href="https://example.com" target="_blank">test</a>', settings)).html()
+    mount(markdown.default('<a href="https://example.com" target="_blank">test</a>', settings)).html()
   ).toMatchSnapshot();
 });
 
@@ -129,7 +124,7 @@ test('anchors with baseUrl', () => {
 
 test('emojis', () => {
   expect(
-    shallow(
+    mount(
       markdown.default(`
 :joy:
 :fa-lock:
@@ -140,9 +135,8 @@ test('emojis', () => {
 });
 
 test('code samples', () => {
-  expect(
-    shallow(
-      markdown.default(`
+  const wrap = mount(
+    markdown.default(`
 \`\`\`javascript
 var a = 1;
 \`\`\`
@@ -150,9 +144,9 @@ var a = 1;
 \`\`\`
 code-without-language
 \`\`\`
-  `)
-    ).html()
-  ).toMatchSnapshot();
+`)
+  );
+  expect(wrap.find('pre')).toHaveLength(2);
 });
 
 test('should render nothing if nothing passed in', () => {
@@ -160,9 +154,9 @@ test('should render nothing if nothing passed in', () => {
 });
 
 test('`correctnewlines` option', () => {
-  expect(shallow(markdown.react('test\ntest\ntest', { correctnewlines: true })).html()).toBe('<p>test\ntest\ntest</p>');
-  expect(shallow(markdown.react('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
-    '<p>test<br/>\ntest<br/>\ntest</p>'
+  expect(mount(markdown.react('test\ntest\ntest', { correctnewlines: true })).html()).toBe('<p>test\ntest\ntest</p>');
+  expect(mount(markdown.react('test\ntest\ntest', { correctnewlines: false })).html()).toBe(
+    '<p>test<br>\ntest<br>\ntest</p>'
   );
 });
 
@@ -192,14 +186,14 @@ describe('`stripHtml` option', () => {
 });
 
 test('should strip dangerous iframe tag', () => {
-  expect(shallow(markdown.react('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>', settings)).html()).toBe(
+  expect(mount(markdown.react('<p><iframe src="javascript:alert(\'delta\')"></iframe></p>', settings)).html()).toBe(
     '<p></p>'
   );
 });
 
 test('should strip dangerous img attributes', () => {
-  expect(shallow(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html()).toBe(
-    '<img alt="" caption="" height="auto" src="x" width="auto"/>'
+  expect(mount(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html()).toBe(
+    '<img src="x" alt="" caption="" height="auto" width="auto">'
   );
 });
 

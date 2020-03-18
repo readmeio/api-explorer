@@ -29,8 +29,6 @@ const rehypeReact = require('rehype-react');
 
 /* React Custom Components
  */
-const DivFragment = props => React.createElement(React.Fragment, props);
-
 const Variable = require('@readme/variable');
 const GlossaryItem = require('./components/GlossaryItem');
 const Code = require('./components/Code');
@@ -135,7 +133,7 @@ function parseMarkdown(opts = {}) {
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkRehype, { allowDangerousHTML: true })
     .use(rehypeRaw)
-    .use(rehypeSanitize);
+    .use(rehypeSanitize, sanitize);
 }
 
 export function plain(text, opts = options) {
@@ -143,13 +141,7 @@ export function plain(text, opts = options) {
   return parseMarkdown(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
-      components: {
-        // 'readme-variable': props => <span {...props}>Variable</span>,
-        // 'readme-glossary-item': props => <span {...props}>Term</span>,
-        // 'readme-variable': Variable(sanitize),
-        // 'readme-glossary-item': GlossaryItem(sanitize),
-        div: DivFragment,
-      },
+      Fragment: React.Fragment,
     })
     .processSync(text).contents;
 }
@@ -167,6 +159,7 @@ export function react(text, opts = options) {
   return parseMarkdown(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
+      Fragment: React.Fragment,
       components: {
         'code-tabs': CodeTabs(sanitize),
         'rdme-callout': Callout(sanitize),
@@ -184,7 +177,6 @@ export function react(text, opts = options) {
         h6: Heading(6, count),
         code: Code(sanitize),
         img: Image(sanitize),
-        div: DivFragment,
       },
     })
     .processSync(text).contents;

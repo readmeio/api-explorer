@@ -25,20 +25,13 @@ exports[`anchors with baseUrl 1`] = `
 
 exports[`check list items 1`] = `
 "<ul>
-<li class=\\"task-list-item\\"><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
-<li class=\\"task-list-item\\"><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" disabled=\\"\\"> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" disabled=\\"\\" checked=\\"\\"> checklistitem1</li>
 </ul>"
 `;
 
-exports[`code samples 1`] = `
-"<pre><code class=\\"lang-javascript\\" data-lang=\\"javascript\\" name=\\"\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
-</span></code></pre>
-<pre><code data-lang=\\"\\" name=\\"\\"><span class=\\"cm-s-neo\\">code-without-language
-</span></code></pre>"
-`;
-
 exports[`emojis 1`] = `
-"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" height=\\"auto\\" width=\\"auto\\" caption=\\"\\"/>
+"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" height=\\"auto\\" width=\\"auto\\" caption=\\"\\">
 <i class=\\"fa fa-lock\\"></i>
 :unknown-emoji:</p>"
 `;
@@ -284,7 +277,7 @@ exports[`export multiple Markdown renderers renders MD 1`] = `
 `;
 
 exports[`export multiple Markdown renderers renders custom React components 1`] = `
-<DivFragment>
+<React.Fragment>
   <Unknown>
     Hello World
   </Unknown>
@@ -464,11 +457,11 @@ exports[`export multiple Markdown renderers renders custom React components 1`] 
     
 
   </blockquote>
-</DivFragment>
+</React.Fragment>
 `;
 
 exports[`export multiple Markdown renderers renders plain markdown as React 1`] = `
-<DivFragment>
+<React.Fragment>
   <h1>
     Hello World
   </h1>
@@ -648,20 +641,10 @@ exports[`export multiple Markdown renderers renders plain markdown as React 1`] 
     
 
   </blockquote>
-</DivFragment>
+</React.Fragment>
 `;
 
-exports[`headings 1`] = `
-"<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-1\\"></div><div>Heading 1</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-1\\"></a></h1>
-<h1 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-1-1\\"></div><div>Heading 1</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-1-1\\"></a></h1>
-<h2 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-2\\"></div><div>Heading 2</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-2\\"></a></h2>
-<h3 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-3\\"></div><div>Heading 3</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-3\\"></a></h3>
-<h4 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-4\\"></div><div>Heading 4</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-4\\"></a></h4>
-<h5 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-5\\"></div><div>Heading 5</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-5\\"></a></h5>
-<h6 class=\\"heading header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-6\\"></div><div>Heading 6</div><a class=\\"fa fa-anchor\\" href=\\"#section-heading-6\\"></a></h6>"
-`;
-
-exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" caption=\\"\\" height=\\"auto\\" width=\\"auto\\"/></p>"`;
+exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" caption=\\"\\" height=\\"auto\\" width=\\"auto\\"></p>"`;
 
 exports[`list items 1`] = `
 "<ul>
@@ -669,35 +652,6 @@ exports[`list items 1`] = `
 </ul>"
 `;
 
-exports[`magic image 1`] = `"<figure width=\\"auto\\" height=\\"auto\\" style=\\"width:auto\\"><img align=\\"\\" alt=\\"A guy. Eating pizza. And making an OK gesture.\\" caption=\\"A guy. Eating pizza. And making an OK gesture.\\" height=\\"\\" src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" width=\\"\\"/><figcaption>A guy. Eating pizza. And making an OK gesture.</figcaption></figure>"`;
+exports[`magic image 1`] = `"<figure width=\\"auto\\" height=\\"auto\\" style=\\"width: auto;\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" alt=\\"A guy. Eating pizza. And making an OK gesture.\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" caption=\\"A guy. Eating pizza. And making an OK gesture.\\" align=\\"\\" height=\\"\\" width=\\"\\"><figcaption>A guy. Eating pizza. And making an OK gesture.</figcaption></figure>"`;
 
-exports[`should strip out inputs 1`] = `""`;
-
-exports[`tables 1`] = `
-"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table><thead><tr><th>Tables</th><th style=\\"text-align:center\\">Are</th><th style=\\"text-align:right\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align:center\\">right-aligned</td><td style=\\"text-align:right\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align:center\\">centered</td><td style=\\"text-align:right\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align:center\\">are neat</td><td style=\\"text-align:right\\">$1</td></tr></tbody></table>"
-`;
+exports[`tables 1`] = `"<table><thead><tr><th>Tables</th><th style=\\"text-align: center;\\">Are</th><th style=\\"text-align: right;\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align: center;\\">right-aligned</td><td style=\\"text-align: right;\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align: center;\\">centered</td><td style=\\"text-align: right;\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align: center;\\">are neat</td><td style=\\"text-align: right;\\">$1</td></tr></tbody></table>"`;
