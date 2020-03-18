@@ -14,6 +14,7 @@ const Oas = require('@readme/oas-tooling');
 const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 
 const DescriptionField = require('./form-components/DescriptionField');
+const UnsupportedField = require('./form-components/UnsupportedField');
 const createBaseInput = require('./form-components/BaseInput');
 const createSelectWidget = require('./form-components/SelectWidget');
 const createArrayField = require('./form-components/ArrayField');
@@ -65,6 +66,7 @@ function Params({
                 ArrayField,
                 DescriptionField,
                 SchemaField,
+                UnsupportedField,
               }}
               formContext={{
                 useNewMarkdownEngine,
@@ -88,7 +90,7 @@ function Params({
                 // 🚨 Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
                 // browsers that don't fully support it.
                 /* dateTime: DateTimeWidget,
-              'date-time': DateTimeWidget, */
+                'date-time': DateTimeWidget, */
 
                 double: UpDownWidget,
                 duration: TextWidget,
