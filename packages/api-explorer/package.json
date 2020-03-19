@@ -1,14 +1,14 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "6.0.7",
+  "version": "6.0.8",
   "main": "dist/index.js",
   "dependencies": {
     "@readme/http-status-codes": "^6.0.5",
     "@readme/markdown": "^6.0.6",
     "@readme/markdown-magic": "^6.0.6",
     "@readme/oas-extensions": "^6.0.5",
-    "@readme/oas-to-har": "^6.0.5",
+    "@readme/oas-to-har": "^6.0.8",
     "@readme/oas-tooling": "^3.1.2",
     "@readme/react-jsonschema-form": "^1.1.2",
     "@readme/syntax-highlighter": "^6.0.5",
