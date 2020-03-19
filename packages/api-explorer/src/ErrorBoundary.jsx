@@ -1,6 +1,25 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+// https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
+function hashErrorMessageToUniqueCode(string) {
+  let uniqueCode = 0;
+  for (let i = 0; i < string.length; i += 1) {
+    uniqueCode = Math.imul(31, uniqueCode) + string.charCodeAt(i) || 0;
+  }
+
+  // If for whatever reason we couldn't create an error code for this, create a non-zero random number.
+  if (uniqueCode === 0) {
+    uniqueCode = Math.random()
+      .toString(36)
+      .substr(2, 7);
+  } else {
+    uniqueCode = uniqueCode.toString(36).replace(/-/g, '');
+  }
+
+  return uniqueCode.toUpperCase();
+}
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -13,10 +32,7 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    const supportErrorCode = `ERR-${Math.random()
-      .toString(36)
-      .substr(2, 7)}`;
-
+    const supportErrorCode = `ERR-${hashErrorMessageToUniqueCode(error.message)}`;
     const errorData = {
       supportErrorCode,
       componentStack: info,
