@@ -40,7 +40,19 @@
       "post": {
         "summary": "Primitive data types",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "array_of_freeform_objects",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        ],
         "responses": {},
         "requestBody": {
           "content": {
@@ -204,6 +216,13 @@
                           "type": "string"
                         }
                       }
+                    }
+                  },
+                  "array (of objects, freeform)": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": true
                     }
                   },
                   "array (of array of objects)": {
