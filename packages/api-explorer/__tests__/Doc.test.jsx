@@ -444,6 +444,6 @@ describe('error handling', () => {
     expect(doc.find(ErrorBoundary)).toHaveLength(1);
     expect(html).toMatch('support@readme.io');
     expect(html).toMatch("endpoint's documentation");
-    expect(html).toMatch(/ERR-([0-9a-z]{7})/);
+    expect(html).toMatch(/ERR-([0-9A-Z]{6})/);
   });
 });
