@@ -162,7 +162,7 @@ test('additionalProperties object labels (keys) should be editable', () => {
     [ADDITIONAL_PROPERTY_FLAG]: true,
   });
 
-  expect(params.find('input#createPath_a-key')).toHaveLength(1);
+  expect(params.find('input#body-createPath_a-key')).toHaveLength(1);
 });
 
 test('if no operationId is present, one should be generated', () => {
@@ -414,7 +414,7 @@ describe('readOnly', () => {
         <div>
           <Params {...props} operation={oas.operation('/pet', 'post')} />
         </div>
-      ).find('input#addPet_id[type="hidden"]')
+      ).find('input#body-addPet_id[type="hidden"]')
     ).toHaveLength(1);
   });
 });
