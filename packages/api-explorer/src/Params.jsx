@@ -73,7 +73,7 @@ function Params({
               }}
               formData={formData[schema.type]}
               id={`form-${schema.type}-${operationId}`}
-              idPrefix={operationId}
+              idPrefix={`${schema.type}-${operationId}`}
               onChange={form => {
                 return onChange({ [schema.type]: form.formData });
               }}
