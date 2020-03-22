@@ -90,25 +90,21 @@ module.exports = (
 
   // Does this operation have any parameters?
   const parameters = [];
+  function addParameter(param) {
+    if (param.$ref) {
+      parameters.push(findSchemaDefinition(param.$ref, oas));
+    } else {
+      parameters.push(param);
+    }
+  }
+
   if (pathOperation.parameters) {
-    pathOperation.parameters.forEach(param => {
-      if (param.$ref) {
-        parameters.push(findSchemaDefinition(param.$ref, oas));
-      } else {
-        parameters.push(param);
-      }
-    });
+    pathOperation.parameters.forEach(addParameter);
   }
 
   // Does this operation have any common parameters?
   if (oas.paths && oas.paths[pathOperation.path] && oas.paths[pathOperation.path].parameters) {
-    oas.paths[pathOperation.path].parameters.forEach(param => {
-      if (param.$ref) {
-        parameters.push(findSchemaDefinition(param.$ref, oas));
-      } else {
-        parameters.push(param);
-      }
-    });
+    oas.paths[pathOperation.path].parameters.forEach(addParameter);
   }
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {

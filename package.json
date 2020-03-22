@@ -33,7 +33,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
-    "@readme/eslint-config": "^1.7.0",
+    "@readme/eslint-config": "^2.0.0",
     "auto-changelog": "^1.10.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
@@ -64,5 +64,6 @@
     "react-hot-loader": "^4.12.16",
     "swagger2openapi": "^5.3.1",
     "whatwg-fetch": "^3.0.0"
-  }
+  },
+  "prettier": "@readme/eslint-config/prettier"
 }

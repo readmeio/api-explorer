@@ -6,7 +6,7 @@
   "scripts": {
     "inspect": "jsinspect",
     "lint": "eslint .",
-    "pretest": "npm run prettier && npm run lint && npm run inspect",
+    "pretest": "npm run lint && npm run prettier && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand"
   },
@@ -22,10 +22,11 @@
     "directory": "packages/http-status-codes"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^1.7.0",
+    "@readme/eslint-config": "^2.0.0",
     "eslint": "^6.5.0",
     "jest": "^25.1.0",
     "jsinspect": "^0.12.6",
     "prettier": "^2.0.1"
-  }
+  },
+  "prettier": "@readme/eslint-config/prettier"
 }
