@@ -26,13 +26,9 @@ test('should output a variable node', () => {
     ],
   };
 
-  expect(
-    unified()
-      .use(remarkParse)
-      .use(parser)
-      .data('settings', { position: false })
-      .parse(markdown)
-  ).toStrictEqual(ast);
+  expect(unified().use(remarkParse).use(parser).data('settings', { position: false }).parse(markdown)).toStrictEqual(
+    ast
+  );
 });
 
 test('should output a glossary node', () => {
@@ -59,13 +55,9 @@ test('should output a glossary node', () => {
     ],
   };
 
-  expect(
-    unified()
-      .use(remarkParse)
-      .use(parser)
-      .data('settings', { position: false })
-      .parse(markdown)
-  ).toStrictEqual(ast);
+  expect(unified().use(remarkParse).use(parser).data('settings', { position: false }).parse(markdown)).toStrictEqual(
+    ast
+  );
 });
 
 test('should allow whitespace in glossary names', () => {
@@ -92,13 +84,9 @@ test('should allow whitespace in glossary names', () => {
     ],
   };
 
-  expect(
-    unified()
-      .use(remarkParse)
-      .use(parser)
-      .data('settings', { position: false })
-      .parse(markdown)
-  ).toStrictEqual(ast);
+  expect(unified().use(remarkParse).use(parser).data('settings', { position: false }).parse(markdown)).toStrictEqual(
+    ast
+  );
 });
 
 test('should allow escape variables to remain', () => {
@@ -117,11 +105,7 @@ test('should allow escape variables to remain', () => {
     ],
   };
 
-  expect(
-    unified()
-      .use(remarkParse)
-      .use(parser)
-      .data('settings', { position: false })
-      .parse(markdown)
-  ).toStrictEqual(ast);
+  expect(unified().use(remarkParse).use(parser).data('settings', { position: false }).parse(markdown)).toStrictEqual(
+    ast
+  );
 });

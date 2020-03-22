@@ -48,13 +48,7 @@ test('should display json viewer', () => {
   );
 
   // Asserting all JSON examples are displayed with JSON viewer from the example oas.json
-  expect(
-    example
-      .find('pre')
-      .at(0)
-      .render()
-      .find('.react-json-view')
-  ).toHaveLength(1);
+  expect(example.find('pre').at(0).render().find('.react-json-view')).toHaveLength(1);
 });
 
 test('should not fail to parse invalid json and instead show the standard syntax highlighter', () => {
@@ -65,13 +59,7 @@ test('should not fail to parse invalid json and instead show the standard syntax
 
   // Asserting that instead of failing with the invalid JSON we attempted to render, we fallback
   // to just rendering the string in our standard syntax highlighter.
-  expect(
-    example
-      .find('pre')
-      .at(0)
-      .render()
-      .find('.cm-number')
-  ).toHaveLength(4);
+  expect(example.find('pre').at(0).render().find('.cm-number')).toHaveLength(4);
 });
 
 test('should correctly highlight XML syntax', () => {
@@ -81,13 +69,7 @@ test('should correctly highlight XML syntax', () => {
   );
 
   // Asserting that there are XML tags
-  expect(
-    example
-      .find('pre')
-      .at(1)
-      .render()
-      .find('.cm-tag')
-  ).toHaveLength(25);
+  expect(example.find('pre').at(1).render().find('.cm-tag')).toHaveLength(25);
 });
 
 test('should show select for multiple examples on a single media type', () => {

@@ -23,12 +23,7 @@ test('if endpoint has an example, tabs should show', () => {
 test('should select matching tab by index', () => {
   const exampleTabs = mount(<ExampleTabs {...props} />);
 
-  expect(
-    exampleTabs
-      .find('a')
-      .first()
-      .hasClass('selected')
-  ).toBe(true);
+  expect(exampleTabs.find('a').first().hasClass('selected')).toBe(true);
 });
 
 test('should call setExampleTab on click', () => {

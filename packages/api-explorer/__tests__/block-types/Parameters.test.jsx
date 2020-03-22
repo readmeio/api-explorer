@@ -19,11 +19,6 @@ describe('Parameters', () => {
 
     const parametersInput = shallow(<Parameters block={block} />);
     expect(parametersInput.find('div.th').text()).toBe('test');
-    expect(
-      parametersInput
-        .find('div.td')
-        .render()
-        .text()
-    ).toBe('arbitrary');
+    expect(parametersInput.find('div.td').render().text()).toBe('arbitrary');
   });
 });

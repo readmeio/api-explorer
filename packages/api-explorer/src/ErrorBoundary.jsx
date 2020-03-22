@@ -10,9 +10,7 @@ function hashErrorMessageToUniqueCode(string) {
 
   // If for whatever reason we couldn't create an error code for this, create a non-zero random number.
   if (uniqueCode === 0) {
-    uniqueCode = Math.random()
-      .toString(36)
-      .substr(2, 7);
+    uniqueCode = Math.random().toString(36).substr(2, 7);
   } else {
     uniqueCode = uniqueCode.toString(36).replace(/-/g, '');
   }

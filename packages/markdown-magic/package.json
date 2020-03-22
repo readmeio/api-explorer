@@ -36,6 +36,6 @@
     "eslint": "^6.5.0",
     "jest": "^25.1.0",
     "jsinspect": "^0.12.7",
-    "prettier": "^1.18.2"
+    "prettier": "^2.0.1"
   }
 }

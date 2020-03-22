@@ -66,12 +66,7 @@ test('should render body', () => {
   };
 
   const callout = shallow(<CallOut block={block} />);
-  expect(
-    callout
-      .render()
-      .find('.callout-body')
-      .html()
-  ).toMatchSnapshot();
+  expect(callout.render().find('.callout-body').html()).toMatchSnapshot();
 });
 
 test('should render markdown in body', () => {
@@ -83,10 +78,5 @@ test('should render markdown in body', () => {
   };
 
   const callout = shallow(<CallOut block={block} />);
-  expect(
-    callout
-      .render()
-      .find('.callout-body')
-      .html()
-  ).toMatchSnapshot();
+  expect(callout.render().find('.callout-body').html()).toMatchSnapshot();
 });

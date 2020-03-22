@@ -103,10 +103,7 @@ describe('multiple variables', () => {
     variable.find('.variable-underline').simulate('click');
     variable.find('select').simulate('change', {
       target: {
-        value: variable
-          .find('select option')
-          .at(1)
-          .text(),
+        value: variable.find('select option').at(1).text(),
       },
     });
 
