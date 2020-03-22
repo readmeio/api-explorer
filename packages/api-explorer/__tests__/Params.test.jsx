@@ -340,20 +340,12 @@ describe('x-explorer-enabled', () => {
 
     expect(elem.find('.field-array .array-item-add')).toHaveLength(2);
 
-    elem
-      .find('.field-array .array-item-add')
-      .at(0)
-      .simulate('click');
+    elem.find('.field-array .array-item-add').at(0).simulate('click');
 
     // Assert that after we've clicked to add array items into the view, everything is still in
     // readOnly mode.
     expect(elem.find('input')).toHaveLength(1);
-    expect(
-      elem
-        .find('input')
-        .at(0)
-        .props().type
-    ).toBe('hidden');
+    expect(elem.find('input').at(0).props().type).toBe('hidden');
   });
 
   it('should not render any <input>', () => {

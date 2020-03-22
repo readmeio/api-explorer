@@ -48,11 +48,6 @@ describe('Image', () => {
 
     const imageInput = shallow(<Image block={block} />);
 
-    expect(
-      imageInput
-        .find('figcaption')
-        .render()
-        .text()
-    ).toBe('doggo');
+    expect(imageInput.find('figcaption').render().text()).toBe('doggo');
   });
 });

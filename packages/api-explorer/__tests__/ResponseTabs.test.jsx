@@ -40,12 +40,7 @@ test('should show result/metadata tab', () => {
 test('should select matching tab by name', () => {
   const exampleTabs = mount(<ResponseTabs {...props} />);
 
-  expect(
-    exampleTabs
-      .find('a')
-      .at(0)
-      .hasClass('selected')
-  ).toBe(true);
+  expect(exampleTabs.find('a').at(0).hasClass('selected')).toBe(true);
 });
 
 test('should not have a "back to examples" button if no examples', () => {

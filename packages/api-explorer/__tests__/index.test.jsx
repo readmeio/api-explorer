@@ -308,10 +308,7 @@ describe('auth', () => {
 
   it('should be updated via editing authbox', () => {
     const explorer = mount(<ApiExplorer {...props} docs={docs.slice(0, 1)} />);
-    const doc = explorer
-      .find('Doc')
-      .at(0)
-      .instance();
+    const doc = explorer.find('Doc').at(0).instance();
 
     doc.setState({ showEndpoint: true, showAuthBox: true });
 

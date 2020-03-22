@@ -55,12 +55,7 @@ describe('Logs', () => {
     clonedLog.requestHeaders[0].name = '';
     comp.setState({ logs: [clonedLog] });
 
-    expect(
-      comp
-        .find('tbody tr')
-        .childAt(4)
-        .text()
-    ).toBe('-');
+    expect(comp.find('tbody tr').childAt(4).text()).toBe('-');
   });
 
   it('should be in a loading state', () => {

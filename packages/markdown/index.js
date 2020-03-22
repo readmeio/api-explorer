@@ -188,9 +188,7 @@ export function react(text, opts = options) {
 export function html(text, opts = options) {
   if (!text) return null;
 
-  return parseMarkdown(opts)
-    .use(rehypeStringify)
-    .processSync(text).contents;
+  return parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
 }
 
 /**
@@ -198,9 +196,7 @@ export function html(text, opts = options) {
  */
 export function ast(text, opts = options) {
   if (!text) return null;
-  return parseMarkdown(opts)
-    .use(remarkStringify, opts.markdownOptions)
-    .parse(text);
+  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).parse(text);
 }
 
 /**
