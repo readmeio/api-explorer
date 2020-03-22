@@ -30,7 +30,7 @@
     "build": "webpack --config webpack.prod.js",
     "inspect": "jsinspect",
     "lint": "eslint . --ext js --ext jsx",
-    "pretest": "npm run lint && npm run inspect",
+    "pretest": "npm run lint && npm run prettier && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
     "watch": "webpack -w --progress"
@@ -43,7 +43,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-explorer",
   "devDependencies": {
-    "@readme/eslint-config": "^1.7.0",
+    "@readme/eslint-config": "^2.0.0",
     "@readme/oas-examples": "^3.0.0",
     "eslint": "^6.5.0",
     "jest": "^25.1.0",
@@ -54,5 +54,6 @@
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2"
-  }
+  },
+  "prettier": "@readme/eslint-config/prettier"
 }
