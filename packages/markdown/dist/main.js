@@ -21900,7 +21900,7 @@ function plain(text) {
   return parseMarkdown(opts).use(rehypeReact, {
     createElement: React.createElement,
     Fragment: React.Fragment
-  }).processSync(text).contents;
+  }).processSync(opts.normalize ? normalize(text) : text).contents;
 }
 /**
  *  return a React VDOM component tree
@@ -21939,7 +21939,7 @@ function react(text) {
       code: Code(sanitize),
       img: Image(sanitize)
     }
-  }).processSync(text).contents;
+  }).processSync(opts.normalize ? normalize(text) : text).contents;
 }
 /**
  *  transform markdown in to HTML
@@ -21948,7 +21948,7 @@ function react(text) {
 function html(text) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!text) return null;
-  return parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
+  return parseMarkdown(opts).use(rehypeStringify).processSync(opts.normalize ? normalize(text) : text).contents;
 }
 /**
  *  convert markdown to an mdast object
@@ -21957,7 +21957,7 @@ function html(text) {
 function ast(text) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
   if (!text) return null;
-  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).parse(text);
+  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).parse(opts.normalize ? normalize(text) : text);
 }
 /**
  *  compile mdast to ReadMe-flavored markdown
