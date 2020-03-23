@@ -188,7 +188,9 @@ export function react(text, opts = options) {
 export function html(text, opts = options) {
   if (!text) return null;
 
-  return parseMarkdown(opts).use(rehypeStringify).processSync(opts.normalize ? normalize(text) : text).contents;
+  return parseMarkdown(opts)
+    .use(rehypeStringify)
+    .processSync(opts.normalize ? normalize(text) : text).contents;
 }
 
 /**
@@ -196,7 +198,9 @@ export function html(text, opts = options) {
  */
 export function ast(text, opts = options) {
   if (!text) return null;
-  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).parse(opts.normalize ? normalize(text) : text);
+  return parseMarkdown(opts)
+    .use(remarkStringify, opts.markdownOptions)
+    .parse(opts.normalize ? normalize(text) : text);
 }
 
 /**
