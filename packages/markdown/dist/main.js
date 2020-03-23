@@ -58638,8 +58638,7 @@ module.exports = function CodeTabsCompiler() {
   var visitors = Compiler.prototype.visitors;
 
   function compile(node) {
-    var md = this.block(node).split('```\n\n').join('```\n');
-    return md;
+    return this.block(node).split('```\n\n').join('```\n');
   }
 
   visitors['code-tabs'] = compile;
