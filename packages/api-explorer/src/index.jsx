@@ -4,8 +4,6 @@ const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const VariablesContext = require('@readme/variable/contexts/Variables');
 const OauthContext = require('@readme/variable/contexts/Oauth');
-const GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
-const BaseUrlContext = require('@readme/markdown/contexts/BaseUrl');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 
 const ErrorBoundary = require('./ErrorBoundary');
@@ -181,6 +179,18 @@ class ApiExplorer extends React.Component {
 
       return true;
     });
+
+    /* eslint-disable global-require */
+    let BaseUrlContext;
+    let GlossaryTermsContext;
+    if (this.props.useNewMarkdownEngine) {
+      BaseUrlContext = require('@readme/markdown/contexts/BaseUrl');
+      GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
+    } else {
+      BaseUrlContext = require('@readme/markdown-magic/contexts/BaseUrl');
+      GlossaryTermsContext = require('@readme/markdown-magic/contexts/GlossaryTerms');
+    }
+    /* eslint-enable global-require */
 
     return (
       <div className={`is-lang-${this.state.language}`}>
