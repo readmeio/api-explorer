@@ -143,7 +143,7 @@ export function plain(text, opts = options) {
       createElement: React.createElement,
       Fragment: React.Fragment,
     })
-    .processSync(text).contents;
+    .processSync(opts.normalize ? normalize(text) : text).contents;
 }
 
 /**
@@ -179,7 +179,7 @@ export function react(text, opts = options) {
         img: Image(sanitize),
       },
     })
-    .processSync(text).contents;
+    .processSync(opts.normalize ? normalize(text) : text).contents;
 }
 
 /**
@@ -188,7 +188,9 @@ export function react(text, opts = options) {
 export function html(text, opts = options) {
   if (!text) return null;
 
-  return parseMarkdown(opts).use(rehypeStringify).processSync(text).contents;
+  return parseMarkdown(opts)
+    .use(rehypeStringify)
+    .processSync(opts.normalize ? normalize(text) : text).contents;
 }
 
 /**
@@ -196,7 +198,9 @@ export function html(text, opts = options) {
  */
 export function ast(text, opts = options) {
   if (!text) return null;
-  return parseMarkdown(opts).use(remarkStringify, opts.markdownOptions).parse(text);
+  return parseMarkdown(opts)
+    .use(remarkStringify, opts.markdownOptions)
+    .parse(opts.normalize ? normalize(text) : text);
 }
 
 /**
