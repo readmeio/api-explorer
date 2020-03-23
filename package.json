@@ -48,7 +48,7 @@
     "lerna": "^3.14.1",
     "node-sass": "^4.12.0",
     "prettier": "^2.0.1",
-    "sass-loader": "^7.3.1",
+    "sass-loader": "^8.0.2",
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^2.3.1",
     "webpack": "^4.41.0",
