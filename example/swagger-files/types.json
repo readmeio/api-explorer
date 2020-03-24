@@ -195,6 +195,14 @@
                   "boolean without description": {
                     "type": "boolean"
                   },
+                  "array (of mixed content)": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "array (of mixed content, no `items` property)": {
+                    "type": "array",
+                    "description": "Techncally this is a malformed schema, but we support it and repair it to have `items: {}`"
+                  },
                   "array (of strings)": {
                     "type": "array",
                     "items": {
