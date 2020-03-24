@@ -4433,6 +4433,8 @@ function extend() {
         update.visible = visibleLines(cm.display, cm.doc, viewport);
         if (update.visible.from >= cm.display.viewFrom && update.visible.to <= cm.display.viewTo)
           { break }
+      } else if (first) {
+        update.visible = visibleLines(cm.display, cm.doc, viewport);
       }
       if (!updateDisplayIfNeeded(cm, update)) { break }
       updateHeightsInViewport(cm);
@@ -9091,7 +9093,7 @@ function extend() {
 
   ContentEditableInput.prototype.prepareSelection = function () {
     var result = prepareSelection(this.cm, false);
-    result.focus = this.cm.state.focused;
+    result.focus = document.activeElement == this.div;
     return result
   };
 
@@ -9187,7 +9189,7 @@ function extend() {
 
   ContentEditableInput.prototype.focus = function () {
     if (this.cm.options.readOnly != "nocursor") {
-      if (!this.selectionInEditor())
+      if (!this.selectionInEditor() || document.activeElement != this.div)
         { this.showSelection(this.prepareSelection(), true); }
       this.div.focus();
     }
@@ -10019,7 +10021,7 @@ function extend() {
 
   addLegacyProps(CodeMirror);
 
-  CodeMirror.version = "5.52.0";
+  CodeMirror.version = "5.52.2";
 
   return CodeMirror;
 
@@ -15004,11 +15006,15 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -15029,12 +15035,14 @@ var SelectedAppContext = __webpack_require__(386);
 var Variable = /*#__PURE__*/function (_React$Component) {
   _inherits(Variable, _React$Component);
 
+  var _super = _createSuper(Variable);
+
   function Variable(props) {
     var _this;
 
     _classCallCheck(this, Variable);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Variable).call(this, props));
+    _this = _super.call(this, props);
     _this.state = {
       showDropdown: false
     };
@@ -15094,11 +15102,11 @@ var Variable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderVarDropdown",
     value: function renderVarDropdown() {
-      return React.createElement("select", {
+      return /*#__PURE__*/React.createElement("select", {
         onChange: this.onChange,
         value: this.props.selected
       }, this.props.user.keys.map(function (key) {
-        return React.createElement("option", {
+        return /*#__PURE__*/React.createElement("option", {
           key: key.name,
           value: key.name
         }, key.name);
@@ -15116,7 +15124,9 @@ var Variable = /*#__PURE__*/function (_React$Component) {
         var selectedValue = selected ? user.keys.find(function (key) {
           return key.name === selected;
         }) : user.keys[0];
-        return React.createElement("span", null, !this.state.showDropdown && // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        return /*#__PURE__*/React.createElement("span", null, !this.state.showDropdown &&
+        /*#__PURE__*/
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         React.createElement("span", {
           className: "variable-underline",
           onClick: this.toggleVarDropdown
@@ -15125,34 +15135,34 @@ var Variable = /*#__PURE__*/function (_React$Component) {
 
 
       if (this.getValue() === this.getDefault() && this.props.oauth) {
-        return React.createElement("span", null, React.createElement("span", {
+        return /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
           className: "variable-underline",
           onClick: this.toggleAuthDropdown
         }, this.getValue()), this.state.showAuthDropdown && Variable.renderAuthDropdown());
       }
 
-      return React.createElement("span", null, this.getValue());
+      return /*#__PURE__*/React.createElement("span", null, this.getValue());
     }
   }], [{
     key: "renderAuthDropdown",
     value: function renderAuthDropdown() {
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: classNames('ns-popover-dropdown-theme', 'ns-popover-bottom-placement', 'ns-popover-right-align'),
         style: {
           position: 'absolute'
         }
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "ns-popover-tooltip",
         id: "loginDropdown"
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "ns-triangle"
-      }), React.createElement("div", {
+      }), /*#__PURE__*/React.createElement("div", {
         className: "triangle"
-      }), React.createElement("div", {
+      }), /*#__PURE__*/React.createElement("div", {
         className: "pad"
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "text-center"
-      }, "Authenticate to personalize this page", React.createElement("a", {
+      }, "Authenticate to personalize this page", /*#__PURE__*/React.createElement("a", {
         className: classNames('btn', 'btn-primary'),
         href: "/oauth",
         target: "_self"
@@ -15183,14 +15193,14 @@ Variable.defaultProps = {
 // eslint-disable-next-line react/display-name
 
 module.exports = function (props) {
-  return React.createElement(VariablesContext.Consumer, null, function (_ref) {
+  return /*#__PURE__*/React.createElement(VariablesContext.Consumer, null, function (_ref) {
     var user = _ref.user,
         defaults = _ref.defaults;
-    return React.createElement(OauthContext.Consumer, null, function (oauth) {
-      return React.createElement(SelectedAppContext.Consumer, null, function (_ref2) {
+    return /*#__PURE__*/React.createElement(OauthContext.Consumer, null, function (oauth) {
+      return /*#__PURE__*/React.createElement(SelectedAppContext.Consumer, null, function (_ref2) {
         var selected = _ref2.selected,
             changeSelected = _ref2.changeSelected;
-        return React.createElement(Variable, _extends({}, props, {
+        return /*#__PURE__*/React.createElement(Variable, _extends({}, props, {
           changeSelected: changeSelected,
           defaults: defaults,
           oauth: oauth,
@@ -21208,7 +21218,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
   }
   function parenExpr(type) {
     if (type != "(") return pass()
-    return cont(pushlex(")"), expression, expect(")"), poplex)
+    return cont(pushlex(")"), maybeexpression, expect(")"), poplex)
   }
   function expressionInner(type, value, noComma) {
     if (cx.state.fatArrowAt == cx.stream.start) {
@@ -21912,7 +21922,7 @@ function react(text) {
 
   var PinWrap = function PinWrap(_ref) {
     var children = _ref.children;
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "pin"
     }, children);
   };
@@ -22053,7 +22063,7 @@ module.exports = exports;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.13.0
+/** @license React v16.13.1
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -22077,7 +22087,7 @@ exports.Component=F;exports.Fragment=r;exports.Profiler=u;exports.PureComponent=
 exports.cloneElement=function(a,b,c){if(null===a||void 0===a)throw Error(C(267,a));var e=l({},a.props),d=a.key,g=a.ref,k=a._owner;if(null!=b){void 0!==b.ref&&(g=b.ref,k=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(h in b)K.call(b,h)&&!L.hasOwnProperty(h)&&(e[h]=void 0===b[h]&&void 0!==f?f[h]:b[h])}var h=arguments.length-2;if(1===h)e.children=c;else if(1<h){f=Array(h);for(var m=0;m<h;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,
 key:d,ref:g,props:e,_owner:k}};exports.createContext=function(a,b){void 0===b&&(b=null);a={$$typeof:w,_calculateChangedBits:b,_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:v,_context:a};return a.Consumer=a};exports.createElement=M;exports.createFactory=function(a){var b=M.bind(null,a);b.type=a;return b};exports.createRef=function(){return{current:null}};exports.forwardRef=function(a){return{$$typeof:x,render:a}};exports.isValidElement=O;
 exports.lazy=function(a){return{$$typeof:A,_ctor:a,_status:-1,_result:null}};exports.memo=function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}};exports.useCallback=function(a,b){return Z().useCallback(a,b)};exports.useContext=function(a,b){return Z().useContext(a,b)};exports.useDebugValue=function(){};exports.useEffect=function(a,b){return Z().useEffect(a,b)};exports.useImperativeHandle=function(a,b,c){return Z().useImperativeHandle(a,b,c)};
-exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.0";
+exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.1";
 
 
 /***/ }),
@@ -22085,7 +22095,7 @@ exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.u
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.13.0
+/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.13.1
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -22105,7 +22115,7 @@ if (process.env.NODE_ENV !== "production") {
 var _assign = __webpack_require__(23);
 var checkPropTypes = __webpack_require__(53);
 
-var ReactVersion = '16.13.0';
+var ReactVersion = '16.13.1';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -47162,7 +47172,7 @@ function visit(tree, test, visitor, reverse) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.13.0
+/** @license React v16.13.1
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -47186,7 +47196,7 @@ exports.Component=F;exports.Fragment=r;exports.Profiler=u;exports.PureComponent=
 exports.cloneElement=function(a,b,c){if(null===a||void 0===a)throw Error(C(267,a));var e=l({},a.props),d=a.key,g=a.ref,k=a._owner;if(null!=b){void 0!==b.ref&&(g=b.ref,k=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(h in b)K.call(b,h)&&!L.hasOwnProperty(h)&&(e[h]=void 0===b[h]&&void 0!==f?f[h]:b[h])}var h=arguments.length-2;if(1===h)e.children=c;else if(1<h){f=Array(h);for(var m=0;m<h;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,
 key:d,ref:g,props:e,_owner:k}};exports.createContext=function(a,b){void 0===b&&(b=null);a={$$typeof:w,_calculateChangedBits:b,_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:v,_context:a};return a.Consumer=a};exports.createElement=M;exports.createFactory=function(a){var b=M.bind(null,a);b.type=a;return b};exports.createRef=function(){return{current:null}};exports.forwardRef=function(a){return{$$typeof:x,render:a}};exports.isValidElement=O;
 exports.lazy=function(a){return{$$typeof:A,_ctor:a,_status:-1,_result:null}};exports.memo=function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}};exports.useCallback=function(a,b){return Z().useCallback(a,b)};exports.useContext=function(a,b){return Z().useContext(a,b)};exports.useDebugValue=function(){};exports.useEffect=function(a,b){return Z().useEffect(a,b)};exports.useImperativeHandle=function(a,b,c){return Z().useImperativeHandle(a,b,c)};
-exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.0";
+exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.1";
 
 
 /***/ }),
@@ -47194,7 +47204,7 @@ exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.u
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.13.0
+/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.13.1
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -47214,7 +47224,7 @@ if (process.env.NODE_ENV !== "production") {
 var _assign = __webpack_require__(50);
 var checkPropTypes = __webpack_require__(151);
 
-var ReactVersion = '16.13.0';
+var ReactVersion = '16.13.1';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -50171,16 +50181,16 @@ function GlossaryItem(_ref) {
     return term === i.term;
   });
   if (!foundTerm) return null;
-  return React.createElement("span", {
+  return /*#__PURE__*/React.createElement("span", {
     className: "glossary-tooltip",
     v: foundTerm.term
-  }, React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "glossary-item highlight"
-  }, foundTerm.term), React.createElement("span", {
+  }, foundTerm.term), /*#__PURE__*/React.createElement("span", {
     className: "tooltip-content"
-  }, React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "tooltip-content-body"
-  }, React.createElement("strong", {
+  }, /*#__PURE__*/React.createElement("strong", {
     className: "term"
   }, foundTerm.term), " - ", foundTerm.definition)));
 }
@@ -50194,8 +50204,8 @@ GlossaryItem.propTypes = {
 }; // eslint-disable-next-line react/display-name
 
 module.exports = function (props) {
-  return React.createElement(GlossaryContext.Consumer, null, function (terms) {
-    return terms && React.createElement(GlossaryItem, _extends({}, props, {
+  return /*#__PURE__*/React.createElement(GlossaryContext.Consumer, null, function (terms) {
+    return terms && /*#__PURE__*/React.createElement(GlossaryItem, _extends({}, props, {
       terms: terms
     }));
   });
@@ -51155,7 +51165,7 @@ function Code(props) {
       lang = props.lang,
       meta = props.meta;
   var language = (className || '').replace('language-', '');
-  return React.createElement("code", {
+  return /*#__PURE__*/React.createElement("code", {
     className: language ? "lang-".concat(language) : null,
     "data-lang": lang,
     name: meta
@@ -51208,7 +51218,7 @@ module.exports.uppercase = __webpack_require__(413);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.13.0
+/** @license React v16.13.1
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -51232,7 +51242,7 @@ exports.Component=F;exports.Fragment=r;exports.Profiler=u;exports.PureComponent=
 exports.cloneElement=function(a,b,c){if(null===a||void 0===a)throw Error(C(267,a));var e=l({},a.props),d=a.key,g=a.ref,k=a._owner;if(null!=b){void 0!==b.ref&&(g=b.ref,k=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(h in b)K.call(b,h)&&!L.hasOwnProperty(h)&&(e[h]=void 0===b[h]&&void 0!==f?f[h]:b[h])}var h=arguments.length-2;if(1===h)e.children=c;else if(1<h){f=Array(h);for(var m=0;m<h;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,
 key:d,ref:g,props:e,_owner:k}};exports.createContext=function(a,b){void 0===b&&(b=null);a={$$typeof:w,_calculateChangedBits:b,_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null};a.Provider={$$typeof:v,_context:a};return a.Consumer=a};exports.createElement=M;exports.createFactory=function(a){var b=M.bind(null,a);b.type=a;return b};exports.createRef=function(){return{current:null}};exports.forwardRef=function(a){return{$$typeof:x,render:a}};exports.isValidElement=O;
 exports.lazy=function(a){return{$$typeof:A,_ctor:a,_status:-1,_result:null}};exports.memo=function(a,b){return{$$typeof:z,type:a,compare:void 0===b?null:b}};exports.useCallback=function(a,b){return Z().useCallback(a,b)};exports.useContext=function(a,b){return Z().useContext(a,b)};exports.useDebugValue=function(){};exports.useEffect=function(a,b){return Z().useEffect(a,b)};exports.useImperativeHandle=function(a,b,c){return Z().useImperativeHandle(a,b,c)};
-exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.0";
+exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return Z().useMemo(a,b)};exports.useReducer=function(a,b,c){return Z().useReducer(a,b,c)};exports.useRef=function(a){return Z().useRef(a)};exports.useState=function(a){return Z().useState(a)};exports.version="16.13.1";
 
 
 /***/ }),
@@ -51240,7 +51250,7 @@ exports.useLayoutEffect=function(a,b){return Z().useLayoutEffect(a,b)};exports.u
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.13.0
+/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.13.1
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -51260,7 +51270,7 @@ if (process.env.NODE_ENV !== "production") {
 var _assign = __webpack_require__(155);
 var checkPropTypes = __webpack_require__(397);
 
-var ReactVersion = '16.13.0';
+var ReactVersion = '16.13.1';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -53288,11 +53298,15 @@ module.exports = ReactPropTypesSecret;
 /* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -53365,7 +53379,7 @@ module.exports = function (code, lang) {
     var match = new RegExp("(.*)".concat(VARIABLE_REGEXP, "(.*)")).exec(value);
     if (!match) return value; // eslint-disable-next-line no-plusplus
 
-    return [match[1], React.createElement(Variable, {
+    return [match[1], /*#__PURE__*/React.createElement(Variable, {
       key: ++key,
       variable: match[2]
     }), match[3]];
@@ -53378,7 +53392,9 @@ module.exports = function (code, lang) {
     accum = opts.tokenizeVariables ? tokenizeVariable(accum) : accum;
 
     if (curStyle) {
-      output.push( // eslint-disable-next-line no-plusplus
+      output.push(
+      /*#__PURE__*/
+      // eslint-disable-next-line no-plusplus
       React.createElement("span", {
         key: ++key,
         className: "".concat(curStyle.replace(/(^|\s+)/g, '$1cm-'))
@@ -55179,81 +55195,98 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "alignment-baseline", "anchor-point", "animation", "animation-delay",
     "animation-direction", "animation-duration", "animation-fill-mode",
     "animation-iteration-count", "animation-name", "animation-play-state",
-    "animation-timing-function", "appearance", "azimuth", "backface-visibility",
-    "background", "background-attachment", "background-blend-mode", "background-clip",
-    "background-color", "background-image", "background-origin", "background-position",
-    "background-repeat", "background-size", "baseline-shift", "binding",
-    "bleed", "bookmark-label", "bookmark-level", "bookmark-state",
-    "bookmark-target", "border", "border-bottom", "border-bottom-color",
-    "border-bottom-left-radius", "border-bottom-right-radius",
-    "border-bottom-style", "border-bottom-width", "border-collapse",
-    "border-color", "border-image", "border-image-outset",
+    "animation-timing-function", "appearance", "azimuth", "backdrop-filter",
+    "backface-visibility", "background", "background-attachment",
+    "background-blend-mode", "background-clip", "background-color",
+    "background-image", "background-origin", "background-position",
+    "background-position-x", "background-position-y", "background-repeat",
+    "background-size", "baseline-shift", "binding", "bleed", "block-size",
+    "bookmark-label", "bookmark-level", "bookmark-state", "bookmark-target",
+    "border", "border-bottom", "border-bottom-color", "border-bottom-left-radius",
+    "border-bottom-right-radius", "border-bottom-style", "border-bottom-width",
+    "border-collapse", "border-color", "border-image", "border-image-outset",
     "border-image-repeat", "border-image-slice", "border-image-source",
-    "border-image-width", "border-left", "border-left-color",
-    "border-left-style", "border-left-width", "border-radius", "border-right",
-    "border-right-color", "border-right-style", "border-right-width",
-    "border-spacing", "border-style", "border-top", "border-top-color",
-    "border-top-left-radius", "border-top-right-radius", "border-top-style",
-    "border-top-width", "border-width", "bottom", "box-decoration-break",
-    "box-shadow", "box-sizing", "break-after", "break-before", "break-inside",
-    "caption-side", "caret-color", "clear", "clip", "color", "color-profile", "column-count",
-    "column-fill", "column-gap", "column-rule", "column-rule-color",
-    "column-rule-style", "column-rule-width", "column-span", "column-width",
-    "columns", "content", "counter-increment", "counter-reset", "crop", "cue",
-    "cue-after", "cue-before", "cursor", "direction", "display",
-    "dominant-baseline", "drop-initial-after-adjust",
-    "drop-initial-after-align", "drop-initial-before-adjust",
-    "drop-initial-before-align", "drop-initial-size", "drop-initial-value",
-    "elevation", "empty-cells", "fit", "fit-position", "flex", "flex-basis",
-    "flex-direction", "flex-flow", "flex-grow", "flex-shrink", "flex-wrap",
-    "float", "float-offset", "flow-from", "flow-into", "font", "font-feature-settings",
-    "font-family", "font-kerning", "font-language-override", "font-size", "font-size-adjust",
-    "font-stretch", "font-style", "font-synthesis", "font-variant",
-    "font-variant-alternates", "font-variant-caps", "font-variant-east-asian",
-    "font-variant-ligatures", "font-variant-numeric", "font-variant-position",
-    "font-weight", "grid", "grid-area", "grid-auto-columns", "grid-auto-flow",
-    "grid-auto-rows", "grid-column", "grid-column-end", "grid-column-gap",
-    "grid-column-start", "grid-gap", "grid-row", "grid-row-end", "grid-row-gap",
-    "grid-row-start", "grid-template", "grid-template-areas", "grid-template-columns",
-    "grid-template-rows", "hanging-punctuation", "height", "hyphens",
-    "icon", "image-orientation", "image-rendering", "image-resolution",
-    "inline-box-align", "justify-content", "justify-items", "justify-self", "left", "letter-spacing",
-    "line-break", "line-height", "line-stacking", "line-stacking-ruby",
+    "border-image-width", "border-left", "border-left-color", "border-left-style",
+    "border-left-width", "border-radius", "border-right", "border-right-color",
+    "border-right-style", "border-right-width", "border-spacing", "border-style",
+    "border-top", "border-top-color", "border-top-left-radius",
+    "border-top-right-radius", "border-top-style", "border-top-width",
+    "border-width", "bottom", "box-decoration-break", "box-shadow", "box-sizing",
+    "break-after", "break-before", "break-inside", "caption-side", "caret-color",
+    "clear", "clip", "color", "color-profile", "column-count", "column-fill",
+    "column-gap", "column-rule", "column-rule-color", "column-rule-style",
+    "column-rule-width", "column-span", "column-width", "columns", "contain",
+    "content", "counter-increment", "counter-reset", "crop", "cue", "cue-after",
+    "cue-before", "cursor", "direction", "display", "dominant-baseline",
+    "drop-initial-after-adjust", "drop-initial-after-align",
+    "drop-initial-before-adjust", "drop-initial-before-align", "drop-initial-size",
+    "drop-initial-value", "elevation", "empty-cells", "fit", "fit-position",
+    "flex", "flex-basis", "flex-direction", "flex-flow", "flex-grow",
+    "flex-shrink", "flex-wrap", "float", "float-offset", "flow-from", "flow-into",
+    "font", "font-family", "font-feature-settings", "font-kerning",
+    "font-language-override", "font-optical-sizing", "font-size",
+    "font-size-adjust", "font-stretch", "font-style", "font-synthesis",
+    "font-variant", "font-variant-alternates", "font-variant-caps",
+    "font-variant-east-asian", "font-variant-ligatures", "font-variant-numeric",
+    "font-variant-position", "font-variation-settings", "font-weight", "gap",
+    "grid", "grid-area", "grid-auto-columns", "grid-auto-flow", "grid-auto-rows",
+    "grid-column", "grid-column-end", "grid-column-gap", "grid-column-start",
+    "grid-gap", "grid-row", "grid-row-end", "grid-row-gap", "grid-row-start",
+    "grid-template", "grid-template-areas", "grid-template-columns",
+    "grid-template-rows", "hanging-punctuation", "height", "hyphens", "icon",
+    "image-orientation", "image-rendering", "image-resolution", "inline-box-align",
+    "inset", "inset-block", "inset-block-end", "inset-block-start", "inset-inline",
+    "inset-inline-end", "inset-inline-start", "isolation", "justify-content",
+    "justify-items", "justify-self", "left", "letter-spacing", "line-break",
+    "line-height", "line-height-step", "line-stacking", "line-stacking-ruby",
     "line-stacking-shift", "line-stacking-strategy", "list-style",
     "list-style-image", "list-style-position", "list-style-type", "margin",
-    "margin-bottom", "margin-left", "margin-right", "margin-top",
-    "marks", "marquee-direction", "marquee-loop",
-    "marquee-play-count", "marquee-speed", "marquee-style", "max-height",
-    "max-width", "min-height", "min-width", "mix-blend-mode", "move-to", "nav-down", "nav-index",
-    "nav-left", "nav-right", "nav-up", "object-fit", "object-position",
-    "opacity", "order", "orphans", "outline",
-    "outline-color", "outline-offset", "outline-style", "outline-width",
-    "overflow", "overflow-style", "overflow-wrap", "overflow-x", "overflow-y",
-    "padding", "padding-bottom", "padding-left", "padding-right", "padding-top",
-    "page", "page-break-after", "page-break-before", "page-break-inside",
-    "page-policy", "pause", "pause-after", "pause-before", "perspective",
-    "perspective-origin", "pitch", "pitch-range", "place-content", "place-items", "place-self", "play-during", "position",
-    "presentation-level", "punctuation-trim", "quotes", "region-break-after",
-    "region-break-before", "region-break-inside", "region-fragment",
-    "rendering-intent", "resize", "rest", "rest-after", "rest-before", "richness",
-    "right", "rotation", "rotation-point", "ruby-align", "ruby-overhang",
-    "ruby-position", "ruby-span", "shape-image-threshold", "shape-inside", "shape-margin",
-    "shape-outside", "size", "speak", "speak-as", "speak-header",
-    "speak-numeral", "speak-punctuation", "speech-rate", "stress", "string-set",
-    "tab-size", "table-layout", "target", "target-name", "target-new",
-    "target-position", "text-align", "text-align-last", "text-decoration",
+    "margin-bottom", "margin-left", "margin-right", "margin-top", "marks",
+    "marquee-direction", "marquee-loop", "marquee-play-count", "marquee-speed",
+    "marquee-style", "max-block-size", "max-height", "max-inline-size",
+    "max-width", "min-block-size", "min-height", "min-inline-size", "min-width",
+    "mix-blend-mode", "move-to", "nav-down", "nav-index", "nav-left", "nav-right",
+    "nav-up", "object-fit", "object-position", "offset", "offset-anchor",
+    "offset-distance", "offset-path", "offset-position", "offset-rotate",
+    "opacity", "order", "orphans", "outline", "outline-color", "outline-offset",
+    "outline-style", "outline-width", "overflow", "overflow-style",
+    "overflow-wrap", "overflow-x", "overflow-y", "padding", "padding-bottom",
+    "padding-left", "padding-right", "padding-top", "page", "page-break-after",
+    "page-break-before", "page-break-inside", "page-policy", "pause",
+    "pause-after", "pause-before", "perspective", "perspective-origin", "pitch",
+    "pitch-range", "place-content", "place-items", "place-self", "play-during",
+    "position", "presentation-level", "punctuation-trim", "quotes",
+    "region-break-after", "region-break-before", "region-break-inside",
+    "region-fragment", "rendering-intent", "resize", "rest", "rest-after",
+    "rest-before", "richness", "right", "rotate", "rotation", "rotation-point",
+    "row-gap", "ruby-align", "ruby-overhang", "ruby-position", "ruby-span",
+    "scale", "scroll-behavior", "scroll-margin", "scroll-margin-block",
+    "scroll-margin-block-end", "scroll-margin-block-start", "scroll-margin-bottom",
+    "scroll-margin-inline", "scroll-margin-inline-end",
+    "scroll-margin-inline-start", "scroll-margin-left", "scroll-margin-right",
+    "scroll-margin-top", "scroll-padding", "scroll-padding-block",
+    "scroll-padding-block-end", "scroll-padding-block-start",
+    "scroll-padding-bottom", "scroll-padding-inline", "scroll-padding-inline-end",
+    "scroll-padding-inline-start", "scroll-padding-left", "scroll-padding-right",
+    "scroll-padding-top", "scroll-snap-align", "scroll-snap-type",
+    "shape-image-threshold", "shape-inside", "shape-margin", "shape-outside",
+    "size", "speak", "speak-as", "speak-header", "speak-numeral",
+    "speak-punctuation", "speech-rate", "stress", "string-set", "tab-size",
+    "table-layout", "target", "target-name", "target-new", "target-position",
+    "text-align", "text-align-last", "text-combine-upright", "text-decoration",
     "text-decoration-color", "text-decoration-line", "text-decoration-skip",
-    "text-decoration-style", "text-emphasis", "text-emphasis-color",
-    "text-emphasis-position", "text-emphasis-style", "text-height",
-    "text-indent", "text-justify", "text-outline", "text-overflow", "text-shadow",
-    "text-size-adjust", "text-space-collapse", "text-transform", "text-underline-position",
-    "text-wrap", "top", "transform", "transform-origin", "transform-style",
-    "transition", "transition-delay", "transition-duration",
-    "transition-property", "transition-timing-function", "unicode-bidi",
-    "user-select", "vertical-align", "visibility", "voice-balance", "voice-duration",
-    "voice-family", "voice-pitch", "voice-range", "voice-rate", "voice-stress",
-    "voice-volume", "volume", "white-space", "widows", "width", "will-change", "word-break",
-    "word-spacing", "word-wrap", "z-index",
+    "text-decoration-skip-ink", "text-decoration-style", "text-emphasis",
+    "text-emphasis-color", "text-emphasis-position", "text-emphasis-style",
+    "text-height", "text-indent", "text-justify", "text-orientation",
+    "text-outline", "text-overflow", "text-rendering", "text-shadow",
+    "text-size-adjust", "text-space-collapse", "text-transform",
+    "text-underline-position", "text-wrap", "top", "transform", "transform-origin",
+    "transform-style", "transition", "transition-delay", "transition-duration",
+    "transition-property", "transition-timing-function", "translate",
+    "unicode-bidi", "user-select", "vertical-align", "visibility", "voice-balance",
+    "voice-duration", "voice-family", "voice-pitch", "voice-range", "voice-rate",
+    "voice-stress", "voice-volume", "volume", "white-space", "widows", "width",
+    "will-change", "word-break", "word-spacing", "word-wrap", "writing-mode", "z-index",
     // SVG-specific
     "clip-path", "clip-rule", "mask", "enable-background", "filter", "flood-color",
     "flood-opacity", "lighting-color", "stop-color", "stop-opacity", "pointer-events",
@@ -55267,16 +55300,28 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
   ], propertyKeywords = keySet(propertyKeywords_);
 
   var nonStandardPropertyKeywords_ = [
+    "border-block", "border-block-color", "border-block-end",
+    "border-block-end-color", "border-block-end-style", "border-block-end-width",
+    "border-block-start", "border-block-start-color", "border-block-start-style",
+    "border-block-start-width", "border-block-style", "border-block-width",
+    "border-inline", "border-inline-color", "border-inline-end",
+    "border-inline-end-color", "border-inline-end-style",
+    "border-inline-end-width", "border-inline-start", "border-inline-start-color",
+    "border-inline-start-style", "border-inline-start-width",
+    "border-inline-style", "border-inline-width", "margin-block",
+    "margin-block-end", "margin-block-start", "margin-inline", "margin-inline-end",
+    "margin-inline-start", "padding-block", "padding-block-end",
+    "padding-block-start", "padding-inline", "padding-inline-end",
+    "padding-inline-start", "scroll-snap-stop", "scrollbar-3d-light-color",
     "scrollbar-arrow-color", "scrollbar-base-color", "scrollbar-dark-shadow-color",
     "scrollbar-face-color", "scrollbar-highlight-color", "scrollbar-shadow-color",
-    "scrollbar-3d-light-color", "scrollbar-track-color", "shape-inside",
-    "searchfield-cancel-button", "searchfield-decoration", "searchfield-results-button",
-    "searchfield-results-decoration", "zoom"
+    "scrollbar-track-color", "searchfield-cancel-button", "searchfield-decoration",
+    "searchfield-results-button", "searchfield-results-decoration", "shape-inside", "zoom"
   ], nonStandardPropertyKeywords = keySet(nonStandardPropertyKeywords_);
 
   var fontProperties_ = [
-    "font-family", "src", "unicode-range", "font-variant", "font-feature-settings",
-    "font-stretch", "font-weight", "font-style"
+    "font-display", "font-family", "src", "unicode-range", "font-variant",
+     "font-feature-settings", "font-stretch", "font-weight", "font-style"
   ], fontProperties = keySet(fontProperties_);
 
   var counterDescriptors_ = [
@@ -57369,7 +57414,7 @@ var PropTypes = __webpack_require__(10);
 
 function Table(props) {
   var children = props.children;
-  return React.createElement("table", null, children);
+  return /*#__PURE__*/React.createElement("table", null, children);
 }
 
 Table.propTypes = {
@@ -57442,7 +57487,9 @@ function Anchor(props) {
       href = props.href,
       target = props.target,
       title = props.title;
-  return (// eslint-disable-next-line react/jsx-props-no-spreading
+  return (
+    /*#__PURE__*/
+    // eslint-disable-next-line react/jsx-props-no-spreading
     React.createElement("a", _extends({
       href: getHref(href, baseUrl),
       target: target,
@@ -57466,8 +57513,8 @@ Anchor.defaultProps = {
 };
 
 var AnchorContext = function AnchorContext(props) {
-  return React.createElement(BaseUrlContext.Consumer, null, function (baseUrl) {
-    return React.createElement(Anchor, _extends({
+  return /*#__PURE__*/React.createElement(BaseUrlContext.Consumer, null, function (baseUrl) {
+    return /*#__PURE__*/React.createElement(Anchor, _extends({
       baseUrl: baseUrl
     }, props));
   });
@@ -57527,13 +57574,15 @@ function Heading(props) {
   var id = "section-".concat(generateHeadingId(props.children[0], props.anchors));
   return React.createElement(props.tag, {
     className: 'heading header-scroll'
-  }, [React.createElement("div", {
+  }, [/*#__PURE__*/React.createElement("div", {
     key: "anchor-".concat(id),
     className: "anchor waypoint",
     id: id
-  }), React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     key: "heading-text-".concat(id)
-  }, props.children), // eslint-disable-next-line jsx-a11y/anchor-has-content
+  }, props.children),
+  /*#__PURE__*/
+  // eslint-disable-next-line jsx-a11y/anchor-has-content
   React.createElement("a", {
     key: "anchor-icon-".concat(id),
     className: "fa fa-anchor",
@@ -57544,7 +57593,7 @@ function Heading(props) {
 function CreateHeading(level, anchors) {
   // eslint-disable-next-line react/display-name
   return function (props) {
-    return React.createElement(Heading, _extends({}, props, {
+    return /*#__PURE__*/React.createElement(Heading, _extends({}, props, {
       anchors: anchors,
       tag: "h".concat(level)
     }));
@@ -57635,10 +57684,12 @@ var Callout = function Callout(props) {
 
   var theme = props.theme,
       title = props.title;
-  return (// eslint-disable-next-line react/jsx-props-no-spreading
+  return (
+    /*#__PURE__*/
+    // eslint-disable-next-line react/jsx-props-no-spreading
     React.createElement("blockquote", _extends({}, attributes, {
       className: "callout callout_".concat(theme)
-    }), React.createElement("h3", {
+    }), /*#__PURE__*/React.createElement("h3", {
       className: [!title && 'floated']
     }, children), content)
   );
@@ -57743,24 +57794,26 @@ var CodeTabs = function CodeTabs(props) {
     target.classList.add('CodeTabs_active');
   }
 
-  return (// eslint-disable-next-line react/jsx-props-no-spreading
+  return (
+    /*#__PURE__*/
+    // eslint-disable-next-line react/jsx-props-no-spreading
     React.createElement("div", _extends({}, attributes, {
       className: "CodeTabs CodeTabs_initial"
-    }), React.createElement("div", {
+    }), /*#__PURE__*/React.createElement("div", {
       className: "CodeTabs-toolbar"
     }, children.map(function (_ref2, i) {
       var pre = _ref2.props;
       var _pre$children$0$props = pre.children[0].props,
           meta = _pre$children$0$props.meta,
           lang = _pre$children$0$props.lang;
-      return React.createElement("button", {
+      return /*#__PURE__*/React.createElement("button", {
         key: i,
         onClick: function onClick(e) {
           return handleClick(e, i);
         },
         type: "button"
       }, meta || "(".concat(lang || 'plaintext', ")"));
-    })), React.createElement("div", {
+    })), /*#__PURE__*/React.createElement("div", {
       className: "CodeTabs-inner"
     }, children))
   );
@@ -57829,11 +57882,15 @@ module.exports = exports;
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -57857,15 +57914,15 @@ var Image = function Image(props) {
     width: width,
     height: height
   };
-  if (props.caption) return React.createElement("figure", _extends({}, extras, {
+  if (props.caption) return /*#__PURE__*/React.createElement("figure", _extends({}, extras, {
     style: {
       width: extras.width
     }
-  }), React.createElement("img", _extends({}, props, {
+  }), /*#__PURE__*/React.createElement("img", _extends({}, props, {
     alt: props.alt,
     title: title
-  })), React.createElement("figcaption", null, props.caption));
-  return React.createElement("img", _extends({}, props, {
+  })), /*#__PURE__*/React.createElement("figcaption", null, props.caption));
+  return /*#__PURE__*/React.createElement("img", _extends({}, props, {
     alt: props.alt,
     title: title
   }, extras));
@@ -57907,9 +57964,13 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -57924,18 +57985,20 @@ var propTypes = __webpack_require__(10);
 var Embed = /*#__PURE__*/function (_React$Component) {
   _inherits(Embed, _React$Component);
 
+  var _super = _createSuper(Embed);
+
   function Embed() {
     _classCallCheck(this, Embed);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Embed).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Embed, [{
     key: "render",
     value: function render() {
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: "embed"
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         className: "embed-media",
         dangerouslySetInnerHTML: {
           __html: this.props.html
@@ -57961,11 +58024,15 @@ module.exports = function () {
 /* 428 */
 /***/ (function(module, exports) {
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -58040,19 +58107,23 @@ module.exports.sanitize = function (sanitizeSchema) {
 /* 429 */
 /***/ (function(module, exports) {
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -58119,11 +58190,15 @@ module.exports.sanitize = function (sanitizeSchema) {
 /* 430 */
 /***/ (function(module, exports) {
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -58193,19 +58268,23 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
