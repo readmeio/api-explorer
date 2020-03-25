@@ -68,6 +68,31 @@ module.exports =
 /* 0 */
 /***/ (function(module, exports) {
 
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -252,31 +277,6 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = extend
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-function extend() {
-    var target = {}
-
-    for (var i = 0; i < arguments.length; i++) {
-        var source = arguments[i]
-
-        for (var key in source) {
-            if (hasOwnProperty.call(source, key)) {
-                target[key] = source[key]
-            }
-        }
-    }
-
-    return target
-}
 
 
 /***/ }),
@@ -10085,7 +10085,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(167);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 5 */
@@ -10309,7 +10309,7 @@ if (process.env.NODE_ENV !== 'production') {
   module.exports = __webpack_require__(391)();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 11 */
@@ -14240,7 +14240,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(377);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 35 */
@@ -15647,7 +15647,7 @@ checkPropTypes.resetWarningCache = function() {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 54 */
@@ -15956,7 +15956,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 55 */
@@ -16389,7 +16389,7 @@ module.exports = PositionTrackingPreprocessorMixin;
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var Schema = __webpack_require__(64)
 
 module.exports = merge
@@ -16719,7 +16719,7 @@ function ariaTransform(_, prop) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var Schema = __webpack_require__(75)
 
 module.exports = merge
@@ -17271,7 +17271,7 @@ module.exports = merge([xml, xlink, xmlns, aria, html])
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var Schema = __webpack_require__(87)
 
 module.exports = merge
@@ -17731,7 +17731,7 @@ module.exports = ["area","base","basefont","bgsound","br","col","command","embed
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var inherits = __webpack_require__(252)
 
 module.exports = unherit
@@ -18293,7 +18293,7 @@ function label(node) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var Schema = __webpack_require__(121)
 
 module.exports = merge
@@ -19016,7 +19016,7 @@ function all(ctx, parent) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var entities = __webpack_require__(44)
 
 module.exports = text
@@ -19043,7 +19043,7 @@ function isLiteral(node) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var Schema = __webpack_require__(141)
 
 module.exports = merge
@@ -19474,7 +19474,7 @@ checkPropTypes.resetWarningCache = function() {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 152 */
@@ -19489,7 +19489,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(381);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 153 */
@@ -19504,7 +19504,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(389);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 154 */
@@ -19519,7 +19519,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(396);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 155 */
@@ -21744,23 +21744,14 @@ module.exports = __webpack_require__(161);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["normalize"] = normalize;
+/* harmony export (immutable) */ __webpack_exports__["normalize"] = normalize;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return utils; });
 /* harmony export (immutable) */ __webpack_exports__["plain"] = plain;
 /* harmony export (immutable) */ __webpack_exports__["react"] = react;
 /* harmony export (immutable) */ __webpack_exports__["html"] = html;
 /* harmony export (immutable) */ __webpack_exports__["ast"] = ast;
 /* harmony export (immutable) */ __webpack_exports__["md"] = md;
-// There's a bug in jsdom where Jest spits out heaps of errors from it not being able to interpret
-// this file, so let's not include this when running tests since we aren't doing visual testing
-// anyways.
-// https://github.com/jsdom/jsdom/issues/217
-
-/* istanbul ignore next */
-if (process.env.NODE_ENV !== 'test') {
-  // eslint-disable-next-line global-require
-  __webpack_require__(162);
-}
+__webpack_require__(162);
 
 var React = __webpack_require__(4);
 
@@ -21984,7 +21975,6 @@ var ReadMeMarkdown = function ReadMeMarkdown(text) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ReadMeMarkdown);
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 162 */
@@ -24008,7 +23998,7 @@ exports.version = ReactVersion;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 168 */
@@ -25010,7 +25000,7 @@ function assertPath(path, name) {
   }
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 175 */
@@ -25297,7 +25287,7 @@ module.exports = __webpack_require__(183)
 
 module.exports = toHast
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var u = __webpack_require__(5)
 var visit = __webpack_require__(184)
 var position = __webpack_require__(36)
@@ -26377,7 +26367,7 @@ var toParse5 = __webpack_require__(244)
 var voids = __webpack_require__(100)
 var ns = __webpack_require__(21)
 var zwitch = __webpack_require__(99)
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 
 module.exports = wrap
 
@@ -31566,7 +31556,7 @@ var find = __webpack_require__(233)
 var ns = __webpack_require__(21)
 var s = __webpack_require__(234)
 var h = __webpack_require__(240)
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var count = __webpack_require__(41)
 
 module.exports = wrapper
@@ -33896,7 +33886,7 @@ module.exports = create({
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var html = __webpack_require__(85)
 var svg = __webpack_require__(97)
 var find = __webpack_require__(98)
@@ -35944,7 +35934,7 @@ function ok() {
 
 
 var unherit = __webpack_require__(101)
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var Parser = __webpack_require__(253)
 
 module.exports = parse
@@ -35996,7 +35986,7 @@ if (typeof Object.create === 'function') {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var toggle = __webpack_require__(102)
 var vfileLocation = __webpack_require__(254)
 var unescape = __webpack_require__(255)
@@ -36276,7 +36266,7 @@ function factory(ctx, key) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var entities = __webpack_require__(31)
 
 module.exports = factory
@@ -36705,7 +36695,7 @@ function mergeBlockquote(prev, node) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var escapes = __webpack_require__(107)
 var defaults = __webpack_require__(108)
 
@@ -36835,7 +36825,7 @@ module.exports = [
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var removePosition = __webpack_require__(263)
 
 module.exports = parse
@@ -40995,7 +40985,7 @@ function text(eat, value, silent) {
 
 
 var unherit = __webpack_require__(101)
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var Compiler = __webpack_require__(300)
 
 module.exports = stringify
@@ -41019,7 +41009,7 @@ function stringify(options) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var toggle = __webpack_require__(102)
 
 module.exports = Compiler
@@ -41129,7 +41119,7 @@ function enter(compiler, node) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var encode = __webpack_require__(44)
 var defaults = __webpack_require__(115)
 var escapeFactory = __webpack_require__(305)
@@ -43345,7 +43335,7 @@ module.exports = __webpack_require__(345)
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var defaults = __webpack_require__(346)
 
 module.exports = wrapper
@@ -43732,7 +43722,7 @@ module.exports = {"strip":["script"],"clobberPrefix":"user-content-","clobber":[
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var toHTML = __webpack_require__(348)
 
 module.exports = stringify
@@ -44879,7 +44869,7 @@ function place(parent, child) {
 "use strict";
 
 
-var xtend = __webpack_require__(1)
+var xtend = __webpack_require__(0)
 var svg = __webpack_require__(131)
 var find = __webpack_require__(358)
 var spaces = __webpack_require__(28).stringify
@@ -49117,7 +49107,7 @@ exports.version = ReactVersion;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 378 */
@@ -49202,7 +49192,7 @@ if (process.env.NODE_ENV !== 'production') {
   module.exports = __webpack_require__(383)();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 380 */
@@ -49459,7 +49449,7 @@ exports.isSuspense = isSuspense;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 382 */
@@ -50058,7 +50048,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 383 */
@@ -50469,7 +50459,7 @@ exports.isSuspense = isSuspense;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 390 */
@@ -51068,7 +51058,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 391 */
@@ -53163,7 +53153,7 @@ exports.version = ReactVersion;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 397 */
@@ -53273,7 +53263,7 @@ checkPropTypes.resetWarningCache = function() {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 398 */
@@ -57538,20 +57528,11 @@ module.exports = React.createContext('/');
 /* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-// There's a bug in jsdom where Jest spits out heaps of errors from it not being able to interpret
-// this file, so let's not include this when running tests since we aren't doing visual testing
-// anyways.
-// https://github.com/jsdom/jsdom/issues/217
-
-/* istanbul ignore next */
-if (process.env.NODE_ENV !== 'test') {
-  // eslint-disable-next-line global-require
-  __webpack_require__(418);
-}
+__webpack_require__(418);
 
 var React = __webpack_require__(4);
 
@@ -57609,7 +57590,6 @@ Heading.propTypes = {
 module.exports = function (level, anchors) {
   return CreateHeading(level, anchors);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 418 */
@@ -57657,18 +57637,9 @@ module.exports = exports;
 /* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-// There's a bug in jsdom where Jest spits out heaps of errors from it not being able to interpret
-// this file, so let's not include this when running tests since we aren't doing visual testing
-// anyways.
-// https://github.com/jsdom/jsdom/issues/217
-
-/* istanbul ignore next */
-if (process.env.NODE_ENV !== 'test') {
-  // eslint-disable-next-line global-require
-  __webpack_require__(421);
-}
+__webpack_require__(421);
 
 var React = __webpack_require__(4);
 
@@ -57713,7 +57684,6 @@ module.exports = function (sanitizeSchema) {
   sanitizeSchema.attributes['rdme-callout'] = ['icon', 'theme', 'title', 'value'];
   return Callout;
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 421 */
@@ -57761,18 +57731,9 @@ module.exports = exports;
 /* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-// There's a bug in jsdom where Jest spits out heaps of errors from it not being able to interpret
-// this file, so let's not include this when running tests since we aren't doing visual testing
-// anyways.
-// https://github.com/jsdom/jsdom/issues/217
-
-/* istanbul ignore next */
-if (process.env.NODE_ENV !== 'test') {
-  // eslint-disable-next-line global-require
-  __webpack_require__(424);
-}
+__webpack_require__(424);
 
 var React = __webpack_require__(4);
 
@@ -57832,7 +57793,6 @@ module.exports = function ()
 {
   return CodeTabs;
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 424 */
