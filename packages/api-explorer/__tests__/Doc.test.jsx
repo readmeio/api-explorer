@@ -28,7 +28,6 @@ const props = {
   onAuthChange: () => {},
   onAuthGroupChange: () => {},
   setLanguage: () => {},
-  onDocRender: () => {},
   suggestedEdits: false,
   tryItMetrics: () => {},
 };
@@ -40,7 +39,7 @@ function assertDocElements(component, doc) {
 }
 
 test('should output a div', () => {
-  const doc = shallow(<Doc {...props} rendered={true} />);
+  const doc = shallow(<Doc {...props} />);
 
   doc.setState({ showEndpoint: true });
 
@@ -73,8 +72,6 @@ test('should render a manual endpoint', () => {
   const manualProps = JSON.parse(JSON.stringify(props));
   manualProps.onAuthChange = () => {};
   manualProps.onAuthGroupChange = () => {};
-  manualProps.onRender = () => {};
-  manualProps.onDocRender = () => {};
   manualProps.setLanguage = () => {};
   manualProps.tryItMetrics = () => {};
 
@@ -116,8 +113,6 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       oauth={false}
       onAuthChange={() => {}}
       onAuthGroupChange={() => {}}
-      onDocRender={() => {}}
-      rendered={true}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}
@@ -142,8 +137,6 @@ test('should still display `Content` with column-style layout', () => {
       oauth={false}
       onAuthChange={() => {}}
       onAuthGroupChange={() => {}}
-      onDocRender={() => {}}
-      rendered={true}
       setLanguage={() => {}}
       suggestedEdits
       tryItMetrics={() => {}}

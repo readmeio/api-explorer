@@ -21,7 +21,6 @@ class ApiExplorer extends React.Component {
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
     this.onAuthChange = this.onAuthChange.bind(this);
-    this.onDocRender = this.onDocRender.bind(this);
 
     this.state = {
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
@@ -31,7 +30,6 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      docRenderMap: {},
     };
 
     this.onAuthGroupChange = this.onAuthGroupChange.bind(this);
@@ -111,16 +109,6 @@ class ApiExplorer extends React.Component {
       group,
       auth: getAuth(user, this.props.oasFiles, groupName),
     });
-  }
-
-  onDocRender(slug) {
-    if (!(slug in this.state.docRenderMap)) {
-      this.setState(prevState => {
-        const docRenderMap = { ...prevState.docRenderMap };
-        docRenderMap[slug] = true;
-        return { docRenderMap };
-      });
-    }
   }
 
   isLazy(index) {
@@ -225,9 +213,7 @@ class ApiExplorer extends React.Component {
                         oauth={this.props.oauth}
                         onAuthChange={this.onAuthChange}
                         onAuthGroupChange={this.onAuthGroupChange}
-                        onDocRender={this.onDocRender}
                         onError={this.props.onError}
-                        rendered={this.state.docRenderMap[doc.slug]}
                         setLanguage={this.setLanguage}
                         suggestedEdits={this.props.suggestedEdits}
                         tryItMetrics={this.props.tryItMetrics}
