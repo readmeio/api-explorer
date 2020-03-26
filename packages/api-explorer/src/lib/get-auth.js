@@ -18,7 +18,7 @@ function getKey(user, scheme) {
 }
 
 function getSingle(user, scheme = {}, selectedApp = false) {
-  if (user.keys) {
+  if (user.keys && user.keys.length) {
     if (selectedApp) {
       return getKey(
         user.keys.find(key => key.name === selectedApp),

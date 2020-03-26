@@ -50,7 +50,11 @@ class ApiExplorer extends React.Component {
   }
 
   getGroup() {
-    if (this.props.variables.user.keys && this.props.variables.user.keys[0].id) {
+    if (
+      this.props.variables.user.keys &&
+      this.props.variables.user.keys.length &&
+      this.props.variables.user.keys[0].id
+    ) {
       return this.props.variables.user.keys[0].id;
     }
 
