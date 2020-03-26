@@ -255,7 +255,6 @@ class Doc extends React.Component {
 
   renderEndpoint() {
     const { doc, maskErrorMessages, onError } = this.props;
-    this.props.onDocRender(doc.slug);
 
     return (
       <ErrorBoundary appContext="endpoint" maskErrorMessages={maskErrorMessages} onError={onError}>
@@ -365,9 +364,6 @@ class Doc extends React.Component {
         </div>
 
         {renderEndpoint()}
-        {!this.props.rendered && (
-          <Content body={doc.body} flags={this.props.flags} isThreeColumn useNewMarkdownEngine={useNewMarkdownEngine} />
-        )}
         {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
@@ -428,9 +424,7 @@ Doc.propTypes = {
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
   onAuthGroupChange: PropTypes.func.isRequired,
-  onDocRender: PropTypes.func.isRequired,
   onError: PropTypes.func,
-  rendered: PropTypes.bool,
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
@@ -454,7 +448,6 @@ Doc.defaultProps = {
   maskErrorMessages: true,
   oas: {},
   onError: () => {},
-  rendered: false,
   useNewMarkdownEngine: false,
   user: {},
 };
