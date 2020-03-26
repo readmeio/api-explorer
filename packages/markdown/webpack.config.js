@@ -21,11 +21,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ['isomorphic-style-loader', 'css-loader'],
+        loader: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
-        loaders: ['isomorphic-style-loader', 'css-loader', 'sass-loader'],
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         // eslint-disable-next-line unicorn/no-unsafe-regex

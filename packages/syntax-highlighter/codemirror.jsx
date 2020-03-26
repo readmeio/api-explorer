@@ -1,5 +1,4 @@
-const CodeMirror =
-  typeof window === 'undefined' ? require('codemirror/addon/runmode/runmode.node.js') : require('codemirror');
+const CodeMirror = require('codemirror');
 const React = require('react');
 const Variable = require('@readme/variable');
 const modes = require('./modes');
