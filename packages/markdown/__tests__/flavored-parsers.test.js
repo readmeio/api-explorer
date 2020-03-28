@@ -4,7 +4,7 @@ const rehypeSanitize = require('rehype-sanitize');
 
 const parseCallouts = require('../processor/parse/flavored/callout');
 const parseCodeTabs = require('../processor/parse/flavored/code-tabs');
-const options = require('../processor/options.json').markdownOptions;
+const options = require('../options.json').markdownOptions;
 
 const sanitize = { attributes: [], tagNames: [] };
 const process = (text, opts = options) =>
