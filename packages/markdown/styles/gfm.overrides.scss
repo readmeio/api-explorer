@@ -57,6 +57,9 @@
     background: #eeeeee;
     overflow: hidden;
     border-radius: 3px;
+    &:empty {
+      display: none;
+    }
     &-media {
       display: flex;
       justify-content: center;

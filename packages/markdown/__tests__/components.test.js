@@ -94,11 +94,14 @@ world
     const wrap = mount(
       markdown.react('[Embed Title](https://gist.github.com/chaddy81/f852004d6d1510eec1f6 "@jsfiddle")')
     );
-    expect(wrap.html()).toBe('<div class="embed"><div class="embed-media"></div></div>');
+    expect(wrap.html()).toMatchSnapshot();
   });
 
   it('Heading', () => {
     const wrap = mount(markdown.react('### Heading Level 3\n\n### Heading Level 3'));
     expect(wrap.find('Heading')).toHaveLength(2);
+
+    const blank = mount(markdown.react('Pretest.\n\n###\n\nPosttest.'));
+    expect(blank.find('Heading').text()).toBe('');
   });
 });

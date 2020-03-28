@@ -3,7 +3,7 @@ const React = require('react');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../index');
-const settings = require('../processor/options.json');
+const settings = require('../options.json');
 
 test('image', () => {
   expect(mount(markdown.default('![Image](http://example.com/image.png)', settings)).html()).toMatchSnapshot();
@@ -193,7 +193,7 @@ test('should strip dangerous iframe tag', () => {
 
 test('should strip dangerous img attributes', () => {
   expect(mount(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html()).toBe(
-    '<img src="x" alt="" caption="" height="auto" width="auto">'
+    '<img src="x" align="" alt="" caption="" height="auto" title="" width="auto">'
   );
 });
 

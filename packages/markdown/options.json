@@ -1,5 +1,5 @@
 {
-  "correctnewlines": true,
+  "correctnewlines": false,
   "markdownOptions": {
     "fences": true,
     "commonmark": true,

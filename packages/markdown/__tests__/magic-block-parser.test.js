@@ -3,7 +3,7 @@ const remarkParse = require('remark-parse');
 const rehypeSanitize = require('rehype-sanitize');
 
 const parser = require('../processor/parse/magic-block-parser');
-const options = require('../processor/options.json').markdownOptions;
+const options = require('../options.json').markdownOptions;
 
 const sanitize = { attributes: [] };
 const process = (text, opts = options) =>

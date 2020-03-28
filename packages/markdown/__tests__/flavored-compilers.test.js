@@ -6,7 +6,7 @@ const rehypeSanitize = require('rehype-sanitize');
 const parseCallouts = require('../processor/parse/flavored/callout');
 const parseCodeTabs = require('../processor/parse/flavored/code-tabs');
 const parseEmbeds = require('../processor/parse/flavored/embed');
-const options = require('../processor/options.json').markdownOptions;
+const options = require('../options.json').markdownOptions;
 const parser = require('../processor/parse/magic-block-parser');
 
 const DivCompiler = require('../processor/compile/div');

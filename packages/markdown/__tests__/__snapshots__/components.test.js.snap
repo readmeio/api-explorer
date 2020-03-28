@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components Embed 1`] = `"<div class=\\"embed\\"><a href=\\"https://gist.github.com/chaddy81/f852004d6d1510eec1f6\\" rel=\\"noopener noreferrer\\" style=\\"display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-decoration: none;\\" target=\\"_blank\\"><b style=\\"color: rgb(51, 51, 51);\\">View Embed:</b> <span style=\\"opacity: 0.75;\\">https://gist.github.com/chaddy81/f852004d6d1510eec1f6</span></a></div>"`;
