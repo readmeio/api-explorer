@@ -9,10 +9,20 @@ function tokenizer(eat, value) {
     .split('```')
     .filter(val => val.trim())
     .map(val => {
+      /**
+       * For each of our adjacent code blocks we'll:
+       * 1) normalize any unbalanced tilde wrappers
+       * 2) split the matching block in to three parts:
+       *    - syntax [lang] extension
+       *    - [meta] tab name (optional)
+       *    - the [code] snippet text
+       * @todo: radically shit; simplify this assignment/manipulation logic
+       */
       // eslint-disable-next-line no-param-reassign
       val = ['```', val.replace('```', ''), '```'].join('');
       // eslint-disable-next-line unicorn/no-unsafe-regex
-      const [, lang, meta = null, code = ''] = /```(\w+)?(?: ([\w-.]+))?\s?([^]+)```/gm.exec(val);
+      const [, lang, meta = null, code = ''] = /```([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
+
       return {
         type: 'code',
         className: 'tab-panel',

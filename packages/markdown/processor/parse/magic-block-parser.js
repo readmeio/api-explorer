@@ -95,7 +95,7 @@ function tokenize(eat, value) {
       const types = {
         info: ['ℹ', 'info'],
         success: ['👍', 'okay'],
-        warning: ['⚠️', 'warn'],
+        warning: ['🚧', 'warn'],
         danger: ['❗️', 'error'],
       };
       json.type = json.type in types ? types[json.type] : [json.icon || '👍', json.type];
@@ -148,7 +148,7 @@ function tokenize(eat, value) {
       const table = {
         type: 'table',
         align: 'align' in json ? json.align : new Array(json.cols).fill('left'),
-        children: children.filter(v => v || false),
+        children: children.filter(v => v || ' '),
       };
       return eat(match)(WrapPinnedBlocks(table, json));
     }

@@ -5,7 +5,24 @@ class Embed extends React.Component {
   render() {
     return (
       <div className="embed">
-        <div className="embed-media" dangerouslySetInnerHTML={{ __html: this.props.html }}></div>
+        {this.props.html ? (
+          <div className="embed-media" dangerouslySetInnerHTML={{ __html: this.props.html }}></div>
+        ) : (
+          <a
+            href={this.props.url}
+            rel="noopener noreferrer"
+            style={{
+              display: 'block',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              textDecoration: 'none',
+            }}
+            target="_blank"
+          >
+            <b style={{ color: '#333' }}>View Embed:</b> <span style={{ opacity: 0.75 }}>{this.props.url}</span>
+          </a>
+        )}
       </div>
     );
   }

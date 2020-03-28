@@ -72,9 +72,5 @@ module.exports = parser;
 module.exports.sanitize = sanitizeSchema => {
   // This is for font awesome gemoji codes
   sanitizeSchema.attributes.i = ['className'];
-
-  // This is for `emoji` class name
-  sanitizeSchema.attributes.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src'];
-
   return parser;
 };

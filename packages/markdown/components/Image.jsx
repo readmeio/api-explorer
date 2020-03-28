@@ -4,16 +4,16 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const Image = props => {
-  const [title, align, width = 'auto', height = 'auto'] = props.title ? props.title.split(', ') : [];
+  const { align, title, alt, width, height, caption } = props;
   const extras = { align, width, height };
-  if (props.caption)
+  if (caption)
     return (
-      <figure {...extras} style={{ width: extras.width }}>
-        <img {...props} alt={props.alt} title={title} />
-        <figcaption>{props.caption}</figcaption>
+      <figure {...extras} style={{ width }}>
+        <img {...props} alt={alt} title={title} {...extras} />
+        <figcaption>{caption}</figcaption>
       </figure>
     );
-  return <img {...props} alt={props.alt} title={title} {...extras} />;
+  return <img {...props} alt={alt} title={title} {...extras} />;
 };
 
 Image.propTypes = {
@@ -30,13 +30,23 @@ Image.defaultProps = {
   align: '',
   alt: '',
   caption: '',
-  height: '',
+  height: 'auto',
   src: '',
   title: '',
-  width: '',
+  width: 'auto',
 };
 
 module.exports = sanitizeSchema => {
-  sanitizeSchema.attributes.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src', 'caption'];
+  sanitizeSchema.attributes.img = [
+    'className',
+    'title',
+    'alt',
+    'width',
+    'height',
+    'align',
+    'src',
+    'caption',
+    'longDesc',
+  ];
   return Image;
 };

@@ -14,6 +14,7 @@ function tokenizer(eat, value) {
   const style = {
     ℹ️: 'info',
     '⚠️': 'warn',
+    '🚧': 'warn',
     '👍': 'okay',
     '✅': 'okay',
     '❗️': 'error',

@@ -19,6 +19,15 @@
     > :not(.pin) {
       display: none !important;
     }
+    > .pin {
+      .reference-layout-column & {
+        color: #bbbec1;
+        p { color: inherit !important }
+        > .CodeTabs, > pre {
+          filter: invert(.9) !important;
+        }
+      }
+    }
   }
   .hub-reference-theme-column & {
     & {

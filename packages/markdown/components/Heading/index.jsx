@@ -18,12 +18,15 @@ function generateHeadingId(e, anchors) {
 }
 
 function Heading(props) {
+  if (!props.children) return '';
   const id = `section-${generateHeadingId(props.children[0], props.anchors)}`;
   return React.createElement(props.tag, { className: 'heading header-scroll' }, [
-    <div key={`anchor-${id}`} className="anchor waypoint" id={id} />,
-    <div key={`heading-text-${id}`}>{props.children}</div>,
+    <div key={`heading-anchor-${id}`} className="heading-anchor anchor waypoint" id={id} />,
+    <div key={`heading-text-${id}`} className="heading-text">
+      {props.children}
+    </div>,
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    <a key={`anchor-icon-${id}`} className="fa fa-anchor" href={`#${id}`} />,
+    <a key={`heading-anchor-icon-${id}`} className="heading-anchor-icon fa fa-anchor" href={`#${id}`} />,
   ]);
 }
 

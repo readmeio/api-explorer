@@ -51,10 +51,13 @@ const rdmeCalloutCompiler = require('./processor/compile/callout');
 const rdmePinCompiler = require('./processor/compile/pin');
 
 // Processor Option Defaults
-const options = require('./processor/options.json');
+const options = require('./options.json');
 
 // Sanitization Schema Defaults
 sanitize.clobberPrefix = '';
+
+sanitize.tagNames.push('span');
+sanitize.attributes['*'].push('class', 'className');
 
 sanitize.tagNames.push('rdme-pin');
 
@@ -79,10 +82,10 @@ export function normalize(blocks) {
   // normalize magic block lines
   // eslint-disable-next-line no-param-reassign
   blocks = blocks
-    .replace(/\[block:/g, '\n[block:')
+    .replace(/\[block:/g, '\n\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
     .trim()
-    .replace(/^(#+)(.+)/gm, '$1 $2');
+    .replace(/^(#+)(.+\n\n)/gm, '$1 $2');
   return `${blocks}\n\n `;
 }
 
