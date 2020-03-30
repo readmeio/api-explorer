@@ -62,7 +62,7 @@
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-hot-loader": "^4.12.16",
-    "swagger2openapi": "^5.3.1",
+    "swagger2openapi": "^6.0.1",
     "whatwg-fetch": "^3.0.0"
   },
   "prettier": "@readme/eslint-config/prettier"
