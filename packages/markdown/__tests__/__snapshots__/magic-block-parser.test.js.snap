@@ -7,6 +7,37 @@ Object {
 }
 `;
 
+exports[`Blank Magic Blocks 2`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": "",
+      "depth": 2,
+      "type": "heading",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Blank Magic Blocks 3`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "No Level",
+        },
+      ],
+      "depth": 2,
+      "type": "heading",
+    },
+  ],
+  "type": "root",
+}
+`;
+
 exports[`Parse Magic Blocks Callout Blocks 1`] = `
 Object {
   "children": Array [

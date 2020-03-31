@@ -16,9 +16,20 @@ const process = (text, opts = options) =>
     .parse(text);
 
 test('Blank Magic Blocks', () => {
-  const text = `[block:api-header]
+  const blank = `[block:api-header]
+  {}
   [/block]`;
-  expect(process(text)).toMatchSnapshot();
+  expect(process(blank)).toMatchSnapshot();
+
+  const noTitle = `[block:api-header]
+  { "level": 2 }
+  [/block]`;
+  expect(process(noTitle)).toMatchSnapshot();
+
+  const noLevel = `[block:api-header]
+  { "title": "No Level" }
+  [/block]`;
+  expect(process(noLevel)).toMatchSnapshot();
 });
 
 test('Sanitize Schema', () => {

@@ -3,19 +3,6 @@ const PropTypes = require('prop-types');
 // const syntaxHighlighter = require('@readme/syntax-highlighter');
 
 class CodeClass extends React.Component {
-  static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.string).isRequired,
-    className: PropTypes.string,
-    lang: PropTypes.string,
-    meta: PropTypes.string,
-  }
-
-  static defaultProps = {
-    className: '',
-    lang: '',
-    meta: '',
-  }
-
   render() {
     const { className, children, lang, meta } = this.props;
     const language = (className || '').replace('language-', '');
@@ -27,6 +14,19 @@ class CodeClass extends React.Component {
     );
   }
 }
+
+CodeClass.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.string).isRequired,
+  className: PropTypes.string,
+  lang: PropTypes.string,
+  meta: PropTypes.string,
+};
+
+CodeClass.defaultProps = {
+  className: '',
+  lang: '',
+  meta: '',
+};
 
 module.exports = sanitizeSchema => {
   // This is for code blocks class name

@@ -85,9 +85,7 @@ world
 
     wrap.find('button').last().simulate('click').simulate('click');
 
-    expect(wrap.html()).toBe(
-      '<div class="CodeTabs"><div class="CodeTabs-toolbar"><button type="button">(plaintext)</button><button type="button" class="CodeTabs_active">(plaintext)</button></div><div class="CodeTabs-inner"><pre><code data-lang="" name=""><span class="cm-s-neo">hello\n</span></code></pre><pre class="CodeTabs_active"><code data-lang="" name=""><span class="cm-s-neo">world\n</span></code></pre></div></div>'
-    );
+    expect(wrap.html()).toMatchSnapshot();
   });
 
   it('Embed', () => {
