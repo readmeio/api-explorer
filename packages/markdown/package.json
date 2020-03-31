@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "watch": "webpack -w --progress",
+    "watch": "webpack -w --progress --mode development",
     "lint": "eslint . --ext .jsx --ext .js",
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run prettier && npm run inspect",
