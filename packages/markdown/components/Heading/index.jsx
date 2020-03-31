@@ -1,4 +1,4 @@
-require('./style.scss');
+// require('./style.scss');
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -17,10 +17,14 @@ function generateHeadingId(e, anchors) {
   return id;
 }
 
-function Heading(props) {
+function Heading({ tag, ...props }) {
   if (!props.children) return '';
   const id = `section-${generateHeadingId(props.children[0], props.anchors)}`;
-  return React.createElement(props.tag, { className: 'heading header-scroll' }, [
+  const attrs = {
+    className: `heading heading-${props.level} header-scroll`,
+    align: props.align,
+  };
+  return React.createElement(tag, attrs, [
     <div key={`heading-anchor-${id}`} className="heading-anchor anchor waypoint" id={id} />,
     <div key={`heading-text-${id}`} className="heading-text">
       {props.children}
@@ -32,13 +36,19 @@ function Heading(props) {
 
 function CreateHeading(level, anchors) {
   // eslint-disable-next-line react/display-name
-  return props => <Heading {...props} anchors={anchors} tag={`h${level}`} />;
+  return props => <Heading {...props} anchors={anchors} level={level} tag={`h${level}`} />;
 }
 
 Heading.propTypes = {
+  align: PropTypes.oneOf(['left', 'center', 'right', '']),
   anchors: PropTypes.object,
   children: PropTypes.array.isRequired,
+  level: PropTypes.number,
   tag: PropTypes.string.isRequired,
+};
+Heading.defaultProps = {
+  align: '',
+  level: 2,
 };
 
 module.exports = (level, anchors) => CreateHeading(level, anchors);

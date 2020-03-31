@@ -1,5 +1,3 @@
-require('./styles/main.scss');
-
 const React = require('react');
 const unified = require('unified');
 
@@ -22,33 +20,29 @@ const rehypeReact = require('rehype-react');
 /* React Custom Components
  */
 const Variable = require('@readme/variable');
-const GlossaryItem = require('./components/GlossaryItem');
-const Code = require('./components/Code');
-const Table = require('./components/Table');
-const Anchor = require('./components/Anchor');
-const Heading = require('./components/Heading');
-const Callout = require('./components/Callout');
-const CodeTabs = require('./components/CodeTabs');
-const Image = require('./components/Image');
-const Embed = require('./components/Embed');
+const { GlossaryItem, Code, Table, Anchor, Heading, Callout, CodeTabs, Image, Embed } = require('./components');
 
 /* Custom Unified Parsers
  */
-const flavorCodeTabs = require('./processor/parse/flavored/code-tabs');
-const flavorCallout = require('./processor/parse/flavored/callout');
-const flavorEmbed = require('./processor/parse/flavored/embed');
-const magicBlockParser = require('./processor/parse/magic-block-parser');
-const variableParser = require('./processor/parse/variable-parser');
-const gemojiParser = require('./processor/parse/gemoji-parser');
+const {
+  flavorCodeTabs,
+  flavorCallout,
+  flavorEmbed,
+  magicBlockParser,
+  variableParser,
+  gemojiParser,
+} = require('./processor/parse');
 
 /* Custom Unified Compilers
  */
-const rdmeDivCompiler = require('./processor/compile/div');
-const codeTabsCompiler = require('./processor/compile/code-tabs');
-const rdmeEmbedCompiler = require('./processor/compile/embed');
-const rdmeVarCompiler = require('./processor/compile/var');
-const rdmeCalloutCompiler = require('./processor/compile/callout');
-const rdmePinCompiler = require('./processor/compile/pin');
+const {
+  rdmeDivCompiler,
+  codeTabsCompiler,
+  rdmeEmbedCompiler,
+  rdmeVarCompiler,
+  rdmeCalloutCompiler,
+  rdmePinCompiler,
+} = require('./processor/compile');
 
 // Processor Option Defaults
 const options = require('./options.json');
@@ -57,7 +51,7 @@ const options = require('./options.json');
 sanitize.clobberPrefix = '';
 
 sanitize.tagNames.push('span');
-sanitize.attributes['*'].push('class', 'className');
+sanitize.attributes['*'].push('class', 'className', 'align');
 
 sanitize.tagNames.push('rdme-pin');
 
@@ -99,7 +93,7 @@ export const utils = {
 /**
  * Core markdown text processor
  */
-function parseMarkdown(opts = {}) {
+export function processor(opts = {}) {
   /*
    * This is kinda complicated: "markdown" within ReadMe is
    * often more than just markdown. It can also include HTML,
@@ -131,12 +125,13 @@ function parseMarkdown(opts = {}) {
     .use(rehypeSanitize, sanitize);
 }
 
-export function plain(text, opts = options) {
+export function plain(text, opts = options, components = {}) {
   if (!text) return null;
-  return parseMarkdown(opts)
+  return processor(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
       Fragment: React.Fragment,
+      components,
     })
     .processSync(opts.normalize ? normalize(text) : text).contents;
 }
@@ -144,18 +139,18 @@ export function plain(text, opts = options) {
 /**
  *  return a React VDOM component tree
  */
-export function react(text, opts = options) {
+export function react(text, opts = options, components = {}) {
   if (!text) return null;
 
   // eslint-disable-next-line react/prop-types
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
   const count = {};
 
-  return parseMarkdown(opts)
+  return processor(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
       Fragment: React.Fragment,
-      components: {
+      components: (typeof components === 'function' ? components : r => r)({
         'code-tabs': CodeTabs(sanitize),
         'rdme-callout': Callout(sanitize),
         'readme-variable': Variable,
@@ -172,7 +167,8 @@ export function react(text, opts = options) {
         h6: Heading(6, count),
         code: Code(sanitize),
         img: Image(sanitize),
-      },
+        ...components,
+      }),
     })
     .processSync(opts.normalize ? normalize(text) : text).contents;
 }
@@ -183,7 +179,7 @@ export function react(text, opts = options) {
 export function html(text, opts = options) {
   if (!text) return null;
 
-  return parseMarkdown(opts)
+  return processor(opts)
     .use(rehypeStringify)
     .processSync(opts.normalize ? normalize(text) : text).contents;
 }
@@ -193,7 +189,7 @@ export function html(text, opts = options) {
  */
 export function ast(text, opts = options) {
   if (!text) return null;
-  return parseMarkdown(opts)
+  return processor(opts)
     .use(remarkStringify, opts.markdownOptions)
     .parse(opts.normalize ? normalize(text) : text);
 }
@@ -203,7 +199,7 @@ export function ast(text, opts = options) {
  */
 export function md(tree, opts = options) {
   if (!tree) return null;
-  return parseMarkdown(opts)
+  return processor(opts)
     .use(remarkStringify, opts.markdownOptions)
     .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler, rdmePinCompiler])
     .stringify(tree);

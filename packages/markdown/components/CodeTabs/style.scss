@@ -1,10 +1,17 @@
+@import '~@readme/syntax-highlighter/node_modules/codemirror/lib/codemirror.css';
+@import '~@readme/syntax-highlighter/node_modules/codemirror/theme/neo.css';
+
 @mixin CodeTabs {
+  $bgc-pre: #F6F8FA;
+  $bgc-bar: #EBEDEF;
+  
   color: #333;
   background: #eaeaea;
   border-radius: 3px !important;
   overflow: hidden;
 
   &-toolbar {
+    background: $bgc-bar;
     display: flex;
     flex-flow: row nowrap;
     overflow: hidden;
@@ -16,12 +23,13 @@
     }
     > button {
       white-space: nowrap;
+      transition: .123s ease;
     }
   }
 
   pre {
     border-radius: 0 0 3px 3px !important;
-    background: #f6f6f6;
+    background: $bgc-pre;
     margin-bottom: 0;
     &:not(.CodeTabs_active) { display: none }
   }
@@ -43,7 +51,7 @@
 
   &.CodeTabs_initial button:first-child,
   button.CodeTabs_active {
-    background: #f6f6f6;
+    background: $bgc-pre;
     color: black;
     pointer-events: none;
   }
@@ -57,14 +65,10 @@
   }
 }
 
-#hub-content,
-html[ng-app="hub"] .markdown-body,
-#root > .App {
-  .CodeTabs {
-    @include CodeTabs;
-    pre {
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-    }
+.CodeTabs {
+  @include CodeTabs;
+  pre {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 }

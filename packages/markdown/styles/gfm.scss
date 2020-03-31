@@ -1,4 +1,129 @@
-@mixin markdown-body {
+@mixin gfm {
+  @include markdown-body-defaults;
+  @include markdown-body-overrides;
+}
+
+@mixin markdown-body-overrides {
+
+  h5,
+  h6 {
+    font-size: .9em;
+  }
+
+
+  blockquote h1:last-child,
+  blockquote h2:last-child {
+    border-bottom: 0;
+  }
+
+
+  >* {
+    margin-top: 15px;
+    margin-bottom: 15px !important;
+  }
+
+
+  img[align=left] {
+    margin-right: 20px;
+  }
+
+  img[align=right] {
+    margin-left: 20px;
+  }
+
+  img[align=center] {
+    display: block;
+    margin: 20px auto;
+  }
+
+
+  .task-list-item input {
+    margin: 0 .5em .25em -1.25em;
+  }
+
+  a {
+    transition: .3s;
+    text-decoration: underline;
+
+    &:not(:hover) {
+      text-decoration-color: transparent;
+    }
+
+    code {
+      display: inline-block;
+      text-decoration: underline;
+      transition: .3s;
+    }
+
+    &:hover code {
+      color: inherit;
+    }
+
+    &:not(:hover) code {
+      text-decoration-color: transparent;
+    }
+  }
+
+  .embed {
+    padding: 15px;
+    background: #eeeeee;
+    overflow: hidden;
+    border-radius: 3px;
+
+    &:empty {
+      display: none;
+    }
+
+    &-media {
+      display: flex;
+      justify-content: center;
+
+      >:only-child {
+        flex: 1;
+        margin: -15px;
+        border-radius: 0 !important;
+      }
+    }
+  }
+
+  .table {
+    display: inline-block;
+
+    >table {
+      margin-bottom: 0 !important;
+    }
+
+    &_centered {
+      margin: 30px auto !important;
+      display: block;
+    }
+
+    &_rounded {
+      border: 1px solid #e0e2e5;
+      border-radius: 3px;
+      overflow: hidden;
+
+      tr,
+      tr td,
+      tr th {
+        border-width: 0 !important;
+        border-color: #e0e2e5;
+      }
+
+      thead+tbody tr:first-of-type,
+      tr+tr {
+        border-top-width: 1px !important;
+      }
+
+      tr td+td,
+      tr th+th {
+        border-left-width: 1px !important;
+      }
+    }
+  }
+}
+
+@mixin markdown-body-defaults {
   & {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -507,7 +632,7 @@
     display: table
   }
 
-  &>:first-child {
+  & > :first-child {
     margin-top: 0 !important
   }
 
@@ -728,18 +853,22 @@
     & {
       margin: 15px auto;
     }
+
     figcaption {
       font-size: 0.88em;
       font-style: italic;
     }
+
     &[align=right] {
       float: right;
       margin-left: 15px;
     }
+
     &[align=left] {
       float: left;
       margin-right: 15px;
     }
+
     figcaption {
       font-size: small;
       text-align: center;
@@ -994,10 +1123,4 @@
   .pl-12 {
     padding-left: 128px !important
   }
-}
-
-.field-description,
-.markdown-body {
-  @include markdown-body;
-  font-size: 15px;
 }

@@ -44,9 +44,7 @@
     }
   }
 }
-#hub-content,
-.markdown-body {
-  rdme-callout, .callout {
-    @include callout;
-  }
+
+.callout.callout {
+  @include callout;
 }

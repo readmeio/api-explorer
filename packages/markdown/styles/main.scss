@@ -1,5 +1,10 @@
-@import '~@readme/syntax-highlighter/node_modules/codemirror/lib/codemirror.css';
-@import '~@readme/syntax-highlighter/node_modules/codemirror/theme/neo.css';
-
 @import './gfm.scss';
-@import './gfm.overrides.scss';
+@import './components.scss';
+
+// #hub-content   !=   html[ng-app="hub"] .markdown-body   !=   #root > .App   !=   #app
+
+.field-description,
+.markdown-body {
+  @include gfm;
+  font-size: 15px;
+}
