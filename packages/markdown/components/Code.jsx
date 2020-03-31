@@ -1,6 +1,9 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+// Only load CodeMirror in the browser, for SSR
+// apps. Necessary because of people like this:
+// https://github.com/codemirror/CodeMirror/issues/3701#issuecomment-164904534
 const syntaxHighlighter = typeof window !== 'undefined' ? require('@readme/syntax-highlighter') : false;
 
 function Code(props) {
