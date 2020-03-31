@@ -28,7 +28,7 @@
     "unist-util-visit": "^2.0.1"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.prod.js",
     "watch": "webpack -w --progress",
     "lint": "eslint . --ext .jsx --ext .js",
     "inspect": "jsinspect",
@@ -51,7 +51,9 @@
     "jest": "^25.1.0",
     "jsinspect": "^0.12.7",
     "prettier": "^2.0.1",
-    "webpack": "^3.10.0"
+    "terser-webpack-plugin": "^2.3.5",
+    "webpack": "^4.41.0",
+    "webpack-merge": "^4.2.2"
   },
   "prettier": "@readme/eslint-config/prettier"
 }
