@@ -1,14 +1,17 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+
+// Only load CodeMirror in the browser, for SSR
+// apps. Necessary because of people like this:
+// https://github.com/codemirror/CodeMirror/issues/3701#issuecomment-164904534
+const syntaxHighlighter = typeof window !== 'undefined' ? require('@readme/syntax-highlighter') : false;
 
 function Code(props) {
   const { className, children, lang, meta } = props;
   const language = (className || '').replace('language-', '');
-
   return (
     <code className={language ? `lang-${language}` : null} data-lang={lang} name={meta}>
-      {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
+      {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
     </code>
   );
 }
