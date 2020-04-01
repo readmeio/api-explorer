@@ -5,7 +5,8 @@
   "version": "6.2.0",
   "files": [
     "styles",
-    "components"
+    "components",
+    "dist"
   ],
   "dependencies": {
     "@readme/emojis": "^1.0.0",
