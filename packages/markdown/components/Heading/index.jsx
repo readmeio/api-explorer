@@ -1,5 +1,3 @@
-// require('./style.scss');
-
 const React = require('react');
 const PropTypes = require('prop-types');
 
