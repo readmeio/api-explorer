@@ -1,4 +1,7 @@
 @mixin gfm {
+  --markdown-font: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --markdown-color: mix(#6d757c, #24292e, 40%);
+  --markdown-lineHeight: 1.5;
   @include markdown-body-defaults;
   @include markdown-body-overrides;
 }
@@ -8,10 +11,9 @@
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     position: relative;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-    line-height: 1.5;
-    line-height: 1.5;
-    color: mix(#6d757c, #24292e, 40%);
+    font-family: --markdown-font;
+    line-height: var(--markdown-lineHeight);
+    color: var(--markdown-color);
     word-wrap: break-word
   }
 
@@ -21,12 +23,6 @@
 
   ul {
     list-style: initial;
-  }
-
-  .octicon {
-    display: inline-block;
-    fill: currentColor;
-    vertical-align: text-bottom
   }
 
   .anchor {
@@ -40,17 +36,6 @@
     outline: 0
   }
 
-  h1 .octicon-link,
-  h2 .octicon-link,
-  h3 .octicon-link,
-  h4 .octicon-link,
-  h5 .octicon-link,
-  h6 .octicon-link {
-    color: #1b1f23;
-    vertical-align: middle;
-    visibility: hidden
-  }
-
   h1:hover .anchor,
   h2:hover .anchor,
   h3:hover .anchor,
@@ -58,139 +43,6 @@
   h5:hover .anchor,
   h6:hover .anchor {
     text-decoration: none
-  }
-
-  h1:hover .anchor .octicon-link,
-  h2:hover .anchor .octicon-link,
-  h3:hover .anchor .octicon-link,
-  h4:hover .anchor .octicon-link,
-  h5:hover .anchor .octicon-link,
-  h6:hover .anchor .octicon-link {
-    visibility: visible
-  }
-
-  .pl-c {
-    color: #6a737d
-  }
-
-  .pl-c1,
-  .pl-s .pl-v {
-    color: #005cc5
-  }
-
-  .pl-e,
-  .pl-en {
-    color: #6f42c1
-  }
-
-  .pl-s .pl-s1,
-  .pl-smi {
-    color: #24292e
-  }
-
-  .pl-ent {
-    color: #22863a
-  }
-
-  .pl-k {
-    color: #d73a49
-  }
-
-  .pl-pds,
-  .pl-s,
-  .pl-s .pl-pse .pl-s1,
-  .pl-sr,
-  .pl-sr .pl-cce,
-  .pl-sr .pl-sra,
-  .pl-sr .pl-sre {
-    color: #032f62
-  }
-
-  .pl-smw,
-  .pl-v {
-    color: #e36209
-  }
-
-  .pl-bu {
-    color: #b31d28
-  }
-
-  .pl-ii {
-    background-color: #b31d28;
-    color: #fafbfc
-  }
-
-  .pl-c2 {
-    background-color: #d73a49;
-    color: #fafbfc
-  }
-
-  .pl-c2:before {
-    content: "^M"
-  }
-
-  .pl-sr .pl-cce {
-    color: #22863a;
-    font-weight: 700
-  }
-
-  .pl-ml {
-    color: #735c0f
-  }
-
-  .pl-mh,
-  .pl-mh .pl-en,
-  .pl-ms {
-    color: #005cc5;
-    font-weight: 700
-  }
-
-  .pl-mi {
-    color: #24292e;
-    font-style: italic
-  }
-
-  .pl-mb {
-    color: #24292e;
-    font-weight: 700
-  }
-
-  .pl-md {
-    background-color: #ffeef0;
-    color: #b31d28
-  }
-
-  .pl-mi1 {
-    background-color: #f0fff4;
-    color: #22863a
-  }
-
-  .pl-mc {
-    background-color: #ffebda;
-    color: #e36209
-  }
-
-  .pl-mi2 {
-    background-color: #005cc5;
-    color: #f6f8fa
-  }
-
-  .pl-mdr {
-    color: #6f42c1;
-    font-weight: 700
-  }
-
-  .pl-ba {
-    color: #586069
-  }
-
-  .pl-sg {
-    color: #959da5
-  }
-
-  .pl-corl {
-    color: #032f62;
-    text-decoration: underline
   }
 
   details {
@@ -202,12 +54,18 @@
   }
 
   a {
-    text-decoration: underline;
+    transition: .15s ease;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   a:active,
   a:hover {
     outline-width: 0
+  }
+  p > a {
+    text-decoration: underline;
   }
 
   strong {
@@ -400,98 +258,6 @@
     margin: 0
   }
 
-  .border {
-    border: 1px solid #e1e4e8 !important
-  }
-
-  .border-0 {
-    border: 0 !important
-  }
-
-  .border-bottom {
-    border-bottom: 1px solid #e1e4e8 !important
-  }
-
-  .rounded-1 {
-    border-radius: 3px !important
-  }
-
-  .bg-white {
-    background-color: #fff !important
-  }
-
-  .bg-gray-light {
-    background-color: #fafbfc !important
-  }
-
-  .text-gray-light {
-    color: #6a737d !important
-  }
-
-  .mb-0 {
-    margin-bottom: 0 !important
-  }
-
-  .my-2 {
-    margin-bottom: 8px !important;
-    margin-top: 8px !important
-  }
-
-  .pl-0 {
-    padding-left: 0 !important
-  }
-
-  .py-0 {
-    padding-bottom: 0 !important;
-    padding-top: 0 !important
-  }
-
-  .pl-1 {
-    padding-left: 4px !important
-  }
-
-  .pl-2 {
-    padding-left: 8px !important
-  }
-
-  .py-2 {
-    padding-bottom: 8px !important;
-    padding-top: 8px !important
-  }
-
-  .pl-3,
-  .px-3 {
-    padding-left: 1em !important
-  }
-
-  .px-3 {
-    padding-right: 1em !important
-  }
-
-  .pl-4 {
-    padding-left: 24px !important
-  }
-
-  .pl-5 {
-    padding-left: 32px !important
-  }
-
-  .pl-6 {
-    padding-left: 40px !important
-  }
-
-  .f6 {
-    font-size: 12px !important
-  }
-
-  .lh-condensed {
-    line-height: 1.25 !important
-  }
-
-  .text-bold {
-    font-weight: 600 !important
-  }
-
   &:before {
     content: "";
     display: table
@@ -503,7 +269,7 @@
     display: table
   }
 
-  & > :first-child {
+  &> :first-child {
     margin-top: 0 !important
   }
 
@@ -769,75 +535,6 @@
     word-wrap: normal
   }
 
-  .commit-tease-sha {
-    color: #444d56;
-    display: inline-block;
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
-    font-size: 90%
-  }
-
-  .blob-wrapper {
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    overflow-x: auto;
-    overflow-y: hidden
-  }
-
-  .blob-wrapper-embedded {
-    max-height: 240px;
-    overflow-y: auto
-  }
-
-  .blob-num {
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    color: rgba(27, 31, 35, .3);
-    cursor: pointer;
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
-    font-size: 12px;
-    line-height: 20px;
-    min-width: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: right;
-    user-select: none;
-    vertical-align: top;
-    white-space: nowrap;
-    width: 1%
-  }
-
-  .blob-num:hover {
-    color: rgba(27, 31, 35, .6)
-  }
-
-  .blob-num:before {
-    content: attr(data-line-number)
-  }
-
-  .blob-code {
-    line-height: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    position: relative;
-    vertical-align: top
-  }
-
-  .blob-code-inner {
-    color: #24292e;
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
-    font-size: 12px;
-    overflow: visible;
-    white-space: pre;
-    word-wrap: normal
-  }
-
-  .pl-token.active,
-  .pl-token:hover {
-    background: #ffea7f;
-    cursor: pointer
-  }
-
   kbd {
     background-color: #fafbfc;
     border: 1px solid #d1d5da;
@@ -858,66 +555,6 @@
     z-index: 1
   }
 
-  .tab-size[data-tab-size="1"] {
-    -moz-tab-size: 1;
-    tab-size: 1
-  }
-
-  .tab-size[data-tab-size="2"] {
-    -moz-tab-size: 2;
-    tab-size: 2
-  }
-
-  .tab-size[data-tab-size="3"] {
-    -moz-tab-size: 3;
-    tab-size: 3
-  }
-
-  .tab-size[data-tab-size="4"] {
-    -moz-tab-size: 4;
-    tab-size: 4
-  }
-
-  .tab-size[data-tab-size="5"] {
-    -moz-tab-size: 5;
-    tab-size: 5
-  }
-
-  .tab-size[data-tab-size="6"] {
-    -moz-tab-size: 6;
-    tab-size: 6
-  }
-
-  .tab-size[data-tab-size="7"] {
-    -moz-tab-size: 7;
-    tab-size: 7
-  }
-
-  .tab-size[data-tab-size="8"] {
-    -moz-tab-size: 8;
-    tab-size: 8
-  }
-
-  .tab-size[data-tab-size="9"] {
-    -moz-tab-size: 9;
-    tab-size: 9
-  }
-
-  .tab-size[data-tab-size="10"] {
-    -moz-tab-size: 10;
-    tab-size: 10
-  }
-
-  .tab-size[data-tab-size="11"] {
-    -moz-tab-size: 11;
-    tab-size: 11
-  }
-
-  .tab-size[data-tab-size="12"] {
-    -moz-tab-size: 12;
-    tab-size: 12
-  }
-
   .task-list-item {
     list-style-type: none
   }
@@ -933,58 +570,6 @@
 
   hr {
     border-bottom-color: #eee
-  }
-
-  .pl-0 {
-    padding-left: 0 !important
-  }
-
-  .pl-1 {
-    padding-left: 4px !important
-  }
-
-  .pl-2 {
-    padding-left: 8px !important
-  }
-
-  .pl-3 {
-    padding-left: 1em !important
-  }
-
-  .pl-4 {
-    padding-left: 24px !important
-  }
-
-  .pl-5 {
-    padding-left: 32px !important
-  }
-
-  .pl-6 {
-    padding-left: 40px !important
-  }
-
-  .pl-7 {
-    padding-left: 48px !important
-  }
-
-  .pl-8 {
-    padding-left: 64px !important
-  }
-
-  .pl-9 {
-    padding-left: 80px !important
-  }
-
-  .pl-10 {
-    padding-left: 96px !important
-  }
-
-  .pl-11 {
-    padding-left: 112px !important
-  }
-
-  .pl-12 {
-    padding-left: 128px !important
   }
 }
 
