@@ -1,5 +1,5 @@
 // eslint-disable-next-line unicorn/no-unsafe-regex
-const rgx = /^>\s?(\W\D) (.+)\n((?:>(?: .*)?\n)*)/;
+const rgx = /^>\s?(ℹ️|⁉️|❗️|‼️|\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]?) (.+)\n((?:>(?: .*)?\n)*)/;
 
 function tokenizer(eat, value) {
   if (!rgx.test(value)) return true;
@@ -12,14 +12,14 @@ function tokenizer(eat, value) {
   title = title.trim();
 
   const style = {
-    ℹ️: 'info',
+    '📘': 'info',
     '⚠️': 'warn',
     '🚧': 'warn',
     '👍': 'okay',
     '✅': 'okay',
     '❗️': 'error',
     '🛑': 'error',
-    ℹ: 'info',
+    'ℹ️': 'info',
     '⚠': 'warn',
   }[icon];
 

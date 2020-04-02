@@ -93,7 +93,7 @@ function tokenize(eat, value) {
     }
     case 'callout': {
       const types = {
-        info: ['ℹ', 'info'],
+        info: ['📘', 'info'],
         success: ['👍', 'okay'],
         warning: ['🚧', 'warn'],
         danger: ['❗️', 'error'],
