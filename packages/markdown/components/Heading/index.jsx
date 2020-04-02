@@ -1,16 +1,23 @@
+/* eslint-disable consistent-return */
 const React = require('react');
 const PropTypes = require('prop-types');
 
 function generateHeadingId(e, anchors) {
   /* istanbul ignore next */
-  if (typeof e === 'object') return generateHeadingId(e.props.children[0]);
+  if (typeof window === 'undefined') return;
+  if (typeof e === 'object') {
+    const text = e.props.children[0] || `Heading ${Object.keys(anchors).length + 1}`;
+    return generateHeadingId(text);
+  }
 
-  let id = e.toLowerCase().replace(/[^\w]+/g, '-');
+  let id = e.toLowerCase().replace(/[^\d\w]+/g, '-');
 
-  if (e in anchors) {
-    id += `-${anchors[e]}`;
-    anchors[e] += 1;
-  } else anchors[e] = 1;
+  if (anchors) {
+    if (e in anchors) {
+      id += `-${anchors[e]}`;
+      anchors[e] += 1;
+    } else anchors[e] = 1;
+  }
 
   return id;
 }
