@@ -202,7 +202,7 @@
   }
 
   a {
-    background-color: transparent
+    text-decoration: underline;
   }
 
   a:active,
@@ -259,14 +259,6 @@
     font-family: inherit;
     font-size: inherit;
     line-height: inherit
-  }
-
-  a {
-    text-decoration: none
-  }
-
-  a:hover {
-    text-decoration: underline
   }
 
   strong {
@@ -534,14 +526,6 @@
   ul {
     margin-bottom: 1em;
     margin-top: 0
-  }
-
-  hr {
-    background-color: #e1e4e8;
-    border: 0;
-    height: .25em;
-    margin: 24px 0;
-    padding: 0
   }
 
   rdme-callout,
@@ -869,7 +853,7 @@
   }
 
   :checked+.radio-label {
-    border-color: #0366d6;
+    border-color: var(--project-color-primary);
     position: relative;
     z-index: 1
   }
@@ -1040,29 +1024,6 @@
 
   .task-list-item input {
     margin: 0 .5em .25em -1.25em;
-  }
-
-  a {
-    transition: .3s;
-    text-decoration: underline;
-
-    &:not(:hover) {
-      text-decoration-color: transparent;
-    }
-
-    code {
-      display: inline-block;
-      text-decoration: underline;
-      transition: .3s;
-    }
-
-    &:hover code {
-      color: inherit;
-    }
-
-    &:not(:hover) code {
-      text-decoration-color: transparent;
-    }
   }
 
   .embed {

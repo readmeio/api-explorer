@@ -1,36 +1,48 @@
 @mixin callout ($l-offset: 1.5rem) {
+  --background: #{lighten(#dfe2e5, 8.75%)};
+  --border: #{lighten(#6a737d, 12.5%)};
+
+  background: var(--background);
+  border-color: var(--border);
+  color: var(--text, #6a737d);
   padding: $l-offset;
-  &_default {
-    $txt: #6a737d;
-    $bdr: #dfe2e5;
-    background-color: lighten($bdr, 7%);
-    color: $txt;
-  }
+
   &_info {
-    background-color: #e3edf2;
-    border-color: #5bc0de;
-    h3, h4 { color: darken(#5bc0de, 5%) }
+    $color: #46b8da;
+    --background: #e3edf2;
+    --title: #{$color};
+    --border: #{lighten($color, 5%)}; // should be #5bc0de
   }
+
   &_warn, &_warning {
-    background-color: #fcf8f2;
-    border-color: #f0ad4e;
-    h3, h4 { color: darken(#f0ad4e, 5%) }
+    $color: #eea236;
+    --background: #fcf8f2;
+    --title: #{$color};
+    --border: #{lighten($color, 5%)};
   }
+
   &_ok, &_okay, &_success {
-    background-color: #f3f8f3;
-    border-color: #50af51;
-    h3, h4 { color: darken(#50af51, 5%) }
+    $color: #489e49;
+    --background: #f3f8f3;
+    --title: #{$color};
+    --border: #{lighten($color, 5%)}; // should be #50af51
   }
+
   &_err, &_error {
-    background-color: #fdf7f7;
-    border-color: #d9534f;
-    h3, h4 { color: darken(#d9534f, 5%) }
+    $color: #d43f3a;
+    --background: #fdf7f7;
+    --title: #{$color};
+    --border: #{lighten($color, 5%)};  // should be #d9534f
   }
+
   >* {
     margin-left: $l-offset;
     position: relative;
   }
-  h3 {
+
+  h3,
+  h4 {
+    color: var(--title, --text);
     &.floated {
       float: left;
     }
@@ -38,7 +50,7 @@
       margin-bottom: 0;
     }  
     &:first-letter {
-      margin-left: -1.6em;
+      margin-left: -1.8em;
       margin-right: .4rem;
       line-height: 0;
     }

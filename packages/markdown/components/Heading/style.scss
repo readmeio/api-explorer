@@ -14,10 +14,10 @@
     display: inline !important;
     order: -1;
     right: 100%;
-    top: unset;
+    top: unset !important;
     margin-right: -.8rem;
     padding: .8em .2em .8em 0 !important;
-    font-size: .8rem;
+    font-size: .8rem !important;
     text-decoration: none;
     color: inherit;
     transform: translateX(-100%);
