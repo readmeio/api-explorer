@@ -19,7 +19,7 @@ function tokenizer(eat, value) {
     '✅': 'okay',
     '❗️': 'error',
     '🛑': 'error',
-    'ℹ️': 'info',
+    ℹ️: 'info',
     '⚠': 'warn',
   }[icon];
 
