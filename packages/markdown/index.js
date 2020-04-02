@@ -52,7 +52,7 @@ const options = require('./options.json');
 // Sanitization Schema Defaults
 sanitize.clobberPrefix = '';
 
-sanitize.tagNames.push('span');
+sanitize.tagNames.push('span', 'style');
 sanitize.attributes['*'].push('class', 'className', 'align');
 
 sanitize.tagNames.push('rdme-pin');
