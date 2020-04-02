@@ -45,10 +45,10 @@ function docLink(href) {
 }
 
 function Anchor(props) {
-  const { baseUrl, children, href, target, title } = props;
+  const { baseUrl, children, href, target, title, ...attrs } = props;
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <a href={getHref(href, baseUrl)} target={target} title={title} {...docLink(href)}>
+    <a {...attrs} href={getHref(href, baseUrl)} target={target} title={title} {...docLink(href)}>
       {children}
     </a>
   );

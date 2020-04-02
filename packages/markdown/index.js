@@ -63,7 +63,7 @@ sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 sanitize.tagNames.push('rdme-embed');
 sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href'];
 
-sanitize.attributes.a = ['href', 'title'];
+sanitize.attributes.a = ['href', 'title', 'class', 'className'];
 
 sanitize.tagNames.push('figure');
 sanitize.tagNames.push('figcaption');
