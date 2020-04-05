@@ -1,5 +1,5 @@
 @mixin gfm {
-  --markdown-font: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --markdown-font: proxima-nova;
   --markdown-color: mix(#6d757c, #24292e, 40%);
   --markdown-lineHeight: 1.5;
   @include markdown-body-defaults;
@@ -11,7 +11,7 @@
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     position: relative;
-    font-family: --markdown-font;
+    font-family: var(--markdown-font), -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     line-height: var(--markdown-lineHeight);
     color: var(--markdown-color);
     word-wrap: break-word
