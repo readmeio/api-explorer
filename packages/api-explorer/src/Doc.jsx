@@ -208,7 +208,7 @@ class Doc extends React.Component {
 
     return list && list.length !== 0 && showTitle ? (
       <ContentWithTitle
-        title='Select Content Type'
+        title={<FormattedMessage id={`doc.selectContentType`} defaultMessage={'Select Content Type'} />}
         showBorder={false}
         showDivider={false}
         theme={'dark'}

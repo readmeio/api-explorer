@@ -10,6 +10,7 @@ import arrayCustomEditor from './array-custom-editors'
 import objectCustomEditor from './object-custom-editors'
 import notCustomEditor from './not-custom-editor'
 import anyOfEditor from './anyOf-custom-editor'
+import it from '../../i18n/it.json'
 
 import './bootstrap4.css'
 import './custom-bootstrap4.css'
@@ -20,6 +21,9 @@ function configureJSONEditor(intl, setFormSubmissionListener) {
   editorsKeys.filter(key => !keysToExclude.includes(key)).forEach(key => {
     JSONEditor.defaults.editors[key] = getCustomEditor(key);
   });
+
+  JSONEditor.defaults.languages.it = it
+  JSONEditor.defaults.language = intl.locale
 
   JSONEditor.defaults.editors.array = arrayCustomEditor()
   JSONEditor.defaults.editors.object = objectCustomEditor()

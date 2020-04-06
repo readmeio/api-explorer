@@ -257,8 +257,8 @@ ApiExplorer.propTypes = {
     PropTypes.shape({ term: PropTypes.string.isRequired, definition: PropTypes.string.isRequired }),
   ).isRequired,
   i18n: PropTypes.shape({
-    locale: PropTypes.string,
-    defaultLocale: PropTypes.string,
+    locale: PropTypes.string.isRequired,
+    defaultLocale: PropTypes.string.isRequired,
   }),
   showOnlyAPI: PropTypes.bool,
   defaultOpen: PropTypes.bool,

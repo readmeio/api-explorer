@@ -36,7 +36,7 @@ function renderMissingSchema(nameSchema) {
       background: colors.schemaTabMissingSchemaBackground
     }}
     >
-      <FormattedMessage id={`schemaTabs.missing.${nameSchema}`} />
+      <FormattedMessage id={`schemaTabs.missing.${nameSchema.toLowerCase()}`} defaultMessage={`${nameSchema} schema not set`} />
     </div>
   )
 }
@@ -56,7 +56,7 @@ export default class SchemaTabs extends Component {
         operation.responses ? (
           <ResponseSchema operation={operation} oas={oas} />
         )
-        : renderMissingSchema('response')
+        : renderMissingSchema('Response')
     )
   }
 
@@ -67,7 +67,7 @@ export default class SchemaTabs extends Component {
         operation.requestBody ? (
           <RequestSchema operation={operation} oas={oas} />
         )
-        : renderMissingSchema('request')
+        : renderMissingSchema('Request')
     )
   }
 
@@ -75,7 +75,9 @@ export default class SchemaTabs extends Component {
     const { selected } = this.state
     return (
       <BlockWithTab
-        items={[{ value: 'request', label: 'request' }, { value: 'response', label: 'response' }]}
+        items={[
+          { value: 'request', label: <FormattedMessage id='schemaTabs.label.request' defaultMessage='Request' /> },
+          { value: 'response', label: <FormattedMessage id='schemaTabs.label.response' defaultMessage='Response' />}]}
         selected={selected}
         styleList={styleList}
         styleSelectedItem={styleSelectedItem}

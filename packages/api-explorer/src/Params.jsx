@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
 import './params.css'
 import ContentWithTitle from './components/ContentWithTitle'
@@ -36,7 +37,7 @@ export default class Params extends Component{
       jsonSchema.map((schema) => {
         return (<ContentWithTitle
           key={schema.label+schema.schema.ref}
-          title={schema.label}
+          title={<FormattedMessage id={`doc.params.${schema.label.toLowerCase().replace(/\s/g,'')}`} defaultMessage={schema.label} />}
           content={this.renderParam(schema)}
           showDivider={false}
           theme={'dark'}
