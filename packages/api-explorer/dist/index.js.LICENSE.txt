@@ -39,8 +39,6 @@ object-assign
  * Licensed under the MIT License.
  */
 
-/*! For license information please see main.js.LICENSE.txt */
-
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 
 /** @license React v16.13.1
