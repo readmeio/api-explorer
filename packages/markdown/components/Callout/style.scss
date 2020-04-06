@@ -4,7 +4,7 @@
 
   background: var(--background);
   border-color: var(--border);
-  color: var(--text, #6a737d);
+  color: var(--text);
   padding: $l-offset;
 
   &_info {
@@ -51,8 +51,9 @@
     &.floated {
       float: left;
     }
-    > p {
-      margin-bottom: 0;
+    > * {
+      color: inherit;
+      margin: 0;
     }  
     &:first-letter {
       float: left;
