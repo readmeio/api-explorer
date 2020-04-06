@@ -27,7 +27,6 @@ function generateHeadingId(e, anchors) {
 
 function Heading({ tag, ...props }) {
   if (!props.children) return '';
-  console.log(props);
   const id = `section-${generateHeadingId(props.children[0], props.anchors)}`;
   const attrs = {
     className: `heading heading-${props.level} header-scroll`,

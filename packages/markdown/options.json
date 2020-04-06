@@ -12,5 +12,6 @@
   },
   "settings": {
     "position": false
-  }
+  },
+  "normalize": true
 }

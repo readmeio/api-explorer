@@ -19,8 +19,7 @@ exports[`anchors with baseUrl 1`] = `
 <a href=\\"ref:slug\\">ref</a><br>
 <a href=\\"blog:slug\\">blog</a><br>
 <a href=\\"changelog:slug\\">changelog</a><br>
-<a href=\\"page:slug\\">page</a><br>
-</p>"
+<a href=\\"page:slug\\">page</a></p>"
 `;
 
 exports[`check list items 1`] = `
