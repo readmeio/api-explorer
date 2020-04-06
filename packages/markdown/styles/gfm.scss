@@ -1,7 +1,8 @@
 @mixin gfm {
   @at-root :root {
     --markdown-font: inherit;
-    --markdown-color: inherit;
+    --markdown-text: inherit;
+    --markdown-title: inherit;
     --markdown-lineHeight: 1.5;
   }
   @include markdown-body-defaults;
@@ -15,7 +16,7 @@
     position: relative;
     font-family: var(--markdown-font);
     line-height: var(--markdown-lineHeight);
-    color: var(--markdown-color);
+    color: var(--markdown-text);
     word-wrap: break-word
   }
 
@@ -160,52 +161,68 @@
   }
 
   h1,
+  h2 {
+    font-size: 1.5em;
+   --markdown-titlesize: 1.5em;
+    // border-bottom: 1px solid #eaecef;
+    // padding-bottom: .3em;
+  }
+
+  h1 {
+    font-weight: 700;
+    --markdown-title-weight: 700;
+  }
+
+  h2 {
+    font-weight: 400;
+    --markdown-title-weight: 400;
+  }
+
+  h3,
+  h4 {
+    font-weight: 600;
+    --markdown-title-weight: 600;
+  }
+
+  h3 {
+    font-size: 1.25em;
+    --markdown-title-size: 1.25em
+  }
+
+  h4 {
+    font-size: 1em;
+    --markdown-title-size: 1em
+  }
+
+  h5,
+  h6 {
+    font-weight: 600;
+    --markdown-title-weight: 600;
+  }
+
+  h5 {
+    font-size: .875em;
+    --markdown-title-size: .875em
+  }
+
+  h6 {
+    --markdown-title: #6a737d;
+    font-size: .85em;
+    --markdown-title-size: .85em
+  }
+
+  h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    margin-bottom: 0;
-    margin-top: 0
-  }
-
-  h1,
-  h2 {
-    font-size: 24px;
-  }
-
-  h1 {
-    font-weight: 900;
-  }
-
-  h2 {
-    font-weight: 400;
-  }
-
-  h3 {
-    font-size: 20px
-  }
-
-  h3,
-  h4 {
-    font-weight: 600
-  }
-
-  h4 {
-    font-size: 1em
-  }
-
-  h5 {
-    font-size: 14px
-  }
-
-  h5,
-  h6 {
-    font-weight: 600
-  }
-
-  h6 {
-    font-size: 12px
+    line-height: 1.25;
+    color: var(--markdown-title);
+    font-size: var(--markdown-title-size);
+    font-weight: var(--markdown-title-weight, 600);
+    margin-top: var(--markdown-title-marginTop, 1em);
+    margin-bottom: var(--markdown-title-marginBottom, 1rem);
   }
 
   p,
@@ -321,51 +338,6 @@
     line-height: 10px;
     padding: 3px 5px;
     vertical-align: middle
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: 600;
-    line-height: 1.25;
-    margin-bottom: 1em;
-    margin-top: 24px
-  }
-
-  h1 {
-    font-size: 2em;
-    font-weight: 700;
-  }
-
-  h1,
-  h2 {
-    font-size: 1.5em;
-    // border-bottom: 1px solid #eaecef;
-    // padding-bottom: .3em;
-  }
-
-  h2 {
-    font-weight: 400;
-  }
-
-  h3 {
-    font-size: 1.25em
-  }
-
-  h4 {
-    font-size: 1em
-  }
-
-  h5 {
-    font-size: .875em
-  }
-
-  h6 {
-    color: #6a737d;
-    font-size: .85em
   }
 
   ol,

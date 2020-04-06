@@ -397,7 +397,7 @@ span.CodeMirror-selectedtext { background: none; }
   --border: #8b939c;
   background: var(--background);
   border-color: var(--border);
-  color: var(--text, #6a737d);
+  color: var(--text);
   padding: 1.33rem; }
   .callout.callout_info {
     --background: #e3edf2;
@@ -418,6 +418,8 @@ span.CodeMirror-selectedtext { background: none; }
   .callout.callout > * {
     margin-left: 1.33rem;
     position: relative; }
+  .callout.callout > ul, .callout.callout > ol {
+    padding-left: 0; }
   .callout.callout a {
     color: inherit; }
   .callout.callout h3,
@@ -427,9 +429,10 @@ span.CodeMirror-selectedtext { background: none; }
     .callout.callout h3.floated,
     .callout.callout h4.floated {
       float: left; }
-    .callout.callout h3 > p,
-    .callout.callout h4 > p {
-      margin-bottom: 0; }
+    .callout.callout h3 > *,
+    .callout.callout h4 > * {
+      color: inherit;
+      margin: 0; }
     .callout.callout h3:first-letter,
     .callout.callout h4:first-letter {
       float: left;
@@ -518,7 +521,8 @@ span.CodeMirror-selectedtext { background: none; }
   font-size: 14px; }
   :root {
     --markdown-font: inherit;
-    --markdown-color: inherit;
+    --markdown-text: inherit;
+    --markdown-title: inherit;
     --markdown-lineHeight: 1.5; }
   .field-description,
   .markdown-body {
@@ -527,7 +531,7 @@ span.CodeMirror-selectedtext { background: none; }
     position: relative;
     font-family: var(--markdown-font);
     line-height: var(--markdown-lineHeight);
-    color: var(--markdown-color);
+    color: var(--markdown-text);
     word-wrap: break-word; }
   .field-description table,
   .markdown-body table {
@@ -654,6 +658,53 @@ span.CodeMirror-selectedtext { background: none; }
     cursor: pointer; }
   .field-description h1,
   .field-description h2,
+  .markdown-body h1,
+  .markdown-body h2 {
+    font-size: 1.5em;
+    --markdown-titlesize: 1.5em; }
+  .field-description h1,
+  .markdown-body h1 {
+    font-weight: 700;
+    --markdown-title-weight: 700; }
+  .field-description h2,
+  .markdown-body h2 {
+    font-weight: 400;
+    --markdown-title-weight: 400; }
+  .field-description h3,
+  .field-description h4,
+  .markdown-body h3,
+  .markdown-body h4 {
+    font-weight: 600;
+    --markdown-title-weight: 600; }
+  .field-description h3,
+  .markdown-body h3 {
+    font-size: 1.25em;
+    --markdown-title-size: 1.25em
+  ; }
+  .field-description h4,
+  .markdown-body h4 {
+    font-size: 1em;
+    --markdown-title-size: 1em
+  ; }
+  .field-description h5,
+  .field-description h6,
+  .markdown-body h5,
+  .markdown-body h6 {
+    font-weight: 600;
+    --markdown-title-weight: 600; }
+  .field-description h5,
+  .markdown-body h5 {
+    font-size: .875em;
+    --markdown-title-size: .875em
+  ; }
+  .field-description h6,
+  .markdown-body h6 {
+    --markdown-title: #6a737d;
+    font-size: .85em;
+    --markdown-title-size: .85em
+  ; }
+  .field-description h1,
+  .field-description h2,
   .field-description h3,
   .field-description h4,
   .field-description h5,
@@ -664,41 +715,12 @@ span.CodeMirror-selectedtext { background: none; }
   .markdown-body h4,
   .markdown-body h5,
   .markdown-body h6 {
-    margin-bottom: 0;
-    margin-top: 0; }
-  .field-description h1,
-  .field-description h2,
-  .markdown-body h1,
-  .markdown-body h2 {
-    font-size: 24px; }
-  .field-description h1,
-  .markdown-body h1 {
-    font-weight: 900; }
-  .field-description h2,
-  .markdown-body h2 {
-    font-weight: 400; }
-  .field-description h3,
-  .markdown-body h3 {
-    font-size: 20px; }
-  .field-description h3,
-  .field-description h4,
-  .markdown-body h3,
-  .markdown-body h4 {
-    font-weight: 600; }
-  .field-description h4,
-  .markdown-body h4 {
-    font-size: 1em; }
-  .field-description h5,
-  .markdown-body h5 {
-    font-size: 14px; }
-  .field-description h5,
-  .field-description h6,
-  .markdown-body h5,
-  .markdown-body h6 {
-    font-weight: 600; }
-  .field-description h6,
-  .markdown-body h6 {
-    font-size: 12px; }
+    line-height: 1.25;
+    color: var(--markdown-title);
+    font-size: var(--markdown-title-size);
+    font-weight: var(--markdown-title-weight, 600);
+    margin-top: var(--markdown-title-marginTop, 1em);
+    margin-bottom: var(--markdown-title-marginBottom, 1rem); }
   .field-description p,
   .field-description .p,
   .markdown-body p,
@@ -809,47 +831,6 @@ span.CodeMirror-selectedtext { background: none; }
     line-height: 10px;
     padding: 3px 5px;
     vertical-align: middle; }
-  .field-description h1,
-  .field-description h2,
-  .field-description h3,
-  .field-description h4,
-  .field-description h5,
-  .field-description h6,
-  .markdown-body h1,
-  .markdown-body h2,
-  .markdown-body h3,
-  .markdown-body h4,
-  .markdown-body h5,
-  .markdown-body h6 {
-    font-weight: 600;
-    line-height: 1.25;
-    margin-bottom: 1em;
-    margin-top: 24px; }
-  .field-description h1,
-  .markdown-body h1 {
-    font-size: 2em;
-    font-weight: 700; }
-  .field-description h1,
-  .field-description h2,
-  .markdown-body h1,
-  .markdown-body h2 {
-    font-size: 1.5em; }
-  .field-description h2,
-  .markdown-body h2 {
-    font-weight: 400; }
-  .field-description h3,
-  .markdown-body h3 {
-    font-size: 1.25em; }
-  .field-description h4,
-  .markdown-body h4 {
-    font-size: 1em; }
-  .field-description h5,
-  .markdown-body h5 {
-    font-size: .875em; }
-  .field-description h6,
-  .markdown-body h6 {
-    color: #6a737d;
-    font-size: .85em; }
   .field-description ol,
   .field-description ul,
   .markdown-body ol,
