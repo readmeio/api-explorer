@@ -661,7 +661,7 @@ span.CodeMirror-selectedtext { background: none; }
   .markdown-body h1,
   .markdown-body h2 {
     font-size: 1.5em;
-    --markdown-titlesize: 1.5em; }
+    --markdown-title-size: 1.5em; }
   .field-description h1,
   .markdown-body h1 {
     font-weight: 700;
