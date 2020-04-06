@@ -1,7 +1,9 @@
 @mixin gfm {
-  --markdown-font: proxima-nova;
-  --markdown-color: mix(#6d757c, #24292e, 40%);
-  --markdown-lineHeight: 1.5;
+  @at-root :root {
+    --markdown-font: inherit;
+    --markdown-color: inherit;
+    --markdown-lineHeight: 1.5;
+  }
   @include markdown-body-defaults;
   @include markdown-body-overrides;
 }
@@ -11,7 +13,7 @@
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     position: relative;
-    font-family: var(--markdown-font), -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+    font-family: var(--markdown-font);
     line-height: var(--markdown-lineHeight);
     color: var(--markdown-color);
     word-wrap: break-word
@@ -212,7 +214,6 @@
     margin-top: 0
   }
 
-  rdme-callout,
   blockquote {
     margin: 0
   }
@@ -282,7 +283,6 @@
     text-decoration: none
   }
 
-  rdme-callout,
   blockquote,
   dl,
   ol,
@@ -294,7 +294,6 @@
     margin-top: 0
   }
 
-  rdme-callout,
   blockquote {
     display: block;
     border-left: .25em solid #dfe2e5;
@@ -302,12 +301,10 @@
     padding: 0 1em
   }
 
-  rdme-callout>:first-child,
   blockquote>:first-child {
     margin-top: 0
   }
 
-  rdme-callout>:last-child,
   blockquote>:last-child {
     margin-bottom: 0
   }

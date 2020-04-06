@@ -1,4 +1,4 @@
-@mixin callout ($l-offset: 1.5rem) {
+@mixin callout ($l-offset: 1.33rem) {
   --background: #{lighten(#dfe2e5, 8.75%)};
   --border: #{lighten(#6a737d, 12.5%)};
 
@@ -40,9 +40,14 @@
     position: relative;
   }
 
+  a {
+    color: inherit;
+  }
+
   h3,
   h4 {
     color: var(--title, --text);
+    margin-bottom: calc(#{$l-offset} * .5);
     &.floated {
       float: left;
     }
@@ -50,9 +55,9 @@
       margin-bottom: 0;
     }  
     &:first-letter {
-      margin-left: -1.8em;
-      margin-right: .4rem;
-      line-height: 0;
+      float: left;
+      margin-left: calc(-#{$l-offset} - .5em);
+      margin-right: -.25rem;
     }
   }
 }
