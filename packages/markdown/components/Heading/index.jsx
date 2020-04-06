@@ -5,12 +5,15 @@ const PropTypes = require('prop-types');
 function generateHeadingId(e, anchors) {
   /* istanbul ignore next */
   if (typeof window === 'undefined') return;
-  if (typeof e === 'object') {
-    const text = e.props.children[0] || `Heading ${Object.keys(anchors).length + 1}`;
-    return generateHeadingId(text);
-  }
+  // if (typeof e === 'object') {
+  //   const text = e?.props?.children?.[0] || JSON.stringify(e).slice(0, 75).replace(/\s/g, '');
+  //   return generateHeadingId(text);
+  // }
 
-  let id = e.toLowerCase().replace(/[^\d\w]+/g, '-');
+  let id = JSON.stringify(e)
+    .toLowerCase()
+    .trim()
+    .replace(/[^\d\w]+/g, '-');
 
   if (anchors) {
     if (e in anchors) {
@@ -24,6 +27,7 @@ function generateHeadingId(e, anchors) {
 
 function Heading({ tag, ...props }) {
   if (!props.children) return '';
+  console.log(props);
   const id = `section-${generateHeadingId(props.children[0], props.anchors)}`;
   const attrs = {
     className: `heading heading-${props.level} header-scroll`,
