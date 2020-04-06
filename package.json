@@ -1,5 +1,6 @@
 {
   "name": "api-explorer",
+  "version": "0.0.0",
   "private": true,
   "description": "Open source components that make up ReadMe's API explorer",
   "scripts": {

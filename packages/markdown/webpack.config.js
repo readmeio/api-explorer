@@ -1,11 +1,29 @@
 const path = require('path');
 
+const ExtractCSS = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
 module.exports = {
   entry: ['./index.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     libraryTarget: 'commonjs2',
+  },
+  plugins: [
+    new ExtractCSS({
+      filename: '[name].css',
+    }),
+  ],
+  optimization: {
+    minimize: false,
+    minimizer: [new TerserPlugin()],
+    // concatenateModules: false,
+    // namedModules: true,
+    // namedChunks: true,
+    // removeAvailableModules: false,
+    // flagIncludedChunks: false,
+    // occurrenceOrder: false,
   },
   module: {
     rules: [
@@ -21,11 +39,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ['style-loader', 'css-loader'],
+        loader: [ExtractCSS.loader, 'css-loader'],
       },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+        loaders: [ExtractCSS.loader, 'css-loader', 'sass-loader'],
       },
       {
         // eslint-disable-next-line unicorn/no-unsafe-regex

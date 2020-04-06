@@ -61,10 +61,10 @@ describe('Components', () => {
     ];
     const wrap = [mount(markdown.react(callout[0])), mount(markdown.react(callout[1]))];
     expect(wrap[0].html()).toBe(
-      '<blockquote class="callout callout_error"><h3 class="false"><p>❗️ Error Callout</p></h3><p>Lorem ipsum dolor.</p></blockquote>'
+      '<blockquote class="callout callout_error" theme="❗️"><h3 class="false"><p>❗️ Error Callout</p></h3><p>Lorem ipsum dolor.</p></blockquote>'
     );
     expect(wrap[1].html()).toBe(
-      '<blockquote class="callout callout_default"><h3 class="floated"><p>🎟 </p></h3><p>Callout with no title or theme.</p></blockquote>'
+      '<blockquote class="callout callout_default" theme="🎟"><h3 class="floated"><p>🎟 </p></h3><p>Callout with no title or theme.</p></blockquote>'
     );
   });
 

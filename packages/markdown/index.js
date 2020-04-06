@@ -1,3 +1,5 @@
+require('./styles/main.scss');
+
 const React = require('react');
 const unified = require('unified');
 
@@ -50,7 +52,7 @@ const options = require('./options.json');
 // Sanitization Schema Defaults
 sanitize.clobberPrefix = '';
 
-sanitize.tagNames.push('span');
+sanitize.tagNames.push('span', 'style');
 sanitize.attributes['*'].push('class', 'className', 'align');
 
 sanitize.tagNames.push('rdme-pin');
@@ -61,7 +63,7 @@ sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 sanitize.tagNames.push('rdme-embed');
 sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href'];
 
-sanitize.attributes.a = ['href', 'title'];
+sanitize.attributes.a = ['href', 'title', 'class', 'className'];
 
 sanitize.tagNames.push('figure');
 sanitize.tagNames.push('figcaption');
@@ -79,7 +81,7 @@ export function normalize(blocks) {
     .replace(/\[block:/g, '\n\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
     .trim()
-    .replace(/^(#+)(.+\n\n)/gm, '$1 $2');
+    .replace(/^(#+)([\w\s\d]+\n\n)/gm, '$1 $2');
   return `${blocks}\n\n `;
 }
 

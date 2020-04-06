@@ -93,7 +93,7 @@ There are five potential themes:
 
 | Emoji Prefix | Callout Theme |
 |:-----:|:------------|
-|ℹ|`.info` (blue theme)|
+|📘|`.info` (blue theme)|
 |👍|`.okay` (green theme)|
 |⚠️|`.warn` (orange theme)|
 |❗️|`.error` (red theme)|
