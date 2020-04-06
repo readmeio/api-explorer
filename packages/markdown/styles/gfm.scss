@@ -445,14 +445,6 @@
     max-width: 100%
   }
 
-  img[align=right] {
-    padding-left: 20px
-  }
-
-  img[align=left] {
-    padding-right: 20px
-  }
-
   code {
     background-color: rgba(27, 31, 35, .05);
     border-radius: 3px;
@@ -591,16 +583,17 @@
 
 
   img[align=left] {
-    margin-right: 20px;
+    margin-right: .5rem;
   }
 
   img[align=right] {
-    margin-left: 20px;
+    margin-left: .5rem;
   }
 
   img[align=center] {
     display: block;
-    margin: 20px auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
 
