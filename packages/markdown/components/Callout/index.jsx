@@ -8,11 +8,11 @@ const Callout = props => {
   /* deal with differing data structures between the
    * hast-util's hProps and Slate's MDAST serializer
    */
-  const { theme, title } = props;
+  const { theme, title, icon } = props;
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <blockquote {...attributes} className={`callout callout_${theme}`}>
+    <blockquote {...attributes} className={`callout callout_${theme}`} theme={icon}>
       <h3 className={[!title && 'floated']}>{children}</h3>
       {content}
     </blockquote>
@@ -23,6 +23,7 @@ Callout.propTypes = {
   attributes: PropTypes.shape({}),
   calloutStyle: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.any).isRequired,
+  icon: PropTypes.string,
   node: PropTypes.shape(),
   theme: PropTypes.string,
   title: PropTypes.string,
