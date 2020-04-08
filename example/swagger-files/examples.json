@@ -31,6 +31,23 @@
               }
             }
           },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "user": {
+                    "value": {
+                      "user": {
+                        "email": "test@example.com",
+                        "name": "Test user name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "202": {
             "description": "OK",
             "content": {
