@@ -17,6 +17,7 @@ function getExample(response, lang) {
     return false;
   }
 
+  // This isn't actually something that's defined in the spec. Do we really need to support this?
   if (response.content[lang].examples.response) {
     return response.content[lang].examples.response.value;
   }
@@ -28,9 +29,13 @@ function getExample(response, lang) {
     return false;
   }
 
-  const example = examples[0];
+  let example = examples[0];
+  example = response.content[lang].examples[example];
+  if ('value' in example) {
+    return example.value;
+  }
 
-  return response.content[lang].examples[example];
+  return example;
 }
 
 function getMultipleExamples(response, lang) {

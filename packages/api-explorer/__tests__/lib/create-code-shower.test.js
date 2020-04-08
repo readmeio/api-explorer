@@ -61,11 +61,8 @@ describe('createCodeShower', () => {
         languages: [
           {
             code: encodeJsonExample({
-              summary: 'An example of a cat',
-              value: {
-                name: 'Fluffy',
-                petType: 'Cat',
-              },
+              name: 'Fluffy',
+              petType: 'Cat',
             }),
             language: 'application/json',
             multipleExamples: false,
