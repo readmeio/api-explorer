@@ -25,102 +25,109 @@ const createURLWidget = require('./form-components/URLWidget');
 
 const { Operation } = Oas;
 
-function Params({
-  ArrayField,
-  BaseInput,
-  FileWidget,
-  formData,
-  oas,
-  onChange,
-  onSubmit,
-  operation,
-  SchemaField,
-  SelectWidget,
-  TextareaWidget,
-  URLWidget,
-  useNewMarkdownEngine,
-}) {
-  const jsonSchema = parametersToJsonSchema(operation, oas);
+class Params extends React.Component {
+  constructor(props) {
+    super(props);
 
-  // If this operation doesn't have a set operationID (it's not required per the spec!) generate a hash off the
-  // path+method to be one so we have unique form IDs across the explorer.
-  let operationId;
-  if ('operationId' in operation) {
-    operationId = operation.operationId;
-  } else {
-    operationId = slug(`${operation.method} ${operation.path}`).replace(/-/g, '');
+    const { oas, operation } = this.props;
+
+    this.jsonSchema = parametersToJsonSchema(operation, oas);
+
+    // If this operation doesn't have a set operationID (it's not required per the spec!) generate a hash off the
+    // path+method to be one so we have unique form IDs across the explorer.
+    if ('operationId' in operation) {
+      this.operationId = operation.operationId;
+    } else {
+      this.operationId = slug(`${operation.method} ${operation.path}`).replace(/-/g, '');
+    }
   }
 
-  return (
-    <div id={`form-${operationId}`}>
-      {jsonSchema &&
-        jsonSchema.map(schema => {
-          return [
-            <div key={`${schema.type}-header`} className="param-type-header">
-              <h3>{schema.label}</h3>
-              <div className="param-header-border" />
-            </div>,
-            <Form
-              key={`${schema.type}-form`}
-              fields={{
-                ArrayField,
-                DescriptionField,
-                SchemaField,
-                UnsupportedField,
-              }}
-              formContext={{
-                useNewMarkdownEngine,
-              }}
-              formData={formData[schema.type]}
-              id={`form-${schema.type}-${operationId}`}
-              idPrefix={`${schema.type}-${operationId}`}
-              onChange={form => {
-                return onChange({ [schema.type]: form.formData });
-              }}
-              onSubmit={onSubmit}
-              schema={schema.schema}
-              widgets={{
-                // 🚧 If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
-                BaseInput,
-                binary: FileWidget,
-                blob: TextareaWidget,
-                byte: TextWidget,
-                date: TextWidget,
+  render() {
+    const {
+      ArrayField,
+      BaseInput,
+      FileWidget,
+      formData,
+      onChange,
+      onSubmit,
+      SchemaField,
+      SelectWidget,
+      TextareaWidget,
+      URLWidget,
+      useNewMarkdownEngine,
+    } = this.props;
 
-                // 🚨 Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
-                // browsers that don't fully support it.
-                /* dateTime: DateTimeWidget,
-                'date-time': DateTimeWidget, */
+    return (
+      <div id={`form-${this.perationId}`}>
+        {this.jsonSchema &&
+          this.jsonSchema.map(schema => {
+            return [
+              <div key={`${schema.type}-header`} className="param-type-header">
+                <h3>{schema.label}</h3>
+                <div className="param-header-border" />
+              </div>,
+              <Form
+                key={`${schema.type}-form`}
+                fields={{
+                  ArrayField,
+                  DescriptionField,
+                  SchemaField,
+                  UnsupportedField,
+                }}
+                formContext={{
+                  useNewMarkdownEngine,
+                }}
+                formData={formData[schema.type]}
+                id={`form-${schema.type}-${this.operationId}`}
+                idPrefix={`${schema.type}-${this.operationId}`}
+                onChange={form => {
+                  return onChange({ [schema.type]: form.formData });
+                }}
+                onSubmit={onSubmit}
+                schema={schema.schema}
+                widgets={{
+                  // 🚧 If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
+                  BaseInput,
+                  binary: FileWidget,
+                  blob: TextareaWidget,
+                  byte: TextWidget,
+                  date: TextWidget,
 
-                double: UpDownWidget,
-                duration: TextWidget,
-                float: UpDownWidget,
-                html: TextareaWidget,
-                int8: UpDownWidget,
-                int16: UpDownWidget,
-                int32: UpDownWidget,
-                int64: UpDownWidget,
-                integer: UpDownWidget,
-                json: TextareaWidget,
-                password: PasswordWidget,
-                SelectWidget,
-                string: TextWidget,
-                timestamp: TextWidget,
-                uint8: UpDownWidget,
-                uint16: UpDownWidget,
-                uint32: UpDownWidget,
-                uint64: UpDownWidget,
-                uri: URLWidget,
-                url: URLWidget,
-                uuid: TextWidget,
-              }}
-            >
-              <button style={{ display: 'none' }} type="submit" />
-            </Form>,
-          ];
-        })}
-    </div>
-  );
+                  // 🚨 Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
+                  // browsers that don't fully support it.
+                  /* dateTime: DateTimeWidget,
+                  'date-time': DateTimeWidget, */
+
+                  double: UpDownWidget,
+                  duration: TextWidget,
+                  float: UpDownWidget,
+                  html: TextareaWidget,
+                  int8: UpDownWidget,
+                  int16: UpDownWidget,
+                  int32: UpDownWidget,
+                  int64: UpDownWidget,
+                  integer: UpDownWidget,
+                  json: TextareaWidget,
+                  password: PasswordWidget,
+                  SelectWidget,
+                  string: TextWidget,
+                  timestamp: TextWidget,
+                  uint8: UpDownWidget,
+                  uint16: UpDownWidget,
+                  uint32: UpDownWidget,
+                  uint64: UpDownWidget,
+                  uri: URLWidget,
+                  url: URLWidget,
+                  uuid: TextWidget,
+                }}
+              >
+                <button style={{ display: 'none' }} type="submit" />
+              </Form>,
+            ];
+          })}
+      </div>
+    );
+  }
 }
 
 Params.propTypes = {
