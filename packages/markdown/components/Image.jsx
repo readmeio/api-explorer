@@ -9,11 +9,11 @@ const Image = props => {
   if (caption)
     return (
       <figure {...extras} style={{ width }}>
-        <img {...props} alt={alt} title={title} {...extras} />
+        <img {...props} alt={alt} title={title} {...extras} loading="lazy" />
         <figcaption>{caption}</figcaption>
       </figure>
     );
-  return <img {...props} alt={alt} title={title} {...extras} />;
+  return <img {...props} alt={alt} title={title} {...extras} loading="lazy" />;
 };
 
 Image.propTypes = {
