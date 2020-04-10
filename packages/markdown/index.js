@@ -177,7 +177,7 @@ export function react(text, opts = options, components = {}) {
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
   const count = {};
 
-  const R = processor(opts)
+  return processor(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
       Fragment: React.Fragment,
@@ -202,8 +202,6 @@ export function react(text, opts = options, components = {}) {
       }),
     })
     .processSync(opts.normalize ? normalize(text) : text).contents;
-  console.log(sanitize);
-  return R;
 }
 
 /**
