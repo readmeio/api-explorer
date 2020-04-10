@@ -74,21 +74,30 @@ function tokenize(eat, value) {
     case 'image': {
       const imgs = json.images.map(img => {
         const [url, title] = img.image;
-        return {
+
+        const block = {
           type: 'image',
           url,
           title,
-          alt: img.caption,
-          data: {
-            hProperties: {
-              caption: img.caption,
+        };
+
+        if (!img.caption) return block;
+        return {
+          type: 'figure',
+          data: { hName: 'figure' },
+          children: [
+            block,
+            {
+              type: 'figcaption',
+              data: { hName: 'figcaption' },
+              children: this.tokenizeBlock(img.caption, eat.now()),
             },
-          },
+          ],
         };
       });
       const img = imgs[0];
 
-      if (!img.url) return eat(match);
+      // if (!img.url) return eat(match);
       return eat(match)(WrapPinnedBlocks(img, json));
     }
     case 'callout': {
