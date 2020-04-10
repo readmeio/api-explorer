@@ -13,5 +13,6 @@
   "settings": {
     "position": false
   },
-  "normalize": true
+  "normalize": true,
+  "loosemode": false
 }
