@@ -73,7 +73,7 @@ sanitize.ancestors.input = ['li'];
 
 const toggleLoosemode = ({ loosemode = false }) => {
   if (loosemode) {
-    const tags = ['iframe', 'button', 'label', 'input', 'video', 'source'];
+    const tags = ['iframe', 'button', 'label', 'input', 'video', 'source', 'script'];
     const attr = [
       'id',
       'style',
