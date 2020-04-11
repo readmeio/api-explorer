@@ -18,8 +18,8 @@ require('codemirror/mode/powershell/powershell');
 require('codemirror/mode/python/python');
 require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/shell/shell');
-require('codemirror/mode/swift/swift');
 require('codemirror/mode/sql/sql');
+require('codemirror/mode/swift/swift');
 
 function getMode(lang) {
   let mode = lang;
