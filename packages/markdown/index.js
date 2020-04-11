@@ -96,7 +96,7 @@ const toggleLoosemode = ({ loosemode = false }) => {
     sanitize.required = {};
     delete sanitize.ancestors.input;
   }
-}
+};
 /**
  * Normalize Magic Block Raw Text
  */
