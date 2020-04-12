@@ -71,6 +71,32 @@ sanitize.tagNames.push('figcaption');
 sanitize.tagNames.push('input'); // allow GitHub-style todo lists
 sanitize.ancestors.input = ['li'];
 
+const toggleLoosemode = ({ loosemode = false }) => {
+  if (loosemode) {
+    const tags = ['iframe', 'button', 'label', 'input', 'video', 'source', 'script'];
+    const attr = [
+      'id',
+      'style',
+      'class',
+      'height',
+      'width',
+      'src',
+      'name',
+      'checked',
+      'controls',
+      'type',
+      'disabled',
+      'placeholder',
+      '*',
+    ];
+    tags.forEach(tag => {
+      sanitize.attributes[tag] = attr;
+    });
+    sanitize.tagNames.push(...tags);
+    sanitize.required = {};
+    delete sanitize.ancestors.input;
+  }
+};
 /**
  * Normalize Magic Block Raw Text
  */
@@ -81,7 +107,7 @@ export function normalize(blocks) {
     .replace(/\[block:/g, '\n\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
     .trim()
-    .replace(/^(#+)([\w\s\d]+\n\n)/gm, '$1 $2');
+    .replace(/^(#+)((?:\w|\d)[^{#\n]+\n{1,})/gm, '$1 $2');
   return `${blocks}\n\n `;
 }
 
@@ -129,6 +155,8 @@ export function processor(opts = {}) {
 
 export function plain(text, opts = options, components = {}) {
   if (!text) return null;
+  toggleLoosemode(opts);
+
   return processor(opts)
     .use(rehypeReact, {
       createElement: React.createElement,
@@ -143,6 +171,7 @@ export function plain(text, opts = options, components = {}) {
  */
 export function react(text, opts = options, components = {}) {
   if (!text) return null;
+  toggleLoosemode(opts);
 
   // eslint-disable-next-line react/prop-types
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
@@ -180,6 +209,7 @@ export function react(text, opts = options, components = {}) {
  */
 export function html(text, opts = options) {
   if (!text) return null;
+  toggleLoosemode(opts);
 
   return processor(opts)
     .use(rehypeStringify)
@@ -191,6 +221,8 @@ export function html(text, opts = options) {
  */
 export function ast(text, opts = options) {
   if (!text) return null;
+  toggleLoosemode(opts);
+
   return processor(opts)
     .use(remarkStringify, opts.markdownOptions)
     .parse(opts.normalize ? normalize(text) : text);
@@ -201,6 +233,8 @@ export function ast(text, opts = options) {
  */
 export function md(tree, opts = options) {
   if (!tree) return null;
+  toggleLoosemode(opts);
+
   return processor(opts)
     .use(remarkStringify, opts.markdownOptions)
     .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler, rdmePinCompiler])

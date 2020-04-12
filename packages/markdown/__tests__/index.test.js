@@ -193,7 +193,7 @@ test('should strip dangerous iframe tag', () => {
 
 test('should strip dangerous img attributes', () => {
   expect(mount(markdown.default('<img src="x" onerror="alert(\'charlie\')">', settings)).html()).toBe(
-    '<img src="x" align="" alt="" caption="" height="auto" title="" width="auto">'
+    '<img src="x" align="" alt="" caption="" height="auto" title="" width="auto" loading="lazy">'
   );
 });
 

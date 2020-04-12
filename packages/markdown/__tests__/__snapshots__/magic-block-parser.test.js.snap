@@ -283,15 +283,34 @@ exports[`Parse Magic Blocks Image Blocks 1`] = `
 Object {
   "children": Array [
     Object {
-      "alt": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
-      "data": Object {
-        "hProperties": Object {
-          "caption": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+      "children": Array [
+        Object {
+          "title": "White Center Blue BG.svg",
+          "type": "image",
+          "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
         },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Qui iusto fugiat doloremque? Facilis obcaecati vitae corrupti.",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "data": Object {
+            "hName": "figcaption",
+          },
+          "type": "figcaption",
+        },
+      ],
+      "data": Object {
+        "hName": "figure",
       },
-      "title": "White Center Blue BG.svg",
-      "type": "image",
-      "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
+      "type": "figure",
     },
   ],
   "type": "root",
