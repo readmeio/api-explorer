@@ -43,9 +43,18 @@ function getMultipleExamples(response, lang) {
 
   const { examples } = response.content[lang];
   return Object.keys(examples).map(key => {
+    let example = examples[key];
+    if (typeof example === 'object') {
+      if ('value' in example) {
+        example = example.value;
+      }
+
+      example = JSON.stringify(example, undefined, 2);
+    }
+
     return {
       label: key,
-      code: typeof examples[key] === 'object' ? JSON.stringify(examples[key], undefined, 2) : examples[key],
+      code: example,
     };
   });
 }
