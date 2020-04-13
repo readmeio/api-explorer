@@ -32,6 +32,16 @@ test('should output only left content if `isThreeColumn=left`', () => {
   expect(content.find('.magic-block-textarea')).toHaveLength(1);
 });
 
+test('should include anchor tags if splitReference is enabled', () => {
+  const content = mount(<Content body={body} splitReferenceDocs="true" />);
+  expect(content.find('.fa-anchor')).toHaveLength(2);
+});
+
+test('should not include anchor tags if splitReference is disabled', () => {
+  const content = mount(<Content body={body} splitReferenceDocs="false" />);
+  expect(content.find('.fa-anchor')).toHaveLength(0);
+});
+
 test('should output only right content if `isThreeColumn=right`', () => {
   const content = mount(<Content body={body} isThreeColumn="right" />);
 
