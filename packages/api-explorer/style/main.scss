@@ -765,7 +765,7 @@ form.rjsf {
     background: white;
   }
 
-  body.hub-full #hub-content:before {
+  body.hub-full.hub-reference-parent #hub-content:before {
     content: '';
     width: 390px;
     height: 100%;

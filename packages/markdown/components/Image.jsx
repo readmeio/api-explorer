@@ -4,16 +4,9 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const Image = props => {
-  const { align, title, alt, width, height, caption } = props;
+  const { align, title, alt, width, height } = props;
   const extras = { align, width, height };
-  if (caption)
-    return (
-      <figure {...extras} style={{ width }}>
-        <img {...props} alt={alt} title={title} {...extras} />
-        <figcaption>{caption}</figcaption>
-      </figure>
-    );
-  return <img {...props} alt={alt} title={title} {...extras} />;
+  return <img {...props} alt={alt} title={title} {...extras} loading="lazy" />;
 };
 
 Image.propTypes = {
@@ -37,16 +30,6 @@ Image.defaultProps = {
 };
 
 module.exports = sanitizeSchema => {
-  sanitizeSchema.attributes.img = [
-    'className',
-    'title',
-    'alt',
-    'width',
-    'height',
-    'align',
-    'src',
-    'caption',
-    'longDesc',
-  ];
+  sanitizeSchema.attributes.img = ['className', 'title', 'alt', 'width', 'height', 'align', 'src', 'longDesc'];
   return Image;
 };
