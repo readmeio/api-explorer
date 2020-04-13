@@ -2,7 +2,7 @@
   "name": "@readme/markdown",
   "main": "dist/main.js",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "6.3.4",
+  "version": "6.3.5",
   "files": [
     "styles",
     "components",
@@ -10,8 +10,8 @@
   ],
   "dependencies": {
     "@readme/emojis": "^1.0.0",
-    "@readme/syntax-highlighter": "^6.3.4",
-    "@readme/variable": "^6.2.0",
+    "@readme/syntax-highlighter": "^6.3.5",
+    "@readme/variable": "^6.3.5",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
