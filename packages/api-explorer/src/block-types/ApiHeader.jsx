@@ -12,10 +12,6 @@ const ApiHeader = ({ block }) => {
           <span className={`pg-type-big pg-type type-${slug(block.data.type)}`} />
         )}
         {block.data.title}
-        {
-          // eslint-disable-next-line jsx-a11y/anchor-has-content
-          <a className="fa fa-anchor" href={`#section-${slug(block.data.title)}`} />
-        }
       </h1>
     </div>
   );
