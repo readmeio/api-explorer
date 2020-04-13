@@ -144,7 +144,13 @@ class Doc extends React.Component {
           </div>
         )}
 
-        <Content body={doc.body} flags={this.props.flags} isThreeColumn useNewMarkdownEngine={useNewMarkdownEngine} />
+        <Content
+          body={doc.body}
+          flags={this.props.flags}
+          isThreeColumn
+          splitReferenceDocs={this.props.appearance.splitReferenceDocs}
+          useNewMarkdownEngine={useNewMarkdownEngine}
+        />
       </React.Fragment>
     );
   }
@@ -169,6 +175,7 @@ class Doc extends React.Component {
                 body={doc.body}
                 flags={this.props.flags}
                 isThreeColumn="left"
+                splitReferenceDocs={this.props.appearance.splitReferenceDocs}
                 useNewMarkdownEngine={useNewMarkdownEngine}
               />
             </div>
@@ -185,6 +192,7 @@ class Doc extends React.Component {
                 body={doc.body}
                 flags={this.props.flags}
                 isThreeColumn="right"
+                splitReferenceDocs={this.props.appearance.splitReferenceDocs}
                 useNewMarkdownEngine={useNewMarkdownEngine}
               />
             </div>

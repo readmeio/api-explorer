@@ -14,9 +14,9 @@ const ApiHeader = require('./ApiHeader');
 
 const parseBlocks = require('../lib/parse-magic-blocks');
 
-const Loop = ({ content, column, flags }) => {
+const Loop = ({ content, column, flags, splitReferenceDocs }) => {
   const elements = content.map((block, key) => {
-    const props = { key, block, flags };
+    const props = { key, block, flags, splitReferenceDocs };
     switch (block.type) {
       case 'textarea':
         return <TextArea {...props} />;
@@ -81,19 +81,26 @@ const Content = props => {
       <div className="hub-reference-section">
         <div className="hub-reference-left">
           <div className="content-body">
-            <Loop column="left" content={left} flags={props.flags} />
+            <Loop column="left" content={left} flags={props.flags} splitReferenceDocs={props.splitReferenceDocs} />
           </div>
         </div>
         <div className="hub-reference-right">
           <div className="content-body">
-            <Loop column="right" content={right} flags={props.flags} />
+            <Loop column="right" content={right} flags={props.flags} splitReferenceDocs={props.splitReferenceDocs} />
           </div>
         </div>
       </div>
     );
   }
 
-  return <Loop column={isThreeColumn} content={isThreeColumn === 'left' ? left : right} flags={props.flags} />;
+  return (
+    <Loop
+      column={isThreeColumn}
+      content={isThreeColumn === 'left' ? left : right}
+      flags={props.flags}
+      splitReferenceDocs={props.splitReferenceDocs}
+    />
+  );
 };
 
 Loop.propTypes = {
@@ -106,17 +113,20 @@ Loop.propTypes = {
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
   }),
+  splitReferenceDocs: PropTypes.bool,
 };
 
 Loop.defaultProps = {
   column: 'left',
   flags: {},
+  splitReferenceDocs: false,
 };
 
 Content.propTypes = {
   body: PropTypes.string,
   flags: PropTypes.shape({}),
   isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  splitReferenceDocs: PropTypes.bool,
   useNewMarkdownEngine: PropTypes.bool,
 };
 
@@ -124,6 +134,7 @@ Content.defaultProps = {
   body: '',
   flags: {},
   isThreeColumn: true,
+  splitReferenceDocs: false,
   useNewMarkdownEngine: false,
 };
 
