@@ -9,11 +9,12 @@ const Callout = props => {
    * hast-util's hProps and Slate's MDAST serializer
    */
   const { theme, title, icon } = props;
-
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <blockquote {...attributes} className={`callout callout_${theme}`} theme={icon}>
-      <h3 className={[!title && 'floated']}>{children}</h3>
+      <h3 className={`callout-heading ${!title && 'empty'}`}>
+        <span className="callout-icon">{icon}</span> {children?.[0]?.props?.children.splice(1)?.[0] || title}
+      </h3>
       {content}
     </blockquote>
   );
