@@ -44,6 +44,7 @@ const {
   magicBlockParser,
   variableParser,
   gemojiParser,
+  compactHeadings,
 } = require('./processor/parse');
 
 /* Custom Unified Compilers
@@ -117,8 +118,7 @@ export function normalize(blocks) {
   blocks = blocks
     .replace(/\[block:/g, '\n\n[block:')
     .replace(/\[\/block\]/g, '[/block]\n')
-    .trim()
-    .replace(/^(#+)((?:\w|\d)[^{#\n]+\n{1,})/gm, '$1 $2');
+    .trim();
   return `${blocks}\n\n `;
 }
 
@@ -156,6 +156,7 @@ export function processor(opts = {}) {
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
     .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)])
+    .use(compactHeadings.sanitize(sanitize))
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
