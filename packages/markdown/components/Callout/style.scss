@@ -47,22 +47,21 @@
     color: inherit;
   }
 
-  h3,
-  h4 {
+  h3, h4 {
     color: var(--title, --text);
     margin-bottom: calc(#{$l-offset} * .5);
-    &.floated {
+    &.empty {
       float: left;
     }
     > * {
       color: inherit;
       margin: 0;
-    }  
-    &:first-letter {
-      float: left;
-      margin-left: calc(-#{$l-offset} - .5em);
-      margin-right: -.25rem;
     }
+  }
+  .callout-icon {
+    float: left;
+    margin-left: calc(-#{$l-offset} - .5em);
+    margin-right: -.25rem;
   }
 }
 

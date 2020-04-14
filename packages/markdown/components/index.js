@@ -7,3 +7,5 @@ export { default as Callout } from './Callout';
 export { default as CodeTabs } from './CodeTabs';
 export { default as Image } from './Image';
 export { default as Embed } from './Embed';
+
+export { default as HTMLBlock } from './HTMLBlock';
