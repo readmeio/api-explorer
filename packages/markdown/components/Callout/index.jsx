@@ -9,7 +9,7 @@ const Callout = props => {
    * hast-util's hProps and Slate's MDAST serializer
    */
   const { theme, title, icon } = props;
-  const titleProps = children[0].props; // @rafegoldberg sucks
+  const titleProps = children.length && children[0].props; // @rafegoldberg sucks
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <blockquote {...attributes} className={`callout callout_${theme}`} theme={icon}>
