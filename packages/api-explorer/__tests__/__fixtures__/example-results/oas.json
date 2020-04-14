@@ -180,6 +180,21 @@
         "summary": "Update Password"
       }
     },
+    "/emptyexample": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/nolang": {
       "get": {
         "description": ""
