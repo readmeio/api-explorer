@@ -422,22 +422,18 @@ span.CodeMirror-selectedtext { background: none; }
     padding-left: 0; }
   .callout.callout a {
     color: inherit; }
-  .callout.callout h3,
-  .callout.callout h4 {
+  .callout.callout h3, .callout.callout h4 {
     color: var(--title, --text);
     margin-bottom: calc(1.33rem * .5); }
-    .callout.callout h3.floated,
-    .callout.callout h4.floated {
+    .callout.callout h3.empty, .callout.callout h4.empty {
       float: left; }
-    .callout.callout h3 > *,
-    .callout.callout h4 > * {
+    .callout.callout h3 > *, .callout.callout h4 > * {
       color: inherit;
       margin: 0; }
-    .callout.callout h3:first-letter,
-    .callout.callout h4:first-letter {
-      float: left;
-      margin-left: calc(-1.33rem - .5em);
-      margin-right: -.25rem; }
+  .callout.callout .callout-icon {
+    float: left;
+    margin-left: calc(-1.33rem - .5em);
+    margin-right: -.25rem; }
 
 .CodeTabs {
   color: #333;
