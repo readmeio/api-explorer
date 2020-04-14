@@ -19762,7 +19762,7 @@ var Callout = function Callout(props) {
   var theme = props.theme,
       title = props.title,
       icon = props.icon;
-  var titleProps = children[0].props; // @rafegoldberg sucks
+  var titleProps = children.length && children[0].props; // @rafegoldberg sucks
 
   return (
     /*#__PURE__*/
