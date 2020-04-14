@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 require('./styles/main.scss');
 
 const React = require('react');
@@ -86,19 +87,23 @@ sanitize.ancestors.input = ['li'];
 /**
  * Normalize Magic Block Raw Text
  */
-export function normalize(blocks) {
-  // normalize magic block lines
-  // eslint-disable-next-line no-param-reassign
-  blocks = blocks
-    .replace(/\[block:/g, '\n\n[block:')
-    .replace(/\[\/block\]/g, '[/block]\n')
-    .trim();
-  return `${blocks}\n\n `;
+function setup(blocks, opts = {}) {
+  // merge default and user options
+  opts = { ...options, ...opts };
+
+  // normalize magic block linebreaks
+  if (opts.normalize && blocks) {
+    blocks = blocks
+      .replace(/\[block:/g, '\n\n[block:')
+      .replace(/\[\/block\]/g, '[/block]\n')
+      .trim();
+  }
+
+  return [`${blocks}\n\n `, opts];
 }
 
 export const utils = {
   options,
-  normalizeMagic: normalize,
   VariablesContext: Variable.VariablesContext,
   GlossaryContext: GlossaryItem.GlossaryContext,
 };
@@ -139,8 +144,9 @@ export function processor(opts = {}) {
     .use(rehypeSanitize, sanitize);
 }
 
-export function plain(text, opts = options, components = {}) {
+export function plain(text, opts = {}, components = {}) {
   if (!text) return null;
+  [text, opts] = setup(text, opts);
 
   return processor(opts)
     .use(rehypeReact, {
@@ -148,14 +154,15 @@ export function plain(text, opts = options, components = {}) {
       Fragment: React.Fragment,
       components,
     })
-    .processSync(opts.normalize ? normalize(text) : text).contents;
+    .processSync(text).contents;
 }
 
 /**
  *  return a React VDOM component tree
  */
-export function react(text, opts = options, components = {}) {
+export function react(text, opts = {}, components = {}) {
   if (!text) return null;
+  [text, opts] = setup(text, opts);
 
   // eslint-disable-next-line react/prop-types
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
@@ -186,36 +193,35 @@ export function react(text, opts = options, components = {}) {
         ...components,
       }),
     })
-    .processSync(opts.normalize ? normalize(text) : text).contents;
+    .processSync(text).contents;
 }
 
 /**
  *  transform markdown in to HTML
  */
-export function html(text, opts = options) {
+export function html(text, opts = {}) {
   if (!text) return null;
+  [text, opts] = setup(text, opts);
 
-  return processor(opts)
-    .use(rehypeStringify)
-    .processSync(opts.normalize ? normalize(text) : text).contents;
+  return processor(opts).use(rehypeStringify).processSync(text).contents;
 }
 
 /**
  *  convert markdown to an mdast object
  */
-export function ast(text, opts = options) {
+export function ast(text, opts = {}) {
   if (!text) return null;
+  [text, opts] = setup(text, opts);
 
-  return processor(opts)
-    .use(remarkStringify, opts.markdownOptions)
-    .parse(opts.normalize ? normalize(text) : text);
+  return processor(opts).use(remarkStringify, opts.markdownOptions).parse(text);
 }
 
 /**
  *  compile mdast to ReadMe-flavored markdown
  */
-export function md(tree, opts = options) {
+export function md(tree, opts = {}) {
   if (!tree) return null;
+  [, opts] = setup('', opts);
 
   return processor(opts)
     .use(remarkStringify, opts.markdownOptions)
@@ -223,6 +229,6 @@ export function md(tree, opts = options) {
     .stringify(tree);
 }
 
-const ReadMeMarkdown = text => react(normalize(text));
+const ReadMeMarkdown = (text, opts = {}) => react(text, opts);
 
 export default ReadMeMarkdown;
