@@ -137,7 +137,7 @@ describe('createCodeShower', () => {
     expect(createCodeShower(operation, oas)).toStrictEqual([]);
   });
 
-  it('should erturn early if there is an empty example', () => {
+  it('should return early if there is an empty example', () => {
     const operation = oas.operation('/emptyexample', 'get');
     expect(createCodeShower(operation, oas)).toStrictEqual([]);
   });
