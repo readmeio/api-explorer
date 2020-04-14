@@ -4,7 +4,7 @@ const PropTypes = require('prop-types');
 class HTMLBlock extends React.Component {
   render() {
     const { html } = this.props;
-    return <div className="rdme-html" dangerouslySetInnerHTML={{ __html: html }} />;
+    return <div className="rdmd-html" dangerouslySetInnerHTML={{ __html: html }} />;
   }
 }
 

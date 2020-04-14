@@ -4,7 +4,7 @@ const PropTypes = require('prop-types');
 function Table(props) {
   const { children } = props;
   return (
-    <div className="table">
+    <div className="rdmd-table">
       <table>{children}</table>
     </div>
   );
