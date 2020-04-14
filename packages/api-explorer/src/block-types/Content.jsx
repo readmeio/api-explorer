@@ -43,10 +43,10 @@ const Loop = ({ content, column, flags, splitReferenceDocs }) => {
 };
 
 const Content = props => {
-  const { body, isThreeColumn, useNewMarkdownEngine } = props;
+  const { body, isThreeColumn, useNewMarkdownEngine, splitReferenceDocs } = props;
 
   if (useNewMarkdownEngine) {
-    const content = markdown(body);
+    const content = markdown(body, { splitReferenceDocs });
 
     if (isThreeColumn === true) {
       return (
@@ -81,12 +81,12 @@ const Content = props => {
       <div className="hub-reference-section">
         <div className="hub-reference-left">
           <div className="content-body">
-            <Loop column="left" content={left} flags={props.flags} splitReferenceDocs={props.splitReferenceDocs} />
+            <Loop column="left" content={left} flags={props.flags} splitReferenceDocs={splitReferenceDocs} />
           </div>
         </div>
         <div className="hub-reference-right">
           <div className="content-body">
-            <Loop column="right" content={right} flags={props.flags} splitReferenceDocs={props.splitReferenceDocs} />
+            <Loop column="right" content={right} flags={props.flags} splitReferenceDocs={splitReferenceDocs} />
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@ const Content = props => {
       column={isThreeColumn}
       content={isThreeColumn === 'left' ? left : right}
       flags={props.flags}
-      splitReferenceDocs={props.splitReferenceDocs}
+      splitReferenceDocs={splitReferenceDocs}
     />
   );
 };

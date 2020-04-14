@@ -25,26 +25,33 @@ function generateHeadingId(e, anchors) {
   return id;
 }
 
-function Heading({ tag, ...props }) {
+function Heading({ tag, opts, ...props }) {
   if (!props.children) return '';
+  const { splitReferenceDocs } = opts;
+
   const id = `section-${generateHeadingId(props.children[0], props.anchors)}`;
   const attrs = {
     className: `heading heading-${props.level} header-scroll`,
     align: props.align,
   };
-  return React.createElement(tag, attrs, [
+  const children = [
     <div key={`heading-anchor-${id}`} className="heading-anchor anchor waypoint" id={id} />,
     <div key={`heading-text-${id}`} className="heading-text">
       {props.children}
     </div>,
+  ];
+
+  if (splitReferenceDocs) {
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    <a key={`heading-anchor-icon-${id}`} className="heading-anchor-icon fa fa-anchor" href={`#${id}`} />,
-  ]);
+    children.push(<a key={`heading-anchor-icon-${id}`} className="heading-anchor-icon fa fa-anchor" href={`#${id}`} />);
+  }
+
+  return React.createElement(tag, attrs, children);
 }
 
-function CreateHeading(level, anchors) {
+function CreateHeading(level, anchors, opts) {
   // eslint-disable-next-line react/display-name
-  return props => <Heading {...props} anchors={anchors} level={level} tag={`h${level}`} />;
+  return props => <Heading {...props} anchors={anchors} level={level} opts={opts} tag={`h${level}`} />;
 }
 
 Heading.propTypes = {
@@ -52,11 +59,15 @@ Heading.propTypes = {
   anchors: PropTypes.object,
   children: PropTypes.array.isRequired,
   level: PropTypes.number,
+  opts: PropTypes.object,
   tag: PropTypes.string.isRequired,
 };
 Heading.defaultProps = {
   align: '',
   level: 2,
+  opts: {
+    splitReferenceDocs: false,
+  },
 };
 
-module.exports = (level, anchors) => CreateHeading(level, anchors);
+module.exports = (level, anchors, opts) => CreateHeading(level, anchors, opts);

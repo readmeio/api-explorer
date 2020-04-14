@@ -190,12 +190,12 @@ export function react(text, opts = options, components = {}) {
         'rdme-pin': PinWrap,
         table: Table(sanitize),
         a: Anchor(sanitize),
-        h1: Heading(1, count),
-        h2: Heading(2, count),
-        h3: Heading(3, count),
-        h4: Heading(4, count),
-        h5: Heading(5, count),
-        h6: Heading(6, count),
+        h1: Heading(1, count, opts),
+        h2: Heading(2, count, opts),
+        h3: Heading(3, count, opts),
+        h4: Heading(4, count, opts),
+        h5: Heading(5, count, opts),
+        h6: Heading(6, count, opts),
         code: Code(sanitize),
         img: Image(sanitize),
         ...components,
@@ -241,6 +241,6 @@ export function md(tree, opts = options) {
     .stringify(tree);
 }
 
-const ReadMeMarkdown = text => react(normalize(text));
+const ReadMeMarkdown = (text, opts) => react(normalize(text), opts);
 
 export default ReadMeMarkdown;
