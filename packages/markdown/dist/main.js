@@ -20904,7 +20904,6 @@ module.exports = __webpack_require__(121);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return utils; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "processor", function() { return processor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "plain", function() { return plain; });
@@ -20912,12 +20911,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ast", function() { return ast; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "md", function() { return md; });
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/* eslint-disable no-param-reassign */
 __webpack_require__(122);
 
 var React = __webpack_require__(3);
@@ -21009,15 +21021,20 @@ sanitize.ancestors.input = ['li'];
  * Normalize Magic Block Raw Text
  */
 
-function normalize(blocks) {
-  // normalize magic block lines
-  // eslint-disable-next-line no-param-reassign
-  blocks = blocks.replace(/\[block:/g, '\n\n[block:').replace(/\[\/block\]/g, '[/block]\n').trim();
-  return "".concat(blocks, "\n\n ");
+function setup(blocks) {
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  // merge default and user options
+  opts = _objectSpread({}, options, {}, opts); // normalize magic block linebreaks
+
+  if (opts.normalize && blocks) {
+    blocks = blocks.replace(/\[block:/g, '\n\n[block:').replace(/\[\/block\]/g, '[/block]\n').trim();
+  }
+
+  return ["".concat(blocks, "\n\n "), opts];
 }
+
 var utils = {
   options: options,
-  normalizeMagic: normalize,
   VariablesContext: Variable.VariablesContext,
   GlossaryContext: GlossaryItem.GlossaryContext
 };
@@ -21051,24 +21068,39 @@ function processor() {
   }).use(rehypeRaw).use(rehypeSanitize, sanitize);
 }
 function plain(text) {
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var components = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   if (!text) return null;
+
+  var _setup = setup(text, opts);
+
+  var _setup2 = _slicedToArray(_setup, 2);
+
+  text = _setup2[0];
+  opts = _setup2[1];
   return processor(opts).use(rehypeReact, {
     createElement: React.createElement,
     Fragment: React.Fragment,
     components: components
-  }).processSync(opts.normalize ? normalize(text) : text).contents;
+  }).processSync(text).contents;
 }
 /**
  *  return a React VDOM component tree
  */
 
 function react(text) {
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var components = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  if (!text) return null; // eslint-disable-next-line react/prop-types
+  if (!text) return null;
 
+  var _setup3 = setup(text, opts);
+
+  var _setup4 = _slicedToArray(_setup3, 2);
+
+  text = _setup4[0];
+  opts = _setup4[1];
+
+  // eslint-disable-next-line react/prop-types
   var PinWrap = function PinWrap(_ref) {
     var children = _ref.children;
     return /*#__PURE__*/React.createElement("div", {
@@ -21101,38 +21133,59 @@ function react(text) {
       code: Code(sanitize),
       img: Image(sanitize)
     }, components))
-  }).processSync(opts.normalize ? normalize(text) : text).contents;
+  }).processSync(text).contents;
 }
 /**
  *  transform markdown in to HTML
  */
 
 function html(text) {
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (!text) return null;
-  return processor(opts).use(rehypeStringify).processSync(opts.normalize ? normalize(text) : text).contents;
+
+  var _setup5 = setup(text, opts);
+
+  var _setup6 = _slicedToArray(_setup5, 2);
+
+  text = _setup6[0];
+  opts = _setup6[1];
+  return processor(opts).use(rehypeStringify).processSync(text).contents;
 }
 /**
  *  convert markdown to an mdast object
  */
 
 function ast(text) {
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (!text) return null;
-  return processor(opts).use(remarkStringify, opts.markdownOptions).parse(opts.normalize ? normalize(text) : text);
+
+  var _setup7 = setup(text, opts);
+
+  var _setup8 = _slicedToArray(_setup7, 2);
+
+  text = _setup8[0];
+  opts = _setup8[1];
+  return processor(opts).use(remarkStringify, opts.markdownOptions).parse(text);
 }
 /**
  *  compile mdast to ReadMe-flavored markdown
  */
 
 function md(tree) {
-  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : options;
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (!tree) return null;
+
+  var _setup9 = setup('', opts);
+
+  var _setup10 = _slicedToArray(_setup9, 2);
+
+  opts = _setup10[1];
   return processor(opts).use(remarkStringify, opts.markdownOptions).use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler, rdmePinCompiler]).stringify(tree);
 }
 
 var ReadMeMarkdown = function ReadMeMarkdown(text) {
-  return react(normalize(text));
+  var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return react(text, opts);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ReadMeMarkdown);
