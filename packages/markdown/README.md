@@ -43,7 +43,6 @@ Which will give you the following:
 | *`html`*      | transform markdown in to HTML                  | `text`, `options`|
 | *`ast`*       | transform markdown to an mdast object          | `text`, `options`|
 | *`md`*        | transform mdast in to ReadMe-flavored markdown | `tree`, `options`|
-| *`normalize`* | normalize magic block syntax pre-processing    | `text`           |
 | *`utils`*     | default `options`, React contexts, other utils | N/A              |
 
 </details><hr>

@@ -192,6 +192,17 @@ function tokenize(eat, value) {
         )
       );
     }
+    case 'html': {
+      return eat(match)(
+        WrapPinnedBlocks(
+          {
+            type: 'html-block',
+            data: { hName: 'html-block', hProperties: { html: json.html } },
+          },
+          json
+        )
+      );
+    }
     default: {
       return eat(match)(
         WrapPinnedBlocks(
