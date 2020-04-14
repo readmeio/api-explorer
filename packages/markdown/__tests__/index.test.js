@@ -246,6 +246,17 @@ describe('export multiple Markdown renderers', () => {
     expect(markdown.md(tree)).toMatchSnapshot();
   });
 
+  it('allows complex compact headings', () => {
+    const mdxt = `#Basic Text
+
+##🙀 oh noes!
+###**6**. Oh No
+
+Lorem ipsum dolor!`;
+    const html = markdown.html(mdxt, settings);
+    expect(html).toMatchSnapshot();
+  });
+
   it('renders HTML', () => {
     expect(markdown.html(text, settings)).toMatchSnapshot();
   });

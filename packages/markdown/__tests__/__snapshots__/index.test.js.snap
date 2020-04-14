@@ -35,6 +35,13 @@ exports[`emojis 1`] = `
 :unknown-emoji:</p>"
 `;
 
+exports[`export multiple Markdown renderers allows complex compact headings 1`] = `
+"<h1>Basic Text</h1>
+<h2>🙀 oh noes!</h2>
+<h3><strong>6</strong>. Oh No</h3>
+<p>Lorem ipsum dolor!</p>"
+`;
+
 exports[`export multiple Markdown renderers renders AST 1`] = `
 Object {
   "children": Array [
