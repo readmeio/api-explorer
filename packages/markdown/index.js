@@ -22,7 +22,18 @@ const rehypeReact = require('rehype-react');
 /* React Custom Components
  */
 const Variable = require('@readme/variable');
-const { GlossaryItem, Code, Table, Anchor, Heading, Callout, CodeTabs, Image, Embed } = require('./components');
+const {
+  GlossaryItem,
+  Code,
+  Table,
+  Anchor,
+  Heading,
+  Callout,
+  CodeTabs,
+  Image,
+  Embed,
+  HTMLBlock,
+} = require('./components');
 
 /* Custom Unified Parsers
  */
@@ -183,6 +194,7 @@ export function react(text, opts = options, components = {}) {
       Fragment: React.Fragment,
       components: (typeof components === 'function' ? components : r => r)({
         'code-tabs': CodeTabs(sanitize),
+        'html-block': HTMLBlock(sanitize),
         'rdme-callout': Callout(sanitize),
         'readme-variable': Variable,
         'readme-glossary-item': GlossaryItem,
