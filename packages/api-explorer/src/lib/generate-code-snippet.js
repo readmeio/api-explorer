@@ -88,4 +88,4 @@ module.exports = (oas, operation, values, auth, lang) => {
   };
 };
 
-module.exports.getLangName = lang => (supportedLanguages[lang] ? uppercase(lang) : lang);
+module.exports.getLangName = lang => uppercase(lang);

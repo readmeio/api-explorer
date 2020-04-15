@@ -81,17 +81,14 @@ function PathUrl({
           )}
 
           <span className={`pg-type-big pg-type type-${operation.method}`}>{operation.method}</span>
-
-          {oas.servers && oas.servers.length > 0 && (
-            <span className="definition-url">
-              <span className="url">{oas.url()}</span>
-              {splitPath(operation.path).map(part => (
-                <span key={part.key} className={`api-${part.type}`}>
-                  {part.value}
-                </span>
-              ))}
-            </span>
-          )}
+          <span className="definition-url">
+            <span className="url">{oas.url()}</span>
+            {splitPath(operation.path).map(part => (
+              <span key={part.key} className={`api-${part.type}`}>
+                {part.value}
+              </span>
+            ))}
+          </span>
         </div>
       </div>
     </div>
