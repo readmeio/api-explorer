@@ -5,6 +5,10 @@ function encodeJsonExample(json) {
 }
 
 describe('upgradeLegacyResponses', () => {
+  it('should not return anything for an legacy response that hasnt been fully configured', () => {
+    expect(upgradeLegacyResponses([{ language: 'text', code: '' }])).toStrictEqual([]);
+  });
+
   it('should return codes array for a legacy response shape', () => {
     const encodedExample = {
       meta: {
