@@ -13,7 +13,7 @@ module.exports = responses => {
   const codes = {};
 
   responses.forEach(response => {
-    // If there's no status set, then the legacy response wasn't full set up so we should ignore it.
+    // If there's no status set, then the legacy response wasn't fully configured so we should ignore it.
     if (!('status' in response)) {
       return;
     }
