@@ -67,4 +67,6 @@
 
 .callout.callout {
   @include callout;
+  border-top-right-radius: var(--markdown-radius);
+  border-bottom-right-radius: var(--markdown-radius);
 }

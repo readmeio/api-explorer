@@ -14,10 +14,6 @@
     word-wrap: break-word
   }
 
-  table {
-    display: table;
-  }
-
   ul {
     list-style: initial;
   }
@@ -138,16 +134,6 @@
     clear: both;
     content: "";
     display: table
-  }
-
-  table {
-    border-collapse: collapse;
-    border-spacing: 0
-  }
-
-  td,
-  th {
-    padding: 0
   }
 
   details summary {
@@ -376,35 +362,6 @@
     padding: 0 1em
   }
 
-  table {
-    overflow: auto;
-    width: 100%
-  }
-
-  table th,
-  table thead td {
-    font-weight: 600;
-  }
-
-  table thead tr {
-    background: #f6f8fa;
-  }
-
-  table td,
-  table th {
-    border: 1px solid #dfe2e5;
-    padding: 6px 13px
-  }
-
-  table tr {
-    background-color: #fff;
-    border-top: 1px solid #c6cbd1
-  }
-
-  table tr:nth-child(2n) {
-    background-color: lighten(#f6f8fa, 1.5%);
-  }
-
   img {
     background-color: #fff;
     box-sizing: content-box;
@@ -471,7 +428,7 @@
   .highlight pre,
   pre {
     background-color: #f6f8fa;
-    border-radius: 3px;
+    border-radius: var(--markdown-radius, 3px);
     font-size: 85%;
     line-height: 1.45;
     overflow: auto;
@@ -562,7 +519,6 @@
     margin-right: auto;
   }
 
-
   .task-list-item input {
     margin: 0 .5em .25em -1.25em;
   }
@@ -585,42 +541,6 @@
         flex: 1;
         margin: -15px;
         border-radius: 0 !important;
-      }
-    }
-  }
-
-  .table {
-    display: inline-block;
-
-    >table {
-      margin-bottom: 0 !important;
-    }
-
-    &_centered {
-      margin: 30px auto !important;
-      display: block;
-    }
-
-    &_rounded {
-      border: 1px solid #e0e2e5;
-      border-radius: 3px;
-      overflow: hidden;
-
-      tr,
-      tr td,
-      tr th {
-        border-width: 0 !important;
-        border-color: #e0e2e5;
-      }
-
-      thead+tbody tr:first-of-type,
-      tr+tr {
-        border-top-width: 1px !important;
-      }
-
-      tr td+td,
-      tr th+th {
-        border-left-width: 1px !important;
       }
     }
   }
