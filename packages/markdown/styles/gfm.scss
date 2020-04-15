@@ -1,10 +1,4 @@
 @mixin gfm {
-  @at-root :root {
-    --markdown-font: inherit;
-    --markdown-text: inherit;
-    --markdown-title: inherit;
-    --markdown-lineHeight: 1.5;
-  }
   @include markdown-body-defaults;
   @include markdown-body-overrides;
 }

@@ -1,7 +1,12 @@
 @import './gfm.scss';
 @import './components.scss';
 
-// #hub-content   !=   html[ng-app="hub"] .markdown-body   !=   #root > .App   !=   #app
+:root {
+  --markdown-font: inherit;
+  --markdown-text: inherit;
+  --markdown-title: inherit;
+  --markdown-lineHeight: 1.5;
+}
 
 .field-description,
 .markdown-body {
