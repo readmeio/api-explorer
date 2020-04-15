@@ -4,5 +4,5 @@ export { default as flavorEmbed } from './flavored/embed';
 export { default as magicBlockParser } from './magic-block-parser';
 export { default as variableParser } from './variable-parser';
 export { default as gemojiParser } from './gemoji-parser';
-
 export { default as compactHeadings } from './compact-headings';
+export { default as anchorParser } from './anchor-parser';

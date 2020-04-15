@@ -14,6 +14,7 @@ const rehypeRaw = require('rehype-raw');
 const remarkParse = require('remark-parse');
 const remarkStringify = require('remark-stringify');
 const remarkBreaks = require('remark-breaks');
+const remarkSlug = require('remark-slug');
 
 // rehype plugins
 const rehypeSanitize = require('rehype-sanitize');
@@ -46,6 +47,7 @@ const {
   variableParser,
   gemojiParser,
   compactHeadings,
+  anchorParser,
 } = require('./processor/parse');
 
 /* Custom Unified Compilers
@@ -139,6 +141,7 @@ export function processor(opts = {}) {
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
+    .use(remarkSlug)
     .use(remarkRehype, { allowDangerousHTML: true })
     .use(rehypeRaw)
     .use(rehypeSanitize, sanitize);
