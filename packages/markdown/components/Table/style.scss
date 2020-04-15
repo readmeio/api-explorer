@@ -88,6 +88,9 @@
       th:last-child {
         border-right: none;
       }
+      th:last-child {
+        box-shadow: 1px 0 0 var(--table-head);
+      }
     }
   }
 }
