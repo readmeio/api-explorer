@@ -455,8 +455,9 @@ span.CodeMirror-selectedtext { background: none; }
   .markdown-body .rdmd-table table:only-child td:last-child,
   .markdown-body .rdmd-table table:only-child th:last-child {
     border-right: none; }
-  .markdown-body .rdmd-table table:only-child th:last-child {
-    box-shadow: 1px 0 0 var(--table-head); }
+  .markdown-body .rdmd-table table:only-child thead tr,
+  .markdown-body .rdmd-table table:only-child thead th:last-child {
+    box-shadow: 3px 0 0 var(--table-head); }
 
 .callout.callout {
   --background: #f8f8f9;
@@ -490,14 +491,22 @@ span.CodeMirror-selectedtext { background: none; }
     padding-left: 0; }
   .callout.callout a {
     color: inherit; }
-  .callout.callout h3, .callout.callout h4 {
+  .callout.callout .callout-heading {
     color: var(--title, --text);
     margin-bottom: calc(1.33rem * .5); }
-    .callout.callout h3.empty, .callout.callout h4.empty {
+    .callout.callout .callout-heading:only-child {
+      margin-bottom: 0; }
+    .callout.callout .callout-heading.empty {
       float: left; }
-    .callout.callout h3 > *, .callout.callout h4 > * {
+    .callout.callout .callout-heading > * {
       color: inherit;
       margin: 0; }
+    .callout.callout .callout-heading:before {
+      position: absolute;
+      right: 100%;
+      width: 2.4em;
+      text-align: center;
+      font: normal normal normal 1em/1 FontAwesome; }
   .callout.callout .callout-icon {
     float: left;
     margin-left: calc(-1.33rem - .5em);
