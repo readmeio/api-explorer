@@ -579,7 +579,6 @@ span.CodeMirror-selectedtext { background: none; }
     opacity: 0; }
 
 :root {
-  --markdown-radius: ;
   --markdown-font: inherit;
   --markdown-text: inherit;
   --markdown-title: inherit;
