@@ -1,0 +1,93 @@
+@mixin markdown-table(
+  $row: #fff,
+  $head: #f6f8fa,
+  $stripe: #fbfcfd,
+  $edges: #dfe2e5,
+) {
+  table {
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+    overflow: auto;
+    width: 100%;
+    color: var(--table-text);
+
+    thead {
+      color: var(--table-head-text, inherit);
+    }
+    
+    td,
+    th {
+      padding: 0;
+      color: inherit;
+    }
+    
+    th,
+    thead td {
+      font-weight: 600;
+    }
+    
+    thead tr {
+      background: var(--table-head, #{$head});
+    }
+    
+    td,
+    th {
+      border: 1px solid var(--table-edges, #{$edges});
+      padding: 6px 13px
+    }
+    
+    tr {
+      background-color: var(--table-row, #{$row});
+      border-top: 1px solid var(--table-edges, #{$edges});
+    }
+    &:not(.plain) tr:nth-child(2n) {
+      background-color: var(--table-stripe, #{$stripe});
+    }
+  }
+}
+
+.markdown-body { 
+  @include markdown-table;
+  .rdmd-table {
+    $border-wrap-width: 1px;
+    & {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: var(--markdown-radius);
+    }
+    &:after {
+      content: ' ';
+      position: absolute;
+      box-shadow: inset 0 0 0 $border-wrap-width var(--table-edges, #dfe2e5);
+      width: 100%;
+      height: 100%;
+      top: 0;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: inherit;
+    }
+    &-inner {
+      overflow: auto;
+      min-width: 100%;
+      box-sizing: content-box;
+      width: 100%;
+      margin: 0 -$border-wrap-width;
+      border-radius: inherit;
+    }
+    table:only-child {
+      margin: 0 !important;
+      thead th {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background: inherit;
+      }
+      td:last-child,
+      th:last-child {
+        border-right: none;
+      }
+    }
+  }
+}
