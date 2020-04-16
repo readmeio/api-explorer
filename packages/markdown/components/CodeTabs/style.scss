@@ -4,10 +4,11 @@
 @mixin CodeTabs {
   $bgc-pre: #F6F8FA;
   $bgc-bar: #EBEDEF;
-  
+  $radius: var(--markdown-radius, 3px);
+
   color: #333;
   background: #eaeaea;
-  border-radius: 3px !important;
+  border-radius: $radius !important;
   overflow: hidden;
 
   &-toolbar {
@@ -28,7 +29,7 @@
   }
 
   pre {
-    border-radius: 0 0 3px 3px !important;
+    border-radius: 0 0 $radius $radius !important;
     background: $bgc-pre;
     margin-bottom: 0;
     &:not(.CodeTabs_active) { display: none }
