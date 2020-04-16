@@ -22,6 +22,8 @@ const rehypeReact = require('rehype-react');
 
 /* React Custom Components
  */
+const BaseUrlContext = require('./contexts/BaseUrl');
+
 const Variable = require('@readme/variable');
 const {
   GlossaryItem,
@@ -104,6 +106,7 @@ function setup(blocks, opts = {}) {
 
 export const utils = {
   options,
+  BaseUrlContext,
   VariablesContext: Variable.VariablesContext,
   GlossaryContext: GlossaryItem.GlossaryContext,
 };

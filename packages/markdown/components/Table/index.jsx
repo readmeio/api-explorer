@@ -5,7 +5,9 @@ function Table(props) {
   const { children } = props;
   return (
     <div className="rdmd-table">
-      <table>{children}</table>
+      <div className="rdmd-table-inner">
+        <table>{children}</table>
+      </div>
     </div>
   );
 }

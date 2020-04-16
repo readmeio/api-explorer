@@ -47,15 +47,25 @@
     color: inherit;
   }
 
-  h3, h4 {
+  .callout-heading {
     color: var(--title, --text);
     margin-bottom: calc(#{$l-offset} * .5);
+    &:only-child {
+      margin-bottom: 0;
+    }
     &.empty {
       float: left;
     }
     > * {
       color: inherit;
       margin: 0;
+    }
+    &:before {
+      position: absolute;
+      right: 100%;
+      width: 2.4em;
+      text-align: center;
+      font: normal normal normal 1em/1 FontAwesome;
     }
   }
   .callout-icon {
@@ -67,4 +77,6 @@
 
 .callout.callout {
   @include callout;
+  border-top-right-radius: var(--markdown-radius);
+  border-bottom-right-radius: var(--markdown-radius);
 }
