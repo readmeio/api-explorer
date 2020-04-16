@@ -47,7 +47,6 @@ const {
   variableParser,
   gemojiParser,
   compactHeadings,
-  anchorParser,
 } = require('./processor/parse');
 
 /* Custom Unified Compilers
@@ -210,13 +209,15 @@ export function html(text, opts = {}) {
 }
 
 /**
- *  convert markdown to an mdast object
+ *  convert markdown to an hast object
  */
 export function ast(text, opts = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
-  return processor(opts).use(remarkStringify, opts.markdownOptions).parse(text);
+  const rdmd = processor(opts);
+  const node = rdmd.parse(text);
+  return rdmd.runSync(node);
 }
 
 /**
