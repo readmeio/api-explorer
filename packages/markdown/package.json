@@ -22,7 +22,7 @@
     "rehype-stringify": "^6.0.0",
     "remark-breaks": "^1.0.0",
     "remark-parse": "^7.0.2",
-    "remark-rehype": "^5.0.0",
+    "remark-rehype": "^6.0.0",
     "remark-stringify": "^7.0.4",
     "unified": "^8.4.0",
     "unist-util-map": "^2.0.0",
