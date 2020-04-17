@@ -308,6 +308,12 @@ Object {
     Object {
       "children": Array [
         Object {
+          "data": Object {
+            "hProperties": Object {
+              "className": "border",
+              "width": "80%",
+            },
+          },
           "title": "White Center Blue BG.svg",
           "type": "image",
           "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
@@ -334,6 +340,7 @@ Object {
         "hName": "figure",
       },
       "type": "figure",
+      "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
     },
   ],
   "type": "root",
