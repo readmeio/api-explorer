@@ -1,6 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const langRemap = require('./lang-remap.json');
+
 const CodeTabs = props => {
   const { attributes, children } = props;
 
@@ -23,7 +25,7 @@ const CodeTabs = props => {
           const { meta, lang } = pre.children[0].props;
           return (
             <button key={i} onClick={e => handleClick(e, i)} type="button">
-              {meta || `(${lang || 'plaintext'})`}
+              {meta || `${!lang ? 'Text' : langRemap[lang] || lang}`}
             </button>
           );
         })}
