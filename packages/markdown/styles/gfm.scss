@@ -48,6 +48,7 @@
 
   a {
     transition: .15s ease;
+
     &:hover {
       text-decoration: underline;
     }
@@ -57,6 +58,7 @@
   a:hover {
     outline-width: 0
   }
+
   p a {
     text-decoration: underline;
   }
@@ -69,10 +71,6 @@
   h1 {
     font-size: 2em;
     margin: .67em 0
-  }
-
-  img {
-    border-style: none
   }
 
   code,
@@ -143,7 +141,7 @@
   h1,
   h2 {
     font-size: 1.5em;
-   --markdown-title-size: 1.5em;
+    --markdown-title-size: 1.5em;
     // border-bottom: 1px solid #eaecef;
     // padding-bottom: .3em;
   }
@@ -362,12 +360,6 @@
     padding: 0 1em
   }
 
-  img {
-    background-color: #fff;
-    box-sizing: content-box;
-    max-width: 100%
-  }
-
   code {
     background-color: rgba(27, 31, 35, .05);
     border-radius: 3px;
@@ -388,32 +380,6 @@
     padding: 0;
     white-space: pre;
     word-break: normal
-  }
-
-  figure {
-    & {
-      margin: 15px auto;
-    }
-
-    figcaption {
-      font-size: 0.88em;
-      font-style: italic;
-    }
-
-    &[align=right] {
-      float: right;
-      margin-left: 15px;
-    }
-
-    &[align=left] {
-      float: left;
-      margin-right: 15px;
-    }
-
-    figcaption {
-      font-size: small;
-      text-align: center;
-    }
   }
 
   .highlight {
@@ -504,20 +470,6 @@
     margin-bottom: 15px !important;
   }
 
-
-  img[align=left] {
-    margin-right: .5rem;
-  }
-
-  img[align=right] {
-    margin-left: .5rem;
-  }
-
-  img[align=center] {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
 
   .task-list-item input {
     margin: 0 .5em .25em -1.25em;
