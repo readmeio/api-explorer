@@ -26,7 +26,7 @@ const CodeTabs = props => {
           /* istanbul ignore next */
           return (
             <button key={i} onClick={e => handleClick(e, i)} type="button">
-              {meta || `${!lang ? 'Text' : upper(lang) || lang}`}
+              {meta || `${!lang ? 'Text' : upper(lang)}`}
             </button>
           );
         })}
