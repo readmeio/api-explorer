@@ -39,7 +39,7 @@ function tokenize(eat, value) {
     case 'code': {
       const children = json.codes.map(obj => ({
         type: 'code',
-        value: obj.code,
+        value: obj.code.trim(),
         meta: obj.name || null,
         lang: obj.language,
         className: 'tab-panel',
@@ -51,7 +51,7 @@ function tokenize(eat, value) {
           },
         },
       }));
-      if (children.length === 1) return eat(match)(WrapPinnedBlocks(children[0], json));
+      if (children.length === 1 && children[0].name) return eat(match)(WrapPinnedBlocks(children[0], json));
       return eat(match)(
         WrapPinnedBlocks(
           {
