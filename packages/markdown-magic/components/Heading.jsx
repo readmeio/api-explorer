@@ -9,6 +9,13 @@ function generateHeadingId(e) {
 }
 
 function Heading(props) {
+  // Sometimes there might be a case where someone types a header as `#` but doesnt attach any
+  // content to it. We shouldn't try to render it because we'll fail as  `props.children` will be
+  // empty!
+  if (typeof props.children === 'undefined') {
+    return null;
+  }
+
   const id = `section-${generateHeadingId(props.children[0])}`;
   return React.createElement(props.level, { className: 'header-scroll' }, [
     <div key={`anchor-${id}`} className="anchor waypoint" id={id} />,
