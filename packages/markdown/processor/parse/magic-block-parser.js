@@ -13,6 +13,11 @@ const WrapPinnedBlocks = (node, json) => {
   };
 };
 
+const imgSizeRemap = {
+  full: '100%',
+  original: 'auto',
+};
+
 function tokenize(eat, value) {
   let [match, type, json] = RGXP.exec(value) || [];
 
@@ -34,7 +39,7 @@ function tokenize(eat, value) {
     case 'code': {
       const children = json.codes.map(obj => ({
         type: 'code',
-        value: obj.code,
+        value: obj.code.trim(),
         meta: obj.name || null,
         lang: obj.language,
         className: 'tab-panel',
@@ -46,7 +51,7 @@ function tokenize(eat, value) {
           },
         },
       }));
-      if (children.length === 1) return eat(match)(WrapPinnedBlocks(children[0], json));
+      if (children.length === 1 && children[0].name) return eat(match)(WrapPinnedBlocks(children[0], json));
       return eat(match)(
         WrapPinnedBlocks(
           {
@@ -74,16 +79,25 @@ function tokenize(eat, value) {
     case 'image': {
       const imgs = json.images.map(img => {
         const [url, title] = img.image;
+        const size = img.sizing;
 
         const block = {
           type: 'image',
           url,
           title,
+          data: {
+            hProperties: {
+              className: img.border ? 'border' : '',
+              width: size && !size.match(/\D/) ? `${size}%` : imgSizeRemap[size] || size,
+            },
+          },
         };
 
         if (!img.caption) return block;
+
         return {
           type: 'figure',
+          url,
           data: { hName: 'figure' },
           children: [
             block,
@@ -97,7 +111,7 @@ function tokenize(eat, value) {
       });
       const img = imgs[0];
 
-      // if (!img.url) return eat(match);
+      if (!img.url) return eat(match);
       return eat(match)(WrapPinnedBlocks(img, json));
     }
     case 'callout': {

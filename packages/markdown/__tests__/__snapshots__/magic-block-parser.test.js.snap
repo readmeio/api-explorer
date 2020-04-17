@@ -140,20 +140,29 @@ alert('test');",
     Object {
       "children": Array [
         Object {
-          "className": "tab-panel",
-          "data": Object {
-            "hName": "code",
-            "hProperties": Object {
+          "children": Array [
+            Object {
+              "className": "tab-panel",
+              "data": Object {
+                "hName": "code",
+                "hProperties": Object {
+                  "lang": "javascript",
+                  "meta": null,
+                },
+              },
               "lang": "javascript",
               "meta": null,
-            },
-          },
-          "lang": "javascript",
-          "meta": null,
-          "type": "code",
-          "value": "$http.post('/someUrl', data).success(successCallback);
+              "type": "code",
+              "value": "$http.post('/someUrl', data).success(successCallback);
 
 alert('test');",
+            },
+          ],
+          "className": "tabs",
+          "data": Object {
+            "hName": "code-tabs",
+          },
+          "type": "code-tabs",
         },
       ],
       "data": Object {
@@ -308,6 +317,12 @@ Object {
     Object {
       "children": Array [
         Object {
+          "data": Object {
+            "hProperties": Object {
+              "className": "border",
+              "width": "80%",
+            },
+          },
           "title": "White Center Blue BG.svg",
           "type": "image",
           "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
@@ -334,6 +349,7 @@ Object {
         "hName": "figure",
       },
       "type": "figure",
+      "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
     },
   ],
   "type": "root",
