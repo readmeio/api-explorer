@@ -23,6 +23,7 @@ const CodeTabs = props => {
       <div className="CodeTabs-toolbar">
         {children.map(({ props: pre }, i) => {
           const { meta, lang } = pre.children[0].props;
+          /* istanbul ignore next */
           return (
             <button key={i} onClick={e => handleClick(e, i)} type="button">
               {meta || `${!lang ? 'Text' : langRemap[lang] || lang}`}
