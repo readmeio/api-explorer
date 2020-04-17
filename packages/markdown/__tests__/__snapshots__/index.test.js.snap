@@ -607,6 +607,543 @@ exports[`export multiple Markdown renderers renders custom React components 1`] 
 </React.Fragment>
 `;
 
+exports[`export multiple Markdown renderers renders hAST 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Hello World",
+        },
+      ],
+      "properties": Object {
+        "id": "hello-world",
+      },
+      "tagName": "h1",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Col. A",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "th",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Col. B",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "th",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Col. C",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "th",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "thead",
+          "type": "element",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell A1",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell B1",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell C1",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell A2",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell B2",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell C2",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell A3",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell B3",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell C3",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "tbody",
+          "type": "element",
+        },
+      ],
+      "properties": Object {},
+      "tagName": "table",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "  ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Embed Title",
+            },
+          ],
+          "properties": Object {
+            "href": "https://jsfiddle.net/rafegoldberg/5VA5j/",
+            "title": "@embed",
+          },
+          "tagName": "a",
+          "type": "element",
+        },
+      ],
+      "properties": Object {},
+      "tagName": "p",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "❗️ UhOh",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "p",
+          "type": "element",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "p",
+          "type": "element",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+      ],
+      "properties": Object {},
+      "tagName": "blockquote",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "quirksMode": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`export multiple Markdown renderers renders mdAST 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Hello World",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "align": Array [
+        "center",
+        "center",
+        "center",
+      ],
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Col. A",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Col. B",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Col. C",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell A1",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell B1",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell C1",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell A2",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell B2",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell C2",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell A3",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell B3",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "Cell C3",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "  ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Embed Title",
+            },
+          ],
+          "title": "@embed",
+          "type": "link",
+          "url": "https://jsfiddle.net/rafegoldberg/5VA5j/",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "❗️ UhOh",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+  ],
+  "type": "root",
+}
+`;
+
 exports[`export multiple Markdown renderers renders plain markdown as React 1`] = `
 <React.Fragment>
   <h1

@@ -214,13 +214,23 @@ export function html(text, opts = {}) {
 /**
  *  convert markdown to an hast object
  */
-export function ast(text, opts = {}) {
+export function hast(text, opts = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
   const rdmd = processor(opts);
   const node = rdmd.parse(text);
   return rdmd.runSync(node);
+}
+
+/**
+ *  convert markdown to an mdast object
+ */
+export function mdast(text, opts = {}) {
+  if (!text) return null;
+  [text, opts] = setup(text, opts);
+
+  return processor(opts).parse(text);
 }
 
 /**
