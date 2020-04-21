@@ -1,6 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const upper = require('@readme/syntax-highlighter/uppercase');
+
 const CodeTabs = props => {
   const { attributes, children } = props;
 
@@ -21,9 +23,10 @@ const CodeTabs = props => {
       <div className="CodeTabs-toolbar">
         {children.map(({ props: pre }, i) => {
           const { meta, lang } = pre.children[0].props;
+          /* istanbul ignore next */
           return (
             <button key={i} onClick={e => handleClick(e, i)} type="button">
-              {meta || `(${lang || 'plaintext'})`}
+              {meta || `${!lang ? 'Text' : upper(lang)}`}
             </button>
           );
         })}

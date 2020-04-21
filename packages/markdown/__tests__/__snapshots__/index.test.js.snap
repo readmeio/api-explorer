@@ -1000,6 +1000,6 @@ exports[`list items 1`] = `
 </ul>"
 `;
 
-exports[`magic image 1`] = `"<figure><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\" width=\\"auto\\" loading=\\"lazy\\"><figcaption><p>A guy. Eating pizza. And making an OK gesture.</p></figcaption></figure>"`;
+exports[`magic image 1`] = `"<figure><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\" loading=\\"lazy\\"><figcaption><p>A guy. Eating pizza. And making an OK gesture.</p></figcaption></figure>"`;
 
 exports[`tables 1`] = `"<div class=\\"rdmd-table\\"><div class=\\"rdmd-table-inner\\"><table><thead><tr><th>Tables</th><th style=\\"text-align: center;\\">Are</th><th style=\\"text-align: right;\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align: center;\\">right-aligned</td><td style=\\"text-align: right;\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align: center;\\">centered</td><td style=\\"text-align: right;\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align: center;\\">are neat</td><td style=\\"text-align: right;\\">$1</td></tr></tbody></table></div></div>"`;
