@@ -36,13 +36,578 @@ exports[`emojis 1`] = `
 `;
 
 exports[`export multiple Markdown renderers allows complex compact headings 1`] = `
-"<h1>Basic Text</h1>
-<h2>🙀 oh noes!</h2>
-<h3><strong>6</strong>. Oh No</h3>
+"<h1 id=\\"basic-text\\">Basic Text</h1>
+<h2 id=\\"-oh-noes\\">🙀 oh noes!</h2>
+<h3 id=\\"6-oh-no\\"><strong>6</strong>. Oh No</h3>
 <p>Lorem ipsum dolor!</p>"
 `;
 
-exports[`export multiple Markdown renderers renders AST 1`] = `
+exports[`export multiple Markdown renderers renders HTML 1`] = `
+"<h1 id=\\"hello-world\\">Hello World</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align=\\"center\\">Col. A</th><th align=\\"center\\">Col. B</th><th align=\\"center\\">Col. C</th></tr></thead><tbody><tr><td align=\\"center\\">Cell A1</td><td align=\\"center\\">Cell B1</td><td align=\\"center\\">Cell C1</td></tr><tr><td align=\\"center\\">Cell A2</td><td align=\\"center\\">Cell B2</td><td align=\\"center\\">Cell C2</td></tr><tr><td align=\\"center\\">Cell A3</td><td align=\\"center\\">Cell B3</td><td align=\\"center\\">Cell C3</td></tr></tbody></table>
+<p>  <a href=\\"https://jsfiddle.net/rafegoldberg/5VA5j/\\" title=\\"@embed\\">Embed Title</a></p>
+<blockquote>
+<p>❗️ UhOh</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+</blockquote>"
+`;
+
+exports[`export multiple Markdown renderers renders MD 1`] = `
+"Hello World
+===========
+"
+`;
+
+exports[`export multiple Markdown renderers renders custom React components 1`] = `
+<React.Fragment>
+  <Unknown
+    id="hello-world"
+  >
+    Hello World
+  </Unknown>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <Table>
+    <thead>
+      <tr>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. A
+        </th>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. B
+        </th>
+        <th
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Col. C
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A1
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B1
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C1
+        </td>
+      </tr>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A2
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B2
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C2
+        </td>
+      </tr>
+      <tr>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell A3
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell B3
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          Cell C3
+        </td>
+      </tr>
+    </tbody>
+  </Table>
+  
+
+  <p>
+      
+    <AnchorContext
+      href="https://jsfiddle.net/rafegoldberg/5VA5j/"
+      title="@embed"
+    >
+      Embed Title
+    </AnchorContext>
+  </p>
+  
+
+  <blockquote>
+    
+
+    <p>
+      ❗️ UhOh
+    </p>
+    
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    </p>
+    
+
+  </blockquote>
+</React.Fragment>
+`;
+
+exports[`export multiple Markdown renderers renders hAST 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Hello World",
+        },
+      ],
+      "properties": Object {
+        "id": "hello-world",
+      },
+      "tagName": "h1",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Col. A",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "th",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Col. B",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "th",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Col. C",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "th",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "thead",
+          "type": "element",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell A1",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell B1",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell C1",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell A2",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell B2",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell C2",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell A3",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell B3",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "Cell C3",
+                    },
+                  ],
+                  "properties": Object {
+                    "align": "center",
+                  },
+                  "tagName": "td",
+                  "type": "element",
+                },
+              ],
+              "properties": Object {},
+              "tagName": "tr",
+              "type": "element",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "tbody",
+          "type": "element",
+        },
+      ],
+      "properties": Object {},
+      "tagName": "table",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "  ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Embed Title",
+            },
+          ],
+          "properties": Object {
+            "href": "https://jsfiddle.net/rafegoldberg/5VA5j/",
+            "title": "@embed",
+          },
+          "tagName": "a",
+          "type": "element",
+        },
+      ],
+      "properties": Object {},
+      "tagName": "p",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "❗️ UhOh",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "p",
+          "type": "element",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            },
+          ],
+          "properties": Object {},
+          "tagName": "p",
+          "type": "element",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+      ],
+      "properties": Object {},
+      "tagName": "blockquote",
+      "type": "element",
+    },
+  ],
+  "data": Object {
+    "quirksMode": false,
+  },
+  "type": "root",
+}
+`;
+
+exports[`export multiple Markdown renderers renders mdAST 1`] = `
 Object {
   "children": Array [
     Object {
@@ -241,234 +806,11 @@ Object {
 }
 `;
 
-exports[`export multiple Markdown renderers renders HTML 1`] = `
-"<h1>Hello World</h1>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table><thead><tr><th align=\\"center\\">Col. A</th><th align=\\"center\\">Col. B</th><th align=\\"center\\">Col. C</th></tr></thead><tbody><tr><td align=\\"center\\">Cell A1</td><td align=\\"center\\">Cell B1</td><td align=\\"center\\">Cell C1</td></tr><tr><td align=\\"center\\">Cell A2</td><td align=\\"center\\">Cell B2</td><td align=\\"center\\">Cell C2</td></tr><tr><td align=\\"center\\">Cell A3</td><td align=\\"center\\">Cell B3</td><td align=\\"center\\">Cell C3</td></tr></tbody></table>
-<p>  <a href=\\"https://jsfiddle.net/rafegoldberg/5VA5j/\\" title=\\"@embed\\">Embed Title</a></p>
-<blockquote>
-<p>❗️ UhOh</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-</blockquote>"
-`;
-
-exports[`export multiple Markdown renderers renders MD 1`] = `
-"Hello World
-===========
-"
-`;
-
-exports[`export multiple Markdown renderers renders custom React components 1`] = `
-<React.Fragment>
-  <Unknown>
-    Hello World
-  </Unknown>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <Table>
-    <thead>
-      <tr>
-        <th
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Col. A
-        </th>
-        <th
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Col. B
-        </th>
-        <th
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Col. C
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell A1
-        </td>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell B1
-        </td>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell C1
-        </td>
-      </tr>
-      <tr>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell A2
-        </td>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell B2
-        </td>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell C2
-        </td>
-      </tr>
-      <tr>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell A3
-        </td>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell B3
-        </td>
-        <td
-          style={
-            Object {
-              "textAlign": "center",
-            }
-          }
-        >
-          Cell C3
-        </td>
-      </tr>
-    </tbody>
-  </Table>
-  
-
-  <p>
-      
-    <AnchorContext
-      href="https://jsfiddle.net/rafegoldberg/5VA5j/"
-      title="@embed"
-    >
-      Embed Title
-    </AnchorContext>
-  </p>
-  
-
-  <blockquote>
-    
-
-    <p>
-      ❗️ UhOh
-    </p>
-    
-
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    </p>
-    
-
-  </blockquote>
-</React.Fragment>
-`;
-
 exports[`export multiple Markdown renderers renders plain markdown as React 1`] = `
 <React.Fragment>
-  <h1>
+  <h1
+    id="hello-world"
+  >
     Hello World
   </h1>
   

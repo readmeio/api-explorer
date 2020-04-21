@@ -14,6 +14,7 @@ const rehypeRaw = require('rehype-raw');
 const remarkParse = require('remark-parse');
 const remarkStringify = require('remark-stringify');
 const remarkBreaks = require('remark-breaks');
+const remarkSlug = require('remark-slug');
 
 // rehype plugins
 const rehypeSanitize = require('rehype-sanitize');
@@ -142,6 +143,7 @@ export function processor(opts = {}) {
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
+    .use(remarkSlug)
     .use(remarkRehype, { allowDangerousHTML: true })
     .use(rehypeRaw)
     .use(rehypeSanitize, sanitize);
@@ -210,13 +212,25 @@ export function html(text, opts = {}) {
 }
 
 /**
- *  convert markdown to an mdast object
+ *  convert markdown to an hast object
  */
-export function ast(text, opts = {}) {
+export function hast(text, opts = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
-  return processor(opts).use(remarkStringify, opts.markdownOptions).parse(text);
+  const rdmd = processor(opts);
+  const node = rdmd.parse(text);
+  return rdmd.runSync(node);
+}
+
+/**
+ *  convert markdown to an mdast object
+ */
+export function mdast(text, opts = {}) {
+  if (!text) return null;
+  [text, opts] = setup(text, opts);
+
+  return processor(opts).parse(text);
 }
 
 /**

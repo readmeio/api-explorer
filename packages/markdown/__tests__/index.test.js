@@ -234,8 +234,12 @@ describe('export multiple Markdown renderers', () => {
     expect(markdown.react(text)).toMatchSnapshot();
   });
 
-  it('renders AST', () => {
-    expect(markdown.ast(text)).toMatchSnapshot();
+  it('renders hAST', () => {
+    expect(markdown.hast(text)).toMatchSnapshot();
+  });
+
+  it('renders mdAST', () => {
+    expect(markdown.mdast(text)).toMatchSnapshot();
   });
 
   it('renders MD', () => {
@@ -261,7 +265,8 @@ Lorem ipsum dolor!`;
     expect(markdown.html('')).toBeNull();
     expect(markdown.plain('')).toBeNull();
     expect(markdown.react('')).toBeNull();
-    expect(markdown.ast('')).toBeNull();
+    expect(markdown.hast('')).toBeNull();
+    expect(markdown.mdast('')).toBeNull();
     expect(markdown.md('')).toBeNull();
   });
 });
