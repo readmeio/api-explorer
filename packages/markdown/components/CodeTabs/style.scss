@@ -22,10 +22,33 @@
     &::-webkit-scrollbar {
       display: none;
     }
-    > button {
+    button {
       white-space: nowrap;
       transition: .123s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      display: inline-block;
+      line-height: 2;
+      padding: .5em 1em;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: inherit;
+      font: inherit;
+      font-size: .75em;
+      cursor: pointer;
     }
+  }
+
+  &.CodeTabs_initial &-toolbar button:first-child,
+  &-toolbar button.CodeTabs_active {
+    background: $bgc-pre;
+    color: black;
+    pointer-events: none;
+  }
+
+  &-toolbar button:not(.CodeTabs_active):hover {
+    background: rgba(0, 0, 0, .075);
   }
 
   pre {
@@ -33,32 +56,6 @@
     background: $bgc-pre;
     margin-bottom: 0;
     &:not(.CodeTabs_active) { display: none }
-  }
-
-  button {
-    -webkit-appearance: none;
-    appearance: none;
-    display: inline-block;
-    line-height: 2;
-    padding: .5em 1em;
-    border: none;
-    background: transparent;
-    outline: none;
-    color: inherit;
-    font: inherit;
-    font-size: .75em;
-    cursor: pointer;
-  }
-
-  &.CodeTabs_initial button:first-child,
-  button.CodeTabs_active {
-    background: $bgc-pre;
-    color: black;
-    pointer-events: none;
-  }
-
-  button:not(.CodeTabs_active):hover {
-    background: rgba(0, 0, 0, .075);
   }
 
   &.CodeTabs_initial pre:first-child {

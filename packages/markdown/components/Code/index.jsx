@@ -5,12 +5,15 @@ const PropTypes = require('prop-types');
 // apps. Necessary because of people like this:
 // https://github.com/codemirror/CodeMirror/issues/3701#issuecomment-164904534
 const syntaxHighlighter = typeof window !== 'undefined' ? require('@readme/syntax-highlighter') : false;
+const copy = require('copy-to-clipboard');
 
 function Code(props) {
   const { className, children, lang, meta } = props;
   const language = (className || '').replace('language-', '');
+  const classes = ['rdmd-code', `lang-${language}`];
   return (
-    <code className={language ? `lang-${language}` : null} data-lang={lang} name={meta}>
+    <code className={classes.join(' ')} data-lang={lang} name={meta}>
+      {!syntaxHighlighter || <button onClick={() => copy(children[0])}>Copy</button>}
       {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
     </code>
   );
