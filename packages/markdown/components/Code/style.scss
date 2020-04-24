@@ -1,43 +1,128 @@
-.markdown-body *:not(pre) > .rdmd-code {
-  position: relative;
-  > button {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    overflow: hidden;
-    white-space: nowrap;
-    opacity: 0 !important;
+@mixin gfmCodeBaseStyles($background: #F6F8FA, $text: inherit) {
+  code,
+  kbd,
+  pre {
+    font-family: monospace, monospace;
+    font-size: 1em
+  }
+
+  code,
+  pre {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    font-size: 12px
+  }
+
+  pre {
+    margin-bottom: 0;
+    margin-top: 0
+  }
+
+  code {
+    background-color: var(--md-code-background, $background);
+    border-radius: 3px;
+    font-size: 85%;
+    margin: 0;
+    padding: .2em .4em
+  }
+
+  p code {
+    color: var(--md-code-text);
+  }
+
+  pre {
+    word-wrap: normal
+  }
+
+  pre > code {
+    background: 0 0;
+    border: 0;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+    word-break: normal
+  }
+
+  pre {
+    background-color: var(--md-code-background, $background);
+    color: var(--md-code-text, $text);
+    border-radius: var(--markdown-radius, 3px);
+    border-radius: var(--md-code-radius, var(--markdown-radius, 3px));
+    font-size: 85%;
+    line-height: 1.45;
+    overflow: auto;
+    padding: 1em
+  }
+
+  pre code {
+    background-color: transparent;
+    border: 0;
+    display: inline;
+    line-height: inherit;
+    margin: 0;
+    max-width: auto;
+    overflow: visible;
+    padding: 0;
+    word-wrap: normal
+  }
+
+  kbd {
+    background-color: var(--d-code-background, $background);
+    border: 1px solid #d1d5da;
+    border-bottom-color: #c6cbd1;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 #c6cbd1;
+    color: #444d56;
+    display: inline-block;
+    font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    line-height: 10px;
+    padding: 3px 5px;
+    vertical-align: middle
   }
 }
-.markdown-body pre {
-  position: relative;
-  > .rdmd-code > button {
-    display: inline-block !important;
-    -webkit-appearance: unset;
-    color: inherit;
-    background: transparent;
-    border: none;
-    margin: .7em .6em 0;
-    padding: .33em .6em;
-    font: inherit;
-    font-size: .88em;
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-radius: 2px;
-    outline: none !important;
-    box-shadow: inset 0 0 0 1px rgba(139, 139, 139, 0.33);
-    background: rgba(white, .1);
-    transition: .16s ease-out;
-    opacity: .88;
-    &:hover {
-      opacity: 1;
-      background: rgba(black, .075);
-    }
-    &:active {
-      opacity: .75;
+
+@mixin copyCodeButton {
+  *:not(pre) > .rdmd-code > button {
+    display: none !important;
+  }
+
+  pre {
+    position: relative;
+
+    >.rdmd-code>button {
+      display: inline-block !important;
+      -webkit-appearance: unset;
+      color: inherit;
+      background: transparent;
+      border: none;
+      margin: .88em .6em 0 0;
+      padding: .33em .6em;
+      font: inherit;
+      font-size: .88em;
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-radius: 2px;
+      outline: none !important;
+      box-shadow: inset 0 0 0 1px rgba(139, 139, 139, 0.33);
+      background: rgba(white, .1);
+      transition: .16s ease-out;
+      opacity: .88;
+
+      &:hover {
+        opacity: 1;
+        background: rgba(black, .075);
+      }
+
+      &:active {
+        opacity: .75;
+      }
     }
   }
+}
+
+.markdown-body {
+  --md-code-background: #F6F8FA;  
+  @include gfmCodeBaseStyles;
+  @include copyCodeButton;
 }
