@@ -509,7 +509,7 @@ span.CodeMirror-selectedtext { background: none; }
     font-size: 85%;
     margin: 0;
     padding: .2em .4em; }
-  .markdown-body p code {
+  .markdown-body code {
     color: var(--md-code-text); }
   .markdown-body pre {
     word-wrap: normal; }

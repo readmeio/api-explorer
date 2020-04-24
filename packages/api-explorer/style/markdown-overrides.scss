@@ -24,7 +24,7 @@
         color: #bbbec1;
         p { color: inherit !important }
         > .CodeTabs, > pre {
-          filter: invert(.9) !important;
+          filter: var(--md-code-text, invert(0.9)); /* ¡hacksaurz! */
         }
       }
     }
