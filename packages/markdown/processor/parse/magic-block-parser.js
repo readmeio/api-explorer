@@ -126,6 +126,7 @@ function tokenize(eat, value) {
       };
       json.type = json.type in types ? types[json.type] : [json.icon || '👍', json.type];
       const [icon, theme] = json.type;
+      if (!(json.title || json.body)) return eat(match);
       return eat(match)(
         WrapPinnedBlocks(
           {
