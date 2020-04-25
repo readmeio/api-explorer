@@ -154,6 +154,9 @@ function tokenize(eat, value) {
     }
     case 'parameters': {
       const { data } = json;
+
+      if (!Object.keys(data).length) return eat(match); // skip empty tables
+
       const children = Object.keys(data)
         .sort()
         .reduce((sum, key) => {
