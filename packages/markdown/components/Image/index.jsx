@@ -12,7 +12,7 @@ class Image extends React.Component {
   }
 
   render() {
-    const { align, title, alt, width, height } = this.props;
+    const { align, title, alt, width, height, className = '' } = this.props;
     const extras = { align, width, height };
     return (
       <React.Fragment>
@@ -22,7 +22,7 @@ class Image extends React.Component {
           title={title}
           {...extras}
           loading="lazy"
-          onClick={() => this.setState({ lightbox: true })}
+          onClick={() => className !== 'emoji' && this.setState({ lightbox: true })}
         />
         <span
           className="lightbox"
@@ -44,6 +44,7 @@ Image.propTypes = {
   align: PropTypes.string,
   alt: PropTypes.string,
   caption: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  className: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   src: PropTypes.string.isRequired,
   title: PropTypes.string,
