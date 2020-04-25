@@ -1,13 +1,45 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/jsx-props-no-spreading */
 
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const Image = props => {
-  const { align, title, alt, width, height } = props;
-  const extras = { align, width, height };
-  return <img {...props} alt={alt} title={title} {...extras} loading="lazy" />;
-};
+class Image extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { lightbox: false };
+  }
+
+  render() {
+    const { align, title, alt, width, height } = this.props;
+    const extras = { align, width, height };
+    return (
+      <React.Fragment>
+        <img
+          {...this.props}
+          alt={alt}
+          title={title}
+          {...extras}
+          loading="lazy"
+          onClick={() => this.setState({ lightbox: true })}
+        />
+        <span
+          className="lightbox"
+          onClick={() => this.setState({ lightbox: false })}
+          onScrollCapture={e => this.setState({ lightbox: false })}
+          open={this.state.lightbox}
+          role="dialog"
+        >
+          <span className="lightbox-inner">
+            <img {...this.props} alt={alt} title="Click to close..." {...extras} loading="lazy" />
+          </span>
+        </span>
+      </React.Fragment>
+    );
+  }
+}
 
 Image.propTypes = {
   align: PropTypes.string,
