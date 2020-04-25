@@ -83,7 +83,7 @@ world
     const rdmd = markdown.react(codetabs);
     const wrap = mount(rdmd);
 
-    wrap.find('button').last().simulate('click').simulate('click');
+    wrap.find('button').at(1).simulate('click').simulate('click');
 
     expect(wrap.html()).toMatchSnapshot();
   });

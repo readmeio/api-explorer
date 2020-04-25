@@ -21,7 +21,7 @@ const remapLang = {
 };
 
 function Code(props) {
-  const { className, children, lang, meta } = props;
+  const { children, lang, meta } = props;
   const language = lang in remapLang ? remapLang[lang] : lang;
   const classes = ['rdmd-code', `lang-${language}`];
   return (
