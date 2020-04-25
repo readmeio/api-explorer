@@ -24,17 +24,19 @@ class Image extends React.Component {
           loading="lazy"
           onClick={() => className !== 'emoji' && this.setState({ lightbox: true })}
         />
-        <span
-          className="lightbox"
-          onClick={() => this.setState({ lightbox: false })}
-          onScrollCapture={() => this.setState({ lightbox: false })}
-          open={this.state.lightbox}
-          role="dialog"
-        >
-          <span className="lightbox-inner">
-            <img {...this.props} alt={alt} title="Click to close..." {...extras} loading="lazy" />
+        {className === 'emoji' || (
+          <span
+            className="lightbox"
+            onClick={() => this.setState({ lightbox: false })}
+            onScrollCapture={() => this.setState({ lightbox: false })}
+            open={this.state.lightbox}
+            role="dialog"
+          >
+            <span className="lightbox-inner">
+              <img {...this.props} alt={alt} title="Click to close..." {...extras} loading="lazy" />
+            </span>
           </span>
-        </span>
+        )}
       </React.Fragment>
     );
   }
