@@ -7,13 +7,31 @@ const PropTypes = require('prop-types');
 const syntaxHighlighter = typeof window !== 'undefined' ? require('@readme/syntax-highlighter') : false;
 const copy = require('copy-to-clipboard');
 
+const remapLang = {
+  c: 'clike',
+  'c++': 'clike',
+  cpp: 'clike',
+  docker: 'dockerfile',
+  xml: 'htmlmixed',
+  html: 'htmlmixed',
+  js: 'javascript',
+  py: 'python',
+  sh: 'shell',
+  bash: 'shell',
+  mysql: 'sql',
+};
+
 function Code(props) {
   const { className, children, lang, meta } = props;
-  const language = (className || '').replace('language-', '');
+  const language = lang in remapLang ? remapLang[lang] : lang;
   const classes = ['rdmd-code', `lang-${language}`];
   return (
-    <code className={classes.join(' ')} data-lang={lang} name={meta}>
-      {!syntaxHighlighter || <button onClick={() => copy(children[0])}>Copy</button>}
+    <code className={classes.join(' ')} data-lang={language} name={meta}>
+      {!syntaxHighlighter || (
+        <button onClick={() => copy(children[0])}>
+          <i className="fa fa-copy"></i>
+        </button>
+      )}
       {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
     </code>
   );
