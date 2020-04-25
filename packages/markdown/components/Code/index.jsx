@@ -8,11 +8,10 @@ const syntaxHighlighter = typeof window !== 'undefined' ? require('@readme/synta
 const copy = require('copy-to-clipboard');
 
 const remapLang = {
-  c: 'clike',
-  'c++': 'clike',
-  cpp: 'clike',
+  c: 'cplusplus',
+  'c++': 'cplusplus',
+  cpp: 'cplusplus',
   docker: 'dockerfile',
-  xml: 'htmlmixed',
   html: 'htmlmixed',
   js: 'javascript',
   py: 'python',
