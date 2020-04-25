@@ -1,24 +1,48 @@
-.markdown-body {
-  [align=right] {
+%img-align {
+  &-right {
     float: right;
-    margin-left: .5rem;
+    margin-left: .75rem;
   }
-  [align=left] {
+  &-left {
     float: left;
-    margin-right: .5rem;
+    margin-right: .75rem;
   }
-
-  img {
+  &-center {
     display: block;
-    box-sizing: content-box;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    border-style: none;
+  }
+}
+
+.markdown-body {
+  img {
+    & {
+      box-sizing: content-box;
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      border-style: none;
+    }
+
+    &[align=right],
+    &[alt~=align-right] {
+      @extend %img-align-right;
+    }
+    &[align=left],
+    &[alt~=align-left] {
+      @extend %img-align-left;
+    }
+    &[align=center],
+    &[alt~=align-center] {
+      @extend %img-align-center;
+    }
+
     &[width=smart] {
+      width: auto;
       max-width: 100%;
       max-height: 450px;
     }
+
     &.border {
       border: 1px solid 0 0 0 1px rgba(0,0,0,.2);
     }
@@ -28,12 +52,15 @@
     & {
       margin: 15px auto;
     }
-
     figcaption {
       margin-top: 8px;
       font-size: .93em;
       font-style: italic;
       text-align: center;
     }
+  }
+
+  > img, figure > img {
+    @extend %img-align-center;
   }
 }
