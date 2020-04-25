@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/jsx-props-no-spreading */
 
@@ -28,7 +27,7 @@ class Image extends React.Component {
         <span
           className="lightbox"
           onClick={() => this.setState({ lightbox: false })}
-          onScrollCapture={e => this.setState({ lightbox: false })}
+          onScrollCapture={() => this.setState({ lightbox: false })}
           open={this.state.lightbox}
           role="dialog"
         >
