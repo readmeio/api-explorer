@@ -30,6 +30,46 @@ test('Blank Magic Blocks', () => {
   { "title": "No Level" }
   [/block]`;
   expect(process(noLevel)).toMatchSnapshot();
+
+  const emptyTable = `[block:parameters]
+  {
+    "data": {},
+    "cols": 3,
+    "rows": 1
+  }
+  [/block]`;
+  expect(process(emptyTable).children).toHaveLength(0);
+
+  const emptyCallout = `[block:callout]
+  {
+    "type": "info",
+    "title": ""
+  }
+  [/block]`;
+  expect(process(emptyCallout).children).toHaveLength(0);
+
+  const emptyCodeTabs = `[block:code]
+  {
+    "codes": [
+      {
+        "code": "",
+        "language": "text"
+      }
+    ]
+  }
+  [/block]`;
+  expect(process(emptyCodeTabs).children).toHaveLength(0);
+
+  const emptyImage = `[block:image]
+  {
+    "images": [
+      {
+        "image": []
+      }
+    ]
+  }
+  [/block]`;
+  expect(process(emptyImage).children).toHaveLength(0);
 });
 
 test('Sanitize Schema', () => {
