@@ -5,7 +5,7 @@ function tokenizer(eat, value) {
   if (!rgx.test(value)) return true;
 
   // eslint-disable-next-line prefer-const
-  let [match, icon, title, text] = rgx.exec(value);
+  let [match, icon, title = '', text] = rgx.exec(value);
 
   icon = icon.trim();
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
