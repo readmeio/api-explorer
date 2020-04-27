@@ -172,18 +172,17 @@ class ApiExplorer extends React.Component {
     });
 
     /* eslint-disable global-require */
-    let BaseUrlContext;
-    let VariablesContext;
-    let GlossaryTermsContext;
+    const BaseUrlContext = require('@readme/markdown-magic/contexts/BaseUrl');
+    const VariablesContext = require('@readme/variable/contexts/Variables');
+    const GlossaryTermsContext = require('@readme/markdown-magic/contexts/GlossaryTerms');
+    let NewBaseUrlContext;
+    let NewVariablesContext;
+    let NewGlossaryTermsContext;
     if (this.props.useNewMarkdownEngine) {
       const { utils } = require('@readme/markdown');
-      BaseUrlContext = utils.BaseUrlContext;
-      VariablesContext = utils.VariablesContext;
-      GlossaryTermsContext = utils.GlossaryContext;
-    } else {
-      BaseUrlContext = require('@readme/markdown-magic/contexts/BaseUrl');
-      VariablesContext = require('@readme/variable/contexts/Variables');
-      GlossaryTermsContext = require('@readme/markdown-magic/contexts/GlossaryTerms');
+      NewBaseUrlContext = utils.BaseUrlContext;
+      NewVariablesContext = utils.VariablesContext;
+      NewGlossaryTermsContext = utils.GlossaryContext;
     }
     /* eslint-enable global-require */
 
@@ -195,38 +194,44 @@ class ApiExplorer extends React.Component {
         >
           {docs.map((doc, index) => (
             <VariablesContext.Provider key={index} value={this.props.variables}>
-              <OauthContext.Provider value={this.props.oauth}>
-                <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
-                  <BaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
-                    <SelectedAppContext.Provider value={this.state.selectedApp}>
-                      <Doc
-                        key={doc._id}
-                        appearance={this.props.appearance}
-                        auth={this.state.auth}
-                        baseUrl={this.props.baseUrl.replace(/\/$/, '')}
-                        doc={doc}
-                        flags={this.props.flags}
-                        group={this.state.group}
-                        groups={this.groups}
-                        language={this.state.language}
-                        lazy={this.isLazy(index)}
-                        Logs={this.props.Logs}
-                        maskErrorMessages={this.props.maskErrorMessages}
-                        oas={this.getOas(doc)}
-                        oauth={this.props.oauth}
-                        onAuthChange={this.onAuthChange}
-                        onAuthGroupChange={this.onAuthGroupChange}
-                        onError={this.props.onError}
-                        setLanguage={this.setLanguage}
-                        suggestedEdits={this.props.suggestedEdits}
-                        tryItMetrics={this.props.tryItMetrics}
-                        useNewMarkdownEngine={this.props.useNewMarkdownEngine}
-                        user={this.props.variables.user}
-                      />
-                    </SelectedAppContext.Provider>
-                  </BaseUrlContext.Provider>
-                </GlossaryTermsContext.Provider>
-              </OauthContext.Provider>
+              <NewVariablesContext.Provider key={index} value={this.props.variables}>
+                <OauthContext.Provider value={this.props.oauth}>
+                  <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
+                    <NewGlossaryTermsContext.Provider value={this.props.glossaryTerms}>
+                      <BaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
+                        <NewBaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
+                          <SelectedAppContext.Provider value={this.state.selectedApp}>
+                            <Doc
+                              key={doc._id}
+                              appearance={this.props.appearance}
+                              auth={this.state.auth}
+                              baseUrl={this.props.baseUrl.replace(/\/$/, '')}
+                              doc={doc}
+                              flags={this.props.flags}
+                              group={this.state.group}
+                              groups={this.groups}
+                              language={this.state.language}
+                              lazy={this.isLazy(index)}
+                              Logs={this.props.Logs}
+                              maskErrorMessages={this.props.maskErrorMessages}
+                              oas={this.getOas(doc)}
+                              oauth={this.props.oauth}
+                              onAuthChange={this.onAuthChange}
+                              onAuthGroupChange={this.onAuthGroupChange}
+                              onError={this.props.onError}
+                              setLanguage={this.setLanguage}
+                              suggestedEdits={this.props.suggestedEdits}
+                              tryItMetrics={this.props.tryItMetrics}
+                              useNewMarkdownEngine={this.props.useNewMarkdownEngine}
+                              user={this.props.variables.user}
+                            />
+                          </SelectedAppContext.Provider>
+                        </NewBaseUrlContext.Provider>
+                      </BaseUrlContext.Provider>
+                    </NewGlossaryTermsContext.Provider>
+                  </GlossaryTermsContext.Provider>
+                </OauthContext.Provider>
+              </NewVariablesContext.Provider>
             </VariablesContext.Provider>
           ))}
         </div>
