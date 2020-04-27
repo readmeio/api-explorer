@@ -36,4 +36,14 @@ describe('Parse ReadMe-Flavored Markdown Syntax', () => {
     const ast = process(text);
     expect(ast).toMatchSnapshot();
   });
+
+  // eslint-disable-next-line jest/no-focused-tests
+  it.only('When fools just, like, totally disregard newlines...', () => {
+    // See this comment for more...
+    // https://github.com/readmeio/api-explorer/pull/627#discussion_r415420860
+    const md =
+      "\n\n```javascript single.js\nconsole.log('I should be a single code block');\n```\n## I Should be an H3 Tag\n```javascript single.js\nconsole.log('I\\'m also a single code block');\n```\n\n";
+    const ast = process(md);
+    expect(ast.children).toHaveLength(3);
+  });
 });

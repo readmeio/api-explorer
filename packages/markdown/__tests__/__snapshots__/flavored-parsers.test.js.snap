@@ -114,3 +114,24 @@ Object {
   "type": "root",
 }
 `;
+
+exports[`Parse ReadMe-Flavored Markdown Syntax When fools just, like, totally disregard newlines... 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "lang": "javascript",
+      "meta": "single.js",
+      "type": "code",
+      "value": "    console.log('I should be a single code block');
+    \`\`\`
+    ### I Should be an H3 Tag
+    \`\`\`javascript single.js
+    console.log('I should be a single code block');
+    \`\`\`
+    
+    &nbsp;",
+    },
+  ],
+  "type": "root",
+}
+`;
