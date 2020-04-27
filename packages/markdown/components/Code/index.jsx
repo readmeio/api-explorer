@@ -27,14 +27,16 @@ function Code(props) {
   const language = lang in remapLang ? remapLang[lang] : lang || langClass;
 
   return (
-    <code className={['rdmd-code', `lang-${language}`].join(' ')} data-lang={language} name={meta}>
-      {!syntaxHighlighter || (
-        <button onClick={() => copy(children[0])}>
-          <i className="fa fa-copy"></i>
-        </button>
-      )}
-      {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
-    </code>
+    <React.Fragment>
+      <code className={['rdmd-code', `lang-${language}`].join(' ')} data-lang={language} name={meta}>
+        {!syntaxHighlighter || (
+          <button className="rdmd-code-copy" onClick={() => copy(children[0])}>
+            <i className="fa fa-copy"></i>
+          </button>
+        )}
+        {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
+      </code>
+    </React.Fragment>
   );
 }
 

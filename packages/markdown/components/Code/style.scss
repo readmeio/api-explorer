@@ -82,14 +82,25 @@
 }
 
 @mixin copyCodeButton {
-  *:not(pre) > .rdmd-code > button {
+  button.rdmd-copy-code {
     display: none !important;
   }
 
   pre {
     position: relative;
+    & {
+      // manage overflow scrolling
+      overflow: hidden;
+      padding: 0;
+      > code {
+        display: block !important;
+        overflow: auto;
+        padding: 1em;
+        max-height: 90vh;
+      }
+    }
 
-    >.rdmd-code>button {
+    button.rdmd-code-copy {
       display: inline-block !important;
       -webkit-appearance: unset;
       color: inherit;
@@ -108,6 +119,12 @@
       background: rgba(white, .1);
       transition: .16s ease-out;
       opacity: .88;
+
+      &:not(:hover) {
+        .fa {
+          opacity: .66;
+        }
+      }
 
       &:hover {
         opacity: 1;
