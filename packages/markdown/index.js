@@ -64,7 +64,7 @@ const {
 
 /* Custom Unified Plugins
  */
-const { sectionAnchorId } = require('./processor/plugin');
+const sectionAnchorId = require('./processor/plugin/section-anchor-id');
 
 // Processor Option Defaults
 const options = require('./options.json');
