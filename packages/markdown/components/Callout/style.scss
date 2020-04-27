@@ -93,7 +93,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  @at-root .markdown_useFontAwesome & {
+  @at-root .rdmdCallouts--useIconFont & {
     --emoji: unset;
     &_okay {
       /* thumbs up */
