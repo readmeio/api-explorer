@@ -21,11 +21,13 @@ const remapLang = {
 };
 
 function Code(props) {
-  const { children, lang, meta } = props;
-  const language = lang in remapLang ? remapLang[lang] : lang || props.className.match(/\s?lang(?:uage)?-(\w+)/)?.[1];
-  const classes = ['rdmd-code', `lang-${language}`];
+  const { className, children, lang, meta } = props;
+
+  const langClass = className.search(/lang(?:uage)?-\w+/) >= 0 ? className.match(/\s?lang(?:uage)?-(\w+)/) : '';
+  const language = lang in remapLang ? remapLang[lang] : lang || langClass;
+
   return (
-    <code className={classes.join(' ')} data-lang={language} name={meta}>
+    <code className={['rdmd-code', `lang-${language}`].join(' ')} data-lang={language} name={meta}>
       {!syntaxHighlighter || (
         <button onClick={() => copy(children[0])}>
           <i className="fa fa-copy"></i>
