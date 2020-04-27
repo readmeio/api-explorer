@@ -630,7 +630,7 @@ span.CodeMirror-selectedtext { background: none; }
     line-height: 10px;
     padding: 3px 5px;
     vertical-align: middle; }
-  .markdown-body button.rdmd-copy-code {
+  .markdown-body button.rdmd-code-copy {
     display: none !important; }
   .markdown-body pre {
     position: relative; }
