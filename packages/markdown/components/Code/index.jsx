@@ -22,7 +22,7 @@ const remapLang = {
 
 function Code(props) {
   const { children, lang, meta } = props;
-  const language = lang in remapLang ? remapLang[lang] : lang;
+  const language = lang in remapLang ? remapLang[lang] : lang || props.className.match(/\s?lang(?:uage)?-(\w+)/)?.[1];
   const classes = ['rdmd-code', `lang-${language}`];
   return (
     <code className={classes.join(' ')} data-lang={language} name={meta}>
