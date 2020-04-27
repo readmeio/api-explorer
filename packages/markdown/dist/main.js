@@ -18367,10 +18367,6 @@ function Code(props) {
       meta = props.meta;
   var langClass = className.search(/lang(?:uage)?-\w+/) >= 0 ? className.match(/\s?lang(?:uage)?-(\w+)/)[1] : '';
   var language = lang in remapLang ? remapLang[lang] : lang || langClass;
-  console.log({
-    langClass: langClass,
-    language: language
-  });
   return /*#__PURE__*/React.createElement("code", {
     className: ['rdmd-code', "lang-".concat(language)].join(' '),
     "data-lang": language,
