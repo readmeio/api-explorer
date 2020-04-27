@@ -1,6 +1,5 @@
 const { mount } = require('enzyme');
 const React = require('react');
-const cheerio = require('cheerio');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../index');
