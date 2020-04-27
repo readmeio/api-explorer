@@ -2,7 +2,6 @@ const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
-const VariablesContext = require('@readme/variable/contexts/Variables');
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 
@@ -174,12 +173,16 @@ class ApiExplorer extends React.Component {
 
     /* eslint-disable global-require */
     let BaseUrlContext;
+    let VariablesContext;
     let GlossaryTermsContext;
     if (this.props.useNewMarkdownEngine) {
-      BaseUrlContext = require('@readme/markdown/contexts/BaseUrl');
-      GlossaryTermsContext = require('@readme/markdown/contexts/GlossaryTerms');
+      const { utils } = require('@readme/markdown');
+      BaseUrlContext = utils.BaseUrlContext;
+      VariablesContext = utils.VariablesContext;
+      GlossaryTermsContext = utils.GlossaryContext;
     } else {
       BaseUrlContext = require('@readme/markdown-magic/contexts/BaseUrl');
+      VariablesContext = require('@readme/variable/contexts/Variables');
       GlossaryTermsContext = require('@readme/markdown-magic/contexts/GlossaryTerms');
     }
     /* eslint-enable global-require */
