@@ -119,8 +119,7 @@
 }
 
 .callout {
-  &.callout {
-    // specificity bump
+  &.callout { // bump specificity
     @include callout;
   }
   @include calloutCustomIcons;
