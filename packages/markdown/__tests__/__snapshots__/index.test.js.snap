@@ -37,13 +37,17 @@ exports[`emojis 1`] = `
 
 exports[`export multiple Markdown renderers allows complex compact headings 1`] = `
 "<h1 id=\\"basic-text\\">Basic Text</h1>
+<div id=\\"section-basic-text\\"></div>
 <h2 id=\\"-oh-noes\\">🙀 oh noes!</h2>
+<div id=\\"section--oh-noes\\"></div>
 <h3 id=\\"6-oh-no\\"><strong>6</strong>. Oh No</h3>
+<div id=\\"section-6-oh-no\\"></div>
 <p>Lorem ipsum dolor!</p>"
 `;
 
 exports[`export multiple Markdown renderers renders HTML 1`] = `
 "<h1 id=\\"hello-world\\">Hello World</h1>
+<div id=\\"section-hello-world\\"></div>
 
 
 
@@ -90,6 +94,11 @@ exports[`export multiple Markdown renderers renders custom React components 1`] 
   >
     Hello World
   </Unknown>
+  
+
+  <div
+    id="section-hello-world"
+  />
   
 
 
@@ -283,6 +292,19 @@ Object {
         "id": "hello-world",
       },
       "tagName": "h1",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+",
+    },
+    Object {
+      "children": Array [],
+      "properties": Object {
+        "id": "section-hello-world",
+      },
+      "tagName": "div",
       "type": "element",
     },
     Object {
@@ -813,6 +835,11 @@ exports[`export multiple Markdown renderers renders plain markdown as React 1`] 
   >
     Hello World
   </h1>
+  
+
+  <div
+    id="section-hello-world"
+  />
   
 
 
