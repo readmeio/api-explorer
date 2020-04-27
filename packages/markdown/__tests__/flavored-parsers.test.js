@@ -37,8 +37,7 @@ describe('Parse ReadMe-Flavored Markdown Syntax', () => {
     expect(ast).toMatchSnapshot();
   });
 
-  // eslint-disable-next-line jest/no-focused-tests
-  it.only('When fools just, like, totally disregard newlines...', () => {
+  it('When fools just, like, totally disregard newlines...', () => {
     // See this comment for more...
     // https://github.com/readmeio/api-explorer/pull/627#discussion_r415420860
     const md =
