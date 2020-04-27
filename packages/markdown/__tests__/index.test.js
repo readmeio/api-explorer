@@ -270,3 +270,9 @@ Lorem ipsum dolor!`;
     expect(markdown.md('')).toBeNull();
   });
 });
+
+describe('prefix anchors with section-', () => {
+  it('should add a section- prefix to heading anchors', () => {
+    expect(markdown.html('# heading')).toMatchSnapshot();
+  });
+});
