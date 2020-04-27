@@ -20,6 +20,7 @@ require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/shell/shell');
 require('codemirror/mode/sql/sql');
 require('codemirror/mode/swift/swift');
+require('codemirror/mode/dart/dart');
 
 function getMode(lang) {
   let mode = lang;
