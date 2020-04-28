@@ -1,5 +1,6 @@
 const React = require('react');
 const swagger2openapi = require('swagger2openapi');
+const yaml = require('yaml');
 
 const createDocs = require('../../packages/api-explorer/lib/create-docs');
 
@@ -31,9 +32,13 @@ function withSpecFetching(Component) {
           .then(res => {
             if (!res.ok) {
               throw new Error('Failed to fetch.');
-            } else if (url.match(/\.(yaml|yml)/)) {
-              // @todo Should just try to automaticaly convert the spec if it isn't JSON.
-              throw new Error('Please convert your specification to JSON first.');
+            }
+
+            if (res.headers.get('content-type') === 'application/yaml' || url.match(/\.(yaml|yml)/)) {
+              this.updateStatus('Converting YAML to JSON');
+              return res.text().then(text => {
+                return yaml.parse(text);
+              });
             }
 
             return res.json();
