@@ -652,9 +652,9 @@ span.CodeMirror-selectedtext { background: none; }
     outline: none !important;
     box-shadow: inset 0 0 0 1px rgba(139, 139, 139, 0.33);
     background: var(--md-code-background, rgba(255, 255, 255, 0.1));
-    transition: .16s ease-out; }
+    transition: .15s ease-out; }
   .markdown-body button.rdmd-code-copy:not(:hover):before, .markdown-body button.rdmd-code-copy:not(:hover):after {
-    opacity: .75; }
+    opacity: .66; }
   .markdown-body button.rdmd-code-copy:hover {
     background: rgba(255, 255, 255, 0.125); }
   .markdown-body button.rdmd-code-copy:active {
@@ -675,8 +675,8 @@ span.CodeMirror-selectedtext { background: none; }
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0; }
+    transform: translate(-50%, -50%) scale(0.33);
+    opacity: 0 !important; }
   .markdown-body button.rdmd-code-copy_copied {
     pointer-events: none; }
     .markdown-body button.rdmd-code-copy_copied, .markdown-body button.rdmd-code-copy_copied * {
@@ -684,12 +684,12 @@ span.CodeMirror-selectedtext { background: none; }
       opacity: 1; }
     .markdown-body button.rdmd-code-copy_copied:before {
       transition: .3s 0s ease;
-      before: scale(0);
+      transform: scale(0.33);
       opacity: 0 !important; }
     .markdown-body button.rdmd-code-copy_copied:after {
       transition: .3s .15s ease;
       transform: translate(-50%, -50%) scale(1);
-      opacity: 1; }
+      opacity: 1 !important; }
 
 .markdown-body pre {
   position: relative; }
