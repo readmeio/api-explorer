@@ -179,6 +179,9 @@
         max-height: 90vh;
       }
     }
+    &:not(:hover) button.rdmd-code-copy {
+      opacity: 0 !important;
+    }
   }
 }
 
