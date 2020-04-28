@@ -20,6 +20,24 @@ const remapLang = {
   mysql: 'sql',
 };
 
+function CopyCode({ code, rootClass = 'rdmd-code-copy', className = '' }) {
+  const copyClass = `${rootClass}_copied`;
+  const button = React.createRef();
+  const copier = () => {
+    if (copy(code)) {
+      const $el = button.current;
+      $el.classList.add(copyClass);
+      setTimeout(() => $el.classList.remove(copyClass), 1500);
+    }
+  };
+  return <button ref={button} className={`${rootClass} ${className}`} onClick={copier} />;
+}
+CopyCode.propTypes = {
+  className: PropTypes.string,
+  code: PropTypes.string,
+  rootClass: PropTypes.string,
+};
+
 function Code(props) {
   const { className, children, lang, meta } = props;
 
@@ -29,11 +47,7 @@ function Code(props) {
   return (
     <React.Fragment>
       <code className={['rdmd-code', `lang-${language}`].join(' ')} data-lang={language} name={meta}>
-        {!syntaxHighlighter || (
-          <button className="rdmd-code-copy" onClick={() => copy(children[0])}>
-            <i className="fa fa-copy"></i>
-          </button>
-        )}
+        {!syntaxHighlighter || <CopyCode className="fa" code={children[0]} />}
         {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
       </code>
     </React.Fragment>

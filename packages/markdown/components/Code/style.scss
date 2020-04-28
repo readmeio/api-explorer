@@ -83,11 +83,90 @@
 
 @mixin copyCodeButton {
   button.rdmd-code-copy {
-    display: none !important;
+    DISPLAY: none !important; // hide by default
+    
+    & {
+      -webkit-appearance: unset;
+      color: var(--md-code-text, inherit);
+      background: transparent;
+      border: none;
+      margin: .75em .6em 0 0;
+      padding: .33em .6em;
+      font: inherit;
+      border-radius: 2px;
+      outline: none !important;
+      box-shadow: inset 0 0 0 1px rgba(#8B8B8B, 0.33);
+      background: var(--md-code-background, rgba(white, .1));
+      transition: .16s ease-out;
+    }
+
+    &:not(:hover) {
+      &:before, &:after {
+        opacity: .75;
+      }
+    }
+
+    &:hover {
+      background: rgba(white, .125);
+    }
+
+    &:active {
+      background: rgba(black, .088);
+      &:before, &:after {
+        opacity: .75;
+      }
+    }
+
+    &:before, &:after {
+      display: inline-block;
+      font: normal normal normal 1em/1 "Font Awesome 5 Free", "FontAwesome";
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+    }
+    &:before {
+      transition: .3s .15s ease;
+      content: "\f0c5"
+    }
+    &:after {
+      transition: .3s 0s ease;
+      content: "\f00c" !important;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+    }
+
+    &_copied {
+      pointer-events: none;
+      &, * {
+        color: var(--md-code-text, green) !important;
+        opacity: 1;
+      }
+      &:before {
+        transition: .3s 0s ease;
+        before: scale(0);
+        opacity: 0 !important;
+      }
+      &:after {
+        transition: .3s .15s ease;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
   }
+  
 
   pre {
     position: relative;
+
+    button.rdmd-code-copy {
+      display: inline-block !important;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
     & {
       // manage overflow scrolling
       overflow: hidden;
@@ -99,47 +178,11 @@
         max-height: 90vh;
       }
     }
-
-    button.rdmd-code-copy {
-      display: inline-block !important;
-      -webkit-appearance: unset;
-      color: inherit;
-      background: transparent;
-      border: none;
-      margin: .75em .6em 0 0;
-      padding: .33em .6em;
-      font: inherit;
-      // font-size: .88em;
-      position: absolute;
-      right: 0;
-      top: 0;
-      border-radius: 2px;
-      outline: none !important;
-      box-shadow: inset 0 0 0 1px rgba(139, 139, 139, 0.33);
-      background: rgba(white, .1);
-      transition: .16s ease-out;
-      opacity: .88;
-
-      &:not(:hover) {
-        .fa {
-          opacity: .66;
-        }
-      }
-
-      &:hover {
-        opacity: 1;
-        background: rgba(black, .075);
-      }
-
-      &:active {
-        opacity: .75;
-      }
-    }
   }
 }
 
 .markdown-body {
-  --md-code-background: #F6F8FA;  
+  // --md-code-background: #F6F8FA;  
   @include gfmCodeBaseStyles;
   @include copyCodeButton;
 }
