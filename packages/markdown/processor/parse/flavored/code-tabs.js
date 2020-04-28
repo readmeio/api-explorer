@@ -1,10 +1,9 @@
-const RGXP = /^(```[^`]+```\n(?:```)[^]+?(\n\n|$))/g; // code blocks
+const RGXP = /^(```[^`]+```\n(?:```)[^]+?(?:\n\n))/g;
 
 function tokenizer(eat, value) {
-  let [match] = RGXP.exec(value) || [];
+  const [match] = RGXP.exec(value) || [];
 
   if (!match) return true;
-  match = match.slice(0, match.search(/```($|\n)(?!```)/) + 3);
 
   // construct children code blocks
   const kids = match
