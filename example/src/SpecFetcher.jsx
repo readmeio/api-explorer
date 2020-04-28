@@ -73,6 +73,8 @@ function withSpecFetching(Component) {
           .catch(e => {
             this.setState({ isLoading: false, invalidSpec: e.message, invalidSpecPath: url });
             this.updateStatus(`There was an error fetching your specification:\n\n${e.message}`);
+
+            throw e;
           });
       });
     }
