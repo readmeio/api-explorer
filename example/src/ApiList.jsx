@@ -60,6 +60,8 @@ class ApiList extends React.Component {
             );
           })}
         </select>
+        &nbsp;
+        <a href={selected}>Open Spec</a>
       </h3>
     );
   }
