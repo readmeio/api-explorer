@@ -13,10 +13,12 @@ test('should remove empty arrays from within object', () => {
 test('should remove undefined and null values from arrays', () => {
   expect(removeUndefinedObjects([undefined, undefined])).toBeUndefined();
   expect(removeUndefinedObjects([null])).toBeUndefined();
-  expect(removeUndefinedObjects(['1234', null, undefined, { a: null, b: undefined }])).toStrictEqual([
+  expect(removeUndefinedObjects(['1234', null, undefined, { a: null, b: undefined }, '   ', ''])).toStrictEqual([
     '1234',
     {
       a: null,
     },
+    '   ',
+    '',
   ]);
 });
