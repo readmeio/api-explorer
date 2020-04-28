@@ -79,7 +79,7 @@ class ApiList extends React.Component {
               })}
             </select>
             &nbsp;
-            <a href={selected}>Open Spec</a>
+            <a href={selected}>View document</a>
           </>
         )}
       </h3>
