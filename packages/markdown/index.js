@@ -174,6 +174,8 @@ export function react(text, opts = {}, components = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
+  console.log({ text, opts });
+
   // eslint-disable-next-line react/prop-types
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
   const count = {};
