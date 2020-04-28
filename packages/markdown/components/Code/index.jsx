@@ -23,6 +23,7 @@ const remapLang = {
 function CopyCode({ code, rootClass = 'rdmd-code-copy', className = '' }) {
   const copyClass = `${rootClass}_copied`;
   const button = React.createRef();
+  /* istanbul ignore next */
   const copier = () => {
     if (copy(code)) {
       const $el = button.current;

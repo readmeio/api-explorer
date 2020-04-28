@@ -69,23 +69,15 @@ describe('Components', () => {
   });
 
   it('Multi Code Block', () => {
-    const codetabs = `
-
-\`\`\`
-hello
-\`\`\`
-\`\`\`
-world
-\`\`\`
-
-`;
-
-    const rdmd = markdown.react(codetabs);
+    const tabs = '```\nhello\n```\n```php\nworld\n```\n\n';
+    const rdmd = markdown.react(tabs);
     const wrap = mount(rdmd);
 
-    wrap.find('button').at(1).simulate('click').simulate('click');
+    expect(wrap.find('pre').at(1).getDOMNode().classList).toHaveLength(0);
 
-    expect(wrap.html()).toMatchSnapshot();
+    wrap.find('.CodeTabs-toolbar button').at(1).simulate('click').simulate('click');
+
+    expect(wrap.find('pre').at(1).getDOMNode().classList).toContain('CodeTabs_active');
   });
 
   it('Embed', () => {

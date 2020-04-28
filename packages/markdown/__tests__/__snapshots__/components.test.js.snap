@@ -1,9 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Components Embed 1`] = `"<div class=\\"embed\\"><a href=\\"https://gist.github.com/chaddy81/f852004d6d1510eec1f6\\" rel=\\"noopener noreferrer\\" style=\\"display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-decoration: none;\\" target=\\"_blank\\"><b style=\\"color: rgb(51, 51, 51);\\">View Embed:</b> <span style=\\"opacity: 0.75;\\">https://gist.github.com/chaddy81/f852004d6d1510eec1f6</span></a></div>"`;
-
-exports[`Components Multi Code Block 1`] = `
-"<div class=\\"CodeTabs\\"><div class=\\"CodeTabs-toolbar\\"><button type=\\"button\\">Text</button><button type=\\"button\\" class=\\"CodeTabs_active\\">Text</button></div><div class=\\"CodeTabs-inner\\"><pre><code class=\\"rdmd-code lang-\\" data-lang=\\"\\" name=\\"\\"><button class=\\"rdmd-code-copy\\"><i class=\\"fa fa-copy\\"></i></button><span class=\\"cm-s-neo\\">hello
-</span></code></pre><pre class=\\"CodeTabs_active\\"><code class=\\"rdmd-code lang-\\" data-lang=\\"\\" name=\\"\\"><button class=\\"rdmd-code-copy\\"><i class=\\"fa fa-copy\\"></i></button><span class=\\"cm-s-neo\\">world
-</span></code></pre></div></div>"
-`;
