@@ -189,7 +189,7 @@ test('should strip dangerous iframe tag', () => {
 
 test('should strip dangerous img attributes', () => {
   expect(mount(markdown.default('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
-    '<img src="x" align="" alt="" caption="" height="auto" title="" width="auto" loading="lazy">'
+    '<img src="x" align="" alt="" caption="" height="auto" title="" width="auto" loading="lazy"><span class="lightbox" role="dialog"><span class="lightbox-inner"><img src="x" align="" alt="" caption="" height="auto" title="Click to close..." width="auto" loading="lazy"></span></span>'
   );
 });
 
@@ -268,5 +268,11 @@ Lorem ipsum dolor!`;
     expect(markdown.hast('')).toBeNull();
     expect(markdown.mdast('')).toBeNull();
     expect(markdown.md('')).toBeNull();
+  });
+});
+
+describe('prefix anchors with section-', () => {
+  it('should add a section- prefix to heading anchors', () => {
+    expect(markdown.html('# heading')).toMatchSnapshot();
   });
 });

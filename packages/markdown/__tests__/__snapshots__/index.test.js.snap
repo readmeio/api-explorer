@@ -37,13 +37,17 @@ exports[`emojis 1`] = `
 
 exports[`export multiple Markdown renderers allows complex compact headings 1`] = `
 "<h1 id=\\"basic-text\\">Basic Text</h1>
+<div id=\\"section-basic-text\\"></div>
 <h2 id=\\"-oh-noes\\">🙀 oh noes!</h2>
+<div id=\\"section--oh-noes\\"></div>
 <h3 id=\\"6-oh-no\\"><strong>6</strong>. Oh No</h3>
+<div id=\\"section-6-oh-no\\"></div>
 <p>Lorem ipsum dolor!</p>"
 `;
 
 exports[`export multiple Markdown renderers renders HTML 1`] = `
 "<h1 id=\\"hello-world\\">Hello World</h1>
+<div id=\\"section-hello-world\\"></div>
 
 
 
@@ -90,6 +94,11 @@ exports[`export multiple Markdown renderers renders custom React components 1`] 
   >
     Hello World
   </Unknown>
+  
+
+  <div
+    id="section-hello-world"
+  />
   
 
 
@@ -283,6 +292,19 @@ Object {
         "id": "hello-world",
       },
       "tagName": "h1",
+      "type": "element",
+    },
+    Object {
+      "type": "text",
+      "value": "
+",
+    },
+    Object {
+      "children": Array [],
+      "properties": Object {
+        "id": "section-hello-world",
+      },
+      "tagName": "div",
       "type": "element",
     },
     Object {
@@ -815,6 +837,11 @@ exports[`export multiple Markdown renderers renders plain markdown as React 1`] 
   </h1>
   
 
+  <div
+    id="section-hello-world"
+  />
+  
+
 
 
 
@@ -992,7 +1019,7 @@ exports[`export multiple Markdown renderers renders plain markdown as React 1`] 
 </React.Fragment>
 `;
 
-exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"\\" width=\\"auto\\" loading=\\"lazy\\"></p>"`;
+exports[`image 1`] = `"<p><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"\\" width=\\"auto\\" loading=\\"lazy\\"><span class=\\"lightbox\\" role=\\"dialog\\"><span class=\\"lightbox-inner\\"><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"Click to close...\\" width=\\"auto\\" loading=\\"lazy\\"></span></span></p>"`;
 
 exports[`list items 1`] = `
 "<ul>
@@ -1000,6 +1027,11 @@ exports[`list items 1`] = `
 </ul>"
 `;
 
-exports[`magic image 1`] = `"<figure><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\" loading=\\"lazy\\"><figcaption><p>A guy. Eating pizza. And making an OK gesture.</p></figcaption></figure>"`;
+exports[`magic image 1`] = `"<figure><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\" loading=\\"lazy\\"><span class=\\"lightbox\\" role=\\"dialog\\"><span class=\\"lightbox-inner\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"Click to close...\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\" loading=\\"lazy\\"></span></span><figcaption><p>A guy. Eating pizza. And making an OK gesture.</p></figcaption></figure>"`;
+
+exports[`prefix anchors with section- should add a section- prefix to heading anchors 1`] = `
+"<h1 id=\\"heading\\">heading</h1>
+<div id=\\"section-heading\\"></div>"
+`;
 
 exports[`tables 1`] = `"<div class=\\"rdmd-table\\"><div class=\\"rdmd-table-inner\\"><table><thead><tr><th>Tables</th><th style=\\"text-align: center;\\">Are</th><th style=\\"text-align: right;\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align: center;\\">right-aligned</td><td style=\\"text-align: right;\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align: center;\\">centered</td><td style=\\"text-align: right;\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align: center;\\">are neat</td><td style=\\"text-align: right;\\">$1</td></tr></tbody></table></div></div>"`;

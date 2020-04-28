@@ -51,7 +51,10 @@ function tokenize(eat, value) {
           },
         },
       }));
-      if (children.length === 1 && children[0].name) return eat(match)(WrapPinnedBlocks(children[0], json));
+      if (children.length === 1) {
+        if (!children[0].value) return eat(match); // skip empty code tabs
+        if (children[0].name) return eat(match)(WrapPinnedBlocks(children[0], json));
+      }
       return eat(match)(
         WrapPinnedBlocks(
           {
@@ -123,6 +126,7 @@ function tokenize(eat, value) {
       };
       json.type = json.type in types ? types[json.type] : [json.icon || '👍', json.type];
       const [icon, theme] = json.type;
+      if (!(json.title || json.body)) return eat(match);
       return eat(match)(
         WrapPinnedBlocks(
           {
@@ -150,6 +154,9 @@ function tokenize(eat, value) {
     }
     case 'parameters': {
       const { data } = json;
+
+      if (!Object.keys(data).length) return eat(match); // skip empty tables
+
       const children = Object.keys(data)
         .sort()
         .reduce((sum, key) => {

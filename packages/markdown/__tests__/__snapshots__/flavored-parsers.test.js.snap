@@ -96,18 +96,10 @@ exports[`Parse ReadMe-Flavored Markdown Syntax Single Block 1`] = `
 Object {
   "children": Array [
     Object {
-      "className": "tab-panel",
-      "data": Object {
-        "hName": "code",
-        "hProperties": Object {
-          "lang": "javascript",
-          "meta": "multiple.js",
-        },
-      },
       "lang": "javascript",
-      "meta": "multiple.js",
+      "meta": "single.js",
       "type": "code",
-      "value": "console.log('a multi-file code block');",
+      "value": "console.log('a single-file code block');",
     },
     Object {
       "children": Array [

@@ -74,9 +74,55 @@
     margin-right: -.25rem;
   }
 }
+@mixin calloutCustomIcons($R: callout) {
+  --emoji: 1em;
+  --icon-font: FontAwesome;
+  &-icon {
+    font-size: var(--emoji, 0);
+    color: var(--icon-color, inherit) !important;
+  }
+  &-icon:before {
+    content: var(--icon);
+    font-family: var(--icon-font);
+    font-size: 1rem;
+    font-weight: 400;
+    position: absolute;
+    transform: translate(-50%, 0);
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @at-root .rdmdCallouts--useIconFont & {
+    --emoji: unset;
+    &_okay {
+      /* thumbs up */
+      --icon: "\f164";
+    }
+    &_info {
+      /* info circle */
+      --icon: "\f05a";
+    }
+    &_warn {
+      /* warning triangle */
+      --icon: "\f071";
+    }
+    &_error {
+      /* warning circle */
+      --icon: "\f06a";
+    }
+    &_default {
+      /* warning circle */
+      --emoji: 1rem;
+    }
+  }
+}
 
-.callout.callout {
-  @include callout;
+.callout {
+  &.callout { // bump specificity
+    @include callout;
+  }
+  @include calloutCustomIcons;
   border-top-right-radius: var(--markdown-radius);
   border-bottom-right-radius: var(--markdown-radius);
 }

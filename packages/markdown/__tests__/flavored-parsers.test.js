@@ -32,8 +32,17 @@ describe('Parse ReadMe-Flavored Markdown Syntax', () => {
   });
 
   it('Single Block', () => {
-    const text = "\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n\n&nbsp;";
+    const text = "\n\n```javascript single.js\nconsole.log('a single-file code block');\n```\n\n&nbsp;";
     const ast = process(text);
     expect(ast).toMatchSnapshot();
+  });
+
+  it('When fools just, like, totally disregard newlines...', () => {
+    // See this comment for more...
+    // https://github.com/readmeio/api-explorer/pull/627#discussion_r415420860
+    const md =
+      "\n\n```javascript single.js\nconsole.log('I should be a single code block');\n```\n## I Should be an H3 Tag\n```javascript single.js\nconsole.log('I\\'m also a single code block');\n```\n\n";
+    const ast = process(md);
+    expect(ast.children).toHaveLength(3);
   });
 });

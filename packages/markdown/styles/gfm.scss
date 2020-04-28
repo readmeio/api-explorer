@@ -73,13 +73,6 @@
     margin: .67em 0
   }
 
-  code,
-  kbd,
-  pre {
-    font-family: monospace, monospace;
-    font-size: 1em
-  }
-
   hr {
     box-sizing: content-box;
     height: 0;
@@ -236,17 +229,6 @@
     margin-left: 0
   }
 
-  code,
-  pre {
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
-    font-size: 12px
-  }
-
-  pre {
-    margin-bottom: 0;
-    margin-top: 0
-  }
-
   input::-webkit-inner-spin-button,
   input::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -304,20 +286,6 @@
     margin-bottom: 0
   }
 
-  kbd {
-    background-color: #fafbfc;
-    border: 1px solid #c6cbd1;
-    border-bottom-color: #959da5;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #959da5;
-    color: #444d56;
-    display: inline-block;
-    font-size: 11px;
-    line-height: 10px;
-    padding: 3px 5px;
-    vertical-align: middle
-  }
-
   ol,
   ul {
     padding-left: 2em
@@ -358,73 +326,6 @@
   dl dd {
     margin-bottom: 1em;
     padding: 0 1em
-  }
-
-  code {
-    background-color: rgba(27, 31, 35, .05);
-    border-radius: 3px;
-    font-size: 85%;
-    margin: 0;
-    padding: .2em .4em
-  }
-
-  pre {
-    word-wrap: normal
-  }
-
-  pre>code {
-    background: 0 0;
-    border: 0;
-    font-size: 100%;
-    margin: 0;
-    padding: 0;
-    white-space: pre;
-    word-break: normal
-  }
-
-  .highlight {
-    margin-bottom: 1em
-  }
-
-  .highlight pre {
-    margin-bottom: 0;
-    word-break: normal
-  }
-
-  .highlight pre,
-  pre {
-    background-color: #f6f8fa;
-    border-radius: var(--markdown-radius, 3px);
-    font-size: 85%;
-    line-height: 1.45;
-    overflow: auto;
-    padding: 1em
-  }
-
-  pre code {
-    background-color: transparent;
-    border: 0;
-    display: inline;
-    line-height: inherit;
-    margin: 0;
-    max-width: auto;
-    overflow: visible;
-    padding: 0;
-    word-wrap: normal
-  }
-
-  kbd {
-    background-color: #fafbfc;
-    border: 1px solid #d1d5da;
-    border-bottom-color: #c6cbd1;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #c6cbd1;
-    color: #444d56;
-    display: inline-block;
-    font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
-    line-height: 10px;
-    padding: 3px 5px;
-    vertical-align: middle
   }
 
   :checked+.radio-label {
