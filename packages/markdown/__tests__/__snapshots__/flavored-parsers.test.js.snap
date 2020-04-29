@@ -96,10 +96,85 @@ exports[`Parse ReadMe-Flavored Markdown Syntax Single Block 1`] = `
 Object {
   "children": Array [
     Object {
+      "className": "tab-panel",
+      "data": Object {
+        "hName": "code",
+        "hProperties": Object {
+          "lang": "javascript",
+          "meta": "single.js",
+        },
+      },
       "lang": "javascript",
       "meta": "single.js",
       "type": "code",
       "value": "console.log('a single-file code block');",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse ReadMe-Flavored Markdown Syntax Single Code 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "className": "tab-panel",
+      "data": Object {
+        "hName": "code",
+        "hProperties": Object {
+          "lang": "javascript",
+          "meta": "single.js",
+        },
+      },
+      "lang": "javascript",
+      "meta": "single.js",
+      "type": "code",
+      "value": "console.log('a single-file code block');",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse ReadMe-Flavored Markdown Syntax Tabbed Code 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "className": "tab-panel",
+          "data": Object {
+            "hName": "code",
+            "hProperties": Object {
+              "lang": "javascript",
+              "meta": "multiple.js",
+            },
+          },
+          "lang": "javascript",
+          "meta": "multiple.js",
+          "type": "code",
+          "value": "console.log('a multi-file code block');",
+        },
+        Object {
+          "className": "tab-panel",
+          "data": Object {
+            "hName": "code",
+            "hProperties": Object {
+              "lang": "javascript",
+              "meta": null,
+            },
+          },
+          "lang": "javascript",
+          "meta": null,
+          "type": "code",
+          "value": "console.log('an unnamed sample snippet');",
+        },
+      ],
+      "className": "tabs",
+      "data": Object {
+        "hName": "code-tabs",
+      },
+      "type": "code-tabs",
     },
     Object {
       "children": Array [
