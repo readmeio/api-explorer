@@ -143,7 +143,7 @@ function tokenize(eat, value) {
             children: [
               {
                 type: 'paragraph',
-                children: [{ type: 'text', value: `${icon} ` }, ...this.tokenizeInline(json.title, eat.now())],
+                children: [...this.tokenizeInline(json.title, eat.now())],
               },
               ...this.tokenizeBlock(json.body, eat.now()),
             ],
@@ -212,6 +212,7 @@ function tokenize(eat, value) {
             ],
             data: {
               ...data,
+              json,
               hProperties: { ...data, href: url },
               hName: 'rdme-embed',
             },
