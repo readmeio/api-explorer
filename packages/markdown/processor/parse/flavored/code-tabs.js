@@ -1,4 +1,4 @@
-const RGXP = /^(```[^`]+```\n(?:```)[^]+?(?:\n\n))/g;
+const RGXP = /^(```([^]*?)```)(?=```\n```|```\n\n|\n[^`]|$)/g;
 
 function tokenizer(eat, value) {
   const [match] = RGXP.exec(value) || [];
