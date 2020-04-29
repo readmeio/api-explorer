@@ -73,7 +73,7 @@ const options = require('./options.json');
 sanitize.clobberPrefix = '';
 
 sanitize.tagNames.push('span', 'style');
-sanitize.attributes['*'].push('class', 'className', 'align');
+sanitize.attributes['*'].push('class', 'className', 'align', 'style');
 
 sanitize.tagNames.push('rdme-pin');
 
@@ -81,7 +81,7 @@ sanitize.tagNames.push('embed');
 sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
 
 sanitize.tagNames.push('rdme-embed');
-sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href'];
+sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href', 'iframe', 'width', 'height'];
 
 sanitize.attributes.a = ['href', 'title', 'class', 'className'];
 
