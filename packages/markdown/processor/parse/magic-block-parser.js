@@ -189,7 +189,15 @@ function tokenize(eat, value) {
         .split(/(?:www)?\./)
         .filter(i => i)
         .join('')}`;
-      const data = { url, html, title, provider: json.provider, height: json.height, width: json.width, iframe: json.iframe };
+      const data = {
+        url,
+        html,
+        title,
+        provider: json.provider,
+        height: json.height,
+        width: json.width,
+        iframe: json.iframe,
+      };
       return eat(match)(
         WrapPinnedBlocks(
           {

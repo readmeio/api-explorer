@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading, jsx-a11y/iframe-has-title */
 const React = require('react');
 const propTypes = require('prop-types');
 
