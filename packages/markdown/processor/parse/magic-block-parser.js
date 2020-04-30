@@ -140,13 +140,7 @@ function tokenize(eat, value) {
                 value: json.body,
               },
             },
-            children: [
-              {
-                type: 'paragraph',
-                children: [...this.tokenizeInline(json.title, eat.now())],
-              },
-              ...this.tokenizeBlock(json.body, eat.now()),
-            ],
+            children: [...this.tokenizeBlock(json.title, eat.now()), ...this.tokenizeBlock(json.body, eat.now())],
           },
           json
         )
