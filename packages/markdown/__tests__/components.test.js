@@ -60,12 +60,8 @@ describe('Components', () => {
 `,
     ];
     const wrap = [mount(markdown.react(callout[0])), mount(markdown.react(callout[1]))];
-    expect(wrap[0].html()).toBe(
-      '<blockquote class="callout callout_error" theme="❗️"><h3 class="callout-heading false"><span class="callout-icon">❗️</span><p>Error Callout</p></h3><p>Lorem ipsum dolor.</p></blockquote>'
-    );
-    expect(wrap[1].html()).toBe(
-      '<blockquote class="callout callout_default" theme="🎟"><h3 class="callout-heading empty"><span class="callout-icon">🎟</span><p>Callout with no title or theme.</p></h3></blockquote>'
-    );
+    expect(wrap[0].html()).toMatchSnapshot();
+    expect(wrap[1].html()).toMatchSnapshot();
   });
 
   it('Multi Code Block', () => {
