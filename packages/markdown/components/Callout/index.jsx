@@ -9,9 +9,9 @@ const Callout = props => {
     <blockquote {...attributes} className={`callout callout_${theme}`} theme={icon}>
       <h3 className={`callout-heading ${!title && 'empty'}`}>
         <span className="callout-icon">{icon}</span>
-        {children}
+        {children.length >= 2 ? children : title}
       </h3>
-      {content}
+      {(content.length && content) || !title ? children : ''}
     </blockquote>
   );
 };
