@@ -47,10 +47,6 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "👍 ",
-            },
-            Object {
-              "type": "text",
               "value": "Callout Title",
             },
           ],
@@ -185,10 +181,6 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "✨ ",
-            },
-            Object {
-              "type": "text",
               "value": "Callout Title",
             },
           ],
@@ -275,6 +267,14 @@ Object {
         "height": undefined,
         "html": false,
         "iframe": false,
+        "json": Object {
+          "favicon": "https://youtu.be/favicon.ico",
+          "html": false,
+          "iframe": false,
+          "provider": "@youtube",
+          "title": "Embed",
+          "url": "https://youtu.be/J3-uKv1DShQ",
+        },
         "provider": "@youtube",
         "title": "Embed",
         "url": "https://youtu.be/J3-uKv1DShQ",

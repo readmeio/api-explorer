@@ -1,3 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Components Callout 1`] = `"<blockquote class=\\"callout callout_error\\" theme=\\"❗️\\"><h3 class=\\"callout-heading false\\"><span class=\\"callout-icon\\">❗️</span>Error Callout</h3><p>Lorem ipsum dolor.</p></blockquote>"`;
+
+exports[`Components Callout 2`] = `"<blockquote class=\\"callout callout_default\\" theme=\\"🎟\\"><h3 class=\\"callout-heading empty\\"><span class=\\"callout-icon\\">🎟</span></h3><p>Callout with no title or theme.</p></blockquote>"`;
+
 exports[`Components Embed 1`] = `"<div class=\\"embed\\"><a href=\\"https://gist.github.com/chaddy81/f852004d6d1510eec1f6\\" rel=\\"noopener noreferrer\\" style=\\"display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-decoration: none;\\" target=\\"_blank\\"><b style=\\"color: rgb(51, 51, 51);\\">View Embed:</b> <span style=\\"opacity: 0.75;\\">https://gist.github.com/chaddy81/f852004d6d1510eec1f6</span></a></div>"`;
+
+exports[`Components Image 1`] = `"<p><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" alt=\\"Bro eats pizza and makes an OK gesture.\\" title=\\"Pizza Face\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" width=\\"auto\\" loading=\\"lazy\\"><span class=\\"lightbox\\" role=\\"dialog\\"><span class=\\"lightbox-inner\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" alt=\\"Bro eats pizza and makes an OK gesture.\\" title=\\"Click to close...\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" width=\\"auto\\" loading=\\"lazy\\"></span></span></p>"`;

@@ -9,7 +9,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "ℹ️ Info Callout",
+              "value": "Info Callout",
             },
           ],
           "type": "paragraph",

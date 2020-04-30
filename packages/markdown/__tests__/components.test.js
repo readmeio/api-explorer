@@ -60,12 +60,8 @@ describe('Components', () => {
 `,
     ];
     const wrap = [mount(markdown.react(callout[0])), mount(markdown.react(callout[1]))];
-    expect(wrap[0].html()).toBe(
-      '<blockquote class="callout callout_error" theme="❗️"><h3 class="callout-heading false"><span class="callout-icon">❗️</span> Error Callout</h3><p>Lorem ipsum dolor.</p></blockquote>'
-    );
-    expect(wrap[1].html()).toBe(
-      '<blockquote class="callout callout_default" theme="🎟"><h3 class="callout-heading empty"><span class="callout-icon">🎟</span> </h3><p>Callout with no title or theme.</p></blockquote>'
-    );
+    expect(wrap[0].html()).toMatchSnapshot();
+    expect(wrap[1].html()).toMatchSnapshot();
   });
 
   it('Multi Code Block', () => {
@@ -85,6 +81,20 @@ describe('Components', () => {
       markdown.react('[Embed Title](https://gist.github.com/chaddy81/f852004d6d1510eec1f6 "@jsfiddle")')
     );
     expect(wrap.html()).toMatchSnapshot();
+  });
+
+  it('Image', () => {
+    const text =
+      '![Bro eats pizza and makes an OK gesture.](https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg "Pizza Face")';
+
+    const wrap = mount(markdown.react(text));
+    expect(wrap.html()).toMatchSnapshot();
+
+    const img = wrap.find('img').at(0);
+    const box = wrap.find('.lightbox').at(0);
+
+    img.simulate('click');
+    expect(box.getDOMNode(0).hasAttribute('open')).toBe(true);
   });
 
   it('Heading', () => {
