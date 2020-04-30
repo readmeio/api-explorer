@@ -5,14 +5,15 @@ function tokenizer(eat, value) {
 
   if (!match) return true;
 
-  // construct children code blocks
+  let activeTab; // activate last block marked [open]
   const kids = match
     .split('```')
     .filter(val => val.trim())
-    .map(val => {
-      /**
-       * @todo: this assignment logic is too complex; we should simplify it.
-       *
+    .map((val, ix) => {
+      /**----------------------------------------------
+       * CONSTRUCT CHILDREN CODE BLOCKS
+       *  @todo: simplify this complex assignment logic.
+       * ----------------------------------------------
        * For each of our adjacent code blocks we'll:
        * 1) normalize any unbalanced tilde wrappers
        * 2) split the matching block in to three parts:
@@ -20,11 +21,20 @@ function tokenizer(eat, value) {
        *    - [meta] tab name (optional)
        *    - the [code] snippet text
        */
+
       // eslint-disable-next-line no-param-reassign
       val = ['```', val.replace('```', ''), '```'].join('');
 
       // eslint-disable-next-line unicorn/no-unsafe-regex
-      const [, lang, meta = null, code = ''] = /```([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
+      const matched = /```(?<lang>[^\s]+)?(?: *(?<meta>[^\n]+))?\s?(?<code>[^]+)```/gm.exec(val).groups;
+      const { lang, code = '' } = matched;
+
+      if (matched.meta && (matched.meta === '[open]' || matched.meta.search(/ \[open\]$/) > 0)) {
+        activeTab = ix;
+        matched.meta = matched.meta.replace(/\s?\[open\]$/, '');
+      }
+
+      const { meta } = matched;
 
       return {
         type: 'code',
@@ -46,7 +56,10 @@ function tokenizer(eat, value) {
   return eat(match)({
     type: 'code-tabs',
     className: 'tabs',
-    data: { hName: 'code-tabs' },
+    data: {
+      hName: 'code-tabs',
+      hProperties: { activeTab },
+    },
     children: kids,
   });
 }
@@ -64,8 +77,10 @@ module.exports = parser;
 
 module.exports.sanitize = sanitizeSchema => {
   const tags = sanitizeSchema.tagNames;
+  const atts = sanitizeSchema.attributes;
 
   tags.push('code-tabs');
+  atts['code-tabs'] = ['activeTab'];
 
   return parser;
 };

@@ -37,20 +37,24 @@ function tokenize(eat, value) {
 
   switch (type) {
     case 'code': {
-      const children = json.codes.map(obj => ({
-        type: 'code',
-        value: obj.code.trim(),
-        meta: obj.name || null,
-        lang: obj.language,
-        className: 'tab-panel',
-        data: {
-          hName: 'code',
-          hProperties: {
-            meta: obj.name || null,
-            lang: obj.language,
+      let activeTab;
+      const children = json.codes.map((obj, ix) => {
+        if (obj.open) activeTab = ix;
+        return {
+          type: 'code',
+          value: obj.code.trim(),
+          meta: obj.name || null,
+          lang: obj.language,
+          className: 'tab-panel',
+          data: {
+            hName: 'code',
+            hProperties: {
+              meta: obj.name || null,
+              lang: obj.language,
+            },
           },
-        },
-      }));
+        };
+      });
       if (children.length === 1) {
         if (!children[0].value) return eat(match); // skip empty code tabs
         if (children[0].name) return eat(match)(WrapPinnedBlocks(children[0], json));
@@ -60,7 +64,10 @@ function tokenize(eat, value) {
           {
             children,
             className: 'tabs',
-            data: { hName: 'code-tabs' },
+            data: {
+              hName: 'code-tabs',
+              hProperties: { activeTab },
+            },
             type: 'code-tabs',
           },
           json
@@ -169,7 +176,7 @@ function tokenize(eat, value) {
 
           sum[row].children[col] = {
             type: row ? 'tableCell' : 'tableHead',
-            children: this.tokenizeInline(val, eat.now()),
+            children: this.tokenizeBlock(val, eat.now()),
           };
           // convert falsey values to empty strings
           sum[row].children = [...sum[row].children].map(v => v || '');

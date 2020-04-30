@@ -72,10 +72,12 @@ const options = require('./options.json');
 // Sanitization Schema Defaults
 sanitize.clobberPrefix = '';
 
-sanitize.tagNames.push('span', 'style');
+sanitize.tagNames.push('span', 'style', 'pre');
 sanitize.attributes['*'].push('class', 'className', 'align', 'style');
 
 sanitize.tagNames.push('rdme-pin');
+
+sanitize.attributes.pre = ['class', 'className']
 
 sanitize.tagNames.push('embed');
 sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
@@ -174,6 +176,9 @@ export function react(text, opts = {}, components = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
+  // eslint-disable-next-line react/jsx-props-no-spreading, react/prop-types
+  const Pre = ({ children, ...attr }) => <pre {...attr}>{children}</pre>;
+
   // eslint-disable-next-line react/prop-types
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
 
@@ -197,6 +202,7 @@ export function react(text, opts = {}, components = {}) {
         h4: Heading(4),
         h5: Heading(5),
         h6: Heading(6),
+        pre: Pre,
         code: Code(sanitize),
         img: Image(sanitize),
         ...components,

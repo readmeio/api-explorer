@@ -136,13 +136,13 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(.33);
+      color: var(--md-code-text, green) !important;
       opacity: 0 !important;
     }
 
     &_copied {
       pointer-events: none;
       &, * {
-        color: var(--md-code-text, green) !important;
         opacity: 1;
       }
       &:before {
@@ -179,6 +179,10 @@
         padding: 1em;
         max-height: 90vh;
       }
+    }
+    
+    button.rdmd-code-copy:not(:hover) {
+      transition-delay: .4s;
     }
     &:not(:hover) button.rdmd-code-copy {
       opacity: 0 !important;
