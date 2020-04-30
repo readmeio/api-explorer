@@ -15,32 +15,32 @@
     thead {
       color: var(--table-head-text, inherit);
     }
-    
-    td,
-    th {
-      padding: 0;
-      color: inherit;
-    }
-    
-    th,
-    thead td {
-      font-weight: 600;
-    }
-    
+
     thead tr {
       background: var(--table-head, #{$head});
-    }
-    
-    td,
-    th {
-      border: 1px solid var(--table-edges, #{$edges});
-      padding: 6px 13px
     }
     
     tr {
       background-color: var(--table-row, #{$row});
       border-top: 1px solid var(--table-edges, #{$edges});
     }
+
+    th,
+    thead td {
+      font-weight: 600;
+    }
+
+    td,
+    th {
+      padding: 0;
+      color: inherit;
+      vertical-align: middle;
+      border: 1px solid var(--table-edges, #{$edges});
+      padding: 6px 13px;
+      >:first-child, >:only-child { margin-top:    0 !important }
+      >:last-child,  >:only-child { margin-bottom: 0 !important }
+    }
+    
     &:not(.plain) tr:nth-child(2n) {
       background-color: var(--table-stripe, #{$stripe});
     }

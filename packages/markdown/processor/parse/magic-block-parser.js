@@ -169,7 +169,7 @@ function tokenize(eat, value) {
 
           sum[row].children[col] = {
             type: row ? 'tableCell' : 'tableHead',
-            children: this.tokenizeInline(val, eat.now()),
+            children: this.tokenizeBlock(val, eat.now()),
           };
           // convert falsey values to empty strings
           sum[row].children = [...sum[row].children].map(v => v || '');
