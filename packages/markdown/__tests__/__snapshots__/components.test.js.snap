@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Components Callout 1`] = `"<blockquote class=\\"callout callout_error\\" theme=\\"❗️\\"><h3 class=\\"callout-heading false\\"><span class=\\"callout-icon\\">❗️</span>Error Callout</h3><p>Lorem ipsum dolor.</p></blockquote>"`;
+exports[`Components Callout 1`] = `"<blockquote class=\\"callout callout_error\\" theme=\\"❗️\\"><h3 class=\\"callout-heading false\\"><span class=\\"callout-icon\\">❗️</span><p>Error Callout</p></h3><p>Lorem ipsum dolor.</p></blockquote>"`;
 
 exports[`Components Callout 2`] = `"<blockquote class=\\"callout callout_default\\" theme=\\"🎟\\"><h3 class=\\"callout-heading empty\\"><span class=\\"callout-icon\\">🎟</span></h3><p>Callout with no title or theme.</p></blockquote>"`;
 
