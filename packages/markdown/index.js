@@ -176,7 +176,6 @@ export function react(text, opts = {}, components = {}) {
 
   // eslint-disable-next-line react/prop-types
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
-  const count = {};
 
   return processor(opts)
     .use(rehypeReact, {
@@ -192,12 +191,12 @@ export function react(text, opts = {}, components = {}) {
         'rdme-pin': PinWrap,
         table: Table(sanitize),
         a: Anchor(sanitize),
-        h1: Heading(1, count),
-        h2: Heading(2, count),
-        h3: Heading(3, count),
-        h4: Heading(4, count),
-        h5: Heading(5, count),
-        h6: Heading(6, count),
+        h1: Heading(1),
+        h2: Heading(2),
+        h3: Heading(3),
+        h4: Heading(4),
+        h5: Heading(5),
+        h6: Heading(6),
         code: Code(sanitize),
         img: Image(sanitize),
         ...components,

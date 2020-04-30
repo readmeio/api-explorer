@@ -18,23 +18,23 @@ function Heading({ tag, ...props }) {
   ]);
 }
 
-function CreateHeading(level, anchors) {
+function CreateHeading(level) {
   // eslint-disable-next-line react/display-name
-  return props => <Heading {...props} anchors={anchors} level={level} tag={`h${level}`} />;
+  return props => <Heading {...props} level={level} tag={`h${level}`} />;
 }
 
 Heading.propTypes = {
   align: PropTypes.oneOf(['left', 'center', 'right', '']),
-  anchors: PropTypes.object,
   children: PropTypes.array.isRequired,
   id: PropTypes.string.isRequired,
   level: PropTypes.number,
   tag: PropTypes.string.isRequired,
 };
+
 Heading.defaultProps = {
   align: '',
   id: '',
   level: 2,
 };
 
-module.exports = (level, anchors) => CreateHeading(level, anchors);
+module.exports = level => CreateHeading(level);
