@@ -83,6 +83,20 @@ describe('Components', () => {
     expect(wrap.html()).toMatchSnapshot();
   });
 
+  it('Image', () => {
+    const text =
+      '![Bro eats pizza and makes an OK gesture.](https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg "Pizza Face")';
+
+    const wrap = mount(markdown.react(text));
+    expect(wrap.html()).toMatchSnapshot();
+
+    const img = wrap.find('img').at(0);
+    const box = wrap.find('.lightbox').at(0);
+
+    img.simulate('click');
+    expect(box.getDOMNode(0).hasAttribute('open')).toBe(true);
+  });
+
   it('Heading', () => {
     const wrap = mount(markdown.react('### Heading Level 3\n\n### Heading Level 3'));
     expect(wrap.find('Heading')).toHaveLength(2);
