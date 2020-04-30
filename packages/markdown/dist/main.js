@@ -19830,12 +19830,13 @@ var React = __webpack_require__(3);
 var PropTypes = __webpack_require__(7);
 
 var Callout = function Callout(props) {
+  var children = props.children;
   var attributes = props.attributes,
-      children = props.children,
       theme = props.theme,
       title = props.title,
       icon = props.icon;
-  var content = children.splice(1);
+  var content = title ? children.splice(1) : children;
+  children = title ? children : '';
   return (
     /*#__PURE__*/
     // eslint-disable-next-line react/jsx-props-no-spreading
@@ -19846,7 +19847,7 @@ var Callout = function Callout(props) {
       className: "callout-heading ".concat(!title && 'empty')
     }, /*#__PURE__*/React.createElement("span", {
       className: "callout-icon"
-    }, icon), children.length >= 2 ? children : title), content.length && content || (!title ? children : ''))
+    }, icon), children), content.length && content || (!title ? children : ''))
   );
 };
 
