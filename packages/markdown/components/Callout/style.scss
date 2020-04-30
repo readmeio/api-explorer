@@ -84,10 +84,11 @@
   &-icon:before {
     content: var(--icon);
     font-family: var(--icon-font);
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: var(--icon-size, 1rem);
+    font-weight: var(--icon-weight, 400);
     position: absolute;
-    transform: translate(-50%, 0);
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: inline-block;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
