@@ -11,7 +11,7 @@ const Callout = props => {
         <span className="callout-icon">{icon}</span>
         {children.length >= 2 ? children : title}
       </h3>
-      {(content.length && content) || !title ? children : ''}
+      {(content.length && content) || (!title ? children : '')}
     </blockquote>
   );
 };
