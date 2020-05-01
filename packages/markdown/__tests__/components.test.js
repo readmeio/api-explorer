@@ -53,15 +53,30 @@ describe('Components', () => {
 `,
       `
 
-> 🎟  
+> 🚧  
 > 
-> Callout with no title or theme.
+> Callout with no title.
 
 `,
+      `[block:callout]
+{
+  "type": "warning",
+  "body": "Callout with no title."
+}
+[/block]`,
     ];
-    const wrap = [mount(markdown.react(callout[0])), mount(markdown.react(callout[1]))];
+    const wrap = [
+      mount(markdown.react(callout[0])),
+      mount(markdown.react(callout[1])),
+      mount(markdown.react(callout[2])),
+    ];
+
     expect(wrap[0].html()).toMatchSnapshot();
-    expect(wrap[1].html()).toMatchSnapshot();
+
+    const noTitleExpectation =
+      '<blockquote class="callout callout_warn" theme="🚧"><h3 class="callout-heading empty"><span class="callout-icon">🚧</span></h3><p>Callout with no title.</p></blockquote>';
+    expect(wrap[1].html()).toBe(noTitleExpectation);
+    expect(wrap[2].html()).toBe(noTitleExpectation);
   });
 
   it('Multi Code Block', () => {
