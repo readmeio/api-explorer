@@ -2,7 +2,7 @@
   "name": "@readme/markdown",
   "main": "dist/main.js",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "6.6.6",
+  "version": "6.6.7",
   "files": [
     "styles",
     "components",
