@@ -1,6 +1,13 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+function generateHeadingIdDeprecated(e) {
+  if (typeof e === 'object') {
+    return generateHeadingIdDeprecated(e.props.children[0]);
+  }
+  return e.toLowerCase().replace(/[^\w]+/g, '-');
+}
+
 function Heading({ tag, ...props }) {
   if (!props.children) return '';
 
@@ -9,6 +16,7 @@ function Heading({ tag, ...props }) {
     align: props.align,
   };
   return React.createElement(tag, attrs, [
+    <div key={`heading-anchor-${props.id}-deprecated`} id={`section-${generateHeadingIdDeprecated(props.id)}`} />,
     <div key={`heading-anchor-${props.id}`} className="heading-anchor anchor waypoint" id={props.id} />,
     <div key={`heading-text-${props.id}`} className="heading-text">
       {props.children}
