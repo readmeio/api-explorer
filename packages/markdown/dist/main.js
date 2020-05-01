@@ -20077,7 +20077,7 @@ var Image = /*#__PURE__*/function (_React$Component) {
         width: width,
         height: height
       };
-      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("img", _extends({}, this.props, {
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", _extends({}, this.props, {
         alt: alt,
         title: title
       }, extras, {
