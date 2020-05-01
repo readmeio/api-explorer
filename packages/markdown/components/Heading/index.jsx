@@ -16,7 +16,11 @@ function Heading({ tag, ...props }) {
     align: props.align,
   };
   return React.createElement(tag, attrs, [
-    <div key={`heading-anchor-${props.id}-deprecated`} id={`section-${generateHeadingIdDeprecated(props.id)}`} />,
+    <div
+      key={`heading-anchor-${props.id}-deprecated`}
+      className="heading-anchor-deprecated"
+      id={`section-${generateHeadingIdDeprecated(props.id)}`}
+    />,
     <div key={`heading-anchor-${props.id}`} className="heading-anchor anchor waypoint" id={props.id} />,
     <div key={`heading-text-${props.id}`} className="heading-text">
       {props.children}

@@ -6,10 +6,15 @@
   .heading-text {
     flex: 1 100%;
   }
+  .heading-anchor-deprecated {
+    position: absolute;
+    top: 0;
+  }
   .heading-anchor {
     top: -1rem !important;
   }
-  .heading-anchor, .heading-anchor-icon {
+  .heading-anchor,
+  .heading-anchor-icon {
     position: absolute !important;
     display: inline !important;
     order: -1;
