@@ -19835,6 +19835,7 @@ var Callout = function Callout(props) {
       theme = props.theme,
       title = props.title,
       icon = props.icon;
+  if (!(title || children)) return '';
   var content = title ? children.splice(1) : children;
   children = title ? children : '';
   return (
@@ -19847,7 +19848,7 @@ var Callout = function Callout(props) {
       className: "callout-heading ".concat(!title && 'empty')
     }, /*#__PURE__*/React.createElement("span", {
       className: "callout-icon"
-    }, icon), children), content.length && content || (!title ? children : ''))
+    }, icon), children), content && content.length && content || !title && children)
   );
 };
 
@@ -20690,10 +20691,7 @@ function tokenize(eat, value) {
               value: json.body
             }
           },
-          children: [{
-            type: 'paragraph',
-            children: _toConsumableArray(this.tokenizeInline(json.title, eat.now()))
-          }].concat(_toConsumableArray(this.tokenizeBlock(json.body, eat.now())))
+          children: [].concat(_toConsumableArray(this.tokenizeBlock(json.title, eat.now())), _toConsumableArray(this.tokenizeBlock(json.body, eat.now())))
         }, json));
       }
 
