@@ -15,7 +15,7 @@ class Image extends React.Component {
     const { align, title, alt, width, height, className = '' } = this.props;
     const extras = { align, width, height };
     return (
-      <React.Fragment>
+      <div>
         <img
           {...this.props}
           alt={alt}
@@ -37,7 +37,7 @@ class Image extends React.Component {
             </span>
           </span>
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }
