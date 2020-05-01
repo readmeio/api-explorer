@@ -1,6 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+/* istanbul ignore next */
 function generateHeadingIdDeprecated(e) {
   if (typeof e === 'object') {
     return generateHeadingIdDeprecated(e.props.children[0]);
