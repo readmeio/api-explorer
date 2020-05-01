@@ -62,10 +62,6 @@ const {
   rdmePinCompiler,
 } = require('./processor/compile');
 
-/* Custom Unified Plugins
- */
-const sectionAnchorId = require('./processor/plugin/section-anchor-id');
-
 // Processor Option Defaults
 const options = require('./options.json');
 
@@ -148,7 +144,6 @@ export function processor(opts = {}) {
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkSlug)
-    .use(sectionAnchorId)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSanitize, sanitize);
