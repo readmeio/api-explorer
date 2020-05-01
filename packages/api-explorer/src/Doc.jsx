@@ -354,7 +354,7 @@ class Doc extends React.Component {
 
               <h2>{doc.title}</h2>
               {doc.excerpt && (
-                <div className="excerpt">
+                <div className="markdown-body excerpt">
                   {useNewMarkdownEngine ? markdown(doc.excerpt) : markdownMagic(doc.excerpt)}
                 </div>
               )}
