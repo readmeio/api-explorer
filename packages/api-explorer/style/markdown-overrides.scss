@@ -7,6 +7,12 @@
 #api-explorer .hub-reference-left .markdown-body {
   width: 100%;
   max-width: 100%;
+
+  &.excerpt {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   > .pin {
     display: none !important;
   }
@@ -22,7 +28,7 @@
     > .pin {
       .reference-layout-column & {
         color: #bbbec1;
-        p { color: inherit !important }
+        blockquote, p { color: inherit !important }
         > .CodeTabs, > pre {
           filter: var(--md-code-text, invert(0.9)); /* ¡hacksaurz! */
         }
