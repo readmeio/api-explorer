@@ -2,7 +2,8 @@
 @import './components.scss';
 
 :root {
-  // --markdown-radius: 3px; // fallback to defaults
+  // --markdown-radius: 3px;
+  // --markdown-edge: #eee;
   --markdown-font: inherit;
   --markdown-text: inherit;
   --markdown-title: inherit;
