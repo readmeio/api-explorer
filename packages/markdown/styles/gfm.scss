@@ -1,9 +1,9 @@
 @mixin gfm {
-  @include markdown-body-defaults;
-  @include markdown-body-overrides;
+  @include markdownDefaults;
+  @include markdownOverrides;
 }
 
-@mixin markdown-body-defaults {
+@mixin markdownDefaults {
   & {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -11,7 +11,8 @@
     font-family: var(--markdown-font);
     line-height: var(--markdown-lineHeight);
     color: var(--markdown-text);
-    word-wrap: break-word
+    word-wrap: break-word;
+    @include _clearfix();
   }
 
   ul {
@@ -75,8 +76,16 @@
 
   hr {
     box-sizing: content-box;
+
     height: 0;
-    overflow: visible
+    overflow: hidden;
+    margin: 15px 0;
+
+    border-width: 0 0 1px;
+    border-bottom: 1px solid var(--markdown-edge, #dfe2e5);
+    background: transparent;
+
+    @include _clearfix();
   }
 
   input {
@@ -105,26 +114,6 @@
 
   strong {
     font-weight: 600
-  }
-
-  hr {
-    background: 0 0;
-    border: 0;
-    border-bottom: 1px solid #dfe2e5;
-    height: 0;
-    margin: 15px 0;
-    overflow: hidden
-  }
-
-  hr:before {
-    content: "";
-    display: table
-  }
-
-  hr:after {
-    clear: both;
-    content: "";
-    display: table
   }
 
   details summary {
@@ -236,17 +225,6 @@
     margin: 0
   }
 
-  &:before {
-    content: "";
-    display: table
-  }
-
-  &:after {
-    clear: both;
-    content: "";
-    display: table
-  }
-
   &> :first-child {
     margin-top: 0 !important
   }
@@ -347,12 +325,9 @@
     vertical-align: middle
   }
 
-  hr {
-    border-bottom-color: #eee
-  }
 }
 
-@mixin markdown-body-overrides {
+@mixin markdownOverrides {
 
   h5,
   h6 {
@@ -397,4 +372,12 @@
       }
     }
   }
+}
+
+@mixin _clearfix(){
+  &:before, &:after {
+    content: "";
+    display: table;
+  }
+  &:after { clear: both }
 }
