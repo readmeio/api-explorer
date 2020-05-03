@@ -189,7 +189,6 @@ function tokenize(eat, value) {
         html,
         title,
       };
-      console.log(data);
       return eat(match)(
         WrapPinnedBlocks(
           {
@@ -203,7 +202,10 @@ function tokenize(eat, value) {
               },
             ],
             data: {
-              hProperties: { ...data, href: url },
+              hProperties: {
+                ...data,
+                href: url,
+              },
               hName: 'rdme-embed',
             },
           },
