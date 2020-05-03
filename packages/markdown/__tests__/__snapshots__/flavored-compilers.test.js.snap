@@ -22,6 +22,6 @@ console.log('an unnamed sample snippet');
 `;
 
 exports[`ReadMe Magic Blocks Embed 1`] = `
-"[Embed](https://youtu.be/J3-uKv1DShQ \\"@youtube\\")
+"[undefined](undefined \\"undefined\\")
 "
 `;
