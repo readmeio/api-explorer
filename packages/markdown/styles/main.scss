@@ -4,14 +4,16 @@
 :root {
   // --markdown-radius: 3px;
   // --markdown-edge: #eee;
-  --markdown-font: inherit;
   --markdown-text: inherit;
   --markdown-title: inherit;
-  --markdown-lineHeight: 1.5;
+  --markdown-title-font: inherit;
+  --markdown-font: inherit;
+  --markdown-font-size: inherit;
+  --markdown-line-height: 1.5;
 }
 
 .field-description,
 .markdown-body {
   @include gfm;
-  font-size: 14px;
+  font-size: var(--markdown-font-size, 14px);
 }

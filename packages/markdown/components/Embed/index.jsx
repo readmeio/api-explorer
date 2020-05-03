@@ -24,7 +24,7 @@ class Embed extends React.Component {
                 {!favicon || (
                   <Favicon alt={provider} className="embed-favicon" src={favicon} style={{ float: 'left' }} />
                 )}
-                {provider && <small className="embed-provider">{provider}</small>}
+                {provider && <small className="embed-provider">{provider.replace(/^@{1}/, '')}</small>}
                 <div className="embed-title">{title}</div>
               </div>
             ) : (
