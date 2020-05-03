@@ -351,27 +351,6 @@
     margin: 0 .5em .25em -1.25em;
   }
 
-  .embed {
-    padding: 15px;
-    background: #eeeeee;
-    overflow: hidden;
-    border-radius: 3px;
-
-    &:empty {
-      display: none;
-    }
-
-    &-media {
-      display: flex;
-      justify-content: center;
-
-      >:only-child {
-        flex: 1;
-        margin: -15px;
-        border-radius: 0 !important;
-      }
-    }
-  }
 }
 
 @mixin _clearfix(){
