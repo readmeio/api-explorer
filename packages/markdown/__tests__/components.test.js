@@ -141,6 +141,21 @@ describe('Components', () => {
 
     img.simulate('click');
     expect(box.getDOMNode(0).hasAttribute('open')).toBe(true);
+
+    box.simulate('scroll');
+    expect(box.getDOMNode(0).hasAttribute('open')).toBe(false);
+
+    img.simulate('keydown', { key: 'Enter' });
+    expect(box.getDOMNode(0).hasAttribute('open')).toBe(true);
+
+    img.simulate('keydown', { key: 'Escape' });
+    expect(box.getDOMNode(0).hasAttribute('open')).toBe(false);
+
+    img.simulate('keydown', { key: ' ' });
+    expect(box.getDOMNode(0).hasAttribute('open')).toBe(true);
+
+    img.simulate('keydown', { key: '.', metaKey: true });
+    expect(box.getDOMNode(0).hasAttribute('open')).toBe(false);
   });
 
   it('Heading', () => {

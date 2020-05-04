@@ -30,7 +30,7 @@ exports[`check list items 1`] = `
 `;
 
 exports[`emojis 1`] = `
-"<p><div><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\" caption=\\"\\" loading=\\"lazy\\"></div><br>
+"<p><img src=\\"/img/emojis/joy.png\\" alt=\\":joy:\\" title=\\":joy:\\" class=\\"emoji\\" align=\\"absmiddle\\" height=\\"20\\" width=\\"20\\" caption=\\"\\" loading=\\"lazy\\"><br>
 <i class=\\"fa fa-lock\\"></i><br>
 :unknown-emoji:</p>"
 `;
@@ -992,7 +992,7 @@ exports[`export multiple Markdown renderers renders plain markdown as React 1`] 
 </React.Fragment>
 `;
 
-exports[`image 1`] = `"<p><div><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"\\" width=\\"auto\\" loading=\\"lazy\\"><span class=\\"lightbox\\" role=\\"dialog\\"><span class=\\"lightbox-inner\\"><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"Click to close...\\" width=\\"auto\\" loading=\\"lazy\\"></span></span></div></p>"`;
+exports[`image 1`] = `"<p><span class=\\"img\\" role=\\"button\\" tabindex=\\"0\\"><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"\\" width=\\"auto\\"><span class=\\"lightbox\\" role=\\"dialog\\" tabindex=\\"0\\"><span class=\\"lightbox-inner\\"><img src=\\"http://example.com/image.png\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"Click to close...\\" width=\\"auto\\" alt=\\"Image\\" class=\\"lightbox-img\\" loading=\\"lazy\\"></span></span></span></p>"`;
 
 exports[`list items 1`] = `
 "<ul>
@@ -1000,7 +1000,7 @@ exports[`list items 1`] = `
 </ul>"
 `;
 
-exports[`magic image 1`] = `"<figure><div><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\" loading=\\"lazy\\"><span class=\\"lightbox\\" role=\\"dialog\\"><span class=\\"lightbox-inner\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"Click to close...\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\" loading=\\"lazy\\"></span></span></div><figcaption><p>A guy. Eating pizza. And making an OK gesture.</p></figcaption></figure>"`;
+exports[`magic image 1`] = `"<figure><span class=\\"img\\" role=\\"button\\" tabindex=\\"0\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\"><span class=\\"lightbox\\" role=\\"dialog\\" tabindex=\\"0\\"><span class=\\"lightbox-inner\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"Click to close...\\" class=\\"lightbox-img\\" width=\\"100%\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" alt=\\"\\" loading=\\"lazy\\"></span></span></span><figcaption><p>A guy. Eating pizza. And making an OK gesture.</p></figcaption></figure>"`;
 
 exports[`prefix anchors with section- should add a section- prefix to heading anchors 1`] = `"<h1 id=\\"heading\\">heading</h1>"`;
 

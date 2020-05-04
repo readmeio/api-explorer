@@ -1,4 +1,4 @@
-/* eslint-disable no-bitwise, no-param-reassign, react/jsx-props-no-spreading, no-fallthrough */
+/* eslint-disable no-param-reassign, react/jsx-props-no-spreading, no-fallthrough */
 
 const React = require('react');
 const PropTypes = require('prop-types');
@@ -48,9 +48,6 @@ class Image extends React.Component {
     key = `${cmd}${key.toLowerCase()}`;
 
     switch (key) {
-      case 'ArrowDown':
-      case 'ArrowUp':
-        break;
       case 'cmd+.':
       case 'escape':
         // CLOSE
@@ -71,8 +68,8 @@ class Image extends React.Component {
       return <img {...this.props} alt={alt} loading="lazy" />;
     }
     return (
-      <span className="img" onKeyDown={this.handleKey} role={'button'} tabIndex={0}>
-        <img {...this.props} alt={alt} onClickCapture={e => this.toggle(true) | e.preventDefault()} />
+      <span className="img" onClick={() => this.toggle()} onKeyDown={this.handleKey} role={'button'} tabIndex={0}>
+        <img {...this.props} alt={alt} />
         <Lightbox ref={this.lightbox} {...this.props} close={this.toggle} opened={this.state.lightbox} />
       </span>
     );
