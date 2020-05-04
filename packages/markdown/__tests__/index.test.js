@@ -46,6 +46,11 @@ test('check list items', () => {
   expect(mount(markdown.default('- [ ] checklistitem1\n- [x] checklistitem1')).html()).toMatchSnapshot();
 });
 
+test('gemoji generation', () => {
+  const gemoji = mount(markdown.default(':sparkles:'));
+  expect(gemoji.find('.lightbox').exists()).toBe(false);
+});
+
 test('should strip out inputs', () => {
   const wrap = mount(markdown.default('<input type="text" value="value" />'));
   expect(wrap.exists()).toBe(false);
