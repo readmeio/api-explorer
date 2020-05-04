@@ -411,7 +411,7 @@ span.CodeMirror-selectedtext { background: none; }
   margin-left: auto;
   margin-right: auto;
   border-style: none;
-  outline: 1px solid transparent; }
+  outline: none !important; }
 
 .markdown-body img[width=smart] {
   width: auto;
