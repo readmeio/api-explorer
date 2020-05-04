@@ -12,17 +12,24 @@ class Embed extends React.Component {
   render() {
     const { provider, url, title, html, iframe, image, favicon, ...attrs } = this.props;
     if ('iframe' in this.props) return <iframe {...attrs} border="none" src={url} style={{ border: 'none' }} />;
+    const classes = ['embed', image && 'embed_hasImg'];
     return (
-      <div className="embed">
+      <div className={classes.join(' ')}>
         {html ? (
           <div className="embed-media" dangerouslySetInnerHTML={{ __html: html }}></div>
         ) : (
           <a className="embed-link" href={url} rel="noopener noreferrer" target="_blank">
-            {!image || <img alt={title} className="embed-img" src={image} />}
+            {!image || <img alt={title} className="embed-img" loading="lazy" src={image} />}
             {title ? (
               <div className="embed-body">
                 {!favicon || (
-                  <Favicon alt={provider} className="embed-favicon" src={favicon} style={{ float: 'left' }} />
+                  <Favicon
+                    alt={provider}
+                    className="embed-favicon"
+                    loading="lazy"
+                    src={favicon}
+                    style={{ float: 'left' }}
+                  />
                 )}
                 {provider && <small className="embed-provider">{provider.replace(/^@{1}/, '')}</small>}
                 <div className="embed-title">{title}</div>
