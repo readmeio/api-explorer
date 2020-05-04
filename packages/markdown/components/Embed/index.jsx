@@ -31,7 +31,15 @@ class Embed extends React.Component {
                     style={{ float: 'left' }}
                   />
                 )}
-                {provider && <small className="embed-provider">{provider.replace(/^@{1}/, '')}</small>}
+                {provider && (
+                  <small className="embed-provider">
+                    {provider.search(/^@{1}/) < 0 ? (
+                      provider
+                    ) : (
+                      <code style={{ fontFamily: 'var(--md-code-font, monospace)' }}>{url}</code>
+                    )}
+                  </small>
+                )}
                 <div className="embed-title">{title}</div>
               </div>
             ) : (

@@ -68,7 +68,26 @@
     }
   }
 
-  &-provider {}
+  &-provider {
+    font-size: 0.8em;
+    line-height: 1.6;
+
+    code:only-child {
+      display: block;
+      width: 100%;
+      font-size: 1.15em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      background: transparent;
+      margin: 0;
+      padding: 0;
+    }
+    transition: .2 ease;
+    code {
+      opacity: 0.8;
+    }
+   }
 
   &-img {
     width: 5em;
@@ -91,8 +110,8 @@
   &-favicon {
     width: 12px !important;
     height: 12px !important;
-    margin-top: 1px;
+    margin-top: 4px;
     margin-right: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
   }
 }

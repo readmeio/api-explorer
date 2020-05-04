@@ -963,6 +963,23 @@ span.CodeMirror-selectedtext { background: none; }
   .markdown-body .embed-body-url {
     opacity: .75; }
 
+.markdown-body .embed-provider {
+  font-size: 0.8em;
+  line-height: 1.6;
+  transition: .2 ease; }
+  .markdown-body .embed-provider code:only-child {
+    display: block;
+    width: 100%;
+    font-size: 1.15em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background: transparent;
+    margin: 0;
+    padding: 0; }
+  .markdown-body .embed-provider code {
+    opacity: 0.8; }
+
 .markdown-body .embed-img {
   width: 5em;
   max-width: 5em;
@@ -983,9 +1000,9 @@ span.CodeMirror-selectedtext { background: none; }
 .markdown-body .embed-favicon {
   width: 12px !important;
   height: 12px !important;
-  margin-top: 1px;
+  margin-top: 4px;
   margin-right: 6px;
-  margin-bottom: 6px; }
+  margin-bottom: 12px; }
 
 :root {
   --markdown-text: inherit;
