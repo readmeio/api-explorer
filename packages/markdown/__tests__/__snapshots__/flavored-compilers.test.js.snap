@@ -1,5 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ReadMe Flavored Blocks Embed 1`] = `
+"[Embedded meta links.](https://nyti.me/s/gzoa2xb2v3 \\"@nyt\\")
+"
+`;
+
 exports[`ReadMe Magic Blocks Callouts 1`] = `
 "> Success
 > 
@@ -22,6 +27,6 @@ console.log('an unnamed sample snippet');
 `;
 
 exports[`ReadMe Magic Blocks Embed 1`] = `
-"[undefined](undefined \\"undefined\\")
+"[](https://youtu.be/J3-uKv1DShQ \\"@youtu.be\\")
 "
 `;
