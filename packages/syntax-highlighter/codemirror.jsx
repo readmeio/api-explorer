@@ -45,7 +45,7 @@ module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
   function tokenizeVariable(value) {
     // Modifies the regular expression to match anything
     // before or after like quote characters: ' "
-    const match = new RegExp(`(.*)${VARIABLE_REGEXP}(.*)`).exec(value);
+    const match = new RegExp(`(.*)${VARIABLE_REGEXP}([^]*)`).exec(value);
 
     if (!match) return value;
 

@@ -55,7 +55,7 @@
       position: relative;
       display: block;
       overflow: hidden;
-      border-radius: var(--markdown-radius);
+      border-radius: var(--table-radius, var(--markdown-radius, 2px));
     }
     &:after {
       content: ' ';
@@ -73,7 +73,6 @@
       min-width: 100%;
       box-sizing: content-box;
       width: 100%;
-      margin: 0 -$border-wrap-width;
       border-radius: inherit;
     }
     table:only-child {

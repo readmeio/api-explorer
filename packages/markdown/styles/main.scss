@@ -2,15 +2,18 @@
 @import './components.scss';
 
 :root {
-  // --markdown-radius: 3px; // fallback to defaults
-  --markdown-font: inherit;
+  // --markdown-radius: 3px;
+  // --markdown-edge: #eee;
   --markdown-text: inherit;
   --markdown-title: inherit;
-  --markdown-lineHeight: 1.5;
+  --markdown-title-font: inherit;
+  --markdown-font: inherit;
+  --markdown-font-size: inherit;
+  --markdown-line-height: 1.5;
 }
 
 .field-description,
 .markdown-body {
   @include gfm;
-  font-size: 14px;
+  font-size: var(--markdown-font-size, 14px);
 }
