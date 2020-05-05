@@ -79,11 +79,19 @@ sanitize.attributes['*'].push('class', 'className', 'align', 'style');
 
 sanitize.tagNames.push('rdme-pin');
 
-sanitize.tagNames.push('embed');
-sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
-
 sanitize.tagNames.push('rdme-embed');
-sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href', 'iframe', 'width', 'height'];
+sanitize.attributes['rdme-embed'] = [
+  'url',
+  'provider',
+  'html',
+  'title',
+  'href',
+  'iframe',
+  'width',
+  'height',
+  'image',
+  'favicon',
+];
 
 sanitize.attributes.a = ['href', 'title', 'class', 'className'];
 

@@ -46,6 +46,11 @@ test('check list items', () => {
   expect(mount(markdown.default('- [ ] checklistitem1\n- [x] checklistitem1')).html()).toMatchSnapshot();
 });
 
+test('gemoji generation', () => {
+  const gemoji = mount(markdown.default(':sparkles:'));
+  expect(gemoji.find('.lightbox').exists()).toBe(false);
+});
+
 test('should strip out inputs', () => {
   const wrap = mount(markdown.default('<input type="text" value="value" />'));
   expect(wrap.exists()).toBe(false);
@@ -189,7 +194,7 @@ test('should strip dangerous iframe tag', () => {
 
 test('should strip dangerous img attributes', () => {
   expect(mount(markdown.default('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
-    '<div><img src="x" align="" alt="" caption="" height="auto" title="" width="auto" loading="lazy"><span class="lightbox" role="dialog"><span class="lightbox-inner"><img src="x" align="" alt="" caption="" height="auto" title="Click to close..." width="auto" loading="lazy"></span></span></div>'
+    '<span class="img" role="button" tabindex="0"><img src="x" align="" alt="" caption="" height="auto" title="" width="auto"><span class="lightbox" role="dialog" tabindex="0"><span class="lightbox-inner"><img src="x" align="" caption="" height="auto" title="Click to close..." width="auto" alt="" class="lightbox-img" loading="lazy"></span></span></span>'
   );
 });
 

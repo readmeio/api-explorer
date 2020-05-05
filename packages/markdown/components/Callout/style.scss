@@ -2,10 +2,12 @@
   --background: #{lighten(#dfe2e5, 8.75%)};
   --border: #{lighten(#6a737d, 12.5%)};
 
-  background: var(--background);
-  border-color: var(--border);
-  color: var(--text);
-  padding: $l-offset;
+  & {
+    background: var(--background);
+    border-color: var(--border);
+    color: var(--text);
+    padding: $l-offset;
+  }
 
   &_info {
     $color: #46b8da;
@@ -45,6 +47,15 @@
 
   a {
     color: inherit;
+  }
+  hr {
+    border-color: var(--border, var(--markdown-edge, #eee));
+  }
+  blockquote {
+    color: var(--text);
+    border-color: var(--border);
+    border-width: 3px;
+    padding: 0 0 0 .8em;
   }
 
   .callout-heading {

@@ -177,20 +177,16 @@ function tokenize(eat, value) {
       return eat(match)(WrapPinnedBlocks(table, json));
     }
     case 'embed': {
-      json.title = json.title || 'Embed';
       const { title, url, html } = json;
-      json.provider = `@${new URL(url).hostname
+      json.provider = new URL(url).hostname
         .split(/(?:www)?\./)
         .filter(i => i)
-        .join('')}`;
+        .join('.');
       const data = {
+        ...json,
         url,
         html,
         title,
-        provider: json.provider,
-        height: json.height,
-        width: json.width,
-        iframe: json.iframe,
       };
       return eat(match)(
         WrapPinnedBlocks(
@@ -205,9 +201,10 @@ function tokenize(eat, value) {
               },
             ],
             data: {
-              ...data,
-              json,
-              hProperties: { ...data, href: url },
+              hProperties: {
+                ...data,
+                href: url,
+              },
               hName: 'rdme-embed',
             },
           },
