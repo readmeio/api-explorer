@@ -60,11 +60,13 @@ const {
   rdmeVarCompiler,
   rdmeCalloutCompiler,
   rdmePinCompiler,
+  plainTextCompiler,
 } = require('./processor/compile');
 
 /* Custom Unified Plugins
  */
 const sectionAnchorId = require('./processor/plugin/section-anchor-id');
+const tableFlattening = require('./processor/plugin/table-flattening');
 
 // Processor Option Defaults
 const options = require('./options.json');
@@ -148,7 +150,6 @@ export function processor(opts = {}) {
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkSlug)
-    .use(sectionAnchorId)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSanitize, sanitize);
@@ -179,6 +180,7 @@ export function react(text, opts = {}, components = {}) {
   const count = {};
 
   return processor(opts)
+    .use(sectionAnchorId)
     .use(rehypeReact, {
       createElement: React.createElement,
       Fragment: React.Fragment,
@@ -223,7 +225,7 @@ export function hast(text, opts = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
-  const rdmd = processor(opts);
+  const rdmd = processor(opts).use(tableFlattening);
   const node = rdmd.parse(text);
   return rdmd.runSync(node);
 }
@@ -236,6 +238,16 @@ export function mdast(text, opts = {}) {
   [text, opts] = setup(text, opts);
 
   return processor(opts).parse(text);
+}
+
+/**
+ * Converts an AST node to plain text
+ */
+export function astToPlainText(node, opts = {}) {
+  if (!node) return '';
+  [, opts] = setup('', opts);
+
+  return processor(opts).use(plainTextCompiler).runSync(node);
 }
 
 /**

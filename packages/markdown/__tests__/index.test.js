@@ -246,6 +246,10 @@ describe('export multiple Markdown renderers', () => {
     expect(markdown.md(tree)).toMatchSnapshot();
   });
 
+  it('renders plainText from AST', () => {
+    expect(markdown.astToPlainText(tree)).toMatchSnapshot();
+  });
+
   it('allows complex compact headings', () => {
     const mdxt = `#Basic Text
 
