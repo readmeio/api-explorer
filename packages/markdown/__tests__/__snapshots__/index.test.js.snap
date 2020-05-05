@@ -90,6 +90,9 @@ exports[`export multiple Markdown renderers renders custom React components 1`] 
   >
     Hello World
   </Unknown>
+  <div
+    id="section-hello-world"
+  />
   
 
 
@@ -369,6 +372,7 @@ Object {
           "properties": Object {},
           "tagName": "thead",
           "type": "element",
+          "value": "Col. A Col. B Col. C",
         },
         Object {
           "children": Array [
@@ -514,6 +518,7 @@ Object {
           "properties": Object {},
           "tagName": "tbody",
           "type": "element",
+          "value": "Cell A1 Cell B1 Cell C1 Cell A2 Cell B2 Cell C2 Cell A3 Cell B3 Cell C3",
         },
       ],
       "properties": Object {},
@@ -991,6 +996,8 @@ exports[`export multiple Markdown renderers renders plain markdown as React 1`] 
   </blockquote>
 </React.Fragment>
 `;
+
+exports[`export multiple Markdown renderers renders plainText from AST 1`] = `"Hello World"`;
 
 exports[`image 1`] = `"<p><div><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"\\" width=\\"auto\\" loading=\\"lazy\\"><span class=\\"lightbox\\" role=\\"dialog\\"><span class=\\"lightbox-inner\\"><img src=\\"http://example.com/image.png\\" alt=\\"Image\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" title=\\"Click to close...\\" width=\\"auto\\" loading=\\"lazy\\"></span></span></div></p>"`;
 
