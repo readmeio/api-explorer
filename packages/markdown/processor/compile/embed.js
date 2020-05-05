@@ -1,8 +1,15 @@
-module.exports = function EmbedCompiler() {
+function EmbedCompiler(node) {
+  const { title, url } = node.data.hProperties;
+
+  let { provider = '@embed' } = node.data.hProperties;
+  provider = provider[0] === '@' ? provider : `@${provider}`;
+
+  return `[${title || ''}](${url} "${provider}")`;
+}
+
+module.exports = function () {
   const { Compiler } = this;
   const { visitors } = Compiler.prototype;
-  visitors.embed = function compile(node) {
-    const { title, url, provider } = node.data;
-    return `[${title}](${url} "${provider}")`;
-  };
+
+  visitors.embed = EmbedCompiler;
 };
