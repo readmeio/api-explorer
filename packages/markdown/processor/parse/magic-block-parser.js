@@ -177,7 +177,6 @@ function tokenize(eat, value) {
       return eat(match)(WrapPinnedBlocks(table, json));
     }
     case 'embed': {
-      // json.title = json.title || 'Embed';
       const { title, url, html } = json;
       json.provider = new URL(url).hostname
         .split(/(?:www)?\./)

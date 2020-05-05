@@ -11,7 +11,11 @@ Favicon.propTypes = {
 class Embed extends React.Component {
   render() {
     const { provider, url, title, html, iframe, image, favicon, ...attrs } = this.props;
-    if ('iframe' in this.props) return <iframe {...attrs} border="none" src={url} style={{ border: 'none' }} />;
+
+    if ('iframe' in this.props) {
+      return <iframe {...attrs} border="none" src={url} style={{ border: 'none' }} />;
+    }
+
     const classes = ['embed', image && 'embed_hasImg'];
     return (
       <div className={classes.join(' ')}>
@@ -44,7 +48,7 @@ class Embed extends React.Component {
               </div>
             ) : (
               <div className="embed-body">
-                <b>View embed</b>: <span className="embed-body-url">{url}</span>
+                <b>View</b>: <span className="embed-body-url">{url}</span>
               </div>
             )}
           </a>
