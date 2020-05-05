@@ -255,6 +255,10 @@ describe('export multiple Markdown renderers', () => {
     expect(markdown.astToPlainText(tree)).toMatchSnapshot();
   });
 
+  it('astToPlainText should return an empty string if no value', () => {
+    expect(markdown.astToPlainText()).toStrictEqual('');
+  });
+
   it('allows complex compact headings', () => {
     const mdxt = `#Basic Text
 
