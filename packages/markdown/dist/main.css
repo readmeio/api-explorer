@@ -976,7 +976,8 @@ span.CodeMirror-selectedtext { background: none; }
     text-overflow: ellipsis;
     background: transparent;
     margin: 0;
-    padding: 0; }
+    padding: 0;
+    font-size: inherit !important; }
   .markdown-body .embed-provider code {
     opacity: 0.8; }
 
