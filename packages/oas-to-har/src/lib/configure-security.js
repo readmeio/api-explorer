@@ -20,9 +20,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
         name: 'Authorization',
         value: `Basic ${Buffer.from(`${values[scheme].user}:${values[scheme].pass}`).toString('base64')}`,
       });
-    }
-
-    if (security.scheme === 'bearer') {
+    } else if (security.scheme === 'bearer') {
       if (!values[scheme]) return false;
 
       return harValue('headers', {
@@ -38,8 +36,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
         name: security.name,
         value: values[scheme],
       });
-    }
-    if (security.in === 'header') {
+    } else if (security.in === 'header') {
       const header = {
         name: security.name,
         value: values[scheme],
@@ -51,6 +48,7 @@ module.exports = function configureSecurity(oas, values, scheme) {
         header.name = security.name;
         header.value = `${bearerFormat} ${header.value}`;
       }
+
       return harValue('headers', header);
     }
   }
