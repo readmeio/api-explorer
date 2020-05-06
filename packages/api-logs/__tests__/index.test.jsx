@@ -42,7 +42,7 @@ describe('Logs', () => {
     result: {},
   };
 
-  it('should render prompt to login if groups are not populated', () => {
+  it('should render prompt to log in if groups are not populated', () => {
     const noUser = { baseUrl, query: {}, changeGroup: () => {} };
     const comp = shallow(<LogTest {...noUser} />);
 
