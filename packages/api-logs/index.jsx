@@ -292,6 +292,7 @@ Logs.propTypes = {
 Logs.defaultProps = {
   group: '',
   groups: [],
+  loginUrl: 'https://dash.readme.com/login',
   result: null,
 };
 

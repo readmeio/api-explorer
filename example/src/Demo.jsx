@@ -103,7 +103,6 @@ class Demo extends React.Component {
             dontLazyLoad={false}
             flags={{ correctnewlines: false }}
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
-            loginUrl="https://dash.readme.com/login"
             Logs={Logs}
             maskErrorMessages={maskErrorMessages}
             oauth={oauth}
