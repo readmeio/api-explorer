@@ -60,13 +60,13 @@ const {
   rdmeVarCompiler,
   rdmeCalloutCompiler,
   rdmePinCompiler,
-  plainTextCompiler,
 } = require('./processor/compile');
 
 /* Custom Unified Plugins
  */
 const sectionAnchorId = require('./processor/plugin/section-anchor-id');
 const tableFlattening = require('./processor/plugin/table-flattening');
+const toPlainText = require('./processor/plugin/plain-text');
 
 // Processor Option Defaults
 const options = require('./options.json');
@@ -255,7 +255,7 @@ export function astToPlainText(node, opts = {}) {
   if (!node) return '';
   [, opts] = setup('', opts);
 
-  return processor(opts).use(plainTextCompiler).runSync(node);
+  return processor(opts).use(toPlainText).runSync(node);
 }
 
 /**

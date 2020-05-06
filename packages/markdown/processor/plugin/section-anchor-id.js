@@ -7,7 +7,13 @@ function transformer(ast) {
   return flatMap(ast, node => {
     if (node.type === 'element' && node.properties && node.properties.id) {
       const id = `section-${kebabCase(node.properties.id)}`;
-      return [node, { type: 'element', tagName: 'div', properties: { id } }];
+      const element = { type: 'element', tagName: 'div', properties: { id } };
+
+      if (node.children) {
+        node.children.push(element);
+      } else {
+        node.children = [element];
+      }
     }
     return [node];
   });
