@@ -256,6 +256,7 @@ Logs.propTypes = {
       name: PropTypes.string,
     })
   ),
+  loginUrl: PropTypes.string,
   query: PropTypes.shape({}).isRequired,
   result: PropTypes.shape({}),
 };
