@@ -7848,6 +7848,12 @@ module.exports =
       }
       cm.display.input.readOnlyChanged(val);
     });
+
+    option("screenReaderLabel", null, function (cm, val) {
+      val = (val === '') ? null : val;
+      cm.display.input.screenReaderLabelChanged(val);
+    });
+
     option("disableInput", false, function (cm, val) {if (!val) { cm.display.input.reset(); }}, true);
     option("dragDrop", true, dragDropChanged);
     option("allowDropFileTypes", null);
@@ -8679,7 +8685,7 @@ module.exports =
         clearCaches(this);
         scrollToCoords(this, this.doc.scrollLeft, this.doc.scrollTop);
         updateGutterSpace(this.display);
-        if (oldHeight == null || Math.abs(oldHeight - textHeight(this.display)) > .5)
+        if (oldHeight == null || Math.abs(oldHeight - textHeight(this.display)) > .5 || this.options.lineWrapping)
           { estimateLineHeights(this); }
         signal(this, "refresh", this);
       }),
@@ -8894,6 +8900,15 @@ module.exports =
     }
     on(div, "copy", onCopyCut);
     on(div, "cut", onCopyCut);
+  };
+
+  ContentEditableInput.prototype.screenReaderLabelChanged = function (label) {
+    // Label for screenreaders, accessibility
+    if(label) {
+      this.div.setAttribute('aria-label', label);
+    } else {
+      this.div.removeAttribute('aria-label');
+    }
   };
 
   ContentEditableInput.prototype.prepareSelection = function () {
@@ -9436,6 +9451,15 @@ module.exports =
     this.textarea = this.wrapper.firstChild;
   };
 
+  TextareaInput.prototype.screenReaderLabelChanged = function (label) {
+    // Label for screenreaders, accessibility
+    if(label) {
+      this.textarea.setAttribute('aria-label', label);
+    } else {
+      this.textarea.removeAttribute('aria-label');
+    }
+  };
+
   TextareaInput.prototype.prepareSelection = function () {
     // Redraw the selection and/or cursor
     var cm = this.cm, display = cm.display, doc = cm.doc;
@@ -9826,7 +9850,7 @@ module.exports =
 
   addLegacyProps(CodeMirror);
 
-  CodeMirror.version = "5.52.2";
+  CodeMirror.version = "5.53.2";
 
   return CodeMirror;
 
@@ -43907,7 +43931,7 @@ CodeMirror.defineMode('powershell', function() {
     /param|process|return|switch|throw|trap|try|until|where|while/
   ], { suffix: notCharacterOrDash });
 
-  var punctuation = /[\[\]{},;`\.]|@[({]/;
+  var punctuation = /[\[\]{},;`\\\.]|@[({]/;
   var wordOperators = buildRegexp([
     'f',
     /b?not/,
@@ -44312,7 +44336,7 @@ CodeMirror.defineMIME('application/x-powershell', 'powershell');
     var ERRORCLASS = "error";
 
     var delimiters = parserConf.delimiters || parserConf.singleDelimiters || /^[\(\)\[\]\{\}@,:`=;\.\\]/;
-    //               (Backwards-compatiblity with old, cumbersome config system)
+    //               (Backwards-compatibility with old, cumbersome config system)
     var operators = [parserConf.singleOperators, parserConf.doubleOperators, parserConf.doubleDelimiters, parserConf.tripleDelimiters,
                      parserConf.operators || /^([-+*/%\/&|^]=?|[<>=]+|\/\/=?|\*\*=?|!=|[~!@]|\.\.\.)/]
     for (var i = 0; i < operators.length; i++) if (!operators[i]) operators.splice(i--, 1)
