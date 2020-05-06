@@ -198,6 +198,25 @@ test('should strip dangerous img attributes', () => {
   );
 });
 
+describe('tree flattening', () => {
+  it('should bring nested mdast data up to the top child level', () => {
+    const text = `
+
+    |  | Col. B  |
+    |:-------:|:-------:|
+    | Cell A1 | Cell B1 |
+    | Cell A2 | Cell B2 |
+    | Cell A3 | |
+
+    `;
+
+    const table = markdown.hast(text).children[1];
+    expect(table.children).toHaveLength(2);
+    expect(table.children[0].value).toStrictEqual(' Col. B');
+    expect(table.children[1].value).toStrictEqual('Cell A1 Cell B1 Cell A2 Cell B2 Cell A3 ');
+  });
+});
+
 describe('export multiple Markdown renderers', () => {
   const text = `# Hello World
 
