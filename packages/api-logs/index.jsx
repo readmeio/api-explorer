@@ -211,7 +211,7 @@ class Logs extends React.Component {
             <th className="method">Method</th>
             <th className="status">Status</th>
             <th className="url">URL</th>
-            <th className="group">Project</th>
+            <th className="group">User</th>
             <th className="useragent">User Agent</th>
             <th className="time">Time</th>
           </tr>
