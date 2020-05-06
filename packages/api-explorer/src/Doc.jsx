@@ -276,6 +276,7 @@ class Doc extends React.Component {
         changeGroup={this.props.onAuthGroupChange}
         group={this.props.group}
         groups={this.props.groups}
+        loginUrl={this.props.loginUrl}
         query={{
           url,
           method,
@@ -418,6 +419,7 @@ Doc.propTypes = {
   ),
   language: PropTypes.string.isRequired,
   lazy: PropTypes.bool,
+  loginUrl: PropTypes.string,
   Logs: PropTypes.func,
   maskErrorMessages: PropTypes.bool,
   oas: PropTypes.shape({}),

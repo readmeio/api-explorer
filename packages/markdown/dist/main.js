@@ -7848,12 +7848,6 @@ module.exports =
       }
       cm.display.input.readOnlyChanged(val);
     });
-
-    option("screenReaderLabel", null, function (cm, val) {
-      val = (val === '') ? null : val;
-      cm.display.input.screenReaderLabelChanged(val);
-    });
-
     option("disableInput", false, function (cm, val) {if (!val) { cm.display.input.reset(); }}, true);
     option("dragDrop", true, dragDropChanged);
     option("allowDropFileTypes", null);
@@ -8685,7 +8679,7 @@ module.exports =
         clearCaches(this);
         scrollToCoords(this, this.doc.scrollLeft, this.doc.scrollTop);
         updateGutterSpace(this.display);
-        if (oldHeight == null || Math.abs(oldHeight - textHeight(this.display)) > .5 || this.options.lineWrapping)
+        if (oldHeight == null || Math.abs(oldHeight - textHeight(this.display)) > .5)
           { estimateLineHeights(this); }
         signal(this, "refresh", this);
       }),
@@ -8900,15 +8894,6 @@ module.exports =
     }
     on(div, "copy", onCopyCut);
     on(div, "cut", onCopyCut);
-  };
-
-  ContentEditableInput.prototype.screenReaderLabelChanged = function (label) {
-    // Label for screenreaders, accessibility
-    if(label) {
-      this.div.setAttribute('aria-label', label);
-    } else {
-      this.div.removeAttribute('aria-label');
-    }
   };
 
   ContentEditableInput.prototype.prepareSelection = function () {
@@ -9451,15 +9436,6 @@ module.exports =
     this.textarea = this.wrapper.firstChild;
   };
 
-  TextareaInput.prototype.screenReaderLabelChanged = function (label) {
-    // Label for screenreaders, accessibility
-    if(label) {
-      this.textarea.setAttribute('aria-label', label);
-    } else {
-      this.textarea.removeAttribute('aria-label');
-    }
-  };
-
   TextareaInput.prototype.prepareSelection = function () {
     // Redraw the selection and/or cursor
     var cm = this.cm, display = cm.display, doc = cm.doc;
@@ -9850,7 +9826,7 @@ module.exports =
 
   addLegacyProps(CodeMirror);
 
-  CodeMirror.version = "5.53.2";
+  CodeMirror.version = "5.52.2";
 
   return CodeMirror;
 
@@ -20027,15 +20003,9 @@ var Image = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "lightboxSetup",
     value: function lightboxSetup() {
-      var _this2 = this;
-
       var $el = this.lightbox.current;
       setTimeout(function () {
         $el.scrollTop = ($el.scrollHeight - $el.offsetHeight) / 2;
-
-        _this2.setState({
-          lightbox: true
-        });
       }, 0);
     }
   }, {
@@ -20065,7 +20035,7 @@ var Image = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var alt = this.props.alt;
 
@@ -20079,7 +20049,7 @@ var Image = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/React.createElement("span", {
         className: "img",
         onClick: function onClick() {
-          return _this3.toggle();
+          return _this2.toggle();
         },
         onKeyDown: this.handleKey,
         role: 'button',
@@ -20089,7 +20059,9 @@ var Image = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/React.createElement(Lightbox, _extends({
         ref: this.lightbox
       }, this.props, {
-        close: this.toggle,
+        onScroll: function onScroll() {
+          return _this2.toggle(false);
+        },
         opened: this.state.lightbox
       })));
     }
@@ -43935,7 +43907,7 @@ CodeMirror.defineMode('powershell', function() {
     /param|process|return|switch|throw|trap|try|until|where|while/
   ], { suffix: notCharacterOrDash });
 
-  var punctuation = /[\[\]{},;`\\\.]|@[({]/;
+  var punctuation = /[\[\]{},;`\.]|@[({]/;
   var wordOperators = buildRegexp([
     'f',
     /b?not/,
@@ -44340,7 +44312,7 @@ CodeMirror.defineMIME('application/x-powershell', 'powershell');
     var ERRORCLASS = "error";
 
     var delimiters = parserConf.delimiters || parserConf.singleDelimiters || /^[\(\)\[\]\{\}@,:`=;\.\\]/;
-    //               (Backwards-compatibility with old, cumbersome config system)
+    //               (Backwards-compatiblity with old, cumbersome config system)
     var operators = [parserConf.singleOperators, parserConf.doubleOperators, parserConf.doubleDelimiters, parserConf.tripleDelimiters,
                      parserConf.operators || /^([-+*/%\/&|^]=?|[<>=]+|\/\/=?|\*\*=?|!=|[~!@]|\.\.\.)/]
     for (var i = 0; i < operators.length; i++) if (!operators[i]) operators.splice(i--, 1)
@@ -46242,17 +46214,15 @@ var React = __webpack_require__(2);
 
 var Lightbox = function Lightbox(_ref, ref) {
   var alt = _ref.alt,
-      close = _ref.close,
+      onScroll = _ref.onScroll,
       opened = _ref.opened,
-      attr = _objectWithoutProperties(_ref, ["alt", "close", "opened"]);
+      attr = _objectWithoutProperties(_ref, ["alt", "onScroll", "opened"]);
 
   return /*#__PURE__*/React.createElement("span", {
     ref: ref,
     autoFocus: true,
     className: "lightbox",
-    onScroll: function onScroll() {
-      return opened && close(false);
-    },
+    onScrollCapture: onScroll,
     open: opened,
     role: "dialog",
     tabIndex: 0

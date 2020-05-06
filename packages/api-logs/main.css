@@ -37,13 +37,39 @@
   margin-right: 10px;
   cursor: pointer;
 }
+.hub-reference .logs .logs-login,
 .hub-reference .logs .logs-empty {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.hub-reference .logs .logs-empty {
   text-align: center;
   background: #eee;
   min-height: 224px;
+}
+.hub-reference .logs .logs-login {
+  align-items: center;
+  background: #F8F8F8;
+  border: 1px solid #DDDDDD;
+  border-radius: 3px;
+  min-height: 160px;
+  width: 97%;
+}
+.hub-reference-theme-column .hub-reference .logs .logs-login {
+  margin-bottom: 25px;
+}
+.hub-reference .logs .logs-login svg {
+  margin-bottom: 10px;
+}
+.hub-reference .logs .logs-login .logs-login-button {
+  align-items: center;
+  border-radius: 3px;
+  color: #fff !important;
+  display: flex;
+  justify-content: center;
+  height: 34px;
+  width: 100px;
 }
 .hub-reference .logs .logs-list table td,
 .hub-reference .logs .logs-list table th {

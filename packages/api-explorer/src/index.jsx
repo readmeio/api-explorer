@@ -208,6 +208,7 @@ class ApiExplorer extends React.Component {
                               groups={this.groups}
                               language={this.state.language}
                               lazy={this.isLazy(index)}
+                              loginUrl={this.props.loginUrl}
                               Logs={this.props.Logs}
                               maskErrorMessages={this.props.maskErrorMessages}
                               oas={this.getOas(doc)}
@@ -253,6 +254,7 @@ ApiExplorer.propTypes = {
       term: PropTypes.string.isRequired,
     })
   ).isRequired,
+  loginUrl: PropTypes.string,
   Logs: PropTypes.func,
   maskErrorMessages: PropTypes.bool,
   oasFiles: PropTypes.shape({}).isRequired,
