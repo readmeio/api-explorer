@@ -37,7 +37,6 @@ class Image extends React.Component {
     const $el = this.lightbox.current;
     setTimeout(() => {
       $el.scrollTop = ($el.scrollHeight - $el.offsetHeight) / 2;
-      this.setState({ lightbox: true });
     }, 0);
   }
 
@@ -68,9 +67,14 @@ class Image extends React.Component {
       return <img {...this.props} alt={alt} loading="lazy" />;
     }
     return (
-      <span className="img" onClick={() => this.toggle()} onKeyDown={this.handleKey} role={'button'} tabIndex={0}>
+      <span className="img" onClick={() => this.toggle(false)} onKeyDown={this.handleKey} role={'button'} tabIndex={0}>
         <img {...this.props} alt={alt} />
-        <Lightbox ref={this.lightbox} {...this.props} close={this.toggle} opened={this.state.lightbox} />
+        <Lightbox
+          ref={this.lightbox}
+          {...this.props}
+          onScroll={() => this.toggle(false)}
+          opened={this.state.lightbox}
+        />
       </span>
     );
   }
