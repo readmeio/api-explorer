@@ -67,7 +67,7 @@ class Image extends React.Component {
       return <img {...this.props} alt={alt} loading="lazy" />;
     }
     return (
-      <span className="img" onClick={() => this.toggle(false)} onKeyDown={this.handleKey} role={'button'} tabIndex={0}>
+      <span className="img" onClick={() => this.toggle()} onKeyDown={this.handleKey} role={'button'} tabIndex={0}>
         <img {...this.props} alt={alt} />
         <Lightbox
           ref={this.lightbox}
