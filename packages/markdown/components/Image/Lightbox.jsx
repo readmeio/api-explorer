@@ -9,13 +9,13 @@ const React = require('react');
  *       use a single React portal component with public APIs.
  */
 // eslint-disable-next-line react/prop-types
-const Lightbox = ({ alt, close, opened, ...attr }, ref) => {
+const Lightbox = ({ alt, onScroll, opened, ...attr }, ref) => {
   return (
     <span
       ref={ref}
       autoFocus={true}
       className="lightbox"
-      onScroll={() => opened && close(false)}
+      onScrollCapture={onScroll}
       open={opened}
       role="dialog"
       tabIndex={0}
