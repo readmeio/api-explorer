@@ -1,17 +1,18 @@
 @mixin gfm {
-  @include markdown-body-defaults;
-  @include markdown-body-overrides;
+  @include markdownDefaults;
+  @include markdownOverrides;
 }
 
-@mixin markdown-body-defaults {
+@mixin markdownDefaults {
   & {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     position: relative;
     font-family: var(--markdown-font);
-    line-height: var(--markdown-lineHeight);
+    line-height: var(--markdown-line-height);
     color: var(--markdown-text);
-    word-wrap: break-word
+    word-wrap: break-word;
+    @include _clearfix();
   }
 
   ul {
@@ -75,8 +76,16 @@
 
   hr {
     box-sizing: content-box;
+
     height: 0;
-    overflow: visible
+    overflow: hidden;
+    margin: 15px 0;
+
+    border-width: 0 0 1px;
+    border-bottom: 1px solid var(--markdown-edge, #dfe2e5);
+    background: transparent;
+
+    @include _clearfix();
   }
 
   input {
@@ -105,26 +114,6 @@
 
   strong {
     font-weight: 600
-  }
-
-  hr {
-    background: 0 0;
-    border: 0;
-    border-bottom: 1px solid #dfe2e5;
-    height: 0;
-    margin: 15px 0;
-    overflow: hidden
-  }
-
-  hr:before {
-    content: "";
-    display: table
-  }
-
-  hr:after {
-    clear: both;
-    content: "";
-    display: table
   }
 
   details summary {
@@ -190,6 +179,7 @@
   h6 {
     line-height: 1.25;
     color: var(--markdown-title);
+    font-family: var(--markdown-title-font);
     font-size: var(--markdown-title-size);
     font-weight: var(--markdown-title-weight, 600);
     margin-top: var(--markdown-title-marginTop, 1em);
@@ -234,17 +224,6 @@
     -webkit-appearance: none;
     appearance: none;
     margin: 0
-  }
-
-  &:before {
-    content: "";
-    display: table
-  }
-
-  &:after {
-    clear: both;
-    content: "";
-    display: table
   }
 
   &> :first-child {
@@ -347,12 +326,9 @@
     vertical-align: middle
   }
 
-  hr {
-    border-bottom-color: #eee
-  }
 }
 
-@mixin markdown-body-overrides {
+@mixin markdownOverrides {
 
   h5,
   h6 {
@@ -376,25 +352,12 @@
     margin: 0 .5em .25em -1.25em;
   }
 
-  .embed {
-    padding: 15px;
-    background: #eeeeee;
-    overflow: hidden;
-    border-radius: 3px;
+}
 
-    &:empty {
-      display: none;
-    }
-
-    &-media {
-      display: flex;
-      justify-content: center;
-
-      >:only-child {
-        flex: 1;
-        margin: -15px;
-        border-radius: 0 !important;
-      }
-    }
+@mixin _clearfix(){
+  &:before, &:after {
+    content: "";
+    display: table;
   }
+  &:after { clear: both }
 }

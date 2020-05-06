@@ -1,43 +1,81 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-param-reassign, react/jsx-props-no-spreading, no-fallthrough */
 
 const React = require('react');
 const PropTypes = require('prop-types');
+const Lightbox = require('./Lightbox');
 
 class Image extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { lightbox: false };
+
+    this.state = {
+      lightbox: false,
+    };
+    this.lightbox = React.createRef();
+
+    this.toggle = this.toggle.bind(this);
+    this.handleKey = this.handleKey.bind(this);
+
+    this.isEmoji = props.className === 'emoji';
+  }
+
+  componentDidMount() {
+    this.lightboxSetup();
+  }
+
+  toggle(toState) {
+    if (this.props.className === 'emoji') return;
+
+    if (typeof toState === 'undefined') toState = !this.state.lightbox;
+
+    if (toState) this.lightboxSetup();
+
+    this.setState({ lightbox: toState });
+  }
+
+  lightboxSetup() {
+    const $el = this.lightbox.current;
+    setTimeout(() => {
+      $el.scrollTop = ($el.scrollHeight - $el.offsetHeight) / 2;
+    }, 0);
+  }
+
+  handleKey(e) {
+    let { key, metaKey: cmd } = e;
+
+    cmd = cmd ? 'cmd+' : '';
+    key = `${cmd}${key.toLowerCase()}`;
+
+    switch (key) {
+      case 'cmd+.':
+      case 'escape':
+        // CLOSE
+        this.toggle(false);
+        break;
+      case ' ':
+      case 'enter':
+        // OPEN
+        if (!this.state.open) this.toggle(true);
+        e.preventDefault();
+      default:
+    }
   }
 
   render() {
-    const { align, title, alt, width, height, className = '' } = this.props;
-    const extras = { align, width, height };
+    const { alt } = this.props;
+    if (this.isEmoji) {
+      return <img {...this.props} alt={alt} loading="lazy" />;
+    }
     return (
-      <div>
-        <img
+      <span className="img" onClick={() => this.toggle()} onKeyDown={this.handleKey} role={'button'} tabIndex={0}>
+        <img {...this.props} alt={alt} />
+        <Lightbox
+          ref={this.lightbox}
           {...this.props}
-          alt={alt}
-          title={title}
-          {...extras}
-          loading="lazy"
-          onClick={() => className !== 'emoji' && this.setState({ lightbox: true })}
+          onScroll={() => this.toggle(false)}
+          opened={this.state.lightbox}
         />
-        {className === 'emoji' || (
-          <span
-            className="lightbox"
-            onClick={() => this.setState({ lightbox: false })}
-            onScrollCapture={() => this.setState({ lightbox: false })}
-            open={this.state.lightbox}
-            role="dialog"
-          >
-            <span className="lightbox-inner">
-              <img {...this.props} alt={alt} title="Click to close..." {...extras} loading="lazy" />
-            </span>
-          </span>
-        )}
-      </div>
+      </span>
     );
   }
 }

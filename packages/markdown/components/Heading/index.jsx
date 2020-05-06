@@ -1,14 +1,5 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const kebab = require('lodash/kebabCase');
-
-/* istanbul ignore next */
-function deprecatedGenerateHeadingId(e) {
-  if (typeof e === 'object') {
-    return deprecatedGenerateHeadingId(e.props.children[0]);
-  }
-  return kebab(e);
-}
 
 function Heading({ tag, ...props }) {
   if (!props.children) return '';
@@ -18,11 +9,6 @@ function Heading({ tag, ...props }) {
     align: props.align,
   };
   return React.createElement(tag, attrs, [
-    <div
-      key={`heading-anchor-${props.id}-deprecated1`}
-      className="heading-anchor-deprecated"
-      id={`section-${deprecatedGenerateHeadingId(props.id)}`}
-    />,
     <div key={`heading-anchor-${props.id}`} className="heading-anchor anchor waypoint" id={props.id} />,
     <div key={`heading-text-${props.id}`} className="heading-text">
       {props.children}
