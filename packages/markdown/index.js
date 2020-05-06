@@ -62,6 +62,12 @@ const {
   rdmePinCompiler,
 } = require('./processor/compile');
 
+/* Custom Unified Plugins
+ */
+const sectionAnchorId = require('./processor/plugin/section-anchor-id');
+const tableFlattening = require('./processor/plugin/table-flattening');
+const toPlainText = require('./processor/plugin/plain-text');
+
 // Processor Option Defaults
 const options = require('./options.json');
 
@@ -182,6 +188,7 @@ export function react(text, opts = {}, components = {}) {
   const count = {};
 
   return processor(opts)
+    .use(sectionAnchorId)
     .use(rehypeReact, {
       createElement: React.createElement,
       Fragment: React.Fragment,
@@ -226,7 +233,7 @@ export function hast(text, opts = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
-  const rdmd = processor(opts);
+  const rdmd = processor(opts).use(tableFlattening);
   const node = rdmd.parse(text);
   return rdmd.runSync(node);
 }
@@ -239,6 +246,16 @@ export function mdast(text, opts = {}) {
   [text, opts] = setup(text, opts);
 
   return processor(opts).parse(text);
+}
+
+/**
+ * Converts an AST node to plain text
+ */
+export function astToPlainText(node, opts = {}) {
+  if (!node) return '';
+  [, opts] = setup('', opts);
+
+  return processor(opts).use(toPlainText).runSync(node);
 }
 
 /**
