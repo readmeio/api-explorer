@@ -1,3 +1,4 @@
+/* eslint-disable */
 const flatMap = require('unist-util-flatmap');
 const kebabCase = require('lodash/kebabCase');
 
@@ -19,12 +20,9 @@ const getTexts = node => {
  */
 function transformer(ast) {
   return flatMap(ast, node => {
-    if (matchTag.test(node.tagName) || node?.properties?.id) {
-      const useIdProp = node?.properties?.id.match(/^.*[A-Z].*$/);
-
-      const id = `section-${kebabCase(!useIdProp && getTexts(node) || node.properties.id)}`;
+    if (matchTag.test(node.tagName)) {
+      const id = `section-${kebabCase(getTexts(node))}`;
       const element = { type: 'element', tagName: 'div', properties: { id } };
-
       if (node.children) node.children.unshift(element);
       else node.children = [element];
     }
