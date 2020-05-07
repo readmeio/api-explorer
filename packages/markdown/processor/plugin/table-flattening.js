@@ -9,10 +9,11 @@ function transformer(ast) {
       // This is necessary to pullout all the relevant strings
 
       // Parse Header Values
-      const headerChildren = header.children[0].children;
+      const headerChildren = header.children && header.children.length ? header.children[0].children : [];
       const headerValue = headerChildren.map(hc => (hc.children.length && hc.children[0].value) || '').join(' ');
       // Parse Body Values
-      const bodyChildren = body.children.map(bc => bc.children).reduce((a, b) => a.concat(b), []);
+      const bodyChildren =
+        (body.children && body.children.map(bc => bc && bc.children).reduce((a, b) => a.concat(b), [])) || [];
       const bodyValue = bodyChildren.map(bc => (bc.children.length && bc.children[0].value) || '').join(' ');
 
       return [
@@ -37,3 +38,4 @@ function transformer(ast) {
 }
 
 module.exports = () => transformer;
+module.exports.tableFlattening = transformer;
