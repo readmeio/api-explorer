@@ -88,10 +88,10 @@ exports[`export multiple Markdown renderers renders custom React components 1`] 
   <Unknown
     id="hello-world"
   >
-    Hello World
     <div
       id="section-hello-world"
     />
+    Hello World
   </Unknown>
   
 
