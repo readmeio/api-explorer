@@ -5,6 +5,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /node\_modules\/.*(is\-plain\-obj|parse5)\/.*.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            extends: '../../.babelrc',
+          },
+        },
+      },
+      {
         test: /\.js(x?)$/,
         use: {
           loader: 'babel-loader',

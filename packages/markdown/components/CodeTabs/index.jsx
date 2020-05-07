@@ -7,8 +7,10 @@ const CodeTabs = props => {
   const { attributes, children } = props;
 
   function handleClick({ target }, index) {
-    const $wrap = target.closest('.CodeTabs');
-    $wrap.querySelectorAll('.CodeTabs_active').forEach(el => el.classList.remove('CodeTabs_active'));
+    console.log(target);
+    const $wrap = target.parentElement.parentElement;
+    const $open = [].slice.call($wrap.querySelectorAll('.CodeTabs_active'));
+    $open.forEach(el => el.classList.remove('CodeTabs_active'));
     $wrap.classList.remove('CodeTabs_initial');
 
     const codeblocks = $wrap.querySelectorAll('pre');
