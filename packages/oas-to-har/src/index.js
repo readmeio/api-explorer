@@ -5,23 +5,20 @@ const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('@re
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');
 
-const format = {
-  value: v => v,
-  example: v => v,
-  key: v => v,
-};
-
 function formatter(values, param, type, onlyIfExists) {
   if (typeof values[type][param.name] !== 'undefined') {
-    return format.value(values[type][param.name]);
+    return values[type][param.name];
   }
+
   if (onlyIfExists && !param.required) {
     return undefined;
   }
+
   if (param.required && param.example) {
-    return format.example(param.example);
+    return param.example;
   }
-  return format.key(param.name);
+
+  return param.name;
 }
 
 const defaultValues = Object.keys(parametersToJsonSchema.types).reduce((prev, curr) => {
