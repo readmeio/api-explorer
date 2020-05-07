@@ -5,7 +5,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /node\_modules\/.*(is\-plain\-obj|parse5)\/.*.js$/,
+        test: /node_modules\/.*(is-plain-obj|parse5)\/.*.js$/,
         use: {
           loader: 'babel-loader',
           options: {
