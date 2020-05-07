@@ -9,7 +9,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "Info Callout",
+              "value": "️ Info Callout",
             },
           ],
           "type": "paragraph",
@@ -18,9 +18,9 @@ Object {
       "data": Object {
         "hName": "rdme-callout",
         "hProperties": Object {
-          "icon": "ℹ️",
-          "theme": "info",
-          "title": "Info Callout",
+          "icon": "ℹ",
+          "theme": "default",
+          "title": "️ Info Callout",
           "value": "",
         },
       },
