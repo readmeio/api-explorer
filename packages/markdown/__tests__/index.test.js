@@ -3,6 +3,7 @@ const React = require('react');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../index');
+const { tableFlattening } = require('../processor/plugin/table-flattening');
 const settings = require('../options.json');
 
 test('image', () => {
@@ -214,6 +215,24 @@ describe('tree flattening', () => {
     expect(table.children).toHaveLength(2);
     expect(table.children[0].value).toStrictEqual(' Col. B');
     expect(table.children[1].value).toStrictEqual('Cell A1 Cell B1 Cell A2 Cell B2 Cell A3 ');
+  });
+
+  it('should not throw an error if missing values', () => {
+    const tree = {
+      tagName: 'table',
+      children: [
+        {
+          tagName: 'tHead',
+        },
+        {
+          tagName: 'tBody',
+        },
+      ],
+    };
+
+    const [head, body] = tableFlattening(tree).children;
+    expect(head.value).toStrictEqual('');
+    expect(body.value).toStrictEqual('');
   });
 });
 
