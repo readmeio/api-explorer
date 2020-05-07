@@ -1,4 +1,3 @@
-/* eslint-disable */
 const flatMap = require('unist-util-flatmap');
 const kebabCase = require('lodash/kebabCase');
 
