@@ -322,8 +322,15 @@ Lorem ipsum dolor!`;
   });
 });
 
-describe('prefix anchors with section-', () => {
+describe('prefix anchors with "section-"', () => {
   it('should add a section- prefix to heading anchors', () => {
     expect(markdown.html('# heading')).toMatchSnapshot();
+  });
+
+  it('"section-" anchors should split on camelCased words', () => {
+    const heading = mount(markdown.react('# camelCased'));
+    const anchor = heading.find('.heading-anchor_backwardsCompatibility').at(0);
+
+    expect(anchor.props().id).toMatchSnapshot('section-camel-cased');
   });
 });
