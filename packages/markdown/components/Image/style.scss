@@ -159,9 +159,9 @@
     img {
       width: auto !important;
       height: auto !important;
-      max-height: 95vh !important;
-      max-width: unset !important;
       min-width: unset !important;
+      max-width: 97.5vw !important;
+      max-height: 97.5vh !important;
       &.border, &:not([src$=".png"]):not([src$=".svg"]):not([src$=".jp2"]):not([src$=".tiff"]) {
         box-shadow: 0 .5em 3em -1em rgba(0, 0, 0, .2);
       }
