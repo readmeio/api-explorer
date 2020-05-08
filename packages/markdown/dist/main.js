@@ -20804,6 +20804,8 @@ function tokenizer(eat, value) {
     "\uD83D\uDED1": 'error',
     "\u2049\uFE0F": 'error',
     "\u203C\uFE0F": 'error',
+    // NOTE: prettier is desperate to convert this in to an emoji.
+    //       PLEASE DON'T COMMIT THIS OR YOU'LL BREAK README IN IE!
     // eslint-disable-next-line prettier/prettier
     "\u2139\uFE0F": 'info',
     "\u26A0": 'warn'
@@ -46533,27 +46535,38 @@ __webpack_require__.r(__webpack_exports__);
 
 var flatMap = __webpack_require__(125);
 
-var kebabCase = __webpack_require__(358); // Adds an empty <div id='section-slug'> next to all headings.
-// This is for compatibility with how we used to do slugs
+var kebabCase = __webpack_require__(358);
+
+var matchTag = /^h[1-6]$/g;
+/** Concat a deep text value from an AST node's children
+ */
+
+var getTexts = function getTexts(node) {
+  var text = '';
+  flatMap(node, function (kid) {
+    text += kid.type === 'text' ? kid.value : '';
+    return [kid];
+  });
+  return text;
+};
+/** Adds an empty <div id=section-slug> next to all headings
+ *  for backwards-compatibility with how we used to do slugs.
+ */
 
 
 function transformer(ast) {
   return flatMap(ast, function (node) {
-    if (node.type === 'element' && node.properties && node.properties.id) {
-      var id = "section-".concat(kebabCase(node.properties.id));
+    if (matchTag.test(node.tagName)) {
+      var id = "section-".concat(kebabCase(getTexts(node)));
       var element = {
         type: 'element',
         tagName: 'div',
         properties: {
-          id: id
+          id: id,
+          className: 'heading-anchor_backwardsCompatibility'
         }
       };
-
-      if (node.children) {
-        node.children.push(element);
-      } else {
-        node.children = [element];
-      }
+      if (node.children) node.children.unshift(element);else node.children = [element];
     }
 
     return [node];
@@ -47339,16 +47352,16 @@ function transformer(ast) {
       // Parse Header Values
 
 
-      var headerChildren = header.children[0].children;
+      var headerChildren = header.children && header.children.length ? header.children[0].children : [];
       var headerValue = headerChildren.map(function (hc) {
         return hc.children.length && hc.children[0].value || '';
       }).join(' '); // Parse Body Values
 
-      var bodyChildren = body.children.map(function (bc) {
-        return bc.children;
+      var bodyChildren = body.children && body.children.map(function (bc) {
+        return bc && bc.children;
       }).reduce(function (a, b) {
         return a.concat(b);
-      }, []);
+      }, []) || [];
       var bodyValue = bodyChildren.map(function (bc) {
         return bc.children.length && bc.children[0].value || '';
       }).join(' ');
@@ -47368,6 +47381,8 @@ function transformer(ast) {
 module.exports = function () {
   return transformer;
 };
+
+module.exports.tableFlattening = transformer;
 
 /***/ }),
 /* 380 */
