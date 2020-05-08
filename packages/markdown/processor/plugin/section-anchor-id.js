@@ -21,7 +21,11 @@ function transformer(ast) {
   return flatMap(ast, node => {
     if (matchTag.test(node.tagName)) {
       const id = `section-${kebabCase(getTexts(node))}`;
-      const element = { type: 'element', tagName: 'div', properties: { id } };
+      const element = {
+        type: 'element',
+        tagName: 'div',
+        properties: { id, className: 'heading-anchor_backwardsCompatibility' },
+      };
       if (node.children) node.children.unshift(element);
       else node.children = [element];
     }
