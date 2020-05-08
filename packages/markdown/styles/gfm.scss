@@ -123,52 +123,50 @@
   h1,
   h2 {
     font-size: 1.5em;
-    --markdown-title-size: 1.5em;
-    // border-bottom: 1px solid #eaecef;
-    // padding-bottom: .3em;
+    font-size: var(--markdown-title-size, 1.5em);
   }
 
   h1 {
     font-weight: 700;
-    --markdown-title-weight: 700;
+    font-weight: var(--markdown-title-weight, 700);
   }
 
   h2 {
     font-weight: 400;
-    --markdown-title-weight: 400;
+    font-weight: var(--markdown-title-weight, 400);
   }
 
   h3,
   h4 {
     font-weight: 600;
-    --markdown-title-weight: 600;
+    font-weight: var(--markdown-title-weight, 600);
   }
 
   h3 {
     font-size: 1.25em;
-    --markdown-title-size: 1.25em
+    font-size: var(--markdown-title-size, 1.25em);
   }
 
   h4 {
     font-size: 1em;
-    --markdown-title-size: 1em
+    font-size: var(--markdown-title-size, 1em);
   }
 
   h5,
   h6 {
     font-weight: 600;
-    --markdown-title-weight: 600;
+    font-weight: var(--markdown-title-weight, 600);
   }
 
   h5 {
     font-size: .875em;
-    --markdown-title-size: .875em
+    font-size: var(--markdown-title-size, .875em);
   }
 
   h6 {
-    --markdown-title: #6a737d;
     font-size: .85em;
-    --markdown-title-size: .85em
+    font-size: var(--markdown-title-size, .85em);
+    color: var(--markdown-title, #6a737d);
   }
 
   h1,
