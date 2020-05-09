@@ -11,13 +11,13 @@ function transformer(ast) {
       // Parse Header Values
       const headerChildren = header.children && header.children.length ? header.children[0].children : [];
       const headerValue = headerChildren
-        .map(hc => (hc.children && hc.children.length && hc.children[0].value) || '')
+        .map(hc => (hc && hc.children && hc.children.length && hc.children[0].value) || '')
         .join(' ');
       // Parse Body Values
       const bodyChildren =
         (body.children && body.children.map(bc => bc && bc.children).reduce((a, b) => a.concat(b), [])) || [];
       const bodyValue = bodyChildren
-        .map(bc => (bc.children && bc.children.length && bc.children[0].value) || '')
+        .map(bc => (bc && bc.children && bc.children.length && bc.children[0].value) || '')
         .join(' ');
 
       return [

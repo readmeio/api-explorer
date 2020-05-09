@@ -47330,7 +47330,7 @@ function transformer(ast) {
 
       var headerChildren = header.children && header.children.length ? header.children[0].children : [];
       var headerValue = headerChildren.map(function (hc) {
-        return hc.children && hc.children.length && hc.children[0].value || '';
+        return hc && hc.children && hc.children.length && hc.children[0].value || '';
       }).join(' '); // Parse Body Values
 
       var bodyChildren = body.children && body.children.map(function (bc) {
@@ -47339,7 +47339,7 @@ function transformer(ast) {
         return a.concat(b);
       }, []) || [];
       var bodyValue = bodyChildren.map(function (bc) {
-        return bc.children && bc.children.length && bc.children[0].value || '';
+        return bc && bc.children && bc.children.length && bc.children[0].value || '';
       }).join(' ');
       return [_objectSpread({}, node, {
         children: [_objectSpread({}, node.children[0], {
