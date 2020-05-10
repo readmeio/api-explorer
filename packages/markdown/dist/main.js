@@ -47321,6 +47321,8 @@ var flatMap = __webpack_require__(125); // Flattens table values and adds them a
 function transformer(ast) {
   return flatMap(ast, function (node) {
     if (node.tagName === 'table') {
+      var _header$children, _header$children$;
+
       var _node$children = _slicedToArray(node.children, 2),
           header = _node$children[0],
           body = _node$children[1]; // hAST tables are deeply nested with an innumerable amount of children
@@ -47328,18 +47330,22 @@ function transformer(ast) {
       // Parse Header Values
 
 
-      var headerChildren = header.children && header.children.length ? header.children[0].children : [];
+      var headerChildren = (header === null || header === void 0 ? void 0 : (_header$children = header.children) === null || _header$children === void 0 ? void 0 : (_header$children$ = _header$children[0]) === null || _header$children$ === void 0 ? void 0 : _header$children$.children) || [];
       var headerValue = headerChildren.map(function (hc) {
-        return hc && hc.children && hc.children.length && hc.children[0].value || '';
+        var _hc$children, _hc$children$;
+
+        return (hc === null || hc === void 0 ? void 0 : (_hc$children = hc.children) === null || _hc$children === void 0 ? void 0 : (_hc$children$ = _hc$children[0]) === null || _hc$children$ === void 0 ? void 0 : _hc$children$.value) || '';
       }).join(' '); // Parse Body Values
 
-      var bodyChildren = body.children && body.children.map(function (bc) {
-        return bc && bc.children;
+      var bodyChildren = (body === null || body === void 0 ? void 0 : body.children.map(function (bc) {
+        return bc === null || bc === void 0 ? void 0 : bc.children;
       }).reduce(function (a, b) {
         return a.concat(b);
-      }, []) || [];
+      }, [])) || [];
       var bodyValue = bodyChildren.map(function (bc) {
-        return bc && bc.children && bc.children.length && bc.children[0].value || '';
+        var _bc$children, _bc$children$;
+
+        return (bc === null || bc === void 0 ? void 0 : (_bc$children = bc.children) === null || _bc$children === void 0 ? void 0 : (_bc$children$ = _bc$children[0]) === null || _bc$children$ === void 0 ? void 0 : _bc$children$.value) || '';
       }).join(' ');
       return [_objectSpread({}, node, {
         children: [_objectSpread({}, node.children[0], {
