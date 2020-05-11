@@ -29,7 +29,7 @@
   "devDependencies": {
     "@readme/eslint-config": "^3.0.0",
     "eslint": "^7.0.0",
-    "jest": "^25.1.0",
+    "jest": "^26.0.1",
     "jsinspect": "^0.12.6",
     "prettier": "^2.0.1"
   },
