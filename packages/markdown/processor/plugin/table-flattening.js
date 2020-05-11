@@ -10,11 +10,10 @@ function transformer(ast) {
 
       // Parse Header Values
       const headerChildren = header?.children?.[0]?.children || [];
-      const headerValue = headerChildren.map(hc => (hc?.children?.[0]?.value) || '').join(' ');
+      const headerValue = headerChildren.map(hc => hc?.children?.[0]?.value || '').join(' ');
       // Parse Body Values
-      const bodyChildren =
-        (body?.children.map(bc => bc?.children).reduce((a, b) => a.concat(b), [])) || [];
-      const bodyValue = bodyChildren.map(bc => (bc?.children?.[0]?.value) || '').join(' ');
+      const bodyChildren = body?.children?.map(bc => bc?.children).reduce((a, b) => a.concat(b), []) || [];
+      const bodyValue = bodyChildren.map(bc => bc?.children?.[0]?.value || '').join(' ');
 
       return [
         {

@@ -3,5 +3,6 @@
     "@readme/eslint-config",
     "@readme/eslint-config/react"
   ],
+  "parser": "babel-eslint",
   "root": true
 }
