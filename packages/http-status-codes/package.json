@@ -22,8 +22,8 @@
     "directory": "packages/http-status-codes"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^2.0.0",
-    "eslint": "^6.5.0",
+    "@readme/eslint-config": "^3.0.0",
+    "eslint": "^7.0.0",
     "jest": "^25.1.0",
     "jsinspect": "^0.12.6",
     "prettier": "^2.0.1"
