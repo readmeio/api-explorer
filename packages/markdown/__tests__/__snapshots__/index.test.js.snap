@@ -88,10 +88,11 @@ exports[`export multiple Markdown renderers renders custom React components 1`] 
   <Unknown
     id="hello-world"
   >
-    Hello World
     <div
+      className="heading-anchor_backwardsCompatibility"
       id="section-hello-world"
     />
+    Hello World
   </Unknown>
   
 
@@ -1009,6 +1010,8 @@ exports[`list items 1`] = `
 
 exports[`magic image 1`] = `"<figure><span class=\\"img\\" role=\\"button\\" tabindex=\\"0\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"man-eating-pizza-and-making-an-ok-gesture.jpg\\" class=\\"\\" width=\\"100%\\" align=\\"\\" alt=\\"\\" caption=\\"\\" height=\\"auto\\"><span class=\\"lightbox\\" role=\\"dialog\\" tabindex=\\"0\\"><span class=\\"lightbox-inner\\"><img src=\\"https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg\\" title=\\"Click to close...\\" class=\\"lightbox-img\\" width=\\"100%\\" align=\\"\\" caption=\\"\\" height=\\"auto\\" alt=\\"\\" loading=\\"lazy\\"></span></span></span><figcaption><p>A guy. Eating pizza. And making an OK gesture.</p></figcaption></figure>"`;
 
-exports[`prefix anchors with section- should add a section- prefix to heading anchors 1`] = `"<h1 id=\\"heading\\">heading</h1>"`;
+exports[`prefix anchors with "section-" "section-" anchors should split on camelCased words: section-camel-cased 1`] = `"section-camel-cased"`;
+
+exports[`prefix anchors with "section-" should add a section- prefix to heading anchors 1`] = `"<h1 id=\\"heading\\">heading</h1>"`;
 
 exports[`tables 1`] = `"<div class=\\"rdmd-table\\"><div class=\\"rdmd-table-inner\\"><table><thead><tr><th>Tables</th><th style=\\"text-align: center;\\">Are</th><th style=\\"text-align: right;\\">Cool</th></tr></thead><tbody><tr><td>col 3 is</td><td style=\\"text-align: center;\\">right-aligned</td><td style=\\"text-align: right;\\">$1600</td></tr><tr><td>col 2 is</td><td style=\\"text-align: center;\\">centered</td><td style=\\"text-align: right;\\">$12</td></tr><tr><td>zebra stripes</td><td style=\\"text-align: center;\\">are neat</td><td style=\\"text-align: right;\\">$1</td></tr></tbody></table></div></div>"`;

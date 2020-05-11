@@ -6,11 +6,13 @@
   $bgc-bar: darken(desaturate($bgc-pre, 17.46), 4.31);
   $radius: var(--md-code-radius, var(--markdown-radius, 3px));
 
+  color: #333;
   color: var(--md-code-text, #333);
   border-radius: $radius !important;
   overflow: hidden;
 
   &-toolbar {
+    background: $bgc-bar;
     background: var(--md-code-tabs, $bgc-bar);
     display: flex;
     flex-flow: row nowrap;
@@ -41,7 +43,9 @@
 
   &.CodeTabs_initial &-toolbar button:first-child,
   &-toolbar button.CodeTabs_active {
+    background: $bgc-pre;
     background: var(--md-code-background, $bgc-pre);
+    color: black;
     color: var(--md-code-text, black);
     pointer-events: none;
   }
@@ -52,6 +56,7 @@
 
   pre {
     border-radius: 0 0 $radius $radius !important;
+    background: $bgc-pre;
     background: var(--md-code-background, $bgc-pre);
     margin-bottom: 0;
     &:not(.CodeTabs_active) { display: none }

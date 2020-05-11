@@ -100,6 +100,17 @@ section#hub-discuss h1 {
   border-color: #5ea43f;
   color: #5ea43f;
 }
+.hub-reference .logs .logs-login .logs-login-button {
+  border-color: #5ea43f;
+  background-color: #5ea43f;
+}
+.hub-reference .logs .logs-login .logs-login-button:hover {
+  background-color: #345a23;
+  border-color: #345a23;
+}
+#hub-reference .hub-reference .logs .logs-login > svg > path {
+  fill: #5ea43f;
+}
 #hub-reference .hub-reference .hub-reference-section .hub-reference-left header .hub-reference-edit:hover {
   color: #5ea43f;
 }

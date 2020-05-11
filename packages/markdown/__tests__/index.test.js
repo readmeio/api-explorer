@@ -3,6 +3,7 @@ const React = require('react');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../index');
+const { tableFlattening } = require('../processor/plugin/table-flattening');
 const settings = require('../options.json');
 
 test('image', () => {
@@ -215,6 +216,24 @@ describe('tree flattening', () => {
     expect(table.children[0].value).toStrictEqual(' Col. B');
     expect(table.children[1].value).toStrictEqual('Cell A1 Cell B1 Cell A2 Cell B2 Cell A3 ');
   });
+
+  it('should not throw an error if missing values', () => {
+    const tree = {
+      tagName: 'table',
+      children: [
+        {
+          tagName: 'tHead',
+        },
+        {
+          tagName: 'tBody',
+        },
+      ],
+    };
+
+    const [head, body] = tableFlattening(tree).children;
+    expect(head.value).toStrictEqual('');
+    expect(body.value).toStrictEqual('');
+  });
 });
 
 describe('export multiple Markdown renderers', () => {
@@ -303,8 +322,15 @@ Lorem ipsum dolor!`;
   });
 });
 
-describe('prefix anchors with section-', () => {
+describe('prefix anchors with "section-"', () => {
   it('should add a section- prefix to heading anchors', () => {
     expect(markdown.html('# heading')).toMatchSnapshot();
+  });
+
+  it('"section-" anchors should split on camelCased words', () => {
+    const heading = mount(markdown.react('# camelCased'));
+    const anchor = heading.find('.heading-anchor_backwardsCompatibility').at(0);
+
+    expect(anchor.props().id).toMatchSnapshot('section-camel-cased');
   });
 });
