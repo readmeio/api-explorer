@@ -9,7 +9,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "ℹ️ Info Callout",
+              "value": "️ Info Callout",
             },
           ],
           "type": "paragraph",
@@ -18,9 +18,9 @@ Object {
       "data": Object {
         "hName": "rdme-callout",
         "hProperties": Object {
-          "icon": "ℹ️",
-          "theme": "info",
-          "title": "Info Callout",
+          "icon": "ℹ",
+          "theme": "default",
+          "title": "️ Info Callout",
           "value": "",
         },
       },
@@ -38,7 +38,29 @@ Object {
 }
 `;
 
-exports[`Parse ReadMe-Flavored Markdown Syntax Multi-Block 1`] = `
+exports[`Parse ReadMe-Flavored Markdown Syntax Single Code 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "className": "tab-panel",
+      "data": Object {
+        "hName": "code",
+        "hProperties": Object {
+          "lang": "javascript",
+          "meta": "single.js",
+        },
+      },
+      "lang": "javascript",
+      "meta": "single.js",
+      "type": "code",
+      "value": "console.log('a single-file code block');",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Parse ReadMe-Flavored Markdown Syntax Tabbed Code 1`] = `
 Object {
   "children": Array [
     Object {
@@ -77,37 +99,6 @@ Object {
         "hName": "code-tabs",
       },
       "type": "code-tabs",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": " ",
-        },
-      ],
-      "type": "paragraph",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Parse ReadMe-Flavored Markdown Syntax Single Block 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "className": "tab-panel",
-      "data": Object {
-        "hName": "code",
-        "hProperties": Object {
-          "lang": "javascript",
-          "meta": "multiple.js",
-        },
-      },
-      "lang": "javascript",
-      "meta": "multiple.js",
-      "type": "code",
-      "value": "console.log('a multi-file code block');",
     },
     Object {
       "children": Array [

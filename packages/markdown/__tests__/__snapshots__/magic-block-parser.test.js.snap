@@ -47,10 +47,6 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "👍 ",
-            },
-            Object {
-              "type": "text",
               "value": "Callout Title",
             },
           ],
@@ -140,20 +136,29 @@ alert('test');",
     Object {
       "children": Array [
         Object {
-          "className": "tab-panel",
-          "data": Object {
-            "hName": "code",
-            "hProperties": Object {
+          "children": Array [
+            Object {
+              "className": "tab-panel",
+              "data": Object {
+                "hName": "code",
+                "hProperties": Object {
+                  "lang": "javascript",
+                  "meta": null,
+                },
+              },
               "lang": "javascript",
               "meta": null,
-            },
-          },
-          "lang": "javascript",
-          "meta": null,
-          "type": "code",
-          "value": "$http.post('/someUrl', data).success(successCallback);
+              "type": "code",
+              "value": "$http.post('/someUrl', data).success(successCallback);
 
 alert('test');",
+            },
+          ],
+          "className": "tabs",
+          "data": Object {
+            "hName": "code-tabs",
+          },
+          "type": "code-tabs",
         },
       ],
       "data": Object {
@@ -174,10 +179,6 @@ Object {
       "children": Array [
         Object {
           "children": Array [
-            Object {
-              "type": "text",
-              "value": "✨ ",
-            },
             Object {
               "type": "text",
               "value": "Callout Title",
@@ -211,6 +212,29 @@ Object {
 }
 `;
 
+exports[`Parse Magic Blocks Custom HTML Block 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "data": Object {
+        "hName": "html-block",
+        "hProperties": Object {
+          "html": "<h1>👋🌍</h1>
+<hr>
+<form>
+  <input name=\\"test\\" value=\\"hello\\" type=\\"text\\"/>
+  <br/>
+  <a class=\\"button\\">Go</a>
+</form>",
+        },
+      },
+      "type": "html-block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
 exports[`Parse Magic Blocks Embed Blocks 1`] = `
 Object {
   "children": Array [
@@ -220,10 +244,10 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "Embed",
+              "value": null,
             },
           ],
-          "title": "@youtube",
+          "title": "youtu.be",
           "type": "link",
           "url": "https://youtu.be/J3-uKv1DShQ",
         },
@@ -231,22 +255,16 @@ Object {
       "data": Object {
         "hName": "rdme-embed",
         "hProperties": Object {
+          "favicon": "https://youtu.be/favicon.ico",
           "href": "https://youtu.be/J3-uKv1DShQ",
           "html": false,
-          "provider": "@youtube",
-          "title": "Embed",
+          "iframe": false,
+          "provider": "youtu.be",
+          "title": null,
           "url": "https://youtu.be/J3-uKv1DShQ",
         },
-        "html": false,
-        "provider": "@youtube",
-        "title": "Embed",
-        "url": "https://youtu.be/J3-uKv1DShQ",
       },
-      "html": false,
-      "provider": "@youtube",
-      "title": "Embed",
       "type": "embed",
-      "url": "https://youtu.be/J3-uKv1DShQ",
     },
   ],
   "type": "root",
@@ -285,6 +303,12 @@ Object {
     Object {
       "children": Array [
         Object {
+          "data": Object {
+            "hProperties": Object {
+              "className": "border",
+              "width": "80%",
+            },
+          },
           "title": "White Center Blue BG.svg",
           "type": "image",
           "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
@@ -311,6 +335,7 @@ Object {
         "hName": "figure",
       },
       "type": "figure",
+      "url": "https://files.readme.io/62083ee-White_Center_Blue_BG.svg",
     },
   ],
   "type": "root",

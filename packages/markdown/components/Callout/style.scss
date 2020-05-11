@@ -2,10 +2,12 @@
   --background: #{lighten(#dfe2e5, 8.75%)};
   --border: #{lighten(#6a737d, 12.5%)};
 
-  background: var(--background);
-  border-color: var(--border);
-  color: var(--text);
-  padding: $l-offset;
+  & {
+    background: var(--background);
+    border-color: var(--border);
+    color: var(--text);
+    padding: $l-offset;
+  }
 
   &_info {
     $color: #46b8da;
@@ -46,26 +48,93 @@
   a {
     color: inherit;
   }
+  hr {
+    border-color: var(--border, var(--markdown-edge, #eee));
+  }
+  blockquote {
+    color: var(--text);
+    border-color: var(--border);
+    border-width: 3px;
+    padding: 0 0 0 .8em;
+  }
 
-  h3,
-  h4 {
+  .callout-heading {
     color: var(--title, --text);
     margin-bottom: calc(#{$l-offset} * .5);
-    &.floated {
+    &:only-child {
+      margin-bottom: 0;
+    }
+    &.empty {
       float: left;
     }
     > * {
       color: inherit;
       margin: 0;
-    }  
-    &:first-letter {
-      float: left;
-      margin-left: calc(-#{$l-offset} - .5em);
-      margin-right: -.25rem;
+    }
+    &:before {
+      position: absolute;
+      right: 100%;
+      width: 2.4em;
+      text-align: center;
+      font: normal normal normal 1em/1 FontAwesome;
+    }
+  }
+  .callout-icon {
+    float: left;
+    margin-left: calc(-#{$l-offset} - .5em);
+    margin-right: -.25rem;
+  }
+}
+@mixin calloutCustomIcons($R: callout) {
+  --emoji: 1em;
+  --icon-font: FontAwesome;
+  &-icon {
+    font-size: var(--emoji, 0);
+    color: var(--icon-color, inherit) !important;
+  }
+  &-icon:before {
+    content: var(--icon);
+    font-family: var(--icon-font);
+    font-size: var(--icon-size, 1rem);
+    font-weight: var(--icon-weight, 400);
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @at-root .rdmdCallouts--useIconFont & {
+    --emoji: unset;
+    &_okay {
+      /* thumbs up */
+      --icon: "\f164";
+    }
+    &_info {
+      /* info circle */
+      --icon: "\f05a";
+    }
+    &_warn {
+      /* warning triangle */
+      --icon: "\f071";
+    }
+    &_error {
+      /* warning circle */
+      --icon: "\f06a";
+    }
+    &_default {
+      /* warning circle */
+      --emoji: 1rem;
     }
   }
 }
 
-.callout.callout {
-  @include callout;
+.callout {
+  &.callout { // bump specificity
+    @include callout;
+  }
+  @include calloutCustomIcons;
+  border-top-right-radius: var(--markdown-radius);
+  border-bottom-right-radius: var(--markdown-radius);
 }

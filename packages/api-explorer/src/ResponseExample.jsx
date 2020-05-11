@@ -246,7 +246,7 @@ class ResponseExample extends React.Component {
                         )}
 
                       {isJson && !example.multipleExamples ? (
-                        <div className="example example_json">{transformExampleIntoReactJson(example)}</div>
+                        transformExampleIntoReactJson(example)
                       ) : (
                         // json + multiple examples is already handled in `showExamples`.
                         <React.Fragment>

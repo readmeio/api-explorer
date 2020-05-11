@@ -20,6 +20,7 @@ require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/shell/shell');
 require('codemirror/mode/sql/sql');
 require('codemirror/mode/swift/swift');
+require('codemirror/mode/dart/dart');
 
 function getMode(lang) {
   let mode = lang;
@@ -44,7 +45,7 @@ module.exports = (code, lang, opts = { tokenizeVariables: false }) => {
   function tokenizeVariable(value) {
     // Modifies the regular expression to match anything
     // before or after like quote characters: ' "
-    const match = new RegExp(`(.*)${VARIABLE_REGEXP}(.*)`).exec(value);
+    const match = new RegExp(`(.*)${VARIABLE_REGEXP}([^]*)`).exec(value);
 
     if (!match) return value;
 

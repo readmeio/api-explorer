@@ -3,15 +3,17 @@
 
 @mixin CodeTabs {
   $bgc-pre: #F6F8FA;
-  $bgc-bar: #EBEDEF;
-  
+  $bgc-bar: darken(desaturate($bgc-pre, 17.46), 4.31);
+  $radius: var(--md-code-radius, var(--markdown-radius, 3px));
+
   color: #333;
-  background: #eaeaea;
-  border-radius: 3px !important;
+  color: var(--md-code-text, #333);
+  border-radius: $radius !important;
   overflow: hidden;
 
   &-toolbar {
     background: $bgc-bar;
+    background: var(--md-code-tabs, $bgc-bar);
     display: flex;
     flex-flow: row nowrap;
     overflow: hidden;
@@ -21,43 +23,43 @@
     &::-webkit-scrollbar {
       display: none;
     }
-    > button {
+    button {
       white-space: nowrap;
       transition: .123s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      display: inline-block;
+      line-height: 2;
+      padding: .5em 1em;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: inherit;
+      font: inherit;
+      font-size: .75em;
+      cursor: pointer;
     }
   }
 
-  pre {
-    border-radius: 0 0 3px 3px !important;
+  &.CodeTabs_initial &-toolbar button:first-child,
+  &-toolbar button.CodeTabs_active {
     background: $bgc-pre;
-    margin-bottom: 0;
-    &:not(.CodeTabs_active) { display: none }
-  }
-
-  button {
-    -webkit-appearance: none;
-    appearance: none;
-    display: inline-block;
-    line-height: 2;
-    padding: .5em 1em;
-    border: none;
-    background: transparent;
-    outline: none;
-    color: inherit;
-    font: inherit;
-    font-size: .75em;
-    cursor: pointer;
-  }
-
-  &.CodeTabs_initial button:first-child,
-  button.CodeTabs_active {
-    background: $bgc-pre;
+    background: var(--md-code-background, $bgc-pre);
     color: black;
+    color: var(--md-code-text, black);
     pointer-events: none;
   }
 
-  button:not(.CodeTabs_active):hover {
+  &-toolbar button:not(.CodeTabs_active):hover {
     background: rgba(0, 0, 0, .075);
+  }
+
+  pre {
+    border-radius: 0 0 $radius $radius !important;
+    background: $bgc-pre;
+    background: var(--md-code-background, $bgc-pre);
+    margin-bottom: 0;
+    &:not(.CodeTabs_active) { display: none }
   }
 
   &.CodeTabs_initial pre:first-child {

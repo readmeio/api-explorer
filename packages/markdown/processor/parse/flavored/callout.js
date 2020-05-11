@@ -1,26 +1,32 @@
 // eslint-disable-next-line unicorn/no-unsafe-regex
-const rgx = /^> ?((?:ℹ️|⁉️|❗️|‼️|\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])+)(?: {0,}(.+))?\n((?:>(?: .*)?\n)*)/;
+const rgx = /^> ?((?:\u2139|\u2049|\u2757|\u203C|\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])+)(?: {0,}(.+))?\n((?:>(?: .*)?\n)*)/;
 
 function tokenizer(eat, value) {
   if (!rgx.test(value)) return true;
 
   // eslint-disable-next-line prefer-const
-  let [match, icon, title, text] = rgx.exec(value);
+  let [match, icon, title = '', text] = rgx.exec(value);
 
   icon = icon.trim();
   text = text.replace(/>(?:(\n)|(\s)?)/g, '$1').trim();
   title = title.trim();
 
   const style = {
-    '📘': 'info',
-    '⚠️': 'warn',
-    '🚧': 'warn',
-    '👍': 'okay',
-    '✅': 'okay',
-    '❗️': 'error',
-    '🛑': 'error',
-    ℹ️: 'info',
-    '⚠': 'warn',
+    '\uD83D\uDCD8': 'info',
+    '\u26A0\uFE0F': 'warn',
+    '\uD83D\uDEA7': 'warn',
+    '\uD83D\uDC4D': 'okay',
+    '\u2705': 'okay',
+    '\u2757': 'error',
+    '\u2757\uFE0F': 'error',
+    '\uD83D\uDED1': 'error',
+    '\u2049\uFE0F': 'error',
+    '\u203C\uFE0F': 'error',
+    // NOTE: prettier is desperate to convert this in to an emoji.
+    //       PLEASE DON'T COMMIT THIS OR YOU'LL BREAK README IN IE!
+    // eslint-disable-next-line prettier/prettier
+    '\u2139\uFE0F': 'info',
+    '\u26A0': 'warn',
   }[icon];
 
   return eat(match)({
@@ -34,7 +40,7 @@ function tokenizer(eat, value) {
         value: text,
       },
     },
-    children: [...this.tokenizeBlock(`${icon} ${title}`, eat.now()), ...this.tokenizeBlock(text, eat.now())],
+    children: [...this.tokenizeBlock(title, eat.now()), ...this.tokenizeBlock(text, eat.now())],
   });
 }
 

@@ -8,9 +8,12 @@ class ApiList extends React.Component {
   constructor(props) {
     super(props);
 
+    const qs = parse(document.location.search.replace('?', ''));
+
     this.state = {
       apis: localDirectory,
-      selected: parse(document.location.search.replace('?', '')).selected || 'swagger-files/petstore.json',
+      selected: qs.selected || 'swagger-files/petstore.json',
+      customUrl: qs.customUrl,
     };
 
     this.changeApi = this.changeApi.bind(this);
@@ -33,33 +36,52 @@ class ApiList extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { selected } = this.state;
 
-    if (prevState.selected !== selected) {
+    if (prevState.selected !== selected && selected !== 'enter-a-url') {
       this.props.fetchSwagger(selected);
       window.history.pushState('', '', `?${stringify({ selected })}`);
     }
   }
 
   changeApi(e) {
-    this.setState({ selected: e.currentTarget.value });
+    this.setState({ selected: e.currentTarget.value, customUrl: false });
   }
 
   render() {
-    const { apis, selected } = this.state;
+    const { apis, selected, customUrl } = this.state;
 
     return (
       <h3>
         Select an API:&nbsp;
-        <select onChange={this.changeApi} value={selected}>
-          {Object.keys(apis).map(name => {
-            const api = apis[name];
-            const preferred = api.preferred || Object.keys(api.versions)[0];
-            return (
-              <option key={name} value={api.versions[preferred].swaggerUrl}>
-                {name.substring(0, 30)}
-              </option>
-            );
-          })}
-        </select>
+        {selected === 'enter-a-url' ? (
+          <form style={{ display: 'inline' }}>
+            <input name="selected" type="url" />
+            <input name="customUrl" type="hidden" value="true" />
+            <button type="submit">Go</button>
+          </form>
+        ) : (
+          <>
+            <select onChange={this.changeApi} value={selected}>
+              <option value="enter-a-url">Enter a URL</option>
+              {selected && customUrl && (
+                <option disabled value={selected}>
+                  {selected}
+                </option>
+              )}
+
+              {Object.keys(apis).map(name => {
+                const api = apis[name];
+                const preferred = api.preferred || Object.keys(api.versions)[0];
+                return (
+                  <option key={name} value={api.versions[preferred].swaggerUrl}>
+                    {name.substring(0, 30)}
+                  </option>
+                );
+              })}
+            </select>
+            &nbsp;
+            <a href={selected}>View document</a>
+          </>
+        )}
       </h3>
     );
   }

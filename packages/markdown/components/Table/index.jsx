@@ -3,7 +3,13 @@ const PropTypes = require('prop-types');
 
 function Table(props) {
   const { children } = props;
-  return <table>{children}</table>;
+  return (
+    <div className="rdmd-table">
+      <div className="rdmd-table-inner">
+        <table>{children}</table>
+      </div>
+    </div>
+  );
 }
 
 Table.propTypes = {

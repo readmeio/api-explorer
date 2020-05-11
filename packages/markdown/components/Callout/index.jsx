@@ -2,19 +2,20 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const Callout = props => {
-  const { attributes, children } = props;
-  const content = children.splice(1);
+  let { children } = props;
+  const { attributes, theme, title, icon } = props;
+  if (!(title || children)) return '';
 
-  /* deal with differing data structures between the
-   * hast-util's hProps and Slate's MDAST serializer
-   */
-  const { theme, title, icon } = props;
-
+  const content = title ? children.splice(1) : children;
+  children = title ? children : '';
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <blockquote {...attributes} className={`callout callout_${theme}`} theme={icon}>
-      <h3 className={[!title && 'floated']}>{children}</h3>
-      {content}
+      <h3 className={`callout-heading ${!title && 'empty'}`}>
+        <span className="callout-icon">{icon}</span>
+        {children}
+      </h3>
+      {(content && content.length && content) || (!title && children)}
     </blockquote>
   );
 };

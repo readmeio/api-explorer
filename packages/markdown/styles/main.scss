@@ -1,10 +1,19 @@
 @import './gfm.scss';
 @import './components.scss';
 
-// #hub-content   !=   html[ng-app="hub"] .markdown-body   !=   #root > .App   !=   #app
+:root {
+  // --markdown-radius: 3px;
+  // --markdown-edge: #eee;
+  --markdown-text: inherit;
+  --markdown-title: inherit;
+  --markdown-title-font: inherit;
+  --markdown-font: inherit;
+  --markdown-font-size: inherit;
+  --markdown-line-height: 1.5;
+}
 
 .field-description,
 .markdown-body {
   @include gfm;
-  font-size: 14px;
+  font-size: var(--markdown-font-size, 14px);
 }

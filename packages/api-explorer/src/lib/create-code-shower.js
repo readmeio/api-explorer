@@ -31,8 +31,10 @@ function getExample(response, lang) {
 
   let example = examples[0];
   example = response.content[lang].examples[example];
-  if ('value' in example) {
-    return example.value;
+  if (example !== null && typeof example === 'object') {
+    if ('value' in example) {
+      return example.value;
+    }
   }
 
   return example;
@@ -42,21 +44,34 @@ function getMultipleExamples(response, lang) {
   if (!response.content[lang].examples || response.content[lang].examples.response) return false;
 
   const { examples } = response.content[lang];
-  return Object.keys(examples).map(key => {
+  const multipleExamples = Object.keys(examples).map(key => {
+    let example = examples[key];
+    if (example !== null && typeof example === 'object') {
+      if ('value' in example) {
+        example = example.value;
+      }
+
+      example = JSON.stringify(example, undefined, 2);
+    }
+
     return {
       label: key,
-      code: typeof examples[key] === 'object' ? JSON.stringify(examples[key], undefined, 2) : examples[key],
+      code: example,
     };
   });
+
+  return multipleExamples.length > 0 ? multipleExamples : false;
 }
 
 function constructLanguage(language, response, example) {
   const multipleExamples = getMultipleExamples(response, language);
-  if (!example && !multipleExamples) return false;
+  if (!example && !multipleExamples) {
+    return false;
+  }
 
   return {
     language,
-    code: typeof example === 'object' ? JSON.stringify(example, undefined, 2) : example,
+    code: example !== null && typeof example === 'object' ? JSON.stringify(example, undefined, 2) : example,
     multipleExamples: !example ? multipleExamples : false,
   };
 }

@@ -28,6 +28,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /node_modules\/.*(is-plain-obj|parse5)\/.*.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            extends: '../../.babelrc',
+          },
+        },
+      },
+      {
         test: /\.js(x?)$/,
         exclude: /node_modules/,
         use: {

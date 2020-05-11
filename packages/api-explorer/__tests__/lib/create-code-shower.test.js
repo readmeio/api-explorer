@@ -103,21 +103,15 @@ describe('createCodeShower', () => {
               {
                 label: 'cat',
                 code: encodeJsonExample({
-                  summary: 'An example of a cat',
-                  value: {
-                    name: 'Fluffy',
-                    petType: 'Cat',
-                  },
+                  name: 'Fluffy',
+                  petType: 'Cat',
                 }),
               },
               {
                 label: 'dog',
                 code: encodeJsonExample({
-                  summary: "An example of a dog with a cat's name",
-                  value: {
-                    name: 'Puma',
-                    petType: 'Dog',
-                  },
+                  name: 'Puma',
+                  petType: 'Dog',
                 }),
               },
             ],
@@ -140,6 +134,11 @@ describe('createCodeShower', () => {
 
   it('should return early if there is no example', () => {
     const operation = oas2.operation('/pet/findByStatus', 'get');
+    expect(createCodeShower(operation, oas)).toStrictEqual([]);
+  });
+
+  it('should return early if there is an empty example', () => {
+    const operation = oas.operation('/emptyexample', 'get');
     expect(createCodeShower(operation, oas)).toStrictEqual([]);
   });
 

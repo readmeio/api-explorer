@@ -1,12 +1,15 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const upper = require('@readme/syntax-highlighter/uppercase');
+
 const CodeTabs = props => {
   const { attributes, children } = props;
 
   function handleClick({ target }, index) {
-    const $wrap = target.closest('.CodeTabs');
-    $wrap.querySelectorAll('.CodeTabs_active').forEach(el => el.classList.remove('CodeTabs_active'));
+    const $wrap = target.parentElement.parentElement;
+    const $open = [].slice.call($wrap.querySelectorAll('.CodeTabs_active'));
+    $open.forEach(el => el.classList.remove('CodeTabs_active'));
     $wrap.classList.remove('CodeTabs_initial');
 
     const codeblocks = $wrap.querySelectorAll('pre');
@@ -21,9 +24,10 @@ const CodeTabs = props => {
       <div className="CodeTabs-toolbar">
         {children.map(({ props: pre }, i) => {
           const { meta, lang } = pre.children[0].props;
+          /* istanbul ignore next */
           return (
             <button key={i} onClick={e => handleClick(e, i)} type="button">
-              {meta || `(${lang || 'plaintext'})`}
+              {meta || `${!lang ? 'Text' : upper(lang)}`}
             </button>
           );
         })}

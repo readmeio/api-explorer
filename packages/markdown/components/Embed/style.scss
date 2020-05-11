@@ -1,0 +1,118 @@
+.markdown-body .embed {
+  $B: '.embed';
+  & {
+    padding: 15px;
+    color: var(--md-code-text, inherit);
+    border-radius: var(--md-code-radius, var(--markdown-radius, 3px));
+    border-radius: 3px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgba(black, .15);
+    transition: .3s ease;
+    &:hover {
+      background: var(--md-code-background, #f6f8fa);
+      box-shadow: inset 0 0 0 1px rgba(black, .1);
+    }
+    @at-root .markdown-body > #{$B}_hasImg:nth-of-type(odd) {
+      margin-right: 30px;
+      padding-right: 0;
+      #{$B}-link { flex-direction: row-reverse }
+      #{$B}-img {
+        margin-left: .88em;
+        margin-right: -30px;
+        box-shadow: -.3em .3em .9em -.3em rgba(black, .15);
+      }
+    }
+    @at-root .markdown-body > #{$B}_hasImg:nth-of-type(even) {
+      margin-left: 30px;
+      padding-left: 0;
+      #{$B}-img { margin-left: -30px }
+    }
+  }
+  &:empty {
+    display: none;
+  }
+
+  &-media {
+    display: flex;
+    justify-content: center;
+    >:only-child {
+      flex: 1;
+      margin: -15px;
+      border-radius: 0 !important;
+    }
+  }
+
+  &-link {
+    display: flex;
+    align-items: center;
+    color: var(--markdown-text, #333);
+    text-decoration: none !important;
+  }
+
+  &-body {
+    flex: 1;
+    line-height: 1.3;
+    &, #{$B}-title {
+      font-size: 1.15em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    #{$B}-provider {
+      display: block;
+      text-decoration-color: transparent !important;
+      opacity: .88;
+    }
+    &-url {
+      opacity: .75;
+    }
+  }
+
+  &-provider {
+    font-size: 0.8em;
+    line-height: 1.6;
+
+    code:only-child {
+      display: block;
+      width: 100%;
+      font-size: 1.15em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      background: transparent;
+      margin: 0;
+      padding: 0;
+      font-size: inherit !important;
+    }
+    transition: .2 ease;
+    code {
+      opacity: 0.8;
+    }
+   }
+
+  &-img {
+    width: 5em;
+    max-width: 5em;
+    margin: 0 .88em 0 0;
+    padding: 4px;
+    background: white;
+    border: 1px solid rgba(black, .15);
+    border-radius: 3px;
+    transition: inherit;
+    box-shadow: .3em .3em .9em -.3em rgba(black, .15);
+  }
+  &:not(:hover) #{$B}-img {
+    box-shadow: 0 .25em 1em -.5em rgba(black, .133);
+  }
+  &:hover #{$B}-img {
+    border: 1px solid rgba(black, .2);
+  }
+
+  &-favicon {
+    width: 12px !important;
+    height: 12px !important;
+    margin-top: 4px;
+    margin-right: 6px;
+    margin-bottom: 12px;
+  }
+}

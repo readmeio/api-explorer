@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 require('./styles/main.scss');
 
 const React = require('react');
@@ -13,6 +14,7 @@ const rehypeRaw = require('rehype-raw');
 const remarkParse = require('remark-parse');
 const remarkStringify = require('remark-stringify');
 const remarkBreaks = require('remark-breaks');
+const remarkSlug = require('remark-slug');
 
 // rehype plugins
 const rehypeSanitize = require('rehype-sanitize');
@@ -21,8 +23,21 @@ const rehypeReact = require('rehype-react');
 
 /* React Custom Components
  */
+const BaseUrlContext = require('./contexts/BaseUrl');
+
 const Variable = require('@readme/variable');
-const { GlossaryItem, Code, Table, Anchor, Heading, Callout, CodeTabs, Image, Embed } = require('./components');
+const {
+  GlossaryItem,
+  Code,
+  Table,
+  Anchor,
+  Heading,
+  Callout,
+  CodeTabs,
+  Image,
+  Embed,
+  HTMLBlock,
+} = require('./components');
 
 /* Custom Unified Parsers
  */
@@ -33,6 +48,7 @@ const {
   magicBlockParser,
   variableParser,
   gemojiParser,
+  compactHeadings,
 } = require('./processor/parse');
 
 /* Custom Unified Compilers
@@ -46,6 +62,12 @@ const {
   rdmePinCompiler,
 } = require('./processor/compile');
 
+/* Custom Unified Plugins
+ */
+const sectionAnchorId = require('./processor/plugin/section-anchor-id');
+const tableFlattening = require('./processor/plugin/table-flattening');
+const toPlainText = require('./processor/plugin/plain-text');
+
 // Processor Option Defaults
 const options = require('./options.json');
 
@@ -53,15 +75,23 @@ const options = require('./options.json');
 sanitize.clobberPrefix = '';
 
 sanitize.tagNames.push('span', 'style');
-sanitize.attributes['*'].push('class', 'className', 'align');
+sanitize.attributes['*'].push('class', 'className', 'align', 'style');
 
 sanitize.tagNames.push('rdme-pin');
 
-sanitize.tagNames.push('embed');
-sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
-
 sanitize.tagNames.push('rdme-embed');
-sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href'];
+sanitize.attributes['rdme-embed'] = [
+  'url',
+  'provider',
+  'html',
+  'title',
+  'href',
+  'iframe',
+  'width',
+  'height',
+  'image',
+  'favicon',
+];
 
 sanitize.attributes.a = ['href', 'title', 'class', 'className'];
 
@@ -71,49 +101,27 @@ sanitize.tagNames.push('figcaption');
 sanitize.tagNames.push('input'); // allow GitHub-style todo lists
 sanitize.ancestors.input = ['li'];
 
-const toggleLoosemode = ({ loosemode = false }) => {
-  if (loosemode) {
-    const tags = ['iframe', 'button', 'label', 'input', 'video', 'source', 'script'];
-    const attr = [
-      'id',
-      'style',
-      'class',
-      'height',
-      'width',
-      'src',
-      'name',
-      'checked',
-      'controls',
-      'type',
-      'disabled',
-      'placeholder',
-      '*',
-    ];
-    tags.forEach(tag => {
-      sanitize.attributes[tag] = attr;
-    });
-    sanitize.tagNames.push(...tags);
-    sanitize.required = {};
-    delete sanitize.ancestors.input;
-  }
-};
 /**
  * Normalize Magic Block Raw Text
  */
-export function normalize(blocks) {
-  // normalize magic block lines
-  // eslint-disable-next-line no-param-reassign
-  blocks = blocks
-    .replace(/\[block:/g, '\n\n[block:')
-    .replace(/\[\/block\]/g, '[/block]\n')
-    .trim()
-    .replace(/^(#+)((?:\w|\d)[^{#\n]+\n{1,})/gm, '$1 $2');
-  return `${blocks}\n\n `;
+function setup(blocks, opts = {}) {
+  // merge default and user options
+  opts = { ...options, ...opts };
+
+  // normalize magic block linebreaks
+  if (opts.normalize && blocks) {
+    blocks = blocks
+      .replace(/\[block:/g, '\n\n[block:')
+      .replace(/\[\/block\]/g, '[/block]\n')
+      .trim();
+  }
+
+  return [`${blocks}\n\n `, opts];
 }
 
 export const utils = {
   options,
-  normalizeMagic: normalize,
+  BaseUrlContext,
   VariablesContext: Variable.VariablesContext,
   GlossaryContext: GlossaryItem.GlossaryContext,
 };
@@ -145,17 +153,19 @@ export function processor(opts = {}) {
     .data('settings', opts.settings)
     .use(magicBlockParser.sanitize(sanitize))
     .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)])
+    .use(compactHeadings.sanitize(sanitize))
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
-    .use(remarkRehype, { allowDangerousHTML: true })
+    .use(remarkSlug)
+    .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSanitize, sanitize);
 }
 
-export function plain(text, opts = options, components = {}) {
+export function plain(text, opts = {}, components = {}) {
   if (!text) return null;
-  toggleLoosemode(opts);
+  [text, opts] = setup(text, opts);
 
   return processor(opts)
     .use(rehypeReact, {
@@ -163,26 +173,28 @@ export function plain(text, opts = options, components = {}) {
       Fragment: React.Fragment,
       components,
     })
-    .processSync(opts.normalize ? normalize(text) : text).contents;
+    .processSync(text).contents;
 }
 
 /**
  *  return a React VDOM component tree
  */
-export function react(text, opts = options, components = {}) {
+export function react(text, opts = {}, components = {}) {
   if (!text) return null;
-  toggleLoosemode(opts);
+  [text, opts] = setup(text, opts);
 
   // eslint-disable-next-line react/prop-types
   const PinWrap = ({ children }) => <div className="pin">{children}</div>;
   const count = {};
 
   return processor(opts)
+    .use(sectionAnchorId)
     .use(rehypeReact, {
       createElement: React.createElement,
       Fragment: React.Fragment,
       components: (typeof components === 'function' ? components : r => r)({
         'code-tabs': CodeTabs(sanitize),
+        'html-block': HTMLBlock(sanitize),
         'rdme-callout': Callout(sanitize),
         'readme-variable': Variable,
         'readme-glossary-item': GlossaryItem,
@@ -201,39 +213,57 @@ export function react(text, opts = options, components = {}) {
         ...components,
       }),
     })
-    .processSync(opts.normalize ? normalize(text) : text).contents;
+    .processSync(text).contents;
 }
 
 /**
  *  transform markdown in to HTML
  */
-export function html(text, opts = options) {
+export function html(text, opts = {}) {
   if (!text) return null;
-  toggleLoosemode(opts);
+  [text, opts] = setup(text, opts);
 
-  return processor(opts)
-    .use(rehypeStringify)
-    .processSync(opts.normalize ? normalize(text) : text).contents;
+  return processor(opts).use(rehypeStringify).processSync(text).contents;
+}
+
+/**
+ *  convert markdown to an hast object
+ */
+export function hast(text, opts = {}) {
+  if (!text) return null;
+  [text, opts] = setup(text, opts);
+
+  const rdmd = processor(opts).use(tableFlattening);
+  const node = rdmd.parse(text);
+  return rdmd.runSync(node);
 }
 
 /**
  *  convert markdown to an mdast object
  */
-export function ast(text, opts = options) {
+export function mdast(text, opts = {}) {
   if (!text) return null;
-  toggleLoosemode(opts);
+  [text, opts] = setup(text, opts);
 
-  return processor(opts)
-    .use(remarkStringify, opts.markdownOptions)
-    .parse(opts.normalize ? normalize(text) : text);
+  return processor(opts).parse(text);
+}
+
+/**
+ * Converts an AST node to plain text
+ */
+export function astToPlainText(node, opts = {}) {
+  if (!node) return '';
+  [, opts] = setup('', opts);
+
+  return processor(opts).use(toPlainText).runSync(node);
 }
 
 /**
  *  compile mdast to ReadMe-flavored markdown
  */
-export function md(tree, opts = options) {
+export function md(tree, opts = {}) {
   if (!tree) return null;
-  toggleLoosemode(opts);
+  [, opts] = setup('', opts);
 
   return processor(opts)
     .use(remarkStringify, opts.markdownOptions)
@@ -241,6 +271,6 @@ export function md(tree, opts = options) {
     .stringify(tree);
 }
 
-const ReadMeMarkdown = (text, opts) => react(normalize(text), opts);
+const ReadMeMarkdown = (text, opts = {}) => react(text, opts);
 
 export default ReadMeMarkdown;
