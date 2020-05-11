@@ -121,6 +121,21 @@
   }
 
   h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.25;
+    color: var(--markdown-title);
+    font-family: var(--markdown-title-font);
+    font-size: var(--markdown-title-size);
+    font-weight: var(--markdown-title-weight, 600);
+    margin-top: var(--markdown-title-marginTop, 1em);
+    margin-bottom: var(--markdown-title-marginBottom, 1rem);
+  }
+
+  h1,
   h2 {
     font-size: 1.5em;
     font-size: var(--markdown-title-size, 1.5em);
@@ -167,21 +182,6 @@
     font-size: .85em;
     font-size: var(--markdown-title-size, .85em);
     color: var(--markdown-title, #6a737d);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.25;
-    color: var(--markdown-title);
-    font-family: var(--markdown-title-font);
-    font-size: var(--markdown-title-size);
-    font-weight: var(--markdown-title-weight, 600);
-    margin-top: var(--markdown-title-marginTop, 1em);
-    margin-bottom: var(--markdown-title-marginBottom, 1rem);
   }
 
   p,
