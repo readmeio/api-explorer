@@ -17,7 +17,7 @@ function Heading({ tag, opts, ...props }) {
     </div>,
   ];
 
-  if (splitReferenceDocs) {
+  if (splitReferenceDocs === 'undefined' || splitReferenceDocs) {
     children.push(
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       <a key={`heading-anchor-icon-${props.id}`} className="heading-anchor-icon fa fa-anchor" href={`#${props.id}`} />
@@ -45,9 +45,6 @@ Heading.defaultProps = {
   align: '',
   id: '',
   level: 2,
-  opts: {
-    splitReferenceDocs: false,
-  },
 };
 
 module.exports = (level, anchors, opts) => CreateHeading(level, anchors, opts);
