@@ -20080,36 +20080,45 @@ var PropTypes = __webpack_require__(7);
 
 function Heading(_ref) {
   var tag = _ref.tag,
-      props = _objectWithoutProperties(_ref, ["tag"]);
+      showAnchorIcons = _ref.showAnchorIcons,
+      props = _objectWithoutProperties(_ref, ["tag", "showAnchorIcons"]);
 
   if (!props.children) return '';
   var attrs = {
     className: "heading heading-".concat(props.level, " header-scroll"),
     align: props.align
   };
-  return React.createElement(tag, attrs, [/*#__PURE__*/React.createElement("div", {
+  var children = [/*#__PURE__*/React.createElement("div", {
     key: "heading-anchor-".concat(props.id),
     className: "heading-anchor anchor waypoint",
     id: props.id
   }), /*#__PURE__*/React.createElement("div", {
     key: "heading-text-".concat(props.id),
     className: "heading-text"
-  }, props.children),
-  /*#__PURE__*/
-  // eslint-disable-next-line jsx-a11y/anchor-has-content
-  React.createElement("a", {
-    key: "heading-anchor-icon-".concat(props.id),
-    className: "heading-anchor-icon fa fa-anchor",
-    href: "#".concat(props.id)
-  })]);
+  }, props.children)];
+
+  if (showAnchorIcons) {
+    children.push(
+    /*#__PURE__*/
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    React.createElement("a", {
+      key: "heading-anchor-icon-".concat(props.id),
+      className: "heading-anchor-icon fa fa-anchor",
+      href: "#".concat(props.id)
+    }));
+  }
+
+  return React.createElement(tag, attrs, children);
 }
 
-function CreateHeading(level, anchors) {
+function CreateHeading(level, anchors, _ref2) {
+  var showAnchorIcons = _ref2.showAnchorIcons;
   // eslint-disable-next-line react/display-name
   return function (props) {
     return /*#__PURE__*/React.createElement(Heading, _extends({}, props, {
       anchors: anchors,
       level: level,
+      showAnchorIcons: showAnchorIcons,
       tag: "h".concat(level)
     }));
   };
@@ -20121,16 +20130,18 @@ Heading.propTypes = {
   children: PropTypes.array.isRequired,
   id: PropTypes.string.isRequired,
   level: PropTypes.number,
+  showAnchorIcons: PropTypes.boolean,
   tag: PropTypes.string.isRequired
 };
 Heading.defaultProps = {
   align: '',
   id: '',
-  level: 2
+  level: 2,
+  showAnchorIcons: true
 };
 
-module.exports = function (level, anchors) {
-  return CreateHeading(level, anchors);
+module.exports = function (level, anchors, opts) {
+  return CreateHeading(level, anchors, opts);
 };
 
 /***/ }),
@@ -21773,12 +21784,12 @@ function react(text) {
       'rdme-pin': PinWrap,
       table: Table(sanitize),
       a: Anchor(sanitize),
-      h1: Heading(1, count),
-      h2: Heading(2, count),
-      h3: Heading(3, count),
-      h4: Heading(4, count),
-      h5: Heading(5, count),
-      h6: Heading(6, count),
+      h1: Heading(1, count, opts),
+      h2: Heading(2, count, opts),
+      h3: Heading(3, count, opts),
+      h4: Heading(4, count, opts),
+      h5: Heading(5, count, opts),
+      h6: Heading(6, count, opts),
       code: Code(sanitize),
       img: Image(sanitize)
     }, components))
