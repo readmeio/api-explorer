@@ -21,9 +21,14 @@ describe('ApiHeader', () => {
     expect(apiHeader.find(`span.type-${block.data.type}`)).toHaveLength(1);
   });
 
-  it('should create an #id with the slug of the title', () => {
-    const apiHeader = shallow(<ApiHeader block={block} />);
+  it('should create an #id with the slug of the title if splitReference', () => {
+    const apiHeader = shallow(<ApiHeader block={block} splitReferenceDocs={true} />);
     expect(apiHeader.find(`span#this-is-header`)).toHaveLength(1);
     expect(apiHeader.find(`#section-this-is-header`)).toHaveLength(1);
+  });
+
+  it('should not create an #id with the slug of the title if continuous reference', () => {
+    const apiHeader = shallow(<ApiHeader block={block} splitReferenceDocs={false} />);
+    expect(apiHeader.find(`.fa-anchor`)).toHaveLength(0);
   });
 });
