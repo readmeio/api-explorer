@@ -46,7 +46,7 @@ const Content = props => {
   const { body, isThreeColumn, useNewMarkdownEngine, splitReferenceDocs } = props;
 
   if (useNewMarkdownEngine) {
-    const content = markdown(body, { splitReferenceDocs });
+    const content = markdown(body, { showAnchorIcons: splitReferenceDocs });
 
     if (isThreeColumn === true) {
       return (

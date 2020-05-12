@@ -1,10 +1,9 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-function Heading({ tag, opts, ...props }) {
+function Heading({ tag, showAnchorIcons, ...props }) {
   if (!props.children) return '';
 
-  const { splitReferenceDocs } = opts;
   const attrs = {
     className: `heading heading-${props.level} header-scroll`,
     align: props.align,
@@ -17,7 +16,7 @@ function Heading({ tag, opts, ...props }) {
     </div>,
   ];
 
-  if (splitReferenceDocs === 'undefined' || splitReferenceDocs) {
+  if (showAnchorIcons) {
     children.push(
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       <a key={`heading-anchor-icon-${props.id}`} className="heading-anchor-icon fa fa-anchor" href={`#${props.id}`} />
@@ -27,9 +26,11 @@ function Heading({ tag, opts, ...props }) {
   return React.createElement(tag, attrs, children);
 }
 
-function CreateHeading(level, anchors, opts) {
+function CreateHeading(level, anchors, { showAnchorIcons }) {
   // eslint-disable-next-line react/display-name
-  return props => <Heading {...props} anchors={anchors} level={level} opts={opts} tag={`h${level}`} />;
+  return props => (
+    <Heading {...props} anchors={anchors} level={level} showAnchorIcons={showAnchorIcons} tag={`h${level}`} />
+  );
 }
 
 Heading.propTypes = {
@@ -38,13 +39,14 @@ Heading.propTypes = {
   children: PropTypes.array.isRequired,
   id: PropTypes.string.isRequired,
   level: PropTypes.number,
-  opts: PropTypes.object,
+  showAnchorIcons: PropTypes.boolean,
   tag: PropTypes.string.isRequired,
 };
 Heading.defaultProps = {
   align: '',
   id: '',
   level: 2,
+  showAnchorIcons: true,
 };
 
 module.exports = (level, anchors, opts) => CreateHeading(level, anchors, opts);
