@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@readme/oas-extensions": "^6.9.4",
-    "@readme/oas-tooling": "^3.3.6",
+    "@readme/oas-tooling": "^3.4.0",
     "querystring": "^0.2.0"
   },
   "scripts": {
