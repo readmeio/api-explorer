@@ -96,11 +96,14 @@ class ResponseSchema extends React.Component {
       >
         {this.renderHeader()}
         <div className="response-schema">
-          {response.description && (
-            <div className="desc">
-              {useNewMarkdownEngine ? markdown(response.description) : markdownMagic(response.description)}
-            </div>
-          )}
+          {response.description &&
+            (useNewMarkdownEngine ? (
+              <div className="markdown-body" style={{ padding: 0 }}>
+                <div className="pin">{markdown(response.description)}</div>
+              </div>
+            ) : (
+              <div className="desc">{markdownMagic(response.description)}</div>
+            ))}
 
           {schema && <ResponseSchemaBody oas={oas} schema={schema} useNewMarkdownEngine={useNewMarkdownEngine} />}
         </div>
