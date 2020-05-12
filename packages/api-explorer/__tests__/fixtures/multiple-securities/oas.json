@@ -75,6 +75,29 @@
         }
       }
     },
+    "/required-and-or-security": {
+      "post": {
+        "operationId": "requriedAndOrSecurity",
+        "security": [
+          {
+            "oauthScheme": ["write:things"],
+            "apiKeyScheme": []
+          },
+          {
+            "oauthDiff": ["write:things"],
+            "apiKeyScheme": []
+          }
+        ],
+        "summary": "and or security",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/single-auth": {
       "post": {
         "operationId": "singleAuth",

@@ -245,12 +245,11 @@ module.exports = (
   }
 
   const securityRequirements = pathOperation.security || oas.security;
-
   if (securityRequirements && securityRequirements.length) {
     // TODO pass these values through the formatter?
     securityRequirements.forEach(schemes => {
       Object.keys(schemes).forEach(security => {
-        const securityValue = configureSecurity(oas, auth, security);
+        const securityValue = configureSecurity(oas, auth, security, pathOperation.securityDefinitions);
 
         if (!securityValue) return;
         har[securityValue.type].push(securityValue.value);

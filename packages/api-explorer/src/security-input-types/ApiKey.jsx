@@ -30,7 +30,7 @@ ApiKey.propTypes = {
 };
 
 ApiKey.defaultProps = {
-  apiKey: undefined,
+  apiKey: '',
   authInputRef: () => {},
 };
 

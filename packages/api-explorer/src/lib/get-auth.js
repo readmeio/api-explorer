@@ -4,7 +4,10 @@ function getKey(user, scheme) {
     case 'apiKey':
       return user[scheme._key] || user.apiKey || '';
     case 'http':
-      return user[scheme._key] || { user: user.user || '', pass: user.pass || '' };
+      if (scheme.scheme === 'basic') {
+        return user[scheme._key] || { user: user.user || '', pass: user.pass || '' };
+      }
+      return user[scheme._key] || user.apiKey || '';
     default:
       return '';
   }
@@ -44,6 +47,19 @@ function getAuth(user, oasFiles) {
     .reduce((prev, next) => Object.assign(prev, next), {});
 }
 
-module.exports = getAuth;
+function getAuthPerPath(user, securitySchemes){
+  return Object.keys(securitySchemes)
+    .map(scheme => {
+      return {
+        [scheme]: getSingle(
+          user,
+          Object.assign({}, securitySchemes[scheme], { _key: scheme }),
+        ),
+      };
+    })
+    .reduce((prev, next) => Object.assign(prev, next), {});
+}
 
+module.exports = getAuth;
+module.exports.getAuthPerPath = getAuthPerPath
 module.exports.getSingle = getSingle;

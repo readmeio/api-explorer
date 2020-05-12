@@ -120,7 +120,8 @@ class ApiExplorer extends React.Component {
   }
 
   renderDoc(doc) {
-    const auth = getAuth(this.props.variables.user, this.props.oasFiles)
+    const {variables: {user}, oasFiles} = this.props
+    const auth = getAuth(user, oasFiles)
     return (
       <Doc
         doc={doc}

@@ -49,5 +49,6 @@
   "auth.basic.password": "password",
   "auth.oauth2.info": "Authenticate via OAuth2",
   "auth.oauth2.authorization": "Authorization",
-  "auth.oauth2.bearer": "Bearer"
+  "auth.oauth2.bearer": "Bearer",
+  "authForm.input.placeholder": "Insert {name}"
 }

@@ -1,8 +1,11 @@
 {
   "extends": ["airbnb", "prettier"],
+  "plugins": ["react"],
   "rules": {
     "arrow-body-style": 0,
     "react/forbid-prop-types": 0,
+    "no-continue": 0,
+    "no-restricted-syntax": 0,
     "no-underscore-dangle": ["error", { "allow": ["_cache", "_id", "_key"] }],
     "no-param-reassign": ["error", { "props": false }]
   }

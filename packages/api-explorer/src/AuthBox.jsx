@@ -1,40 +1,32 @@
 import React, {Component, Fragment} from 'react'
-import {Icon, Popover, Alert, Tabs, Button} from 'antd'
-import { injectIntl, FormattedMessage, intlShape} from 'react-intl';
+import PropTypes from 'prop-types';
+import {injectIntl, FormattedMessage, intlShape} from 'react-intl';
+import {Icon, Popover, Alert, Button} from 'antd'
+import flatten from 'lodash.flatten'
+import uniq from 'lodash.uniq'
 
-const PropTypes = require('prop-types');
-const SecurityInput = require('./SecurityInput')
+import AuthForm from './components/AuthForm';
 
-const TabPane = Tabs.TabPane
+function filterSecurityScheme(security, securitySchemes) {
+  const securities = uniq(flatten(security.map(elem => Object.keys(elem))))
+  const newSecurityScheme = {}
+  for (const securityType of Object.keys(securitySchemes)) {
+    for (const elem of uniq(securitySchemes[securityType])) {
+      if (!securities.includes(elem._key)) {
+        continue
+      }
 
-function getSecurityTabs(securityTypes, config, onChange,onSubmit) {
-  const {authInputRef, oauth, auth} = config
-  return Object.keys(securityTypes).map((type, index) => {
-    const securities = securityTypes[type];
-    return (
-      // eslint-disable-next-line react/no-array-index-key
-      <TabPane tab={type} key={`security-${index}`} >
-        <form onSubmit={onSubmit}>
-          <div style={{padding: '15px 17px'}}>
-            <section>
-              {securities.map(security => (
-                <SecurityInput
-                  {...{ auth, onChange, authInputRef, oauth }}
-                  key={security._key}
-                  scheme={security}
-                />
-            ))}
-            </section>
-          </div>
-        </form>
-      </TabPane>
-    );
-  });
+      if (!newSecurityScheme[securityType]) {
+        newSecurityScheme[securityType] = []
+      }
+
+      newSecurityScheme[securityType].push(elem)
+    }
+  }
+  return newSecurityScheme
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
 class AuthBox extends Component {
-
   renderIconLock() {
     const {toggle, open} = this.props
     return(
@@ -62,6 +54,7 @@ class AuthBox extends Component {
   renderSecurityBox() {
     const {
       securityTypes,
+      security,
       onSubmit,
       onChange,
       oauth,
@@ -73,20 +66,14 @@ class AuthBox extends Component {
 
     return(
       <Fragment>
-        <Tabs defaultActiveKey={'security-0'}>
-          {
-            getSecurityTabs(
-              securityTypes,
-              { authInputRef, oauth, auth },
-              onChange,
-              e => {
-                e.preventDefault();
-                onSubmit();
-              }
-            )
-          }
-        </Tabs>
-
+        <AuthForm 
+          onChange={onChange}
+          onSubmit={onSubmit} 
+          authInputRef={authInputRef}
+          auth={auth}
+          oauth={oauth}
+          securitySchemes={security ? filterSecurityScheme(security,securityTypes) : {}} 
+        />
         {
           showReset ?
             <div style={{padding: 5}}>
@@ -171,6 +158,7 @@ AuthBox.propTypes = {
   showReset: PropTypes.bool,
   intl: intlShape.isRequired,
   onVisibleChange: PropTypes.func,
+  security: PropTypes.arrayOf(PropTypes.object)
 };
 
 AuthBox.defaultProps = {
@@ -183,6 +171,7 @@ AuthBox.defaultProps = {
   showReset: true,
   securityTypes: {},
   onVisibleChange: () => {},
+  security: [],
 };
 
 module.exports = injectIntl(AuthBox);

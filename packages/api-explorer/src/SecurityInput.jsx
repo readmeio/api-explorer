@@ -37,39 +37,39 @@ class Input extends React.Component {
 }
 
 function SecurityInput(props) {
+  const {auth, scheme} = props
   function change(value) {
-    return props.onChange({ [props.scheme._key]: value });
+    return props.onChange({ [scheme._key]: value });
   }
 
-  switch (props.scheme.type) {
+  switch (scheme.type) {
     case 'apiKey':
     case 'oauth2': {
-      const Component = types[props.scheme.type];
+      const Component = types[scheme.type];
       return (
         <Component
           {...props}
-          apiKey={props.auth[props.scheme._key]}
+          apiKey={auth[scheme._key]}
           change={change}
           Input={Input}
         />
       );
     }
     case 'http':
-      // TODO support other schemes? https://github.com/readmeio/api-explorer/issues/15
-      if (props.scheme.scheme === 'basic') {
+      if (scheme.scheme === 'basic') {
         return (
           <Basic
             {...props}
             change={change}
-            user={props.auth[props.scheme._key].user}
-            pass={props.auth[props.scheme._key].pass}
+            user={auth[scheme._key].user}
+            pass={auth[scheme._key].pass}
             Input={Input}
           />
         );
       }
-      if (props.scheme.scheme === 'bearer') {
+      if (scheme.scheme === 'bearer') {
         return (
-          <Oauth2 {...props} apiKey={props.auth[props.scheme._key]} change={change} Input={Input} />
+          <Oauth2 {...props} apiKey={auth[scheme._key]} change={change} Input={Input} />
         );
       }
       break;

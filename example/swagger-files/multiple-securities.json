@@ -43,7 +43,6 @@
         ],
         "summary": "and security",
         "description": "",
-        "operationId": "addAndSecurity",
         "parameters": [],
         "responses": {
           "405": {
@@ -97,6 +96,29 @@
         }
       }
     },
+    "/with-required-key": {
+      "post": {
+        "operationId": "requriedAndOrSecurity",
+        "security": [
+          {
+            "oauthScheme": ["write:things"],
+            "apiKey": []
+          },
+          {
+            "oauthDiff": ["write:things"],
+            "apiKey": []
+          }
+        ],
+        "summary": "and or security",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/single-auth": {
       "post": {
         "operationId": "singleAuth",
@@ -121,7 +143,6 @@
         "operationId": "noAuth",
         "summary": "no security needed",
         "description": "",
-        "operationId": "addNoSecurity",
         "parameters": [],
         "responses": {
           "405": {
@@ -143,7 +164,6 @@
         ],
         "summary": "or security",
         "description": "",
-        "operationId": "addMultipleOAuths",
         "parameters": []
       }
     },

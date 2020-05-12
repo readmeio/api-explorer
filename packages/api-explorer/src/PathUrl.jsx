@@ -134,9 +134,9 @@ function PathUrl({
                 auth={auth}
                 onReset={onReset}
                 showReset={showReset}
+                security={operation.security || oas.security}
               />
             </div>
-
             {renderButtonTry(loading, onSubmit, error)}
           </div>
           )}

@@ -3,14 +3,12 @@ function harValue(type, value) {
   return { type, value };
 }
 
-module.exports = function configureSecurity(oas, values, scheme) {
+module.exports = function configureSecurity(oas, values, scheme, securityDefinitions) {
   if (!scheme) return {};
 
   if (Object.keys(values || {}).length === 0) return undefined;
-
   if (!oas.components.securitySchemes[scheme]) return undefined;
-  const security = oas.components.securitySchemes[scheme];
-
+  const security = securityDefinitions ? securityDefinitions[scheme] : oas.components.securitySchemes[scheme];
   if (security.type === 'http') {
     if (security.scheme === 'basic') {
       // Return with no header if user and password are blank

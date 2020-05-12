@@ -19,8 +19,8 @@ class ApiList extends React.Component {
   componentDidMount() {
     if (this.props.doFetch) {
       fetch('https://api.apis.guru/v2/list.json')
-      .then(res => res.json())
-      .then(apis => this.setState({ apis: Object.assign({}, this.state.apis, apis) }));
+        .then(res => res.json())
+        .then(apis => this.setState({ apis: Object.assign({}, this.state.apis, apis) }));
     }
 
     this.props.fetchSwagger(this.state.selected);

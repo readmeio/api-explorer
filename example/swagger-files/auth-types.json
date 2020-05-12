@@ -1,10 +1,8 @@
 {
   "openapi": "3.0.0",
-  "servers": [
-    {
-      "url": "http://httpbin.org"
-    }
-  ],
+  "servers": [{
+    "url": "http://httpbin.org"
+  }],
   "info": {
     "version": "1.0.0",
     "title": "Different auth types"
@@ -16,11 +14,9 @@
         "description": "",
         "parameters": [],
         "responses": {},
-        "security": [
-          {
-            "oauth2": []
-          }
-        ]
+        "security": [{
+          "oauth2": []
+        }]
       }
     },
     "/anything/oauth2-another": {
@@ -29,11 +25,9 @@
         "description": "",
         "parameters": [],
         "responses": {},
-        "security": [
-          {
-            "oauth2": []
-          }
-        ]
+        "security": [{
+          "oauth2": []
+        }]
       }
     },
     "/anything/basic": {
@@ -42,11 +36,9 @@
         "description": "",
         "parameters": [],
         "responses": {},
-        "security": [
-          {
-            "basic": []
-          }
-        ]
+        "security": [{
+          "basic": []
+        }]
       }
     },
     "/anything/basic-another": {
@@ -55,11 +47,9 @@
         "description": "",
         "parameters": [],
         "responses": {},
-        "security": [
-          {
-            "basic": []
-          }
-        ]
+        "security": [{
+          "basic": []
+        }]
       }
     },
     "/anything/apiKey": {
@@ -68,11 +58,22 @@
         "description": "",
         "parameters": [],
         "responses": {},
-        "security": [
-          {
-            "apiKey": []
-          }
-        ]
+        "security": [{
+          "apiKey": []
+        }]
+      }
+    }, 
+    "/multiple/auths": {
+      "post": {
+        "summary": "ApiKey security type",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "security": [{
+          "apiKey": []
+        }, {
+          "oauth2": []
+        }]
       }
     },
     "/status/401": {
@@ -81,11 +82,9 @@
         "description": "",
         "parameters": [],
         "responses": {},
-        "security": [
-          {
-            "apiKey": []
-          }
-        ]
+        "security": [{
+          "apiKey": []
+        }]
       }
     }
   },
