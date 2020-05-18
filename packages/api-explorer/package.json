@@ -47,7 +47,7 @@
     "@readme/oas-examples": "^3.0.0",
     "css-loader": "^3.4.2",
     "eslint": "^7.0.0",
-    "jest": "^25.1.0",
+    "jest": "^26.0.1",
     "jsinspect": "^0.12.6",
     "node-fetch": "^2.0.0-alpha.9",
     "prettier": "^2.0.1",

@@ -28,7 +28,7 @@
     "@readme/eslint-config": "^3.0.0",
     "eslint": "^7.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "jest": "^25.1.0",
+    "jest": "^26.0.1",
     "jsinspect": "^0.12.7",
     "nock": "^12.0.0",
     "prettier": "^2.0.1",
