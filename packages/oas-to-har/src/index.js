@@ -1,56 +1,30 @@
 const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
 const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('@readme/oas-tooling/utils');
+const { Operation } = require('@readme/oas-tooling');
 
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');
 
-const format = {
-  value: v => v,
-  example: v => v,
-  key: v => v,
-};
-
 function formatter(values, param, type, onlyIfExists) {
   if (typeof values[type][param.name] !== 'undefined') {
-    return format.value(values[type][param.name]);
+    return values[type][param.name];
   }
+
   if (onlyIfExists && !param.required) {
     return undefined;
   }
+
   if (param.required && param.example) {
-    return format.example(param.example);
+    return param.example;
   }
-  return format.key(param.name);
+
+  return param.name;
 }
 
-const defaultValues = Object.keys(parametersToJsonSchema.types).reduce((prev, curr) => {
+const defaultFormDataTypes = Object.keys(parametersToJsonSchema.types).reduce((prev, curr) => {
   return Object.assign(prev, { [curr]: {} });
 }, {});
-
-// If you pass in types, it either uses a default, or favors anything JSON.
-function getContentType(pathOperation) {
-  const types =
-    (pathOperation &&
-      pathOperation.requestBody &&
-      pathOperation.requestBody.content &&
-      Object.keys(pathOperation.requestBody.content)) ||
-    [];
-
-  let type = 'application/json';
-  if (types && types.length) {
-    type = types[0];
-  }
-
-  // Favor JSON if it exists
-  types.forEach(t => {
-    if (t.match(/json/)) {
-      type = t;
-    }
-  });
-
-  return type;
-}
 
 function getResponseContentType(content) {
   const types = Object.keys(content) || [];
@@ -69,18 +43,23 @@ function isPrimitive(val) {
 
 module.exports = (
   oas,
-  pathOperation = { path: '', method: '' },
+  operationSchema = { path: '', method: '' },
   values = {},
   auth = {},
   opts = { proxyUrl: false }
 ) => {
-  const formData = { ...defaultValues, ...values };
+  let operation = operationSchema;
+  if (!(operationSchema instanceof Operation)) {
+    operation = new Operation(oas, operationSchema.path, operationSchema.method, operationSchema);
+  }
+
+  const formData = { ...defaultFormDataTypes, ...values };
   const har = {
     headers: [],
     queryString: [],
     postData: {},
-    method: pathOperation.method.toUpperCase(),
-    url: `${oas.url()}${pathOperation.path}`.replace(/\s/g, '%20'),
+    method: operation.method.toUpperCase(),
+    url: `${oas.url()}${operation.path}`.replace(/\s/g, '%20'),
   };
 
   // TODO look to move this to Oas class as well
@@ -98,17 +77,17 @@ module.exports = (
     }
   }
 
-  if (pathOperation.parameters) {
-    pathOperation.parameters.forEach(addParameter);
+  if (operation.parameters) {
+    operation.parameters.forEach(addParameter);
   }
 
   // Does this operation have any common parameters?
-  if (oas.paths && oas.paths[pathOperation.path] && oas.paths[pathOperation.path].parameters) {
-    oas.paths[pathOperation.path].parameters.forEach(addParameter);
+  if (oas.paths && oas.paths[operation.path] && oas.paths[operation.path].parameters) {
+    oas.paths[operation.path].parameters.forEach(addParameter);
   }
 
   har.url = har.url.replace(/{([-_a-zA-Z0-9[\]]+)}/g, (full, key) => {
-    if (!pathOperation || !parameters) return key; // No path params at all
+    if (!operation || !parameters) return key; // No path params at all
 
     // Find the path parameter or set a default value if it does not exist
     const parameter = parameters.find(param => param.name === key) || { name: key };
@@ -121,6 +100,7 @@ module.exports = (
     queryStrings.forEach(queryString => {
       const value = formatter(formData, queryString, 'query', true);
       if (typeof value === 'undefined') return;
+
       har.queryString.push({
         name: queryString.name,
         value: String(value),
@@ -129,16 +109,16 @@ module.exports = (
   }
 
   // Does this response have any documented content types?
-  if (pathOperation.responses) {
-    Object.keys(pathOperation.responses).some(response => {
-      if (!pathOperation.responses[response].content) return false;
+  if (operation.responses) {
+    Object.keys(operation.responses).some(response => {
+      if (!operation.responses[response].content) return false;
 
       // if there is an Accept header specified in the form, we'll use that instead.
       if (formData.header.Accept) return true;
 
       har.headers.push({
         name: 'Accept',
-        value: getResponseContentType(pathOperation.responses[response].content),
+        value: getResponseContentType(operation.responses[response].content),
       });
 
       return true;
@@ -165,8 +145,8 @@ module.exports = (
   }
 
   // Are there `x-static` static headers configured for this OAS?
-  if (oas['x-headers']) {
-    oas['x-headers'].forEach(header => {
+  if (oas[extensions.HEADERS]) {
+    oas[extensions.HEADERS].forEach(header => {
       if (header.key.toLowerCase() === 'content-type') {
         hasContentType = true;
       }
@@ -186,7 +166,7 @@ module.exports = (
     });
   }
 
-  const schema = getSchema(pathOperation, oas) || { schema: {} };
+  const schema = getSchema(operation, oas) || { schema: {} };
 
   function stringify(json) {
     // Default to JSON.stringify
@@ -244,7 +224,7 @@ module.exports = (
   // Add a `Content-Type` header if there are any body values setup above or if there is a schema defined, but only do
   // so if we don't already have a `Content-Type` present as it's impossible for a request to have multiple.
   if ((har.postData.text || Object.keys(schema.schema).length) && !hasContentType) {
-    const type = getContentType(pathOperation);
+    const type = operation.getContentType();
 
     har.headers.push({
       name: 'Content-Type',
@@ -252,14 +232,13 @@ module.exports = (
     });
   }
 
-  const securityRequirements = pathOperation.security || oas.security;
+  const securityRequirements = operation.security || oas.security;
 
   if (securityRequirements && securityRequirements.length) {
     // TODO pass these values through the formatter?
     securityRequirements.forEach(schemes => {
       Object.keys(schemes).forEach(security => {
         const securityValue = configureSecurity(oas, auth, security);
-
         if (!securityValue) {
           return;
         }
