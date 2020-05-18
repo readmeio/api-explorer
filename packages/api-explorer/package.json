@@ -15,6 +15,7 @@
     "hast-util-sanitize": "^1.2.0",
     "httpsnippet": "^1.16.5",
     "js-cookie": "^2.1.4",
+    "json-schema-faker": "^0.5.0-rcv.24",
     "lodash.debounce": "^4.0.8",
     "lodash.flatten": "^4.4.0",
     "lodash.get": "^4.4.2",
