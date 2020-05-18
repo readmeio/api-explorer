@@ -41,6 +41,6 @@
     "prettier": "^1.14.0"
   },
   "peerDependencies": {
-    "react": "^16.8.6"
+    "react": "^16.9.0"
   }
 }

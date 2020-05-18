@@ -20,15 +20,13 @@ const props = {
 };
 
 test('should not display if no auth', () => {
-  expect(mountWithIntl(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBe(
-    null,
-  );
+  expect(mountWithIntl(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBe('');
 });
 
 test('should display a single heading for single auth type', () => {
   // This object is retrieved from OAS library while running in prod.
   const securityTypes = {
-    "Header Auth":[{"type":"auth","flows":{"implicit":{"authorizationUrl":"http://petstore.swagger.io/oauth/dialog","scopes":{"write:pets":"modify pets in your account","read:pets":"read your pets"}}},"_key":"petstore_auth"}],  
+    "Header Auth":[{"type":"auth","flows":{"implicit":{"authorizationUrl":"http://petstore.swagger.io/oauth/dialog","scopes":{"write:pets":"modify pets in your account","read:pets":"read your pets"}}},"_key":"petstore_auth"}],
   }
   const security = [{"Header Auth": []}]
   const authBox = mountWithIntl(<AuthBox {...props} securityTypes={securityTypes} security={security} />);

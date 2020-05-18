@@ -11,7 +11,7 @@
     "@mia-platform/variable": "^6.1.0",
     "choices.js": "^9.0.1",
     "classnames": "^2.2.5",
-    "fetch-har": "^2.0.0",
+    "fetch-har": "2.2.0",
     "hast-util-sanitize": "^1.2.0",
     "httpsnippet": "^1.16.5",
     "js-cookie": "^2.1.4",
@@ -66,8 +66,8 @@
     "nyc": "^11.0.3",
     "prettier": "^1.6.1",
     "raf": "^3.4.0",
-    "react-dom": "^16.8.6",
-    "react-test-renderer": "^16.0.0",
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0",
     "uglify-es": "^3.2.1",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "webpack": "^3.10.0",
@@ -76,6 +76,6 @@
   "peerDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "antd": "3.16.x",
-    "react": "^16.8.6"
+    "react": "^16.9.0"
   }
 }

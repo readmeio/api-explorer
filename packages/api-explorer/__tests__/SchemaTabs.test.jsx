@@ -8,6 +8,7 @@ import BlockWithTab from '../src/components/BlockWithTab';
 import Oas from '../src/lib/Oas'
 import RequestSchema from '../src/RequestSchema'
 import ResponseSchema from '../src/ResponseSchema'
+import SchemaExample from "../src/components/SchemaExample";
 
 const { Operation } = Oas
 const petstore = require('./fixtures/petstore/oas.json');
@@ -46,26 +47,50 @@ describe('SchemaTabs', () => {
   let block
 
   beforeEach(() => {
-    element = shallow(
-      <SchemaTabs
-        {...props}
-      />
-    )
+    element = shallow(<SchemaTabs{...props} />)
     block = element.find(BlockWithTab)
   })
 
-  test('renders a tab with 2 items', () => {
+  test('renders a tab with 3 items', () => {
     expect(block).toHaveLength(1)
     const { items } = block.props()
+    const exampleLabel = <FormattedMessage defaultMessage="Example" id="schemaTabs.label.example" />
     const requestLabel = <FormattedMessage defaultMessage="Request" id="schemaTabs.label.request" />
     const responseLabel = <FormattedMessage defaultMessage="Response" id="schemaTabs.label.response" />
-    expect(items).toEqual([{ value: 'request', label: requestLabel }, { value: 'response', label: responseLabel }])
+    expect(items).toEqual([
+      { value: 'example', label: exampleLabel },
+      { value: 'request', label: requestLabel },
+      { value: 'response', label: responseLabel }
+    ])
   })
 
   test('set correct tab when one is clicked', () => {
-    block.prop('onClick')('request')
-    element.update()
-    expect(block.prop('selected')).toEqual('request')
+    expect(element.find(BlockWithTab).prop('selected')).toEqual('example')
+    element.find(BlockWithTab).simulate('click', 'response')
+    expect(element.find(BlockWithTab).prop('selected')).toEqual('response')
+  })
+
+  describe('if example is set as selected', () => {
+    beforeEach(() => {
+      element = shallow(<SchemaTabs {...props} />)
+      block = element.find(BlockWithTab)
+    })
+
+    test('renders RequestSchema if operation.requestBody is set', () => {
+      expect(element.find(SchemaExample)).toHaveLength(1)
+    })
+
+    test('render missing schema message', () => {
+      element = shallow(
+        <SchemaTabs
+          {...props}
+          operation={{}}
+        />
+      )
+      const formattedMessage = element.find(FormattedMessage)
+      expect(formattedMessage).toHaveLength(1)
+      expect(formattedMessage.prop('id')).toEqual('schemaTabs.missing.example')
+    })
   })
 
   describe('if request is set as selected', () => {

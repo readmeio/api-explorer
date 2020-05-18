@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl';
 import get from 'lodash.get'
+import { FormattedMessage } from 'react-intl';
 
 import parametersToJsonSchema from '../../lib/parameters-to-json-schema'
 import BlockWithTab from '../BlockWithTab'
@@ -51,7 +51,7 @@ export default class SchemaTabs extends Component {
   renderSchemaExample() {
     const { operation, oas } = this.props
     const schema = get(parametersToJsonSchema(operation, oas), '[0].schema', false)
-    console.log('lodash schema example', schema)
+    // console.log('lodash schema example', schema)
     return schema ? (
       <SchemaExample schema={schema} />
     ) : renderMissingSchema('Example')
@@ -112,7 +112,7 @@ export default class SchemaTabs extends Component {
         styleSelectedItem={styleSelectedItem}
         styleLink={styleLink}
         styleItem={styleItem}
-        onClick={(item) => {this.setState({selected: item})}}
+        onClick={(item) => this.setState({selected: item})}
       >
         {this.renderSchema()}
       </BlockWithTab>
