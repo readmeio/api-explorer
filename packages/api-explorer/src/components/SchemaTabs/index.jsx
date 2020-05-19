@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash.get'
+import jsf from 'json-schema-faker'
 import { FormattedMessage } from 'react-intl';
 
 import parametersToJsonSchema from '../../lib/parameters-to-json-schema'
 import BlockWithTab from '../BlockWithTab'
 import ResponseSchema from '../../ResponseSchema';
 import RequestSchema from '../../RequestSchema';
-import SchemaExample from '../../components/SchemaExample'
 import colors from '../../colors'
+import JsonViewer from "../JsonViewer";
 
 const styleList = {
   fontSize: '18px',
@@ -50,22 +51,38 @@ export default class SchemaTabs extends Component {
 
   renderSchemaExample() {
     const { operation, oas } = this.props
-    const schema = get(parametersToJsonSchema(operation, oas), '[0].schema', false)
-    // console.log('lodash schema example', schema)
-    return schema ? (
-      <SchemaExample schema={schema} />
-    ) : renderMissingSchema('Example')
+    const schema = get(parametersToJsonSchema(operation, oas), '[0].schema')
+
+    if (schema) {
+      const example = get(schema, 'example')
+      if (example) {
+        console.log('example passed', schema)
+        return (
+          <JsonViewer
+            missingMessage={''}
+            schema={example}
+          />
+        )
+      }
+
+      console.log('generated example')
+      return (
+        <JsonViewer
+          missingMessage={''}
+          schema={jsf.generate(schema)}
+        />
+      )
+    }
+
+    console.log('missing schema')
+    return renderMissingSchema('Example')
   }
 
   renderResponseSchema() {
     const { operation, oas } = this.props
-    return (
-      operation &&
-        operation.responses ? (
-          <ResponseSchema operation={operation} oas={oas} />
-        )
-        : renderMissingSchema('Response')
-    )
+    return operation && operation.responses ? (
+      <ResponseSchema operation={operation} oas={oas} />
+    ) : renderMissingSchema('Response')
   }
 
   renderRequestSchema() {
