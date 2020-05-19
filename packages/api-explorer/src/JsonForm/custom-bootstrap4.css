@@ -1,3 +1,4 @@
+/** json-editor */
 .card .row .form-group .form-text {
     text-align: right;
     font-size: 0.9em;
@@ -8,3 +9,42 @@
     margin: 5px;
 }
 
+.card-title label {
+    font-size: 18px;
+    color: #666666;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    align-items: center;
+    margin: 0px;
+    padding: 10px 0px;
+}
+
+.form-group label {
+    margin: 0px;
+}
+
+/** MIA CSS */
+
+.mia-container-wrapper {
+    border-radius: 4px;
+    border: solid 1px #d8d8d8;
+    background: #fafafa;
+    padding: 5px
+}
+
+/** antd */
+
+.ant-btn svg {
+    margin-right: 5px;
+}
+
+/** general */
+
+* {
+    outline: none;
+}

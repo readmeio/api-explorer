@@ -4,7 +4,6 @@
 import React, {Fragment} from 'react'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
-import {Icon} from 'antd'
 import fetchHar from 'fetch-har'
 import get from 'lodash.get'
 import {clone} from 'ramda'
@@ -33,23 +32,11 @@ const parseResponse = require('./lib/parse-response');
 const getContentTypeFromOperation = require('./lib/get-content-type')
 const { getAuthPerPath } = require('./lib/get-auth')
 
-function Description({doc, suggestedEdits, baseUrl}) {
+function Description({doc}) {
   const description = <FormattedMessage id={'doc.description'} defaultMessage={'Description'} />
   const descriptionNa = <FormattedMessage id={'doc.description.na'} defaultMessage={'Description not available'} />
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
-      {suggestedEdits && (
-        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-          <a
-            style={{fontSize: 14, color: colors.suggestEdit, textTransform: 'uppercase'}}
-            href={`${baseUrl}/reference-edit/${doc.slug}`}
-          >
-            <span style={{marginRight: 5}}>
-              <FormattedMessage id="doc.suggest.edits" defaultMessage='Suggest Edits' />
-            </span><Icon type="edit" />
-          </a>
-        </div>
-      )}
       <ContentWithTitle
         title={description}
         content={doc.excerpt ? <div>{markdown(doc.excerpt)}</div> : descriptionNa}
@@ -286,20 +273,6 @@ class Doc extends React.Component {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  renderContentWithUpperTitle(title, content) {
-    return(
-      <ContentWithTitle
-        title={title}
-        content={content}
-        showDivider={false}
-        theme={'dark'}
-        showBorder={false}
-        titleUpperCase
-      />
-    )
-  }
-
   renderSchemaTab() {
     const operation = this.getOperation()
     if(!operation){
@@ -310,7 +283,7 @@ class Doc extends React.Component {
     )
   }
   renderEndpoint() {
-    const { doc, suggestedEdits, baseUrl } = this.props
+    const { doc, baseUrl } = this.props
     return (
         doc.type === 'endpoint' ? (
           <Fragment>
@@ -318,7 +291,6 @@ class Doc extends React.Component {
               {this.renderPathUrl()}
               <Description
                 doc={doc}
-                suggestedEdits={suggestedEdits}
                 baseUrl={baseUrl}
               />
               {this.renderLogs()}
@@ -470,7 +442,6 @@ Doc.propTypes = {
   language: PropTypes.string.isRequired,
   baseUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
-  suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   fallbackUrl: PropTypes.string,
   stripSlash: PropTypes.bool,

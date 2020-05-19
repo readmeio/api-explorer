@@ -1,11 +1,8 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable consistent-return */
-/* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
 const Choices = require('choices.js')
 require('choices.js/public/assets/styles/choices.min.css')
-
-const baseCustomEditor = require('./get-custom-editor')
 
 const errorsByType = {
   'not-compatible': 'jsonform.anyof.notCompatibleSchemas',
@@ -22,16 +19,18 @@ const unknownError = 'jsonform.anyof.unknownError'
  * We listen for change events on the form submission in order to update selection or
  * to show errors when trying to use an API without previously selecting a schema.
  */
-module.exports = (intl, setFormSubmissionListener) => baseCustomEditor('multiple').extend({
+module.exports = (intl, setFormSubmissionListener, classReference) => class AnyOf extends classReference{
   build() {
-    const response = this._super()
+    this.keep_values = false
+    const response = super.build()
     const { switcher, switcherDiv }= this.buildSwitcher()
     this.switcher.replaceWith(switcherDiv)
     this.hideEditor()
     this.addErrorMessageHtmlNode()
     setFormSubmissionListener(switcher)
     return response
-  },
+  }
+
   buildSwitcher() {
     const self = this
     const switcher = this.theme.getSwitcher(this.display_text)
@@ -89,7 +88,8 @@ module.exports = (intl, setFormSubmissionListener) => baseCustomEditor('multiple
     }
 
     return { switcher, switcherDiv }
-  },
+  }
+
   updateEditor(selectedValues) {
     const joinedValues = selectedValues.join('_')
     const mergedEditorIndex = editorIndexesMap.get(joinedValues)
@@ -109,7 +109,8 @@ module.exports = (intl, setFormSubmissionListener) => baseCustomEditor('multiple
     const index = this.types.length
     this.insertNewEditor(index, joinedValues, mergedSchemas)
     this.switchEditor(index)
-  },
+  }
+
   addErrorMessageHtmlNode() {
     this.errorMessageHtmlNode = document.createElement('p')
     this.errorMessageHtmlNode.style.color = 'red'
@@ -117,27 +118,31 @@ module.exports = (intl, setFormSubmissionListener) => baseCustomEditor('multiple
     this.errorMessageHtmlNode.style.display = 'none'
     this.errorMessageHtmlNode.style.marginTop = '10px'
     this.container.appendChild(this.errorMessageHtmlNode)
-  },
+  }
+
   showErrorMessage(type) {
     this.hideEditor()
     this.errorMessageHtmlNode.innerText = intl.formatMessage({
       id: errorsByType[type] || unknownError
     })
     this.errorMessageHtmlNode.style.display = 'block'
-  },
+  }
+
   hideErrorMessage() {
     this.editor_holder.style.display = 'block'
     this.errorMessageHtmlNode.style.display = 'none'
-  },
+  }
+
   insertNewEditor(index, joinedValues, mergedSchemas) {
     editorIndexesMap.set(joinedValues, index)
     this.types.push(mergedSchemas)
     this.editors.push(false)
-  },
+  }
+
   hideEditor() {
     this.editor_holder.style.display = 'none'
   }
-})
+}
 
 const editorIndexesMap = new Map()
 
@@ -162,7 +167,7 @@ const getMergerByType = (type) => {
     default:
       return (_, schemasType) =>  ({ type: schemasType })
   }
-} 
+}
 
 const mergeSchemas = (schemas) => {
   const schemasType = extractSchemasTypeIfCompatible(schemas)

@@ -1,0 +1,3862 @@
+{
+    "swagger": "2.0",
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "securityDefinitions": {
+      "APISecretHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "secret"
+      }
+    },
+    "security": [
+      {
+        "APISecretHeader": []
+      }
+    ],
+    "info": {
+      "title": "Trenord",
+      "description": "",
+      "version": "478e51c0a9e1e697d79c93d541cfcaea075b37b5"
+    },
+    "parameters": {},
+    "paths": {
+      "/custom/odr": {
+        "post": {
+          "responses": {
+            "200": {
+              "description": "JsonElement",
+              "schema": {
+                "$ref": "#/definitions/JsonElement"
+              },
+              "produces": [
+                "application/json"
+              ]
+            },
+            "400": {
+              "description": "Bad Request",
+              "produces": [
+                "application/json"
+              ]
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "produces": [
+                "application/json"
+              ]
+            }
+          },
+          "parameters": [
+            {
+              "name": "noReflectionBody",
+              "in": "body",
+              "description": "JsonElement",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/JsonElement"
+              }
+            }
+          ],
+          "tags": [
+            "ODR"
+          ],
+          "summary": "Odr",
+          "consumes": [
+            "application/json"
+          ]
+        }
+      },
+      "/custom/compatiblepass": {
+        "post": {
+          "responses": {
+            "200": {
+              "description": "JsonElement",
+              "schema": {
+                "$ref": "#/definitions/JsonElement"
+              },
+              "produces": [
+                "application/json"
+              ]
+            },
+            "400": {
+              "description": "Bad Request",
+              "produces": [
+                "application/json"
+              ]
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "produces": [
+                "application/json"
+              ]
+            }
+          },
+          "parameters": [
+            {
+              "name": "noReflectionBody",
+              "in": "body",
+              "description": "JsonElement",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/JsonElement"
+              }
+            }
+          ],
+          "tags": [
+            "ODR"
+          ],
+          "summary": "Compatible pass",
+          "consumes": [
+            "application/json"
+          ]
+        }
+      }
+    },
+    "tags": [
+      {
+        "name": "backoffice-controller",
+        "description": "Backoffice Controller"
+      },
+      {
+        "name": "card-controller",
+        "description": "Card Controller"
+      },
+      {
+        "name": "carnet-store-controller",
+        "description": "Carnet Store Controller"
+      },
+      {
+        "name": "discovery-controller",
+        "description": "Discovery Controller"
+      },
+      {
+        "name": "order-controller",
+        "description": "Order Controller"
+      },
+      {
+        "name": "pass-store-controller",
+        "description": "Pass Store Controller"
+      },
+      {
+        "name": "payment-controller",
+        "description": "Payment Controller"
+      },
+      {
+        "name": "store-health-controller",
+        "description": "Store Health Controller"
+      },
+      {
+        "name": "ticket-store-controller",
+        "description": "Ticket Store Controller"
+      },
+      {
+        "name": "wallet-controller",
+        "description": "Wallet Controller"
+      }
+    ],
+    "definitions": {
+      "id": {
+        "type": "string",
+        "description": "The identifier of the bookmark"
+      },
+      "ListOfSolution": {
+        "items": {
+          "description": "Solution",
+          "$ref": "#/definitions/Solution"
+        },
+        "uniqueItems": false,
+        "type": "array"
+      },
+      "Solution": {
+        "properties": {
+          "arrDayOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "arrStation": {
+            "description": "SolutionStation",
+            "$ref": "#/definitions/SolutionStation"
+          },
+          "arrTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "bicycle": {
+            "type": "boolean"
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "change": {
+            "type": "string"
+          },
+          "class1": {
+            "type": "boolean"
+          },
+          "class1And2": {
+            "type": "boolean"
+          },
+          "class2": {
+            "type": "boolean"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "delay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "delayDefined": {
+            "type": "boolean"
+          },
+          "depDayOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "depStation": {
+            "description": "SolutionStation",
+            "$ref": "#/definitions/SolutionStation"
+          },
+          "depTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "handicap": {
+            "type": "boolean"
+          },
+          "journey": {
+            "type": "array",
+            "items": {
+              "description": "Journey",
+              "$ref": "#/definitions/Journey"
+            }
+          },
+          "mxp": {
+            "type": "boolean"
+          },
+          "mxpSpecial": {
+            "type": "boolean"
+          },
+          "price": {
+            "description": "Price",
+            "$ref": "#/definitions/Price"
+          },
+          "pricingModels": {
+            "type": "array",
+            "items": {
+              "description": "PricingModel",
+              "$ref": "#/definitions/PricingModel"
+            }
+          },
+          "serviceDays": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "walk": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "SolutionStation": {
+        "properties": {
+          "stationExternalId": {
+            "type": "string"
+          },
+          "stationExternalStationNr": {
+            "type": "string"
+          },
+          "stationId": {
+            "type": "string"
+          },
+          "stationOriName": {
+            "type": "string"
+          },
+          "stationType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Journey": {
+        "properties": {
+          "journeyType": {
+            "type": "string"
+          },
+          "passList": {
+            "type": "array",
+            "items": {
+              "description": "Pass",
+              "$ref": "#/definitions/Pass"
+            }
+          },
+          "train": {
+            "description": "Train",
+            "$ref": "#/definitions/Train"
+          },
+          "walk": {
+            "description": "Walk",
+            "$ref": "#/definitions/Walk"
+          }
+        },
+        "type": "object"
+      },
+      "Pass": {
+        "properties": {
+          "actualData": {
+            "description": "ActualData",
+            "$ref": "#/definitions/ActualData"
+          },
+          "arrDayOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "arrTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "depDayOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "depTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "journey": {
+            "type": "boolean"
+          },
+          "passCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "station": {
+            "description": "SolutionStation",
+            "$ref": "#/definitions/SolutionStation"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ActualData": {
+        "properties": {
+          "actualStationMir": {
+            "type": "string"
+          },
+          "actualStationName": {
+            "type": "string"
+          },
+          "actualTrainId": {
+            "type": "string"
+          },
+          "actualType": {
+            "type": "string"
+          },
+          "arrActualTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrDelayActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "arrEstimatedTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "depActualTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "depDelayActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "depEstimatedTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "type": "object"
+      },
+      "Train": {
+        "properties": {
+          "actualStation": {
+            "type": "string"
+          },
+          "actualStationMir": {
+            "type": "string"
+          },
+          "actualTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "bicycle": {
+            "type": "boolean"
+          },
+          "class1": {
+            "type": "boolean"
+          },
+          "class1And2": {
+            "type": "boolean"
+          },
+          "class2": {
+            "type": "boolean"
+          },
+          "crowding": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "delay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "direttrice": {
+            "type": "string"
+          },
+          "hafasDestination": {
+            "type": "string"
+          },
+          "hafasOrigin": {
+            "type": "string"
+          },
+          "handicap": {
+            "type": "boolean"
+          },
+          "hasLiveInfo": {
+            "type": "boolean"
+          },
+          "mirDestination": {
+            "type": "string"
+          },
+          "mirOrigin": {
+            "type": "string"
+          },
+          "mxp": {
+            "type": "boolean"
+          },
+          "mxpSpecial": {
+            "type": "boolean"
+          },
+          "passId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string"
+          },
+          "suppressionEndLabel": {
+            "type": "string"
+          },
+          "suppressionEndMIR": {
+            "type": "string"
+          },
+          "suppressionNotes": {
+            "type": "string"
+          },
+          "suppressionReason": {
+            "type": "string"
+          },
+          "suppressionStartLabel": {
+            "type": "string"
+          },
+          "suppressionStartMIR": {
+            "type": "string"
+          },
+          "suppressionType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trainCategory": {
+            "type": "string"
+          },
+          "trainId": {
+            "type": "string"
+          },
+          "trainName": {
+            "type": "string"
+          },
+          "trainOperator": {
+            "type": "string"
+          },
+          "transportCode1": {
+            "type": "string"
+          },
+          "transportCode2": {
+            "type": "string"
+          },
+          "train_id": {
+            "type": "string"
+          },
+          "train_category": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "train_category",
+          "train_id"
+        ],
+        "title": "Train"
+      },
+      "Walk": {
+        "properties": {
+          "direction": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "length": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Price": {
+        "properties": {
+          "cl1Price": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "cl2Price": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "kmDistance": {
+            "type": "string"
+          },
+          "kmIta": {
+            "type": "string"
+          },
+          "kmTot": {
+            "type": "string"
+          },
+          "locIdSbmeDestination": {
+            "type": "string"
+          },
+          "locIdSbmeOrigin": {
+            "type": "string"
+          },
+          "pricingModel": {
+            "type": "string"
+          },
+          "saleable": {
+            "type": "string"
+          },
+          "tariffs": {
+            "description": "Tariffs",
+            "$ref": "#/definitions/Tariffs"
+          },
+          "via1": {
+            "type": "string"
+          },
+          "via2": {
+            "type": "string"
+          },
+          "first_class": {
+            "type": "number",
+            "format": "float"
+          },
+          "second_class": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "type": "object",
+        "title": "Price"
+      },
+      "Float": {
+        "properties": {},
+        "type": "object"
+      },
+      "Tariffs": {
+        "properties": {
+          "adultsRoundTrip": {
+            "type": "number",
+            "format": "double"
+          },
+          "carnet": {
+            "type": "number",
+            "format": "double"
+          },
+          "carnetCl1": {
+            "type": "number",
+            "format": "double"
+          },
+          "carnetCl2": {
+            "type": "number",
+            "format": "double"
+          },
+          "extra": {
+            "description": "Extra",
+            "$ref": "#/definitions/Extra"
+          },
+          "family": {
+            "type": "number",
+            "format": "double"
+          },
+          "kidsRoundTrip": {
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyCl1": {
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyCl2": {
+            "type": "number",
+            "format": "double"
+          },
+          "stibm": {
+            "type": "array",
+            "items": {
+              "description": "Stibm",
+              "$ref": "#/definitions/Stibm"
+            }
+          },
+          "ticketCl1": {
+            "description": "Ticket",
+            "$ref": "#/definitions/Ticket"
+          },
+          "ticketCl2": {
+            "description": "Ticket",
+            "$ref": "#/definitions/Ticket"
+          },
+          "weeklyCl1": {
+            "type": "number",
+            "format": "double"
+          },
+          "weeklyCl2": {
+            "type": "number",
+            "format": "double"
+          },
+          "yearlyCl1": {
+            "type": "number",
+            "format": "double"
+          },
+          "yearlyCl2": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "type": "object"
+      },
+      "Extra": {
+        "properties": {
+          "animal": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "bicycleDaily": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "bicycleMontly": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "transAnimal": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "transBicycle": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          }
+        },
+        "type": "object"
+      },
+      "Stibm": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "type": "object"
+      },
+      "Ticket": {
+        "properties": {
+          "adults": {
+            "type": "number",
+            "format": "double"
+          },
+          "kids": {
+            "type": "number",
+            "format": "double"
+          },
+          "senior": {
+            "type": "number",
+            "format": "double"
+          },
+          "trans": {
+            "type": "number",
+            "format": "double"
+          },
+          "transReduced": {
+            "type": "number",
+            "format": "double"
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "andata": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SubmittedTicket"
+            }
+          },
+          "ritorno": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SubmittedTicket"
+            }
+          },
+          "upselling": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SubmittedTicket"
+            }
+          },
+          "upselling_price": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "type": "object",
+        "required": [
+          "andata",
+          "ritorno"
+        ],
+        "title": "Ticket"
+      },
+      "PricingModel": {
+        "properties": {
+          "descriptionEn": {
+            "type": "string"
+          },
+          "descriptionIt": {
+            "type": "string"
+          },
+          "kmDistance": {
+            "type": "string"
+          },
+          "pricingModel": {
+            "type": "string"
+          },
+          "sbmeDestination": {
+            "type": "string"
+          },
+          "sbmeOrigin": {
+            "type": "string"
+          },
+          "tariffs": {
+            "description": "Tariffs",
+            "$ref": "#/definitions/Tariffs"
+          },
+          "via1": {
+            "type": "string"
+          },
+          "via2": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ErrorMessage": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "type": "object"
+      },
+      "ListOfTimeTable": {
+        "items": {
+          "description": "TimeTable",
+          "$ref": "#/definitions/TimeTable"
+        },
+        "uniqueItems": false,
+        "type": "array"
+      },
+      "TimeTable": {
+        "properties": {
+          "arrStation": {
+            "description": "SolutionStation",
+            "$ref": "#/definitions/SolutionStation"
+          },
+          "arrTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "depStation": {
+            "description": "SolutionStation",
+            "$ref": "#/definitions/SolutionStation"
+          },
+          "depTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "passType": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "train": {
+            "description": "Train",
+            "$ref": "#/definitions/Train"
+          }
+        },
+        "type": "object"
+      },
+      "Atm": {
+        "type": "object",
+        "required": [
+          "pnr"
+        ],
+        "properties": {
+          "pnr": {
+            "type": "string"
+          },
+          "qr_code": {
+            "type": "string"
+          }
+        },
+        "title": "Atm"
+      },
+      "BaasOrderLog": {
+        "type": "object",
+        "required": [
+          "clientPrice",
+          "orderId",
+          "paymentDate",
+          "paymentMethod",
+          "pendingOrderDate",
+          "productSku",
+          "ssoUserId"
+        ],
+        "properties": {
+          "client": {
+            "type": "string"
+          },
+          "clientPrice": {
+            "type": "number",
+            "format": "float"
+          },
+          "message": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "paymentDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "paymentMethod": {
+            "type": "string"
+          },
+          "pendingOrderDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "productSku": {
+            "type": "string"
+          },
+          "ssoUserId": {
+            "type": "string"
+          },
+          "subPaymentMethod": {
+            "type": "string"
+          }
+        },
+        "title": "BaasOrderLog"
+      },
+      "BaasPassProduct": {
+        "type": "object",
+        "required": [
+          "activation",
+          "cards",
+          "code",
+          "destinations",
+          "name",
+          "origins",
+          "periodicity",
+          "short_name",
+          "type"
+        ],
+        "properties": {
+          "activation": {
+            "type": "string"
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "code": {
+            "type": "string"
+          },
+          "destinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/StationCompat"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/StationCompat"
+            }
+          },
+          "periodicity": {
+            "type": "string"
+          },
+          "short_name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "title": "BaasPassProduct"
+      },
+      "BaasProductResponse": {
+        "type": "object",
+        "required": [
+          "activation",
+          "cards",
+          "code",
+          "name",
+          "periodicity",
+          "short_name",
+          "type"
+        ],
+        "properties": {
+          "activation": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "code": {
+            "type": "string"
+          },
+          "destinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/StationCompat"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/StationCompat"
+            }
+          },
+          "periodicity": {
+            "type": "string"
+          },
+          "short_name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "title": "BaasProductResponse"
+      },
+      "BaasUserPaymentToken": {
+        "type": "object",
+        "required": [
+          "provider",
+          "ssoUserId",
+          "token",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "latestPaymentID": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "ssoUserId": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "title": "BaasUserPaymentToken"
+      },
+      "Card": {
+        "type": "object",
+        "properties": {
+          "card_key": {
+            "type": "string"
+          },
+          "holder_key": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "expiry": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "holder_birth_date": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "title": "Card"
+      },
+      "CardBuyRequestBody": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "fiscalcode": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string"
+          },
+          "birth_place": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string"
+          },
+          "cap": {
+            "type": "string"
+          },
+          "nationality": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "phone1": {
+            "type": "string"
+          },
+          "phone2": {
+            "type": "string"
+          },
+          "phone3": {
+            "type": "string"
+          },
+          "phone4": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          }
+        },
+        "title": "CardBuyRequestBody"
+      },
+      "CarnetDetachResponse": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "carnet_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/UserCarnet"
+            }
+          },
+          "categoria_tariffa": {
+            "type": "string"
+          },
+          "classe": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data_inserimento_record": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data_viaggio": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "distanza_km": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fine_validita": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "id_richiedente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id_tariffa": {
+            "type": "string"
+          },
+          "id_ticket": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "inizio_validita": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numero_ordine": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pnr": {
+            "type": "string"
+          },
+          "prezzo": {
+            "type": "number",
+            "format": "float"
+          },
+          "quantita": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stato_ordine": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string"
+          },
+          "stibm_zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sub_carrello": {
+            "type": "string"
+          },
+          "ticket_type": {
+            "type": "string"
+          },
+          "totale_ordine": {
+            "type": "number",
+            "format": "float"
+          },
+          "validity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "view_destinazione": {
+            "type": "string"
+          },
+          "view_origine": {
+            "type": "string"
+          },
+          "view_tariffa": {
+            "type": "string"
+          }
+        },
+        "title": "CarnetDetachResponse"
+      },
+      "CarnetListResponse": {
+        "type": "object",
+        "required": [
+          "carnet_list",
+          "sso_user_id"
+        ],
+        "properties": {
+          "carnet_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/UserCarnet"
+            }
+          },
+          "sso_user_id": {
+            "type": "string"
+          }
+        },
+        "title": "CarnetListResponse"
+      },
+      "CarnetPathRequestBodyWrapper": {
+        "type": "object",
+        "required": [
+          "destination_mir_code",
+          "origin_mir_code",
+          "user_data"
+        ],
+        "properties": {
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          },
+          "origin_mir_code": {
+            "type": "string"
+          },
+          "destination_mir_code": {
+            "type": "string"
+          },
+          "class": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "title": "CarnetPathRequestBodyWrapper"
+      },
+      "CarnetTapAndGoBodyWrapper": {
+        "type": "object",
+        "required": [
+          "destination",
+          "origin",
+          "pnr",
+          "user_data"
+        ],
+        "properties": {
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          },
+          "origin": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "destination": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "pnr": {
+            "type": "string"
+          }
+        },
+        "title": "CarnetTapAndGoBodyWrapper"
+      },
+      "DocumentsInfo": {
+        "type": "object",
+        "required": [
+          "count",
+          "links"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "title": "DocumentsInfo"
+      },
+      "InvoiceData": {
+        "type": "object",
+        "required": [
+          "address",
+          "city",
+          "country",
+          "province",
+          "recipient",
+          "zip_code"
+        ],
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fiscal_code": {
+            "type": "string"
+          },
+          "payment_method": {
+            "type": "string"
+          },
+          "recipient": {
+            "type": "string"
+          },
+          "vat_number": {
+            "type": "string"
+          },
+          "zip_code": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string"
+          },
+          "target_code": {
+            "type": "string"
+          }
+        },
+        "title": "InvoiceData"
+      },
+      "InvoiceRequestBody": {
+        "type": "object",
+        "required": [
+          "address",
+          "city",
+          "country",
+          "order_id",
+          "province",
+          "recipient",
+          "zip_code"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "recipient": {
+            "type": "string"
+          },
+          "vat_number": {
+            "type": "string"
+          },
+          "fiscal_code": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "zip_code": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "target_code": {
+            "type": "string"
+          },
+          "pec": {
+            "type": "string"
+          }
+        },
+        "title": "InvoiceRequestBody"
+      },
+      "JAXBElement«string»": {
+        "type": "object",
+        "properties": {
+          "globalScope": {
+            "type": "boolean"
+          },
+          "name": {
+            "$ref": "#/definitions/QName"
+          },
+          "nil": {
+            "type": "boolean"
+          },
+          "typeSubstituted": {
+            "type": "boolean"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "title": "JAXBElement«string»"
+      },
+      "JsonArray": {
+        "type": "object",
+        "properties": {
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "asByte": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": -128,
+            "maximum": 127
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asInt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asJsonArray": {
+            "$ref": "#/definitions/JsonArray"
+          },
+          "asJsonNull": {
+            "$ref": "#/definitions/JsonNull"
+          },
+          "asJsonObject": {
+            "$ref": "#/definitions/JsonObject"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/definitions/JsonPrimitive"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asNumber": {
+            "$ref": "#/definitions/Number"
+          },
+          "asShort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          }
+        },
+        "title": "JsonArray"
+      },
+      "JsonElement": {
+        "type": "object",
+        "properties": {
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "asByte": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": -128,
+            "maximum": 127
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asInt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asJsonArray": {
+            "$ref": "#/definitions/JsonArray"
+          },
+          "asJsonNull": {
+            "$ref": "#/definitions/JsonNull"
+          },
+          "asJsonObject": {
+            "$ref": "#/definitions/JsonObject"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/definitions/JsonPrimitive"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asNumber": {
+            "$ref": "#/definitions/Number"
+          },
+          "asShort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          }
+        },
+        "title": "JsonElement"
+      },
+      "JsonNull": {
+        "type": "object",
+        "properties": {
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "asByte": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": -128,
+            "maximum": 127
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asInt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asJsonArray": {
+            "$ref": "#/definitions/JsonArray"
+          },
+          "asJsonNull": {
+            "$ref": "#/definitions/JsonNull"
+          },
+          "asJsonObject": {
+            "$ref": "#/definitions/JsonObject"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/definitions/JsonPrimitive"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asNumber": {
+            "$ref": "#/definitions/Number"
+          },
+          "asShort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          }
+        },
+        "title": "JsonNull"
+      },
+      "JsonObject": {
+        "type": "object",
+        "properties": {
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "asByte": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": -128,
+            "maximum": 127
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asInt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asJsonArray": {
+            "$ref": "#/definitions/JsonArray"
+          },
+          "asJsonNull": {
+            "$ref": "#/definitions/JsonNull"
+          },
+          "asJsonObject": {
+            "$ref": "#/definitions/JsonObject"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/definitions/JsonPrimitive"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asNumber": {
+            "$ref": "#/definitions/Number"
+          },
+          "asShort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          }
+        },
+        "title": "JsonObject"
+      },
+      "JsonPrimitive": {
+        "type": "object",
+        "properties": {
+          "asBigDecimal": {
+            "type": "number"
+          },
+          "asBigInteger": {
+            "type": "integer"
+          },
+          "asBoolean": {
+            "type": "boolean"
+          },
+          "asByte": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": -128,
+            "maximum": 127
+          },
+          "asCharacter": {
+            "type": "string"
+          },
+          "asDouble": {
+            "type": "number",
+            "format": "double"
+          },
+          "asFloat": {
+            "type": "number",
+            "format": "float"
+          },
+          "asInt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asJsonArray": {
+            "$ref": "#/definitions/JsonArray"
+          },
+          "asJsonNull": {
+            "$ref": "#/definitions/JsonNull"
+          },
+          "asJsonObject": {
+            "$ref": "#/definitions/JsonObject"
+          },
+          "asJsonPrimitive": {
+            "$ref": "#/definitions/JsonPrimitive"
+          },
+          "asLong": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "asNumber": {
+            "$ref": "#/definitions/Number"
+          },
+          "asShort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "asString": {
+            "type": "string"
+          },
+          "boolean": {
+            "type": "boolean"
+          },
+          "jsonArray": {
+            "type": "boolean"
+          },
+          "jsonNull": {
+            "type": "boolean"
+          },
+          "jsonObject": {
+            "type": "boolean"
+          },
+          "jsonPrimitive": {
+            "type": "boolean"
+          },
+          "number": {
+            "type": "boolean"
+          },
+          "string": {
+            "type": "boolean"
+          }
+        },
+        "title": "JsonPrimitive"
+      },
+      "MxpChangeDateRequestBodyWrapper": {
+        "type": "object",
+        "required": [
+          "pnr",
+          "trip_data"
+        ],
+        "properties": {
+          "trip_data": {
+            "$ref": "#/definitions/SolutionData"
+          },
+          "pnr": {
+            "type": "string"
+          }
+        },
+        "title": "MxpChangeDateRequestBodyWrapper"
+      },
+      "Number": {
+        "type": "object",
+        "title": "Number"
+      },
+      "OrderDocumentsResponse": {
+        "type": "object",
+        "required": [
+          "invoices",
+          "receipts",
+          "tickets"
+        ],
+        "properties": {
+          "invoices": {
+            "$ref": "#/definitions/DocumentsInfo"
+          },
+          "receipts": {
+            "$ref": "#/definitions/DocumentsInfo"
+          },
+          "tickets": {
+            "$ref": "#/definitions/DocumentsInfo"
+          }
+        },
+        "title": "OrderDocumentsResponse"
+      },
+      "OrderPathListResponse": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "path_list"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "path_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Path"
+            }
+          }
+        },
+        "title": "OrderPathListResponse"
+      },
+      "OrderResponse": {
+        "type": "object",
+        "required": [
+          "client_price",
+          "order_id",
+          "sso_user_id",
+          "wf_price"
+        ],
+        "properties": {
+          "client_period": {
+            "$ref": "#/definitions/Period"
+          },
+          "client_price": {
+            "type": "number",
+            "format": "float"
+          },
+          "order_id": {
+            "type": "string"
+          },
+          "sso_user_id": {
+            "type": "string"
+          },
+          "validity": {
+            "$ref": "#/definitions/Validity"
+          },
+          "wf_period": {
+            "$ref": "#/definitions/Period"
+          },
+          "wf_price": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "title": "OrderResponse"
+      },
+      "OrderResponseGuest": {
+        "type": "object",
+        "required": [
+          "client_price",
+          "order_id",
+          "sso_user_id",
+          "sso_user_token",
+          "wf_price"
+        ],
+        "properties": {
+          "client_price": {
+            "type": "number",
+            "format": "float"
+          },
+          "order_id": {
+            "type": "string"
+          },
+          "sso_user_id": {
+            "type": "string"
+          },
+          "sso_user_token": {
+            "type": "string"
+          },
+          "validity": {
+            "$ref": "#/definitions/Validity"
+          },
+          "wf_price": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "title": "OrderResponseGuest"
+      },
+      "OrderStatusResponse": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "status"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "title": "OrderStatusResponse"
+      },
+      "PassBuyRequestBodyWrapper": {
+        "type": "object",
+        "required": [
+          "activation_mir_code",
+          "order_id",
+          "user_data"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          },
+          "path": {
+            "$ref": "#/definitions/Path"
+          },
+          "price": {
+            "$ref": "#/definitions/Price"
+          },
+          "class": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activation_mir_code": {
+            "type": "string"
+          }
+        },
+        "title": "PassBuyRequestBodyWrapper"
+      },
+      "PassListResponse": {
+        "type": "object",
+        "required": [
+          "pass_list",
+          "sso_user_id"
+        ],
+        "properties": {
+          "pass_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/UserPass"
+            }
+          },
+          "sso_user_id": {
+            "type": "string"
+          }
+        },
+        "title": "PassListResponse"
+      },
+      "PassPathRequestBodyWrapper": {
+        "type": "object",
+        "required": [
+          "card",
+          "product",
+          "user_data"
+        ],
+        "properties": {
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          },
+          "card": {
+            "$ref": "#/definitions/Card"
+          },
+          "product": {
+            "$ref": "#/definitions/PassProduct"
+          },
+          "origin": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "destination": {
+            "$ref": "#/definitions/StationCompat"
+          }
+        },
+        "title": "PassPathRequestBodyWrapper"
+      },
+      "PassPathResponse": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "period"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "paths": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Path"
+            }
+          },
+          "period": {
+            "$ref": "#/definitions/Period"
+          },
+          "price": {
+            "$ref": "#/definitions/Price"
+          }
+        },
+        "title": "PassPathResponse"
+      },
+      "PassProduct": {
+        "type": "object",
+        "required": [
+          "code",
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "title": "PassProduct"
+      },
+      "PassRequestBodyWrapper": {
+        "type": "object",
+        "properties": {
+          "card_key": {
+            "type": "string"
+          },
+          "contract_key": {
+            "type": "string"
+          },
+          "station_mir_code": {
+            "type": "string"
+          }
+        },
+        "title": "PassRequestBodyWrapper"
+      },
+      "Path": {
+        "type": "object",
+        "required": [
+          "price",
+          "vias"
+        ],
+        "properties": {
+          "destination": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "distance": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "origin": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "price": {
+            "$ref": "#/definitions/Price"
+          },
+          "vias": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/StationCompat"
+            }
+          }
+        },
+        "title": "Path"
+      },
+      "PaymentStartRequestBodyWrapper": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "payment_provider": {
+            "type": "string"
+          },
+          "extra": {
+            "type": "object"
+          },
+          "invoice_data": {
+            "$ref": "#/definitions/InvoiceData"
+          }
+        },
+        "title": "PaymentStartRequestBodyWrapper"
+      },
+      "Period": {
+        "type": "object",
+        "required": [
+          "begin_date",
+          "end_date"
+        ],
+        "properties": {
+          "begin_date": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "end_date": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "title": "Period"
+      },
+      "QName": {
+        "type": "object",
+        "properties": {
+          "localPart": {
+            "type": "string"
+          },
+          "namespaceURI": {
+            "type": "string"
+          },
+          "prefix": {
+            "type": "string"
+          }
+        },
+        "title": "QName"
+      },
+      "SelectPathBodyWrapper": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "path",
+          "user_data"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "path": {
+            "$ref": "#/definitions/Path"
+          },
+          "class": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          }
+        },
+        "title": "SelectPathBodyWrapper"
+      },
+      "SolutionData": {
+        "type": "object",
+        "properties": {
+          "train_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Train"
+            }
+          },
+          "mir_origin": {
+            "type": "string"
+          },
+          "mir_destination": {
+            "type": "string"
+          },
+          "departure_date": {
+            "type": "string"
+          },
+          "arrival_date": {
+            "type": "string"
+          },
+          "km_distance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "via_1": {
+            "type": "string"
+          },
+          "via_2": {
+            "type": "string"
+          },
+          "pricing_model": {
+            "type": "string"
+          }
+        },
+        "title": "SolutionData"
+      },
+      "StationCompat": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "mir_code": {
+            "type": "string"
+          },
+          "sbme_code": {
+            "type": "string"
+          }
+        },
+        "title": "StationCompat"
+      },
+      "StibmPassBuyRequestBodyWrapper": {
+        "type": "object",
+        "required": [
+          "activation_mir_code",
+          "card",
+          "period",
+          "tariff_id"
+        ],
+        "properties": {
+          "card": {
+            "$ref": "#/definitions/Card"
+          },
+          "origin": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "destination": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "activation_mir_code": {
+            "type": "string"
+          },
+          "period": {
+            "$ref": "#/definitions/Period"
+          },
+          "tariff_id": {
+            "type": "string"
+          }
+        },
+        "title": "StibmPassBuyRequestBodyWrapper"
+      },
+      "StibmTicketRequestBodyWrapper": {
+        "type": "object",
+        "required": [
+          "tickets"
+        ],
+        "properties": {
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "tickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SubmittedTicket"
+            }
+          }
+        },
+        "title": "StibmTicketRequestBodyWrapper"
+      },
+      "SubmittedTicket": {
+        "type": "object",
+        "required": [
+          "tariff"
+        ],
+        "properties": {
+          "tariff": {
+            "type": "string"
+          },
+          "class": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "title": "SubmittedTicket"
+      },
+      "TicketDetachResponse": {
+        "type": "object",
+        "required": [
+          "sso_user_id"
+        ],
+        "properties": {
+          "atm": {
+            "$ref": "#/definitions/Atm"
+          },
+          "pnr_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/UserTicket"
+            }
+          },
+          "sso_user_id": {
+            "type": "string"
+          }
+        },
+        "title": "TicketDetachResponse"
+      },
+      "TicketListResponse": {
+        "type": "object",
+        "required": [
+          "pnr_list",
+          "sso_user_id"
+        ],
+        "properties": {
+          "pnr_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/UserTicket"
+            }
+          },
+          "sso_user_id": {
+            "type": "string"
+          }
+        },
+        "title": "TicketListResponse"
+      },
+      "TicketRequestBodyWrapper": {
+        "type": "object",
+        "required": [
+          "tickets",
+          "user_data"
+        ],
+        "properties": {
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          },
+          "trip_data_andata": {
+            "$ref": "#/definitions/SolutionData"
+          },
+          "trip_data_ritorno": {
+            "$ref": "#/definitions/SolutionData"
+          },
+          "tickets": {
+            "$ref": "#/definitions/Ticket"
+          }
+        },
+        "title": "TicketRequestBodyWrapper"
+      },
+      "TicketTapAndGoBodyWrapper": {
+        "type": "object",
+        "required": [
+          "pnr"
+        ],
+        "properties": {
+          "user_data": {
+            "$ref": "#/definitions/UserData"
+          },
+          "pnr": {
+            "type": "string"
+          }
+        },
+        "title": "TicketTapAndGoBodyWrapper"
+      },
+      "UnicreditResponse": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "url"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "title": "UnicreditResponse"
+      },
+      "UserCarnet": {
+        "type": "object",
+        "required": [
+          "available",
+          "destination",
+          "end_varidity",
+          "km",
+          "origin",
+          "passenger_class",
+          "pnr",
+          "product_description",
+          "start_varidity",
+          "tariff",
+          "used",
+          "via"
+        ],
+        "properties": {
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "destination": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "end_varidity": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "km": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "origin": {
+            "$ref": "#/definitions/StationCompat"
+          },
+          "passenger_class": {
+            "type": "string"
+          },
+          "pnr": {
+            "type": "string"
+          },
+          "product_description": {
+            "type": "string"
+          },
+          "start_varidity": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tariff": {
+            "type": "string"
+          },
+          "used": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "via": {
+            "type": "string"
+          }
+        },
+        "title": "UserCarnet"
+      },
+      "UserData": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "AuthenticationFailureReason": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DG": {
+            "type": "string"
+          },
+          "DisplayName": {
+            "type": "string"
+          },
+          "Hash": {
+            "type": "string"
+          },
+          "ID_OLD_REF": {
+            "description": "Any",
+            "$ref": "#/definitions/Any"
+          },
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "IsAuthenticated": {
+            "type": "boolean"
+          },
+          "ProfileLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SSOIdent": {
+            "type": "string"
+          },
+          "UserName": {
+            "type": "string"
+          }
+        },
+        "title": "UserData"
+      },
+      "UserOrdersResponse": {
+        "type": "object",
+        "required": [
+          "orders",
+          "sso_user_id"
+        ],
+        "properties": {
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/BaasOrderLog"
+            }
+          },
+          "sso_user_id": {
+            "type": "string"
+          }
+        },
+        "title": "UserOrdersResponse"
+      },
+      "UserPass": {
+        "type": "object",
+        "required": [
+          "fine_validita",
+          "inizio_validita",
+          "is_renewable",
+          "number_of_rides",
+          "price",
+          "renewal_type",
+          "tariff_description"
+        ],
+        "properties": {
+          "card_key": {
+            "type": "string"
+          },
+          "card_type": {
+            "type": "string"
+          },
+          "contract_class": {
+            "type": "string"
+          },
+          "contract_key": {
+            "type": "string"
+          },
+          "end_activation": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fine_validita": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "holder_name": {
+            "type": "string"
+          },
+          "inizio_validita": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_renewable": {
+            "type": "boolean"
+          },
+          "load_station_key": {
+            "type": "string"
+          },
+          "number_of_rides": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pass_type": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "renewal_type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "stibm_zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tariff_description": {
+            "type": "string"
+          },
+          "tariff_duration": {
+            "type": "string"
+          },
+          "tariff_id": {
+            "type": "string"
+          },
+          "tariff_type": {
+            "type": "string"
+          },
+          "vias": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "view_destinazione": {
+            "type": "string"
+          },
+          "view_destinazione_sbme": {
+            "type": "string"
+          },
+          "view_origine": {
+            "type": "string"
+          },
+          "view_origine_sbme": {
+            "type": "string"
+          }
+        },
+        "title": "UserPass"
+      },
+      "UserProductsResponse": {
+        "type": "object",
+        "required": [
+          "products",
+          "user_cards"
+        ],
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/BaasProductResponse"
+            }
+          },
+          "user_cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Card"
+            }
+          }
+        },
+        "title": "UserProductsResponse"
+      },
+      "UserTicket": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "categoria_tariffa": {
+            "type": "string"
+          },
+          "classe": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data_inserimento_record": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data_viaggio": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "distanza_km": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fine_validita": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "id_richiedente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id_tariffa": {
+            "type": "string"
+          },
+          "id_ticket": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "inizio_validita": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "numero_ordine": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pnr": {
+            "type": "string"
+          },
+          "prezzo": {
+            "type": "number",
+            "format": "float"
+          },
+          "quantita": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stato_ordine": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string"
+          },
+          "stibm_zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sub_carrello": {
+            "type": "string"
+          },
+          "ticket_type": {
+            "type": "string"
+          },
+          "totale_ordine": {
+            "type": "number",
+            "format": "float"
+          },
+          "validity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "view_destinazione": {
+            "type": "string"
+          },
+          "view_origine": {
+            "type": "string"
+          },
+          "view_tariffa": {
+            "type": "string"
+          }
+        },
+        "title": "UserTicket"
+      },
+      "Validity": {
+        "type": "object",
+        "required": [
+          "begin",
+          "end"
+        ],
+        "properties": {
+          "begin": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "end": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "title": "Validity"
+      },
+      "WalletResponse": {
+        "type": "object",
+        "title": "WalletResponse"
+      },
+      "WfWareHouseItem": {
+        "type": "object",
+        "properties": {
+          "billingRequested": {
+            "type": "boolean",
+            "xml": {
+              "name": "BillingRequested",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "clientKey": {
+            "type": "string",
+            "xml": {
+              "name": "ClientKey",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "description": {
+            "type": "string",
+            "xml": {
+              "name": "Description",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "itemId": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "ItemId",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "legacyOrderId": {
+            "type": "string",
+            "xml": {
+              "name": "LegacyOrderId",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "orderDate": {
+            "xml": {
+              "name": "OrderDate",
+              "attribute": false,
+              "wrapped": false
+            },
+            "$ref": "#/definitions/XMLGregorianCalendar"
+          },
+          "orderId": {
+            "type": "string",
+            "xml": {
+              "name": "OrderId",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "orderSmsNumber": {
+            "type": "string",
+            "xml": {
+              "name": "OrderSmsNumber",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "paymentMethod": {
+            "type": "string",
+            "xml": {
+              "name": "PaymentMethod",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "paymentTransactionId": {
+            "type": "string",
+            "xml": {
+              "name": "PaymentTransactionId",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "price": {
+            "type": "number",
+            "xml": {
+              "name": "Price",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "ProductId",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "productName": {
+            "type": "string",
+            "xml": {
+              "name": "ProductName",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "Quantity",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "serialNo": {
+            "type": "string",
+            "xml": {
+              "name": "SerialNo",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "sku": {
+            "type": "string",
+            "xml": {
+              "name": "Sku",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "ssoUserId": {
+            "type": "integer",
+            "format": "int32",
+            "xml": {
+              "name": "SsoUserId",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "token": {
+            "type": "string",
+            "xml": {
+              "name": "Token",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "userEmail": {
+            "type": "string",
+            "xml": {
+              "name": "UserEmail",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "userFirstname": {
+            "type": "string",
+            "xml": {
+              "name": "UserFirstname",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "userLastname": {
+            "type": "string",
+            "xml": {
+              "name": "UserLastname",
+              "attribute": false,
+              "wrapped": false
+            }
+          },
+          "userProfile": {
+            "$ref": "#/definitions/JAXBElement«string»"
+          },
+          "wareHouseId": {
+            "type": "integer",
+            "format": "int64",
+            "xml": {
+              "name": "WareHouseId",
+              "attribute": false,
+              "wrapped": false
+            }
+          }
+        },
+        "title": "WfWareHouseItem",
+        "xml": {
+          "name": "WfWareHouseItem",
+          "attribute": false,
+          "wrapped": false
+        }
+      },
+      "XMLGregorianCalendar": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eon": {
+            "type": "integer"
+          },
+          "eonAndYear": {
+            "type": "integer"
+          },
+          "fractionalSecond": {
+            "type": "number"
+          },
+          "hour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "millisecond": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "second": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timezone": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valid": {
+            "type": "boolean"
+          },
+          "xmlschemaType": {
+            "$ref": "#/definitions/QName"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "title": "XMLGregorianCalendar"
+      },
+      "CreateGuestResponse": {
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "userData": {
+            "description": "UserData",
+            "$ref": "#/definitions/UserData"
+          }
+        },
+        "type": "object"
+      },
+      "Any": {
+        "properties": {},
+        "type": "object"
+      },
+      "RegistrationFullUpgradeRequest": {
+        "properties": {
+          "birthday": {
+            "type": "string"
+          },
+          "city_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "domicile_address": {
+            "type": "string"
+          },
+          "domicile_cap": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "domicile_city_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "domicile_number": {
+            "type": "string"
+          },
+          "domicile_province_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fiscal_code": {
+            "type": "string"
+          },
+          "gender_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nationality_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "privacy1": {
+            "type": "boolean"
+          },
+          "privacy2": {
+            "type": "boolean"
+          },
+          "privacy3": {
+            "type": "boolean"
+          },
+          "privacy4": {
+            "type": "boolean"
+          },
+          "privacy5": {
+            "type": "boolean"
+          },
+          "province_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_address": {
+            "type": "string"
+          },
+          "residence_cap": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_city_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_number": {
+            "type": "string"
+          },
+          "residence_province_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_state_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "surname": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RegistrationFullUpgradeResponse": {
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "description": "Error",
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "type": "object"
+      },
+      "Error": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RegistrationFullRequest": {
+        "properties": {
+          "birthday": {
+            "type": "string"
+          },
+          "city_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "confirm_email": {
+            "type": "string"
+          },
+          "confirm_password": {
+            "type": "string"
+          },
+          "domicile_address": {
+            "type": "string"
+          },
+          "domicile_cap": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "domicile_city_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "domicile_number": {
+            "type": "string"
+          },
+          "domicile_province_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fiscal_code": {
+            "type": "string"
+          },
+          "gender_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nationality_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "password": {
+            "type": "string"
+          },
+          "privacy1": {
+            "type": "boolean"
+          },
+          "privacy2": {
+            "type": "boolean"
+          },
+          "privacy3": {
+            "type": "boolean"
+          },
+          "privacy4": {
+            "type": "boolean"
+          },
+          "privacy5": {
+            "type": "boolean"
+          },
+          "province_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_address": {
+            "type": "string"
+          },
+          "residence_cap": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_city_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_number": {
+            "type": "string"
+          },
+          "residence_province_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "residence_state_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "surname": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RegistrationLightRequest": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "privacy1": {
+            "type": "boolean"
+          },
+          "privacy2": {
+            "type": "boolean"
+          },
+          "privacy3": {
+            "type": "boolean"
+          },
+          "privacy4": {
+            "type": "boolean"
+          },
+          "privacy5": {
+            "type": "boolean"
+          },
+          "returnurl": {
+            "type": "string"
+          },
+          "site": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "LoginResponse": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "user_info": {
+            "description": "UserInfo",
+            "$ref": "#/definitions/UserInfo"
+          }
+        },
+        "type": "object"
+      },
+      "UserInfo": {
+        "properties": {
+          "AuthenticationFailureReason": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DG": {
+            "type": "string"
+          },
+          "DisplayName": {
+            "type": "string"
+          },
+          "ErrorKey": {
+            "type": "string"
+          },
+          "ErrorMessage": {
+            "type": "string"
+          },
+          "Hash": {
+            "type": "string"
+          },
+          "ID_OLD_REF": {
+            "description": "Any",
+            "$ref": "#/definitions/Any"
+          },
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "IsAuthenticated": {
+            "type": "boolean"
+          },
+          "ProfileLevel": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "SSOIdent": {
+            "type": "string"
+          },
+          "UserName": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UserLightResponse": {
+        "properties": {
+          "lastname": {
+            "type": "string"
+          },
+          "mobile_phone_number": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "privacy1": {
+            "type": "boolean"
+          },
+          "privacy2": {
+            "type": "boolean"
+          },
+          "privacy3": {
+            "type": "boolean"
+          },
+          "privacy4": {
+            "type": "boolean"
+          },
+          "privacy5": {
+            "type": "boolean"
+          },
+          "user_type": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Authenticate": {
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "site": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListOfBaasStation": {
+        "items": {
+          "description": "BaasStation",
+          "$ref": "#/definitions/BaasStation"
+        },
+        "uniqueItems": false,
+        "type": "array"
+      },
+      "BaasStation": {
+        "properties": {
+          "DABAttive": {
+            "type": "boolean"
+          },
+          "Accesso_Disabili": {
+            "type": "string"
+          },
+          "Indirizzo": {
+            "type": "string"
+          },
+          "Ascensori": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ATTIVabbONLINE": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Banchine_Corte": {
+            "type": "boolean"
+          },
+          "Biglietteria": {
+            "type": "string"
+          },
+          "Cap": {
+            "type": "string"
+          },
+          "Comune": {
+            "type": "string"
+          },
+          "Biciclette_deposito": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Latitudine": {
+            "type": "number",
+            "format": "double"
+          },
+          "Direttrici": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "locIdSbme": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Longitudine": {
+            "type": "number",
+            "format": "double"
+          },
+          "MetaStazione": {
+            "type": "boolean"
+          },
+          "CodiceMIR": {
+            "type": "string"
+          },
+          "NomeGeoStazioni": {
+            "type": "string"
+          },
+          "Note": {
+            "type": "string"
+          },
+          "GestoreInfrastruttura": {
+            "type": "string"
+          },
+          "OrarioFERIALE": {
+            "type": "string"
+          },
+          "OrarioFESTIVO": {
+            "type": "string"
+          },
+          "OrarioSABATO": {
+            "type": "string"
+          },
+          "Prov": {
+            "type": "string"
+          },
+          "Regione": {
+            "type": "string"
+          },
+          "Sale_aree_attesa": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Servizi_Igienici": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Servizi_Igienici_Disabili": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tariff_zone": {
+            "type": "string"
+          },
+          "TitoliCartacei": {
+            "type": "boolean"
+          },
+          "TitoliElettronici": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "ListOfStateResponse": {
+        "items": {
+          "description": "StateResponse",
+          "$ref": "#/definitions/StateResponse"
+        },
+        "uniqueItems": false,
+        "type": "array"
+      },
+      "StateResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ISO_A2": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nationality": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "StatesAndProvincesResponse": {
+        "properties": {
+          "provinces": {
+            "type": "array",
+            "items": {
+              "description": "ProvinceResponse",
+              "$ref": "#/definitions/ProvinceResponse"
+            }
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "description": "StateResponse",
+              "$ref": "#/definitions/StateResponse"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "ProvinceResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "short_name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ListOfProvinceResponse": {
+        "items": {
+          "description": "ProvinceResponse",
+          "$ref": "#/definitions/ProvinceResponse"
+        },
+        "uniqueItems": false,
+        "type": "array"
+      },
+      "TariffsFromZonesRequestBody": {
+        "properties": {
+          "zone_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "TariffsResponseBody": {
+        "properties": {
+          "tariffs": {
+            "type": "array",
+            "items": {
+              "description": "CrudStibmTariff",
+              "$ref": "#/definitions/CrudStibmTariff"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "CrudStibmTariff": {
+        "properties": {
+          "class_tariff": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "communication_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "hafas_compatible": {
+            "type": "boolean"
+          },
+          "origin": {
+            "type": "string"
+          },
+          "period": {
+            "description": "Period",
+            "$ref": "#/definitions/Period"
+          },
+          "price": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "stibm_ring": {
+            "type": "string"
+          },
+          "support": {
+            "type": "string"
+          },
+          "tariff_id": {
+            "type": "string"
+          },
+          "validity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "type": "object"
+      },
+      "TariffsFromStationsRequestBody": {
+        "properties": {
+          "station_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "PassTariffsRequestBody": {
+        "properties": {
+          "arrival_mir_code": {
+            "type": "string"
+          },
+          "check_hafas": {
+            "type": "boolean"
+          },
+          "departure_mir_code": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TripType": {
+        "properties": {
+          "desciption": {
+            "type": "string"
+          },
+          "is_ferroviario": {
+            "type": "boolean"
+          },
+          "is_stibm": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "ListOfCrudCatalogueProduct": {
+        "items": {
+          "description": "CrudCatalogueProduct",
+          "$ref": "#/definitions/CrudCatalogueProduct"
+        },
+        "uniqueItems": false,
+        "type": "array"
+      },
+      "CrudCatalogueProduct": {
+        "properties": {
+          "activationRequired": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "string"
+          },
+          "classCategory": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "destination": {
+            "description": "CatalogueStation",
+            "$ref": "#/definitions/CatalogueStation"
+          },
+          "id": {
+            "type": "string"
+          },
+          "multiJourney": {
+            "type": "boolean"
+          },
+          "multiProduct": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "onCardRequired": {
+            "type": "boolean"
+          },
+          "origin": {
+            "description": "CatalogueStation",
+            "$ref": "#/definitions/CatalogueStation"
+          },
+          "price": {
+            "description": "Float",
+            "$ref": "#/definitions/Float"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "roundTrip": {
+            "type": "boolean"
+          },
+          "tapAndGo": {
+            "type": "boolean"
+          },
+          "tariffId": {
+            "type": "string"
+          },
+          "tariffType": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validity": {
+            "description": "ProductValidity",
+            "$ref": "#/definitions/ProductValidity"
+          },
+          "vias": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "CatalogueStation": {
+        "properties": {
+          "mirCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sbmeCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "zone": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ProductValidity": {
+        "properties": {
+          "unit": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "type": "object"
+      },
+      "GenericError": {
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  }
+  

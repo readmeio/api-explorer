@@ -1,0 +1,15 @@
+{
+    "components": {
+        "foo": {
+            "$ref": "#/components/bar"
+        },
+        "bar": {
+            "type": "string"
+        }
+        
+    },
+    "type": "array",
+    "items": {
+        "$ref": "#/components/foo"
+    }
+}

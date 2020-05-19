@@ -61,9 +61,15 @@ function ResponseBody({ result, isOauth, oauth, isCollapsed}) {
     </div>
   );
 }
+ResponseBody.propTypes = {
+  ...Unauthorized.propTypes,
+  ...Result.propTypes,
+  result: PropTypes.shape({
+    status: PropTypes.number,
+    responseBody: PropTypes.object,
+  })
+}
 
 module.exports = ResponseBody;
-
-ResponseBody.propTypes = Object.assign({}, Unauthorized.propTypes, Result.propTypes);
 
 ResponseBody.defaultProps = Unauthorized.defaultProps;

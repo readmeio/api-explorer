@@ -4,7 +4,7 @@ module.exports = {
     rules: [
       {
         test: /\.js(x?)$/,
-        exclude: /node_modules\/(?!(@mia-platform\/syntax-highlighter|fetch-har))/,
+        exclude: /node_modules\/(?!(@mia-platform\/(syntax-highlighter|json-editor)|fetch-har))/,
         use: {
           loader: 'babel-loader',
           options: {

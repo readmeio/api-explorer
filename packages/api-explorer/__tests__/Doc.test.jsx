@@ -1,5 +1,6 @@
 import { mountWithIntl } from 'enzyme-react-intl';
 import { IntlProvider } from 'react-intl';
+import {shallow} from 'enzyme'
 
 import ContentWithTitle from '../src/components/ContentWithTitle'
 import SchemaTabs from '../src/components/SchemaTabs'
@@ -39,39 +40,23 @@ function assertDocElements(component, doc) {
   expect(component.find(`#page-${doc.slug}`).length).toBe(1);
 }
 
-test('should output correct components', () => {
+test('should output correct components', (done) => {
   const wrapper = mountWithIntl(
     <IntlProvider>
       <Doc {...props} />
     </IntlProvider>
   );
-
-  assertDocElements(wrapper, props.doc);
-  expect(wrapper.find(`div#page-${props.doc.slug}`).length).toBe(1);
-  expect(wrapper.find('PathUrl').length).toBe(1);
-  expect(wrapper.find('CodeSample').length).toBe(1);
-  // This test needs the component to be `mount()`ed
-  // but for some reason when I mount in this test
-  // it makes the test below that uses `jest.useFakeTimers()`
-  // fail ¯\_(ツ)_/¯. Skipping for now
-  expect(wrapper.find('Params').length).toBe(1);
-  expect(wrapper.find(ContentWithTitle)).toHaveLength(5);
-  expect(wrapper.find(SchemaTabs)).toHaveLength(1)
-});
-
-test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
-  const doc = mountWithIntl(
-    <IntlProvider>
-      <Doc
-        {...props}
-        appearance={{
-          splitReferenceDocs: true,
-        }}
-      />
-    </IntlProvider>
-  );
-
-  expect(doc.find('Waypoint').length).toBe(0);
+  setTimeout(() => {
+    wrapper.mount()
+    assertDocElements(wrapper, props.doc);
+    expect(wrapper.find(`div#page-${props.doc.slug}`).length).toBe(1);
+    expect(wrapper.find('PathUrl').length).toBe(1);
+    expect(wrapper.find('CodeSample').length).toBe(1);
+    expect(wrapper.find('Params').length).toBe(1);
+    expect(wrapper.find(ContentWithTitle)).toHaveLength(5);
+    expect(wrapper.find(SchemaTabs)).toHaveLength(1)
+    done()
+  }, 0)
 });
 
 test('should work without a doc.swagger/doc.path/oas', () => {
@@ -120,15 +105,13 @@ test('should still display `Content` with column-style layout', () => {
 
 describe('state.dirty', () => {
   test('should default to false', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
+    const doc = shallow(<Doc {...props} />);
 
     expect(doc.state('dirty')).toBe(false);
   });
 
   test('should switch to true on form change', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
+    const doc = shallow(<Doc {...props} />);
     doc.instance().onChange({ a: 1 });
 
     expect(doc.state('dirty')).toBe(true);
@@ -139,8 +122,7 @@ describe('onSubmit', () => {
   test('should display authentication warning if auth is required for endpoint', () => {
     jest.useFakeTimers();
 
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
+    const doc = shallow(<Doc {...props} />);
 
     // mock authInput focus function.
     doc.instance().authInput = {focus: () => {}}
@@ -186,8 +168,7 @@ describe('onSubmit', () => {
       );
     };
 
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} {...props2} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
+    const doc = shallow(<Doc {...props} {...props2} />);
 
     doc
       .instance()
@@ -217,7 +198,7 @@ describe('onSubmit', () => {
       },
     };
 
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} oas={proxyOas} /></IntlProvider>);
+    const doc = shallow(<Doc {...props} oas={proxyOas} />);
 
     const fetch = window.fetch;
 
@@ -226,7 +207,6 @@ describe('onSubmit', () => {
       return Promise.resolve(new Response());
     };
 
-    const doc = wrapper.find('Doc')
     doc.instance().onSubmit();
 
     window.fetch = fetch;
@@ -235,16 +215,14 @@ describe('onSubmit', () => {
   test('should call `tryItMetrics` on success', async () => {
     let called = false;
 
-    const wrapper = mountWithIntl(
-      <IntlProvider>
-        <Doc
-          {...props}
-          tryItMetrics={() => {
+    const doc = shallow(
+      <Doc
+        {...props}
+        tryItMetrics={() => {
             called = true;
           }}
-          auth={{ api_key: 'api-key' }}
-        />
-      </IntlProvider>
+        auth={{ api_key: 'api-key' }}
+      />
     );
 
     const fetch = window.fetch;
@@ -252,7 +230,6 @@ describe('onSubmit', () => {
       return Promise.resolve(new Response());
     };
 
-    const doc = wrapper.find('Doc')
     await doc.instance().onSubmit();
     expect(called).toBe(true);
     window.fetch = fetch;
@@ -261,8 +238,7 @@ describe('onSubmit', () => {
 
 describe('toggleAuth', () => {
   test('toggleAuth should change state of showAuthBox', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
+    const doc = shallow(<Doc {...props} />);
 
     expect(doc.state('showAuthBox')).toBe(false);
 
@@ -278,52 +254,23 @@ describe('toggleAuth', () => {
 
 describe('PathUrl', () => {
   it('should be passed auth from props if the one in state is undefined', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
-    wrapper.mount()
-    const pathUrl = wrapper.find(PathUrl)
+    const doc = shallow(<Doc {...props} auth={{api_key: '123' }} />);
+    const pathUrl = doc.find(PathUrl)
     expect(pathUrl.prop('auth')).toEqual({api_key: '123' })
   })
   it('should be passed auth from state if the one in state is not undefined', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} auth={{api_key: '123' }} /></IntlProvider>);
-    wrapper.mount()
-    const pathUrl = wrapper.find(PathUrl)
+    const doc = shallow(<Doc {...props} auth={{api_key: '123' }} />);
+    const pathUrl = doc.find(PathUrl)
     pathUrl.prop('onChange')({api_key: '456'})
-    wrapper.mount()
-    expect(wrapper.find(PathUrl).prop('auth')).toEqual({api_key: '456' })
+    doc.update()
+    expect(doc.find(PathUrl).prop('auth')).toEqual({api_key: '456' })
   })
 })
 
 describe('state.loading', () => {
   test('should default to false', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} /></IntlProvider>);
-    const doc = wrapper.find('Doc')
-
+    const doc = shallow(<Doc {...props} />);
     expect(doc.state('loading')).toBe(false);
-  });
-});
-
-describe('suggest edits', () => {
-  test('should not show if suggestedEdits is false', () => {
-    const wrapper = mountWithIntl(<IntlProvider><Doc {...props} suggestedEdits={false} /></IntlProvider>)
-    expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(0);
-  });
-
-  test('should show icon if suggested edits is true', () => {
-    const wrapper = mountWithIntl(
-      <IntlProvider>
-        <Doc {...props} suggestedEdits />
-      </IntlProvider>
-    );
-    expect(wrapper.find(`a[href="//reference-edit/${props.doc.slug}"]`).length).toBe(1);
-  });
-
-  test('should have child project if baseUrl is set', () => {
-    const wrapper = mountWithIntl(
-      <IntlProvider>
-        <Doc {...Object.assign({}, { baseUrl: '/child' }, props)} suggestedEdits />
-      </IntlProvider>
-    );
-    expect(wrapper.find(`a[href="/child/reference-edit/${props.doc.slug}"]`).length).toBe(1);
   });
 });
 
@@ -340,70 +287,51 @@ test('should output with an error message if the endpoint fails to load', () => 
     },
   };
 
-  const wrapper = mountWithIntl(
-    <IntlProvider>
-      <Doc
-        {...props}
-        oas={brokenOas}
-        doc={{
+  const doc = shallow(
+    <Doc
+      {...props}
+      oas={brokenOas}
+      doc={{
           title: 'title',
           slug: 'slug',
           type: 'endpoint',
           swagger: { path: '/path' },
           api: { method: 'post' },
         }}
-      />
-    </IntlProvider>
+    />
   );
-  const doc = wrapper.find('Doc')
   expect(doc.find('ErrorBoundary').length).toBe(1);
 });
 
 describe('fallbackUrl', () => {
-  it('should default to empty string', () => {
-    const doc = mountWithIntl(
-      <IntlProvider>
-        <Doc {...props} />
-      </IntlProvider>
-    ).find('Doc');
-    expect(doc.prop('fallbackUrl')).toBe('')
-  })
-
   it('should inject servers in oas if it has no server', () => {
     const fallback = 'https://somexample.com/';
     const clonedOas = Object.assign({}, oas);
     delete clonedOas.servers;
 
-    const doc = mountWithIntl(
-      <IntlProvider>
-        <Doc
-          {...props}
-          oas={clonedOas}
-          fallbackUrl={fallback}
-        />
-      </IntlProvider>
-    ).find('Doc');
+    const doc = shallow(
+      <Doc
+        {...props}
+        oas={clonedOas}
+        fallbackUrl={fallback}
+      />
+    )
     expect(doc.instance().oas.servers).toEqual([{url: fallback}])
   })
 })
 
 describe('stripSlash', () => {
   it('should default to false', () => {
-    const doc = mountWithIntl(
-      <IntlProvider>
-        <Doc {...props} />
-      </IntlProvider>
-    ).find('Doc');
+    const doc = shallow(<div>{<Doc {...props} />}</div>).find(Doc)
     expect(doc.prop('stripSlash')).toBe(false)
   })
 
   it('should strip operation path', () => {
-    const doc = mountWithIntl(
-      <IntlProvider>
-        <Doc
-          {...props}
-          stripSlash
-          doc={{
+    const doc = shallow(
+      <Doc
+        {...props}
+        stripSlash
+        doc={{
             title: 'Title',
             slug: 'slug',
             type: 'endpoint',
@@ -412,21 +340,19 @@ describe('stripSlash', () => {
             formData: { path: { petId: '1' }, auth: { api_key: '' } },
             onSubmit: () => {},
           }}
-          oas={oasWithSlashes}
-        />
-      </IntlProvider>
-    ).find('Doc');
+        oas={oasWithSlashes}
+      />
+    )
 
     const operation = doc.instance().getOperation()
     expect(operation.path).toBe('/store/inventory')
   })
 
   it('should not strip operation path', () => {
-    const doc = mountWithIntl(
-      <IntlProvider>
-        <Doc
-          {...props}
-          doc={{
+    const doc = shallow(
+      <Doc
+        {...props}
+        doc={{
             title: 'Title',
             slug: 'slug',
             type: 'endpoint',
@@ -435,11 +361,10 @@ describe('stripSlash', () => {
             formData: { path: { petId: '1' }, auth: { api_key: '' } },
             onSubmit: () => {},
           }}
-          oas={oasWithSlashes}
-          stripSlash={false}
-        />
-      </IntlProvider>
-    ).find('Doc');
+        oas={oasWithSlashes}
+        stripSlash={false}
+      />
+    )
 
     const operation = doc.instance().getOperation()
     expect(operation.path).toBe('/store/inventory/')

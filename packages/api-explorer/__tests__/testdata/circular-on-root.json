@@ -1,0 +1,8 @@
+{
+	"components": {
+       "circular": {
+          "$ref": "#/components/circular"
+       }
+    },
+    "$ref": "#/components/circular"
+}

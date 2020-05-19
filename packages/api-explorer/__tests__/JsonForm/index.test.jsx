@@ -1,35 +1,10 @@
 import React from 'react'
-import { IntlProvider } from 'react-intl'
 import { mountWithIntl } from 'enzyme-react-intl'
-import renderer from 'react-test-renderer'
-import JSONEditor from '@json-editor/json-editor'
 
 import JsonForm from '../../src/JsonForm'
-
-const extendMock = jest.fn()
-extendMock.mockReturnValue({ extend: extendMock })
-
-const editorsMock = {
-  foo: { extend: extendMock },
-  array: { extend: extendMock },
-  object: { extend: extendMock },
-  multiple: { extend: extendMock },
-}
-
-jest.mock('@json-editor/json-editor')
-
-function createNodeMock(element) {
-  if (element.type === 'form') {
-    return {
-      thisIs: 'my-form'
-    };
-  }
-  return null;
-}
-
-const createComponentWithIntl = (children, props = {locale: 'en'}, options) => {
-  return renderer.create(<IntlProvider {...props}>{children}</IntlProvider>, options);
-};
+import SCHEMA_WITH_REF_ROOT_AND_NESTED from '../testdata/config-root-ref-and-nested.json'
+import EXPECTED_WITH_REF_ROOT_AND_NESTED from '../testdata/config-root-ref-and-nested.expected.json'
+import JSON_EDITOR_MAX_STACK_SCHEME_BUG from '../testdata/json-editor-bug-max-stack.json'
 
 describe('JSONForm ', () => {
   const props = {
@@ -46,60 +21,104 @@ describe('JSONForm ', () => {
     },
     onChange: jest.fn(),
     onSubmit: jest.fn(),
-    setFormSubmissionListener: jest.fn()
+    setFormSubmissionListener: jest.fn(),
+    title: 'The Title'
   }
 
-  beforeEach(() => {
-    extendMock.mockClear()
-    JSONEditor.defaults.editors = editorsMock
+  it('snapshot', async () => {
+    /**
+    * mock because of random id on input/label
+    * https://github.com/mia-platform/json-editor/blob/master/src/themes/bootstrap4.js#L129
+    */
+   
+    const originalDateNow = Date.now
+    const originalRandom = Math.random
+
+    Date.now = jest.fn().mockReturnValue(1589886640576)
+    Math.random = jest.fn().mockReturnValue(0.5)
+
+    const element = await mountJsonForm(props)
+    expect(element.getDOMNode()).toMatchSnapshot()
+
+    Date.now = originalDateNow
+    Math.random = originalRandom
   })
 
-  it('renders json-editor', () => {
-    const element = createComponentWithIntl(
-      <JsonForm {...props} />, {locale: 'en'}, { createNodeMock }
-    )
-
-    expect(element).toMatchSnapshot()
-    expect(JSONEditor).toHaveBeenCalledWith(
-      {
-        thisIs: 'my-form'
-      }, {
-        schema: {
-          ...props.schema,
-          title: " "
-        },
-        show_opt_in: true,
-        prompt_before_delete: false,
-        form_name_root: "",
-        theme: "antdTheme"
-      }
-    )
-  })
-
-  it('when form submits, calls onSubmit prop', () => {
-    const element = mountWithIntl(<JsonForm {...props} />)
+  it('when form submits, calls onSubmit prop', async () => {
+    const element = await mountJsonForm(props)
     const mockEvent = { preventDefault: jest.fn() }
     element.find('form').prop('onSubmit')(mockEvent)
     expect(props.onSubmit).toHaveBeenCalledTimes(1)
     expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1)
   })
 
-  it('extend all json-editor editors', () => {
-    mountWithIntl(<JsonForm {...props} />)
-    expect(
-      extendMock.mock.calls.map(call => Object.keys(call[0]))
-    ).toEqual([
-      ['setContainer', 'build'], // foo
-      ['setContainer', 'build'], // multiple
-      ['setContainer', 'build'], // array - get-custom-editor
-      ['addControls', 'refreshValue'], // array-custom-editor  
-      ['setContainer', 'build'], // object - get-custom-editor
-      ['build'], // object-custom-editor
-      ['setContainer', 'build'], // not - get-custom-editor
-      ['preBuild'], // not-custom-editor
-      ['setContainer', 'build'], // anyOf - get-custom-editor
-      ['build', 'buildSwitcher', 'updateEditor', 'addErrorMessageHtmlNode',
-        'showErrorMessage', 'hideErrorMessage', 'insertNewEditor', 'hideEditor'] // anyOf-custom-editor
-    ])
+  it('on parsing error, shows error', async () => {
+    const element = await mountJsonForm({
+      ...props,
+      schema: {'$ref': '#/foo'}
+    })
+    expect(element.getDOMNode()).toMatchSnapshot()
+  })
+
+  it('converts schema correctly', async () => {
+    const schemaWithRef =  {
+      components: {
+        address: {
+          type: "object",
+          properties: {
+            street_address: { type: "string" },
+            city: { type: "string" },
+            state: { type: "string" }
+          },
+          required: ["street_address", "city", "state"]
+        }
+      },
+      $ref: "#/components/address"
+    };
+    const element = await mountJsonForm({...props, schema: schemaWithRef})
+    expect(element.find('JsonForm').instance().jsonSchema).toEqual({
+      definitions: {
+        components: {
+          definitions: {
+            address: {
+              type: "object",
+              properties: {
+                street_address: { type: "string" },
+                city: { type: "string" },
+                state: { type: "string" }
+              },
+              required: ["street_address", "city", "state"]
+            }
+          }
+        }
+      },
+      type: "object",
+      properties: {
+        street_address: { type: "string" },
+        city: { type: "string" },
+        state: { type: "string" }
+      },
+      required: ["street_address", "city", "state"]
+    })
+  })
+
+  it('converts schema correctly with nested ref', async () => {
+    const element = await mountJsonForm({...props, schema: SCHEMA_WITH_REF_ROOT_AND_NESTED})
+    expect(element.find('JsonForm').instance().jsonSchema).toEqual(EXPECTED_WITH_REF_ROOT_AND_NESTED)
+  })
+
+  it('scheme with recursion in object properties (json-editor bug)', async () => {
+    const element = await mountJsonForm({...props, schema: JSON_EDITOR_MAX_STACK_SCHEME_BUG})
+    expect(element.find('form')).toHaveLength(1)
   })
 })
+
+function mountJsonForm (props) {
+  return new Promise((resolve) => {
+    const element = mountWithIntl(<JsonForm {...props} />)
+    setTimeout(() => {
+      element.update()
+      resolve(element)
+    }, 0)
+  })
+}

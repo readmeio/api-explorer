@@ -1,0 +1,27 @@
+{
+    "definitions": {
+        "components": {
+            "definitions": {
+                "foo": {
+                    "type": "object",
+                    "properties":{
+                        "fields": {
+                            "$ref": "#/definitions/components/definitions/bar"
+                        }
+                    } 
+                },
+                "bar": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+
+        }
+    },
+    "type": "array",
+    "items": {
+        "$ref": "#/definitions/components/definitions/foo"
+    }
+}

@@ -1,46 +1,31 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
-const JSONEditor = require('@json-editor/json-editor')
 
-const antdTheme = JSONEditor.defaults.themes.bootstrap4.extend({
 
+const antdTheme = (JSONEditor) => class extends JSONEditor.defaults.themes.bootstrap4 {
   // ref: https://github.com/json-editor/json-editor/blob/master/src/themes/bootstrap4.js#L49
-  getFormControl (label, input, description) {
+  getFormControl (label, input, description, infoText) {
     const labelText = label ? label.textContent : "";
     const descriptionText = description ? description.textContent : "";
-    const group = document.createElement('div')
 
-    if (label && (input.type === 'checkbox' || input.type === 'radio')) {
-      group.classList.add('form-check')
-      label.classList.add('form-check-label')
-      input.classList.add('form-check-input')
-      label.insertBefore(input, label.firstChild)
-      group.appendChild(label)
-    } else {
-      group.classList.add('form-group')
-      if (label) {
-        label.classList.add('form-control-label')
-        group.appendChild(label)
-      }
-      group.appendChild(input)
+    const group = super.getFormControl (label, input, description, infoText)
+
+    if (description && labelText === descriptionText) {
+      description.style.display = 'none'
     }
-
-    // Input Text.
-    if (!input.type || input.type === 'text') { 
-      input.classList.add('input-field', 'ant-input') 
-    }
-
-    if (description && labelText !== descriptionText) group.appendChild(description)
 
     return group
-  },
+  }
+
   getButton (text, icon, title) {
-    const el = this._super(text, icon, title)
-    el.classList.add('ant-btn', 'ant-btn-primary')
+    const el = super.getButton(text, icon, title)
+    el.classList.add('ant-btn')
     return el
-  },
+  }
+
+  // method inherited from abstractTheme
   getModal () {
-    const el = this._super()
+    const el = super.getModal()
     el.style.background = "#fff"
     el.style.borderRadius = '4px'
     el.style.border = "none"
@@ -52,24 +37,13 @@ const antdTheme = JSONEditor.defaults.themes.bootstrap4.extend({
     el.style.display = 'none'
     el.style.fontSize = "14px"
     return el
-  },
-  getHeader (text) {
-    const el = document.createElement('div')
-    el.style.margin = '10px 0px 5px 0px'
-    if (typeof text === 'string') {
-      el.textContent = text
-    } else {
-      el.appendChild(text)
-    }
+  }
 
-    return el
-  },
   getButtonHolder () {
-    const el = document.createElement('div')
-    el.classList.add('btn-holder-div')
+    const el = super.getButtonHolder()
     el.style.display = 'inline-flex'
     return el
-  },
-})
+  }
+}
 
 module.exports = antdTheme

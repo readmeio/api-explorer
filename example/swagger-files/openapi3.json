@@ -1,0 +1,2341 @@
+{
+  "openapi": "3.0.0",
+  "security": [
+    {
+      "APISecretHeader": []
+    }
+  ],
+  "info": {
+    "version": "12bd7688957f960c9fb2819517eff4e3116ba51e",
+    "title": "Platform Development",
+    "description": "Project to try & test feature of the platform"
+  },
+  "paths": {
+    "/test": {
+      "post": {
+        "summary": "Add a new item to the testv1adapter collection",
+        "tags": [
+          "V1adapter"
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/foo"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F\\d]{24}$",
+                      "description": "Hexadecimal identifier of the document in the collection"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/": {
+      "get": {
+        "summary": "Get a list of testv1adapter",
+        "description": "The list can be filtered specifying the following parameters",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "Hexadecimal identifier of the document in the collection",
+            "required": false,
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F\\d]{24}$"
+            }
+          },
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return only the properties specified in a comma separated list",
+            "required": false,
+            "name": "_p",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^((_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|array1|object1|object2|astring|aNewField),)*(_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|array1|object1|object2|astring|aNewField)$"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          },
+          {
+            "description": "Limits the number of documents, max 200 elements, minimum 1",
+            "required": false,
+            "name": "_l",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 25
+            }
+          },
+          {
+            "description": "Skip the specified number of documents",
+            "required": false,
+            "name": "_sk",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "description": "Sort by the specified property (Start with a \"-\" to invert the sort order)",
+            "required": false,
+            "name": "_s",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^-?(_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|astring|aNewField)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "pattern": "^[a-fA-F\\d]{24}$",
+                        "description": "_id"
+                      },
+                      "creatorId": {
+                        "type": "string",
+                        "description": "creatorId"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "createdAt"
+                      },
+                      "updaterId": {
+                        "type": "string",
+                        "description": "updaterId"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "updatedAt"
+                      },
+                      "__STATE__": {
+                        "type": "string",
+                        "description": "__STATE__"
+                      },
+                      "array1": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": true
+                        }
+                      },
+                      "object1": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "object2": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "astring": {
+                        "type": "string"
+                      },
+                      "aNewField": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new item to the testv1adapter collection",
+        "tags": [
+          "V1adapter"
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body3"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F\\d]{24}$",
+                      "description": "Hexadecimal identifier of the document in the collection"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete items from the testv1adapter collection",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update the items of the testv1adapter collection that match the query",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "Hexadecimal identifier of the document in the collection",
+            "required": false,
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F\\d]{24}$"
+            }
+          },
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body2"
+        },
+        "responses": {
+          "200": {
+            "description": "the number of documents that were modified",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "number",
+                  "description": "the number of documents that were modified"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/export": {
+      "get": {
+        "summary": "Export the testv1adapter collection",
+        "description": "The exported documents are sent as newline separated JSON objects to facilitate large dataset streaming and parsing",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "Hexadecimal identifier of the document in the collection",
+            "required": false,
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F\\d]{24}$"
+            }
+          },
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return only the properties specified in a comma separated list",
+            "required": false,
+            "name": "_p",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^((_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|array1|object1|object2|astring|aNewField),)*(_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|array1|object1|object2|astring|aNewField)$"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          },
+          {
+            "description": "Limits the number of documents",
+            "required": false,
+            "name": "_l",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "description": "Skip the specified number of documents",
+            "required": false,
+            "name": "_sk",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "description": "Sort by the specified property (Start with a \"-\" to invert the sort order)",
+            "required": false,
+            "name": "_s",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^-?(_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|astring|aNewField)$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/{id}": {
+      "get": {
+        "summary": "Find one item from the testv1adapter collection by ID",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return only the properties specified in a comma separated list",
+            "required": false,
+            "name": "_p",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^((_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|array1|object1|object2|astring|aNewField),)*(_id|creatorId|createdAt|updaterId|updatedAt|__STATE__|array1|object1|object2|astring|aNewField)$"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          },
+          {
+            "description": "the doc _id",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F\\d]{24}$",
+                      "description": "_id"
+                    },
+                    "creatorId": {
+                      "type": "string",
+                      "description": "creatorId"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "createdAt"
+                    },
+                    "updaterId": {
+                      "type": "string",
+                      "description": "updaterId"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "updatedAt"
+                    },
+                    "__STATE__": {
+                      "type": "string",
+                      "description": "__STATE__"
+                    },
+                    "array1": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "object1": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "object2": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "astring": {
+                      "type": "string"
+                    },
+                    "aNewField": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an item from the testv1adapter collection",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          },
+          {
+            "description": "the doc _id",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an item of the testv1adapter collection by ID",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          },
+          {
+            "description": "the doc _id",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body2"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F\\d]{24}$",
+                      "description": "_id"
+                    },
+                    "creatorId": {
+                      "type": "string",
+                      "description": "creatorId"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "createdAt"
+                    },
+                    "updaterId": {
+                      "type": "string",
+                      "description": "updaterId"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "updatedAt"
+                    },
+                    "__STATE__": {
+                      "type": "string",
+                      "description": "__STATE__"
+                    },
+                    "array1": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "object1": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "object2": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "astring": {
+                      "type": "string"
+                    },
+                    "aNewField": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/validate": {
+      "post": {
+        "summary": "Return 200 if the body is valid for an insertion in the testv1adapter collection",
+        "tags": [
+          "V1adapter"
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body3"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/count": {
+      "get": {
+        "summary": "Count the number of testv1adapter",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "Hexadecimal identifier of the document in the collection",
+            "required": false,
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-fA-F\\d]{24}$"
+            }
+          },
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/upsert-one": {
+      "post": {
+        "summary": "Update an item of testv1adapter if it is present, otherwise insert it",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list",
+            "required": false,
+            "name": "_st",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+              "default": "PUBLIC"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "$set": {
+                    "type": "object",
+                    "properties": {
+                      "array1": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": true
+                        }
+                      },
+                      "object1": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "object2": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "astring": {
+                        "type": "string"
+                      },
+                      "aNewField": {
+                        "type": "string"
+                      },
+                      "array1.$.replace": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "array1.$.merge": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "$unset": {
+                    "type": "object",
+                    "properties": {
+                      "array1": {
+                        "type": "boolean",
+                        "enum": [
+                          true
+                        ]
+                      },
+                      "object1": {
+                        "type": "boolean",
+                        "enum": [
+                          true
+                        ]
+                      },
+                      "object2": {
+                        "type": "boolean",
+                        "enum": [
+                          true
+                        ]
+                      },
+                      "astring": {
+                        "type": "boolean",
+                        "enum": [
+                          true
+                        ]
+                      },
+                      "aNewField": {
+                        "type": "boolean",
+                        "enum": [
+                          true
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "$inc": {
+                    "type": "object",
+                    "properties": {},
+                    "additionalProperties": false
+                  },
+                  "$mul": {
+                    "type": "object",
+                    "properties": {},
+                    "additionalProperties": false
+                  },
+                  "$currentDate": {
+                    "type": "object",
+                    "properties": {},
+                    "additionalProperties": false
+                  },
+                  "$push": {
+                    "type": "object",
+                    "properties": {
+                      "array1": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "$setOnInsert": {
+                    "type": "object",
+                    "properties": {
+                      "array1": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": true
+                        }
+                      },
+                      "object1": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "object2": {
+                        "type": "object",
+                        "additionalProperties": true
+                      },
+                      "astring": {
+                        "type": "string"
+                      },
+                      "aNewField": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F\\d]{24}$",
+                      "description": "_id"
+                    },
+                    "creatorId": {
+                      "type": "string",
+                      "description": "creatorId"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "createdAt"
+                    },
+                    "updaterId": {
+                      "type": "string",
+                      "description": "updaterId"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "updatedAt"
+                    },
+                    "__STATE__": {
+                      "type": "string",
+                      "description": "__STATE__"
+                    },
+                    "array1": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "object1": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "object2": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "astring": {
+                      "type": "string"
+                    },
+                    "aNewField": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/bulk": {
+      "post": {
+        "summary": "Insert new testv1adapter",
+        "tags": [
+          "V1adapter"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [],
+                  "properties": {
+                    "array1": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "object1": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "object2": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "astring": {
+                      "type": "string"
+                    },
+                    "aNewField": {
+                      "type": "string"
+                    },
+                    "__STATE__": {
+                      "type": "string",
+                      "enum": [
+                        "PUBLIC",
+                        "DRAFT",
+                        "TRASH",
+                        "DELETED"
+                      ],
+                      "description": "The state of the document",
+                      "default": "PUBLIC"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "pattern": "^[a-fA-F\\d]{24}$",
+                        "description": "Hexadecimal identifier of the document in the collection"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update multiple items of testv1adapter, each one with its own modifications",
+        "tags": [
+          "V1adapter"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "filter": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "pattern": "^[a-fA-F\\d]{24}$",
+                          "description": "Hexadecimal identifier of the document in the collection"
+                        },
+                        "_st": {
+                          "type": "string",
+                          "pattern": "(PUBLIC|DRAFT|TRASH|DELETED)(,(PUBLIC|DRAFT|TRASH|DELETED))*",
+                          "default": "PUBLIC",
+                          "description": "Filter by \\_\\_STATE__, multiple states can be specified in OR by providing a comma separated list"
+                        },
+                        "creatorId": {
+                          "type": "string",
+                          "description": "creatorId"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$",
+                          "description": "createdAt"
+                        },
+                        "updaterId": {
+                          "type": "string",
+                          "description": "updaterId"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$",
+                          "description": "updatedAt"
+                        },
+                        "astring": {
+                          "type": "string"
+                        },
+                        "aNewField": {
+                          "type": "string"
+                        },
+                        "_q": {
+                          "type": "string",
+                          "description": "Additional query part to forward to MongoDB"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "update": {
+                      "type": "object",
+                      "properties": {
+                        "$set": {
+                          "type": "object",
+                          "properties": {
+                            "array1": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                              }
+                            },
+                            "object1": {
+                              "type": "object",
+                              "additionalProperties": true
+                            },
+                            "object2": {
+                              "type": "object",
+                              "additionalProperties": true
+                            },
+                            "astring": {
+                              "type": "string"
+                            },
+                            "aNewField": {
+                              "type": "string"
+                            },
+                            "array1.$.replace": {
+                              "type": "object",
+                              "additionalProperties": true
+                            },
+                            "array1.$.merge": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "$unset": {
+                          "type": "object",
+                          "properties": {
+                            "array1": {
+                              "type": "boolean",
+                              "enum": [
+                                true
+                              ]
+                            },
+                            "object1": {
+                              "type": "boolean",
+                              "enum": [
+                                true
+                              ]
+                            },
+                            "object2": {
+                              "type": "boolean",
+                              "enum": [
+                                true
+                              ]
+                            },
+                            "astring": {
+                              "type": "boolean",
+                              "enum": [
+                                true
+                              ]
+                            },
+                            "aNewField": {
+                              "type": "boolean",
+                              "enum": [
+                                true
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "$inc": {
+                          "type": "object",
+                          "properties": {},
+                          "additionalProperties": false
+                        },
+                        "$mul": {
+                          "type": "object",
+                          "properties": {},
+                          "additionalProperties": false
+                        },
+                        "$currentDate": {
+                          "type": "object",
+                          "properties": {},
+                          "additionalProperties": false
+                        },
+                        "$push": {
+                          "type": "object",
+                          "properties": {
+                            "array1": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "filter",
+                    "update"
+                  ]
+                },
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/{id}/state": {
+      "post": {
+        "summary": "Change state of an item of testv1adapter",
+        "tags": [
+          "V1adapter"
+        ],
+        "parameters": [
+          {
+            "description": "creatorId",
+            "required": false,
+            "name": "creatorId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "createdAt",
+            "required": false,
+            "name": "createdAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "description": "updaterId",
+            "required": false,
+            "name": "updaterId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "updatedAt",
+            "required": false,
+            "name": "updatedAt",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+            }
+          },
+          {
+            "required": false,
+            "name": "astring",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "required": false,
+            "name": "aNewField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Additional query part to forward to MongoDB",
+            "required": false,
+            "name": "_q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the doc _id",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "stateTo"
+                ],
+                "properties": {
+                  "stateTo": {
+                    "type": "string",
+                    "enum": [
+                      "PUBLIC",
+                      "TRASH",
+                      "DRAFT",
+                      "DELETED"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v2/v1adapter/state": {
+      "post": {
+        "summary": "Change state of items of testv1adapter",
+        "tags": [
+          "V1adapter"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "filter": {
+                      "type": "object",
+                      "required": [
+                        "_id"
+                      ],
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "pattern": "^[a-fA-F\\d]{24}$",
+                          "description": "Hexadecimal identifier of the document in the collection"
+                        },
+                        "creatorId": {
+                          "type": "string",
+                          "description": "creatorId"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$",
+                          "description": "createdAt"
+                        },
+                        "updaterId": {
+                          "type": "string",
+                          "description": "updaterId"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$",
+                          "description": "updatedAt"
+                        },
+                        "astring": {
+                          "type": "string"
+                        },
+                        "aNewField": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "stateTo": {
+                      "type": "string",
+                      "enum": [
+                        "PUBLIC",
+                        "DRAFT",
+                        "TRASH",
+                        "DELETED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "filter",
+                    "stateTo"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Number of updated testv1adapter",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Number of updated testv1adapter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/join/one-to-one/{from}/{to}/export": {
+      "post": {
+        "tags": [
+          "CRUD Join"
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body4"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v2/join/one-to-one/{from}/{to}/": {
+      "post": {
+        "tags": [
+          "CRUD Join"
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body4"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v2/join/one-to-many/{from}/{to}/export": {
+      "post": {
+        "tags": [
+          "CRUD Join"
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v2/join/many-to-many/{from}/{to}/export": {
+      "post": {
+        "tags": [
+          "CRUD Join"
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Body"
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "APISecretHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "secret"
+      }
+    },
+    "requestBodies": {
+      "Body": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "asField",
+                "localField",
+                "foreignField"
+              ],
+              "properties": {
+                "fromQueryFilter": {
+                  "type": "object",
+                  "default": {}
+                },
+                "toQueryFilter": {
+                  "type": "object",
+                  "default": {}
+                },
+                "asField": {
+                  "type": "string"
+                },
+                "localField": {
+                  "type": "string"
+                },
+                "foreignField": {
+                  "type": "string"
+                },
+                "fromProjectBefore": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "fromProjectAfter": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "toProjectBefore": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "toProjectAfter": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "Body2": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "$set": {
+                  "type": "object",
+                  "properties": {
+                    "array1": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                      }
+                    },
+                    "object1": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "object2": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "astring": {
+                      "type": "string"
+                    },
+                    "aNewField": {
+                      "type": "string"
+                    },
+                    "array1.$.replace": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "array1.$.merge": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "$unset": {
+                  "type": "object",
+                  "properties": {
+                    "array1": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "object1": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "object2": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "astring": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "aNewField": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "$inc": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                },
+                "$mul": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                },
+                "$currentDate": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                },
+                "$push": {
+                  "type": "object",
+                  "properties": {
+                    "array1": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "Body3": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "array1": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "object1": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "object2": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "astring": {
+                  "type": "string"
+                },
+                "aNewField": {
+                  "type": "string"
+                },
+                "__STATE__": {
+                  "type": "string",
+                  "enum": [
+                    "PUBLIC",
+                    "DRAFT",
+                    "TRASH",
+                    "DELETED"
+                  ],
+                  "description": "The state of the document",
+                  "default": "PUBLIC"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "Body4": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "asField",
+                "localField",
+                "foreignField"
+              ],
+              "properties": {
+                "fromQueryFilter": {
+                  "type": "object",
+                  "default": {}
+                },
+                "toQueryFilter": {
+                  "type": "object",
+                  "default": {}
+                },
+                "asField": {
+                  "type": "string"
+                },
+                "localField": {
+                  "type": "string"
+                },
+                "foreignField": {
+                  "type": "string"
+                },
+                "fromProjectBefore": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "fromProjectAfter": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "toProjectBefore": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "toProjectAfter": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "toMerge": {
+                  "type": "boolean",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "foo": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lorem": {
+                  "$ref":"#/components/bar"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "bar": {
+      "type": "string"
+    }
+  },
+  "tags": []
+}
