@@ -1,18 +1,22 @@
 import React from 'react'
 import { shallow } from 'enzyme'
+import { mountWithIntl } from 'enzyme-react-intl'
 import { omit } from 'ramda'
 import { FormattedMessage } from 'react-intl';
+import jsf from 'json-schema-faker'
 
 import SchemaTabs from '../src/components/SchemaTabs'
 import BlockWithTab from '../src/components/BlockWithTab';
 import Oas from '../src/lib/Oas'
 import RequestSchema from '../src/RequestSchema'
 import ResponseSchema from '../src/ResponseSchema'
-import SchemaExample from "../src/components/SchemaExample";
+import JsonViewer from "../src/components/JsonViewer";
+
+const petstore = require('./fixtures/petstore/oas.json')
+const operationWithExample = require('./fixtures/withExample/operation.json')
+const oasWithExample = require('./fixtures/withExample/oas.json')
 
 const { Operation } = Oas
-const petstore = require('./fixtures/petstore/oas.json');
-
 const oas = new Oas(petstore);
 
 const operationSchema = {
@@ -42,6 +46,11 @@ const props = {
   oas,
 };
 
+jest.mock('json-schema-faker')
+const petId = 1234
+// eslint-disable-next-line no-underscore-dangle
+jsf._generateReturnValue({petId})
+
 describe('SchemaTabs', () => {
   let element
   let block
@@ -70,20 +79,34 @@ describe('SchemaTabs', () => {
     expect(element.find(BlockWithTab).prop('selected')).toEqual('response')
   })
 
-  describe('if example is set as selected', () => {
+  describe('if example is selected', () => {
     beforeEach(() => {
       element = shallow(<SchemaTabs {...props} />)
       block = element.find(BlockWithTab)
     })
 
-    test('renders RequestSchema if operation.requestBody is set', () => {
-      expect(element.find(SchemaExample)).toHaveLength(1)
+    test('and render example if requestBody.example is set', () => {
+      element = mountWithIntl(
+        <SchemaTabs
+          oas={oasWithExample}
+          operation={operationWithExample}
+        />
+      )
+
+      const petType = 'Carlino'
+      const petChildren = ['john', 'doo']
+      expect(element.find(JsonViewer).prop('schema')).toEqual({pet_type: petType, pet_children: petChildren})
+    })
+
+    test('render generated example when requestBody.example is not set', () => {
+      element = mountWithIntl(<SchemaTabs {...props} />)
+      expect(element.find(JsonViewer).prop('schema')).toEqual({petId})
     })
 
     test('render missing schema message', () => {
       element = shallow(
         <SchemaTabs
-          {...props}
+          oas={{}}
           operation={{}}
         />
       )

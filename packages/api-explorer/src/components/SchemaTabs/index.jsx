@@ -52,11 +52,9 @@ export default class SchemaTabs extends Component {
   renderSchemaExample() {
     const { operation, oas } = this.props
     const schema = get(parametersToJsonSchema(operation, oas), '[0].schema')
-
     if (schema) {
       const example = get(schema, 'example')
       if (example) {
-        console.log('example passed', schema)
         return (
           <JsonViewer
             missingMessage={''}
@@ -65,7 +63,6 @@ export default class SchemaTabs extends Component {
         )
       }
 
-      console.log('generated example')
       return (
         <JsonViewer
           missingMessage={''}
@@ -74,7 +71,6 @@ export default class SchemaTabs extends Component {
       )
     }
 
-    console.log('missing schema')
     return renderMissingSchema('Example')
   }
 
