@@ -1,0 +1,23 @@
+{
+    "components": {
+        "foo": {
+            "type": "object",
+            "properties":{
+                "fields": {
+                    "$ref": "#/components/bar"
+                }
+            } 
+        },
+        "bar": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+        
+    },
+    "type": "array",
+    "items": {
+        "$ref": "#/components/foo"
+    }
+}

@@ -70,7 +70,6 @@ export default class SchemaTabs extends Component {
         />
       )
     }
-
     return renderMissingSchema('Example')
   }
 

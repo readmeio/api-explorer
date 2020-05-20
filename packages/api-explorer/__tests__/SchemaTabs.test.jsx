@@ -46,11 +46,6 @@ const props = {
   oas,
 };
 
-jest.mock('json-schema-faker')
-const petId = 1234
-// eslint-disable-next-line no-underscore-dangle
-jsf._generateReturnValue({petId})
-
 describe('SchemaTabs', () => {
   let element
   let block
@@ -99,8 +94,15 @@ describe('SchemaTabs', () => {
     })
 
     test('render generated example when requestBody.example is not set', () => {
+      jest.mock('json-schema-faker')
+      const petId = 1234
+      // eslint-disable-next-line no-underscore-dangle
+      jsf._generateReturnValue({petId})
+
       element = mountWithIntl(<SchemaTabs {...props} />)
       expect(element.find(JsonViewer).prop('schema')).toEqual({petId})
+
+      jest.unmock('json-schema-faker')
     })
 
     test('render missing schema message', () => {

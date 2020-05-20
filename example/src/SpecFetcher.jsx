@@ -1,6 +1,5 @@
 const React = require('react');
 const swagger2openapi = require('swagger2openapi');
-
 const createDocs = require('../../packages/api-explorer/lib/create-docs');
 
 function withSpecFetching(Component) {

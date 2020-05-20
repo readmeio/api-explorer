@@ -105,7 +105,7 @@ class Response extends React.Component {
                 </Fragment>
                 ) : null}
             </div>
-            
+
             <div style={{maxHeight: '400px', padding: '10px', overflow: 'hidden scroll'}}>
               {
                 responseTab === 'result' ? (
@@ -133,7 +133,12 @@ class Response extends React.Component {
 module.exports = Response;
 
 Response.propTypes = {
-  result: PropTypes.shape({}),
+  result: PropTypes.shape({
+    responseBody: PropTypes.object,
+    isBinary: PropTypes.bool,
+    status: PropTypes.number,
+    type: PropTypes.string
+  }),
   operation: PropTypes.instanceOf(Operation).isRequired,
   oauth: PropTypes.bool.isRequired,
   hideResults: PropTypes.func.isRequired,

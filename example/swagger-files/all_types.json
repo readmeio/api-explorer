@@ -1,0 +1,79 @@
+{
+    "openapi": "3.0.0",
+    "servers": [
+      {
+        "url": "http://httpbin.org"
+      }
+    ],
+    "info": {
+      "version": "1.0.0",
+      "title": "Boolean without double description"
+    },
+    "paths": {
+      "/post": {
+        "post": {
+          "summary": "All types",
+          "description": "",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Successful"
+            }
+          },
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "description": "This description should only appear once"
+                    },
+                    "enum": {
+                        "type": "string",
+                        "enum": ["PUBLIC", "DRAFT"],
+                        "default": "PUBLIC"
+                    },
+                    "integer": {
+                        "type": "integer"
+                    },
+                    "number": {
+                        "type": "number"
+                    },
+                    "string": {
+                        "type": "string"
+                    },
+                    "not_string": {
+                        "not": {
+                            "type": "string"
+                        }
+                    },
+                    "object": {
+                        "type": "object",
+                        "properties": {}
+                    },
+                    "array": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-explorer-enabled": true,
+    "x-samples-enabled": true,
+    "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
+  }
+  

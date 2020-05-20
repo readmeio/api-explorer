@@ -13,7 +13,7 @@ require('../../../packages/api-explorer/api-explorer.css');
 class Preview extends React.Component {
   componentDidMount() {
     const searchParams = new URLSearchParams(window.location.search);
-    this.props.fetchSwagger(searchParams.get('url') || '../swagger-files/petstore.json');
+    this.props.fetchSwagger(searchParams.get('url') || '../swagger-files/openapi3.json');
   }
   render() {
     const { status, docs, oas, oauth } = this.props;

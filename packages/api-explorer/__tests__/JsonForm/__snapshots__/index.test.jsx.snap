@@ -1,16 +1,246 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JSONForm  renders json-editor 1`] = `
+exports[`JSONForm  on parsing error, shows error 1`] = `
+<div
+  class="ant-alert ant-alert-error"
+  data-show="true"
+>
+  <i
+    aria-label="icon: close-circle"
+    class="anticon anticon-close-circle ant-alert-icon"
+  >
+    <svg
+      aria-hidden="true"
+      class=""
+      data-icon="close-circle"
+      fill="currentColor"
+      focusable="false"
+      height="1em"
+      viewBox="64 64 896 896"
+      width="1em"
+    >
+      <path
+        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 0 1-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"
+      />
+    </svg>
+  </i>
+  <span
+    class="ant-alert-message"
+  >
+    missing reference
+  </span>
+  <span
+    class="ant-alert-description"
+  />
+</div>
+`;
+
+exports[`JSONForm  snapshot 1`] = `
 <form
-  onSubmit={[Function]}
+  data-theme="antdTheme"
 >
   <button
-    style={
-      Object {
-        "display": "none",
-      }
-    }
+    style="display: none;"
     type="submit"
   />
+  <div
+    class="mia-container-wrapper"
+    data-schemaid="root"
+    data-schemapath="root"
+    data-schematype="object"
+    style="position: relative;"
+  >
+    <h3
+      class="card-title"
+      style="display: inline-block;"
+    >
+      <button
+        class="btn btn-secondary btn-sm ant-btn json-editor-btn-collapse json-editor-btntype-toggle ant-btn-sm"
+        style="margin: 0px 10px 0px 0px; border: 0px; background: transparent;"
+        title="Collapse"
+        type="button"
+      >
+        <i
+          class="fas fa-caret-down"
+        />
+        <span>
+           
+        </span>
+      </button>
+      <label>
+        The Title
+      </label>
+    </h3>
+    <span
+      class="btn-group"
+      style="display: inline-flex; margin: 5px 0px 0px 10px; float: right;"
+    >
+      <div
+        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 10; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+      >
+        <textarea
+          class="form-control"
+          style="height: 170px; width: 300px; display: block;"
+        />
+        <button
+          class="btn btn-secondary btn-sm ant-btn json-editor-btn-save json-editor-btntype-save"
+          title="Save"
+          type="button"
+        >
+          <i
+            class="fas fa-save"
+          />
+          <span>
+             Save
+          </span>
+        </button>
+        <button
+          class="btn btn-secondary btn-sm ant-btn json-editor-btn-copy json-editor-btntype-copy"
+          title="Copy"
+          type="button"
+        >
+          <i
+            class="fas fa-copy"
+          />
+          <span>
+             Copy
+          </span>
+        </button>
+        <button
+          class="btn btn-secondary btn-sm ant-btn json-editor-btn-cancel json-editor-btntype-cancel"
+          title="Cancel"
+          type="button"
+        >
+          <i
+            class="fas fa-ban"
+          />
+          <span>
+             Cancel
+          </span>
+        </button>
+      </div>
+      <div
+        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 10; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+      >
+        <div
+          class="property-selector"
+          style="width: 295px; max-height: 160px; padding: 5px 0px 5px 5px; overflow-y: auto; overflow-x: hidden;"
+        >
+          <div
+            class="form-group"
+            style="margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px; height: auto;"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                class="form-check-input"
+                disabled=""
+                id="794943320288"
+                style="width: auto;"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="794943320288"
+              >
+                 petId
+              </label>
+            </div>
+          </div>
+        </div>
+        <input
+          class="form-control"
+          placeholder="Property name..."
+          style="width: 220px; margin-bottom: 0px; display: inline-block;"
+          type="text"
+        />
+        <button
+          class="btn btn-secondary btn-sm ant-btn json-editor-btn-add json-editor-btntype-add"
+          title="add"
+          type="button"
+        >
+          <i
+            class="fas fa-plus"
+          />
+          <span>
+             add
+          </span>
+        </button>
+        <div
+          style="clear: both;"
+        />
+      </div>
+      <button
+        class="btn btn-secondary btn-sm ant-btn json-editor-btn-edit json-editor-btntype-editjson ant-btn-sm"
+        style="margin: 0px 8px; border-radius: 4px;"
+        title="Edit JSON"
+        type="button"
+      >
+        <i
+          class="fas fa-pen"
+        />
+        <span>
+           JSON
+        </span>
+      </button>
+      <button
+        class="btn btn-secondary btn-sm ant-btn json-editor-btn-edit_properties json-editor-btntype-properties ant-btn-sm"
+        style="margin: 0px 8px; border-radius: 4px;"
+        title="Object Properties"
+        type="button"
+      >
+        <i
+          class="fas fa-list"
+        />
+        <span>
+           Properties
+        </span>
+      </button>
+    </span>
+    <div
+      style="display: none;"
+    />
+    <div
+      class="card card-body mb-3 bg-light"
+    >
+      <div>
+        <div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-md-12"
+              data-schemapath="root.petId"
+              data-schematype="integer"
+            >
+              <div
+                class="form-group"
+              >
+                <label
+                  class="required"
+                >
+                  petId
+                </label>
+                <input
+                  class="form-control"
+                  data-schemaformat="int64"
+                  name="root[petId]"
+                  type="text"
+                />
+                <div />
+                <small
+                  class="form-text"
+                >
+                  ID of pet to return
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div />
+  </div>
 </form>
 `;

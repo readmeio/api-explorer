@@ -20,7 +20,7 @@ const props = {
 };
 
 test('should not display if no auth', () => {
-  expect(mountWithIntl(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toBe('');
+  expect(mountWithIntl(<AuthBox {...props} operation={oas.operation('/no-auth', 'post')} />).html()).toEqual('')
 });
 
 test('should display a single heading for single auth type', () => {

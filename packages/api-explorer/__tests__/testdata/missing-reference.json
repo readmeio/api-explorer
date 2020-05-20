@@ -1,0 +1,8 @@
+{
+    "components": {
+        "foo": {
+            "$ref": "#/components/missing"
+        }
+    },
+    "$ref": "#/components/foo"
+}

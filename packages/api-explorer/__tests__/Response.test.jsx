@@ -68,6 +68,29 @@ test('and CopyCode is rendered correctly with a responseBody !== string', () => 
   expect(doc.find(CopyCode).prop('code')).toEqual("{\"test\":1}")
 })
 
+test('and CopyCode is rendered correctly with a result binary', () => {
+  const customProps = {
+    ...props,
+    result: {
+      ...props.result,
+      responseBody: {test: 1},
+      type: 'application/json'
+    }
+  }
+  const doc = shallow(<Response {...customProps} />);
+  expect(doc.find(CopyCode).prop('code')).toEqual("{\"test\":1}")
+  expect(doc.state().collapse).toEqual(undefined)
+
+  const buttons = doc.find('.mia-ctc-button')
+  const collapseButton = buttons.at(0)
+  collapseButton.simulate('click', {preventDefault: jest.fn()})
+  expect(doc.state().collapse).toEqual(true)
+
+  const expandbutton = buttons.at(1)
+  expandbutton.simulate('click', {preventDefault: jest.fn()})
+  expect(doc.state().collapse).toEqual(false)
+})
+
 test('and CopyCode is rendered correctly with a responseBody === string', () => {
   const customProps = {
     ...props,

@@ -1,0 +1,21 @@
+{
+      "components": {
+            "schemas": {
+                    "node": {
+                        "type": "object",
+                        "properties": {
+                        "string": {
+                            "type": "string"
+                        },
+                        "children": {
+                            "type": "array",
+                            "items": {
+                            "$ref": "#/components/schemas/node"
+                            }
+                        }
+                        }
+                    }
+            }
+  },
+  "$ref":"#/components/schemas/node"
+}

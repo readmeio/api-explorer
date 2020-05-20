@@ -1,0 +1,51 @@
+{
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "parameters": {},
+    "examples": {},
+    "requestBodies": {},
+    "securitySchemes": {},
+    "headers": {}
+  },
+  "anyOf": [
+    {
+      "title": "Pet by Type",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pet_type": {
+            "type": "string"
+          },
+          "pet_children": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Pet by Name",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pet_name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "title": "PetName",
+      "type": "string"
+    },
+    {
+      "title": "PetAge",
+      "type": "number"
+    }
+  ]
+}

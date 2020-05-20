@@ -1,111 +1,116 @@
+/* eslint-disable react/no-did-mount-set-state */
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+import '@fortawesome/fontawesome-free/js/brands'
+
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {injectIntl} from 'react-intl'
-import JSONEditor from '@json-editor/json-editor'
+import {JSONEditor} from '@mia-platform/json-editor'
+import {Spin, Alert} from 'antd'
 
-import getSchemaToRender from './getSchemaToRender'
-import antdTheme from './antd-theme-json-editor'
-import getCustomEditor from './get-custom-editor'
-import arrayCustomEditor from './array-custom-editors'
-import objectCustomEditor from './object-custom-editors'
-import notCustomEditor from './not-custom-editor'
-import anyOfEditor from './anyOf-custom-editor'
-import it from '../../i18n/it.json'
-
+import configureJsonEditor from './configureJsonEditor'
+import resolveRootRef from './resolveRootRef'
+import refReplacer from './refReplacer'
 import './bootstrap4.css'
 import './custom-bootstrap4.css'
-
-function configureJSONEditor(intl, setFormSubmissionListener) {
-  const editorsKeys = Object.keys(JSONEditor.defaults.editors)
-  const keysToExclude = ['array', 'object', 'not', 'anyOf']
-  editorsKeys.filter(key => !keysToExclude.includes(key)).forEach(key => {
-    JSONEditor.defaults.editors[key] = getCustomEditor(key);
-  });
-
-  JSONEditor.defaults.languages.it = it
-  JSONEditor.defaults.language = intl.locale
-
-  JSONEditor.defaults.editors.array = arrayCustomEditor()
-  JSONEditor.defaults.editors.object = objectCustomEditor()
-  JSONEditor.defaults.editors.not = notCustomEditor()
-  JSONEditor.defaults.editors.anyOf = anyOfEditor(intl,setFormSubmissionListener)
-
-  JSONEditor.defaults.themes.antdTheme = antdTheme
-
-  // eslint-disable-next-line consistent-return
-  JSONEditor.defaults.resolvers.unshift((scheme) => {
-    // If the schema can be of any type
-    if (
-      (scheme.type === "string" &&
-        scheme.media &&
-        scheme.media.binaryEncoding === "base64") ||
-      scheme.format === "binary"
-    ) {
-      return "base64";
-    }
-  });
-
-  // eslint-disable-next-line consistent-return
-  JSONEditor.defaults.resolvers.unshift((scheme) => {
-    if (scheme.not && scheme.not.type) {
-      return 'not'
-    }
-  })
-
-  // eslint-disable-next-line consistent-return
-  JSONEditor.defaults.resolvers.unshift((scheme) => {
-    if (scheme.anyOf) {
-      return 'anyOf'
-    }
-  })
-}
 
 class JsonForm extends Component {
   constructor(props) {
     super(props);
     this.editor = null;
     this.ref = null;
+
+    this.state = {
+      error: null,
+      hasSchema: false
+    }
+    this.unmounted = false
+    this.jsonSchema = null
   }
 
-  createEditor(element) {
-    const {intl, onChange, schema, setFormSubmissionListener} = this.props
-    if (this.editor === null) {
-      const schemaToRender = getSchemaToRender(schema)
+  componentDidMount() {
+    const {schema} = this.props
+    try {
+      const convertedSchema = refReplacer(schema)
+      const resolvedRoot = resolveRootRef(convertedSchema)
+      this.jsonSchema = resolvedRoot
+      return this.setState({
+        hasSchema: true 
+      })
+    }catch(err) {
+      return this.setState({error: err.message, hasSchema: false})
+    }
+  }
 
-      configureJSONEditor(intl, setFormSubmissionListener)
+  componentWillUnmount() {
+    this.unmounted = true
+  }
+
+  createEditor(element, jsonSchema) {
+    const {intl, onChange, setFormSubmissionListener, title} = this.props
+    if (this.editor !== null) {
+      return
+    }
+    try {
+      configureJsonEditor(JSONEditor, intl, setFormSubmissionListener)
       this.editor = new JSONEditor(element, {
-        schema: schemaToRender,
-        show_opt_in: true,
+        schema: {
+          ...jsonSchema,
+          title
+        },
+        show_opt_in: false,
         prompt_before_delete: false,
         form_name_root:"",
-        theme: "antdTheme"
+        iconlib: 'fontawesome5',
+        theme: 'antdTheme',
+        max_depth: 3,
+        use_default_values: false,
+        remove_empty_properties: true
       });
       this.editor.on('change', () => onChange(this.editor.getValue()))
+
+    } catch(err) {
+      this.setState({error: err.message, hasSchema: false})
     }
   }
 
   render() {
     const {onSubmit} = this.props
-    return (
-      <form
-        ref={r => {
-          this.createEditor(r);
-        }}
-        onSubmit={(e) => {
-          e.preventDefault()
-          onSubmit()
-        }}
-      >
-        <button type="submit" style={{ display: "none" }} />
-      </form>
-    );
+    const {error, hasSchema} = this.state
+    if (error) {
+      return (
+        <Alert
+          message={error}
+          type={'error'}
+          showIcon
+        />
+      )
+    }
+    if (hasSchema) {
+      return (
+        <form
+          ref={r => this.createEditor(r, this.jsonSchema)}
+          onSubmit={(e) => {
+            e.preventDefault()
+            onSubmit()
+          }}
+        >
+          <button type="submit" style={{ display: "none" }} />
+        </form>
+      );
+    }
+    return <Spin />
   }
 }
+
 JsonForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   schema: PropTypes.object.isRequired,
   setFormSubmissionListener: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired
 }
 export default injectIntl(JsonForm)

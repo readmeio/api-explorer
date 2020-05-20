@@ -3,7 +3,6 @@ import {mountWithIntl as mount} from 'enzyme-react-intl'
 
 import JsonForm from '../src/JsonForm'
 import Params from '../src/Params'
-import ContentWithTitle from '../src/components/ContentWithTitle';
 
 const Oas = require('../src/lib/Oas');
 const petstore = require('./fixtures/petstore/oas.json');
@@ -11,16 +10,16 @@ const petstore = require('./fixtures/petstore/oas.json');
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet/{petId}', 'get');
 
-const props = {
-  oas,
-  operation,
-  formData: {},
-  onChange:jest.fn(),
-  onSubmit: jest.fn(),
-  setFormSubmissionListener: jest.fn()
-};
-
 describe('Params', () => {
+  const props = {
+    oas,
+    operation,
+    formData: {},
+    onChange:jest.fn(),
+    onSubmit: jest.fn(),
+    setFormSubmissionListener: jest.fn()
+  };
+
   const expectedSchema = {
     type: 'object',
     properties: {
@@ -42,12 +41,14 @@ describe('Params', () => {
     expect(jsonForm).toHaveLength(1)
     expect(jsonForm.prop('schema')).toEqual(expectedSchema)
   });
+  
   test('calls onSubmit when JSONForm calls onSubmit', () => {
     const params = mount(<Params {...props} />)
     const jsonForm = params.find(JsonForm)
     jsonForm.prop('onSubmit')()
     expect(props.onSubmit).toHaveBeenCalledTimes(1)
   });
+
   test('calls onChange when JSONForm fires onChange', () => {
     const params = mount(<Params {...props} />)
     const jsonForm = params.find(JsonForm)
@@ -64,17 +65,16 @@ describe('Params', () => {
       }
     })
   });
+
   test('renders with correct title', () => {
     const params = mount(<Params {...props} />)
-    const contentWithTitle = params.find(ContentWithTitle)
-    const title = contentWithTitle.prop('title')
+    const jsonForm = params.find(JsonForm)
+    const title = jsonForm.prop('title')
     const expectedTitle = {
       id: 'doc.params.pathparams',
       defaultMessage: 'Path Params'
     }
-    expect(title.props.id).toEqual(expectedTitle.id)
-    expect(title.props.defaultMessage).toEqual(expectedTitle.defaultMessage)
+    expect(title).toEqual(expectedTitle.defaultMessage)
   });
-  
-})
 
+})

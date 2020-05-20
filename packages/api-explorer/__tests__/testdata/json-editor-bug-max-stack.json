@@ -1,0 +1,16 @@
+{
+  "components": {
+    "schemas": {
+      "JsonArray": {
+        "type": "object",
+        "properties": {
+          "asJsonArray": {
+            "$ref": "#/components/schemas/JsonArray"
+          }
+        },
+        "title": "JsonArray"
+      }
+    }
+  },
+  "$ref": "#/components/schemas/JsonArray"
+}

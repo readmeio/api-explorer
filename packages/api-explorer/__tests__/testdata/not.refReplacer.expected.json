@@ -1,0 +1,18 @@
+{
+    "definitions": {
+        "components": {
+            "definitions": {
+                "withNot": {
+                    "type": "array",
+                    "items": {
+                      "not": {
+                        "type": "object",
+                        "properties": {}
+                      }
+                    }
+                }
+            }
+        }
+    },
+    "$ref": "#/definitions/components/definitions/withNot"
+}

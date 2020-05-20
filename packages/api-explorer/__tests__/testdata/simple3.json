@@ -1,0 +1,25 @@
+{
+    "components": {
+        "schemas": {
+            "foo": {
+                "type": "object",
+                "properties":{
+                    "fields": {
+                        "$ref": "#/components/schemas/bar"
+                    }
+                } 
+            },
+            "bar": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+        
+    },
+    "type": "array",
+    "items": {
+        "$ref": "#/components/schemas/foo"
+    }
+}

@@ -23,7 +23,7 @@ export default function JsonViewer({ schema, missingMessage }) {
         whiteSpace: 'pre-wrap',
         wordBreak: 'break-all'
       }}
-    /> : <FormattedMessage id={missingMessage} />
+    /> : <FormattedMessage id={missingMessage} defaultValue={'missing message'} />
   )
 }
 

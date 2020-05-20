@@ -324,12 +324,10 @@ test('it should work for top-level request body $ref', () => {
       label: 'Body Params',
       schema: {
         $ref: '#/components/schemas/Pet',
-        definitions: {
-          components: {
-            schemas: {
-              Pet: {
-                type: 'string',
-              },
+        components: {
+          schemas: {
+            Pet: {
+              type: 'string',
             },
           },
         },
@@ -374,9 +372,7 @@ test('it should pull out schemas from `components/requestBodies`', () => {
       label: 'Body Params',
       schema: {
         $ref: '#/components/schemas/Pet',
-        definitions: {
-          components: oas.components,
-        },
+        components: oas.components,
       },
     },
   ]);
