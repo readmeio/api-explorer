@@ -63,5 +63,8 @@
   "button_delete_row_title": "Elimina {{0}}",
   "button_delete_row_title_short": "Elimina",
   "button_collapse": "Collassa",
-  "button_expand": "Espandi"
+  "button_expand": "Espandi",
+
+  "schemas.expand": "Espandi",
+  "schemas.collapse": "Collassa"
 }
