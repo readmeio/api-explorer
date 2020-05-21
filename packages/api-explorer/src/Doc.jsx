@@ -1,12 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
-import React, {Fragment} from 'react'
+import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
 import fetchHar from 'fetch-har'
 import get from 'lodash.get'
 import {clone} from 'ramda'
+import {Button} from 'antd';
 
 import extensions from '@mia-platform/oas-extensions'
 
@@ -49,6 +50,42 @@ function Description({doc}) {
   )
 }
 
+const styles = {
+  renderCodeAndResponseWrapper: {
+    border: `1px solid ${colors.codeAndResponseBorder}`,
+    background: colors.codeAndResponseBackground
+  },
+  renderCodeAndResponseTitleWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  renderCodeAndResponseTitle: {
+    display: 'flex',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  renderCodeAndResponseTitleButton: {
+    backgroundColor: 'unset',
+    height: 32,
+    display: 'flex',
+    alignItems: 'center',
+    color: colors.white,
+    border: 'none'
+  },
+  definitionStyle: {
+    padding: 8,
+    color: colors.white,
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+    fontFamily: 'monospace',
+  },
+  collapseStyle: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    height: '100%'
+  }
+}
+
 class Doc extends React.Component {
   constructor(props) {
     super(props);
@@ -62,6 +99,7 @@ class Doc extends React.Component {
       auth: null,
       error: false,
       selectedContentType: undefined,
+      isCollapse: true
     };
     this.onChange = this.onChange.bind(this);
     const oas = new Oas(this.props.oas, this.props.user);
@@ -211,36 +249,49 @@ class Doc extends React.Component {
   }
 
   renderCodeAndResponse() {
-    const definitionStyle = {
-      color: colors.white,
-      whiteSpace: 'pre-wrap',
-      wordBreak: 'break-word',
-      fontFamily: 'monospace',
-    }
-
+    const {isCollapse} = this.state
+    const title = (
+      <div style={styles.renderCodeAndResponseTitleWrapper}>
+        <div style={styles.renderCodeAndResponseTitle}>
+          <Button
+            icon={isCollapse ? 'import': 'export'}
+            onClick={() => this.setState(currentState => ({isCollapse: !currentState.isCollapse}))}
+            style={styles.renderCodeAndResponseTitleButton}
+          >
+            <FormattedMessage
+              id={isCollapse ? 'doc.expand' : 'doc.collapse'}
+              defaultMessage={isCollapse ? 'expand' : 'collapse'}
+            />
+          </Button>
+        </div>
+        <div style={{padding: 8}}>
+          <FormattedMessage id={'doc.definition'} defaultMessage={'Definition'} />
+        </div>
+      </div>
+    )
     const operation = this.getOperation()
     return(
       <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%'}}>
         <ContentWithTitle
-          title={<FormattedMessage id={'doc.definition'} defaultMessage={'Definition'} />}
+          title={title}
           showBorder={false}
-          content={
-            this.oas.servers && (
-              <span style={definitionStyle}>
-                {this.oas.servers[0].url}{operation ? operation.path : ''}
-              </span>
-            )
-          }
+          content={this.oas.servers && (
+            <span style={styles.definitionStyle}>
+              {this.oas.servers[0].url}{operation ? operation.path : ''}
+            </span>
+          )}
         />
-        <ContentWithTitle
-          title={<FormattedMessage id={'doc.examples'} defaultMessage={'Examples'} />}
-          subheader={this.renderContentTypeSelect()}
-          content={this.renderCodeSample()}
-        />
-        <ContentWithTitle
-          title={<FormattedMessage id={'doc.results'} defaultMessage={'Results'} />}
-          content={this.renderResponse()}
-        />
+        <div style={{padding: 8}}>
+          <ContentWithTitle
+            title={<FormattedMessage id={'doc.examples'} defaultMessage={'Examples'} />}
+            subheader={this.renderContentTypeSelect()}
+            content={this.renderCodeSample()}
+          />
+          <ContentWithTitle
+            title={<FormattedMessage id={'doc.results'} defaultMessage={'Results'} />}
+            content={this.renderResponse()}
+          />
+        </div>
       </div>
     )
   }
@@ -258,6 +309,7 @@ class Doc extends React.Component {
         language={this.props.language}
         examples={examples}
         selectedContentType={selectedContentType}
+        style={styles}
       />
     );
   }
@@ -282,11 +334,13 @@ class Doc extends React.Component {
       <SchemaTabs operation={this.getOperation()} oas={this.oas} />
     )
   }
+
   renderEndpoint() {
-    const { doc, baseUrl } = this.props
+    const {isCollapse} = this.state
+    const {doc, baseUrl} = this.props
     return (
         doc.type === 'endpoint' ? (
-          <Fragment>
+          <>
             <div style={{display: 'grid', gridTemplateColumns: '1fr', gridTemplateRows: 'min-content', gridGap: '16px', paddingRight: '16px'}}>
               {this.renderPathUrl()}
               <Description
@@ -299,15 +353,15 @@ class Doc extends React.Component {
               {this.renderSchemaTab()}
             </div>
             <div
+              className={'expandable'}
               style={{
-                padding: 8,
-                border: `1px solid ${colors.codeAndResponseBorder}`,
-                background: colors.codeAndResponseBackground
-              }}
+              ...styles.renderCodeAndResponseWrapper,
+              ...!isCollapse ? styles.collapseStyle : {}
+            }}
             >
               {this.renderCodeAndResponse()}
             </div>
-          </Fragment>
+          </>
         ) : null
     );
   }
@@ -381,7 +435,7 @@ class Doc extends React.Component {
     return (
       <ErrorBoundary>
         <div id={`page-${doc.slug}`}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px'}}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', position: 'relative'}}>
             {this.renderEndpoint()}
           </div>
           {

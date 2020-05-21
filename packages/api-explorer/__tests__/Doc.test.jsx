@@ -1,6 +1,7 @@
 import { mountWithIntl } from 'enzyme-react-intl';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, FormattedMessage } from 'react-intl';
 import {shallow} from 'enzyme'
+import {Button} from 'antd'
 
 import ContentWithTitle from '../src/components/ContentWithTitle'
 import SchemaTabs from '../src/components/SchemaTabs'
@@ -369,4 +370,18 @@ describe('stripSlash', () => {
     const operation = doc.instance().getOperation()
     expect(operation.path).toBe('/store/inventory/')
   })
+})
+
+test('expand renderCodeAndResponse should be render correctly', () => {
+  const element = mountWithIntl(<Doc {...props} />)
+  const expandableElement = element.find('.expandable')
+  expect(expandableElement.find(Button).find(FormattedMessage).prop('id')).toEqual('doc.expand')
+  expect(expandableElement.find(Button).prop('icon')).toEqual('import')
+  expect(expandableElement.prop('style')).toMatchSnapshot()
+  element.find('.expandable').find(Button).simulate('click')
+
+  const expandableElementAfter = element.find('.expandable')
+  expect(expandableElementAfter.find(Button).find(Button).find(FormattedMessage).prop('id')).toEqual('doc.collapse')
+  expect(expandableElementAfter.find(Button).find(Button).prop('icon')).toEqual('export')
+  expect(expandableElementAfter.prop('style')).toMatchSnapshot()
 })
