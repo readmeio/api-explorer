@@ -37,6 +37,13 @@
     padding: 5px
 }
 
+.mia-container-wrapper.card {
+    display: block;
+}
+
+.mia-container-wrapper .btn-group {
+    width: max-content;
+}
 /** antd */
 
 .ant-btn svg {

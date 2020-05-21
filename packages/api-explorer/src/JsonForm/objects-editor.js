@@ -16,5 +16,9 @@ module.exports = (classReference) => class objectCustomEditor extends classRefer
 
     this.controls.style.float = 'right'
     this.controls.style.margin = '5px 0px 0px 10px'
+
+    if (this.editjson_textarea) {
+      this.editjson_textarea.style.resize = 'both'
+    }
   }
 }

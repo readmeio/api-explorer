@@ -76,11 +76,11 @@ exports[`JSONForm  snapshot 1`] = `
       style="display: inline-flex; margin: 5px 0px 0px 10px; float: right;"
     >
       <div
-        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 10; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
       >
         <textarea
           class="form-control"
-          style="height: 170px; width: 300px; display: block;"
+          style="height: 170px; width: 300px; display: block; resize: both;"
         />
         <button
           class="btn btn-secondary btn-sm ant-btn json-editor-btn-save json-editor-btntype-save"
@@ -120,7 +120,7 @@ exports[`JSONForm  snapshot 1`] = `
         </button>
       </div>
       <div
-        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 10; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
       >
         <div
           class="property-selector"

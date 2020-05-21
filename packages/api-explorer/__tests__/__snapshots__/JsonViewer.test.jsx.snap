@@ -4,15 +4,6 @@ exports[`JsonViewer Expand - Collapse button expand when click button 1`] = `
 <div
   style="position: relative;"
 >
-  <button
-    class="ant-btn"
-    style="position: absolute; top: 10px; right: 10px; z-index: 99999;"
-    type="button"
-  >
-    <span>
-      Collapse
-    </span>
-  </button>
   <div
     class="react-json-view"
     style="font-family: monospace; cursor: default; background-color: rgb(237, 237, 237); position: relative; padding: 20px 10px; font-size: 12px; overflow: visible; white-space: pre-wrap; word-break: break-all;"
@@ -591,6 +582,15 @@ exports[`JsonViewer Expand - Collapse button expand when click button 1`] = `
       </div>
     </div>
   </div>
+  <button
+    class="ant-btn"
+    style="position: absolute; top: 10px; right: 10px;"
+    type="button"
+  >
+    <span>
+      Collapse
+    </span>
+  </button>
 </div>
 `;
 
@@ -598,15 +598,6 @@ exports[`JsonViewer Expand - Collapse button is collapsed as default 1`] = `
 <div
   style="position: relative;"
 >
-  <button
-    class="ant-btn"
-    style="position: absolute; top: 10px; right: 10px; z-index: 99999;"
-    type="button"
-  >
-    <span>
-      Expand all
-    </span>
-  </button>
   <div
     class="react-json-view"
     style="font-family: monospace; cursor: default; background-color: rgb(237, 237, 237); position: relative; padding: 20px 10px; font-size: 12px; overflow: visible; white-space: pre-wrap; word-break: break-all;"
@@ -755,6 +746,15 @@ exports[`JsonViewer Expand - Collapse button is collapsed as default 1`] = `
       </div>
     </div>
   </div>
+  <button
+    class="ant-btn"
+    style="position: absolute; top: 10px; right: 10px;"
+    type="button"
+  >
+    <span>
+      Expand all
+    </span>
+  </button>
 </div>
 `;
 
@@ -762,15 +762,6 @@ exports[`JsonViewer if schema is defined renders ReactJson 1`] = `
 <div
   style="position: relative;"
 >
-  <button
-    class="ant-btn"
-    style="position: absolute; top: 10px; right: 10px; z-index: 99999;"
-    type="button"
-  >
-    <span>
-      Expand all
-    </span>
-  </button>
   <div
     class="react-json-view"
     style="font-family: monospace; cursor: default; background-color: rgb(237, 237, 237); position: relative; padding: 20px 10px; font-size: 12px; overflow: visible; white-space: pre-wrap; word-break: break-all;"
@@ -889,5 +880,14 @@ exports[`JsonViewer if schema is defined renders ReactJson 1`] = `
       </div>
     </div>
   </div>
+  <button
+    class="ant-btn"
+    style="position: absolute; top: 10px; right: 10px;"
+    type="button"
+  >
+    <span>
+      Expand all
+    </span>
+  </button>
 </div>
 `;

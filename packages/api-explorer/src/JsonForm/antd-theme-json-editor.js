@@ -33,7 +33,7 @@ const antdTheme = (JSONEditor) => class extends JSONEditor.defaults.themes.boots
     el.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)'
     el.style.padding = '5px'
     el.style.position = 'absolute'
-    el.style.zIndex = '10'
+    el.style.zIndex = '9999'
     el.style.display = 'none'
     el.style.fontSize = "14px"
     return el
