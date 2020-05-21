@@ -99,6 +99,6 @@ function checkCollapse(element, {isCollapsed}) {
     expect(element.find(Button).find(FormattedMessage).prop('id')).toEqual('schemas.expand')
     return
   }
-  expect(element.find(ReactJson).prop('collapsed')).toEqual(false)
+  expect(element.find(ReactJson).prop('collapsed')).toEqual(5)
   expect(element.find(Button).find(FormattedMessage).prop('id')).toEqual('schemas.collapse')
 }

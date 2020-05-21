@@ -25,7 +25,7 @@ export default function JsonViewer({ schema, missingMessage }) {
         </Button>
         <ReactJson
           src={schema}
-          collapsed={isCollapsed ? 1 : false}
+          collapsed={isCollapsed ? 1 : 5}
           collapseStringsAfterLength={100}
           enableClipboard={false}
           name={null}

@@ -77,12 +77,6 @@ const styles = {
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-word',
     fontFamily: 'monospace',
-  },
-  collapseStyle: {
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    height: '100%'
   }
 }
 
@@ -336,12 +330,20 @@ class Doc extends React.Component {
   }
 
   renderEndpoint() {
-    const {isCollapse} = this.state
     const {doc, baseUrl} = this.props
+    const {isCollapse} = this.state
     return (
         doc.type === 'endpoint' ? (
           <>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr', gridTemplateRows: 'min-content', gridGap: '16px', paddingRight: '16px'}}>
+            <div style={{
+                display: 'grid', 
+                gridTemplateColumns: '1fr', 
+                gridTemplateRows: 'min-content', 
+                gridGap: '16px', 
+                paddingRight: '16px',
+                 ...!isCollapse ? {display: 'none'} : {}
+                }}
+            >
               {this.renderPathUrl()}
               <Description
                 doc={doc}
@@ -354,10 +356,7 @@ class Doc extends React.Component {
             </div>
             <div
               className={'expandable'}
-              style={{
-              ...styles.renderCodeAndResponseWrapper,
-              ...!isCollapse ? styles.collapseStyle : {}
-            }}
+              style={styles.renderCodeAndResponseWrapper}
             >
               {this.renderCodeAndResponse()}
             </div>
@@ -429,13 +428,19 @@ class Doc extends React.Component {
   }
 
   render() {
+    const {isCollapse} = this.state
     const { doc } = this.props;
     const oas = this.oas;
 
     return (
       <ErrorBoundary>
         <div id={`page-${doc.slug}`}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', position: 'relative'}}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: isCollapse ? '1fr 420px' : '1fr', 
+            position: 'relative'
+          }}
+          >
             {this.renderEndpoint()}
           </div>
           {
