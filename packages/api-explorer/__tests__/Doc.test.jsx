@@ -6,6 +6,7 @@ import {Button} from 'antd'
 import ContentWithTitle from '../src/components/ContentWithTitle'
 import SchemaTabs from '../src/components/SchemaTabs'
 import PathUrl from '../src/PathUrl'
+import Params from '../src/Params';
 
 const extensions = require('@mia-platform/oas-extensions');
 const { Request, Response } = require('node-fetch');
@@ -113,11 +114,111 @@ describe('state.dirty', () => {
 
   test('should switch to true on form change', () => {
     const doc = shallow(<Doc {...props} />);
-    doc.instance().onChange({ a: 1 });
+    const schema = {type: 'body', schema: {type: 'object', additionalProperties: true}}
+    const formData = { body: {a: 1} }
+    const data = {
+      formData,
+      schema
+    }
+    const previousFormData = doc.state().formData
+    doc.instance().onChange(data);
 
     expect(doc.state('dirty')).toBe(true);
+    expect(doc.state('formData')).not.toEqual(previousFormData)
+    expect(doc.state('formData')).toEqual(formData)
+  });
+
+  test('should not switch to true on form change without schema', () => {
+    const doc = shallow(<Doc {...props} />);
+    const formData = { body: {a: 1} }
+    const data = {
+      formData,
+    }
+    const previousFormData = doc.state().formData
+    doc.instance().onChange(data);
+
+    expect(doc.state('dirty')).toBe(false);
+    expect(doc.state('formData')).toEqual(previousFormData)
+  });
+
+  test('should not switch to true on form change with unmatched schema type', () => {
+    const doc = shallow(<Doc {...props} />);
+    const schema = {type: 'params', schema: {type: 'object', additionalProperties: true}}
+    const formData = { body: {a: 1} }
+    const data = {
+      formData,
+      schema
+    }
+    const previousFormData = doc.state().formData
+    doc.instance().onChange(data);
+
+    expect(doc.state('dirty')).toBe(false);
+    expect(doc.state('formData')).toEqual(previousFormData)
   });
 });
+
+test('should update formData correctly on Params onChange with schema', () => {
+  const schemaFromOnchange = {
+    "type": "body",
+    "label": "body Params",
+    "schema": {
+      "type":"object",
+      "properties":{
+         "foo": {"type": "string"}
+      },
+      "additionalProperties":false
+   }
+  }
+
+  const element = shallow(<Doc
+    {...props}
+    stripSlash
+    doc={{
+        title: 'Title',
+        slug: 'slug',
+        type: 'endpoint',
+        swagger: { path: '/v2/crud/{id}' },
+        api: { method: 'post' },
+        formData: { body: { id: '1' }, auth: { api_key: '' } },
+        onSubmit: () => {},
+      }}
+    oas={GET_OAS_SCHEMA(schemaFromOnchange.schema)}
+  />)
+
+  element.find(Params).prop('onChange')({formData: {body: { id: '1' }}, schema: schemaFromOnchange})
+  expect(element.state().formData).toEqual({ body: { id: '1' } })
+
+  element.find(Params).prop('onChange')({formData: {body: {}}, schema: schemaFromOnchange})
+  expect(element.state().formData).toEqual({ body: {} })
+})
+
+test('should NOT update formData on Params onChange without schema', () => {
+  const element = shallow(<Doc
+    {...props}
+    stripSlash
+    doc={{
+        title: 'Title',
+        slug: 'slug',
+        type: 'endpoint',
+        swagger: { path: '/v2/crud/{id}' },
+        api: { method: 'post' },
+        formData: { body: { id: '1' }, auth: { api_key: '' } },
+        onSubmit: () => {},
+      }}
+    oas={GET_OAS_SCHEMA({
+      "type":"object",
+      "properties":{
+         "foo": {"type": "string"}
+      },
+      "additionalProperties":false
+   })}
+  />)
+
+  const previousFormData = element.state().formData
+  element.find(Params).prop('onChange')({formData: {body: { id: '1' }}, schema: undefined})
+
+  expect(element.state().formData).toEqual(previousFormData)
+})
 
 describe('onSubmit', () => {
   test('should display authentication warning if auth is required for endpoint', () => {
@@ -399,4 +500,47 @@ function checkCodeAndResponseCollapse(element, {isCollapsed}) {
   }
   expect(gridContainer.prop('style').gridTemplateColumns).toEqual('1fr')
   expect(collapsable.prop('style').display).toEqual('none')
+}
+
+function GET_OAS_SCHEMA (jsonSchemaBody) {
+  return {
+    "openapi":"3.0.0",
+    "security": [{"APISecretHeader":[]}],
+    "info":{
+       "version":"44e3df4275cf22e1023e386aa00ad632462278cb",
+       "title":"Platform Development",
+       "description":"Project to try & test feature of the platform"
+    },
+    "paths":{
+      "/v2/crud/{id}":{
+        "post":{
+           "summary":"http post request",
+           "tags":[
+              "Crud"
+           ],
+           "parameters":[],
+           "requestBody":{
+            "content":{
+               "application/json":{
+                  "schema": jsonSchemaBody
+               }
+            }
+         },
+           "responses":{
+              "200":{
+                 "description":"Default Response",
+                 "content":{
+                    "*/*":{
+                       "schema":{
+                          "type":"object",
+                          "properties":{}
+                       }
+                    }
+                 }
+              }
+           }
+        }
+     },
+    }
+  }
 }
