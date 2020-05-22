@@ -4,6 +4,7 @@
   "version": "6.2.0",
   "main": "dist/index.js",
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.1",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@mia-platform/json-editor": "^2.3.0",
     "@mia-platform/markdown": "^6.2.0",
@@ -16,9 +17,11 @@
     "hast-util-sanitize": "^1.2.0",
     "httpsnippet": "^1.16.5",
     "js-cookie": "^2.1.4",
+    "json-schema-faker": "^0.5.0-rcv.24",
     "lodash.debounce": "^4.0.8",
     "lodash.flatten": "^4.4.0",
     "lodash.get": "^4.4.2",
+    
     "lodash.kebabcase": "^4.1.1",
     "lodash.omit": "^4.5.0",
     "lodash.pick": "^4.4.0",
@@ -76,6 +79,6 @@
   "peerDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "antd": "3.16.x",
-    "react": "^16.8.6"
+    "react": "^16.9.0"
   }
 }

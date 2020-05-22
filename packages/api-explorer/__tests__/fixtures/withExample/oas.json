@@ -1,4 +1,14 @@
 {
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": [
+    "curl",
+    "node",
+    "javascript",
+    "java"
+  ],
+  "x-proxy-enabled": true,
+  "x-send-defaults": false,
   "openapi": "3.0.0",
   "servers": [
     {
@@ -18,7 +28,10 @@
               "schema": {
                 "example": {
                   "pet_type": "Carlino",
-                  "pet_children": ["john", "doo"]
+                  "pet_children": [
+                    "john",
+                    "doo"
+                  ]
                 },
                 "anyOf": [
                   {
@@ -75,36 +88,42 @@
               "schema": {
                 "anyOf": [
                   {
-                    "PetType": {
-                      "title": "Pet by Type",
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "pet_type": {
+                    "title": "Pet by Type",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "pet_type": {
+                          "type": "string"
+                        },
+                        "pet_children": {
+                          "type": "array",
+                          "items": {
                             "type": "string"
-                          },
-                          "pet_children": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
                           }
                         }
                       }
                     }
                   },
                   {
-                    "PetName": {
-                      "type": "string"
+                    "title": "Pet by Name",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "pet_name": {
+                          "type": "string"
+                        }
+                      }
                     }
                   },
                   {
-                    "PetAge": {
-                      "type": "number",
-                      "maximum": 20,
-                      "minimum": 1
-                    }
+                    "title": "PetName",
+                    "type": "string"
+                  },
+                  {
+                    "title": "PetAge",
+                    "type": "number"
                   }
                 ]
               }
@@ -128,13 +147,20 @@
     "securitySchemes": {},
     "headers": {}
   },
-  "x-explorer-enabled": true,
-  "x-samples-enabled": true,
-  "x-samples-languages": [
-    "curl",
-    "node",
-    "ruby",
-    "javascript",
-    "python"
-  ]
+  "user": {
+    "keys": [
+      {
+        "name": "project1",
+        "apiKey": "123",
+        "user": "user1",
+        "pass": "pass1"
+      },
+      {
+        "name": "project2",
+        "apiKey": "456",
+        "user": "user2",
+        "pass": "pass2"
+      }
+    ]
+  }
 }

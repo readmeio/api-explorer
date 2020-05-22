@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow, mount } from 'enzyme'
 import Cookie from 'js-cookie'
 import extensions from '@mia-platform/oas-extensions'
-
+import {Collapse} from "antd";
 import Doc from '../src/Doc'
 import WrappedApiExplorer from '../src'
 
@@ -29,7 +29,6 @@ const props = {
   variables: { user: {}, defaults: [] },
   glossaryTerms: [],
 };
-
 const baseDoc = {
   _id: 1,
   title: 'title',
@@ -39,6 +38,7 @@ const baseDoc = {
   swagger: {path: '/my-path'},
   api: { method: 'get' }
 };
+const Panel = Collapse.Panel
 
 test('ApiExplorer renders a single doc', () => {
   const explorer = shallow(<ApiExplorer {...props} docs={[Object.assign({}, baseDoc)]} />);
@@ -117,7 +117,7 @@ describe('selected language', () => {
 describe('oas', () => {
   // Swagger apis and some legacies
   it('should fetch it from `doc.category.apiSetting`', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         defaultOpen
@@ -140,7 +140,7 @@ describe('oas', () => {
 
   // Some other legacy APIs where Endpoints are created in arbitrary categories
   it('should fetch it from `doc.api.apiSetting._id`', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         defaultOpen
@@ -164,7 +164,7 @@ describe('oas', () => {
   });
 
   it('should fetch it from `doc.api.apiSetting` if it is a string', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         defaultOpen
@@ -189,7 +189,7 @@ describe('oas', () => {
 
   // Of course... `typeof null === 'object'`
   it('should not error if `doc.api.apiSetting` is null', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         defaultOpen
@@ -201,7 +201,7 @@ describe('oas', () => {
   });
 
   it('should set it to empty object', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         docs={[Object.assign({}, baseDoc)]}
@@ -271,76 +271,69 @@ describe('auth', () => {
 
 describe('showOnlyAPI', () => {
   it('should render description if property is not provided (default behaviour)', () => {
-    const explorer = mount(<ApiExplorer {...props} />);
+    const explorer = shallow(<ApiExplorer {...props} />);
     expect(explorer.exists('div#oas-initial-description')).toBe(true);
   })
 
   it('should not render description if property is provided', () => {
-    const explorer = mount(<ApiExplorer {...props} showOnlyAPI />);
+    const explorer = shallow(<ApiExplorer {...props} showOnlyAPI />);
     expect(explorer.exists('div#oas-initial-description')).toBe(false);
   })
 
   it('should render description if property is provided with false value', () => {
-    const explorer = mount(<ApiExplorer {...props} showOnlyAPI={false} />);
+    const explorer = shallow(<ApiExplorer {...props} showOnlyAPI={false} />);
     expect(explorer.exists('div#oas-initial-description')).toBe(true);
   })
 })
 
 describe('defaultOpen', () => {
   it('should pass defaultActiveKey a value (default behaviour)', () => {
-    const explorer = mount(<ApiExplorer {...props} />);
-    const collapse = explorer.find('Collapse')
-    expect(collapse.at(1).prop('defaultActiveKey')).toEqual(['0']);
+    const explorer = shallow(<ApiExplorer {...props} />);
+    const collapse = explorer.find(Collapse)
+    expect(collapse.prop('defaultActiveKey')).toEqual(['0']);
   })
 
   it('should pass null to defaultActiveKey a value if property is false', () => {
-    const explorer = mount(<ApiExplorer {...props} defaultOpen={false} />);
-    const collapse = explorer.find('Collapse')
-    expect(collapse.at(1).prop('defaultActiveKey')).toEqual(null);
+    const explorer = shallow(<ApiExplorer {...props} defaultOpen={false} />);
+    const collapse = explorer.find(Collapse)
+    expect(collapse.prop('defaultActiveKey')).toEqual(null);
   })
 
   it('should pass a value to defaultActiveKey a value if property is true', () => {
-    const explorer = mount(<ApiExplorer {...props} defaultOpen />);
-    const collapse = explorer.find('Collapse')
-    expect(collapse.at(1).prop('defaultActiveKey')).toEqual(['0']);
+    const explorer = shallow(<ApiExplorer {...props} defaultOpen />);
+    const collapse = explorer.find(Collapse)
+    expect(collapse.prop('defaultActiveKey')).toEqual(['0']);
   })
 })
 
 describe('defaultOpenDoc', () => {
   it('should open panel 0 if none is provided (default behaviour)', () => {
     const explorer = mount(<ApiExplorer {...props} />);
-    const collapse = explorer.find('Collapse')
-    expect(collapse.at(1).state().activeKey).toEqual(['0']);
+    const collapse = explorer.find(Collapse)
+    expect(collapse.prop('defaultActiveKey')).toEqual(['0']);
   })
 
   it('should open specified panel', () => {
     const explorer = mount(<ApiExplorer {...props} defaultOpenDoc="3" />);
-    const collapse = explorer.find('Collapse')
-    expect(collapse.at(1).state().activeKey).toEqual(['3']);
-  })
-
-  it('should open specified panel', () => {
-    const explorer = mount(<ApiExplorer {...props} defaultOpenDoc="5" />);
-    const collapse = explorer.find('Collapse')
-    expect(collapse.at(1).state().activeKey).toEqual(['5']);
+    const collapse = explorer.find(Collapse)
+    expect(collapse.prop('defaultActiveKey')).toEqual(['3']);
   })
 
   it('should not open if defaultOpen is false', () => {
     const explorer = mount(<ApiExplorer {...props} defaultOpen={false} defaultOpenDoc="1" />);
-    const collapse = explorer.find('Collapse')
-    expect(collapse.at(1).state().activeKey).toEqual([]);
+    const collapse = explorer.find(Collapse)
+    expect(collapse.prop('defaultActiveKey')).toEqual(null);
   })
 })
 
 describe('onDocChange', () => {
   it('should be call if collapse#onChange is called', () => {
     const mock = jest.fn()
-    const explorer = mount(<ApiExplorer {...props} onDocChange={mock} />);
-    const collapse = explorer.find('Collapse').at(1)
+    const explorer = shallow(<ApiExplorer {...props} onDocChange={mock} />);
+    const collapse = explorer.find(Collapse)
 
     // Simulate click by calling antd property.
     collapse.props().onChange(4)
-
     expect(mock).toBeCalled()
     expect(mock).toBeCalledWith(4)
   })
@@ -348,14 +341,8 @@ describe('onDocChange', () => {
 
 describe('fallbackUrl', () => {
   const fallback = 'https://example.com'
-
-  it('should default to empty string', () => {
-    const explorer = mount(<ApiExplorer {...props} />);
-    expect(explorer.prop('fallbackUrl')).toBe('')
-  })
-
   it('should be provided to Doc children', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         fallbackUrl={fallback}
@@ -373,7 +360,7 @@ describe('fallbackUrl', () => {
 
 describe('CollapsePanel', () => {
   it('should only show URI path', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         docs={[{
@@ -388,19 +375,15 @@ describe('CollapsePanel', () => {
       />
     );
 
-    const panel = explorer.find('CollapsePanel div.ant-collapse-header b')
-    expect(panel.text()).toEqual('/pet')
+    const panel = explorer.find(Panel)
+    const shallowHeader = shallow(<div>{panel.prop('header')}</div>)
+    expect(shallowHeader.find('b').text()).toEqual('/pet')
   })
 })
 
 describe('stripSlash', () => {
-  it('should default to false', () => {
-    const explorer = mount(<ApiExplorer {...props} />)
-    expect(explorer.prop('stripSlash')).toBe(false)
-  })
-
   it('should be provided to Doc children', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         stripSlash
@@ -417,13 +400,8 @@ describe('stripSlash', () => {
 })
 
 describe('forcePanelRender', () => {
-  it('should default to false', () => {
-    const explorer = mount(<ApiExplorer {...props} />)
-    expect(explorer.prop('forcePanelRender')).toBe(false)
-  })
-
   it('should provide false to Ant.d Collapse.Panel components', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         forcePanelRender={false}
@@ -434,11 +412,11 @@ describe('forcePanelRender', () => {
       />
     );
 
-    explorer.find('CollapsePanel').map(panel => expect(panel.prop('forceRender')).toEqual(false))
+    expect(explorer.find(Panel).prop('forceRender')).toEqual(false)
   })
 
   it('should provide true to Ant.d Collapse.Panel components', () => {
-    const explorer = mount(
+    const explorer = shallow(
       <ApiExplorer
         {...props}
         forcePanelRender
@@ -449,6 +427,6 @@ describe('forcePanelRender', () => {
       />
     );
 
-    explorer.find('CollapsePanel').map(panel => expect(panel.prop('forceRender')).toEqual(true))
+    expect(explorer.find(Panel).prop('forceRender')).toEqual(true)
   })
 })

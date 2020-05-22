@@ -1,0 +1,69 @@
+{
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": [
+    "curl",
+    "node",
+    "javascript",
+    "java"
+  ],
+  "x-proxy-enabled": true,
+  "x-send-defaults": false,
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "http://example.com"
+    }
+  ],
+  "info": {
+    "title": "example results",
+    "version": "1.0"
+  },
+  "paths": {
+    "/": {
+      "patch": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/JsonArray"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "JsonArray": {
+      "type": "object",
+      "title": "JsonArray",
+      "properties": {
+        "petId": {
+          "$ref": "#/components/JsonArray"
+        }
+      }
+    }
+  },
+  "user": {
+    "keys": [
+      {
+        "name": "project1",
+        "apiKey": "123",
+        "user": "user1",
+        "pass": "pass1"
+      },
+      {
+        "name": "project2",
+        "apiKey": "456",
+        "user": "user2",
+        "pass": "pass2"
+      }
+    ]
+  }
+}

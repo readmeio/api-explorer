@@ -2,7 +2,7 @@ import ContentWithTitle from '../src/components/ContentWithTitle'
 
 const React = require('react');
 const {mountWithIntl} = require('enzyme-react-intl')
-const { shallow} = require('enzyme');
+const {shallow} = require('enzyme')
 
 const ResponseSchema = require('../src/ResponseSchema');
 const Oas = require('../src/lib/Oas');

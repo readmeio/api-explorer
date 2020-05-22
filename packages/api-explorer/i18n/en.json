@@ -28,8 +28,10 @@
   "api.response.binary": "A {typeFile} was returned. Download file to view it",
   "schemaTabs.missing.response": "Response schema not set",
   "schemaTabs.missing.request": "Request schema not set",
+  "schemaTabs.missing.example": "No example set",
   "schemaTabs.label.request": "Request",
   "schemaTabs.label.response": "Response",
+  "schemaTabs.label.example": "Example",
   "jsonform.anyof.notCompatibleSchemas": "The selected schemas are not compatible",
   "jsonform.anyof.emptySelection": "Select at least one schema",
   "warning": "Warning",
@@ -51,7 +53,7 @@
   "auth.oauth2.authorization": "Authorization",
   "auth.oauth2.bearer": "Bearer",
   "authForm.input.placeholder": "Insert {name}",
-  
+
   "schemas.expand": "Expand all",
   "schemas.collapse": "Collapse"
 }
