@@ -34,7 +34,12 @@ function omitOrMerge (current, value, key) {
 function getSecuritySections(securityTypes, config, onChange, onSubmit, schemeName) {
   const {authInputRef, oauth, auth} = config
   return (
-    <form onSubmit={onSubmit}>
+    <form 
+      onSubmit={(e) => {
+        e.preventDefault() 
+        onSubmit()
+      }}
+    >
       <div>
         {
           Object.keys(securityTypes).map((type, index) => {
@@ -79,14 +84,8 @@ class AuthForm extends Component {
     onChange(mergeAuths)
   }
 
-  onSecuritySectionSubmit (e) {
-    const {onSubmit} = this.props
-    e.preventDefault();
-    onSubmit();
-  }
-
   render () {
-    const {securitySchemes, onChange, auth, oauth, authInputRef} = this.props
+    const {securitySchemes, onChange, auth, oauth, authInputRef, onSubmit} = this.props
     const schemeKeys = Object.keys(securitySchemes)
 
     return (
@@ -101,7 +100,7 @@ class AuthForm extends Component {
                       pick(securitySchemes, schemeName),
                       { authInputRef, oauth, auth },
                       onChange, 
-                      this.onSecuritySectionSubmit,
+                      onSubmit,
                       schemeName
                       )}
                   </div>

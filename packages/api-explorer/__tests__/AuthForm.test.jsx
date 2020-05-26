@@ -5,7 +5,7 @@ import AuthForm from '../src/components/AuthForm'
 
 const props = {
   onChange: () => {},
-  onSubmit: () => {},
+  onSubmit: jest.fn(),
   toggle: () => {},
   open: false,
   oauth: false,
@@ -65,3 +65,14 @@ test('should display multiple securities', () => {
   expect(authForm.find('SecurityInput').length).toBe(1);
   expect(authForm.find('SecurityInput').prop('scheme')).toEqual(securitySchemes.Basic[0]);
 });
+
+test('on form submits calls onSubmit', () => {
+  const securitySchemes = {
+    "Header Auth":[{"type":"auth","flows":{"implicit":{"authorizationUrl":"http://petstore.swagger.io/oauth/dialog","scopes":{"write:pets":"modify pets in your account","read:pets":"read your pets"}}},"_key":"petstore_auth"}],  
+  }
+  const authForm = shallowWithIntl(<AuthForm {...props} securitySchemes={securitySchemes} />);
+  const eventMock = {preventDefault: jest.fn()}
+  authForm.find("form").prop('onSubmit')(eventMock)
+  expect(eventMock.preventDefault).toHaveBeenCalledTimes(1)
+  expect(props.onSubmit).toHaveBeenCalledTimes(1)
+})
