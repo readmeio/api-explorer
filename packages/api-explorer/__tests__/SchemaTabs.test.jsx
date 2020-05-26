@@ -5,57 +5,33 @@ import { FormattedMessage } from 'react-intl';
 import jsf from 'json-schema-faker'
 import {Alert} from "antd";
 
-import SchemaTabs from '../src/components/SchemaTabs'
-import BlockWithTab from '../src/components/BlockWithTab';
-import Oas from '../src/lib/Oas'
-import RequestSchema from '../src/RequestSchema'
-import ResponseSchema from '../src/ResponseSchema'
-import JsonViewer from "../src/components/JsonViewer";
+import OAS from './fixtures/basicOas.json'
+import OPERATION from './fixtures/basicOperations.json'
 
-const petstore = require('./fixtures/petstore/oas.json')
+import SchemaTabs from '../src/components/SchemaTabs'
+import BlockWithTab from '../src/components/BlockWithTab'
+import JsonViewer from '../src/components/JsonViewer'
+import Select from '../src/components/Select'
+
 const operationWithExample = require('./fixtures/withExample/operation.json')
 const oasWithExample = require('./fixtures/withExample/oas.json')
 const maxStackOas = require('./fixtures/withExample/maxStackOas.json')
 const maxStackOperation = require('./fixtures/withExample/maxStackOperation.json')
 
-const { Operation } = Oas
-const oas = new Oas(petstore);
-
-const operationSchema = {
-  responses: {
-    '200': {
-      content: {
-        'application/xml': {
-          description: 'successful operation',
-          schema: {
-            $ref: '#/components/schemas/Pet',
-          },
-        },
-      },
-    },
-  },
-  requestBody: {
-    foo: 'bar'
-  }
-}
-const props = {
-  operation: new Operation(
-    oas,
-    '/',
-    'get',
-    Object.assign({}, oas.operation('/pet/{petId}', 'get'), operationSchema),
-  ),
-  oas,
-};
-
 jest.mock('json-schema-faker')
 
 describe('SchemaTabs', () => {
+  const props = {
+    oas: OAS,
+    operation: OPERATION
+  }
+
   let element
   let block
 
   beforeEach(() => {
-    element = shallow(<SchemaTabs{...props} />)
+    jest.clearAllMocks()
+    element = shallow(<SchemaTabs {...props} />)
     block = element.find(BlockWithTab)
   })
 
@@ -78,41 +54,34 @@ describe('SchemaTabs', () => {
     expect(element.find(BlockWithTab).prop('selected')).toEqual('response')
   })
 
-  describe('if example is selected', () => {
-    beforeEach(() => {
-      jest.clearAllMocks()
-    })
-
-    test('and render example if requestBody.example is set', (done) => {
+  describe('with example schema selected', () => {
+    test('render jsonEditor', (done) => {
       element = shallow(<SchemaTabs oas={oasWithExample} operation={operationWithExample} />)
       const petType = 'Carlino'
       const petChildren = ['john', 'doo']
       setTimeout(() => {
         element.update()
-        expect(element.find(JsonViewer).prop('schema')).toEqual({pet_type: petType, pet_children: petChildren})
+        const expected = {pet_type: petType, pet_children: petChildren}
+        expect(element.find(JsonViewer).prop('schema')).toEqual(expected)
         done()
-      }, 0)
+      })
     })
 
-    test('render generated example when requestBody.example is not set', (done) => {
+    test('render generated example when operation.requestBody.example is not set', (done) => {
       const petId = 1234
       // eslint-disable-next-line no-underscore-dangle
       jsf._generateReturnValue(() => ({petId}))
-
       element = shallow(<SchemaTabs {...props} />)
       setTimeout(() => {
         element.update()
         expect(element.find(JsonViewer).prop('schema')).toEqual({petId})
         done()
-      }, 0)
-
+      })
     })
 
-    test('render missing schema message', () => {
-      element = shallow(<SchemaTabs oas={{}} operation={{}} />)
-      const formattedMessage = element.find(FormattedMessage)
-      expect(formattedMessage).toHaveLength(1)
-      expect(formattedMessage.prop('id')).toEqual('schemaTabs.missing.example')
+    test('render missing schema message', (done) => {
+      element = shallow(<SchemaTabs {...props} operation={omit(['requestBody'], OPERATION)} />)
+      assertToHaveFoundMissingSchemaMessage(element, 'example', done)
     })
 
     test('render errors alert', (done) => {
@@ -125,76 +94,105 @@ describe('SchemaTabs', () => {
         element.update()
         expect(element.find(Alert).prop('message')).toEqual('Maximum call stack size exceeded')
         done()
-      }, 0)
+      })
     })
   })
 
-  describe('if request is set as selected', () => {
-    beforeEach(() => {
-      element = shallow(<SchemaTabs {...props} />)
-      block = element.find(BlockWithTab)
-      block.prop('onClick')('request')
-      element.update()
-    })
-
-    test('renders RequestSchema if operation.requestBody is set', () => {
-      expect(element.find(RequestSchema)).toHaveLength(1)
-    })
-
-    test('render missing schema message if request is not set', () => {
-      element = shallow(
-        <SchemaTabs
-          {...props}
-          operation={new Operation(
-            oas,
-            '/',
-            'get',
-            {
-              ...oas.operation('/pet/{petId}', 'get'),
-              ...omit(['requestBody'], operationSchema)
+  describe('with request schema selected', () => {
+    test('render jsonEditor', (done) => {
+      selectResponseTab(element, 'request')
+      setTimeout(() => {
+        element.update()
+        const expected = {
+          type: 'object',
+          properties: {
+            lorem: {
+              type: 'string'
             }
-          )}
-        />
-      )
-      element.find(BlockWithTab).prop('onClick')('request')
-      element.update()
-      const formattedMessage = element.find(FormattedMessage)
-      expect(formattedMessage).toHaveLength(1)
-      expect(formattedMessage.prop('id')).toEqual('schemaTabs.missing.request')
+          }
+        }
+        expect(element.find(JsonViewer).prop('schema')).toEqual(expected)
+        done()
+      })
+    })
+
+    test('render missing schema message if the request is missing', (done) => {
+      element = shallow(<SchemaTabs {...props} operation={omit(['requestBody'], OPERATION)} />)
+      assertToHaveFoundMissingSchemaMessage(element, 'request', done)
     })
   })
 
-  describe('if response is set as selected', () => {
-    beforeEach(() => {
-      element = shallow(<SchemaTabs {...props} />)
-      block = element.find(BlockWithTab)
-      block.prop('onClick')('response')
-      element.update()
-    })
-
-    test('renders ResponseSchema if operation.responses is set', () => {
-      expect(element.find(ResponseSchema)).toHaveLength(1)
-    })
-
-    test('render missing schema message if responses is not set', () => {
-      element = shallow(
-        <SchemaTabs
-          {...props}
-          operation={new Operation(
-            oas,
-            '/',
-            'get',
-            {
-              ...omit(['responses'], oas.operation('/pet/{petId}', 'get'))
+  describe('with response schema selected', () => {
+    test('renders jsonEditor', (done) => {
+      selectResponseTab(element, 'response')
+      setTimeout(() => {
+        element.update()
+        expect(element.find(Select).prop('value')).toEqual('200')
+        const expectedFor200 = {
+          "description": "Default Response",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F\\d]{24}$",
+                    "description": "Hexadecimal identifier of the document in the collection"
+                  }
+                }
+              }
             }
-          )}
-        />
-      )
-      element.find(BlockWithTab).prop('onClick')('response')
-      element.update()
-      const formattedMessage = element.find(FormattedMessage)
-      expect(formattedMessage).toHaveLength(1)
-      expect(formattedMessage.prop('id')).toEqual('schemaTabs.missing.response')
+          }
+        }
+        expect(element.find(JsonViewer).prop('schema')).toEqual(expectedFor200)
+
+        element.find(Select).simulate('change', '403')
+        const expectedFor403 = {
+          "description": "Unauthorized",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F\\d]{24}$",
+                    "description": "Hexadecimal identifier of the document in the collection"
+                  }
+                }
+              }
+            }
+          }
+        }
+        expect(element.find(JsonViewer).prop('schema')).toEqual(expectedFor403)
+        done()
+      })
+    })
+
+    test('render correct jsonEditor when change response statusCode', () => {
+      selectResponseTab(element, 'response')
+      expect(element.find(Select).prop('value')).toEqual('200')
+      expect(element.find(BlockWithTab).find(JsonViewer)).toHaveLength(1)
+    })
+
+    test('render missing schema message if the responses is missing', (done) => {
+      element = shallow(<SchemaTabs {...props} operation={omit(['responses'], OPERATION)} />)
+      assertToHaveFoundMissingSchemaMessage(element, 'response', done)
     })
   })
 })
+
+function selectResponseTab (element, tabType) {
+  return element.find(BlockWithTab).simulate('click', tabType)
+}
+
+function assertToHaveFoundMissingSchemaMessage(element, tabType, done) {
+  selectResponseTab(element, tabType)
+  setTimeout(() => {
+    element.update()
+    const formattedMessage = element.find(FormattedMessage)
+    expect(formattedMessage.prop('id')).toEqual(`schemaTabs.missing.${tabType}`)
+    done()
+  })
+}
