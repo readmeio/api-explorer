@@ -28,6 +28,10 @@
     margin: 0px;
 }
 
+.btn:focus, .btn-secondary:focus {
+    box-shadow: none !important;
+}
+
 /** MIA CSS */
 
 .mia-container-wrapper {
