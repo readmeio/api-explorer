@@ -4,11 +4,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 export default function ContentWithTitle({
-  title, 
-  subheader, 
-  content, 
-  showDivider, 
-  theme, 
+  title,
+  subheader,
+  content,
+  showDivider,
+  theme,
   showBorder,
   titleUpperCase,
 }) {
@@ -26,15 +26,15 @@ export default function ContentWithTitle({
     }
     const colors = style[theme]
     const titleStyle = {
-      fontSize: '18px', 
-      color: colors.title, 
+      fontSize: '18px',
+      color: colors.title,
       ...titleUpperCase?{textTransform: 'uppercase', borderBottom: `1px solid ${colors.divider}`} : {},
       fontWeight: 'bold'
     }
     return(
-      <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%', gridTemplateRows: 'min-content'}}>
+      <div style={{display: 'grid', gridGap: '8px', gridTemplateColumns: '100%', gridTemplateRows: 'min-content', minWidth: 0}}>
         {
-          title ? 
+          title ?
             <div style={titleStyle}>
               {title}
             </div> : null

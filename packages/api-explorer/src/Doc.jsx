@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
-import React from 'react'
+import React, {Fragment} from 'react'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
 import fetchHar from 'fetch-har'
@@ -125,7 +125,7 @@ class Doc extends React.Component {
       if (!get(schema, 'type') || !get(formData, [schema.type])) {
         return {}
       }
-      
+
       const typeFromSchema = schema.type
       const schemaForFilterEmptyFormData = schema.schema
       const formDataToFilter = formData[typeFromSchema]
@@ -342,15 +342,16 @@ class Doc extends React.Component {
     const {isCollapse} = this.state
     return (
         doc.type === 'endpoint' ? (
-          <>
+          <Fragment>
             <div style={{
-                display: 'grid', 
-                gridTemplateColumns: '1fr', 
-                gridTemplateRows: 'min-content', 
-                gridGap: '16px', 
-                paddingRight: '16px',
-                 ...!isCollapse ? {display: 'none'} : {}
-                }}
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gridTemplateRows: 'repeat(auto-fit, minmax(50px, min-content))',
+              gridGap: '16px',
+              paddingRight: '16px',
+              minWidth: 0,
+               ...!isCollapse ? {display: 'none'} : {}
+              }}
             >
               {this.renderPathUrl()}
               <Description
@@ -368,7 +369,7 @@ class Doc extends React.Component {
             >
               {this.renderCodeAndResponse()}
             </div>
-          </>
+          </Fragment>
         ) : null
     );
   }
@@ -443,9 +444,9 @@ class Doc extends React.Component {
     return (
       <ErrorBoundary>
         <div id={`page-${doc.slug}`}>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: isCollapse ? '1fr 420px' : '1fr', 
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isCollapse ? 'minmax(480px, 1fr) minmax(320px, 480px)' : '1fr',
             position: 'relative'
           }}
           >

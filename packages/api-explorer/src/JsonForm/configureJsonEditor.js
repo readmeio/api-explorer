@@ -12,7 +12,7 @@ function setDefaultCustomization (JSONEditor) {
     JSONEditor.defaults.editors[key] = class Customization extends JSONEditor.defaults.editors[key] {
       postBuild() {
         super.postBuild()
-    
+
         if (this.editjson_control) {
           this.editjson_control.classList.add('ant-btn-sm')
           this.editjson_control.style.margin = '0px 8px'
@@ -27,20 +27,12 @@ function setDefaultCustomization (JSONEditor) {
 
         if (this.collapse_control) {
           this.collapse_control.classList.add('ant-btn-sm')
-          this.collapse_control.style.border = '0px'
-          this.collapse_control.style.background = 'transparent'
         }
 
         if (this.toggle_button) {
           this.toggle_button.classList.add('ant-btn-sm')
-          this.toggle_button.style.border = '0px'
-          this.toggle_button.style.background = 'transparent'
         }
-       
-        if (this.controls) {
-          this.controls.style.float = 'right'
-          this.controls.style.margin = '5px 0px 0px 10px'
-        }
+
         if (this.container !== undefined && this.title !== undefined) {
           this.container.classList.add('mia-container-wrapper')
         }
