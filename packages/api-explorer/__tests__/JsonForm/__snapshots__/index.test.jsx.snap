@@ -55,7 +55,7 @@ exports[`JSONForm  snapshot 1`] = `
       style="display: inline-block;"
     >
       <button
-        class="btn btn-secondary btn-sm ant-btn json-editor-btn-collapse json-editor-btntype-toggle ant-btn-sm"
+        class="ant-btn json-editor-btn-collapse json-editor-btntype-toggle ant-btn-sm"
         style="margin: 0px 10px 0px 0px; border: 0px; background: transparent;"
         title="Collapse"
         type="button"
@@ -83,7 +83,7 @@ exports[`JSONForm  snapshot 1`] = `
           style="height: 170px; width: 300px; display: block; resize: both;"
         />
         <button
-          class="btn btn-secondary btn-sm ant-btn json-editor-btn-save json-editor-btntype-save"
+          class="ant-btn json-editor-btn-save json-editor-btntype-save"
           title="Save"
           type="button"
         >
@@ -95,7 +95,7 @@ exports[`JSONForm  snapshot 1`] = `
           </span>
         </button>
         <button
-          class="btn btn-secondary btn-sm ant-btn json-editor-btn-copy json-editor-btntype-copy"
+          class="ant-btn json-editor-btn-copy json-editor-btntype-copy"
           title="Copy"
           type="button"
         >
@@ -107,7 +107,7 @@ exports[`JSONForm  snapshot 1`] = `
           </span>
         </button>
         <button
-          class="btn btn-secondary btn-sm ant-btn json-editor-btn-cancel json-editor-btntype-cancel"
+          class="ant-btn json-editor-btn-cancel json-editor-btntype-cancel"
           title="Cancel"
           type="button"
         >
@@ -156,7 +156,7 @@ exports[`JSONForm  snapshot 1`] = `
           type="text"
         />
         <button
-          class="btn btn-secondary btn-sm ant-btn json-editor-btn-add json-editor-btntype-add"
+          class="ant-btn json-editor-btn-add json-editor-btntype-add"
           title="add"
           type="button"
         >
@@ -172,7 +172,7 @@ exports[`JSONForm  snapshot 1`] = `
         />
       </div>
       <button
-        class="btn btn-secondary btn-sm ant-btn json-editor-btn-edit json-editor-btntype-editjson ant-btn-sm"
+        class="ant-btn json-editor-btn-edit json-editor-btntype-editjson ant-btn-sm"
         style="margin: 0px 8px; border-radius: 4px;"
         title="Edit JSON"
         type="button"
@@ -185,7 +185,7 @@ exports[`JSONForm  snapshot 1`] = `
         </span>
       </button>
       <button
-        class="btn btn-secondary btn-sm ant-btn json-editor-btn-edit_properties json-editor-btntype-properties ant-btn-sm"
+        class="ant-btn json-editor-btn-edit_properties json-editor-btntype-properties ant-btn-sm"
         style="margin: 0px 8px; border-radius: 4px;"
         title="Object Properties"
         type="button"

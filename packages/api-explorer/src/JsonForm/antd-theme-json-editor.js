@@ -20,6 +20,9 @@ const antdTheme = (JSONEditor) => class extends JSONEditor.defaults.themes.boots
   getButton (text, icon, title) {
     const el = super.getButton(text, icon, title)
     el.classList.add('ant-btn')
+    el.classList.remove('btn')
+    el.classList.remove('btn-secondary')
+    el.classList.remove('btn-sm')
     return el
   }
 
