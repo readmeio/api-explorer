@@ -34,11 +34,11 @@ function isChildADefinition (currentKey, obj) {
 
 export default function replaceRefs(obj)  {
   const searchStr = '$ref'
-
-  if (!obj) {
+  
+  if (obj === undefined) {
     return;
   }
-  if (typeof obj === 'string') {
+  if (typeof obj !== 'object') {
     return obj;
   }
   if (Array.isArray(obj)) {

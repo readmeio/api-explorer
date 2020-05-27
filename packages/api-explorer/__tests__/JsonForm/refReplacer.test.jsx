@@ -31,4 +31,40 @@ describe('refReplacer', () => {
     it('with not', () => {
         expect(refReplacer(withNot)).toEqual(withNotExpected)
     })
+
+    it('object with enum of boolean', () => {
+        const schema = {
+            "type": "object",
+            "properties": {
+              "enum_boolean": {
+                "type": "boolean",
+                "enum": [
+                  true,
+                  false
+                ]
+              }
+            }
+          }
+        expect(refReplacer(schema)).toEqual(schema)
+    })
+    it('enum of boolean', () => {
+        const schema = {
+            "type": "boolean",
+            "enum": [
+              true,
+              false
+            ]
+        }
+        expect(refReplacer(schema)).toEqual(schema)
+    })
+    it('enum of number', () => {
+        const schema = {
+            "type": "number",
+            "enum": [
+              1,
+              2
+            ]
+          }
+        expect(refReplacer(schema)).toEqual(schema)
+    })
 })

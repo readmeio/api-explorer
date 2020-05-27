@@ -58,6 +58,10 @@
                         "items": {
                             "type": "string"
                         }
+                    },
+                    "enum_boolean": {
+                      "type": "boolean",
+                      "enum": [true, false]
                     }
                   }
                 }
