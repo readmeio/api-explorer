@@ -18,6 +18,10 @@ module.exports = {
       },
     ],
   },
+  externals: {
+    react: 'react',
+    reactDOM: 'react-dom'
+  },
   output: {
     filename: './dist/index.js',
     libraryTarget: 'commonjs2',
