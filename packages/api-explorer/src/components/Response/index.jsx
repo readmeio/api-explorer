@@ -1,9 +1,10 @@
 import React, {Fragment} from 'react'
 import {FormattedMessage} from 'react-intl'
+import PropTypes from 'prop-types'
+
 import BlockWithTab from '../BlockWithTab'
 import IconStatus from '../../IconStatus'
-
-const PropTypes = require('prop-types');
+import CopyCode from '../CopyCode'
 
 const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
@@ -11,7 +12,6 @@ const showCodeResults = require('../../lib/show-code-results');
 const contentTypeIsJson = require('../../lib/content-type-is-json');
 
 const Oas = require('../../lib/Oas');
-const CopyCode = require('../CopyCode');
 
 const { Operation } = Oas;
 const ctaContainerStyle = {

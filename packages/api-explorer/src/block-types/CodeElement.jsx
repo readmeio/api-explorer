@@ -1,8 +1,8 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react'
+import PropTypes from 'prop-types'
+import syntaxHighlighter from '@mia-platform/syntax-highlighter'
 
-const CopyCode = require('../components/CopyCode');
-const syntaxHighlighter = require('@mia-platform/syntax-highlighter');
+import CopyCode from '../components/CopyCode'
 
 /*
  * This component is used internally by Code

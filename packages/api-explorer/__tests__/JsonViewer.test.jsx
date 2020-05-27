@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl';
 import ReactTestUtils from 'react-dom/test-utils'
-import { mountWithIntl, loadTranslationObject } from 'enzyme-react-intl'
+import { mountWithIntl, loadTranslationObject, shallowWithIntl } from 'enzyme-react-intl'
 import ReactJson from 'react-json-view'
 import { Button } from 'antd';
 
@@ -32,7 +32,7 @@ describe('JsonViewer', () => {
     const props = {
       missingMessage: 'foo.id'
     }
-    const element = mountWithIntl(<JsonViewer {...props} />)
+    const element = shallowWithIntl(<JsonViewer {...props} />)
     const formattedMessage = element.find(FormattedMessage)
     expect(formattedMessage).toHaveLength(1)
     expect(formattedMessage.prop('id')).toEqual(props.missingMessage)
@@ -87,8 +87,9 @@ describe('JsonViewer', () => {
 })
 
 function clickExpandButton(element) {
+  const button = getCollapseButton(element)
   ReactTestUtils.act(() => {
-    element.find(Button).prop('onClick')()
+    button.prop('onClick')()
   })
   element.update()
 }
@@ -96,9 +97,16 @@ function clickExpandButton(element) {
 function checkCollapse(element, {isCollapsed}) {
   if (isCollapsed) {
     expect(element.find(ReactJson).prop('collapsed')).toEqual(1)
-    expect(element.find(Button).find(FormattedMessage).prop('id')).toEqual('schemas.expand')
+    expect(element.findWhere(node => node.type() === FormattedMessage && node.prop('id') === 'schemas.expand')).toHaveLength(1)
     return
   }
-  expect(element.find(ReactJson).prop('collapsed')).toEqual(5)
-  expect(element.find(Button).find(FormattedMessage).prop('id')).toEqual('schemas.collapse')
+  expect(element.find(ReactJson).prop('collapsed')).toEqual(10)
+  expect(element.findWhere(node => node.type() === FormattedMessage && node.prop('id') === 'schemas.collapse')).toHaveLength(1)
+}
+
+function getCollapseButton (element) {
+  const formattedMessage = element
+    .findWhere(node => node.type() === FormattedMessage && 
+      (node.prop('id') === 'schemas.collapse' || node.prop('id') === 'schemas.expand'))
+  return formattedMessage.closest(Button)
 }

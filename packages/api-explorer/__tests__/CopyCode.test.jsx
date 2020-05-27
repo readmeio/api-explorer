@@ -4,6 +4,7 @@ import {IntlProvider} from 'react-intl'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 
 import CopyCode from '../src/components/CopyCode'
+import CopyText from '../src/components/CopyText'
 
 describe('CopyCode', () => {
   const props = {
@@ -30,5 +31,5 @@ function mountCopyCode(props) {
 }
 
 function assertToBeCopied(element, {copied}) {
-  expect(element.state().copied).toBe(copied)
+  expect(element.find(CopyText).state().copied).toBe(copied)
 }

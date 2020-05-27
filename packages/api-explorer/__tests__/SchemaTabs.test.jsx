@@ -1,9 +1,13 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react'
 import { shallow } from 'enzyme'
+import {mountWithIntl, loadTranslationObject} from 'enzyme-react-intl'
+import ReactTestUtils from 'react-dom/test-utils'
 import { omit } from 'ramda'
 import { FormattedMessage } from 'react-intl';
 import jsf from 'json-schema-faker'
-import {Alert} from "antd";
+import {Alert, Button} from "antd";
+import ReactJson from 'react-json-view'
 
 import OAS from './fixtures/basicOas.json'
 import OPERATION from './fixtures/basicOperations.json'
@@ -13,6 +17,8 @@ import BlockWithTab from '../src/components/BlockWithTab'
 import JsonViewer from '../src/components/JsonViewer'
 import Select from '../src/components/Select'
 
+import strings from '../i18n/en.json'
+
 const operationWithExample = require('./fixtures/withExample/operation.json')
 const oasWithExample = require('./fixtures/withExample/oas.json')
 const maxStackOas = require('./fixtures/withExample/maxStackOas.json')
@@ -21,6 +27,8 @@ const maxStackOperation = require('./fixtures/withExample/maxStackOperation.json
 jest.mock('json-schema-faker')
 
 describe('SchemaTabs', () => {
+  loadTranslationObject(strings)
+
   const props = {
     oas: OAS,
     operation: OPERATION
@@ -52,6 +60,28 @@ describe('SchemaTabs', () => {
     expect(element.find(BlockWithTab).prop('selected')).toEqual('example')
     element.find(BlockWithTab).simulate('click', 'response')
     expect(element.find(BlockWithTab).prop('selected')).toEqual('response')
+  })
+
+  test('renders a ReactJson initially collapsed when switch between tabs', (done) => {
+    jsf._generateReturnValue(() => ({petId: 3}))
+
+    element = mountWithIntl(<SchemaTabs {...props} />)
+
+    setTimeout(() => {
+      element.mount()
+      expect(element.find(BlockWithTab).prop('selected')).toEqual('example')
+    
+      expect(element.find(ReactJson).prop('collapsed')).toEqual(1)
+      clickExpandButton(element)
+      expect(element.find(ReactJson).prop('collapsed')).toEqual(10)
+  
+      element.find(BlockWithTab).prop('onClick')('request')
+      element.mount()
+      expect(element.find(BlockWithTab).prop('selected')).toEqual('request')
+      expect(element.find(ReactJson).prop('collapsed')).toEqual(1)
+
+      done()
+    }, 0)
   })
 
   describe('with example schema selected', () => {
@@ -195,4 +225,17 @@ function assertToHaveFoundMissingSchemaMessage(element, tabType, done) {
     expect(formattedMessage.prop('id')).toEqual(`schemaTabs.missing.${tabType}`)
     done()
   })
+}
+
+
+function clickExpandButton(element) {
+  const formattedMessage = element
+    .findWhere(node => node.type() === FormattedMessage && 
+      (node.prop('id') === 'schemas.collapse' || node.prop('id') === 'schemas.expand'))
+  const button = formattedMessage.closest(Button)
+
+  ReactTestUtils.act(() => {
+    button.prop('onClick')()
+  })
+  element.mount()
 }

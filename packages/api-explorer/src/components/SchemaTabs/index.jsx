@@ -99,7 +99,13 @@ export default class SchemaTabs extends Component {
       if (!example) {
         example = jsf.generate(schema)
       }
-      return <JsonViewer missingMessage={'schemaTabs.missing.example'} schema={example} />
+      return (
+        <JsonViewer 
+          missingMessage={'schemaTabs.missing.example'} 
+          schema={example} 
+          key={'json-viewer-example'}
+        />
+      )
     } catch (error) {
       return <Alert type={'error'} message={error.message} />
     }
@@ -126,6 +132,7 @@ export default class SchemaTabs extends Component {
     const {schema} = this.state
     return (
       <JsonViewer
+        key={'json-viewer-request'}
         missingMessage={'schemaTabs.missing.example'}
         schema={schema}
       />

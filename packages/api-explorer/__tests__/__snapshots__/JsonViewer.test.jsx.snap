@@ -582,15 +582,26 @@ exports[`JsonViewer Expand - Collapse button expand when click button 1`] = `
       </div>
     </div>
   </div>
-  <button
-    class="ant-btn"
-    style="position: absolute; top: 10px; right: 10px;"
-    type="button"
+  <div
+    style="position: absolute; top: 10px; right: 10px; display: grid; grid-auto-flow: column;"
   >
-    <span>
-      Collapse
-    </span>
-  </button>
+    <button
+      class="ant-btn"
+      type="button"
+    >
+      <span>
+        Copy
+      </span>
+    </button>
+    <button
+      class="ant-btn"
+      type="button"
+    >
+      <span>
+        Collapse
+      </span>
+    </button>
+  </div>
 </div>
 `;
 
@@ -746,15 +757,26 @@ exports[`JsonViewer Expand - Collapse button is collapsed as default 1`] = `
       </div>
     </div>
   </div>
-  <button
-    class="ant-btn"
-    style="position: absolute; top: 10px; right: 10px;"
-    type="button"
+  <div
+    style="position: absolute; top: 10px; right: 10px; display: grid; grid-auto-flow: column;"
   >
-    <span>
-      Expand all
-    </span>
-  </button>
+    <button
+      class="ant-btn"
+      type="button"
+    >
+      <span>
+        Copy
+      </span>
+    </button>
+    <button
+      class="ant-btn"
+      type="button"
+    >
+      <span>
+        Expand all
+      </span>
+    </button>
+  </div>
 </div>
 `;
 
@@ -880,14 +902,25 @@ exports[`JsonViewer if schema is defined renders ReactJson 1`] = `
       </div>
     </div>
   </div>
-  <button
-    class="ant-btn"
-    style="position: absolute; top: 10px; right: 10px;"
-    type="button"
+  <div
+    style="position: absolute; top: 10px; right: 10px; display: grid; grid-auto-flow: column;"
   >
-    <span>
-      Expand all
-    </span>
-  </button>
+    <button
+      class="ant-btn"
+      type="button"
+    >
+      <span>
+        Copy
+      </span>
+    </button>
+    <button
+      class="ant-btn"
+      type="button"
+    >
+      <span>
+        Expand all
+      </span>
+    </button>
+  </div>
 </div>
 `;
