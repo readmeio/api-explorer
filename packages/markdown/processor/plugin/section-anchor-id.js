@@ -20,7 +20,9 @@ const getTexts = node => {
 function transformer(ast) {
   return flatMap(ast, node => {
     if (matchTag.test(node.tagName)) {
-      const id = `section-${kebabCase(getTexts(node))}`;
+      if (node?.properties?.id) node.properties.id = node.properties.id.replace(/^(-+(?=\w))/, '');
+      const text = getTexts(node);
+      const id = `section-${kebabCase(text)}`;
       const element = {
         type: 'element',
         tagName: 'div',
