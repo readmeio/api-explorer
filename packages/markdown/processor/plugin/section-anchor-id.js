@@ -20,16 +20,29 @@ const getTexts = node => {
 function transformer(ast) {
   return flatMap(ast, node => {
     if (matchTag.test(node.tagName)) {
-      if (node?.properties?.id) node.properties.id = node.properties.id.replace(/^(-+(?=\w))/, '');
+      // Parse the node texts to construct
+      // a backwards-compatible anchor ID.
       const text = getTexts(node);
       const id = `section-${kebabCase(text)}`;
-      const element = {
+
+      if (node?.properties?.id) {
+        // Strip dash prefixes in GitHub slugger IDs
+        node.properties.id = node.properties.id.replace(/^(-+(?=\w))/, '');
+      } else {
+        // Use the compat anchor ID as fallback if
+        // GitHubs slugger returns an empty string.
+        node.properties.id = id;
+      }
+
+      // Create and append a compat anchor element
+      // to the section heading.
+      const anchor = {
         type: 'element',
         tagName: 'div',
         properties: { id, className: 'heading-anchor_backwardsCompatibility' },
       };
-      if (node.children) node.children.unshift(element);
-      else node.children = [element];
+      if (node.children) node.children.unshift(anchor);
+      else node.children = [anchor];
     }
     return [node];
   });
