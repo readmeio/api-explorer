@@ -122,6 +122,9 @@
           "content": {
             "application/json": {
               "schema": {
+                "example": {
+                  "lorem": "ipsum"
+                },
                 "type": "object",
                 "properties": {
                   "lorem": {
