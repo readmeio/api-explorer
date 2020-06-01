@@ -9,7 +9,7 @@
     "@readme/markdown-magic": "^6.9.6",
     "@readme/oas-extensions": "^6.9.4",
     "@readme/oas-to-har": "^6.9.6",
-    "@readme/oas-tooling": "^3.4.0",
+    "@readme/oas-tooling": "^3.4.3",
     "@readme/react-jsonschema-form": "^1.1.5",
     "@readme/syntax-highlighter": "^6.9.6",
     "@readme/variable": "^6.9.6",

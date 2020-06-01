@@ -36,7 +36,6 @@
     "@babel/preset-react": "^7.0.0",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "@commitlint/config-lerna-scopes": "^8.3.4",
     "@readme/eslint-config": "^3.0.0",
     "auto-changelog": "^2.0.0",
     "babel-core": "^7.0.0-bridge.0",
@@ -79,8 +78,7 @@
   },
   "commitlint": {
     "extends": [
-      "@commitlint/config-conventional",
-      "@commitlint/config-lerna-scopes"
+      "@commitlint/config-conventional"
     ]
   }
 }
