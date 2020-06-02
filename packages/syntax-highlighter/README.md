@@ -29,6 +29,7 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | Clojure | `clj`, `cljc`, `cljx` `clojure` |
 | CSS | `css`, `scss`, `styl`, `stylus` |
 | cURL | `curl`, `shell` |
+| Cypher | `cyp`, `cypher` |
 | Dart | `dart` |
 | Docker | `dockerfile` |
 | Go | `go` |

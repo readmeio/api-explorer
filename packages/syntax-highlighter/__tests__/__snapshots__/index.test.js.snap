@@ -51,6 +51,13 @@ exports[`Supported languages Clojure should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Cypher should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\">CREATE (Hello:Word { val: &#x27;Hello&#x27; }), (World:Word { val: &#x27;World!&#x27; }),
+(Hello)-[:SPACE]-&gt;(World)
+RETURN Hello,World
+</span>"
+`;
+
 exports[`Supported languages Dart should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">main</span>() {
   <span class=\\"cm-variable\\">print</span>(<span class=\\"cm-string\\">&#x27;Hello World&#x27;</span>);

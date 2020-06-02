@@ -26,6 +26,8 @@ module.exports = {
   cs: ['clike', 'text/x-csharp'],
   csharp: ['clike', 'text/x-csharp'],
   curl: 'shell',
+  cyp: 'Cypher',
+  cypher: 'Cypher',
   ecmascript: 'javascript',
   go: ['go', 'text/x-go'],
   html: 'htmlmixed',
