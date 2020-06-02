@@ -54,7 +54,7 @@ exports[`Supported languages Dart should syntax highlight an example 1`] = `
 `;
 
 exports[`Supported languages Dockerfile should syntax highlight an example 1`] = `
-"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">FROM</span> alping:3.4
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">FROM</span> alpine:3.4
 </span>"
 `;
 
