@@ -1,5 +1,6 @@
 const React = require('react');
 const swagger2openapi = require('swagger2openapi');
+const swaggerParser = require('@apidevtools/swagger-parser');
 const yaml = require('yaml');
 
 const createDocs = require('../../packages/api-explorer/lib/create-docs');
@@ -27,11 +28,11 @@ function withSpecFetching(Component) {
 
     fetchSwagger(url) {
       this.setState({ isLoading: true }, () => {
-        this.updateStatus('Fetching Swagger/OAS file');
+        this.updateStatus('Fetching API definition');
         fetch(url)
           .then(res => {
             if (!res.ok) {
-              throw new Error('Failed to fetch.');
+              throw new Error('Failed to fetch');
             }
 
             if (res.headers.get('content-type') === 'application/yaml' || url.match(/\.(yaml|yml)/)) {
@@ -45,12 +46,16 @@ function withSpecFetching(Component) {
           })
           .then(json => {
             if (json.swagger) return this.convertSwagger(url, json);
-
-            return this.dereference(json);
+            return json;
           })
+          .then(json => {
+            this.updateStatus('Validating the definition');
+            return swaggerParser.validate(json);
+          })
+          .then(json => this.dereference(json))
           .catch(e => {
             this.setState({ isLoading: false });
-            this.updateStatus(`There was an error fetching your specification:\n\n${e.message}`);
+            this.updateStatus(`There was an error handling your API definition:\n\n${e.message}`);
           });
       });
     }
@@ -66,15 +71,15 @@ function withSpecFetching(Component) {
     }
 
     convertSwagger(url, swagger) {
-      this.updateStatus('Converting Swagger file to OAS 3', () => {
-        swagger2openapi
-          .convertObj(swagger, {})
-          .then(({ openapi }) => this.dereference(openapi))
-          .catch(e => {
-            this.setState({ isLoading: false, invalidSpec: e.message, invalidSpecPath: url });
-            this.updateStatus(`There was an error fetching your specification:\n\n${e.message}`);
-          });
-      });
+      this.updateStatus('Converting Swagger to OpenAPI 3');
+
+      return swagger2openapi
+        .convertObj(swagger, { patch: true })
+        .then(({ openapi }) => openapi)
+        .catch(e => {
+          this.setState({ isLoading: false, invalidSpec: e.message, invalidSpecPath: url });
+          this.updateStatus(`There was an error converting your API definition:\n\n${e.message}`);
+        });
     }
 
     createDocs(oas) {
