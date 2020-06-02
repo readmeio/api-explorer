@@ -32,7 +32,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown-magic",
   "devDependencies": {
-    "@readme/eslint-config": "^3.0.0",
+    "@readme/eslint-config": "^3.1.2",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "jsinspect": "^0.12.7",
