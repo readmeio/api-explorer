@@ -13,8 +13,6 @@
     "/post": {
       "post": {
         "summary": "Should get sent as a raw JSON body",
-        "description": "",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful"
