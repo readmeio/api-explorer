@@ -46,6 +46,11 @@ exports[`Supported languages CSS should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Clojure should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-bracket\\">(</span><span class=\\"cm-keyword\\">println</span> <span class=\\"cm-string\\">&quot;Hello World&quot;</span><span class=\\"cm-bracket\\">)</span>
+</span>"
+`;
+
 exports[`Supported languages Dart should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">main</span>() {
   <span class=\\"cm-variable\\">print</span>(<span class=\\"cm-string\\">&#x27;Hello World&#x27;</span>);

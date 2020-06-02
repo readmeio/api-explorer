@@ -9,6 +9,7 @@ require('codemirror/addon/runmode/runmode');
 require('codemirror/mode/meta.js');
 
 require('codemirror/mode/clike/clike');
+require('codemirror/mode/clojure/clojure');
 require('codemirror/mode/dart/dart');
 require('codemirror/mode/dockerfile/dockerfile');
 require('codemirror/mode/go/go');
