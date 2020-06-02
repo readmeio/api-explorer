@@ -9,6 +9,7 @@ require('codemirror/addon/runmode/runmode');
 require('codemirror/mode/meta.js');
 
 require('codemirror/mode/clike/clike');
+require('codemirror/mode/dart/dart');
 require('codemirror/mode/dockerfile/dockerfile');
 require('codemirror/mode/go/go');
 require('codemirror/mode/htmlmixed/htmlmixed');
@@ -20,7 +21,6 @@ require('codemirror/mode/ruby/ruby');
 require('codemirror/mode/shell/shell');
 require('codemirror/mode/sql/sql');
 require('codemirror/mode/swift/swift');
-require('codemirror/mode/dart/dart');
 
 function getMode(lang) {
   let mode = lang;

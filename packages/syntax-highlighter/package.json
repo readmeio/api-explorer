@@ -24,6 +24,7 @@
   "devDependencies": {
     "@readme/eslint-config": "^3.1.2",
     "eslint": "^7.0.0",
+    "glob": "^7.1.6",
     "jest": "^26.0.1",
     "jsinspect": "^0.12.6",
     "prettier": "^2.0.1"
