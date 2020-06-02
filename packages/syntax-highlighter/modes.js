@@ -19,6 +19,7 @@ module.exports = {
   cljc: 'clojure',
   cljx: 'clojure',
   clojure: 'clojure',
+  coffeescript: 'javascript',
   cplusplus: ['clike', 'text/x-c++src'],
   cpp: ['clike', 'text/x-c++src'],
   cql: ['sql', 'text/x-cassandra'],
