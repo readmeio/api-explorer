@@ -13,7 +13,6 @@
     "/multiple-types-multiple-examples": {
       "get": {
         "summary": "Multiple response types with multiple examples",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -94,7 +93,6 @@
     "/multiple-types-single-example": {
       "get": {
         "summary": "Multiple response types with a single example",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -165,7 +163,6 @@
     "/single-type-multiple-examples": {
       "get": {
         "summary": "Single media type with multiple examples",
-        "description": "",
         "responses": {
           "200": {
             "description": "OK",
@@ -215,7 +212,6 @@
     "/single-type-single-example": {
       "get": {
         "summary": "Single media type with a single example",
-        "description": "",
         "responses": {
           "200": {
             "description": "OK",

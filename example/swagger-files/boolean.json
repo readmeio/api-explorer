@@ -13,8 +13,6 @@
     "/post": {
       "post": {
         "summary": "Boolean should only have one description",
-        "description": "",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful"

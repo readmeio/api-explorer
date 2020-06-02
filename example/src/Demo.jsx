@@ -17,7 +17,7 @@ class Demo extends React.Component {
     this.state = {
       brokenExplorerState: false,
       maskErrorMessages: false,
-      useNewMarkdownEngine: false,
+      useNewMarkdownEngine: true,
     };
   }
 
