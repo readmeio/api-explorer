@@ -4,6 +4,7 @@ module.exports = {
     primary: 'mm',
     aliases: {
       'objc++': 'Objective-C++',
+      objectivecpp: 'Objective-C++',
       objectivecplusplus: 'Objective-C++',
     },
   },

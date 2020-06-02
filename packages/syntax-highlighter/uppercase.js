@@ -46,6 +46,7 @@ const codeTypes = {
   objc: 'Objective-C',
   'objc++': 'Objective-C++',
   objectivec: 'Objective-C',
+  objectivecpp: 'Objective-C++',
   objectivecplusplus: 'Objective-C++',
   perl: 'Perl',
   php: 'PHP',
