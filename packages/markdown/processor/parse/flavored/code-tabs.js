@@ -1,4 +1,4 @@
-const RGXP = /^(```([^]*?)```)(?=\n(?!```)|```\n\n|$)/g;
+const RGXP = /^(```([^]*?)```)(?=\n(?!```|\w)|```\n\n|$)/g;
 
 function tokenizer(eat, value) {
   const [match] = RGXP.exec(value) || [];
@@ -16,12 +16,12 @@ function tokenizer(eat, value) {
        * For each of our adjacent code blocks we'll:
        * 1) normalize any unbalanced tilde wrappers
        * 2) split the matching block in to three parts:
-       *    - syntax [lang] extension
+       *    - [lang] syntax extension
        *    - [meta] tab name (optional)
-       *    - the [code] snippet text
+       *    - [code] snippet text
        */
       // eslint-disable-next-line no-param-reassign
-      val = ['```', val.replace('```', ''), '```'].join('');
+      val = ['```', val.replace('```', ''), '```'].join('').trim();
 
       // eslint-disable-next-line unicorn/no-unsafe-regex
       const [, lang, meta = null, code = ''] = /```([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
@@ -42,7 +42,7 @@ function tokenizer(eat, value) {
   // return a single code block
   if (kids.length === 1) return eat(match)(kids[0]);
 
-  // return the tabbed code block editor
+  // return a tabbed code block
   return eat(match)({
     type: 'code-tabs',
     className: 'tabs',
