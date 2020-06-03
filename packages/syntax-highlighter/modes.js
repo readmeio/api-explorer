@@ -66,6 +66,7 @@ module.exports = {
   rake: 'ruby',
   rb: 'ruby',
   rbx: 'ruby',
+  sass: 'css',
   scala: ['clike', 'text/x-scala'],
   scss: 'css',
   sh: 'shell',

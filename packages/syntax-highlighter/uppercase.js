@@ -71,7 +71,7 @@ const codeTypes = {
   rbx: 'Rubinius',
   ruby: 'Ruby',
   rust: 'Rust',
-  sass: 'SASS',
+  sass: 'Sass',
   scala: 'Scala',
   scss: 'SCSS',
   shell: 'Shell',
