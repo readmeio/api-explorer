@@ -1,0 +1,29 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  reviewers:
+  - erunion
+  labels:
+  - dependencies
+- package-ecosystem: npm
+  directory: "/packages/markdown"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  reviewers:
+  - rafegoldberg
+  labels:
+  - dependencies
+- package-ecosystem: npm
+  directory: "/packages/markdown-magic"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  reviewers:
+  - rafegoldberg
+  labels:
+  - dependencies
