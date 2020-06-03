@@ -1,4 +1,4 @@
-const RGXP = /^(```([^]*?)```)(?=\n(?!```|\w)|```\n\n|$)/g;
+const RGXP = /^(```([^]*?)```)(?=\s*\n(?!```|\w)|```\n\n|$)/g;
 
 function tokenizer(eat, value) {
   const [match] = RGXP.exec(value) || [];
@@ -24,7 +24,7 @@ function tokenizer(eat, value) {
       val = ['```', val.replace('```', ''), '```'].join('').trim();
 
       // eslint-disable-next-line unicorn/no-unsafe-regex
-      const parts = /```([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
+      const parts = /```[ \t]*([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
       const [, lang, , code = ''] = parts;
 
       let meta = parts[2];
