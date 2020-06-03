@@ -269,6 +269,11 @@ exports[`Supported languages Swift should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages TypeScript should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">let</span> { <span class=\\"cm-def\\">a</span>, <span class=\\"cm-def\\">b</span> }: { <span class=\\"cm-property\\">a</span>: <span class=\\"cm-type\\">string</span>, <span class=\\"cm-property\\">b</span>: <span class=\\"cm-type\\">number</span> } <span class=\\"cm-operator\\">=</span> <span class=\\"cm-variable\\">o</span>;
+</span>"
+`;
+
 exports[`Supported languages XML should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-meta\\">&lt;?xml</span> <span class=\\"cm-meta\\">version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class=\\"cm-tag cm-bracket\\">&lt;</span><span class=\\"cm-tag\\">text</span><span class=\\"cm-tag cm-bracket\\">&gt;</span><span class=\\"cm-atom\\">&lt;![CDATA[Hello World]]&gt;</span><span class=\\"cm-tag cm-bracket\\">&lt;/</span><span class=\\"cm-tag\\">text</span><span class=\\"cm-tag cm-bracket\\">&gt;</span>

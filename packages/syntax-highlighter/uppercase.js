@@ -41,16 +41,19 @@ const codeTypes = {
   json: 'JSON',
   julia: 'Julia',
   kotlin: 'Kotlin',
+  kt: 'Kotlin',
   less: 'LESS',
   liquid: 'Liquid',
   lua: 'Lua',
   macruby: 'MacRuby',
   markdown: 'Markdown',
+  md: 'Markdown',
   mssql: 'SQL Server',
   mysql: 'MySQL',
   node: 'Node',
   objc: 'Objective-C',
   'objc++': 'Objective-C++',
+  objcpp: 'Objective-C++',
   objectivec: 'Objective-C',
   objectivecpp: 'Objective-C++',
   objectivecplusplus: 'Objective-C++',
@@ -64,8 +67,10 @@ const codeTypes = {
   powershell: 'PowerShell',
   ps1: 'PowerShell',
   python: 'Python',
+  py: 'Python',
   r: 'R',
   rake: 'Rake',
+  rb: 'Ruby',
   rbx: 'Rubinius',
   rs: 'Rust',
   ruby: 'Ruby',
@@ -73,6 +78,7 @@ const codeTypes = {
   sass: 'Sass',
   scala: 'Scala',
   scss: 'SCSS',
+  sh: 'Shell',
   shell: 'Shell',
   smarty: 'Smarty',
   sql: 'SQL',
@@ -92,6 +98,6 @@ const codeTypes = {
 };
 
 module.exports = function uppercase(language) {
-  if (codeTypes[language]) return codeTypes[language];
+  if (language in codeTypes) return codeTypes[language];
   return language;
 };

@@ -1,10 +1,10 @@
 module.exports = {
   language: 'Shell',
   mode: {
-    primary: 'sh',
+    primary: 'shell',
     aliases: {
       bash: 'Bash',
-      shell: 'Shell',
+      sh: 'Shell',
       zsh: 'Zsh',
     },
   },

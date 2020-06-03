@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Clojure',
   mode: {
-    primary: 'clj',
+    primary: 'clojure',
     aliases: {
-      clojure: 'Clojure',
+      clj: 'Clojure',
       cljc: 'Clojure',
       cljx: 'Clojure',
     },

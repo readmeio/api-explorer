@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Erlang',
   mode: {
-    primary: 'erl',
+    primary: 'erlang',
     aliases: {
-      erlang: 'Erlang',
+      erl: 'Erlang',
     },
   },
 };

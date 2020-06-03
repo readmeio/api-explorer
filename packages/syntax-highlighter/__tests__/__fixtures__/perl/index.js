@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Perl',
   mode: {
-    primary: 'pl',
+    primary: 'perl',
     aliases: {
-      perl: 'Perl',
+      pl: 'Perl',
     },
   },
 };

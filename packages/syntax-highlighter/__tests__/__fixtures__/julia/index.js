@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Julia',
   mode: {
-    primary: 'jl',
+    primary: 'julia',
     aliases: {
-      julia: 'Julia',
+      jl: 'Julia',
     },
   },
 };

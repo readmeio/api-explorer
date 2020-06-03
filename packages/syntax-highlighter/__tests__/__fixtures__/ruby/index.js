@@ -1,13 +1,13 @@
 module.exports = {
   language: 'Ruby',
   mode: {
-    primary: 'rb',
+    primary: 'ruby',
     aliases: {
       jruby: 'JRuby',
       macruby: 'MacRuby',
       rake: 'Rake',
+      rb: 'Ruby',
       rbx: 'Rubinius',
-      ruby: 'Ruby',
     },
   },
 };

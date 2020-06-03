@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Rust',
   mode: {
-    primary: 'rs',
+    primary: 'rust',
     aliases: {
-      rust: 'Rust',
+      rs: 'Rust',
     },
   },
 };

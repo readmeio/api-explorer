@@ -1,7 +1,8 @@
 module.exports = {
   language: 'Objective-C++',
   mode: {
-    primary: 'mm',
+    primary: 'objcpp',
+    canonical: 'objectivecplusplus',
     aliases: {
       'objc++': 'Objective-C++',
       objectivecpp: 'Objective-C++',

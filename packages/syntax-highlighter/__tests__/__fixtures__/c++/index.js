@@ -1,10 +1,10 @@
 module.exports = {
   language: 'C++',
   mode: {
-    primary: 'cpp',
+    primary: 'cplusplus',
     aliases: {
       'c++': 'C++',
-      cplusplus: 'C++',
+      cpp: 'C++',
     },
   },
 };

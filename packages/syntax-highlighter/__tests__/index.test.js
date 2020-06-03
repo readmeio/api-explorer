@@ -5,6 +5,7 @@ const fs = require('fs').promises;
 
 const syntaxHighlighter = require('..');
 const uppercase = require('../uppercase');
+const canoncial = require('../canonical');
 
 const fixtures = glob.sync(path.join(__dirname, '/__fixtures__/*'));
 
@@ -80,10 +81,10 @@ describe('Supported languages', () => {
       expect(instructions).not.toBeUndefined();
       expect(instructions).toStrictEqual({
         language: expect.any(String),
-        mode: {
+        mode: expect.objectContaining({
           primary: expect.any(String),
           aliases: expect.any(Object),
-        },
+        }),
       });
     });
 
@@ -105,6 +106,15 @@ describe('Supported languages', () => {
           it('should uppercase the mode alias', () => {
             expect(uppercase(alias)).toBe(aliasName);
           });
+
+          it('should have a canonical directive set up', () => {
+            // eslint-disable-next-line jest/no-if
+            if ('canonical' in instructions.mode) {
+              expect(canoncial(alias)).toBe(instructions.mode.canonical);
+            } else {
+              expect(canoncial(alias)).toBe(instructions.mode.primary);
+            }
+          });
         });
       });
     }
@@ -113,12 +123,6 @@ describe('Supported languages', () => {
       it('should highlight handlebars templates', () => {
         const code = '<p>{{firstname}} {{lastname}}</p>';
         expect(shallow(syntaxHighlighter(code, 'handlebars')).html()).toContain('cm-bracket');
-      });
-    } else if (instructions.mode.primary === 'js') {
-      it('should highlight typescript', () => {
-        const code = `let { a, b }: { a: string, b: number } = o;`;
-
-        expect(shallow(syntaxHighlighter(code, 'typescript')).html()).toContain('cm-variable');
       });
     } else if (instructions.mode.primary === 'php') {
       it('should highlight if missing an opening `<?php` tag', () => {
