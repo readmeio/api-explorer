@@ -27,7 +27,7 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | C++ | `c++`, `cpp`, `cplusplus` |
 | C# | `cs`, `csharp` |
 | Clojure | `clj`, `cljc`, `cljx` `clojure` |
-| CSS | `css`, `scss`, `styl`, `stylus` |
+| CSS | `css`, `less`, `scss`, `styl`, `stylus` |
 | cURL | `curl`, `shell` |
 | Cypher | `cyp`, `cypher` |
 | D | `d` |

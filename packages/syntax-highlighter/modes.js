@@ -41,6 +41,7 @@ module.exports = {
   jruby: 'ruby',
   kotlin: ['clike', 'text/x-kotlin'],
   kt: ['clike', 'text/x-kotlin'],
+  less: 'css',
   liquid: 'htmlmixed',
   node: 'javascript',
   m: ['clike', 'text/x-objectivec'],
