@@ -9,7 +9,21 @@ updates:
   - erunion
   labels:
   - dependencies
-  ignore:
-  - dependency-name: react-dom
-    versions:
-    - ">= 16.9.a, < 16.10"
+- package-ecosystem: npm
+  directory: "/packages/api-logs"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  reviewers:
+  - rafegoldberg
+  labels:
+  - dependencies
+- package-ecosystem: npm
+  directory: "/packages/markdown"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  reviewers:
+  - rafegoldberg
+  labels:
+  - dependencies
