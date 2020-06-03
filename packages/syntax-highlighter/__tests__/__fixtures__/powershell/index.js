@@ -1,9 +1,9 @@
 module.exports = {
   language: 'PowerShell',
   mode: {
-    primary: 'ps1',
+    primary: 'powershell',
     aliases: {
-      powershell: 'PowerShell',
+      ps1: 'PowerShell',
     },
   },
 };

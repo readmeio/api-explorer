@@ -46,6 +46,22 @@ exports[`Supported languages CSS should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Clojure should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-bracket\\">(</span><span class=\\"cm-keyword\\">println</span> <span class=\\"cm-string\\">&quot;Hello World&quot;</span><span class=\\"cm-bracket\\">)</span>
+</span>"
+`;
+
+exports[`Supported languages D should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-comment\\">// Hello World in D</span>
+<span class=\\"cm-variable\\">import</span> <span class=\\"cm-variable\\">std</span>.<span class=\\"cm-variable\\">stdio</span>;
+
+<span class=\\"cm-variable\\">void</span> <span class=\\"cm-variable\\">main</span>()
+{
+	   <span class=\\"cm-variable\\">writeln</span>(<span class=\\"cm-string\\">&quot;Hello World&quot;</span>);
+}
+</span>"
+`;
+
 exports[`Supported languages Dart should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">main</span>() {
   <span class=\\"cm-variable\\">print</span>(<span class=\\"cm-string\\">&#x27;Hello World&#x27;</span>);
@@ -58,6 +74,15 @@ exports[`Supported languages Dockerfile should syntax highlight an example 1`] =
 </span>"
 `;
 
+exports[`Supported languages Erlang should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-attribute\\">-module</span>(<span class=\\"cm-atom\\">erlang_hw</span>).
+<span class=\\"cm-attribute\\">-export</span>([<span class=\\"cm-meta\\">start/0</span>]).
+
+<span class=\\"cm-tag\\">start</span>() -&gt;
+  <span class=\\"cm-tag\\">io</span>:<span class=\\"cm-tag\\">format</span>(<span class=\\"cm-string\\">&quot;Hello World~n&quot;</span>).
+</span>"
+`;
+
 exports[`Supported languages Go should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">package</span> <span class=\\"cm-variable\\">main</span>
 
@@ -66,6 +91,11 @@ exports[`Supported languages Go should syntax highlight an example 1`] = `
 <span class=\\"cm-keyword\\">func</span> <span class=\\"cm-variable\\">main</span>() {
   <span class=\\"cm-variable\\">fmt</span><span class=\\"cm-number\\">.</span><span class=\\"cm-variable\\">Println</span>(<span class=\\"cm-string\\">&quot;Hello World&quot;</span>)
 }
+</span>"
+`;
+
+exports[`Supported languages Groovy should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">println</span> <span class=\\"cm-string\\">&quot;Hello World&quot;</span>
 </span>"
 `;
 
@@ -81,6 +111,18 @@ exports[`Supported languages HTML should syntax highlight an example 1`] = `
     <span class=\\"cm-tag cm-bracket\\">&lt;</span><span class=\\"cm-tag\\">h1</span><span class=\\"cm-tag cm-bracket\\">&gt;</span>Hello World!<span class=\\"cm-tag cm-bracket\\">&lt;/</span><span class=\\"cm-tag\\">h1</span><span class=\\"cm-tag cm-bracket\\">&gt;</span>
 <span class=\\"cm-tag cm-bracket\\">&lt;/</span><span class=\\"cm-tag\\">body</span><span class=\\"cm-tag cm-bracket\\">&gt;</span>
 <span class=\\"cm-tag cm-bracket\\">&lt;/</span><span class=\\"cm-tag\\">html</span><span class=\\"cm-tag cm-bracket\\">&gt;</span>
+</span>"
+`;
+
+exports[`Supported languages HTTP should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">POST</span> <span class=\\"cm-string-2\\">/somewhere</span> <span class=\\"cm-keyword\\">HTTP/1.1</span>
+<span class=\\"cm-atom\\">Host:</span><span class=\\"cm-string\\"> example.com</span>
+<span class=\\"cm-atom\\">If-Modified-Since:</span><span class=\\"cm-string\\"> Sat, 29 Oct 1994 19:43:31 GMT</span>
+<span class=\\"cm-atom\\">Content-Type:</span><span class=\\"cm-string\\"> application/x-www-form-urlencoded;</span>
+<span class=\\"cm-string\\">	charset=utf-8</span>
+<span class=\\"cm-atom\\">User-Agent:</span><span class=\\"cm-string\\"> Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.11 (KHTML, like Gecko) Ubuntu/12.04 Chromium/20.0.1132.47 Chrome/20.0.1132.47 Safari/536.11</span>
+
+This is the request body!
 </span>"
 `;
 
@@ -102,6 +144,11 @@ exports[`Supported languages Java should syntax highlight an example 1`] = `
 
 exports[`Supported languages JavaScript should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">alert</span>(<span class=\\"cm-string\\">&#x27;Hello, world!&#x27;</span>);
+</span>"
+`;
+
+exports[`Supported languages Julia should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-builtin\\">println</span>(<span class=\\"cm-string\\">&quot;Hello World&quot;</span>)
 </span>"
 `;
 
@@ -169,6 +216,12 @@ exports[`Supported languages PHP should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Perl should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-comment\\">#!/usr/bin/perl</span>
+<span class=\\"cm-keyword\\">print</span> <span class=\\"cm-string\\">&quot;Hello World\\\\n&quot;</span>;
+</span>"
+`;
+
 exports[`Supported languages PowerShell should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-string\\">&#x27;Hello World&#x27;</span>
 </span>"
@@ -183,6 +236,13 @@ exports[`Supported languages Python should syntax highlight an example 1`] = `
 exports[`Supported languages Ruby should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-comment\\">#!/usr/bin/env ruby</span>
 <span class=\\"cm-variable\\">puts</span> <span class=\\"cm-string\\">&quot;Hello World&quot;</span>
+</span>"
+`;
+
+exports[`Supported languages Rust should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">fn</span> <span class=\\"cm-def\\">main</span>() {
+    <span class=\\"cm-variable-3\\">println!</span>(<span class=\\"cm-string\\">&quot;Hello World&quot;</span>);
+}
 </span>"
 `;
 
@@ -209,9 +269,19 @@ exports[`Supported languages Swift should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages TypeScript should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">let</span> { <span class=\\"cm-def\\">a</span>, <span class=\\"cm-def\\">b</span> }: { <span class=\\"cm-property\\">a</span>: <span class=\\"cm-type\\">string</span>, <span class=\\"cm-property\\">b</span>: <span class=\\"cm-type\\">number</span> } <span class=\\"cm-operator\\">=</span> <span class=\\"cm-variable\\">o</span>;
+</span>"
+`;
+
 exports[`Supported languages XML should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-meta\\">&lt;?xml</span> <span class=\\"cm-meta\\">version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class=\\"cm-tag cm-bracket\\">&lt;</span><span class=\\"cm-tag\\">text</span><span class=\\"cm-tag cm-bracket\\">&gt;</span><span class=\\"cm-atom\\">&lt;![CDATA[Hello World]]&gt;</span><span class=\\"cm-tag cm-bracket\\">&lt;/</span><span class=\\"cm-tag\\">text</span><span class=\\"cm-tag cm-bracket\\">&gt;</span>
+</span>"
+`;
+
+exports[`Supported languages YAML should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-atom\\">hello</span><span class=\\"cm-meta\\">: </span>world
 </span>"
 `;
 

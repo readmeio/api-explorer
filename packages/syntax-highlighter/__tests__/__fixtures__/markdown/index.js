@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Markdown',
   mode: {
-    primary: 'md',
+    primary: 'markdown',
     aliases: {
-      markdown: 'Markdown',
+      md: 'Markdown',
     },
   },
 };

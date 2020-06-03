@@ -1,9 +1,10 @@
 module.exports = {
   language: 'C#',
   mode: {
-    primary: 'cs',
+    primary: 'csharp',
     aliases: {
-      csharp: 'C#',
+      'c#': 'C#',
+      cs: 'C#',
     },
   },
 };

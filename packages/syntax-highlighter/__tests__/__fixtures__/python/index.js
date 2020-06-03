@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Python',
   mode: {
-    primary: 'py',
+    primary: 'python',
     aliases: {
-      python: 'Python',
+      py: 'Python',
     },
   },
 };

@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Objective-C',
   mode: {
-    primary: 'm',
+    primary: 'objc',
+    canonical: 'objectivec',
     aliases: {
-      objc: 'Objective-C',
       objectivec: 'Objective-C',
     },
   },

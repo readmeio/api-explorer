@@ -1,9 +1,9 @@
 module.exports = {
   language: 'Kotlin',
   mode: {
-    primary: 'kt',
+    primary: 'kotlin',
     aliases: {
-      kotlin: 'Kotlin',
+      kt: 'Kotlin',
     },
   },
 };
