@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  reviewers:
+  - erunion
+  labels:
+  - dependencies
+  ignore:
+  - dependency-name: react-dom
+    versions:
+    - ">= 16.9.a, < 16.10"
