@@ -30,6 +30,7 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | CSS | `css`, `scss`, `styl`, `stylus` |
 | cURL | `curl`, `shell` |
 | Cypher | `cyp`, `cypher` |
+| D | `d` |
 | Dart | `dart` |
 | Docker | `dockerfile` |
 | Go | `go` |
