@@ -23,6 +23,7 @@ const codeTypes = {
   dart: 'Dart',
   dockerfile: 'Dockerfile',
   ecmascript: 'ECMAScript',
+  erl: 'Erlang',
   erlang: 'Erlang',
   go: 'Go',
   groovy: 'Groovy',

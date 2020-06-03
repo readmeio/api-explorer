@@ -14,6 +14,7 @@ require('codemirror/mode/cypher/cypher');
 require('codemirror/mode/d/d');
 require('codemirror/mode/dart/dart');
 require('codemirror/mode/dockerfile/dockerfile');
+require('codemirror/mode/erlang/erlang');
 require('codemirror/mode/go/go');
 require('codemirror/mode/htmlmixed/htmlmixed');
 require('codemirror/mode/javascript/javascript');

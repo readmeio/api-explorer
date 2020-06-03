@@ -81,6 +81,15 @@ exports[`Supported languages Dockerfile should syntax highlight an example 1`] =
 </span>"
 `;
 
+exports[`Supported languages Erlang should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-attribute\\">-module</span>(<span class=\\"cm-atom\\">erlang_hw</span>).
+<span class=\\"cm-attribute\\">-export</span>([<span class=\\"cm-meta\\">start/0</span>]).
+
+<span class=\\"cm-tag\\">start</span>() -&gt;
+  <span class=\\"cm-tag\\">io</span>:<span class=\\"cm-tag\\">format</span>(<span class=\\"cm-string\\">&quot;Hello World~n&quot;</span>).
+</span>"
+`;
+
 exports[`Supported languages Go should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">package</span> <span class=\\"cm-variable\\">main</span>
 
