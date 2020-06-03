@@ -24,8 +24,7 @@ function tokenizer(eat, value) {
     '\u203C\uFE0F': 'error',
     // NOTE: prettier is desperate to convert this in to an emoji.
     //       PLEASE DON'T COMMIT THIS OR YOU'LL BREAK README IN IE!
-    // eslint-disable-next-line prettier/prettier
-    '\u2139\uFE0F': 'info',
+    '\u2139\uFE0F': 'info', // prettier-ignore
     '\u26A0': 'warn',
   }[icon];
 
