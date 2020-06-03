@@ -30,6 +30,7 @@ module.exports = {
   ecmascript: 'javascript',
   erl: 'erlang',
   go: ['go', 'text/x-go'],
+  gradle: 'groovy',
   html: 'htmlmixed',
   java: ['clike', 'text/x-java'],
   js: 'javascript',

@@ -26,6 +26,7 @@ const codeTypes = {
   erl: 'Erlang',
   erlang: 'Erlang',
   go: 'Go',
+  gradle: 'Gradle',
   groovy: 'Groovy',
   handlebars: 'Handlebars',
   haml: 'HAML',

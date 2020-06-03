@@ -101,6 +101,11 @@ exports[`Supported languages Go should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Groovy should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-variable\\">println</span> <span class=\\"cm-string\\">&quot;Hello World&quot;</span>
+</span>"
+`;
+
 exports[`Supported languages HTML should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-meta\\">&lt;!DOCTYPE html&gt;</span>
 <span class=\\"cm-tag cm-bracket\\">&lt;</span><span class=\\"cm-tag\\">html</span> <span class=\\"cm-attribute\\">lang</span>=<span class=\\"cm-string\\">&quot;en&quot;</span><span class=\\"cm-tag cm-bracket\\">&gt;</span>

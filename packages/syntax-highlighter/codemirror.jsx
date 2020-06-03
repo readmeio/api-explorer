@@ -16,6 +16,7 @@ require('codemirror/mode/dart/dart');
 require('codemirror/mode/dockerfile/dockerfile');
 require('codemirror/mode/erlang/erlang');
 require('codemirror/mode/go/go');
+require('codemirror/mode/groovy/groovy');
 require('codemirror/mode/htmlmixed/htmlmixed');
 require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/php/php');

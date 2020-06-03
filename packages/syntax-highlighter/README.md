@@ -33,7 +33,9 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | D | `d` |
 | Dart | `dart` |
 | Docker | `dockerfile` |
+| Erlang | `erl`, `erlang` |
 | Go | `go` |
+| Groovy | `gradle`, `groovy` |
 | HTML/XML | `html`, `xhtml`, `xml` |
 | Java | `java` |
 | JavaScript | `ecmascript`, `javascript`, `js`, `node` |
