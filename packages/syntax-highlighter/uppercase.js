@@ -37,6 +37,7 @@ const codeTypes = {
   java: 'Java',
   javascript: 'JavaScript',
   jinja2: 'Jinja2',
+  jl: 'Julia',
   jruby: 'JRuby',
   js: 'JavaScript',
   json: 'JSON',

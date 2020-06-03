@@ -20,6 +20,7 @@ require('codemirror/mode/groovy/groovy');
 require('codemirror/mode/htmlmixed/htmlmixed');
 require('codemirror/mode/http/http');
 require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/julia/julia');
 require('codemirror/mode/php/php');
 require('codemirror/mode/powershell/powershell');
 require('codemirror/mode/python/python');

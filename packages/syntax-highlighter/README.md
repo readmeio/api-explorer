@@ -38,9 +38,11 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | Groovy | `gradle`, `groovy` |
 | Handlebars | `handlebars`, `hbs` |
 | HTML/XML | `html`, `xhtml`, `xml` |
+| HTTP | `http` |
 | Java | `java` |
 | JavaScript | `ecmascript`, `javascript`, `js`, `node` |
 | JSON | `json` |
+| Julia | `jl`, `julia` |
 | Kotlin | `kotlin`, `kt` |
 | Liquid | `liquid` |
 | Markdown | `markdown` |

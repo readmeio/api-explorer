@@ -154,6 +154,11 @@ exports[`Supported languages JavaScript should syntax highlight an example 1`] =
 </span>"
 `;
 
+exports[`Supported languages Julia should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-builtin\\">println</span>(<span class=\\"cm-string\\">&quot;Hello World&quot;</span>)
+</span>"
+`;
+
 exports[`Supported languages Kotlin should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">package</span> <span class=\\"cm-variable\\">hello</span>
 

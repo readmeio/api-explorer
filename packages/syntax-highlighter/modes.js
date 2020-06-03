@@ -35,6 +35,7 @@ module.exports = {
   hbs: 'htmlmixed',
   html: 'htmlmixed',
   java: ['clike', 'text/x-java'],
+  jl: 'julia',
   js: 'javascript',
   json: ['javascript', 'application/ld+json'],
   jruby: 'ruby',
