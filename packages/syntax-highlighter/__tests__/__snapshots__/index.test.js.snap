@@ -223,6 +223,12 @@ exports[`Supported languages PHP should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Perl should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-comment\\">#!/usr/bin/perl</span>
+<span class=\\"cm-keyword\\">print</span> <span class=\\"cm-string\\">&quot;Hello World\\\\n&quot;</span>;
+</span>"
+`;
+
 exports[`Supported languages PowerShell should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-string\\">&#x27;Hello World&#x27;</span>
 </span>"

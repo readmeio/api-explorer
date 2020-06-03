@@ -57,6 +57,7 @@ module.exports = {
   objectivecplusplus: ['clike', 'text/x-objectivec++'],
   php: ['php', 'text/x-php'],
   pgsql: ['sql', 'text/x-pgsql'],
+  pl: 'perl',
   plsql: ['sql', 'text/x-plsql'],
   postgres: ['sql', 'text/x-pgsql'],
   postgresql: ['sql', 'text/x-pgsql'],

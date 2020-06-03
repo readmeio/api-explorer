@@ -58,6 +58,7 @@ const codeTypes = {
   objectivecplusplus: 'Objective-C++',
   perl: 'Perl',
   php: 'PHP',
+  pl: 'Perl',
   pgsql: 'PL/pgSQL',
   plsql: 'PL/SQL',
   postgres: 'PostgreSQL',
