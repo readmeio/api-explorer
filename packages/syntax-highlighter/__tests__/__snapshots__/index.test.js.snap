@@ -246,6 +246,13 @@ exports[`Supported languages Ruby should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Rust should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">fn</span> <span class=\\"cm-def\\">main</span>() {
+    <span class=\\"cm-variable-3\\">println!</span>(<span class=\\"cm-string\\">&quot;Hello World&quot;</span>);
+}
+</span>"
+`;
+
 exports[`Supported languages SQL should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">SELECT</span> <span class=\\"cm-string\\">&#x27;Hello World&#x27;</span><span class=\\"cm-punctuation\\">;</span>
 </span>"

@@ -69,6 +69,7 @@ const codeTypes = {
   r: 'R',
   rake: 'Rake',
   rbx: 'Rubinius',
+  rs: 'Rust',
   ruby: 'Ruby',
   rust: 'Rust',
   sass: 'Sass',

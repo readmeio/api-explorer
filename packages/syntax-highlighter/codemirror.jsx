@@ -26,6 +26,7 @@ require('codemirror/mode/php/php');
 require('codemirror/mode/powershell/powershell');
 require('codemirror/mode/python/python');
 require('codemirror/mode/ruby/ruby');
+require('codemirror/mode/rust/rust');
 require('codemirror/mode/shell/shell');
 require('codemirror/mode/sql/sql');
 require('codemirror/mode/swift/swift');
