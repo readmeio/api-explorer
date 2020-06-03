@@ -18,6 +18,7 @@ require('codemirror/mode/erlang/erlang');
 require('codemirror/mode/go/go');
 require('codemirror/mode/groovy/groovy');
 require('codemirror/mode/htmlmixed/htmlmixed');
+require('codemirror/mode/http/http');
 require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/php/php');
 require('codemirror/mode/powershell/powershell');

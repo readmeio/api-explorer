@@ -121,6 +121,18 @@ exports[`Supported languages HTML should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages HTTP should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">POST</span> <span class=\\"cm-string-2\\">/somewhere</span> <span class=\\"cm-keyword\\">HTTP/1.1</span>
+<span class=\\"cm-atom\\">Host:</span><span class=\\"cm-string\\"> example.com</span>
+<span class=\\"cm-atom\\">If-Modified-Since:</span><span class=\\"cm-string\\"> Sat, 29 Oct 1994 19:43:31 GMT</span>
+<span class=\\"cm-atom\\">Content-Type:</span><span class=\\"cm-string\\"> application/x-www-form-urlencoded;</span>
+<span class=\\"cm-string\\">	charset=utf-8</span>
+<span class=\\"cm-atom\\">User-Agent:</span><span class=\\"cm-string\\"> Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.11 (KHTML, like Gecko) Ubuntu/12.04 Chromium/20.0.1132.47 Chrome/20.0.1132.47 Safari/536.11</span>
+
+This is the request body!
+</span>"
+`;
+
 exports[`Supported languages JSON should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\">{
   <span class=\\"cm-property\\">&quot;hello&quot;</span>: <span class=\\"cm-string\\">&quot;world&quot;</span>
