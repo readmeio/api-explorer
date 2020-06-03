@@ -10,7 +10,7 @@ updates:
   labels:
   - dependencies
 - package-ecosystem: npm
-  directory: "/packages/api-logs"
+  directory: "/packages/markdown"
   schedule:
     interval: weekly
   open-pull-requests-limit: 10
@@ -19,7 +19,7 @@ updates:
   labels:
   - dependencies
 - package-ecosystem: npm
-  directory: "/packages/markdown"
+  directory: "/packages/markdown-magic"
   schedule:
     interval: weekly
   open-pull-requests-limit: 10
