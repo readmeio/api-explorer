@@ -51,13 +51,6 @@ exports[`Supported languages Clojure should syntax highlight an example 1`] = `
 </span>"
 `;
 
-exports[`Supported languages Cypher should syntax highlight an example 1`] = `
-"<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">CREATE</span> <span class=\\"cm-node\\">(</span><span class=\\"cm-atom\\">Hello:Word</span> <span class=\\"cm-node\\">{</span> <span class=\\"cm-atom\\">val:</span> <span class=\\"cm-string\\">&#x27;Hello&#x27;</span> <span class=\\"cm-node\\">}),</span> <span class=\\"cm-node\\">(</span><span class=\\"cm-atom\\">World:Word</span> <span class=\\"cm-node\\">{</span> <span class=\\"cm-atom\\">val:</span> <span class=\\"cm-string\\">&#x27;World!&#x27;</span> <span class=\\"cm-node\\">}),</span>
-<span class=\\"cm-node\\">(</span><span class=\\"cm-variable\\">Hello</span><span class=\\"cm-node\\">)</span>-<span class=\\"cm-node\\">[</span><span class=\\"cm-variable\\">:SPACE</span><span class=\\"cm-node\\">]</span>-&gt;<span class=\\"cm-node\\">(</span><span class=\\"cm-variable\\">World</span><span class=\\"cm-node\\">)</span>
-<span class=\\"cm-keyword\\">RETURN</span> <span class=\\"cm-variable\\">Hello</span><span class=\\"cm-node\\">,</span><span class=\\"cm-variable\\">World</span>
-</span>"
-`;
-
 exports[`Supported languages D should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-comment\\">// Hello World in D</span>
 <span class=\\"cm-variable\\">import</span> <span class=\\"cm-variable\\">std</span>.<span class=\\"cm-variable\\">stdio</span>;

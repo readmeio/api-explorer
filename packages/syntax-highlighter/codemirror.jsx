@@ -10,7 +10,6 @@ require('codemirror/mode/meta.js');
 
 require('codemirror/mode/clike/clike');
 require('codemirror/mode/clojure/clojure');
-require('codemirror/mode/cypher/cypher');
 require('codemirror/mode/d/d');
 require('codemirror/mode/dart/dart');
 require('codemirror/mode/dockerfile/dockerfile');

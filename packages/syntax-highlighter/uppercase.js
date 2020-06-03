@@ -17,8 +17,6 @@ const codeTypes = {
   csharp: 'C#',
   css: 'CSS',
   curl: 'cURL',
-  cyp: 'Cypher',
-  cypher: 'Cypher',
   d: 'D',
   dart: 'Dart',
   dockerfile: 'Dockerfile',
