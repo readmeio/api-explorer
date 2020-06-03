@@ -31,6 +31,8 @@ module.exports = {
   erl: 'erlang',
   go: ['go', 'text/x-go'],
   gradle: 'groovy',
+  handlebars: 'htmlmixed',
+  hbs: 'htmlmixed',
   html: 'htmlmixed',
   java: ['clike', 'text/x-java'],
   js: 'javascript',

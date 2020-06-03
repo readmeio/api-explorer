@@ -29,6 +29,7 @@ const codeTypes = {
   gradle: 'Gradle',
   groovy: 'Groovy',
   handlebars: 'Handlebars',
+  hbs: 'Handlebars',
   haml: 'HAML',
   haxe: 'Haxe',
   html: 'HTML',

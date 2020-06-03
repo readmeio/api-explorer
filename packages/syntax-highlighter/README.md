@@ -36,6 +36,7 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | Erlang | `erl`, `erlang` |
 | Go | `go` |
 | Groovy | `gradle`, `groovy` |
+| Handlebars | `handlebars`, `hbs` |
 | HTML/XML | `html`, `xhtml`, `xml` |
 | Java | `java` |
 | JavaScript | `ecmascript`, `javascript`, `js`, `node` |

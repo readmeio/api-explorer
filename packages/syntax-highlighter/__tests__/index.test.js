@@ -109,7 +109,12 @@ describe('Supported languages', () => {
       });
     }
 
-    if (instructions.mode.primary === 'js') {
+    if (instructions.mode.primary === 'html') {
+      it('should highlight handlebars templates', () => {
+        const code = '<p>{{firstname}} {{lastname}}</p>';
+        expect(shallow(syntaxHighlighter(code, 'handlebars')).html()).toContain('cm-bracket');
+      });
+    } else if (instructions.mode.primary === 'js') {
       it('should highlight typescript', () => {
         const code = `let { a, b }: { a: string, b: number } = o;`;
 
