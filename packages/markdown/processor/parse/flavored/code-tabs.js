@@ -24,7 +24,11 @@ function tokenizer(eat, value) {
       val = ['```', val.replace('```', ''), '```'].join('').trim();
 
       // eslint-disable-next-line unicorn/no-unsafe-regex
-      const [, lang, meta = null, code = ''] = /```([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
+      const parts = /```([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
+      const [, lang, , code = ''] = parts;
+
+      let meta = parts[2];
+      meta = typeof meta === 'string' ? meta.trim() : '';
 
       return {
         type: 'code',
