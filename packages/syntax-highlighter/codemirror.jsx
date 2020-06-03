@@ -30,6 +30,7 @@ require('codemirror/mode/rust/rust');
 require('codemirror/mode/shell/shell');
 require('codemirror/mode/sql/sql');
 require('codemirror/mode/swift/swift');
+require('codemirror/mode/yaml/yaml');
 
 function getMode(lang) {
   let mode = lang;

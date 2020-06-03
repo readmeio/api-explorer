@@ -89,6 +89,7 @@ const codeTypes = {
   xhtml: 'XHTML',
   xml: 'XML',
   yaml: 'YAML',
+  yml: 'YAML',
   zsh: 'Zsh',
 };
 

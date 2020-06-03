@@ -78,5 +78,6 @@ module.exports = {
   text: ['null', 'text/plain'],
   typescript: ['javascript', 'text/typescript'],
   xhtml: 'htmlmixed',
+  yml: 'yaml',
   zsh: 'shell',
 };

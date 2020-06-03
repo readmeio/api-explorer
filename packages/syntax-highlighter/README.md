@@ -27,7 +27,7 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | C++ | `c++`, `cpp`, `cplusplus` |
 | C# | `cs`, `csharp` |
 | Clojure | `clj`, `cljc`, `cljx` `clojure` |
-| CSS | `css`, `less`, `scss`, `styl`, `stylus` |
+| CSS | `css`, `less`, `sass`, `scss`, `styl`, `stylus` |
 | cURL | `curl`, `shell` |
 | Cypher | `cyp`, `cypher` |
 | D | `d` |
@@ -48,15 +48,18 @@ console.log(syntaxHighlighter('console.log("Hello, world!");', 'js'));
 | Markdown | `markdown` |
 | Objective-C | `objc`, `objectivec`,  |
 | Objective-C++ | `objc++`, `objectivecpp`, `objectivecplusplus`,  |
+| Perl | `perl`, `pl` |
 | PHP | `php` |
 | PowerShell | `powershell`, `ps1` |
 | Python | `py`, `python` |
 | Ruby | `jruby`, `macruby`, `r`, `rake`, `rb`, `rbx`, `ruby` |
+| Rust | `rs`, `rust` |
 | Scala | `scala` |
 | Shell | `bash`, `sh`, `shell`, `zsh` |
 | SQL | `cql`, `mssql`, `mysql`, `plsql`, `postgres`, `postgresql`, `pgsql`, `sql`, `sqlite` |
 | Swift | `swift` |
 | TypeScript | `typescript` |
+| YAML | `yaml`, `yml` |
 
 ## Contributing
 ### Adding support for a new language

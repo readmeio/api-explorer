@@ -282,6 +282,11 @@ exports[`Supported languages XML should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages YAML should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\"><span class=\\"cm-atom\\">hello</span><span class=\\"cm-meta\\">: </span>world
+</span>"
+`;
+
 exports[`Supported languages cURL should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-builtin\\">curl</span> <span class=\\"cm-attribute\\">--request</span> GET \\\\
   <span class=\\"cm-attribute\\">--url</span> <span class=\\"cm-string\\">&#x27;https://dash.readme.io/api/v1/api-specification?perPage=10&amp;page=1&#x27;</span> \\\\
