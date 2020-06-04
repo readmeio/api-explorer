@@ -26,8 +26,8 @@ exports[`anchors with baseUrl 1`] = `
 
 exports[`check list items 1`] = `
 "<ul>
-<li><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
-<li><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" disabled=\\"\\"/> checklistitem1</li>
+<li class=\\"task-list-item\\"><input type=\\"checkbox\\" checked=\\"\\" disabled=\\"\\"/> checklistitem1</li>
 </ul>"
 `;
 
