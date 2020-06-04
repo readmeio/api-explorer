@@ -87,7 +87,6 @@
     "/anything/any-of-object": {
       "post": {
         "summary": "anyOf object",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -120,6 +119,11 @@
                 ]
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -127,7 +131,6 @@
     "/anything/any-of-primitive": {
       "post": {
         "summary": "anyOf primitive",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -145,13 +148,17 @@
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     },
     "/anything/one-of-object": {
       "post": {
         "summary": "oneOf object",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -185,13 +192,17 @@
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     },
     "/anything/one-of-primitive": {
       "post": {
         "summary": "oneOf primitive",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -209,13 +220,17 @@
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     },
     "/anything/one-of-object-ref": {
       "post": {
         "summary": "oneOf object with $ref pointers",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -231,13 +246,17 @@
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     },
     "/anything/nested-one-of-object-ref": {
       "post": {
         "summary": "nested oneOf object with $ref pointers",
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -259,6 +278,11 @@
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     },
@@ -267,6 +291,11 @@
         "description": "Use case for https://github.com/readmeio/api-explorer/issues/495",
         "requestBody": {
           "$ref": "#/components/requestBodies/nested-one-of-ref"
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       }
     },
@@ -305,6 +334,11 @@
                 "additionalProperties": false
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

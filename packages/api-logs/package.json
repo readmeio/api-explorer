@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "6.9.6",
+  "version": "6.10.0",
   "main": "dist/index.js",
   "dependencies": {
     "async-retry": "^1.2.3",
@@ -25,7 +25,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-logs",
   "devDependencies": {
-    "@readme/eslint-config": "^3.0.0",
+    "@readme/eslint-config": "^3.1.2",
     "eslint": "^7.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^26.0.1",

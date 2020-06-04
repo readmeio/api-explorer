@@ -1,7 +1,7 @@
 {
   "name": "@readme/variable",
   "description": "React component for Variables",
-  "version": "6.9.6",
+  "version": "6.10.0",
   "main": "index.jsx",
   "dependencies": {
     "classnames": "^2.2.6",
@@ -23,7 +23,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/variable",
   "devDependencies": {
-    "@readme/eslint-config": "^3.0.0",
+    "@readme/eslint-config": "^3.1.2",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "jsinspect": "^0.12.7",

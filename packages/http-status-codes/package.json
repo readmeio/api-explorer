@@ -1,7 +1,7 @@
 {
   "name": "@readme/http-status-codes",
   "description": "Utility to lookup HTTP status codes",
-  "version": "6.9.6",
+  "version": "6.10.0",
   "main": "src/index.js",
   "scripts": {
     "inspect": "jsinspect",
@@ -22,7 +22,7 @@
     "directory": "packages/http-status-codes"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^3.0.0",
+    "@readme/eslint-config": "^3.1.2",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "jsinspect": "^0.12.6",

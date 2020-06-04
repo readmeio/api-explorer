@@ -17,7 +17,8 @@
           "name": "id",
           "schema": {
             "type": "number"
-          }
+          },
+          "required": true
         },
         {
           "in": "header",
@@ -29,18 +30,24 @@
       ],
       "get": {
         "summary": "Get anything",
-        "description": "",
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "post": {
         "summary": "Post anything",
-        "description": "",
         "parameters": [
           {
             "$ref": "#/components/parameters/limitParam"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },

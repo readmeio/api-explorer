@@ -26,7 +26,11 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "post": {
         "summary": "Query param pointing to a $ref",
@@ -36,7 +40,11 @@
             "$ref": "#/components/parameters/limitParam"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "put": {
         "summary": "Query param pointing to a $ref that has an escaped ~1 slash",
@@ -46,7 +54,11 @@
             "$ref": "#/components/parameters/limit~1Param"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },
@@ -79,7 +91,6 @@
     },
     "schemas": {
       "string_enum": {
-        "name": "string",
         "enum": [
           "available",
           "pending",

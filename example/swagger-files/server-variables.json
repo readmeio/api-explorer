@@ -24,9 +24,11 @@
     "/post": {
       "post": {
         "summary": "Should fetch variables from defaults and user values",
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },

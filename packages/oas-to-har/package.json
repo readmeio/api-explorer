@@ -1,11 +1,11 @@
 {
   "name": "@readme/oas-to-har",
   "description": "Utility to transform an OAS operation into a HAR representation",
-  "version": "6.9.6",
+  "version": "6.10.0",
   "main": "src/index.js",
   "dependencies": {
-    "@readme/oas-extensions": "^6.9.4",
-    "@readme/oas-tooling": "^3.4.0",
+    "@readme/oas-extensions": "^6.10.0",
+    "@readme/oas-tooling": "^3.4.3",
     "querystring": "^0.2.0"
   },
   "scripts": {
@@ -27,7 +27,7 @@
     "directory": "packages/oas-to-har"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^3.0.0",
+    "@readme/eslint-config": "^3.1.2",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "jsinspect": "^0.12.6",
