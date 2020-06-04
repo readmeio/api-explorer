@@ -18730,8 +18730,9 @@ function Code(props) {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("code", {
     className: ['rdmd-code', "lang-".concat(language)].join(' '),
     "data-lang": language,
-    name: meta
-  }, !syntaxHighlighter || /*#__PURE__*/React.createElement(CopyCode, {
+    name: meta,
+    suppressHydrationWarning: true
+  }, /*#__PURE__*/React.createElement(CopyCode, {
     className: "fa",
     code: children[0]
   }), syntaxHighlighter ? syntaxHighlighter(children[0], language, {
@@ -21055,10 +21056,8 @@ function tokenizer(eat, value) {
     "\uD83D\uDED1": 'error',
     "\u2049\uFE0F": 'error',
     "\u203C\uFE0F": 'error',
-    // NOTE: prettier is desperate to convert this in to an emoji.
-    //       PLEASE DON'T COMMIT THIS OR YOU'LL BREAK README IN IE!
-    "\u2139\uFE0F": 'info',
     // prettier-ignore
+    "\u2139\uFE0F": 'info',
     "\u26A0": 'warn'
   }[icon];
   return eat(match)({
@@ -23486,7 +23485,7 @@ module.exports = function (value) {
 /* 143 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"strip\":[\"script\"],\"clobberPrefix\":\"user-content-\",\"clobber\":[\"name\",\"id\"],\"ancestors\":{\"li\":[\"ol\",\"ul\"],\"tbody\":[\"table\"],\"tfoot\":[\"table\"],\"thead\":[\"table\"],\"td\":[\"table\"],\"th\":[\"table\"],\"tr\":[\"table\"]},\"protocols\":{\"href\":[\"http\",\"https\",\"mailto\"],\"cite\":[\"http\",\"https\"],\"src\":[\"http\",\"https\"],\"longDesc\":[\"http\",\"https\"]},\"tagNames\":[\"h1\",\"h2\",\"h3\",\"h4\",\"h5\",\"h6\",\"h7\",\"h8\",\"br\",\"b\",\"i\",\"strong\",\"em\",\"a\",\"pre\",\"code\",\"img\",\"tt\",\"div\",\"ins\",\"del\",\"sup\",\"sub\",\"p\",\"ol\",\"ul\",\"table\",\"thead\",\"tbody\",\"tfoot\",\"blockquote\",\"dl\",\"dt\",\"dd\",\"kbd\",\"q\",\"samp\",\"var\",\"hr\",\"ruby\",\"rt\",\"rp\",\"li\",\"tr\",\"td\",\"th\",\"s\",\"strike\",\"summary\",\"details\",\"input\"],\"attributes\":{\"a\":[\"href\"],\"img\":[\"src\",\"longDesc\"],\"input\":[[\"type\",\"checkbox\"],[\"disabled\",true]],\"li\":[[\"className\",\"task-list-item\"]],\"div\":[\"itemScope\",\"itemType\"],\"blockquote\":[\"cite\"],\"del\":[\"cite\"],\"ins\":[\"cite\"],\"q\":[\"cite\"],\"*\":[\"abbr\",\"accept\",\"acceptCharset\",\"accessKey\",\"action\",\"align\",\"alt\",\"axis\",\"border\",\"cellPadding\",\"cellSpacing\",\"char\",\"charoff\",\"charSet\",\"checked\",\"clear\",\"cols\",\"colSpan\",\"color\",\"compact\",\"coords\",\"dateTime\",\"dir\",\"disabled\",\"encType\",\"htmlFor\",\"frame\",\"headers\",\"height\",\"hrefLang\",\"hspace\",\"isMap\",\"id\",\"label\",\"lang\",\"maxLength\",\"media\",\"method\",\"multiple\",\"name\",\"nohref\",\"noshade\",\"nowrap\",\"open\",\"prompt\",\"readOnly\",\"rel\",\"rev\",\"rows\",\"rowSpan\",\"rules\",\"scope\",\"selected\",\"shape\",\"size\",\"span\",\"start\",\"summary\",\"tabIndex\",\"target\",\"title\",\"type\",\"useMap\",\"valign\",\"value\",\"vspace\",\"width\",\"itemProp\"]},\"required\":{\"input\":{\"type\":\"checkbox\",\"disabled\":true}}}");
+module.exports = JSON.parse("{\"strip\":[\"script\"],\"clobberPrefix\":\"user-content-\",\"clobber\":[\"name\",\"id\"],\"ancestors\":{\"li\":[\"ol\",\"ul\"],\"tbody\":[\"table\"],\"tfoot\":[\"table\"],\"thead\":[\"table\"],\"td\":[\"table\"],\"th\":[\"table\"],\"tr\":[\"table\"]},\"protocols\":{\"href\":[\"http\",\"https\",\"mailto\",\"xmpp\",\"irc\",\"ircs\"],\"cite\":[\"http\",\"https\"],\"src\":[\"http\",\"https\"],\"longDesc\":[\"http\",\"https\"]},\"tagNames\":[\"h1\",\"h2\",\"h3\",\"h4\",\"h5\",\"h6\",\"h7\",\"h8\",\"br\",\"b\",\"i\",\"strong\",\"em\",\"a\",\"pre\",\"code\",\"img\",\"tt\",\"div\",\"ins\",\"del\",\"sup\",\"sub\",\"p\",\"ol\",\"ul\",\"table\",\"thead\",\"tbody\",\"tfoot\",\"blockquote\",\"dl\",\"dt\",\"dd\",\"kbd\",\"q\",\"samp\",\"var\",\"hr\",\"ruby\",\"rt\",\"rp\",\"li\",\"tr\",\"td\",\"th\",\"s\",\"strike\",\"summary\",\"details\",\"caption\",\"figure\",\"figcaption\",\"abbr\",\"bdo\",\"cite\",\"dfn\",\"mark\",\"small\",\"span\",\"time\",\"wbr\",\"input\"],\"attributes\":{\"a\":[\"href\"],\"img\":[\"src\",\"longDesc\"],\"input\":[[\"type\",\"checkbox\"],[\"disabled\",true]],\"li\":[[\"className\",\"task-list-item\"]],\"div\":[\"itemScope\",\"itemType\"],\"blockquote\":[\"cite\"],\"del\":[\"cite\"],\"ins\":[\"cite\"],\"q\":[\"cite\"],\"*\":[\"abbr\",\"accept\",\"acceptCharset\",\"accessKey\",\"action\",\"align\",\"alt\",\"ariaDescribedBy\",\"ariaHidden\",\"ariaLabel\",\"ariaLabelledBy\",\"axis\",\"border\",\"cellPadding\",\"cellSpacing\",\"char\",\"charOff\",\"charSet\",\"checked\",\"clear\",\"cols\",\"colSpan\",\"color\",\"compact\",\"coords\",\"dateTime\",\"dir\",\"disabled\",\"encType\",\"htmlFor\",\"frame\",\"headers\",\"height\",\"hrefLang\",\"hSpace\",\"isMap\",\"id\",\"label\",\"lang\",\"maxLength\",\"media\",\"method\",\"multiple\",\"name\",\"noHref\",\"noShade\",\"noWrap\",\"open\",\"prompt\",\"readOnly\",\"rel\",\"rev\",\"rows\",\"rowSpan\",\"rules\",\"scope\",\"selected\",\"shape\",\"size\",\"span\",\"start\",\"summary\",\"tabIndex\",\"target\",\"title\",\"type\",\"useMap\",\"vAlign\",\"value\",\"vSpace\",\"width\",\"itemProp\"]},\"required\":{\"input\":{\"type\":\"checkbox\",\"disabled\":true}}}");
 
 /***/ }),
 /* 144 */
@@ -49630,10 +49629,7 @@ function transformer(ast) {
       var text = getTexts(node);
       var id = "section-".concat(kebabCase(text));
 
-      if (node === null || node === void 0 ? void 0 : (_node$properties = node.properties) === null || _node$properties === void 0 ? void 0 : _node$properties.id) {
-        // Strip dash prefixes in GitHub slugger IDs
-        node.properties.id = node.properties.id.replace(/^(-+(?=\w))/, '');
-      } else {
+      if (id && !(node === null || node === void 0 ? void 0 : (_node$properties = node.properties) === null || _node$properties === void 0 ? void 0 : _node$properties.id)) {
         // Use the compat anchor ID as fallback if
         // GitHubs slugger returns an empty string.
         node.properties.id = id;
