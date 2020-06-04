@@ -36,8 +36,13 @@ function Code(props) {
 
   return (
     <React.Fragment>
-      <code className={['rdmd-code', `lang-${language}`].join(' ')} data-lang={language} name={meta}>
-        {!syntaxHighlighter || <CopyCode className="fa" code={children[0]} />}
+      <code
+        className={['rdmd-code', `lang-${language}`].join(' ')}
+        data-lang={language}
+        name={meta}
+        suppressHydrationWarning={true}
+      >
+        <CopyCode className="fa" code={children[0]} />
         {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
       </code>
     </React.Fragment>
