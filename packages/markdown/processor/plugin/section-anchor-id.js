@@ -25,10 +25,7 @@ function transformer(ast) {
       const text = getTexts(node);
       const id = `section-${kebabCase(text)}`;
 
-      if (node?.properties?.id) {
-        // Strip dash prefixes in GitHub slugger IDs
-        node.properties.id = node.properties.id.replace(/^(-+(?=\w))/, '');
-      } else {
+      if (id && !node?.properties?.id) {
         // Use the compat anchor ID as fallback if
         // GitHubs slugger returns an empty string.
         node.properties.id = id;
