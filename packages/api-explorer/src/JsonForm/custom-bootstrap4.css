@@ -1,5 +1,5 @@
 /** json-editor */
-.card .row .form-group .form-text {
+.form-group .form-text {
     text-align: right;
     font-size: 0.9em;
     opacity: 0.8;
@@ -144,6 +144,17 @@
 
 .btn:focus, .btn-secondary:focus {
     box-shadow: none !important;
+}
+
+.mia-container-upload-file-wrapper > .form-group {
+    grid-template-columns: min-content 1fr;
+    align-items: start;
+    grid-gap: 10px;
+}
+
+.mia-container-upload-file-wrapper > .form-group > small.form-text {
+    text-align: left;
+    grid-column: 1/-1;
 }
 
 /** MIA CSS */

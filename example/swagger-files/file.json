@@ -1,0 +1,56 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Files Service",
+    "description": "Upload and download files",
+    "version": "1.2.0"
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "consumes": ["multipart/form-data"],
+        "parameters": [{
+          "type": "file",
+          "in": "formData",
+          "name": "file"
+        }, {
+          "name": "content-type",
+          "in": "header",
+          "required": false,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/download/{filename}": {
+      "get": {
+        "parameters": [{
+          "type": "number",
+          "enum": [0, 1],
+          "default": 0,
+          "required": false,
+          "name": "download",
+          "in": "query"
+        }],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/upload": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    }
+  }
+}

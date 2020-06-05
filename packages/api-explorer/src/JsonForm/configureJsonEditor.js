@@ -34,7 +34,8 @@ function setDefaultCustomization (JSONEditor) {
         }
 
         if (this.container !== undefined && this.title !== undefined) {
-          this.container.classList.add('mia-container-wrapper')
+          const classContainer = (key === 'upload' || key === 'base64') ? 'mia-container-upload-file-wrapper' : 'mia-container-wrapper' 
+          this.container.classList.add(classContainer)
         }
       }
     }
