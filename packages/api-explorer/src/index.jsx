@@ -59,7 +59,6 @@ class ApiExplorer extends React.Component {
       return this.props.variables.user.id;
     }
 
-    // eslint-disable-next-line unicorn/no-useless-undefined
     return undefined;
   }
 

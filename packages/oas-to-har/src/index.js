@@ -12,7 +12,6 @@ function formatter(values, param, type, onlyIfExists) {
   }
 
   if (onlyIfExists && !param.required) {
-    // eslint-disable-next-line unicorn/no-useless-undefined
     return undefined;
   }
 

@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-useless-undefined */
 function harValue(type, value) {
   if (!value.value) return undefined;
   return { type, value };
