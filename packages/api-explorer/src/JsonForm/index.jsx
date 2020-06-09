@@ -67,7 +67,7 @@ class JsonForm extends Component {
         theme: 'antdTheme',
         max_depth: 3,
         use_default_values: false,
-        remove_empty_properties: true
+        remove_empty_properties: false
       });
       this.editor.on('change', () => onChange(this.editor.getValue()))
 
