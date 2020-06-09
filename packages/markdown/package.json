@@ -51,7 +51,7 @@
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown",
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@readme/eslint-config": "^3.1.2",
+    "@readme/eslint-config": "^3.2.0",
     "css-loader": "^3.4.2",
     "eslint": "^7.0.0",
     "isomorphic-style-loader": "^5.1.0",
