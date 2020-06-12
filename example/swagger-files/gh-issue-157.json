@@ -13,9 +13,11 @@
     "/post": {
       "post": {
         "summary": "Should not error",
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },

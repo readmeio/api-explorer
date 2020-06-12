@@ -144,7 +144,13 @@ class Doc extends React.Component {
           </div>
         )}
 
-        <Content body={doc.body} flags={this.props.flags} isThreeColumn useNewMarkdownEngine={useNewMarkdownEngine} />
+        <Content
+          body={doc.body}
+          flags={this.props.flags}
+          isThreeColumn
+          splitReferenceDocs={this.props.appearance.splitReferenceDocs}
+          useNewMarkdownEngine={useNewMarkdownEngine}
+        />
       </React.Fragment>
     );
   }
@@ -169,6 +175,7 @@ class Doc extends React.Component {
                 body={doc.body}
                 flags={this.props.flags}
                 isThreeColumn="left"
+                splitReferenceDocs={this.props.appearance.splitReferenceDocs}
                 useNewMarkdownEngine={useNewMarkdownEngine}
               />
             </div>
@@ -185,6 +192,7 @@ class Doc extends React.Component {
                 body={doc.body}
                 flags={this.props.flags}
                 isThreeColumn="right"
+                splitReferenceDocs={this.props.appearance.splitReferenceDocs}
                 useNewMarkdownEngine={useNewMarkdownEngine}
               />
             </div>
@@ -276,6 +284,7 @@ class Doc extends React.Component {
         changeGroup={this.props.onAuthGroupChange}
         group={this.props.group}
         groups={this.props.groups}
+        loginUrl={this.props.loginUrl}
         query={{
           url,
           method,
@@ -354,7 +363,7 @@ class Doc extends React.Component {
 
               <h2>{doc.title}</h2>
               {doc.excerpt && (
-                <div className="excerpt">
+                <div className="markdown-body excerpt">
                   {useNewMarkdownEngine ? markdown(doc.excerpt) : markdownMagic(doc.excerpt)}
                 </div>
               )}
@@ -418,6 +427,7 @@ Doc.propTypes = {
   ),
   language: PropTypes.string.isRequired,
   lazy: PropTypes.bool,
+  loginUrl: PropTypes.string,
   Logs: PropTypes.func,
   maskErrorMessages: PropTypes.bool,
   oas: PropTypes.shape({}),

@@ -13,25 +13,45 @@
     "/anything/markdown": {
       "get": {
         "summary": "Markdown in Excerpt",
-        "description": "# Markdown"
+        "description": "# Markdown",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/anything/html": {
       "get": {
         "summary": "HTML in Excerpt",
-        "description": "<h3>This is HTML</h3>"
+        "description": "<h3>This is HTML</h3>",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/anything/mixed": {
       "get": {
         "summary": "HTML/Markdown in Excerpt",
-        "description": "#### markdown \n<p>html</p> "
+        "description": "#### markdown \n<p>html</p> ",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/anything/escaping": {
       "get": {
         "summary": "Escaping bad HTML",
-        "description": "<img src=\"x\" onerror=\"alert('charlie')\">"
+        "description": "<img src=\"x\" onerror=\"alert('charlie')\">",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   }

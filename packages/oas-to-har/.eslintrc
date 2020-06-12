@@ -1,3 +1,4 @@
 {
-  "extends": "@readme/eslint-config"
+  "extends": "@readme/eslint-config",
+  "root": true
 }

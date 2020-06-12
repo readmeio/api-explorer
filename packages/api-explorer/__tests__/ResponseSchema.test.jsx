@@ -37,11 +37,10 @@ test.each([[true], [false]])(
     let text;
 
     if (useNewMarkdownEngine) {
-      text = responseSchema.find('div.desc').first().find('div.desc').find('p').first().text();
+      text = responseSchema.find('.markdown-body > .pin > *').first().text();
     } else {
       text = responseSchema.find('div.desc').first().text();
     }
-
     expect(text).toBe(props.operation.responses['200'].description);
   }
 );

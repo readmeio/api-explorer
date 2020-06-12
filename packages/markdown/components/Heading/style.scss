@@ -6,17 +6,22 @@
   .heading-text {
     flex: 1 100%;
   }
+  .heading-anchor-deprecated {
+    position: absolute;
+    top: 0;
+  }
   .heading-anchor {
     top: -1rem !important;
   }
-  .heading-anchor, .heading-anchor-icon {
+  .heading-anchor,
+  .heading-anchor-icon {
     position: absolute !important;
     display: inline !important;
     order: -1;
     right: 100%;
     top: unset !important;
     margin-right: -.8rem;
-    padding: .8em .2em .8em 0 !important;
+    padding: .8rem .2rem .8rem 0 !important;
     font-size: .8rem !important;
     text-decoration: none;
     color: inherit;

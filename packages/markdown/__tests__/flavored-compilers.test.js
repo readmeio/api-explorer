@@ -30,6 +30,15 @@ const compile = tree =>
     .use([DivCompiler, CodeTabsCompiler, CalloutCompiler, EmbedCompiler])
     .stringify(tree);
 
+describe('ReadMe Flavored Blocks', () => {
+  it('Embed', () => {
+    const txt = `[Embedded meta links.](https://nyti.me/s/gzoa2xb2v3 "@nyt")`;
+    const ast = parse(txt);
+    const out = compile(ast);
+    expect(out).toMatchSnapshot();
+  });
+});
+
 describe('ReadMe Magic Blocks', () => {
   it('Embed', () => {
     const txt = `[block:embed]

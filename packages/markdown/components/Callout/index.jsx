@@ -4,6 +4,8 @@ const PropTypes = require('prop-types');
 const Callout = props => {
   let { children } = props;
   const { attributes, theme, title, icon } = props;
+  if (!(title || children)) return '';
+
   const content = title ? children.splice(1) : children;
   children = title ? children : '';
   return (
@@ -13,7 +15,7 @@ const Callout = props => {
         <span className="callout-icon">{icon}</span>
         {children}
       </h3>
-      {(content.length && content) || (!title ? children : '')}
+      {(content && content.length && content) || (!title && children)}
     </blockquote>
   );
 };

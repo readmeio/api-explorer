@@ -13,8 +13,6 @@
     "/post": {
       "post": {
         "summary": "Should allow additionalProperties in JSON schema",
-        "description": "",
-        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -82,6 +80,11 @@
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

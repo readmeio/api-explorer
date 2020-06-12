@@ -22,8 +22,6 @@
           }
         ],
         "summary": "or security",
-        "description": "",
-        "parameters": [],
         "responses": {
           "405": {
             "description": "Invalid input"
@@ -42,8 +40,6 @@
           }
         ],
         "summary": "and security",
-        "description": "",
-        "parameters": [],
         "responses": {
           "405": {
             "description": "Invalid input"
@@ -64,8 +60,6 @@
           }
         ],
         "summary": "and or security",
-        "description": "",
-        "parameters": [],
         "responses": {
           "405": {
             "description": "Invalid input"
@@ -85,8 +79,6 @@
           }
         ],
         "summary": "or security",
-        "description": "",
-        "parameters": [],
         "responses": {
           "405": {
             "description": "Invalid input"
@@ -103,8 +95,6 @@
           }
         ],
         "summary": "one security for endpoint",
-        "description": "",
-        "parameters": [],
         "responses": {
           "405": {
             "description": "Invalid input"
@@ -116,8 +106,6 @@
       "post": {
         "operationId": "noAuth",
         "summary": "no security needed",
-        "description": "",
-        "parameters": [],
         "responses": {
           "405": {
             "description": "Invalid input"
@@ -137,8 +125,11 @@
           }
         ],
         "summary": "or security",
-        "description": "",
-        "parameters": []
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/multiple-combo-auths": {
@@ -147,37 +138,13 @@
         "security": [
           {
             "oauth": ["write:things", "read:things"],
-            "specialMagicAuth": []
+            "basicAuth": []
           },
           {
             "oauthDiff": ["write:things", "read:things"]
           }
         ],
         "summary": "second and does not show security",
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/multiple-combo-auths-schemes": {
-      "post": {
-        "operationId": "nonexistentSchemeInTheOr",
-        "security": [
-          {
-            "oauth": ["write:things", "read:things"],
-            "specialMagicAuth": []
-          },
-          {
-            "nonExistentScheme": []
-          }
-        ],
-        "summary": " one or security",
-        "description": "",
-        "parameters": [],
         "responses": {
           "405": {
             "description": "Invalid input"
@@ -190,12 +157,15 @@
         "operationId": "unknownAuthType",
         "security": [
           {
-            "specialMagicAuth": []
+            "basicAuth": []
           }
         ],
         "summary": "unknown auth type",
-        "description": "",
-        "parameters": []
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
       }
     },
     "/unknown-scheme": {
@@ -207,14 +177,14 @@
           }
         ],
         "summary": "this scheme doesnt exist",
-        "description": "",
-        "parameters": []
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
       }
     }
   },
-  "x-explorer-enabled": true,
-  "x-samples-enabled": true,
-  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
   "components": {
     "securitySchemes": {
       "oauth": {
@@ -244,21 +214,13 @@
         "name": "apiKey",
         "in": "header"
       },
-      "specialMagicAuth": {
-        "type": "demigorgon",
-        "name": "eleven",
-        "in": "header"
-      },
       "basicAuth": {
         "type": "http",
-        "scheme": "basic",
-        "in": "header"
+        "scheme": "basic"
       }
-    },
-    "responses": {},
-    "parameters": {},
-    "examples": {},
-    "requestBodies": {},
-    "headers": {}
-  }
+    }
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
 }

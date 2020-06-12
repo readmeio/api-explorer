@@ -13,8 +13,6 @@
     "/post": {
       "post": {
         "summary": "Should send static x-headers with the request",
-        "description": "",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful"

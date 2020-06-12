@@ -12,10 +12,12 @@
   "paths": {
     "/anything/oauth2": {
       "post": {
-        "summary": "Oauth2 security type",
-        "description": "",
-        "parameters": [],
-        "responses": {},
+        "summary": "OAuth 2 security type",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
         "security": [
           {
             "oauth2": []
@@ -26,9 +28,11 @@
     "/anything/basic": {
       "post": {
         "summary": "Basic security type",
-        "description": "",
-        "parameters": [],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
         "security": [
           {
             "basic": []
@@ -39,9 +43,11 @@
     "/anything/bearer": {
       "post": {
         "summary": "Bearer security type",
-        "description": "",
-        "parameters": [],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
         "security": [
           {
             "bearer": []
@@ -52,9 +58,11 @@
     "/anything/apiKey": {
       "post": {
         "summary": "ApiKey security type",
-        "description": "",
-        "parameters": [],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
         "security": [
           {
             "apiKey": []
@@ -66,7 +74,8 @@
   "components": {
     "securitySchemes": {
       "oauth2": {
-        "type": "oauth2"
+        "type": "oauth2",
+        "flows": {}
       },
       "basic": {
         "type": "http",

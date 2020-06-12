@@ -42,11 +42,11 @@ describe('Logs', () => {
     result: {},
   };
 
-  it('should not render if groups are not populated', () => {
+  it('should render prompt to log in if groups are not populated', () => {
     const noUser = { baseUrl, query: {}, changeGroup: () => {} };
     const comp = shallow(<LogTest {...noUser} />);
 
-    expect(comp.html()).toBeNull();
+    expect(comp.html()).toContain('Log in to view your API logs for this endpoint');
   });
 
   it('should render a log with no user-agent', () => {

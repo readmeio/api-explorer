@@ -22,6 +22,8 @@
       margin-left: auto;
       margin-right: auto;
       border-style: none;
+
+      outline: none !important;
     }
 
     &[align=right],
@@ -32,6 +34,7 @@
     &[alt~=align-left] {
       @extend %img-align-left;
     }
+    &[width="80%"],
     &[align=center],
     &[alt~=align-center] {
       @extend %img-align-center;
@@ -44,7 +47,7 @@
     }
 
     &.border {
-      border: 1px solid 0 0 0 1px rgba(0,0,0,.2);
+      border: 1px solid rgba(0,0,0,.2);
     }
   }
 
@@ -64,6 +67,13 @@
     @extend %img-align-center;
   }
 
+  figure .img {
+    display: inline-block;
+    &, >img:only-of-type {
+      display: block;
+    }
+  }
+
   .lightbox {
     & {
       position: fixed;
@@ -73,25 +83,27 @@
 
       display: flex;
       flex-flow: nowrap column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
 
       width: 100vw;
       height: 100vh;
       overflow: hidden;
       overflow-y: scroll;
-      background: linear-gradient(to bottom, rgba(245, 245, 250, .88) 50%, #f5f5fa);
-      backdrop-filter: blur(6px) saturate(1.2) brightness(1.075);
+      background: rgba(white, .966);
       user-select: none;
 
       margin-top: 0;
       margin-bottom: 0;
     }
+    &:not([open]) {
+      pointer-events: none;
+    }
 
     // Close Button
     // 
     &:after {
-      position: absolute;
+      position: fixed;
       top: 1em;
       right: 1em;
       content: '\f00d';
@@ -122,11 +134,13 @@
       min-height: calc(100vh + 8px);
       margin: auto;
       margin: 8px auto auto;
+      padding: 5em 0;
+      box-sizing: content-box;
     }
 
     & { // transition
       transition: .3s ease-out;
-      transition-property: opacity z-index;
+      transition-property: opacity, z-index, transform;
       img {
         transform: scale(1);
         transition: .25s .05s ease-in;
@@ -134,7 +148,6 @@
       &:not([open]) {
         opacity: 0 !important;
         pointer-events: none;
-        z-index: -1;
         img {
           transform: scale(0);
           opacity: 0;
@@ -146,10 +159,10 @@
     img {
       width: auto !important;
       height: auto !important;
-      max-height: 95vh !important;
-      max-width: unset !important;
       min-width: unset !important;
-      &:not([src$=".png"]):not([src$=".svg"]):not([src$=".jp2"]):not([src$=".tiff"]) {
+      max-width: 97.5vw !important;
+      max-height: 97.5vh !important;
+      &.border, &:not([src$=".png"]):not([src$=".svg"]):not([src$=".jp2"]):not([src$=".tiff"]) {
         box-shadow: 0 .5em 3em -1em rgba(0, 0, 0, .2);
       }
     }

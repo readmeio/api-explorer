@@ -2,13 +2,13 @@
   code,
   kbd,
   pre {
-    font-family: monospace, monospace;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    font-family: var(--md-code-font, SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace);
     font-size: 1em
   }
 
   code,
   pre {
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
     font-size: 12px
   }
 
@@ -18,6 +18,7 @@
   }
 
   code {
+    background-color: $background;
     background-color: var(--md-code-background, $background);
     border-radius: 3px;
     font-size: 85%;
@@ -44,8 +45,11 @@
   }
 
   pre {
+    background-color: $background;
     background-color: var(--md-code-background, $background);
+    color: $text;
     color: var(--md-code-text, $text);
+    border-radius: 3px;
     border-radius: var(--markdown-radius, 3px);
     border-radius: var(--md-code-radius, var(--markdown-radius, 3px));
     font-size: 85%;
@@ -67,6 +71,7 @@
   }
 
   kbd {
+    background-color: $background;
     background-color: var(--d-code-background, $background);
     border: 1px solid #d1d5da;
     border-bottom-color: #c6cbd1;
@@ -74,7 +79,7 @@
     box-shadow: inset 0 -1px 0 #c6cbd1;
     color: #444d56;
     display: inline-block;
-    font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    font-size: 11px;
     line-height: 10px;
     padding: 3px 5px;
     vertical-align: middle
@@ -87,18 +92,20 @@
     
     & {
       -webkit-appearance: unset;
-      color: var(--md-code-text, inherit);
-      background: transparent;
-      backdrop-filter: blur(6px);
-      border: none;
-      margin: .75em .6em 0 0;
-      padding: .33em .6em;
-      font: inherit;
-      border-radius: 2px;
-      outline: none !important;
-      box-shadow: inset 0 0 0 1px rgba(#8B8B8B, 0.33);
-      background: var(--md-code-background, rgba(white, .1));
+      margin: .5em .6em 0 0;
+      padding: .25em .7em;
       cursor: copy;
+      font: inherit;
+      color: inherit;
+      color: var(--md-code-text, inherit);
+      border: none;
+      border-radius: 3px;
+      outline: none !important;
+      background: inherit;
+      background: var(--md-code-background, inherit);
+      box-shadow:
+        inset 0 0 0 1px rgba(#aaa, .66),
+        -1px 2px 6px -3px rgba(black, .1);
       transition: .15s ease-out;
     }
 
@@ -109,11 +116,17 @@
     }
 
     &:hover {
-      background: rgba(white, .125);
+      &:not(:active) {
+        box-shadow:
+          inset 0 0 0 1px rgba(#8B8B8B, .75),
+          -1px 2px 6px -3px rgba(black, .2);
+      }
     }
 
     &:active {
-      background: rgba(black, .088);
+      box-shadow:
+        inset 0 0 0 1px rgba(#8B8B8B, .5),
+        inset 1px 4px 6px -2px rgba(0, 0, 0, .175);
       &:before, &:after {
         opacity: .75;
       }
@@ -124,24 +137,33 @@
       font: normal normal normal 1em/1 "Font Awesome 5 Free", "FontAwesome";
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
+
+      line-height: 2;
+      font-family: 'ReadMe-Icons';
+      font-variant-ligatures: discretionary-ligatures;
+      font-feature-settings: "liga";
     }
     &:before {
+      content: "\e6c9";
+      font-weight: 800;
       transition: .3s .15s ease;
-      content: "\f0c5"
     }
     &:after {
-      transition: .3s 0s ease;
-      content: "\f00c" !important;
+      // @todo why are these !important @rafe, you dumbell?
+      content: "\e942" !important;
+      font-weight: 900 !important;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(.33);
       opacity: 0 !important;
+      transition: .3s 0s ease;
     }
 
     &_copied {
       pointer-events: none;
       &, * {
+        color: green !important;
         color: var(--md-code-text, green) !important;
         opacity: 1;
       }
@@ -158,9 +180,12 @@
     }
   }
   
-
   pre {
     position: relative;
+
+    > code {
+      background: inherit;
+    }
 
     button.rdmd-code-copy {
       display: inline-block !important;
@@ -169,8 +194,8 @@
       top: 0;
     }
 
+    // manage overflow scrolling
     & {
-      // manage overflow scrolling
       overflow: hidden;
       padding: 0;
       > code {
@@ -180,8 +205,15 @@
         max-height: 90vh;
       }
     }
-    &:not(:hover) button.rdmd-code-copy {
-      opacity: 0 !important;
+
+    // manage copied state style
+    & {
+      &:hover button.rdmd-code-copy:not(:hover) {
+        transition-delay: .4s;
+      }
+      &:not(:hover) button.rdmd-code-copy:not(.rdmd-code-copy_copied) {
+        opacity: 0 !important;
+      }
     }
   }
 }

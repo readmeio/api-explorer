@@ -65,6 +65,8 @@ const {
 /* Custom Unified Plugins
  */
 const sectionAnchorId = require('./processor/plugin/section-anchor-id');
+const tableFlattening = require('./processor/plugin/table-flattening');
+const toPlainText = require('./processor/plugin/plain-text');
 
 // Processor Option Defaults
 const options = require('./options.json');
@@ -77,11 +79,19 @@ sanitize.attributes['*'].push('class', 'className', 'align', 'style');
 
 sanitize.tagNames.push('rdme-pin');
 
-sanitize.tagNames.push('embed');
-sanitize.attributes.embed = ['url', 'provider', 'html', 'title', 'href'];
-
 sanitize.tagNames.push('rdme-embed');
-sanitize.attributes['rdme-embed'] = ['url', 'provider', 'html', 'title', 'href', 'iframe', 'width', 'height'];
+sanitize.attributes['rdme-embed'] = [
+  'url',
+  'provider',
+  'html',
+  'title',
+  'href',
+  'iframe',
+  'width',
+  'height',
+  'image',
+  'favicon',
+];
 
 sanitize.attributes.a = ['href', 'title', 'class', 'className'];
 
@@ -148,7 +158,6 @@ export function processor(opts = {}) {
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
     .use(remarkSlug)
-    .use(sectionAnchorId)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSanitize, sanitize);
@@ -179,6 +188,7 @@ export function react(text, opts = {}, components = {}) {
   const count = {};
 
   return processor(opts)
+    .use(sectionAnchorId)
     .use(rehypeReact, {
       createElement: React.createElement,
       Fragment: React.Fragment,
@@ -192,12 +202,12 @@ export function react(text, opts = {}, components = {}) {
         'rdme-pin': PinWrap,
         table: Table(sanitize),
         a: Anchor(sanitize),
-        h1: Heading(1, count),
-        h2: Heading(2, count),
-        h3: Heading(3, count),
-        h4: Heading(4, count),
-        h5: Heading(5, count),
-        h6: Heading(6, count),
+        h1: Heading(1, count, opts),
+        h2: Heading(2, count, opts),
+        h3: Heading(3, count, opts),
+        h4: Heading(4, count, opts),
+        h5: Heading(5, count, opts),
+        h6: Heading(6, count, opts),
         code: Code(sanitize),
         img: Image(sanitize),
         ...components,
@@ -223,7 +233,7 @@ export function hast(text, opts = {}) {
   if (!text) return null;
   [text, opts] = setup(text, opts);
 
-  const rdmd = processor(opts);
+  const rdmd = processor(opts).use(tableFlattening);
   const node = rdmd.parse(text);
   return rdmd.runSync(node);
 }
@@ -236,6 +246,16 @@ export function mdast(text, opts = {}) {
   [text, opts] = setup(text, opts);
 
   return processor(opts).parse(text);
+}
+
+/**
+ * Converts an AST node to plain text
+ */
+export function astToPlainText(node, opts = {}) {
+  if (!node) return '';
+  [, opts] = setup('', opts);
+
+  return processor(opts).use(toPlainText).runSync(node);
 }
 
 /**

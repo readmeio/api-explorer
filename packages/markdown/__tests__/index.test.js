@@ -3,6 +3,7 @@ const React = require('react');
 const BaseUrlContext = require('../contexts/BaseUrl');
 
 const markdown = require('../index');
+const { tableFlattening } = require('../processor/plugin/table-flattening');
 const settings = require('../options.json');
 
 test('image', () => {
@@ -44,6 +45,11 @@ test('list items', () => {
 
 test('check list items', () => {
   expect(mount(markdown.default('- [ ] checklistitem1\n- [x] checklistitem1')).html()).toMatchSnapshot();
+});
+
+test('gemoji generation', () => {
+  const gemoji = mount(markdown.default(':sparkles:'));
+  expect(gemoji.find('.lightbox').exists()).toBe(false);
 });
 
 test('should strip out inputs', () => {
@@ -189,8 +195,45 @@ test('should strip dangerous iframe tag', () => {
 
 test('should strip dangerous img attributes', () => {
   expect(mount(markdown.default('<img src="x" onerror="alert(\'charlie\')">')).html()).toBe(
-    '<img src="x" align="" alt="" caption="" height="auto" title="" width="auto" loading="lazy"><span class="lightbox" role="dialog"><span class="lightbox-inner"><img src="x" align="" alt="" caption="" height="auto" title="Click to close..." width="auto" loading="lazy"></span></span>'
+    '<span class="img" role="button" tabindex="0"><img src="x" align="" alt="" caption="" height="auto" title="" width="auto"><span class="lightbox" role="dialog" tabindex="0"><span class="lightbox-inner"><img src="x" align="" caption="" height="auto" title="Click to close..." width="auto" alt="" class="lightbox-img" loading="lazy"></span></span></span>'
   );
+});
+
+describe('tree flattening', () => {
+  it('should bring nested mdast data up to the top child level', () => {
+    const text = `
+
+    |  | Col. B  |
+    |:-------:|:-------:|
+    | Cell A1 | Cell B1 |
+    | Cell A2 | Cell B2 |
+    | Cell A3 | |
+
+    `;
+
+    const table = markdown.hast(text).children[1];
+    expect(table.children).toHaveLength(2);
+    expect(table.children[0].value).toStrictEqual(' Col. B');
+    expect(table.children[1].value).toStrictEqual('Cell A1 Cell B1 Cell A2 Cell B2 Cell A3 ');
+  });
+
+  it('should not throw an error if missing values', () => {
+    const tree = {
+      tagName: 'table',
+      children: [
+        {
+          tagName: 'tHead',
+        },
+        {
+          tagName: 'tBody',
+        },
+      ],
+    };
+
+    const [head, body] = tableFlattening(tree).children;
+    expect(head.value).toStrictEqual('');
+    expect(body.value).toStrictEqual('');
+  });
 });
 
 describe('export multiple Markdown renderers', () => {
@@ -246,6 +289,14 @@ describe('export multiple Markdown renderers', () => {
     expect(markdown.md(tree)).toMatchSnapshot();
   });
 
+  it('renders plainText from AST', () => {
+    expect(markdown.astToPlainText(tree)).toMatchSnapshot();
+  });
+
+  it('astToPlainText should return an empty string if no value', () => {
+    expect(markdown.astToPlainText()).toStrictEqual('');
+  });
+
   it('allows complex compact headings', () => {
     const mdxt = `#Basic Text
 
@@ -271,8 +322,15 @@ Lorem ipsum dolor!`;
   });
 });
 
-describe('prefix anchors with section-', () => {
+describe('prefix anchors with "section-"', () => {
   it('should add a section- prefix to heading anchors', () => {
     expect(markdown.html('# heading')).toMatchSnapshot();
+  });
+
+  it('"section-" anchors should split on camelCased words', () => {
+    const heading = mount(markdown.react('# camelCased'));
+    const anchor = heading.find('.heading-anchor_backwardsCompatibility').at(0);
+
+    expect(anchor.props().id).toMatchSnapshot('section-camel-cased');
   });
 });

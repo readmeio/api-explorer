@@ -5,20 +5,8 @@ const PropTypes = require('prop-types');
 // apps. Necessary because of people like this:
 // https://github.com/codemirror/CodeMirror/issues/3701#issuecomment-164904534
 const syntaxHighlighter = typeof window !== 'undefined' ? require('@readme/syntax-highlighter') : false;
+const canonicalLanguage = require('@readme/syntax-highlighter/canonical');
 const copy = require('copy-to-clipboard');
-
-const remapLang = {
-  c: 'cplusplus',
-  'c++': 'cplusplus',
-  cpp: 'cplusplus',
-  docker: 'dockerfile',
-  html: 'htmlmixed',
-  js: 'javascript',
-  py: 'python',
-  sh: 'shell',
-  bash: 'shell',
-  mysql: 'sql',
-};
 
 function CopyCode({ code, rootClass = 'rdmd-code-copy', className = '' }) {
   const copyClass = `${rootClass}_copied`;
@@ -33,6 +21,7 @@ function CopyCode({ code, rootClass = 'rdmd-code-copy', className = '' }) {
   };
   return <button ref={button} className={`${rootClass} ${className}`} onClick={copier} />;
 }
+
 CopyCode.propTypes = {
   className: PropTypes.string,
   code: PropTypes.string,
@@ -43,12 +32,17 @@ function Code(props) {
   const { className, children, lang, meta } = props;
 
   const langClass = className.search(/lang(?:uage)?-\w+/) >= 0 ? className.match(/\s?lang(?:uage)?-(\w+)/)[1] : '';
-  const language = lang in remapLang ? remapLang[lang] : lang || langClass;
+  const language = canonicalLanguage(lang) || langClass;
 
   return (
     <React.Fragment>
-      <code className={['rdmd-code', `lang-${language}`].join(' ')} data-lang={language} name={meta}>
-        {!syntaxHighlighter || <CopyCode className="fa" code={children[0]} />}
+      <code
+        className={['rdmd-code', `lang-${language}`].join(' ')}
+        data-lang={language}
+        name={meta}
+        suppressHydrationWarning={true}
+      >
+        <CopyCode className="fa" code={children[0]} />
         {syntaxHighlighter ? syntaxHighlighter(children[0], language, { tokenizeVariables: true }) : children[0]}
       </code>
     </React.Fragment>
