@@ -1348,6 +1348,7 @@ describe('content-type & accept header', () => {
     expect(oasToHar(oas, operation, {}).log.entries[0].request.headers).toStrictEqual([
       { name: 'Content-Type', value: 'application/json' },
     ]);
+
     expect(oasToHar(oas, operation, { query: { a: 1 } }).log.entries[0].request.headers).toStrictEqual([
       { name: 'Content-Type', value: 'application/json' },
     ]);
@@ -1366,32 +1367,33 @@ describe('content-type & accept header', () => {
   });
 
   it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'text/xml': {
-                schema: {
-                  type: 'object',
-                  required: ['a'],
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+    const har = oasToHar(
+      oas,
+      {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'text/xml': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
-                example: { a: 'value' },
               },
+              example: { a: 'value' },
             },
           },
         },
-        { body: { a: 'test' } }
-      ).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'Content-Type', value: 'text/xml' }]);
+      },
+      { body: { a: 'test' } }
+    ).log.entries[0].request;
+
+    expect(har.headers).toStrictEqual([{ name: 'Content-Type', value: 'text/xml' }]);
+    expect(har.postData.mimeType).toStrictEqual('text/xml');
   });
 
   // Whether this is right or wrong, i'm not sure but this is what readme currently does
@@ -1460,12 +1462,15 @@ describe('content-type & accept header', () => {
             },
           },
         },
-      }
-    );
+      },
+      { body: { a: 'test' } }
+    ).log.entries[0].request;
 
     // `Content-Type: application/json` would normally appear here if there were no `x-headers`, but since there is
     // we should default to that so as to we don't double up on Content-Type headers.
-    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'multipart/form-data' }]);
+    expect(har.headers).toStrictEqual([{ name: 'Content-Type', value: 'multipart/form-data' }]);
+
+    expect(har.postData.mimeType).toStrictEqual('multipart/form-data');
   });
 });
 
