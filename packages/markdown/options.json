@@ -14,5 +14,5 @@
     "position": false
   },
   "normalize": true,
-  "loosemode": false
+  "compatibilityMode": false
 }

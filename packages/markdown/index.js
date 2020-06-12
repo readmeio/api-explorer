@@ -151,6 +151,7 @@ export function processor(opts = {}) {
   return unified()
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
+    .data('compatibilityMode', opts.compatibilityMode)
     .use(magicBlockParser.sanitize(sanitize))
     .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)])
     .use(compactHeadings.sanitize(sanitize))

@@ -1,6 +1,8 @@
 /* eslint-disable consistent-return */
 const RGXP = /^\[block:(.*)\]([^]+?)\[\/block\]/;
 
+let compatibilityMode;
+
 const WrapPinnedBlocks = (node, json) => {
   if (!json.sidebar) return node;
   return {
@@ -151,6 +153,7 @@ function tokenize(eat, value) {
 
       if (!Object.keys(data).length) return eat(match); // skip empty tables
 
+      const tokenizeCell = this[compatibilityMode ? 'tokenizeBlock' : 'tokenizeInline'].bind(this);
       const children = Object.keys(data)
         .sort()
         .reduce((sum, key) => {
@@ -163,7 +166,7 @@ function tokenize(eat, value) {
 
           sum[row].children[col] = {
             type: row ? 'tableCell' : 'tableHead',
-            children: this.tokenizeBlock(val, eat.now()),
+            children: tokenizeCell(val, eat.now()),
           };
           // convert falsey values to empty strings
           sum[row].children = [...sum[row].children].map(v => v || '');
@@ -242,6 +245,8 @@ function parser() {
   const { Parser } = this;
   const tokenizers = Parser.prototype.blockTokenizers;
   const methods = Parser.prototype.blockMethods;
+
+  if (this.data('compatibilityMode')) compatibilityMode = true;
 
   tokenizers.magicBlocks = tokenize;
   methods.splice(methods.indexOf('newline'), 0, 'magicBlocks');
