@@ -35,9 +35,10 @@ class Image extends React.Component {
 
   lightboxSetup() {
     const $el = this.lightbox.current;
-    setTimeout(() => {
-      $el.scrollTop = ($el.scrollHeight - $el.offsetHeight) / 2;
-    }, 0);
+    if ($el)
+      setTimeout(() => {
+        $el.scrollTop = ($el.scrollHeight - $el.offsetHeight) / 2;
+      }, 0);
   }
 
   handleKey(e) {
