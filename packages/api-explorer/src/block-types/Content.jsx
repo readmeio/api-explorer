@@ -43,10 +43,13 @@ const Loop = ({ content, column, flags, splitReferenceDocs }) => {
 };
 
 const Content = props => {
-  const { body, isThreeColumn, useNewMarkdownEngine, splitReferenceDocs } = props;
+  const { body, flags, isThreeColumn, splitReferenceDocs, useNewMarkdownEngine } = props;
 
   if (useNewMarkdownEngine) {
-    const content = markdown(body, { showAnchorIcons: splitReferenceDocs });
+    const content = markdown(body, {
+      showAnchorIcons: splitReferenceDocs,
+      compatibilityMode: flags.rdmdCompatibilityMode,
+    });
 
     if (isThreeColumn === true) {
       return (
@@ -124,7 +127,7 @@ Loop.defaultProps = {
 
 Content.propTypes = {
   body: PropTypes.string,
-  flags: PropTypes.shape({}),
+  flags: PropTypes.shape(),
   isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   splitReferenceDocs: PropTypes.bool,
   useNewMarkdownEngine: PropTypes.bool,
