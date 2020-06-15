@@ -74,6 +74,12 @@ const supportedLanguages = {
 module.exports = (oas, oasUrl, operation, values, auth, lang) => {
   const har = generateHar(oas, operation, values, auth);
 
+  // API SDK client needs additional runtime information on the API definition we're showing the user so it can
+  // generate an appropriate snippet.
+  if (lang === 'node-simple') {
+    HTTPSnippet.addTargetClient('node', HTTPSnippetSimpleApiClient);
+  }
+
   const snippet = new HTTPSnippet(har);
 
   const language = supportedLanguages[lang];
@@ -84,11 +90,7 @@ module.exports = (oas, oasUrl, operation, values, auth, lang) => {
     return { snippet: false, code: '' };
   }
 
-  // API SDK client needs additional runtime information on the API definition we're showing the user so it can
-  // generate an appropriate snippet.
   if (lang === 'node-simple') {
-    HTTPSnippet.addTargetClient('node', HTTPSnippetSimpleApiClient);
-
     language.httpsnippet[2] = {
       apiDefinitionUri: oasUrl,
       apiDefinition: oas,

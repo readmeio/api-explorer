@@ -23,6 +23,9 @@ const props = {
   oasFiles: {
     'test-api-setting': { ...oas, [extensions.SAMPLES_LANGUAGES]: languages },
   },
+  oasUrls: {
+    'test-api-setting': 'https://example.com/openapi.json',
+  },
   suggestedEdits: false,
   variables: { user: {}, defaults: [] },
 };
