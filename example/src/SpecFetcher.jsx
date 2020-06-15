@@ -14,6 +14,7 @@ function withSpecFetching(Component) {
         failure: null,
         isLoading: false,
         oas: {},
+        oasUri: '',
         status: [],
       };
 
@@ -52,7 +53,9 @@ function withSpecFetching(Component) {
             this.updateStatus('Validating the definition');
             return swaggerParser.validate(json);
           })
-          .then(json => this.dereference(json))
+          .then(json => {
+            return this.dereference(json, url);
+          })
           .catch(e => {
             this.setState({ isLoading: false });
             this.updateStatus(`There was an error handling your API definition:\n\n${e.message}`);
@@ -60,9 +63,16 @@ function withSpecFetching(Component) {
       });
     }
 
-    dereference(oas) {
+    dereference(oas, url) {
+      let oasUrl = url;
+      if (url.indexOf('http') < 0) {
+        // Ensure that our fixtures from example/swagger-files have a publically addressible URL when they're placed
+        // inside code snippets.
+        oasUrl = `${window.location.origin}/${url}`;
+      }
+
       this.createDocs(oas);
-      this.setState({ oas });
+      this.setState({ oas, oasUrl });
       this.updateStatus('Done!', () => {
         setTimeout(() => {
           this.setState({ isLoading: false, status: [] });
@@ -83,7 +93,7 @@ function withSpecFetching(Component) {
     }
 
     createDocs(oas) {
-      this.setState({ docs: createDocs(oas, 'api-setting') });
+      this.setState({ docs: createDocs(oas, 'demo-api-setting') });
     }
 
     render() {
