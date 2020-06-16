@@ -49,9 +49,17 @@ function withSpecFetching(Component) {
             if (json.swagger) return this.convertSwagger(url, json);
             return json;
           })
-          .then(json => {
+          .then(async json => {
             this.updateStatus('Validating the definition');
-            return swaggerParser.validate(json);
+
+            // If the definition isn't valid, errors will be thrown automatically. We're stringifying the JSON to a
+            // copy because the swagger-parser validate method turns circular refs into `[Circular]` objects that then
+            // in turn wreak havoc on some JSON Schema parsing further down in the explorer. This is a hack, and this
+            // definitely isn't the best way to handle this, but for the purposes of the example site it's alright.
+            const copy = JSON.stringify(json);
+            await swaggerParser.validate(json);
+
+            return JSON.parse(copy);
           })
           .then(json => {
             return this.dereference(json, url);
