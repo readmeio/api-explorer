@@ -6,7 +6,7 @@ const getAuth = require('../../src/lib/get-auth');
 const oas = new Oas(multipleSecurities);
 
 test('should fetch all auths from the OAS files', () => {
-  expect(getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': oas })).toStrictEqual({
+  expect(getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'test-api-setting': oas })).toStrictEqual({
     oauthScheme: 'oauth',
     oauthDiff: '',
     apiKeyScheme: 'apikey',
@@ -26,20 +26,23 @@ test('should fetch auths from selected app', () => {
     ],
   };
 
-  expect(getAuth(user, { 'api-setting': oas }, 'app-2').oauthScheme).toBe('222');
+  expect(getAuth(user, { 'test-api-setting': oas }, 'app-2').oauthScheme).toBe('222');
 });
 
 test('should not error if oas.components is not set', () => {
   expect(() => {
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': {} });
+    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'test-api-setting': {} });
   }).not.toThrow();
 
   expect(() => {
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': { components: {} } });
+    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'test-api-setting': { components: {} } });
   }).not.toThrow();
 
   expect(() => {
-    getAuth({ oauthScheme: 'oauth', apiKeyScheme: 'apikey' }, { 'api-setting': { components: { requestBodies: {} } } });
+    getAuth(
+      { oauthScheme: 'oauth', apiKeyScheme: 'apikey' },
+      { 'test-api-setting': { components: { requestBodies: {} } } }
+    );
   }).not.toThrow();
 });
 

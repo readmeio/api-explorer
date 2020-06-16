@@ -66,12 +66,15 @@ class Demo extends React.Component {
   }
 
   render() {
-    const { fetchSwagger, status, docs, oas, oauth } = this.props;
+    const { fetchSwagger, status, docs, oas, oasUrl, oauth } = this.props;
     const { brokenExplorerState, maskErrorMessages, useNewMarkdownEngine } = this.state;
 
     const additionalProps = {
       oasFiles: {
-        'api-setting': Object.assign(extensions.defaults, oas),
+        'demo-api-setting': Object.assign(extensions.defaults, oas),
+      },
+      oasUrls: {
+        'demo-api-setting': oasUrl,
       },
     };
 
@@ -139,6 +142,7 @@ Demo.propTypes = {
   docs: PropTypes.arrayOf(PropTypes.shape).isRequired,
   fetchSwagger: PropTypes.func.isRequired,
   oas: PropTypes.shape({}).isRequired,
+  oasUrl: PropTypes.string.isRequired,
   oauth: PropTypes.bool,
   status: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

@@ -127,6 +127,7 @@ module.exports = (
 
   // Do we have any `header` parameters on the operation?
   let hasContentType = false;
+  let contentType = operation.getContentType();
   const headers = parameters && parameters.filter(param => param.in === 'header');
   if (headers && headers.length) {
     headers.forEach(header => {
@@ -135,6 +136,7 @@ module.exports = (
 
       if (header.name.toLowerCase() === 'content-type') {
         hasContentType = true;
+        contentType = String(value);
       }
 
       har.headers.push({
@@ -149,6 +151,7 @@ module.exports = (
     oas[extensions.HEADERS].forEach(header => {
       if (header.key.toLowerCase() === 'content-type') {
         hasContentType = true;
+        contentType = String(header.value);
       }
 
       har.headers.push({
@@ -176,6 +179,7 @@ module.exports = (
   if (schema.schema && Object.keys(schema.schema).length) {
     // If there is formData, then the type is application/x-www-form-urlencoded
     if (Object.keys(formData.formData).length) {
+      har.postData.mimeType = 'application/x-www-form-urlencoded';
       har.postData.text = querystring.stringify(formData.formData);
       // formData.body can be one of the following:
       // - `undefined` - if the form hasn't been touched yet because of formData.body on:
@@ -186,6 +190,8 @@ module.exports = (
       typeof formData.body !== 'undefined' &&
       (isPrimitive(formData.body) || Object.keys(formData.body).length)
     ) {
+      har.postData.mimeType = contentType;
+
       try {
         // Find all `{ type: string, format: json }` properties in the schema
         // because we need to manually JSON.parse them before submit, otherwise
@@ -224,11 +230,9 @@ module.exports = (
   // Add a `Content-Type` header if there are any body values setup above or if there is a schema defined, but only do
   // so if we don't already have a `Content-Type` present as it's impossible for a request to have multiple.
   if ((har.postData.text || Object.keys(schema.schema).length) && !hasContentType) {
-    const type = operation.getContentType();
-
     har.headers.push({
       name: 'Content-Type',
-      value: type,
+      value: contentType,
     });
   }
 
