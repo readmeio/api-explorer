@@ -14,7 +14,7 @@ function withSpecFetching(Component) {
         failure: null,
         isLoading: false,
         oas: {},
-        oasUri: '',
+        oasUrl: '',
         status: [],
       };
 
