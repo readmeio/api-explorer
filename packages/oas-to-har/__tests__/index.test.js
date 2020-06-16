@@ -3,7 +3,7 @@ const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
 const oasToHar = require('../src/index');
-const commonParameters = require('./fixtures/common-parameters');
+const commonParameters = require('./__fixtures__/common-parameters');
 
 const oas = new Oas();
 
@@ -13,6 +13,7 @@ test('should output a har format', () => {
       entries: [
         {
           request: {
+            cookies: [],
             headers: [],
             method: '',
             postData: {},
@@ -60,31 +61,50 @@ describe('url', () => {
   });
 });
 
-describe('path values', () => {
-  it('should pass through unknown path params', () => {
-    expect(oasToHar(oas, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
-      'https://example.com/param-path/id'
-    );
-    expect(
-      oasToHar(oas, {
-        path: '/param-path/{id}',
-        method: 'get',
-        parameters: [
-          {
-            name: 'something-else',
-            in: 'path',
-            required: true,
-          },
-        ],
-      }).log.entries[0].request.url
-    ).toBe('https://example.com/param-path/id');
-  });
+describe('parameters', () => {
+  describe('path values', () => {
+    it('should pass through unknown path params', () => {
+      expect(oasToHar(oas, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
+        'https://example.com/param-path/id'
+      );
+      expect(
+        oasToHar(oas, {
+          path: '/param-path/{id}',
+          method: 'get',
+          parameters: [
+            {
+              name: 'something-else',
+              in: 'path',
+              required: true,
+            },
+          ],
+        }).log.entries[0].request.url
+      ).toBe('https://example.com/param-path/id');
+    });
 
-  it('should not error if empty object passed in for values', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+    it('should not error if empty object passed in for values', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/param-path/{id}',
+            method: 'get',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+              },
+            ],
+          },
+          {}
+        ).log.entries[0].request.url
+      ).toBe('https://example.com/param-path/id');
+    });
+
+    it('should use example if no value', () => {
+      expect(
+        oasToHar(oas, {
           path: '/param-path/{id}',
           method: 'get',
           parameters: [
@@ -92,110 +112,73 @@ describe('path values', () => {
               name: 'id',
               in: 'path',
               required: true,
+              example: '123',
             },
           ],
-        },
-        {}
-      ).log.entries[0].request.url
-    ).toBe('https://example.com/param-path/id');
-  });
+        }).log.entries[0].request.url
+      ).toBe('https://example.com/param-path/123');
+    });
 
-  it('should use example if no value', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/param-path/{id}',
-        method: 'get',
-        parameters: [
+    it('should add path values to the url', () => {
+      expect(
+        oasToHar(
+          oas,
           {
-            name: 'id',
-            in: 'path',
-            required: true,
-            example: '123',
+            path: '/param-path/{id}',
+            method: 'get',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+              },
+            ],
           },
-        ],
-      }).log.entries[0].request.url
-    ).toBe('https://example.com/param-path/123');
+          { path: { id: '456' } }
+        ).log.entries[0].request.url
+      ).toBe('https://example.com/param-path/456');
+    });
+
+    it('should add falsy values to the url', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/param-path/{id}',
+            method: 'get',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+              },
+            ],
+          },
+          { path: { id: 0 } }
+        ).log.entries[0].request.url
+      ).toBe('https://example.com/param-path/0');
+    });
   });
 
-  it('should add path values to the url', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/param-path/{id}',
+  describe('query values', () => {
+    it('should not add on empty unrequired values', () => {
+      expect(
+        oasToHar(oas, {
+          path: '/query',
           method: 'get',
           parameters: [
             {
-              name: 'id',
-              in: 'path',
-              required: true,
+              name: 'a',
+              in: 'query',
             },
           ],
-        },
-        { path: { id: '456' } }
-      ).log.entries[0].request.url
-    ).toBe('https://example.com/param-path/456');
-  });
+        }).log.entries[0].request.queryString
+      ).toStrictEqual([]);
+    });
 
-  it('should add falsy values to the url', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/param-path/{id}',
-          method: 'get',
-          parameters: [
-            {
-              name: 'id',
-              in: 'path',
-              required: true,
-            },
-          ],
-        },
-        { path: { id: 0 } }
-      ).log.entries[0].request.url
-    ).toBe('https://example.com/param-path/0');
-  });
-});
-
-describe('query values', () => {
-  it('should not add on empty unrequired values', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/query',
-        method: 'get',
-        parameters: [
-          {
-            name: 'a',
-            in: 'query',
-          },
-        ],
-      }).log.entries[0].request.queryString
-    ).toStrictEqual([]);
-  });
-
-  it('should set defaults if no value provided but is required', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/query',
-        method: 'get',
-        parameters: [
-          {
-            name: 'a',
-            in: 'query',
-            required: true,
-            example: 'value',
-          },
-        ],
-      }).log.entries[0].request.queryString
-    ).toStrictEqual([{ name: 'a', value: 'value' }]);
-  });
-
-  it('should pass in value if one is set and prioritise provided values', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+    it('should set defaults if no value provided but is required', () => {
+      expect(
+        oasToHar(oas, {
           path: '/query',
           method: 'get',
           parameters: [
@@ -206,70 +189,144 @@ describe('query values', () => {
               example: 'value',
             },
           ],
-        },
-        { query: { a: 'test' } }
-      ).log.entries[0].request.queryString
-    ).toStrictEqual([{ name: 'a', value: 'test' }]);
+        }).log.entries[0].request.queryString
+      ).toStrictEqual([{ name: 'a', value: 'value' }]);
+    });
+
+    it('should pass in value if one is set and prioritise provided values', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/query',
+            method: 'get',
+            parameters: [
+              {
+                name: 'a',
+                in: 'query',
+                required: true,
+                example: 'value',
+              },
+            ],
+          },
+          { query: { a: 'test' } }
+        ).log.entries[0].request.queryString
+      ).toStrictEqual([{ name: 'a', value: 'test' }]);
+    });
+
+    it('should add falsy values to the querystring', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/param-path',
+            method: 'get',
+            parameters: [
+              {
+                name: 'id',
+                in: 'query',
+              },
+            ],
+          },
+          { query: { id: 0 } }
+        ).log.entries[0].request.queryString
+      ).toStrictEqual([{ name: 'id', value: '0' }]);
+    });
   });
 
-  it('should add falsy values to the querystring', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/param-path',
+  describe('cookie values', () => {
+    it('should not add on empty unrequired values', () => {
+      expect(
+        oasToHar(oas, {
+          path: '/',
           method: 'get',
           parameters: [
             {
-              name: 'id',
-              in: 'query',
+              name: 'a',
+              in: 'cookie',
             },
           ],
-        },
-        { query: { id: 0 } }
-      ).log.entries[0].request.queryString
-    ).toStrictEqual([{ name: 'id', value: '0' }]);
-  });
-});
+        }).log.entries[0].request.cookies
+      ).toStrictEqual([]);
+    });
 
-describe('header values', () => {
-  it('should not add on empty unrequired values', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/header',
-        method: 'get',
-        parameters: [
+    it('should set defaults if no value provided but is required', () => {
+      expect(
+        oasToHar(oas, {
+          path: '/',
+          method: 'get',
+          parameters: [
+            {
+              name: 'a',
+              in: 'cookie',
+              required: true,
+              example: 'value',
+            },
+          ],
+        }).log.entries[0].request.cookies
+      ).toStrictEqual([{ name: 'a', value: 'value' }]);
+    });
+
+    it('should pass in value if one is set and prioritize provided values', () => {
+      expect(
+        oasToHar(
+          oas,
           {
-            name: 'a',
-            in: 'header',
+            path: '/',
+            method: 'get',
+            parameters: [
+              {
+                name: 'a',
+                in: 'cookie',
+                required: true,
+                example: 'value',
+              },
+            ],
           },
-        ],
-      }).log.entries[0].request.headers
-    ).toStrictEqual([]);
-  });
+          { cookie: { a: 'test' } }
+        ).log.entries[0].request.cookies
+      ).toStrictEqual([{ name: 'a', value: 'test' }]);
+    });
 
-  it('should set defaults if no value provided but is required', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/header',
-        method: 'get',
-        parameters: [
+    it('should add falsy values to the cookies', () => {
+      expect(
+        oasToHar(
+          oas,
           {
-            name: 'a',
-            in: 'header',
-            required: true,
-            example: 'value',
+            path: '/',
+            method: 'get',
+            parameters: [
+              {
+                name: 'id',
+                in: 'cookie',
+              },
+            ],
           },
-        ],
-      }).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'a', value: 'value' }]);
+          { cookie: { id: 0 } }
+        ).log.entries[0].request.cookies
+      ).toStrictEqual([{ name: 'id', value: '0' }]);
+    });
   });
 
-  it('should pass in value if one is set and prioritise provided values', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+  describe('header values', () => {
+    it('should not add on empty unrequired values', () => {
+      expect(
+        oasToHar(oas, {
+          path: '/header',
+          method: 'get',
+          parameters: [
+            {
+              name: 'a',
+              in: 'header',
+            },
+          ],
+        }).log.entries[0].request.headers
+      ).toStrictEqual([]);
+    });
+
+    it('should set defaults if no value provided but is required', () => {
+      expect(
+        oasToHar(oas, {
           path: '/header',
           method: 'get',
           parameters: [
@@ -280,163 +337,159 @@ describe('header values', () => {
               example: 'value',
             },
           ],
-        },
-        { header: { a: 'test' } }
-      ).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'a', value: 'test' }]);
-  });
+        }).log.entries[0].request.headers
+      ).toStrictEqual([{ name: 'a', value: 'value' }]);
+    });
 
-  it('should pass accept header if endpoint expects a content back from response', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/header',
-        method: 'get',
-        parameters: [
+    it('should pass in value if one is set and prioritise provided values', () => {
+      expect(
+        oasToHar(
+          oas,
           {
-            name: 'a',
-            in: 'header',
-            required: true,
-            example: 'value',
-          },
-        ],
-        responses: {
-          200: {
-            content: {
-              'application/xml': {
-                type: 'array',
+            path: '/header',
+            method: 'get',
+            parameters: [
+              {
+                name: 'a',
+                in: 'header',
+                required: true,
+                example: 'value',
               },
-              'application/json': {
-                type: 'array',
-              },
-            },
+            ],
           },
-        },
-      }).log.entries[0].request.headers
-    ).toStrictEqual([
-      { name: 'Accept', value: 'application/xml' },
-      { name: 'a', value: 'value' },
-    ]);
-  });
+          { header: { a: 'test' } }
+        ).log.entries[0].request.headers
+      ).toStrictEqual([{ name: 'a', value: 'test' }]);
+    });
 
-  it('should only add one accept header', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/header',
-        method: 'get',
-        parameters: [],
-        responses: {
-          200: {
-            content: {
-              'application/xml': {},
-            },
-          },
-          400: {
-            content: {
-              'application/json': {},
-            },
-          },
-        },
-      }).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
-  });
-
-  it('should only receive one accept header if specified in values', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+    it('should pass accept header if endpoint expects a content back from response', () => {
+      expect(
+        oasToHar(oas, {
           path: '/header',
           method: 'get',
           parameters: [
             {
-              name: 'Accept',
+              name: 'a',
               in: 'header',
+              required: true,
+              example: 'value',
             },
           ],
           responses: {
             200: {
               content: {
-                'application/json': {},
-                'application/xml': {},
+                'application/xml': {
+                  type: 'array',
+                },
+                'application/json': {
+                  type: 'array',
+                },
               },
             },
           },
-        },
-        { header: { Accept: 'application/xml' } }
-      ).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
-  });
+        }).log.entries[0].request.headers
+      ).toStrictEqual([
+        { name: 'Accept', value: 'application/xml' },
+        { name: 'a', value: 'value' },
+      ]);
+    });
 
-  it('should add accept header if specified in formdata', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+    it('should only add one accept header', () => {
+      expect(
+        oasToHar(oas, {
           path: '/header',
           method: 'get',
           parameters: [],
           responses: {
             200: {
               content: {
-                'application/json': {},
                 'application/xml': {},
               },
             },
-          },
-        },
-        { header: { Accept: 'application/xml' } }
-      ).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
-  });
-
-  it('should add falsy values to the headers', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/param-path',
-          method: 'get',
-          parameters: [
-            {
-              name: 'id',
-              in: 'header',
+            400: {
+              content: {
+                'application/json': {},
+              },
             },
-          ],
-        },
-        { header: { id: 0 } }
-      ).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'id', value: '0' }]);
-  });
-});
+          },
+        }).log.entries[0].request.headers
+      ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
+    });
 
-describe('body values', () => {
-  it('should not add on empty unrequired values', () => {
-    const pathOperation = {
-      path: '/body',
-      method: 'get',
-      requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                a: {
-                  type: 'string',
+    it('should only receive one accept header if specified in values', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/header',
+            method: 'get',
+            parameters: [
+              {
+                name: 'Accept',
+                in: 'header',
+              },
+            ],
+            responses: {
+              200: {
+                content: {
+                  'application/json': {},
+                  'application/xml': {},
                 },
               },
             },
           },
-        },
-      },
-    };
+          { header: { Accept: 'application/xml' } }
+        ).log.entries[0].request.headers
+      ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
+    });
 
-    expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toBeUndefined();
+    it('should add accept header if specified in formdata', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/header',
+            method: 'get',
+            parameters: [],
+            responses: {
+              200: {
+                content: {
+                  'application/json': {},
+                  'application/xml': {},
+                },
+              },
+            },
+          },
+          { header: { Accept: 'application/xml' } }
+        ).log.entries[0].request.headers
+      ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
+    });
+
+    it('should add falsy values to the headers', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/param-path',
+            method: 'get',
+            parameters: [
+              {
+                name: 'id',
+                in: 'header',
+              },
+            ],
+          },
+          { header: { id: 0 } }
+        ).log.entries[0].request.headers
+      ).toStrictEqual([{ name: 'id', value: '0' }]);
+    });
   });
+});
 
-  // TODO extensions[SEND_DEFAULTS]
-  it.skip('should set defaults if no value provided but is required', () => {
-    expect(
-      oasToHar(oas, {
+describe('requestBody', () => {
+  describe('body values', () => {
+    it('should not add on empty unrequired values', () => {
+      const pathOperation = {
         path: '/body',
         method: 'get',
         requestBody: {
@@ -444,7 +497,6 @@ describe('body values', () => {
             'application/json': {
               schema: {
                 type: 'object',
-                required: ['a'],
                 properties: {
                   a: {
                     type: 'string',
@@ -454,15 +506,15 @@ describe('body values', () => {
             },
           },
         },
-      }).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify({ a: 'value' }));
-  });
+      };
 
-  it('should pass in value if one is set and prioritise provided values', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+      expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toBeUndefined();
+    });
+
+    // TODO extensions[SEND_DEFAULTS]
+    it.skip('should set defaults if no value provided but is required', () => {
+      expect(
+        oasToHar(oas, {
           path: '/body',
           method: 'get',
           requestBody: {
@@ -480,112 +532,139 @@ describe('body values', () => {
               },
             },
           },
-        },
-        { body: { a: 'test' } }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify({ a: 'test' }));
-  });
+        }).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify({ a: 'value' }));
+    });
 
-  it('should work for RAW_BODY primitives', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    RAW_BODY: {
-                      type: 'string',
+    it('should pass in value if one is set and prioritise provided values', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
                     },
                   },
                 },
               },
             },
           },
-        },
-        { body: { RAW_BODY: 'test' } }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify('test'));
-  });
+          { body: { a: 'test' } }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify({ a: 'test' }));
+    });
 
-  it('should work for RAW_BODY json', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    RAW_BODY: {
-                      type: 'string',
-                      format: 'json',
+    it('should work for RAW_BODY primitives', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      RAW_BODY: {
+                        type: 'string',
+                      },
                     },
                   },
                 },
               },
             },
           },
-        },
-        { body: { RAW_BODY: '{ "a": 1 }' } }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify({ a: 1 }));
-  });
+          { body: { RAW_BODY: 'test' } }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify('test'));
+    });
 
-  it('should return empty for falsy RAW_BODY primitives', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    RAW_BODY: {
-                      type: 'string',
+    it('should work for RAW_BODY json', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      RAW_BODY: {
+                        type: 'string',
+                        format: 'json',
+                      },
                     },
                   },
                 },
               },
             },
           },
-        },
-        { body: { RAW_BODY: '' } }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify(''));
-  });
+          { body: { RAW_BODY: '{ "a": 1 }' } }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify({ a: 1 }));
+    });
 
-  it('should work for RAW_BODY objects', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    RAW_BODY: {
-                      type: 'object',
-                      properties: {
-                        a: {
-                          type: 'string',
+    it('should return empty for falsy RAW_BODY primitives', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      RAW_BODY: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: { RAW_BODY: '' } }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify(''));
+    });
+
+    it('should work for RAW_BODY objects', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      RAW_BODY: {
+                        type: 'object',
+                        properties: {
+                          a: {
+                            type: 'string',
+                          },
                         },
                       },
                     },
@@ -594,30 +673,30 @@ describe('body values', () => {
               },
             },
           },
-        },
-        { body: { RAW_BODY: { a: 'test' } } }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify({ a: 'test' }));
-  });
+          { body: { RAW_BODY: { a: 'test' } } }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify({ a: 'test' }));
+    });
 
-  it('should return empty for RAW_BODY objects', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    RAW_BODY: {
-                      type: 'object',
-                      properties: {
-                        a: {
-                          type: 'string',
+    it('should return empty for RAW_BODY objects', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      RAW_BODY: {
+                        type: 'object',
+                        properties: {
+                          a: {
+                            type: 'string',
+                          },
                         },
                       },
                     },
@@ -626,221 +705,39 @@ describe('body values', () => {
               },
             },
           },
-        },
-        { body: { RAW_BODY: {} } }
-      ).log.entries[0].request.postData.text
-    ).toBeUndefined();
-  });
+          { body: { RAW_BODY: {} } }
+        ).log.entries[0].request.postData.text
+      ).toBeUndefined();
+    });
 
-  it('should return nothing for undefined body property', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    a: {
-                      type: 'string',
+    it('should return nothing for undefined body property', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
                     },
                   },
                 },
               },
             },
           },
-        },
-        { body: { a: undefined } }
-      ).log.entries[0].request.postData.text
-    ).toBeUndefined();
-  });
+          { body: { a: undefined } }
+        ).log.entries[0].request.postData.text
+      ).toBeUndefined();
+    });
 
-  it('should work for schemas that require a lookup', () => {
-    expect(
-      oasToHar(
-        new Oas({
-          components: {
-            requestBodies: {
-              schema: {
-                content: {
-                  'application/json': {
-                    schema: { type: 'object', properties: { a: { type: 'integer' } } },
-                  },
-                },
-              },
-            },
-          },
-        }),
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            $ref: '#/components/requestBodies/schema',
-          },
-        },
-        { body: { a: 123 } }
-      ).log.entries[0].request.postData.text
-    ).toStrictEqual(JSON.stringify({ a: 123 }));
-  });
-
-  it('should work for schemas that require a parameters lookup', () => {
-    expect(
-      oasToHar(
-        new Oas({
-          components: {
-            parameters: {
-              authorization: {
-                name: 'Authorization',
-                in: 'header',
-              },
-            },
-          },
-        }),
-        {
-          method: 'get',
-          parameters: [
-            {
-              $ref: '#/components/parameters/authorization',
-            },
-          ],
-        },
-        { header: { Authorization: 'test' } }
-      ).log.entries[0].request.headers[0].value
-    ).toBe('test');
-  });
-
-  it('should work for top level primitives', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'post',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'string',
-                },
-              },
-            },
-          },
-        },
-        { body: 'string' }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify('string'));
-
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'post',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'integer',
-                  format: 'int64',
-                },
-              },
-            },
-          },
-        },
-        { body: 123 }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify(123));
-
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'post',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'boolean',
-                },
-              },
-            },
-          },
-        },
-        { body: true }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify(true));
-  });
-
-  it('should work for top level falsy primitives', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'post',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'string',
-                },
-              },
-            },
-          },
-        },
-        { body: '' }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify(''));
-
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'post',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'integer',
-                  format: 'int64',
-                },
-              },
-            },
-          },
-        },
-        { body: 0 }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify(0));
-
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'post',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'boolean',
-                },
-              },
-            },
-          },
-        },
-        { body: false }
-      ).log.entries[0].request.postData.text
-    ).toBe(JSON.stringify(false));
-  });
-
-  describe('`json` type', () => {
-    it('should work for refs that require a lookup', () => {
+    it('should work for schemas that require a lookup', () => {
       expect(
         oasToHar(
           new Oas({
@@ -849,10 +746,7 @@ describe('body values', () => {
                 schema: {
                   content: {
                     'application/json': {
-                      schema: {
-                        string: 'object',
-                        properties: { a: { type: 'string', format: 'json' } },
-                      },
+                      schema: { type: 'object', properties: { a: { type: 'integer' } } },
                     },
                   },
                 },
@@ -866,12 +760,38 @@ describe('body values', () => {
               $ref: '#/components/requestBodies/schema',
             },
           },
-          { body: { a: '{ "b": 1 }' } }
+          { body: { a: 123 } }
         ).log.entries[0].request.postData.text
-      ).toBe(JSON.stringify({ a: JSON.parse('{ "b": 1 }') }));
+      ).toStrictEqual(JSON.stringify({ a: 123 }));
     });
 
-    it('should leave invalid JSON as strings', () => {
+    it('should work for schemas that require a parameters lookup', () => {
+      expect(
+        oasToHar(
+          new Oas({
+            components: {
+              parameters: {
+                authorization: {
+                  name: 'Authorization',
+                  in: 'header',
+                },
+              },
+            },
+          }),
+          {
+            method: 'get',
+            parameters: [
+              {
+                $ref: '#/components/parameters/authorization',
+              },
+            ],
+          },
+          { header: { Authorization: 'test' } }
+        ).log.entries[0].request.headers[0].value
+      ).toBe('test');
+    });
+
+    it('should work for top level primitives', () => {
       expect(
         oasToHar(
           oas,
@@ -882,25 +802,16 @@ describe('body values', () => {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    required: ['a'],
-                    properties: {
-                      a: {
-                        type: 'string',
-                        format: 'json',
-                      },
-                    },
+                    type: 'string',
                   },
                 },
               },
             },
           },
-          { body: { a: '{ "b": invalid json' } }
+          { body: 'string' }
         ).log.entries[0].request.postData.text
-      ).toBe(JSON.stringify({ a: '{ "b": invalid json' }));
-    });
+      ).toBe(JSON.stringify('string'));
 
-    it('should parse valid JSON as an object', () => {
       expect(
         oasToHar(
           oas,
@@ -911,25 +822,17 @@ describe('body values', () => {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    required: ['a'],
-                    properties: {
-                      a: {
-                        type: 'string',
-                        format: 'json',
-                      },
-                    },
+                    type: 'integer',
+                    format: 'int64',
                   },
                 },
               },
             },
           },
-          { body: { a: '{ "b": "valid json" }' } }
+          { body: 123 }
         ).log.entries[0].request.postData.text
-      ).toBe(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
-    });
+      ).toBe(JSON.stringify(123));
 
-    it('should leave user specified empty object JSON alone', () => {
       expect(
         oasToHar(
           oas,
@@ -940,49 +843,225 @@ describe('body values', () => {
               content: {
                 'application/json': {
                   schema: {
-                    type: 'object',
-                    required: ['a'],
-                    properties: {
-                      a: {
-                        type: 'string',
-                        format: 'json',
-                      },
-                    },
+                    type: 'boolean',
                   },
                 },
               },
             },
           },
-          { body: { a: '{}' } }
+          { body: true }
         ).log.entries[0].request.postData.text
-      ).toBe(JSON.stringify({ a: {} }));
+      ).toBe(JSON.stringify(true));
     });
-  });
 
-  it('should not include objects with undefined sub properties', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    a: {
-                      type: 'object',
-                      properties: {
-                        b: {
-                          type: 'string',
+    it('should work for top level falsy primitives', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'post',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'string',
+                  },
+                },
+              },
+            },
+          },
+          { body: '' }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify(''));
+
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'post',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'integer',
+                    format: 'int64',
+                  },
+                },
+              },
+            },
+          },
+          { body: 0 }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify(0));
+
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'post',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'boolean',
+                  },
+                },
+              },
+            },
+          },
+          { body: false }
+        ).log.entries[0].request.postData.text
+      ).toBe(JSON.stringify(false));
+    });
+
+    describe('`json` type', () => {
+      it('should work for refs that require a lookup', () => {
+        expect(
+          oasToHar(
+            new Oas({
+              components: {
+                requestBodies: {
+                  schema: {
+                    content: {
+                      'application/json': {
+                        schema: {
+                          string: 'object',
+                          properties: { a: { type: 'string', format: 'json' } },
                         },
-                        c: {
-                          type: 'object',
-                          properties: {
-                            d: {
-                              type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            }),
+            {
+              path: '/body',
+              method: 'get',
+              requestBody: {
+                $ref: '#/components/requestBodies/schema',
+              },
+            },
+            { body: { a: '{ "b": 1 }' } }
+          ).log.entries[0].request.postData.text
+        ).toBe(JSON.stringify({ a: JSON.parse('{ "b": 1 }') }));
+      });
+
+      it('should leave invalid JSON as strings', () => {
+        expect(
+          oasToHar(
+            oas,
+            {
+              path: '/body',
+              method: 'post',
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      required: ['a'],
+                      properties: {
+                        a: {
+                          type: 'string',
+                          format: 'json',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            { body: { a: '{ "b": invalid json' } }
+          ).log.entries[0].request.postData.text
+        ).toBe(JSON.stringify({ a: '{ "b": invalid json' }));
+      });
+
+      it('should parse valid JSON as an object', () => {
+        expect(
+          oasToHar(
+            oas,
+            {
+              path: '/body',
+              method: 'post',
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      required: ['a'],
+                      properties: {
+                        a: {
+                          type: 'string',
+                          format: 'json',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            { body: { a: '{ "b": "valid json" }' } }
+          ).log.entries[0].request.postData.text
+        ).toBe(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
+      });
+
+      it('should leave user specified empty object JSON alone', () => {
+        expect(
+          oasToHar(
+            oas,
+            {
+              path: '/body',
+              method: 'post',
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      required: ['a'],
+                      properties: {
+                        a: {
+                          type: 'string',
+                          format: 'json',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            { body: { a: '{}' } }
+          ).log.entries[0].request.postData.text
+        ).toBe(JSON.stringify({ a: {} }));
+      });
+    });
+
+    it('should not include objects with undefined sub properties', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: {
+                        type: 'object',
+                        properties: {
+                          b: {
+                            type: 'string',
+                          },
+                          c: {
+                            type: 'object',
+                            properties: {
+                              d: {
+                                type: 'string',
+                              },
                             },
                           },
                         },
@@ -993,27 +1072,53 @@ describe('body values', () => {
               },
             },
           },
-        },
-        { body: { a: { b: undefined, c: { d: undefined } } } }
-      ).log.entries[0].request.postData.text
-    ).toBeUndefined();
+          { body: { a: { b: undefined, c: { d: undefined } } } }
+        ).log.entries[0].request.postData.text
+      ).toBeUndefined();
+    });
+
+    // When we first render the form, formData.body is undefined
+    // until something is typed into the form. When using anyOf/oneOf
+    // if we change the schema before typing anything into the form,
+    // then onChange is fired with `undefined` which causes
+    // this to error
+    it('should not error if `formData.body` is undefined', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: undefined }
+        ).log.entries[0].request.postData.text
+      ).toBeUndefined();
+    });
   });
 
-  // When we first render the form, formData.body is undefined
-  // until something is typed into the form. When using anyOf/oneOf
-  // if we change the schema before typing anything into the form,
-  // then onChange is fired with `undefined` which causes
-  // this to error
-  it('should not error if `formData.body` is undefined', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+  describe('formData values', () => {
+    it('should not add on empty unrequired values', () => {
+      expect(
+        oasToHar(oas, {
           path: '/body',
           method: 'get',
           requestBody: {
             content: {
-              'application/json': {
+              'application/x-www-form-urlencoded': {
                 schema: {
                   type: 'object',
                   properties: {
@@ -1025,68 +1130,14 @@ describe('body values', () => {
               },
             },
           },
-        },
-        { body: undefined }
-      ).log.entries[0].request.postData.text
-    ).toBeUndefined();
-  });
-});
+        }).log.entries[0].request.postData.text
+      ).toBeUndefined();
+    });
 
-describe('formData values', () => {
-  it('should not add on empty unrequired values', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/body',
-        method: 'get',
-        requestBody: {
-          content: {
-            'application/x-www-form-urlencoded': {
-              schema: {
-                type: 'object',
-                properties: {
-                  a: {
-                    type: 'string',
-                  },
-                },
-              },
-            },
-          },
-        },
-      }).log.entries[0].request.postData.text
-    ).toBeUndefined();
-  });
-
-  // TODO extensions[SEND_DEFAULTS]
-  it.skip('should set defaults if no value provided but is required', () => {
-    expect(
-      oasToHar(oas, {
-        path: '/body',
-        method: 'get',
-        requestBody: {
-          content: {
-            'application/x-www-form-urlencoded': {
-              schema: {
-                type: 'object',
-                required: ['a'],
-                properties: {
-                  a: {
-                    type: 'string',
-                  },
-                },
-              },
-              example: { a: 'value' },
-            },
-          },
-        },
-      }).log.entries[0].request.postData.text
-    ).toBe(querystring.stringify({ a: 'value' }));
-  });
-
-  it('should pass in value if one is set and prioritise provided values', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
+    // TODO extensions[SEND_DEFAULTS]
+    it.skip('should set defaults if no value provided but is required', () => {
+      expect(
+        oasToHar(oas, {
           path: '/body',
           method: 'get',
           requestBody: {
@@ -1101,13 +1152,41 @@ describe('formData values', () => {
                     },
                   },
                 },
+                example: { a: 'value' },
               },
             },
           },
-        },
-        { formData: { a: 'test', b: [1, 2, 3] } }
-      ).log.entries[0].request.postData.text
-    ).toBe(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
+        }).log.entries[0].request.postData.text
+      ).toBe(querystring.stringify({ a: 'value' }));
+    });
+
+    it('should pass in value if one is set and prioritise provided values', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/x-www-form-urlencoded': {
+                  schema: {
+                    type: 'object',
+                    required: ['a'],
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { formData: { a: 'test', b: [1, 2, 3] } }
+        ).log.entries[0].request.postData.text
+      ).toBe(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
+    });
   });
 });
 
@@ -1124,8 +1203,10 @@ describe('common parameters', () => {
         path: { id: 1234 },
         header: { 'x-extra-id': 'abcd' },
         query: { limit: 10 },
+        cookie: { authtoken: 'password' },
       }).log.entries[0].request
     ).toStrictEqual({
+      cookies: [{ name: 'authtoken', value: 'password' }],
       headers: [{ name: 'x-extra-id', value: 'abcd' }],
       queryString: [{ name: 'limit', value: '10' }],
       postData: {},
@@ -1141,6 +1222,7 @@ describe('common parameters', () => {
       path: { id: 1234 },
       header: { 'x-extra-id': 'abcd' },
       query: { limit: 10 },
+      cookie: { authtoken: 'password' },
     });
 
     expect(operation.parameters).toHaveLength(existingCount);

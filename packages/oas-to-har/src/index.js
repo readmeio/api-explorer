@@ -55,6 +55,7 @@ module.exports = (
 
   const formData = { ...defaultFormDataTypes, ...values };
   const har = {
+    cookies: [],
     headers: [],
     queryString: [],
     postData: {},
@@ -103,6 +104,20 @@ module.exports = (
 
       har.queryString.push({
         name: queryString.name,
+        value: String(value),
+      });
+    });
+  }
+
+  // Do we have any `cookie` parameters on the operation?
+  const cookies = parameters && parameters.filter(param => param.in === 'cookie');
+  if (cookies && cookies.length) {
+    cookies.forEach(cookie => {
+      const value = formatter(formData, cookie, 'cookie', true);
+      if (typeof value === 'undefined') return;
+
+      har.cookies.push({
+        name: cookie.name,
         value: String(value),
       });
     });
