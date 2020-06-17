@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 // https://github.com/nodejs/node/blob/master/lib/_http_server.js
 
 const codes = {
@@ -102,6 +101,10 @@ const codes = {
   598: ['Network Read Timeout Error', false], // Unofficial
 };
 
+function isStatusCodeValid(code) {
+  return code in codes;
+}
+
 function getStatusCode(code) {
   if (!isStatusCodeValid(code)) {
     throw new Error(`${code} is not a known HTTP status code.`);
@@ -120,10 +123,6 @@ function isStatusCodeSuccessful(code) {
   } catch (e) {
     return false;
   }
-}
-
-function isStatusCodeValid(code) {
-  return code in codes;
 }
 
 module.exports = {
