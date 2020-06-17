@@ -80,10 +80,10 @@
       },
       {
         "path": "packages/api-logs/dist/index.js",
-        "maxSize": "1mb"
+        "maxSize": "20kb"
       },
       {
-        "path": "packages/markdown/dist/index.js",
+        "path": "packages/markdown/dist/main.js",
         "maxSize": "1mb"
       }
     ]

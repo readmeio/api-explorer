@@ -17,7 +17,7 @@ jobs:
           npx lerna bootstrap --concurrency 2
 
       - name: Build
-        run: npm run build
+        run: npx lerna run build
 
       - name: Analyze Bundle
         run: npx bundlewatch
