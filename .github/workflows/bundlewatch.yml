@@ -1,8 +1,8 @@
-name: Bundlewatch
+name: BundleWatch
 on: [push]
 
 jobs:
-  bundle-size:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.2.0
