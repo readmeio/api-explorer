@@ -19,10 +19,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: npm install
+    - name: Install dependencies
       run: |
-        npm install
+        npm ci
         npx lerna bootstrap --concurrency 2
 
-    - name: tests
+    - name: Run tests
       run: npm test
