@@ -1,0 +1,25 @@
+name: Bundle Size
+on: [push]
+
+jobs:
+  bundle-size:
+    name: Bundle Size Checker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.2.0
+      - uses: actions/setup-node@v2.0.0
+        with:
+          node-version: 10.x
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx lerna bootstrap --concurrency 2
+
+      - name: Build
+        run: npm run build
+
+      - name: Analyze Bundle
+        run: npx bundlewatch
+        # env:
+          # BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

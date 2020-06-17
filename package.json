@@ -72,6 +72,22 @@
     "yaml": "^1.8.3"
   },
   "prettier": "@readme/eslint-config/prettier",
+  "bundlewatch": {
+    "files": [
+      {
+        "path": "packages/api-explorer/dist/index.js",
+        "maxSize": "1mb"
+      },
+      {
+        "path": "packages/api-logs/dist/index.js",
+        "maxSize": "1mb"
+      },
+      {
+        "path": "packages/markdown/dist/index.js",
+        "maxSize": "1mb"
+      }
+    ]
+  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
