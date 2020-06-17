@@ -1,9 +1,8 @@
-name: Bundle Size
+name: Bundlewatch
 on: [push]
 
 jobs:
   bundle-size:
-    name: Bundle Size Checker
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.2.0
@@ -21,5 +20,3 @@ jobs:
 
       - name: Analyze Bundle
         run: npx bundlewatch
-        # env:
-          # BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
