@@ -1,4 +1,4 @@
-import MultipartFormData from './multipart-form-data'
+import generateFormData from './generateFormData'
 
 const querystring = require('querystring');
 
@@ -177,23 +177,7 @@ module.exports = (
     // used in the code snippet but the actual request will be generated in another lib file.
     if (Object.keys(formData.formData).length) {
       if (contentType === 'multipart/form-data') {
-        const data = new MultipartFormData()
-
-        Object.keys(formData.formData).forEach((key) => {
-          const dataString = formData.formData[key]
-          if (dataString && dataString.indexOf('base64,') >= 0) {
-            // Explode data string
-            const actualData = dataString.split('base64,')[1]
-            const type = dataString.split(';')[0].split('=')[1]
-            const filename = dataString.split(';')[1].split('=')[1]
-            data.append(key, {
-              data: actualData,
-              contentType: type,
-              filename,
-            })
-          }
-        })
-
+        const data = generateFormData(formData.formData, {isMultipart: true})
         const multipartData = data.generate()
         har.postData.text = multipartData.body
 

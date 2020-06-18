@@ -1263,39 +1263,94 @@ describe('content-type & accept header', () => {
     ).toEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
-  it('should properly generate multipart body with multipart/form-data content-type header', () => {
-    const now = Date.now()
-    const dateNow = Date.now
+  describe('multipart/form-data', () => {
+    it('should generate multipart body with values string and number', () => {
+      const now = 1592479223953
+      const dateNow = Date.now
+  
+      Date.now = jest.fn(() => now)
 
-    Date.now = jest.fn(() => now)
-    const har = oasToHar(oas, {
-      path: '/body',
-      method: 'get',
-      requestBody: {
-        content: {
-          'multipart/form-data': {
-            schema: {
-              type: 'object',
-              properties: {
-                a: {
-                  type: 'string',
+      const testOperationPath = {
+        path: '/body',
+        method: 'post',
+        requestBody: {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "testNumber": {
+                    "type": "number"
+                  },
+                  "testString": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      const values = { 
+        formData: { 
+          file: 'data:xx;base64,the-data', 
+          testNumber: 111,
+          testString: 'this-is-the-string' 
+        } 
+      }
+      const contentType = 'multipart/form-data'
+
+      expect(
+        oasToHar(
+          oas,
+          testOperationPath,
+          values,
+          {}, {}, 
+          contentType
+        ).log.entries[0].request.postData.text).toMatchSnapshot()
+
+      Date.now = dateNow
+    });
+    
+    it('should properly generate multipart body with multipart/form-data content-type header', () => {
+      const now = Date.now()
+      const dateNow = Date.now
+  
+      Date.now = jest.fn(() => now)
+      const har = oasToHar(oas, {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'multipart/form-data': {
+              schema: {
+                type: 'object',
+                properties: {
+                  a: {
+                    type: 'string',
+                  },
                 },
               },
             },
           },
         },
-      },
-    }, {formData: {
-      'some': 'data:xx;filename=myfile.jpeg;base64,the-data',
-    }}, {}, {}, 'multipart/form-data')
-    const req = har.log.entries[0]
-    expect(req.request.postData.text)
-      .toEqual(
-        `--${now}\r\nContent-Disposition: form-data; name="some"; filename="myfile.jpeg"\r\n\r\nthe-data\r\n--${now}--\r\n`
-      )
-
-    Date.now = dateNow
+      }, {formData: {
+        'some': 'data:xx;filename=myfile.jpeg;base64,the-data',
+      }}, {}, {}, 'multipart/form-data')
+      const req = har.log.entries[0]
+      expect(req.request.postData.text)
+        .toEqual(
+          `--${now}\r\nContent-Disposition: form-data; name="some"; filename="myfile.jpeg"\r\n\r\nthe-data\r\n--${now}--\r\n`
+        )
+  
+      Date.now = dateNow
+    })
   })
+
 })
 
 

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`content-type & accept header multipart/form-data should generate multipart body with values string and number 1`] = `
+"--1592479223953
+Content-Disposition: form-data; name=\\"file\\"
+
+the-data
+--1592479223953
+Content-Disposition: form-data; name=\\"testNumber\\"
+
+111
+--1592479223953
+Content-Disposition: form-data; name=\\"testString\\"
+
+this-is-the-string
+--1592479223953--
+"
+`;
