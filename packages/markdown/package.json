@@ -2,7 +2,7 @@
   "name": "@readme/markdown",
   "main": "dist/main.js",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "6.10.0",
+  "version": "6.10.2",
   "files": [
     "styles",
     "components",
@@ -10,8 +10,8 @@
   ],
   "dependencies": {
     "@readme/emojis": "^1.0.0",
-    "@readme/syntax-highlighter": "^6.10.0",
-    "@readme/variable": "^6.10.0",
+    "@readme/syntax-highlighter": "^6.10.2",
+    "@readme/variable": "^6.10.2",
     "copy-to-clipboard": "^3.3.1",
     "hast-util-sanitize": "^2.0.2",
     "hast-util-to-string": "^1.0.3",
@@ -51,7 +51,7 @@
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown",
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@readme/eslint-config": "^3.1.2",
+    "@readme/eslint-config": "^3.2.0",
     "css-loader": "^3.4.2",
     "eslint": "^7.0.0",
     "isomorphic-style-loader": "^5.1.0",
@@ -59,7 +59,7 @@
     "jsinspect": "^0.12.7",
     "mini-css-extract-plugin": "^0.9.0",
     "prettier": "^2.0.1",
-    "terser-webpack-plugin": "^2.3.5",
+    "terser-webpack-plugin": "^3.0.3",
     "webpack": "^4.41.0",
     "webpack-merge": "^4.2.2"
   },

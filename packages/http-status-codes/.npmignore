@@ -1,6 +1,0 @@
-__tests__/
-coverage/
-.eslint*
-.jsinspectrc
-.prettier*
-jest.config.js

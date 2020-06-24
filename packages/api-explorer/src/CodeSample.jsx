@@ -61,6 +61,7 @@ class CodeSample extends React.Component {
             );
           })}
         </ul>
+
         <div className="code-sample-body">
           {examplesWithLanguages.map((example, index) => {
             const { key, selected } = this.getKey(example, index);
@@ -79,7 +80,7 @@ class CodeSample extends React.Component {
   }
 
   render() {
-    const { oas, setLanguage, operation, formData, language, examples, auth } = this.props;
+    const { oas, oasUrl, setLanguage, operation, formData, language, examples, auth } = this.props;
 
     return (
       <div className="code-sample tabber-parent">
@@ -88,7 +89,9 @@ class CodeSample extends React.Component {
           if (!oas[extensions.SAMPLES_ENABLED]) {
             return <div className="hub-no-code">No code samples available</div>;
           }
-          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language);
+
+          const { snippet, code } = generateCodeSnippet(oas, oasUrl, operation, formData, auth, language);
+
           return (
             <div>
               <ul className="code-sample-tabs">
@@ -109,6 +112,7 @@ class CodeSample extends React.Component {
                   </li>
                 ))}
               </ul>
+
               {snippet && (
                 <div className="hub-code-auto">
                   <CopyCode code={code} />
@@ -134,6 +138,7 @@ CodeSample.propTypes = {
   formData: PropTypes.shape({}).isRequired,
   language: PropTypes.string.isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
+  oasUrl: PropTypes.string.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   setLanguage: PropTypes.func.isRequired,
 };

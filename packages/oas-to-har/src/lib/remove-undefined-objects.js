@@ -48,7 +48,6 @@ function removeUndefinedObjects(obj) {
   // then return nothing so we don't end up with default
   // code samples with:
   // --data '{}'
-  // eslint-disable-next-line unicorn/no-useless-undefined
   if (isEmptyObject(withoutUndefined)) return undefined;
 
   return withoutUndefined;

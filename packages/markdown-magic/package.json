@@ -1,21 +1,21 @@
 {
   "name": "@readme/markdown-magic",
   "description": "ReadMe's React-based legacy Markdown parser",
-  "version": "6.10.0",
+  "version": "6.10.2",
   "dependencies": {
-    "@readme/emojis": "^1.0.0",
-    "@readme/syntax-highlighter": "^6.10.0",
-    "@readme/variable": "^6.10.0",
-    "hast-util-sanitize": "^1.2.0",
+    "@readme/emojis": "1.0.0",
+    "@readme/syntax-highlighter": "^6.10.2",
+    "@readme/variable": "^6.10.2",
+    "hast-util-sanitize": "1.3.1",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
-    "rehype-raw": "^4.0.1",
-    "rehype-react": "^3.1.0",
-    "rehype-sanitize": "^2.0.1",
-    "remark-breaks": "^1.0.0",
-    "remark-parse": "^7.0.2",
-    "remark-rehype": "^7.0.0",
-    "unified": "^8.4.0"
+    "rehype-raw": "4.0.2",
+    "rehype-react": "3.1.0",
+    "rehype-sanitize": "2.0.3",
+    "remark-breaks": "1.0.5",
+    "remark-parse": "7.0.2",
+    "remark-rehype": "7.0.0",
+    "unified": "8.4.2"
   },
   "scripts": {
     "lint": "eslint . --ext .jsx --ext .js",
@@ -32,7 +32,7 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/markdown-magic",
   "devDependencies": {
-    "@readme/eslint-config": "^3.1.2",
+    "@readme/eslint-config": "^3.2.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "jsinspect": "^0.12.7",
