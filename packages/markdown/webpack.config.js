@@ -83,7 +83,7 @@ const browserConfig = {
 const serverConfig = merge(browserConfig, {
   target: 'node',
   output: {
-    filename: '[name].ssr.js',
+    filename: '[name].node.js',
   },
 });
 
