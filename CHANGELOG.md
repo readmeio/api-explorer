@@ -1,3 +1,20 @@
+## 6.12.0 (2020-06-26)
+
+* build: updating dist files ([ff88109](https://github.com/readmeio/api-explorer/commit/ff88109))
+* feat(markdown):  (#660) ([268a282](https://github.com/readmeio/api-explorer/commit/268a282)), closes [#660](https://github.com/readmeio/api-explorer/issues/660) [readmeio/readme#2700](https://github.com/readmeio/readme/issues/2700)
+* feat(markdown): server-side rdmd bundle (#767) ([4422341](https://github.com/readmeio/api-explorer/commit/4422341)), closes [#767](https://github.com/readmeio/api-explorer/issues/767)
+* chore(deps-dev): bump auto-changelog from 2.0.0 to 2.1.0 (#801) ([928d8c0](https://github.com/readmeio/api-explorer/commit/928d8c0)), closes [#801](https://github.com/readmeio/api-explorer/issues/801)
+* chore(deps-dev): bump lerna from 3.22.0 to 3.22.1 (#805) ([a9d5823](https://github.com/readmeio/api-explorer/commit/a9d5823)), closes [#805](https://github.com/readmeio/api-explorer/issues/805)
+* chore(deps-dev): bump terser-webpack-plugin from 3.0.3 to 3.0.6 (#802) ([062314a](https://github.com/readmeio/api-explorer/commit/062314a)), closes [#802](https://github.com/readmeio/api-explorer/issues/802)
+* chore(deps-dev): bump webpack-cli from 3.3.11 to 3.3.12 (#803) ([04305d5](https://github.com/readmeio/api-explorer/commit/04305d5)), closes [#803](https://github.com/readmeio/api-explorer/issues/803)
+* chore(deps-dev): swapping auto-changelog for conventional-changelog (#806) ([0ae9135](https://github.com/readmeio/api-explorer/commit/0ae9135)), closes [#806](https://github.com/readmeio/api-explorer/issues/806)
+* chore(deps): bump actions/checkout from v2.2.0 to v2.3.1 (#800) ([211417c](https://github.com/readmeio/api-explorer/commit/211417c)), closes [#800](https://github.com/readmeio/api-explorer/issues/800)
+* chore(deps): extracting @readme/http-status-codes into its own repo (#799) ([342e0ed](https://github.com/readmeio/api-explorer/commit/342e0ed)), closes [#799](https://github.com/readmeio/api-explorer/issues/799)
+* Fix various RDMD syntax edge cases for code tabs component. (#729) ([5ce0cab](https://github.com/readmeio/api-explorer/commit/5ce0cab)), closes [#729](https://github.com/readmeio/api-explorer/issues/729) [#719](https://github.com/readmeio/api-explorer/issues/719) [#724](https://github.com/readmeio/api-explorer/issues/724) [#723](https://github.com/readmeio/api-explorer/issues/723)
+* ci: changing the label dependabot uses ([ca0f0bd](https://github.com/readmeio/api-explorer/commit/ca0f0bd))
+
+
+
 ## <small>6.11.1 (2020-06-19)</small>
 
 * v6.11.1 ([fb97a88](https://github.com/readmeio/api-explorer/commit/fb97a88))
