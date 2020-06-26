@@ -39,6 +39,17 @@ describe('Parse RDMD Syntax', () => {
     });
 
     describe('Edge Cases', () => {
+      it('Code blocks should use a "smart" terminating delimiter', () => {
+        /**
+         * https://github.com/readmeio/api-explorer/issues/724
+         */
+        const mdx = '```bash\ndash-cli -testnet keepass genkey\n``` ';
+        const ast = process(mdx);
+        const [codeBlock] = ast.children;
+        expect(codeBlock.type).toBe('code');
+        expect(ast.children).toHaveLength(1);
+      });
+
       it('Tabbed code blocks should allow internal new lines', () => {
         const mdx =
           "```javascript tab/a.js\nfunction sayHello (state) {\n  console.log(state);\n}\n\nexport default sayHello;\n```\n```javascript tab/b.js\nimport A from './a.js';\n\nA('Hello world!');\n```\n\n";
@@ -48,10 +59,12 @@ describe('Parse RDMD Syntax', () => {
       });
 
       it('Tabbed code blocks should not require meta data to be specified', () => {
+        /**
+         * https://github.com/readmeio/api-explorer/issues/719
+         */
         const mdx = '```\nwill break\n```\n```\nthe page!\n```';
         const ast = process(mdx);
         const [codeTabs] = ast.children;
-        console.log(codeTabs.children)
         expect(codeTabs.children).toHaveLength(2);
       });
     });
