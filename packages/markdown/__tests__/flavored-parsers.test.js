@@ -39,6 +39,19 @@ describe('Parse RDMD Syntax', () => {
     });
 
     describe('Edge Cases', () => {
+      it('Code blocks should elide spaces before meta data', () => {
+        /**
+         * https://github.com/readmeio/api-explorer/issues/722
+         */
+        const mdx = '```    js Tab Name\nconsole.log("test zed");\n```';
+        const ast = process(mdx);
+        const [codeBlock] = ast.children;
+        console.log(codeBlock);
+        expect(codeBlock.type).toBe('code');
+        expect(codeBlock.meta).toBe('Tab Name');
+        expect(codeBlock.lang).toBe('js');
+      });
+
       it('Code blocks should use a "smart" terminating delimiter', () => {
         /**
          * https://github.com/readmeio/api-explorer/issues/724
