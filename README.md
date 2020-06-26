@@ -9,7 +9,6 @@ Open source components that make up ReadMe's API Explorer.
 This repo consists of the following npm modules:
 
 - [@readme/api-explorer](https://npm.im/@readme/api-explorer) — the React components that make up the explorer
-- [@readme/http-status-codes](https://npm.im/@readme/http-status-codes) — utility to lookup HTTP status codes
 - [@readme/markdown](https://npm.im/@readme/markdown) — the markdown parser
 - [@readme/markdown-magic](https://npm.im/@readme/markdown-magic) — the legacy "magic block"-based markdown parser
 - [@readme/oas-extensions](https://npm.im/@readme/oas-extensions) — an exported object of our [OAS extensions](https://docs.readme.com/docs/swagger-extensions)

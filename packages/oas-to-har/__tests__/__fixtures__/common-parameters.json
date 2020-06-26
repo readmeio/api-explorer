@@ -16,6 +16,13 @@
           }
         },
         {
+          "in": "cookie",
+          "name": "authtoken",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
           "in": "header",
           "name": "x-extra-id",
           "schema": {
