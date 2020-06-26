@@ -24,139 +24,31 @@ export default ({ body }) => (
 );
 ```
 
-<hr><details>
-<summary><b>Named Exports</b></summary>
+### Export Methods
 
----
+In addition to the default processor, the package exports some other methods for transforming ReadMe-flavored markdown:
 
-In addition to the default React processor, the package exports a few other methods for transforming ReadMe-flavored markdown:
+| Export  | Description                                    | Arguments       |
+| -------:|:---------------------------------------------- |:--------------- |
+|*`react`*|(default) returns a VDOM tree object            |`text`, `options`|
+|*`md`*   | transform mdast in to ReadMe-flavored markdown |`tree`, `options`|
+|*`html`* | transform markdown in to HTML                  |`text`, `options`|
+|*`mdast`*| transform markdown to an mdast object          |`text`, `options`|
+|*`hast`* | transform markdown to HAST object              |`text`, `options`|
+|*`plain`*| transform markdown to plain text               |`text`, `options`|
+|*`utils`*| contexts, defaults, helpers, etc.              | N/A             |
 
-```jsx
-import * as rdmd from "@readme/markdown";
-```
+#### Settings & Options
 
-Which will give you the following:
+Each processor method takes an options object, which you can use to customize various outputs. Among them
 
-| Export        | Description                                    | Arguments        |
-| -------------:|:---------------------------------------------- |:---------------- |
-| *`react`*     |_default;_ returns a VDOM tree object           | `text`, `options`|
-| *`html`*      | transform markdown in to HTML                  | `text`, `options`|
-| *`ast`*       | transform markdown to an mdast object          | `text`, `options`|
-| *`md`*        | transform mdast in to ReadMe-flavored markdown | `tree`, `options`|
-| *`utils`*     | default `options`, React contexts, other utils | N/A              |
+- **`markdownOptions`**: [Remark parsing options](https://github.com/remarkjs/remark/tree/main/packages/remark-stringify#processorusestringify-options)
+- **`correctnewlines`**: render new line delimeters as `<br>` tags.
+- **`compatibilityMode`**: [enable compatibility features for ReadMe's old markdown engine](https://github.com/readmeio/api-explorer/issues/668).
 
-</details><hr>
+## Flavored Syntax
 
-## Custom Syntax
-
-Our old editor compiled custom "Magic Block" components from a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this old format and transpiling it in to standard, GitHub-flavored markdown. We've also sprinkled a bit of our own syntactic sugar on top, which let's you supercharge your docs.
-
-<details>
-  <summary><b>Standard Markdown</b></summary><br>
-
-- images
-- lists
-- tables
-- headings
-- inline decorations (link, bold, and emphasis tags, etc)
-
-</details>
-<details>
-  <summary><b>Code Tabs</b></summary><br>
-
-A tabbed interface for displaying multiple code blocks. These are written nearly identically to a series of vanilla markdown code snippets, except for their distinct *lack* of an additional line break separating each subsequent block:
-
-    ```javascript
-    export sum from 'sum';
-    export sub from 'sub';
-    ```
-    ```javascript sum.js
-    export sum = (a, b) => a + b
-    ```
-    ```javascript sub.js
-    export sub = (a, b) => a - b
-    ```
-
-</details>
-
-<details>
-  <summary><b>Callouts</b></summary><br>
-
-Callouts are very similar to blockquotes in both display and syntax. They are defined by a title with an initial emoji, which determines the callout's theme:
-
-    > ❗️ Watch Out
-    >
-    > This is a callout using the error theme.
-
-There are five potential themes:
-
-| Emoji Prefix | Callout Theme |
-|:-----:|:------------|
-|📘|`.info` (blue theme)|
-|👍|`.okay` (green theme)|
-|⚠️|`.warn` (orange theme)|
-|❗️|`.error` (red theme)|
-|*...rest*|`N/A` (gray theme)|
-
-</details>
-<details>
-  <summary><b>Embeds</b></summary><br>
-
-Embeds are written as links, with their title set to `@embed`:
-
-    [Embed Title](https://youtu.be/8bh238ekw3 "@embed")
-
-</details>
-
-## CSS Selectors
-
-By and large, the new markdown processor outputs standard HTML. This means most basic CSS element selectors will continue to work seamlessly! You'll only need to update your custom styles for ReadMe-flavored markdown components (see below.) When writing custom styles for the new processor make sure to use this class prefix so your CSS doesn't bleed:
-
-```css
-#api-explorer .markdown-body .callout {}
-```
-
-<details>
-  <summary><b>Callouts</b></summary><br>
-
-Customize the default callout theme:
-
-```scss
-#api-explorer .markdown-body .callout {
-  background: lightblue;
-  border-color: dodgerblue;
-}
-```
-
-Override the built-in theme styles:
-
-```scss
-#api-explorer .markdown-body .callout {}       // gray (default)
-#api-explorer .markdown-body .callout_info {}  // blue
-#api-explorer .markdown-body .callout_okay {}  // green
-#api-explorer .markdown-body .callout_warn {}  // orange
-#api-explorer .markdown-body .callout_error {} // red
-```
-
-</details>
-
-<details>
-  <summary><b>Tables</b></summary><br>
-
-Tables are no longer wrapped in extra divs, and have a simplified baseline display that more closely mirrors standard markdown implementations. They should be easier to style.
-
-```css
-#api-explorer .markdown-body table {}
-#api-explorer .markdown-body tr {}
-#api-explorer .markdown-body th {}
-#api-explorer .markdown-body td {}
-```
-
-</details>
-
-## Updated Editor
-
-Alongside the updates to our markdown parser, we're developing a new editor experience for ReadMe. You can [learn more about that project](https://github.com/readmeio/editor#readme-editor) at the link.
+Our old editor compiled custom "Magic Block" components from a JSON-based syntax. To provide seamless backwards-compatibility, the updated Markdown processor ships with built in support for parsing this old format and transpiling it in to standard, GitHub-flavored markdown. We've also sprinkled a bit of our own syntactic sugar on top, which let's you supercharge your docs. [**Read more about ReadMe's flavored syntax!**](https://rdmd.readme.io)
 
 ## Credits
 

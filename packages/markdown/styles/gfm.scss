@@ -244,8 +244,8 @@
   pre,
   table,
   ul {
-    margin-bottom: 1em;
-    margin-top: 0
+    margin-top: 0;
+    margin-bottom: 15px;
   }
 
   blockquote {
@@ -352,7 +352,7 @@
 
 }
 
-@mixin _clearfix(){
+@mixin _clearfix() {
   &:before, &:after {
     content: "";
     display: table;

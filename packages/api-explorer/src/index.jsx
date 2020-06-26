@@ -259,6 +259,7 @@ ApiExplorer.propTypes = {
   dontLazyLoad: PropTypes.bool,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
+    rdmdCompatibilityMode: PropTypes.bool,
   }),
   glossaryTerms: PropTypes.arrayOf(
     PropTypes.shape({
@@ -295,6 +296,7 @@ ApiExplorer.defaultProps = {
   dontLazyLoad: false,
   flags: {
     correctnewlines: false,
+    rdmdCompatibilityMode: false,
   },
   Logs: undefined,
   maskErrorMessages: true,
