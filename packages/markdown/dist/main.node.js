@@ -20454,7 +20454,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var RGXP = /^(```([^]*?)```)(?=\n(?!```)|```\n\n|$)/g;
+var RGXP = /^(```([^]*?)```)(?=\s*\n(?!```|\w)|```\n\n|$)/g;
 
 function tokenizer(eat, value) {
   var _ref = RGXP.exec(value) || [],
@@ -20472,21 +20472,22 @@ function tokenizer(eat, value) {
      * For each of our adjacent code blocks we'll:
      * 1) normalize any unbalanced tilde wrappers
      * 2) split the matching block in to three parts:
-     *    - syntax [lang] extension
+     *    - [lang] syntax extension
      *    - [meta] tab name (optional)
-     *    - the [code] snippet text
+     *    - [code] snippet text
      */
     // eslint-disable-next-line no-param-reassign
-    val = ['```', val.replace('```', ''), '```'].join(''); // eslint-disable-next-line unicorn/no-unsafe-regex
+    val = ['```', val.replace('```', ''), '```'].join('').trim(); // eslint-disable-next-line unicorn/no-unsafe-regex
 
-    var _$exec = /```([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val),
-        _$exec2 = _slicedToArray(_$exec, 4),
-        lang = _$exec2[1],
-        _$exec2$ = _$exec2[2],
-        meta = _$exec2$ === void 0 ? null : _$exec2$,
-        _$exec2$2 = _$exec2[3],
-        code = _$exec2$2 === void 0 ? '' : _$exec2$2;
+    var parts = /```[ \t]*([^\s]+)?(?: *([^\n]+))?\s?([^]+)```/gm.exec(val);
 
+    var _parts = _slicedToArray(parts, 4),
+        lang = _parts[1],
+        _parts$ = _parts[3],
+        code = _parts$ === void 0 ? '' : _parts$;
+
+    var meta = parts[2];
+    meta = typeof meta === 'string' ? meta.trim() : '';
     return {
       type: 'code',
       className: 'tab-panel',
@@ -20503,7 +20504,7 @@ function tokenizer(eat, value) {
     };
   }); // return a single code block
 
-  if (kids.length === 1) return eat(match)(kids[0]); // return the tabbed code block editor
+  if (kids.length === 1) return eat(match)(kids[0]); // return a tabbed code block
 
   return eat(match)({
     type: 'code-tabs',
@@ -20724,6 +20725,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 /* eslint-disable consistent-return */
 var RGXP = /^\[block:(.*)\]([^]+?)\[\/block\]/;
+var compatibilityMode;
 
 var WrapPinnedBlocks = function WrapPinnedBlocks(node, json) {
   if (!json.sidebar) return node;
@@ -20886,6 +20888,8 @@ function tokenize(eat, value) {
             data = _json.data;
         if (!Object.keys(data).length) return eat(match); // skip empty tables
 
+        var tokenizeCell = this[compatibilityMode ? 'tokenizeBlock' : 'tokenizeInline'].bind(this);
+
         var _children = Object.keys(data).sort().reduce(function (sum, key) {
           var val = data[key];
 
@@ -20902,7 +20906,7 @@ function tokenize(eat, value) {
           };
           sum[row].children[col] = {
             type: row ? 'tableCell' : 'tableHead',
-            children: _this.tokenizeInline(val, eat.now())
+            children: tokenizeCell(val, eat.now())
           }; // convert falsey values to empty strings
 
           sum[row].children = _toConsumableArray(sum[row].children).map(function (v) {
@@ -20985,6 +20989,7 @@ function parser() {
   var Parser = this.Parser;
   var tokenizers = Parser.prototype.blockTokenizers;
   var methods = Parser.prototype.blockMethods;
+  if (this.data('compatibilityMode')) compatibilityMode = true;
   tokenizers.magicBlocks = tokenize;
   methods.splice(methods.indexOf('newline'), 0, 'magicBlocks');
 }
@@ -21501,7 +21506,7 @@ function processor() {
    * - sanitize and remove any disallowed attributes
    * - output the hast to a React vdom with our custom components
    */
-  return unified().use(remarkParse, opts.markdownOptions).data('settings', opts.settings).use(magicBlockParser.sanitize(sanitize)).use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)]).use(compactHeadings.sanitize(sanitize)).use(variableParser.sanitize(sanitize)).use(!opts.correctnewlines ? remarkBreaks : function () {}).use(gemojiParser.sanitize(sanitize)).use(remarkSlug).use(remarkRehype, {
+  return unified().use(remarkParse, opts.markdownOptions).data('settings', opts.settings).data('compatibilityMode', opts.compatibilityMode).use(magicBlockParser.sanitize(sanitize)).use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)]).use(compactHeadings.sanitize(sanitize)).use(variableParser.sanitize(sanitize)).use(!opts.correctnewlines ? remarkBreaks : function () {}).use(gemojiParser.sanitize(sanitize)).use(remarkSlug).use(remarkRehype, {
     allowDangerousHtml: true
   }).use(rehypeRaw).use(rehypeSanitize, sanitize);
 }
@@ -49767,7 +49772,7 @@ function all(node) {
 /* 372 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"correctnewlines\":false,\"markdownOptions\":{\"fences\":true,\"commonmark\":true,\"gfm\":true,\"ruleSpaces\":false,\"listItemIndent\":\"1\",\"spacedTable\":true,\"paddedTable\":true,\"setext\":true},\"settings\":{\"position\":false},\"normalize\":true,\"loosemode\":false}");
+module.exports = JSON.parse("{\"correctnewlines\":false,\"markdownOptions\":{\"fences\":true,\"commonmark\":true,\"gfm\":true,\"ruleSpaces\":false,\"listItemIndent\":\"1\",\"spacedTable\":true,\"paddedTable\":true,\"setext\":true},\"settings\":{\"position\":false},\"normalize\":true,\"compatibilityMode\":false}");
 
 /***/ })
 /******/ ]);
