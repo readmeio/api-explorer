@@ -16,7 +16,7 @@ const process = (text, opts = options) =>
     .use(rehypeSanitize)
     .parse(text);
 
-describe('Parse ReadMe-Flavored Markdown Syntax', () => {
+describe('Parse RDMD Syntax', () => {
   it('Callouts', () => {
     const text = `> ℹ️ Info Callout
     >
@@ -24,25 +24,63 @@ describe('Parse ReadMe-Flavored Markdown Syntax', () => {
     expect(process(text)).toMatchSnapshot();
   });
 
-  it('Tabbed Code', () => {
-    const text =
-      "\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n```javascript\nconsole.log('an unnamed sample snippet');\n```\n\n&nbsp;";
-    const ast = process(text);
-    expect(ast).toMatchSnapshot();
-  });
+  describe('Code Blocks', () => {
+    it('Tabbed Code Block', () => {
+      const text =
+        "\n\n```javascript multiple.js\nconsole.log('a multi-file code block');\n```\n```javascript\nconsole.log('an unnamed sample snippet');\n```\n\n&nbsp;";
+      const ast = process(text);
+      expect(ast).toMatchSnapshot();
+    });
 
-  it('Tabbed code blocks should allow internal new lines', () => {
-    const mdx =
-      "```javascript tab/a.js\nfunction sayHello (state) {\n  console.log(state);\n}\n\nexport default sayHello;\n```\n```javascript tab/b.js\nimport A from './a.js';\n\nA('Hello world!');\n```\n\n";
-    const ast = process(mdx);
-    expect(ast.children).toHaveLength(1);
-    expect(ast.children[0].type).toBe('code-tabs');
-  });
+    it('Single Code Block', () => {
+      const text = "\n\n```javascript single.js\nconsole.log('a single-file code block');\n```\n\n";
+      const ast = process(text);
+      expect(ast).toMatchSnapshot();
+    });
 
-  it('Single Code', () => {
-    const text = "\n\n```javascript single.js\nconsole.log('a single-file code block');\n```\n\n";
-    const ast = process(text);
-    expect(ast).toMatchSnapshot();
+    describe('Edge Cases', () => {
+      it('Code blocks should elide spaces before meta data', () => {
+        /**
+         * https://github.com/readmeio/api-explorer/issues/722
+         */
+        const mdx = '```    js Tab Name\nconsole.log("test zed");\n```';
+        const ast = process(mdx);
+        const [codeBlock] = ast.children;
+        console.log(codeBlock);
+        expect(codeBlock.type).toBe('code');
+        expect(codeBlock.meta).toBe('Tab Name');
+        expect(codeBlock.lang).toBe('js');
+      });
+
+      it('Code blocks should use a "smart" terminating delimiter', () => {
+        /**
+         * https://github.com/readmeio/api-explorer/issues/724
+         */
+        const mdx = '```bash\ndash-cli -testnet keepass genkey\n``` ';
+        const ast = process(mdx);
+        const [codeBlock] = ast.children;
+        expect(codeBlock.type).toBe('code');
+        expect(ast.children).toHaveLength(1);
+      });
+
+      it('Tabbed code blocks should allow internal new lines', () => {
+        const mdx =
+          "```javascript tab/a.js\nfunction sayHello (state) {\n  console.log(state);\n}\n\nexport default sayHello;\n```\n```javascript tab/b.js\nimport A from './a.js';\n\nA('Hello world!');\n```\n\n";
+        const ast = process(mdx);
+        expect(ast.children).toHaveLength(1);
+        expect(ast.children[0].type).toBe('code-tabs');
+      });
+
+      it('Tabbed code blocks should not require meta data to be specified', () => {
+        /**
+         * https://github.com/readmeio/api-explorer/issues/719
+         */
+        const mdx = '```\nwill break\n```\n```\nthe page!\n```';
+        const ast = process(mdx);
+        const [codeTabs] = ast.children;
+        expect(codeTabs.children).toHaveLength(2);
+      });
+    });
   });
 
   it('Subsequent, non-adjacent code should render as single blocks.', () => {

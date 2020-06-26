@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Parse ReadMe-Flavored Markdown Syntax Callouts 1`] = `
+exports[`Parse RDMD Syntax Callouts 1`] = `
 Object {
   "children": Array [
     Object {
@@ -38,7 +38,7 @@ Object {
 }
 `;
 
-exports[`Parse ReadMe-Flavored Markdown Syntax Single Code 1`] = `
+exports[`Parse RDMD Syntax Code Blocks Single Code Block 1`] = `
 Object {
   "children": Array [
     Object {
@@ -60,7 +60,7 @@ Object {
 }
 `;
 
-exports[`Parse ReadMe-Flavored Markdown Syntax Tabbed Code 1`] = `
+exports[`Parse RDMD Syntax Code Blocks Tabbed Code Block 1`] = `
 Object {
   "children": Array [
     Object {
@@ -85,11 +85,11 @@ Object {
             "hName": "code",
             "hProperties": Object {
               "lang": "javascript",
-              "meta": null,
+              "meta": "",
             },
           },
           "lang": "javascript",
-          "meta": null,
+          "meta": "",
           "type": "code",
           "value": "console.log('an unnamed sample snippet');",
         },
