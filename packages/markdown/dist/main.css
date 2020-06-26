@@ -794,11 +794,6 @@ span.CodeMirror-selectedtext { background: none; }
       display: none; }
   .CodeTabs.CodeTabs_initial pre:first-child {
     display: block; }
-  .CodeTabs pre {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important; }
-    .rdmd-table .CodeTabs pre {
-      width: 33em !important; }
 
 .callout {
   --emoji: 1em;
