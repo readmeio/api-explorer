@@ -340,7 +340,7 @@
   }
 
 
-  > * {
+  >* {
     margin-top: 15px;
     margin-bottom: 15px !important;
   }
@@ -352,7 +352,7 @@
 
 }
 
-@mixin _clearfix(){
+@mixin _clearfix() {
   &:before, &:after {
     content: "";
     display: table;

@@ -28,9 +28,6 @@
     th,
     thead td {
       font-weight: 600;
-      > p {
-        margin-bottom: 0;
-      }
     }
 
     td,
@@ -41,7 +38,7 @@
       border: 1px solid var(--table-edges, #{$edges});
       padding: 6px 13px;
       > :first-child, > :only-child { margin-top:    0 !important }
-      > :last-child,  > :only-child { margin-bottom: 0 !important }
+      > :last-child, > :only-child  { margin-bottom: 0 !important }
     }
     
     &:not(.plain) tr:nth-child(2n) {
