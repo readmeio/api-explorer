@@ -1,8 +1,9 @@
 {
   "name": "@readme/markdown",
-  "main": "dist/main.js",
+  "main": "dist/main.node.js",
+  "browser": "dist/main.js",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "6.10.1",
+  "version": "6.10.2",
   "files": [
     "styles",
     "components",
@@ -10,8 +11,8 @@
   ],
   "dependencies": {
     "@readme/emojis": "^1.0.0",
-    "@readme/syntax-highlighter": "^6.10.0",
-    "@readme/variable": "^6.10.0",
+    "@readme/syntax-highlighter": "^6.10.2",
+    "@readme/variable": "^6.10.2",
     "copy-to-clipboard": "^3.3.1",
     "hast-util-sanitize": "^2.0.2",
     "hast-util-to-string": "^1.0.3",

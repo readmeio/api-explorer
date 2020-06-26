@@ -2,14 +2,17 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
+const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 
 const CodeSample = require('../src/CodeSample');
 
 const { Operation } = Oas;
 const props = {
+  auth: {},
   formData: {},
   language: 'node',
   setLanguage: () => {},
+  oasUrl: 'https://example.com/openapi.json',
   operation: new Operation({}, '/pet/{id}', 'get'),
 };
 
@@ -54,12 +57,35 @@ describe('tabs', () => {
 });
 
 describe('code examples', () => {
+  it('should support the `node-simple` language', () => {
+    const docProps = {
+      ...props,
+      language: 'node-simple',
+      operation: new Operation({}, '/pets/{petId}', 'get'),
+    };
+
+    const codeSample = shallow(
+      <CodeSample
+        {...docProps}
+        oas={
+          new Oas({
+            ...petstore,
+            [extensions.SAMPLES_ENABLED]: true,
+            [extensions.SAMPLES_LANGUAGES]: ['node-simple'],
+          })
+        }
+      />
+    );
+
+    expect(codeSample.find('.hub-code-auto pre').text()).toContain(
+      "const sdk = require('api')('https://example.com/openapi.json');"
+    );
+  });
+
   it('should display custom examples over pre-filled examples', () => {
     const docProps = {
-      setLanguage: () => {},
+      ...props,
       operation: new Operation({}, '/pet/{id}', 'get'),
-      formData: {},
-      language: 'node',
       examples: [
         {
           language: 'javascript',
@@ -67,6 +93,7 @@ describe('code examples', () => {
         },
       ],
     };
+
     const codeSample = shallow(
       <CodeSample
         {...docProps}
@@ -86,9 +113,8 @@ describe('code examples', () => {
 
   it('should display custom examples even if SAMPLES_ENABLED is false', () => {
     const docProps = {
-      setLanguage: () => {},
+      ...props,
       operation: new Operation({}, '/pet/{id}', 'get'),
-      language: 'node',
       examples: [
         {
           language: 'javascript',
@@ -96,6 +122,7 @@ describe('code examples', () => {
         },
       ],
     };
+
     const codeSample = shallow(
       <CodeSample
         {...docProps}
@@ -114,16 +141,15 @@ describe('code examples', () => {
 
   it('should not error if no code given', () => {
     const docProps = {
-      setLanguage: () => {},
+      ...props,
       operation: new Operation({}, '/pet/{id}', 'get'),
-      formData: {},
-      language: 'node',
       examples: [
         {
           language: 'javascript',
         },
       ],
     };
+
     expect(() =>
       shallow(
         <CodeSample
@@ -142,11 +168,11 @@ describe('code examples', () => {
 
   it('should not error if language requested cannot be auto-generated', () => {
     const docProps = {
-      setLanguage: () => {},
+      ...props,
       operation: new Operation({}, '/pet/{id}', 'get'),
-      formData: {},
       language: 'css',
     };
+
     const component = (
       <CodeSample
         {...docProps}
@@ -159,6 +185,7 @@ describe('code examples', () => {
         }
       />
     );
+
     expect(() => shallow(component)).not.toThrow(/Cannot read property 'snippet' of undefined/);
 
     const codeSample = shallow(component);
@@ -168,10 +195,8 @@ describe('code examples', () => {
 
   it('should not render sample if language is missing', () => {
     const docProps = {
-      setLanguage: () => {},
+      ...props,
       operation: new Operation({}, '/pet/{id}', 'get'),
-      formData: {},
-      language: 'node',
       examples: [
         {
           code: 'console.log(1);',
@@ -202,7 +227,7 @@ describe('code examples', () => {
 
   it('should render first of examples if language does not exist', () => {
     const docProps = {
-      setLanguage: () => {},
+      ...props,
       operation: new Operation({}, '/pet/{id}', 'get'),
       examples: [
         {
@@ -212,7 +237,6 @@ describe('code examples', () => {
           language: 'typescript',
         },
       ],
-      formData: {},
       language: 'perl',
     };
 
@@ -228,6 +252,7 @@ describe('code examples', () => {
         }
       />
     );
+
     expect(codeSample.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
   });
 
@@ -254,9 +279,8 @@ describe('code examples', () => {
 
   it('should not display more than one example block at a time', () => {
     const docProps = {
-      setLanguage: () => {},
+      ...props,
       operation: new Operation({}, '/pet/{id}', 'get'),
-      formData: {},
       language: 'javascript',
       examples: [
         {

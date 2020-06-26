@@ -76,18 +76,29 @@ class ApiExplorer extends React.Component {
     }
   }
 
-  getOas(doc) {
+  // eslint-disable-next-line class-methods-use-this
+  getApiSettingFromDoc(doc) {
     // Get the apiSetting id from the following places:
-    // - category.apiSetting if set and populated
-    // - api.apiSetting if that's a string
-    // - api.apiSetting._id if that's set
+    //  - category.apiSetting if set and populated
+    //  - api.apiSetting if that's a string
+    //  - api.apiSetting._id if that's set
+    //
     // This will return undefined if apiSetting is not set
-    const apiSetting =
+    return (
       doc.category.apiSetting ||
       (typeof doc.api.apiSetting === 'string' && doc.api.apiSetting) ||
-      (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id);
+      (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id)
+    );
+  }
 
+  getOas(doc) {
+    const apiSetting = this.getApiSettingFromDoc(doc);
     return this.props.oasFiles[apiSetting];
+  }
+
+  getOasUrl(doc) {
+    const apiSetting = this.getApiSettingFromDoc(doc);
+    return this.props.oasUrls[apiSetting];
   }
 
   /**
@@ -212,6 +223,7 @@ class ApiExplorer extends React.Component {
                               Logs={this.props.Logs}
                               maskErrorMessages={this.props.maskErrorMessages}
                               oas={this.getOas(doc)}
+                              oasUrl={this.getOasUrl(doc)}
                               oauth={this.props.oauth}
                               onAuthChange={this.onAuthChange}
                               onAuthGroupChange={this.onAuthGroupChange}
@@ -259,6 +271,7 @@ ApiExplorer.propTypes = {
   Logs: PropTypes.func,
   maskErrorMessages: PropTypes.bool,
   oasFiles: PropTypes.shape({}).isRequired,
+  oasUrls: PropTypes.shape({}).isRequired,
   oauth: PropTypes.bool,
   onError: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,

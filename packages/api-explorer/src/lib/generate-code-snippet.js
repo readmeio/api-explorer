@@ -1,4 +1,5 @@
 const HTTPSnippet = require('httpsnippet');
+const HTTPSnippetSimpleApiClient = require('httpsnippet-client-api');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const uppercase = require('@readme/syntax-highlighter/uppercase');
 const generateHar = require('@readme/oas-to-har');
@@ -40,6 +41,10 @@ const supportedLanguages = {
     httpsnippet: ['node', 'request'],
     highlight: 'javascript',
   },
+  'node-simple': {
+    httpsnippet: ['node', 'api'],
+    highlight: 'javascript',
+  },
   objectivec: {
     httpsnippet: ['objc', 'NSURLSession'],
     highlight: 'objectivec',
@@ -66,18 +71,30 @@ const supportedLanguages = {
   },
 };
 
-module.exports = (oas, operation, values, auth, lang) => {
+module.exports = (oas, oasUrl, operation, values, auth, lang) => {
   const har = generateHar(oas, operation, values, auth);
+
+  // API SDK client needs additional runtime information on the API definition we're showing the user so it can
+  // generate an appropriate snippet.
+  if (lang === 'node-simple') {
+    HTTPSnippet.addTargetClient('node', HTTPSnippetSimpleApiClient);
+  }
 
   const snippet = new HTTPSnippet(har);
 
   const language = supportedLanguages[lang];
 
-  // Prevents errors if non-generated code snippet is selected
-  // and there isn't a way to generate a code snippet for it
-  // ex) shell
+  // Prevents errors if non-generated code snippet is selected and there isn't a way to generate a code snippet for it
+  // (like for example `shell`).
   if (!language) {
     return { snippet: false, code: '' };
+  }
+
+  if (lang === 'node-simple') {
+    language.httpsnippet[2] = {
+      apiDefinitionUri: oasUrl,
+      apiDefinition: oas,
+    };
   }
 
   const code = snippet.convert(...language.httpsnippet);
@@ -88,4 +105,10 @@ module.exports = (oas, operation, values, auth, lang) => {
   };
 };
 
-module.exports.getLangName = lang => uppercase(lang);
+module.exports.getLangName = lang => {
+  if (lang === 'node-simple') {
+    return 'Node (simple)';
+  }
+
+  return uppercase(lang);
+};

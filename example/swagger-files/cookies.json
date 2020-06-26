@@ -1,0 +1,40 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+     "version": "1.0",
+     "title": "cookies"
+  },
+  "servers": [
+     {
+        "url": "http://mockbin.com"
+     }
+  ],
+  "paths": {
+    "/har": {
+      "post": {
+        "parameters": [
+          {
+            "in": "cookie",
+            "name": "foo",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "cookie",
+            "name": "bar",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "x-samples-languages": ["curl", "node", "node-simple", "ruby", "javascript", "python"]
+}

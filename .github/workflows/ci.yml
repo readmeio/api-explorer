@@ -12,17 +12,17 @@ jobs:
         node-version: [10.x, 12.x, 14.x]
 
     steps:
-    - uses: actions/checkout@v2.2.0
+    - uses: actions/checkout@v2.3.1
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2.0.0
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: npm install
+    - name: Install dependencies
       run: |
-        npm install
+        npm ci
         npx lerna bootstrap --concurrency 2
 
-    - name: tests
+    - name: Run tests
       run: npm test

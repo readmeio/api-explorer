@@ -9874,6 +9874,12 @@ body.page-password footer,
 .is-lang-node #hub-reference .hub-api .code-sample .hub-lang-switch-node {
   color: #fff;
 }
+.is-lang-node-simple #hub-reference .hub-api .code-sample .hub-lang-node-simple {
+  display: block;
+}
+.is-lang-node-simple #hub-reference .hub-api .code-sample .hub-lang-switch-node-simple {
+  color: #fff;
+}
 .is-lang-objectivec #hub-reference .hub-api .code-sample .hub-lang-objectivec {
   display: block;
 }

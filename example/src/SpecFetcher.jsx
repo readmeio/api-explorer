@@ -14,6 +14,7 @@ function withSpecFetching(Component) {
         failure: null,
         isLoading: false,
         oas: {},
+        oasUrl: '',
         status: [],
       };
 
@@ -48,11 +49,21 @@ function withSpecFetching(Component) {
             if (json.swagger) return this.convertSwagger(url, json);
             return json;
           })
-          .then(json => {
+          .then(async json => {
             this.updateStatus('Validating the definition');
-            return swaggerParser.validate(json);
+
+            // If the definition isn't valid, errors will be thrown automatically. We're stringifying the JSON to a
+            // copy because the swagger-parser validate method turns circular refs into `[Circular]` objects that then
+            // in turn wreak havoc on some JSON Schema parsing further down in the explorer. This is a hack, and this
+            // definitely isn't the best way to handle this, but for the purposes of the example site it's alright.
+            const copy = JSON.stringify(json);
+            await swaggerParser.validate(json);
+
+            return JSON.parse(copy);
           })
-          .then(json => this.dereference(json))
+          .then(json => {
+            return this.dereference(json, url);
+          })
           .catch(e => {
             this.setState({ isLoading: false });
             this.updateStatus(`There was an error handling your API definition:\n\n${e.message}`);
@@ -60,9 +71,16 @@ function withSpecFetching(Component) {
       });
     }
 
-    dereference(oas) {
+    dereference(oas, url) {
+      let oasUrl = url;
+      if (url.indexOf('http') < 0) {
+        // Ensure that our fixtures from example/swagger-files have a publically addressible URL when they're placed
+        // inside code snippets.
+        oasUrl = `${window.location.origin}/${url}`;
+      }
+
       this.createDocs(oas);
-      this.setState({ oas });
+      this.setState({ oas, oasUrl });
       this.updateStatus('Done!', () => {
         setTimeout(() => {
           this.setState({ isLoading: false, status: [] });
@@ -83,7 +101,7 @@ function withSpecFetching(Component) {
     }
 
     createDocs(oas) {
-      this.setState({ docs: createDocs(oas, 'api-setting') });
+      this.setState({ docs: createDocs(oas, 'demo-api-setting') });
     }
 
     render() {

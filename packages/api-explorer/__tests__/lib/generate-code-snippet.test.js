@@ -8,6 +8,7 @@ const { getLangName } = generateCodeSnippet;
 
 const oas = new Oas();
 
+const oasUrl = 'https://example.com/openapi.json';
 const operation = {
   path: '/path/{id}',
   method: 'get',
@@ -23,38 +24,45 @@ const operation = {
 const values = { path: { id: 123 } };
 
 test('should return falsy values for an unknown language', () => {
-  const codeSnippet = generateCodeSnippet(oas, operation, {}, {}, 'css');
+  const codeSnippet = generateCodeSnippet(oas, oasUrl, operation, {}, {}, 'css');
 
   expect(codeSnippet.snippet).toBe(false);
   expect(codeSnippet.code).toBe('');
 });
 
 test('should generate a HTML snippet for each lang', () => {
-  const { snippet } = generateCodeSnippet(oas, operation, {}, {}, 'node');
+  const { snippet } = generateCodeSnippet(oas, oasUrl, operation, {}, {}, 'node');
 
   expect(shallow(snippet).hasClass('cm-s-tomorrow-night')).toBe(true);
 });
 
 test('should pass through values to code snippet', () => {
-  const { snippet } = generateCodeSnippet(oas, operation, values, {}, 'node');
+  const { snippet } = generateCodeSnippet(oas, oasUrl, operation, values, {}, 'node');
 
   expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('should not contain proxy url', () => {
-  const { snippet } = generateCodeSnippet(new Oas({ [extensions.PROXY_ENABLED]: true }), operation, values, {}, 'node');
+  const { snippet } = generateCodeSnippet(
+    new Oas({ [extensions.PROXY_ENABLED]: true }),
+    oasUrl,
+    operation,
+    values,
+    {},
+    'node'
+  );
 
   expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('javascript should not contain `withCredentials`', () => {
-  const { snippet } = generateCodeSnippet(oas, operation, {}, {}, 'javascript');
+  const { snippet } = generateCodeSnippet(oas, oasUrl, operation, {}, {}, 'javascript');
 
   expect(shallow(snippet).text()).not.toMatch(/withCredentials/);
 });
 
 test('should return with unhighlighted code', () => {
-  const { code } = generateCodeSnippet(oas, operation, {}, {}, 'javascript');
+  const { code } = generateCodeSnippet(oas, oasUrl, operation, {}, {}, 'javascript');
 
   expect(code).not.toMatch(/cm-s-tomorrow-night/);
 });
@@ -70,6 +78,7 @@ describe('#getLangName()', () => {
     expect(getLangName('javascript')).toBe('JavaScript');
     expect(getLangName('kotlin')).toBe('Kotlin');
     expect(getLangName('node')).toBe('Node');
+    expect(getLangName('node-simple')).toBe('Node (simple)');
     expect(getLangName('objectivec')).toBe('Objective-C');
     expect(getLangName('php')).toBe('PHP');
     expect(getLangName('powershell')).toBe('PowerShell');

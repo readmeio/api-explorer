@@ -217,6 +217,7 @@ class Doc extends React.Component {
         formData={this.state.formData}
         language={this.props.language}
         oas={this.oas}
+        oasUrl={this.props.oasUrl}
         operation={this.getOperation()}
         setLanguage={this.props.setLanguage}
       />
@@ -431,6 +432,7 @@ Doc.propTypes = {
   Logs: PropTypes.func,
   maskErrorMessages: PropTypes.bool,
   oas: PropTypes.shape({}),
+  oasUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
   onAuthGroupChange: PropTypes.func.isRequired,
@@ -457,6 +459,7 @@ Doc.defaultProps = {
   Logs: undefined,
   maskErrorMessages: true,
   oas: {},
+  oasUrl: '',
   onError: () => {},
   useNewMarkdownEngine: false,
   user: {},

@@ -1,15 +1,17 @@
 const path = require('path');
-
+const merge = require('webpack-merge');
 const ExtractCSS = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = {
+const output = {
+  path: path.resolve(__dirname, 'dist'),
+  filename: '[name].js',
+  libraryTarget: 'commonjs2',
+};
+
+const browserConfig = {
   entry: ['./index.js'],
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    libraryTarget: 'commonjs2',
-  },
+  output,
   plugins: [
     new ExtractCSS({
       filename: '[name].css',
@@ -77,3 +79,12 @@ module.exports = {
     // hot: true,
   },
 };
+
+const serverConfig = merge(browserConfig, {
+  target: 'node',
+  output: {
+    filename: '[name].node.js',
+  },
+});
+
+module.exports = [browserConfig, serverConfig];
