@@ -53,14 +53,7 @@ const {
 
 /* Custom Unified Compilers
  */
-const {
-  rdmeDivCompiler,
-  codeTabsCompiler,
-  rdmeEmbedCompiler,
-  rdmeVarCompiler,
-  rdmeCalloutCompiler,
-  rdmePinCompiler,
-} = require('./processor/compile');
+const customCompilers = require('./processor/compile');
 
 /* Custom Unified Plugins
  */
@@ -266,10 +259,7 @@ export function md(tree, opts = {}) {
   if (!tree) return null;
   [, opts] = setup('', opts);
 
-  return processor(opts)
-    .use(remarkStringify, opts.markdownOptions)
-    .use([rdmeDivCompiler, codeTabsCompiler, rdmeCalloutCompiler, rdmeEmbedCompiler, rdmeVarCompiler, rdmePinCompiler])
-    .stringify(tree);
+  return processor(opts).use(remarkStringify, opts.markdownOptions).use(Object.values(customCompilers)).stringify(tree);
 }
 
 const ReadMeMarkdown = (text, opts = {}) => react(text, opts);
