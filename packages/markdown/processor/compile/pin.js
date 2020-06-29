@@ -1,8 +1,8 @@
-/* div blocks directly alias the paragraph container; use for display only! */
-module.exports = function DivCompiler() {
+module.exports = function PinCompiler() {
   const { Compiler } = this;
   const { visitors } = Compiler.prototype;
-  visitors.div = function compile(/* node */) {
-    return 'PINNNED';
-  };
+  function compiler(node) {
+    return [`<div class="rdmd-pinned">`, this.block(node), `</div>`].join('\n\n');
+  }
+  visitors['rdme-pin'] = compiler;
 };
