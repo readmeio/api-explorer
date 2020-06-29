@@ -41,7 +41,8 @@
     "inspect": "jsinspect",
     "pretest": "npm run lint && npm run prettier && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage --runInBand"
+    "test": "jest --coverage --runInBand",
+    "test.watch": "npm test -- --watch --coverage=false"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
