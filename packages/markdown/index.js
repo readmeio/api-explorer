@@ -41,19 +41,11 @@ const {
 
 /* Custom Unified Parsers
  */
-const {
-  flavorCodeTabs,
-  flavorCallout,
-  flavorEmbed,
-  magicBlockParser,
-  variableParser,
-  gemojiParser,
-  compactHeadings,
-} = require('./processor/parse');
+const customParsers = Object.values(require('./processor/parse')).map(parser => parser.sanitize(sanitize));
 
 /* Custom Unified Compilers
  */
-const customCompilers = require('./processor/compile');
+const customCompilers = Object.values(require('./processor/compile'));
 
 /* Custom Unified Plugins
  */
@@ -145,12 +137,8 @@ export function processor(opts = {}) {
     .use(remarkParse, opts.markdownOptions)
     .data('settings', opts.settings)
     .data('compatibilityMode', opts.compatibilityMode)
-    .use(magicBlockParser.sanitize(sanitize))
-    .use([flavorCodeTabs.sanitize(sanitize), flavorCallout.sanitize(sanitize), flavorEmbed.sanitize(sanitize)])
-    .use(compactHeadings.sanitize(sanitize))
-    .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? remarkBreaks : () => {})
-    .use(gemojiParser.sanitize(sanitize))
+    .use(customParsers)
     .use(remarkSlug)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
@@ -259,7 +247,7 @@ export function md(tree, opts = {}) {
   if (!tree) return null;
   [, opts] = setup('', opts);
 
-  return processor(opts).use(remarkStringify, opts.markdownOptions).use(Object.values(customCompilers)).stringify(tree);
+  return processor(opts).use(remarkStringify, opts.markdownOptions).use(customCompilers).stringify(tree);
 }
 
 const ReadMeMarkdown = (text, opts = {}) => react(text, opts);
