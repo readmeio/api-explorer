@@ -1,11 +1,18 @@
+const nodeToString = require('hast-util-to-string');
+
 module.exports = function FigureCompiler() {
   const { Compiler } = this;
   const { visitors } = Compiler.prototype;
-  visitors.figure = function compile(node) {
+
+  visitors.figure = function figureCompiler(node) {
+    const [image, caption] = node.children;
     return `<figure>
 
-${visitors.div.call(this, node)}
+  ${visitors.image.call(this, image)}
 
+  <figcaption>
+    ${nodeToString(caption)}
+  </figcaption>
 </figure>`;
   };
 };
