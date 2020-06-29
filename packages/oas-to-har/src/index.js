@@ -194,14 +194,21 @@ module.exports = (
   if (schema.schema && Object.keys(schema.schema).length) {
     // If there is formData, then the type is application/x-www-form-urlencoded
     if (Object.keys(formData.formData).length) {
+      har.postData.params = [];
       har.postData.mimeType = 'application/x-www-form-urlencoded';
-      har.postData.text = querystring.stringify(formData.formData);
+
+      Object.keys(formData.formData).forEach(name => {
+        har.postData.params.push({
+          name,
+          value: String(formData.formData[name]),
+        });
+      });
+    } else if (
       // formData.body can be one of the following:
       // - `undefined` - if the form hasn't been touched yet because of formData.body on:
       // https://github.com/readmeio/api-explorer/blob/b32a2146737c11813bd1b222a137de61854414b3/packages/api-explorer/src/Doc.jsx#L28
       // - a primitive type
       // - an object
-    } else if (
       typeof formData.body !== 'undefined' &&
       (isPrimitive(formData.body) || Object.keys(formData.body).length)
     ) {
