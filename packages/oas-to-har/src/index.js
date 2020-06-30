@@ -1,4 +1,3 @@
-const querystring = require('querystring');
 const extensions = require('@readme/oas-extensions');
 const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 const { Operation } = require('@readme/oas-tooling');
@@ -57,10 +56,13 @@ module.exports = (
   const har = {
     cookies: [],
     headers: [],
+    headersSize: 0,
     queryString: [],
     postData: {},
+    bodySize: 0,
     method: operation.method.toUpperCase(),
     url: `${oas.url()}${operation.path}`.replace(/\s/g, '%20'),
+    httpVersion: 'HTTP/1.1',
   };
 
   // TODO look to move this to Oas class as well
@@ -272,6 +274,11 @@ module.exports = (
         har[securityValue.type].push(securityValue.value);
       });
     });
+  }
+
+  // If we didn't end up filling the `postData` object then we don't need it.
+  if (Object.keys(har.postData).length === 0) {
+    delete har.postData;
   }
 
   return { log: { entries: [{ request: har }] } };
