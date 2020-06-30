@@ -14,7 +14,7 @@
     "@readme/syntax-highlighter": "^6.10.2",
     "@readme/variable": "^6.10.2",
     "classnames": "^2.2.5",
-    "fetch-har": "^2.2.1",
+    "fetch-har": "^3.0.0",
     "httpsnippet": "^1.20.0",
     "httpsnippet-client-api": "^2.1.5",
     "js-cookie": "^2.1.4",
