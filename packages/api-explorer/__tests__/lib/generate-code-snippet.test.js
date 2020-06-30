@@ -42,6 +42,66 @@ test('should pass through values to code snippet', () => {
   expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
+test('should pass through json values to code snippet', () => {
+  const { snippet } = generateCodeSnippet(
+    oas,
+    oasUrl,
+    {
+      path: '/path',
+      method: 'post',
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    { body: { id: '123' } },
+    {},
+    'node'
+  );
+
+  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching("body: {id: '123'}"));
+});
+
+test('should pass through form encoded values to code snippet', () => {
+  const { snippet } = generateCodeSnippet(
+    oas,
+    oasUrl,
+    {
+      path: '/path',
+      method: 'post',
+      requestBody: {
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    { formData: { id: '123' } },
+    {},
+    'node'
+  );
+
+  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching("form: {id: '123'}"));
+});
+
 test('should not contain proxy url', () => {
   const { snippet } = generateCodeSnippet(
     new Oas({ [extensions.PROXY_ENABLED]: true }),

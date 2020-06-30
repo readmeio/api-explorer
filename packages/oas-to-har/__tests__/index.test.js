@@ -1,4 +1,4 @@
-const querystring = require('querystring');
+const validate = require('har-validator');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
@@ -7,16 +7,40 @@ const commonParameters = require('./__fixtures__/common-parameters');
 
 const oas = new Oas();
 
-test('should output a har format', () => {
-  expect(oasToHar(oas)).toStrictEqual({
+expect.extend({
+  toBeAValidHAR(har) {
+    return validate
+      .request(har.log.entries[0].request)
+      .then(() => {
+        return {
+          message: () => `expected supplied HAR not to be valid`,
+          pass: true,
+        };
+      })
+      .catch(err => {
+        return {
+          message: () => `expected supplied HAR to be valid\n\nError: ${this.utils.printReceived(err.errors)}`,
+          pass: false,
+        };
+      });
+  },
+});
+
+test('should output a har format', async () => {
+  const har = oasToHar(oas);
+
+  await expect(har).toBeAValidHAR();
+  expect(har).toStrictEqual({
     log: {
       entries: [
         {
           request: {
+            bodySize: 0,
             cookies: [],
             headers: [],
+            headersSize: 0,
+            httpVersion: 'HTTP/1.1',
             method: '',
-            postData: {},
             queryString: [],
             url: 'https://example.com',
           },
@@ -26,8 +50,11 @@ test('should output a har format', () => {
   });
 });
 
-test('should uppercase the method', () => {
-  expect(oasToHar(oas, { path: '/', method: 'get' }).log.entries[0].request.method).toBe('GET');
+test('should uppercase the method', async () => {
+  const har = oasToHar(oas, { path: '/', method: 'get' });
+
+  expect(har.log.entries[0].request.method).toBe('GET');
+  await expect(har).toBeAValidHAR();
 });
 
 describe('url', () => {
@@ -67,6 +94,7 @@ describe('parameters', () => {
       expect(oasToHar(oas, { path: '/param-path/{id}', method: '' }).log.entries[0].request.url).toBe(
         'https://example.com/param-path/id'
       );
+
       expect(
         oasToHar(oas, {
           path: '/param-path/{id}',
@@ -82,324 +110,200 @@ describe('parameters', () => {
       ).toBe('https://example.com/param-path/id');
     });
 
-    it('should not error if empty object passed in for values', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/param-path/{id}',
-            method: 'get',
-            parameters: [
-              {
-                name: 'id',
-                in: 'path',
-                required: true,
-              },
-            ],
-          },
-          {}
-        ).log.entries[0].request.url
-      ).toBe('https://example.com/param-path/id');
-    });
-
-    it('should use example if no value', () => {
-      expect(
-        oasToHar(oas, {
+    it.each([
+      [
+        'should not error if empty object passed in for values',
+        {
+          parameters: [{ name: 'id', in: 'path', required: true }],
+        },
+        {},
+        'https://example.com/param-path/id',
+      ],
+      [
+        'should use example if no value',
+        {
+          parameters: [{ name: 'id', in: 'path', required: true, example: '123' }],
+        },
+        {},
+        'https://example.com/param-path/123',
+      ],
+      [
+        'should add path values to the url',
+        {
+          parameters: [{ name: 'id', in: 'path', required: true }],
+        },
+        { path: { id: '456' } },
+        'https://example.com/param-path/456',
+      ],
+      [
+        'should add falsy values to the url',
+        {
+          parameters: [{ name: 'id', in: 'path', required: true }],
+        },
+        { path: { id: 0 } },
+        'https://example.com/param-path/0',
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedUrl) => {
+      const har = oasToHar(
+        oas,
+        {
           path: '/param-path/{id}',
           method: 'get',
-          parameters: [
-            {
-              name: 'id',
-              in: 'path',
-              required: true,
-              example: '123',
-            },
-          ],
-        }).log.entries[0].request.url
-      ).toBe('https://example.com/param-path/123');
-    });
+          ...operation,
+        },
+        values
+      );
 
-    it('should add path values to the url', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/param-path/{id}',
-            method: 'get',
-            parameters: [
-              {
-                name: 'id',
-                in: 'path',
-                required: true,
-              },
-            ],
-          },
-          { path: { id: '456' } }
-        ).log.entries[0].request.url
-      ).toBe('https://example.com/param-path/456');
-    });
+      await expect(har).toBeAValidHAR();
 
-    it('should add falsy values to the url', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/param-path/{id}',
-            method: 'get',
-            parameters: [
-              {
-                name: 'id',
-                in: 'path',
-                required: true,
-              },
-            ],
-          },
-          { path: { id: 0 } }
-        ).log.entries[0].request.url
-      ).toBe('https://example.com/param-path/0');
+      expect(har.log.entries[0].request.url).toStrictEqual(expectedUrl);
     });
   });
 
   describe('query values', () => {
-    it('should not add on empty unrequired values', () => {
-      expect(
-        oasToHar(oas, {
+    it.each([
+      [
+        'should not add on empty unrequired values',
+        {
+          parameters: [{ name: 'a', in: 'query' }],
+        },
+      ],
+      [
+        'should set defaults if no value provided but is required',
+        {
+          parameters: [{ name: 'a', in: 'query', required: true, example: 'value' }],
+        },
+        {},
+        [{ name: 'a', value: 'value' }],
+      ],
+      [
+        'should pass in value if one is set and prioritise provided values',
+        {
+          parameters: [{ name: 'a', in: 'query', required: true, example: 'value' }],
+        },
+        { query: { a: 'test' } },
+        [{ name: 'a', value: 'test' }],
+      ],
+      [
+        'should add falsy values to the querystring',
+        {
+          parameters: [{ name: 'id', in: 'query' }],
+        },
+        { query: { id: 0 } },
+        [{ name: 'id', value: '0' }],
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
+      const har = oasToHar(
+        oas,
+        {
           path: '/query',
           method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'query',
-            },
-          ],
-        }).log.entries[0].request.queryString
-      ).toStrictEqual([]);
-    });
+          ...operation,
+        },
+        values
+      );
 
-    it('should set defaults if no value provided but is required', () => {
-      expect(
-        oasToHar(oas, {
-          path: '/query',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'query',
-              required: true,
-              example: 'value',
-            },
-          ],
-        }).log.entries[0].request.queryString
-      ).toStrictEqual([{ name: 'a', value: 'value' }]);
-    });
+      await expect(har).toBeAValidHAR();
 
-    it('should pass in value if one is set and prioritise provided values', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/query',
-            method: 'get',
-            parameters: [
-              {
-                name: 'a',
-                in: 'query',
-                required: true,
-                example: 'value',
-              },
-            ],
-          },
-          { query: { a: 'test' } }
-        ).log.entries[0].request.queryString
-      ).toStrictEqual([{ name: 'a', value: 'test' }]);
-    });
-
-    it('should add falsy values to the querystring', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/param-path',
-            method: 'get',
-            parameters: [
-              {
-                name: 'id',
-                in: 'query',
-              },
-            ],
-          },
-          { query: { id: 0 } }
-        ).log.entries[0].request.queryString
-      ).toStrictEqual([{ name: 'id', value: '0' }]);
+      expect(har.log.entries[0].request.queryString).toStrictEqual(expectedQueryString);
     });
   });
 
   describe('cookie values', () => {
-    it('should not add on empty unrequired values', () => {
-      expect(
-        oasToHar(oas, {
+    it.each([
+      [
+        'should not add on empty unrequired values',
+        {
+          parameters: [{ name: 'a', in: 'cookie' }],
+        },
+      ],
+      [
+        'should set defaults if no value provided but is required',
+        {
+          parameters: [{ name: 'a', in: 'cookie', required: true, example: 'value' }],
+        },
+        {},
+        [{ name: 'a', value: 'value' }],
+      ],
+      [
+        'should pass in value if one is set and prioritize provided values',
+        {
+          parameters: [{ name: 'a', in: 'cookie', required: true, example: 'value' }],
+        },
+        { cookie: { a: 'test' } },
+        [{ name: 'a', value: 'test' }],
+      ],
+      [
+        'should add falsy values to the cookies',
+        {
+          parameters: [{ name: 'id', in: 'cookie' }],
+        },
+        { cookie: { id: 0 } },
+        [{ name: 'id', value: '0' }],
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedCookies = []) => {
+      const har = oasToHar(
+        oas,
+        {
           path: '/',
           method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'cookie',
-            },
-          ],
-        }).log.entries[0].request.cookies
-      ).toStrictEqual([]);
-    });
+          ...operation,
+        },
+        values
+      );
 
-    it('should set defaults if no value provided but is required', () => {
-      expect(
-        oasToHar(oas, {
-          path: '/',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'cookie',
-              required: true,
-              example: 'value',
-            },
-          ],
-        }).log.entries[0].request.cookies
-      ).toStrictEqual([{ name: 'a', value: 'value' }]);
-    });
+      await expect(har).toBeAValidHAR();
 
-    it('should pass in value if one is set and prioritize provided values', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/',
-            method: 'get',
-            parameters: [
-              {
-                name: 'a',
-                in: 'cookie',
-                required: true,
-                example: 'value',
-              },
-            ],
-          },
-          { cookie: { a: 'test' } }
-        ).log.entries[0].request.cookies
-      ).toStrictEqual([{ name: 'a', value: 'test' }]);
-    });
-
-    it('should add falsy values to the cookies', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/',
-            method: 'get',
-            parameters: [
-              {
-                name: 'id',
-                in: 'cookie',
-              },
-            ],
-          },
-          { cookie: { id: 0 } }
-        ).log.entries[0].request.cookies
-      ).toStrictEqual([{ name: 'id', value: '0' }]);
+      expect(har.log.entries[0].request.cookies).toStrictEqual(expectedCookies);
     });
   });
 
   describe('header values', () => {
-    it('should not add on empty unrequired values', () => {
-      expect(
-        oasToHar(oas, {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-            },
-          ],
-        }).log.entries[0].request.headers
-      ).toStrictEqual([]);
-    });
-
-    it('should set defaults if no value provided but is required', () => {
-      expect(
-        oasToHar(oas, {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-              required: true,
-              example: 'value',
-            },
-          ],
-        }).log.entries[0].request.headers
-      ).toStrictEqual([{ name: 'a', value: 'value' }]);
-    });
-
-    it('should pass in value if one is set and prioritise provided values', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/header',
-            method: 'get',
-            parameters: [
-              {
-                name: 'a',
-                in: 'header',
-                required: true,
-                example: 'value',
-              },
-            ],
-          },
-          { header: { a: 'test' } }
-        ).log.entries[0].request.headers
-      ).toStrictEqual([{ name: 'a', value: 'test' }]);
-    });
-
-    it('should pass accept header if endpoint expects a content back from response', () => {
-      expect(
-        oasToHar(oas, {
-          path: '/header',
-          method: 'get',
-          parameters: [
-            {
-              name: 'a',
-              in: 'header',
-              required: true,
-              example: 'value',
-            },
-          ],
+    it.each([
+      [
+        'should not add on empty unrequired values',
+        {
+          parameters: [{ name: 'a', in: 'header' }],
+        },
+      ],
+      [
+        'should set defaults if no value provided but is required',
+        {
+          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+        },
+        {},
+        [{ name: 'a', value: 'value' }],
+      ],
+      [
+        'should pass in value if one is set and prioritise provided values',
+        {
+          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+        },
+        { header: { a: 'test' } },
+        [{ name: 'a', value: 'test' }],
+      ],
+      [
+        'should pass accept header if endpoint expects a content back from response',
+        {
+          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
           responses: {
             200: {
               content: {
-                'application/xml': {
-                  type: 'array',
-                },
-                'application/json': {
-                  type: 'array',
-                },
+                'application/xml': { type: 'array' },
+                'application/json': { type: 'array' },
               },
             },
           },
-        }).log.entries[0].request.headers
-      ).toStrictEqual([
-        { name: 'Accept', value: 'application/xml' },
-        { name: 'a', value: 'value' },
-      ]);
-    });
-
-    it('should only add one accept header', () => {
-      expect(
-        oasToHar(oas, {
-          path: '/header',
-          method: 'get',
-          parameters: [],
+        },
+        {},
+        [
+          { name: 'Accept', value: 'application/xml' },
+          { name: 'a', value: 'value' },
+        ],
+      ],
+      [
+        'should only add one accept header',
+        {
           responses: {
             200: {
               content: {
@@ -412,76 +316,63 @@ describe('parameters', () => {
               },
             },
           },
-        }).log.entries[0].request.headers
-      ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
-    });
-
-    it('should only receive one accept header if specified in values', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/header',
-            method: 'get',
-            parameters: [
-              {
-                name: 'Accept',
-                in: 'header',
-              },
-            ],
-            responses: {
-              200: {
-                content: {
-                  'application/json': {},
-                  'application/xml': {},
-                },
+        },
+        {},
+        [{ name: 'Accept', value: 'application/xml' }],
+      ],
+      [
+        'should only receive one accept header if specified in values',
+        {
+          parameters: [{ name: 'Accept', in: 'header' }],
+          responses: {
+            200: {
+              content: {
+                'application/json': {},
+                'application/xml': {},
               },
             },
           },
-          { header: { Accept: 'application/xml' } }
-        ).log.entries[0].request.headers
-      ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
-    });
-
-    it('should add accept header if specified in formdata', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/header',
-            method: 'get',
-            parameters: [],
-            responses: {
-              200: {
-                content: {
-                  'application/json': {},
-                  'application/xml': {},
-                },
+        },
+        { header: { Accept: 'application/xml' } },
+        [{ name: 'Accept', value: 'application/xml' }],
+      ],
+      [
+        'should add accept header if specified in formdata',
+        {
+          responses: {
+            200: {
+              content: {
+                'application/json': {},
+                'application/xml': {},
               },
             },
           },
-          { header: { Accept: 'application/xml' } }
-        ).log.entries[0].request.headers
-      ).toStrictEqual([{ name: 'Accept', value: 'application/xml' }]);
-    });
+        },
+        { header: { Accept: 'application/xml' } },
+        [{ name: 'Accept', value: 'application/xml' }],
+      ],
+      [
+        'should add falsy values to the headers',
+        {
+          parameters: [{ name: 'id', in: 'header' }],
+        },
+        { header: { id: 0 } },
+        [{ name: 'id', value: '0' }],
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedHeaders = []) => {
+      const har = oasToHar(
+        oas,
+        {
+          path: '/header',
+          method: 'get',
+          ...operation,
+        },
+        values
+      );
 
-    it('should add falsy values to the headers', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/param-path',
-            method: 'get',
-            parameters: [
-              {
-                name: 'id',
-                in: 'header',
-              },
-            ],
-          },
-          { header: { id: 0 } }
-        ).log.entries[0].request.headers
-      ).toStrictEqual([{ name: 'id', value: '0' }]);
+      await expect(har).toBeAValidHAR();
+
+      expect(har.log.entries[0].request.headers).toStrictEqual(expectedHeaders);
     });
   });
 });
@@ -508,7 +399,7 @@ describe('requestBody', () => {
         },
       };
 
-      expect(oasToHar(oas, pathOperation).log.entries[0].request.postData.text).toBeUndefined();
+      expect(oasToHar(oas, pathOperation).log.entries[0].request.postData).toBeUndefined();
     });
 
     // TODO extensions[SEND_DEFAULTS]
@@ -917,6 +808,78 @@ describe('requestBody', () => {
       ).toBe(JSON.stringify(false));
     });
 
+    it('should not include objects with undefined sub properties', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: {
+                        type: 'object',
+                        properties: {
+                          b: {
+                            type: 'string',
+                          },
+                          c: {
+                            type: 'object',
+                            properties: {
+                              d: {
+                                type: 'string',
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: { a: { b: undefined, c: { d: undefined } } } }
+        ).log.entries[0].request.postData.text
+      ).toBeUndefined();
+    });
+
+    // When we first render the form, formData.body is undefined
+    // until something is typed into the form. When using anyOf/oneOf
+    // if we change the schema before typing anything into the form,
+    // then onChange is fired with `undefined` which causes
+    // this to error
+    it('should not error if `formData.body` is undefined', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/body',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      a: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { body: undefined }
+        ).log.entries[0].request.postData
+      ).toBeUndefined();
+    });
+
     describe('`json` type', () => {
       it('should work for refs that require a lookup', () => {
         expect(
@@ -1036,78 +999,6 @@ describe('requestBody', () => {
         ).toBe(JSON.stringify({ a: {} }));
       });
     });
-
-    it('should not include objects with undefined sub properties', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/body',
-            method: 'get',
-            requestBody: {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      a: {
-                        type: 'object',
-                        properties: {
-                          b: {
-                            type: 'string',
-                          },
-                          c: {
-                            type: 'object',
-                            properties: {
-                              d: {
-                                type: 'string',
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-          { body: { a: { b: undefined, c: { d: undefined } } } }
-        ).log.entries[0].request.postData.text
-      ).toBeUndefined();
-    });
-
-    // When we first render the form, formData.body is undefined
-    // until something is typed into the form. When using anyOf/oneOf
-    // if we change the schema before typing anything into the form,
-    // then onChange is fired with `undefined` which causes
-    // this to error
-    it('should not error if `formData.body` is undefined', () => {
-      expect(
-        oasToHar(
-          oas,
-          {
-            path: '/body',
-            method: 'get',
-            requestBody: {
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      a: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-          { body: undefined }
-        ).log.entries[0].request.postData.text
-      ).toBeUndefined();
-    });
   });
 
   describe('formData values', () => {
@@ -1130,7 +1021,7 @@ describe('requestBody', () => {
               },
             },
           },
-        }).log.entries[0].request.postData.text
+        }).log.entries[0].request.postData
       ).toBeUndefined();
     });
 
@@ -1157,7 +1048,7 @@ describe('requestBody', () => {
             },
           },
         }).log.entries[0].request.postData.text
-      ).toBe(querystring.stringify({ a: 'value' }));
+      ).toBe(JSON.stringify({ a: 'value' }));
     });
 
     it('should pass in value if one is set and prioritise provided values', () => {
@@ -1184,8 +1075,11 @@ describe('requestBody', () => {
             },
           },
           { formData: { a: 'test', b: [1, 2, 3] } }
-        ).log.entries[0].request.postData.text
-      ).toBe(querystring.stringify({ a: 'test', b: [1, 2, 3] }));
+        ).log.entries[0].request.postData.params
+      ).toStrictEqual([
+        { name: 'a', value: 'test' },
+        { name: 'b', value: '1,2,3' },
+      ]);
     });
   });
 });
@@ -1197,19 +1091,22 @@ describe('common parameters', () => {
     method: 'post',
   };
 
-  it('should work for common parameters', () => {
-    expect(
-      oasToHar(new Oas(commonParameters), operation, {
-        path: { id: 1234 },
-        header: { 'x-extra-id': 'abcd' },
-        query: { limit: 10 },
-        cookie: { authtoken: 'password' },
-      }).log.entries[0].request
-    ).toStrictEqual({
+  it('should work for common parameters', async () => {
+    const har = oasToHar(new Oas(commonParameters), operation, {
+      path: { id: 1234 },
+      header: { 'x-extra-id': 'abcd' },
+      query: { limit: 10 },
+      cookie: { authtoken: 'password' },
+    });
+
+    await expect(har).toBeAValidHAR();
+    expect(har.log.entries[0].request).toStrictEqual({
+      bodySize: 0,
       cookies: [{ name: 'authtoken', value: 'password' }],
       headers: [{ name: 'x-extra-id', value: 'abcd' }],
+      headersSize: 0,
+      httpVersion: 'HTTP/1.1',
       queryString: [{ name: 'limit', value: '10' }],
-      postData: {},
       method: 'POST',
       url: 'http://httpbin.org/anything/1234',
     });
@@ -1426,29 +1323,31 @@ describe('content-type & accept header', () => {
     },
   };
 
-  it('should be sent through if there are no body values but there is a requestBody', () => {
-    expect(oasToHar(oas, operation, {}).log.entries[0].request.headers).toStrictEqual([
-      { name: 'Content-Type', value: 'application/json' },
-    ]);
+  it('should be sent through if there are no body values but there is a requestBody', async () => {
+    let har = oasToHar(oas, operation, {});
 
-    expect(oasToHar(oas, operation, { query: { a: 1 } }).log.entries[0].request.headers).toStrictEqual([
-      { name: 'Content-Type', value: 'application/json' },
-    ]);
+    await expect(har).toBeAValidHAR();
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
+
+    har = oasToHar(oas, operation, { query: { a: 1 } });
+    await expect(har).toBeAValidHAR();
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
-  it('should be sent through if there are any body values', () => {
-    expect(oasToHar(oas, operation, { body: { a: 'test' } }).log.entries[0].request.headers).toStrictEqual([
-      { name: 'Content-Type', value: 'application/json' },
-    ]);
+  it('should be sent through if there are any body values', async () => {
+    const har = oasToHar(oas, operation, { body: { a: 'test' } });
+
+    await expect(har).toBeAValidHAR();
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
-  it('should be sent through if there are any formData values', () => {
-    expect(oasToHar(oas, operation, { formData: { a: 'test' } }).log.entries[0].request.headers).toStrictEqual([
-      { name: 'Content-Type', value: 'application/json' },
-    ]);
+  it('should be sent through if there are any formData values', async () => {
+    const har = oasToHar(oas, operation, { formData: { a: 'test' } });
+    await expect(har).toBeAValidHAR();
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
-  it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', () => {
+  it('should fetch the type from the first `requestBody.content` and first `responseBody.content` object', async () => {
     const har = oasToHar(
       oas,
       {
@@ -1472,55 +1371,57 @@ describe('content-type & accept header', () => {
         },
       },
       { body: { a: 'test' } }
-    ).log.entries[0].request;
+    );
 
-    expect(har.headers).toStrictEqual([{ name: 'Content-Type', value: 'text/xml' }]);
-    expect(har.postData.mimeType).toStrictEqual('text/xml');
+    await expect(har).toBeAValidHAR();
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'text/xml' }]);
+    expect(har.log.entries[0].request.postData.mimeType).toStrictEqual('text/xml');
   });
 
   // Whether this is right or wrong, i'm not sure but this is what readme currently does
-  it('should prioritise json if it exists', () => {
-    expect(
-      oasToHar(
-        oas,
-        {
-          path: '/body',
-          method: 'get',
-          requestBody: {
-            content: {
-              'text/xml': {
-                schema: {
-                  type: 'string',
-                  required: ['a'],
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+  it('should prioritise json if it exists', async () => {
+    const har = oasToHar(
+      oas,
+      {
+        path: '/body',
+        method: 'get',
+        requestBody: {
+          content: {
+            'text/xml': {
+              schema: {
+                type: 'string',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
-                example: { a: 'value' },
               },
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  required: ['a'],
-                  properties: {
-                    a: {
-                      type: 'string',
-                    },
+              example: { a: 'value' },
+            },
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'string',
                   },
                 },
-                example: { a: 'value' },
               },
+              example: { a: 'value' },
             },
           },
         },
-        { body: { a: 'test' } }
-      ).log.entries[0].request.headers
-    ).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
+      },
+      { body: { a: 'test' } }
+    );
+
+    await expect(har).toBeAValidHAR();
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'application/json' }]);
   });
 
-  it("should only add a content-type if one isn't already present", () => {
+  it("should only add a content-type if one isn't already present", async () => {
     const har = oasToHar(
       new Oas({
         'x-headers': [{ key: 'Content-Type', value: 'multipart/form-data' }],
@@ -1546,13 +1447,15 @@ describe('content-type & accept header', () => {
         },
       },
       { body: { a: 'test' } }
-    ).log.entries[0].request;
+    );
+
+    await expect(har).toBeAValidHAR();
 
     // `Content-Type: application/json` would normally appear here if there were no `x-headers`, but since there is
     // we should default to that so as to we don't double up on Content-Type headers.
-    expect(har.headers).toStrictEqual([{ name: 'Content-Type', value: 'multipart/form-data' }]);
+    expect(har.log.entries[0].request.headers).toStrictEqual([{ name: 'Content-Type', value: 'multipart/form-data' }]);
 
-    expect(har.postData.mimeType).toStrictEqual('multipart/form-data');
+    expect(har.log.entries[0].request.postData.mimeType).toStrictEqual('multipart/form-data');
   });
 });
 

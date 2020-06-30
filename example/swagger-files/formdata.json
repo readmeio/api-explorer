@@ -1,0 +1,100 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "0.0.0",
+    "title": "formData handling demo"
+  },
+  "servers": [
+    {
+      "url": "https://httpbin.org"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "summary": "Demo handling of formData",
+        "operationId": "demoFormData",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "client_id",
+                  "client_secret"
+                ],
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "type": "string"
+                  },
+                  "scope": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Valid Token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Token": {
+        "title": "Token",
+        "required": [
+          "access_token",
+          "token_type",
+          "expires_in"
+        ],
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "token_type": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    }
+  },
+  "x-samples-languages": [
+    "curl",
+    "python",
+    "java",
+    "javascript",
+    "node",
+    "node-simple",
+    "ruby",
+    "go",
+    "powershell",
+    "php",
+    "swift"
+  ]
+}
