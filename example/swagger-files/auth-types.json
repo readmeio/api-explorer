@@ -114,5 +114,5 @@
   },
   "x-explorer-enabled": true,
   "x-samples-enabled": true,
-  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
+  "x-samples-languages": ["curl", "node", "node-simple", "ruby", "javascript", "python"]
 }
