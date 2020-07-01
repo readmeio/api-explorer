@@ -1,3 +1,10 @@
+## <small>6.13.1 (2020-07-01)</small>
+
+* build: updating dist files ([22f9e7f](https://github.com/readmeio/api-explorer/commit/22f9e7f))
+* fix: decouple react highlight from code snippets (#819) ([3cb1e63](https://github.com/readmeio/api-explorer/commit/3cb1e63)), closes [#819](https://github.com/readmeio/api-explorer/issues/819)
+
+
+
 ## 6.13.0 (2020-07-01)
 
 * build: updating dist files ([604fe8d](https://github.com/readmeio/api-explorer/commit/604fe8d))
