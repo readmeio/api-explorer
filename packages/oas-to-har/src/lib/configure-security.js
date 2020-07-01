@@ -50,6 +50,11 @@ module.exports = function configureSecurity(oas, values, scheme) {
       }
 
       return harValue('headers', header);
+    } else if (security.in === 'cookie') {
+      return harValue('cookies', {
+        name: security.name,
+        value: values[scheme],
+      });
     }
   }
 

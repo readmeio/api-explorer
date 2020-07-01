@@ -69,6 +69,21 @@
           }
         ]
       }
+    },
+    "/anything/apiKey-cookie": {
+      "post": {
+        "summary": "ApiKey security type via cookie",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyCookie": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -88,6 +103,11 @@
       "apiKey": {
         "type": "apiKey",
         "in": "query",
+        "name": "apiKey"
+      },
+      "apiKeyCookie": {
+        "type": "apiKey",
+        "in": "cookie",
         "name": "apiKey"
       }
     }
