@@ -220,7 +220,12 @@ exports[`JSONForm  snapshot 1`] = `
                 <label
                   class="required"
                 >
-                  petId
+                  petId 
+                  <em
+                    style="opacity: 0.5"
+                  >
+                    (integer)
+                  </em>
                 </label>
                 <input
                   class="form-control"

@@ -16,3 +16,15 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+label {
+    position: relative;
+    padding-left: 12px;
+}
+label.required:before {
+    position: absolute;
+    content: "*";
+    color: red;
+    left: 0;
+    top: -4px
+}
