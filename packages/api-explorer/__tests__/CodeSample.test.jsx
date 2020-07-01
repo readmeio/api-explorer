@@ -191,6 +191,7 @@ describe('code examples', () => {
     const codeSample = shallow(component);
     expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
     expect(codeSample.find('.hub-code-auto pre')).toHaveLength(0);
+    expect(codeSample.find('.hub-no-code')).toHaveLength(1);
   });
 
   it('should not render sample if language is missing', () => {

@@ -89,7 +89,11 @@ class CodeSample extends React.Component {
             return <div className="hub-no-code">No code samples available</div>;
           }
 
-          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language, oasUrl);
+          let snippet;
+          const { code, highlightMode } = generateCodeSnippet(oas, operation, formData, auth, language, oasUrl);
+          if (code && highlightMode) {
+            snippet = syntaxHighlighter(code, highlightMode, { dark: true });
+          }
 
           return (
             <div>
@@ -112,11 +116,15 @@ class CodeSample extends React.Component {
                 ))}
               </ul>
 
-              {snippet && (
+              {snippet ? (
                 <div className="hub-code-auto">
                   <CopyCode code={code} />
                   <pre className={`tomorrow-night hub-lang hub-lang-${language}`}>{snippet}</pre>
                 </div>
+              ) : (
+                // If we were unable to create a snippet or highlight one for any reason, instead of rendering an empty
+                // box, show a friendly message instead.
+                <div className="hub-no-code">No code sample available</div>
               )}
             </div>
           );
