@@ -1,5 +1,5 @@
 __tests__/
 coverage/
 .eslint*
-.jsinspectrc
 .prettier*
+jest*
