@@ -1,3 +1,10 @@
+## <small>6.12.1 (2020-07-01)</small>
+
+* build: updating dist files ([5f4cc3e](https://github.com/readmeio/api-explorer/commit/5f4cc3e))
+* fix: issue where application/x-www-form-urlencoded payloads weren't being handled properly (#807) ([82f8a61](https://github.com/readmeio/api-explorer/commit/82f8a61)), closes [#807](https://github.com/readmeio/api-explorer/issues/807) [/github.com/readmeio/api-explorer/blob/59a5d060997321936ae356f2ba3f36e34c81c520/packages/oas-to-har/src/index.js#L198](https://github.com//github.com/readmeio/api-explorer/blob/59a5d060997321936ae356f2ba3f36e34c81c520/packages/oas-to-har/src/index.js/issues/L198) [/github.com/Kong/httpsnippet/blob/633b825364ab050f02556cfa837148a1e136fd69/src/index.js#L126-L128](https://github.com//github.com/Kong/httpsnippet/blob/633b825364ab050f02556cfa837148a1e136fd69/src/index.js/issues/L126-L128)
+
+
+
 ## 6.12.0 (2020-06-26)
 
 * build: updating dist files ([ff88109](https://github.com/readmeio/api-explorer/commit/ff88109))
