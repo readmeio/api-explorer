@@ -1,3 +1,21 @@
+## 6.13.0 (2020-07-01)
+
+* build: updating dist files ([604fe8d](https://github.com/readmeio/api-explorer/commit/604fe8d))
+* feat: adding support for cookie auth (#817) ([5a2ef14](https://github.com/readmeio/api-explorer/commit/5a2ef14)), closes [#817](https://github.com/readmeio/api-explorer/issues/817)
+* feat: decoupling OAS code snippet generation into a standalone package (#812) ([8fbe211](https://github.com/readmeio/api-explorer/commit/8fbe211)), closes [#812](https://github.com/readmeio/api-explorer/issues/812)
+* hotfix: application/x-www-form-urlencoded bug (#818) ([a40b605](https://github.com/readmeio/api-explorer/commit/a40b605)), closes [#818](https://github.com/readmeio/api-explorer/issues/818) [#807](https://github.com/readmeio/api-explorer/issues/807) [/github.com/readmeio/api-explorer/blob/59a5d060997321936ae356f2ba3f36e34c81c520/packages/oas-to-har/src/index.js#L198](https://github.com//github.com/readmeio/api-explorer/blob/59a5d060997321936ae356f2ba3f36e34c81c520/packages/oas-to-har/src/index.js/issues/L198) [/github.com/Kong/httpsnippet/blob/633b825364ab050f02556cfa837148a1e136fd69/src/index.js#L126-L128](https://github.com//github.com/Kong/httpsnippet/blob/633b825364ab050f02556cfa837148a1e136fd69/src/index.js/issues/L126-L128)
+* fix: issue where application/x-www-form-urlencoded payloads weren't being handled properly (#807) ([c08ca55](https://github.com/readmeio/api-explorer/commit/c08ca55)), closes [#807](https://github.com/readmeio/api-explorer/issues/807) [/github.com/readmeio/api-explorer/blob/59a5d060997321936ae356f2ba3f36e34c81c520/packages/oas-to-har/src/index.js#L198](https://github.com//github.com/readmeio/api-explorer/blob/59a5d060997321936ae356f2ba3f36e34c81c520/packages/oas-to-har/src/index.js/issues/L198) [/github.com/Kong/httpsnippet/blob/633b825364ab050f02556cfa837148a1e136fd69/src/index.js#L126-L128](https://github.com//github.com/Kong/httpsnippet/blob/633b825364ab050f02556cfa837148a1e136fd69/src/index.js/issues/L126-L128)
+* fix(markdown): add missing compilers (#808) ([3a6e720](https://github.com/readmeio/api-explorer/commit/3a6e720)), closes [#808](https://github.com/readmeio/api-explorer/issues/808) [#772](https://github.com/readmeio/api-explorer/issues/772)
+* chore(deps-dev): bump @babel/plugin-proposal-class-properties (#811) ([a791fd5](https://github.com/readmeio/api-explorer/commit/a791fd5)), closes [#811](https://github.com/readmeio/api-explorer/issues/811)
+* chore(deps-dev): bump babel-jest from 26.0.1 to 26.1.0 (#814) ([bf4d56b](https://github.com/readmeio/api-explorer/commit/bf4d56b)), closes [#814](https://github.com/readmeio/api-explorer/issues/814)
+* chore(deps-dev): bump eslint from 7.2.0 to 7.3.1 (#813) ([172d3a0](https://github.com/readmeio/api-explorer/commit/172d3a0)), closes [#813](https://github.com/readmeio/api-explorer/issues/813)
+* chore(deps-dev): bump jest from 26.0.1 to 26.1.0 (#815) ([6afc047](https://github.com/readmeio/api-explorer/commit/6afc047)), closes [#815](https://github.com/readmeio/api-explorer/issues/815)
+* chore(deps): bump actions/setup-node from v2.0.0 to v2.1.0 (#810) ([31d5a07](https://github.com/readmeio/api-explorer/commit/31d5a07)), closes [#810](https://github.com/readmeio/api-explorer/issues/810)
+* docs: removing the checklist from our pr template ([4d3afff](https://github.com/readmeio/api-explorer/commit/4d3afff))
+* test: loading in our new decoupled jest-expect-har package (#809) ([e83966d](https://github.com/readmeio/api-explorer/commit/e83966d)), closes [#809](https://github.com/readmeio/api-explorer/issues/809)
+
+
+
 ## <small>6.12.1 (2020-07-01)</small>
 
 * build: updating dist files ([5f4cc3e](https://github.com/readmeio/api-explorer/commit/5f4cc3e))
