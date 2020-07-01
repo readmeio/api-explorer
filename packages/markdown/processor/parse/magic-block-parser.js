@@ -221,7 +221,13 @@ function tokenize(eat, value) {
         WrapPinnedBlocks(
           {
             type: 'html-block',
-            data: { hName: 'html-block', hProperties: { html: json.html } },
+            data: {
+              hName: 'html-block',
+              hProperties: {
+                html: json.html,
+                scripts: compatibilityMode,
+              },
+            },
           },
           json
         )
