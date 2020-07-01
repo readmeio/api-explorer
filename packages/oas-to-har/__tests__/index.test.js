@@ -1171,6 +1171,38 @@ describe('auth', () => {
     ]);
   });
 
+  it('should work for cookie', () => {
+    expect(
+      oasToHar(
+        new Oas({
+          components: {
+            securitySchemes: {
+              'auth-cookie': {
+                type: 'apiKey',
+                name: 'authCookie',
+                in: 'cookie',
+              },
+            },
+          },
+        }),
+        {
+          path: '/security',
+          method: 'get',
+          security: [{ 'auth-cookie': [] }],
+        },
+        {},
+        {
+          'auth-cookie': 'value',
+        }
+      ).log.entries[0].request.cookies
+    ).toStrictEqual([
+      {
+        name: 'authCookie',
+        value: 'value',
+      },
+    ]);
+  });
+
   it('should work for multiple (||)', () => {
     expect(
       oasToHar(
