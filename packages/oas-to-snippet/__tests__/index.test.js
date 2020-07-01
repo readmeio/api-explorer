@@ -1,6 +1,7 @@
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
+const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 
 const generateCodeSnippet = require('../src');
 
@@ -125,6 +126,23 @@ test('should return with unhighlighted code', () => {
   const { code } = generateCodeSnippet(oas, operation, {}, {}, 'javascript', oasUrl);
 
   expect(code).not.toMatch(/cm-s-tomorrow-night/);
+});
+
+test('should support node-simple', () => {
+  const petstoreOas = new Oas(petstore);
+  const { snippet, code } = generateCodeSnippet(
+    petstoreOas,
+    petstoreOas.operation('/pets', 'get'),
+    {
+      query: { limit: 10 },
+    },
+    {},
+    'node-simple',
+    oasUrl
+  );
+
+  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
+  expect(code).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
 });
 
 describe('#getLangName()', () => {
