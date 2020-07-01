@@ -3,12 +3,11 @@ const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const syntaxHighlighter = require('@readme/syntax-highlighter');
 const Oas = require('@readme/oas-tooling');
+const generateCodeSnippet = require('@readme/oas-to-snippet');
 
 const { Operation } = Oas;
 
 const CopyCode = require('./CopyCode');
-
-const generateCodeSnippet = require('./lib/generate-code-snippet');
 
 class CodeSample extends React.Component {
   constructor(props) {
@@ -90,7 +89,7 @@ class CodeSample extends React.Component {
             return <div className="hub-no-code">No code samples available</div>;
           }
 
-          const { snippet, code } = generateCodeSnippet(oas, oasUrl, operation, formData, auth, language);
+          const { snippet, code } = generateCodeSnippet(oas, operation, formData, auth, language, oasUrl);
 
           return (
             <div>
