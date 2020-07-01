@@ -30,3 +30,17 @@ exports[`ReadMe Magic Blocks Embed 1`] = `
 "[](https://youtu.be/J3-uKv1DShQ \\"@youtu.be\\")
 "
 `;
+
+exports[`ReadMe Magic Blocks Figure 1`] = `
+"<div class=\\"rdmd-pinned\\">
+
+<figure>
+
+![](https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg \\"rdme-blue.svg\\")
+
+<figcaption>Ok, pizza man.</figcaption>
+</figure>
+
+</div>
+"
+`;
