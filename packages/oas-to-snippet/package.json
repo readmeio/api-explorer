@@ -1,0 +1,41 @@
+{
+  "name": "@readme/oas-to-snippet",
+  "description": "Transform an OpenAPI operation into a code snippet",
+  "version": "6.11.1",
+  "main": "src/index.js",
+  "dependencies": {
+    "@readme/oas-extensions": "^6.10.2",
+    "@readme/oas-to-har": "^6.11.1",
+    "@readme/oas-tooling": "^3.4.7",
+    "@readme/syntax-highlighter": "^6.10.2",
+    "httpsnippet": "^1.20.0",
+    "httpsnippet-client-api": "^2.1.5"
+  },
+  "peerDependencies": {
+    "@readme/oas-tooling": "^3.4.7"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
+    "test": "jest --coverage"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org",
+    "access": "public"
+  },
+  "author": "Jon Ursenbach <jon@readme.io>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readmeio/api-explorer.git",
+    "directory": "packages/oas-to-snippet"
+  },
+  "devDependencies": {
+    "@readme/eslint-config": "^3.2.0",
+    "eslint": "^7.0.0",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.1"
+  },
+  "prettier": "@readme/eslint-config/prettier"
+}

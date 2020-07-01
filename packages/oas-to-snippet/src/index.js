@@ -71,7 +71,7 @@ const supportedLanguages = {
   },
 };
 
-module.exports = (oas, oasUrl, operation, values, auth, lang) => {
+module.exports = (oas, operation, values, auth, lang, oasUrl) => {
   const har = generateHar(oas, operation, values, auth);
 
   // API SDK client needs additional runtime information on the API definition we're showing the user so it can
