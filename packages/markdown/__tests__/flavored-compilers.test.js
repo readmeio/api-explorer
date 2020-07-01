@@ -1,34 +1,22 @@
 const unified = require('unified');
+const sanitize = require('hast-util-sanitize/lib/github.json');
+
 const remarkParse = require('remark-parse');
 const remarkStringify = require('remark-stringify');
 const rehypeSanitize = require('rehype-sanitize');
 
-const parseCallouts = require('../processor/parse/flavored/callout');
-const parseCodeTabs = require('../processor/parse/flavored/code-tabs');
-const parseEmbeds = require('../processor/parse/flavored/embed');
+const parsers = Object.values(require('../processor/parse')).map(parser => parser.sanitize(sanitize));
+const compilers = Object.values(require('../processor/compile'));
 const options = require('../options.json').markdownOptions;
-const parser = require('../processor/parse/magic-block-parser');
 
-const DivCompiler = require('../processor/compile/div');
-const CodeTabsCompiler = require('../processor/compile/code-tabs');
-const CalloutCompiler = require('../processor/compile/callout');
-const EmbedCompiler = require('../processor/compile/embed');
-
-const sanitize = { attributes: [], tagNames: [] };
-const process = unified()
+const processor = unified()
   .use(remarkParse, options)
   .data('settings', { position: false })
-  .use(parser.sanitize(sanitize))
-  .use([parseCallouts.sanitize(sanitize), parseEmbeds.sanitize(sanitize), parseCodeTabs.sanitize(sanitize)])
+  .use(parsers)
   .use(rehypeSanitize);
 
-const parse = text => text && process().parse(text);
-const compile = tree =>
-  tree &&
-  process()
-    .use(remarkStringify, options)
-    .use([DivCompiler, CodeTabsCompiler, CalloutCompiler, EmbedCompiler])
-    .stringify(tree);
+const parse = text => text && processor().parse(text);
+const compile = tree => tree && processor().use(remarkStringify, options).use(compilers).stringify(tree);
 
 describe('ReadMe Flavored Blocks', () => {
   it('Embed', () => {
@@ -87,6 +75,29 @@ describe('ReadMe Magic Blocks', () => {
 
     And this is a paragraph!
     `;
+    const ast = parse(txt);
+    const out = compile(ast);
+    expect(out).toMatchSnapshot();
+  });
+
+  it('Figure', () => {
+    const txt = `[block:image]
+    {
+      "images": [
+        {
+          "image": [
+            "https://files.readme.io/6f52e22-man-eating-pizza-and-making-an-ok-gesture.jpg",
+            "rdme-blue.svg",
+            300,
+            54,
+            "#000000"
+          ],
+          "caption": "Ok, pizza man."
+        }
+      ],
+      "sidebar": true
+    }
+    [/block]`;
     const ast = parse(txt);
     const out = compile(ast);
     expect(out).toMatchSnapshot();
