@@ -1,6 +1,5 @@
 const HTTPSnippet = require('httpsnippet');
 const HTTPSnippetSimpleApiClient = require('httpsnippet-client-api');
-const syntaxHighlighter = require('@readme/syntax-highlighter');
 const uppercase = require('@readme/syntax-highlighter/uppercase');
 const generateHar = require('@readme/oas-to-har');
 
@@ -87,7 +86,7 @@ module.exports = (oas, operation, values, auth, lang, oasUrl) => {
   // Prevents errors if non-generated code snippet is selected and there isn't a way to generate a code snippet for it
   // (like for example `shell`).
   if (!language) {
-    return { snippet: false, code: '' };
+    return { code: '', highlightMode: false };
   }
 
   if (lang === 'node-simple') {
@@ -97,11 +96,9 @@ module.exports = (oas, operation, values, auth, lang, oasUrl) => {
     };
   }
 
-  const code = snippet.convert(...language.httpsnippet);
-
   return {
-    snippet: syntaxHighlighter(code, language.highlight, { dark: true }),
-    code,
+    code: snippet.convert(...language.httpsnippet),
+    highlightMode: language.highlight,
   };
 };
 

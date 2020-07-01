@@ -1,4 +1,3 @@
-const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
@@ -27,24 +26,20 @@ const formData = { path: { id: 123 } };
 test('should return falsy values for an unknown language', () => {
   const codeSnippet = generateCodeSnippet(oas, operation, {}, {}, 'css', oasUrl);
 
-  expect(codeSnippet.snippet).toBe(false);
-  expect(codeSnippet.code).toBe('');
-});
-
-test('should generate a HTML snippet for each lang', () => {
-  const { snippet } = generateCodeSnippet(oas, operation, {}, {}, 'node', oasUrl);
-
-  expect(shallow(snippet).hasClass('cm-s-tomorrow-night')).toBe(true);
+  expect(codeSnippet).toStrictEqual({
+    code: '',
+    highlightMode: false,
+  });
 });
 
 test('should pass through values to code snippet', () => {
-  const { snippet } = generateCodeSnippet(oas, operation, formData, {}, 'node', oasUrl);
+  const { code } = generateCodeSnippet(oas, operation, formData, {}, 'node', oasUrl);
 
-  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
+  expect(code).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('should pass through json values to code snippet', () => {
-  const { snippet } = generateCodeSnippet(
+  const { code } = generateCodeSnippet(
     oas,
     {
       path: '/path',
@@ -70,11 +65,11 @@ test('should pass through json values to code snippet', () => {
     oasUrl
   );
 
-  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching("body: {id: '123'}"));
+  expect(code).toStrictEqual(expect.stringMatching("body: {id: '123'}"));
 });
 
 test('should pass through form encoded values to code snippet', () => {
-  const { snippet } = generateCodeSnippet(
+  const { code } = generateCodeSnippet(
     oas,
     {
       path: '/path',
@@ -100,11 +95,11 @@ test('should pass through form encoded values to code snippet', () => {
     oasUrl
   );
 
-  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching("form: {id: '123'}"));
+  expect(code).toStrictEqual(expect.stringMatching("form: {id: '123'}"));
 });
 
 test('should not contain proxy url', () => {
-  const { snippet } = generateCodeSnippet(
+  const { code } = generateCodeSnippet(
     new Oas({ [extensions.PROXY_ENABLED]: true }),
     operation,
     formData,
@@ -113,13 +108,13 @@ test('should not contain proxy url', () => {
     oasUrl
   );
 
-  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
+  expect(code).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
 test('javascript should not contain `withCredentials`', () => {
-  const { snippet } = generateCodeSnippet(oas, operation, {}, {}, 'javascript', oasUrl);
+  const { code } = generateCodeSnippet(oas, operation, {}, {}, 'javascript', oasUrl);
 
-  expect(shallow(snippet).text()).not.toMatch(/withCredentials/);
+  expect(code).not.toMatch(/withCredentials/);
 });
 
 test('should return with unhighlighted code', () => {
@@ -130,7 +125,7 @@ test('should return with unhighlighted code', () => {
 
 test('should support node-simple', () => {
   const petstoreOas = new Oas(petstore);
-  const { snippet, code } = generateCodeSnippet(
+  const snippet = generateCodeSnippet(
     petstoreOas,
     petstoreOas.operation('/pets', 'get'),
     {
@@ -141,8 +136,8 @@ test('should support node-simple', () => {
     oasUrl
   );
 
-  expect(shallow(snippet).text()).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
-  expect(code).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
+  expect(snippet.code).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
+  expect(snippet.highlightMode).toBe('javascript');
 });
 
 describe('#getLangName()', () => {
