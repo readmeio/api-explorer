@@ -1,4 +1,3 @@
-const validate = require('har-validator');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
@@ -6,25 +5,6 @@ const oasToHar = require('../src/index');
 const commonParameters = require('./__fixtures__/common-parameters');
 
 const oas = new Oas();
-
-expect.extend({
-  toBeAValidHAR(har) {
-    return validate
-      .request(har.log.entries[0].request)
-      .then(() => {
-        return {
-          message: () => `expected supplied HAR not to be valid`,
-          pass: true,
-        };
-      })
-      .catch(err => {
-        return {
-          message: () => `expected supplied HAR to be valid\n\nError: ${this.utils.printReceived(err.errors)}`,
-          pass: false,
-        };
-      });
-  },
-});
 
 test('should output a har format', async () => {
   const har = oasToHar(oas);
