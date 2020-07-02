@@ -1,3 +1,5 @@
 paths-ignore:
   - '**/node_modules/**'
-  - '**/dist/**'
+  - 'packages/api-explorer/dist/*'
+  - 'packages/api-logs/dist/*'
+  - 'packages/markdown/dist/*'
