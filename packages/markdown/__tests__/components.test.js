@@ -1,3 +1,4 @@
+/* eslint-disable no-eval */
 const { mount } = require('enzyme');
 const React = require('react');
 const markdown = require('../index');
@@ -164,5 +165,48 @@ describe('Components', () => {
 
     const blank = mount(markdown.react('Pretest.\n\n###\n\nPosttest.'));
     expect(blank.find('Heading').text()).toBe('');
+  });
+});
+
+describe('Compatibility Mode', () => {
+  global.eval = jest.fn();
+  const tabs = `[block:api-header]
+{
+  "title": "I am a magical, mystical heading."
+}
+[/block]
+<div id="custom-target">Loading...</div>
+[block:html]
+${JSON.stringify({
+  html: '<script>\nconsole.log("World");\n</script>\n\n<b>Hello!</b>\n\n<script>\nconsole.log("World");\n</script>',
+})}
+[/block]
+
+[block:parameters]
+${JSON.stringify({
+  data: {
+    '0-0': "```js Tab Zed\nconsole.log('tab zed');\n```\n```js Tab One\nconsole.log('tab one')\n```",
+    '0-1':
+      '> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime repellat placeat expedita voluptatum fugiat rerum, accusamus eius dolorum sequi eveniet esse, adipisci soluta quia mollitia? Dolorem minus, dolores, rerum, pariatur sit quia eum esse voluptatibus ea veritatis non.',
+    '0-2': '',
+    'h-0': 'Hello',
+    'h-1': 'Bonjour',
+    'h-2': 'Willkommen',
+  },
+  cols: 2,
+  rows: 1,
+})}
+[/block]`;
+  const rdmd = markdown.react(tabs, { compatibilityMode: true });
+  const wrap = mount(rdmd);
+
+  it('Should use h1 tags for magic heading blocks.', () => expect(wrap.find('h1')).toHaveLength(1));
+
+  it('Should execute scripts in magic custom HTML blocks.', () => expect(global.eval).toHaveBeenCalledTimes(2));
+
+  it('Should allow block-level RDMD compoonents in tables.', () => {
+    const table = wrap.find('table');
+    expect(table.find('.CodeTabs')).toHaveLength(1);
+    expect(table.find('blockquote')).toHaveLength(1);
   });
 });

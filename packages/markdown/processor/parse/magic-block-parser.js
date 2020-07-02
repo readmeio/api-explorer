@@ -70,11 +70,12 @@ function tokenize(eat, value) {
       );
     }
     case 'api-header': {
+      const depth = json.level || (compatibilityMode ? 1 : 2);
       return eat(match)(
         WrapPinnedBlocks(
           {
             type: 'heading',
-            depth: json.level || 2,
+            depth,
             children: 'title' in json ? this.tokenizeInline(json.title, eat.now()) : '',
           },
           json
@@ -220,7 +221,13 @@ function tokenize(eat, value) {
         WrapPinnedBlocks(
           {
             type: 'html-block',
-            data: { hName: 'html-block', hProperties: { html: json.html } },
+            data: {
+              hName: 'html-block',
+              hProperties: {
+                html: json.html,
+                scripts: compatibilityMode,
+              },
+            },
           },
           json
         )
