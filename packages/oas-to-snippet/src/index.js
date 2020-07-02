@@ -3,7 +3,7 @@ const HTTPSnippetSimpleApiClient = require('httpsnippet-client-api');
 const uppercase = require('@readme/syntax-highlighter/uppercase');
 const generateHar = require('@readme/oas-to-har');
 
-module.exports.supportedLanguages = {
+const supportedLanguages = {
   c: {
     httpsnippet: ['c'],
     highlight: 'text/x-csrc',
@@ -81,7 +81,7 @@ module.exports = (oas, operation, values, auth, lang, oasUrl) => {
 
   const snippet = new HTTPSnippet(har);
 
-  const language = module.exports.supportedLanguages[lang];
+  const language = supportedLanguages[lang];
 
   // Prevents errors if non-generated code snippet is selected and there isn't a way to generate a code snippet for it
   // (like for example `shell`).
@@ -109,3 +109,5 @@ module.exports.getLangName = lang => {
 
   return uppercase(lang);
 };
+
+module.exports.supportedLanguages = supportedLanguages;
