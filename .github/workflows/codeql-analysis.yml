@@ -2,7 +2,7 @@ name: "Code scanning - action"
 
 on:
   push:
-  pull_request:
+  #pull_request:
   schedule:
     - cron: '0 12 * * 1'
 
@@ -28,6 +28,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
+        languages: javascript
         config-file: ./.github/codeql/config.yml
       # Override language selection by uncommenting this and choosing your languages
       # with:
