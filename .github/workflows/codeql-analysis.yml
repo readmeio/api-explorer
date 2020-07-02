@@ -2,7 +2,7 @@ name: "Code scanning - action"
 
 on:
   push:
-  #pull_request:
+  pull_request:
   schedule:
     - cron: '0 12 * * 1'
 
@@ -30,30 +30,11 @@ jobs:
       with:
         languages: javascript
         config-file: ./.github/codeql/config.yml
-      # Override language selection by uncommenting this and choosing your languages
-      # with:
-      #   languages: go, javascript, csharp, python, cpp, java
-
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    #- name: Autobuild
-    #  uses: github/codeql-action/autobuild@v1
 
     - name: Install Dependencies
       run: |
         npm ci
         npx lerna bootstrap --concurrency 2
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
-    #- run: |
-    #   make bootstrap
-    #   make release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
