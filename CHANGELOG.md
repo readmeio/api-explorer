@@ -1,3 +1,11 @@
+## 6.14.0 (2020-07-02)
+
+* build: updating dist files ([a2d903c](https://github.com/readmeio/api-explorer/commit/a2d903c))
+* enhancement(rdmd): more compat mode features! (#820) ([d2c95bc](https://github.com/readmeio/api-explorer/commit/d2c95bc)), closes [#820](https://github.com/readmeio/api-explorer/issues/820)
+* chore(snippet): exporting supported langs (#821) ([5ab8519](https://github.com/readmeio/api-explorer/commit/5ab8519)), closes [#821](https://github.com/readmeio/api-explorer/issues/821)
+
+
+
 ## <small>6.13.1 (2020-07-01)</small>
 
 * build: updating dist files ([22f9e7f](https://github.com/readmeio/api-explorer/commit/22f9e7f))
