@@ -109,3 +109,5 @@ module.exports.getLangName = lang => {
 
   return uppercase(lang);
 };
+
+module.exports.supportedLanguages = supportedLanguages;
