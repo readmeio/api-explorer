@@ -1,3 +1,11 @@
+## <small>6.14.1 (2020-07-06)</small>
+
+* build: updating dist files ([92a9664](https://github.com/readmeio/api-explorer/commit/92a9664))
+* chore(deps): upgrading httpsnippet-client-api to 2.1.6 (#824) ([f20c13c](https://github.com/readmeio/api-explorer/commit/f20c13c)), closes [#824](https://github.com/readmeio/api-explorer/issues/824)
+* ci: setting up codeql (#822) ([379510b](https://github.com/readmeio/api-explorer/commit/379510b)), closes [#822](https://github.com/readmeio/api-explorer/issues/822)
+
+
+
 ## 6.14.0 (2020-07-02)
 
 * build: updating dist files ([a2d903c](https://github.com/readmeio/api-explorer/commit/a2d903c))
