@@ -70,8 +70,8 @@
         ]
       }
     },
-    "/anything/apiKey-cookie": {
-      "post": {
+    "/cookies": {
+      "get": {
         "summary": "ApiKey security type via cookie",
         "responses": {
           "200": {
