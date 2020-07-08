@@ -606,7 +606,7 @@
         }
       }
     },
-    "/v2/v1adapter/{id}": {
+    "/v2/v1adapter/{id}/{test}": {
       "get": {
         "summary": "Find one item from the testv1adapter collection by ID",
         "tags": [
@@ -953,6 +953,15 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "description": "the doc test",
+            "name": "test",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
             }
           }
         ],

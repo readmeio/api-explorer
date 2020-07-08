@@ -26,7 +26,6 @@ class JsonForm extends Component {
       error: null,
       hasSchema: false
     }
-    this.unmounted = false
     this.jsonSchema = null
   }
 
@@ -37,15 +36,11 @@ class JsonForm extends Component {
       const resolvedRoot = resolveRootRef(convertedSchema)
       this.jsonSchema = resolvedRoot
       return this.setState({
-        hasSchema: true 
+        hasSchema: true
       })
     }catch(err) {
       return this.setState({error: err.message, hasSchema: false})
     }
-  }
-
-  componentWillUnmount() {
-    this.unmounted = true
   }
 
   createEditor(element, jsonSchema) {
@@ -67,7 +62,8 @@ class JsonForm extends Component {
         theme: 'antdTheme',
         max_depth: 3,
         use_default_values: false,
-        remove_empty_properties: false
+        remove_empty_properties: false,
+        validation_error_placement: 'below_field'
       });
       this.editor.on('change', () => onChange(this.editor.getValue()))
 

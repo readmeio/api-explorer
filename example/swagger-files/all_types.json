@@ -25,6 +25,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": ["number"],
                   "properties": {
                     "status": {
                       "type": "boolean",
@@ -114,4 +115,3 @@
     "x-samples-enabled": true,
     "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
   }
-  
