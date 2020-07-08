@@ -1,10 +1,10 @@
 {
   "name": "@mia-platform/markdown",
   "description": "ReadMe's React-based Markdown parser",
-  "version": "6.3.3",
+  "version": "6.4.0",
   "dependencies": {
-    "@mia-platform/syntax-highlighter": "^6.3.3",
-    "@mia-platform/variable": "^6.3.3",
+    "@mia-platform/syntax-highlighter": "^6.4.0",
+    "@mia-platform/variable": "^6.4.0",
     "hast-util-sanitize": "^1.2.0",
     "prop-types": "^15.6.2",
     "rehype-raw": "^3.0.0",

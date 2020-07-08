@@ -1,7 +1,7 @@
 {
   "name": "@mia-platform/oas-extensions",
   "description": "A list of extensions that ReadMe has added to the OAS spec",
-  "version": "6.3.3",
+  "version": "6.4.0",
   "scripts": {
     "test": "eslint -f unix ."
   },
