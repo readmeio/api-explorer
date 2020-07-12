@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+      - next
+
+jobs:
+  semantic-release:
+    name: Build & Publish
+    if: "!contains(github.event.head_commit.message, 'SKIP CI')"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [10.x]
+    steps:
+
+      # Setup Git Repository & Node
+      #
+      - name: Checkout branch (${{ github.ref }})
+        uses: actions/checkout@master
+      - name: Configure git
+        run: |
+          git config user.name "Jon Ursenbach"
+          git config user.email "jon@readme.io"
+      - name: Setup node (v${{ matrix.node-version }})
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install packages
+        run: |
+          npm ci
+          npx lerna bootstrap --concurrency 2
+        env:
+          CI: true
+
+      # Version, build, tag, and publish the new release;
+      #
+      - name: Build new release
+        run: npm run release # see: .releaserc for config
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_ADMIN || secrets.GITHUB_TOKEN }} # auth to push release to remote repo
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN || secrets.GITHUB_TOKEN }}   # auth to publish package to registry
+
+      # Commit and push the new release.
+      #
+      - name: Sync to remote
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+        continue-on-error: true
+      - name: Sync to next
+        if: "github.ref == 'refs/heads/master'" # merge changes in to @next remote when releasing on @latest (master)
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: next
+        continue-on-error: true
+
+      # Save the bundle as a GitHub workflow artifact.
+      #
+      - name: Save bundle
+        uses: actions/upload-artifact@v1
+        with:
+          name: Bundle
+          path: dist
+        continue-on-error: true
