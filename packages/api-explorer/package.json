@@ -10,7 +10,7 @@
     "@readme/oas-extensions": "^6.13.0",
     "@readme/oas-to-har": "^6.14.0",
     "@readme/oas-to-snippet": "^6.14.1",
-    "@readme/oas-tooling": "^3.5.0",
+    "@readme/oas-tooling": "^3.5.2",
     "@readme/react-jsonschema-form": "^1.1.5",
     "@readme/syntax-highlighter": "^6.13.0",
     "@readme/variable": "^6.13.0",
