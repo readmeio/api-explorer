@@ -48,17 +48,25 @@
   background: #eee;
   min-height: 224px;
 }
-.hub-reference .logs .logs-login {
+.hub-reference .logs .logs-login,
+.hub-reference .logs .logs-empty {
   align-items: center;
-  background: #F8F8F8;
-  border: 1px solid #DDDDDD;
+  background: #eff2f4;
+  border: 1px solid #dee5e8;
   border-radius: 3px;
   min-height: 160px;
   width: 97%;
 }
+.hub-reference .logs .logs-empty {
+  margin-top: 40px;
+}
+.hub-reference .logs .logs-empty > :last-child {
+  margin-bottom: 0 !important;
+}
 .hub-reference-theme-column .hub-reference .logs .logs-login {
   margin-bottom: 25px;
 }
+.hub-reference .logs .logs-empty svg,
 .hub-reference .logs .logs-login svg {
   margin-bottom: 10px;
 }
