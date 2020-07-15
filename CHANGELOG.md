@@ -1,3 +1,14 @@
+## 6.15.0 (2020-07-15)
+
+* build: updating dist files ([563fc28](https://github.com/readmeio/api-explorer/commit/563fc28))
+* feat: adding support for highlighting diffs (#835) ([eb04c38](https://github.com/readmeio/api-explorer/commit/eb04c38)), closes [#835](https://github.com/readmeio/api-explorer/issues/835)
+* style(rdmd): fix link text-decoration (#826) ([e080e92](https://github.com/readmeio/api-explorer/commit/e080e92)), closes [#826](https://github.com/readmeio/api-explorer/issues/826)
+* chore(deps-dev): bump nock from 12.0.3 to 13.0.2 (#827) ([12a52b5](https://github.com/readmeio/api-explorer/commit/12a52b5)), closes [#827](https://github.com/readmeio/api-explorer/issues/827)
+* chore(deps): upgrading @readme/oas-tooling to 3.5.2 (#834) ([700fe08](https://github.com/readmeio/api-explorer/commit/700fe08)), closes [#834](https://github.com/readmeio/api-explorer/issues/834)
+* docs: make cookie example better (#825) ([89480ee](https://github.com/readmeio/api-explorer/commit/89480ee)), closes [#825](https://github.com/readmeio/api-explorer/issues/825)
+
+
+
 ## <small>6.14.1 (2020-07-06)</small>
 
 * build: updating dist files ([92a9664](https://github.com/readmeio/api-explorer/commit/92a9664))
