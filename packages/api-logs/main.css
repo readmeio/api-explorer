@@ -48,8 +48,8 @@
   background: #eee;
   min-height: 224px;
 }
-.hub-reference .logs .logs-login,
-.hub-reference .logs .logs-empty {
+.hub-reference .logs .logs-empty,
+.hub-reference .logs .logs-login {
   align-items: center;
   background: #eff2f4;
   border: 1px solid #dee5e8;
