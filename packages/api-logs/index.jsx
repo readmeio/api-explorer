@@ -3,14 +3,8 @@ const PropTypes = require('prop-types');
 const querystring = require('querystring');
 const retry = require('async-retry');
 
-const ChartSvg = props => (
-  <svg
-    fill="var(--project-color-primary, #747c84)"
-    height="19"
-    viewBox="0 0 24 19"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+const IconSvg = () => (
+  <svg height="19" viewBox="0 0 24 19" width="24" xmlns="http://www.w3.org/2000/svg">
     <path d="M3.29102 8.82048C3.29102 8.43813 3.59388 8.12817 3.96749 8.12817H12.0851C12.4587 8.12817 12.7616 8.43813 12.7616 8.82048C12.7616 9.20283 12.4587 9.51279 12.0851 9.51279H3.96749C3.59388 9.51279 3.29102 9.20283 3.29102 8.82048Z" />
     <path d="M3.29102 3.5751C3.29102 3.16916 3.61256 2.84009 4.00921 2.84009C4.40587 2.84009 4.72741 3.16916 4.72741 3.5751C4.72741 3.98104 4.40587 4.31011 4.00921 4.31011C3.61256 4.31011 3.29102 3.98104 3.29102 3.5751Z" />
     <path d="M5.99707 3.5751C5.99707 3.16916 6.31862 2.84009 6.71527 2.84009C7.11192 2.84009 7.43347 3.16916 7.43347 3.5751C7.43347 3.98104 7.11192 4.31011 6.71527 4.31011C6.31862 4.31011 5.99707 3.98104 5.99707 3.5751Z" />
@@ -220,7 +214,7 @@ class Logs extends React.Component {
     if (!logs.length) {
       return (
         <div className="logs-empty">
-          <ChartSvg />
+          <IconSvg />
           <p>No Logs</p>
         </div>
       );
@@ -253,7 +247,7 @@ class Logs extends React.Component {
           </div>
           <div>
             <div className="logs-login">
-              <ChartSvg />
+              <IconSvg />
               <p>Log in to view your API logs for this endpoint</p>
               <a className="logs-login-button" href={loginUrl}>
                 Log In
