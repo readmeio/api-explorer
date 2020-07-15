@@ -69,6 +69,24 @@ exports[`Supported languages Dart should syntax highlight an example 1`] = `
 </span>"
 `;
 
+exports[`Supported languages Diff should syntax highlight an example 1`] = `
+"<span class=\\"cm-s-neo\\">diff --git a/index.html b/index.html
+index c1d9156..7764744 100644
+<span class=\\"cm-negative\\">--- a/index.html</span>
+<span class=\\"cm-positive\\">+++ b/index.html</span>
+<span class=\\"cm-meta\\">@@ -95,7 +95,8 @@ StringStream.prototype = {</span>
+     &lt;script&gt;
+       var editor = CodeMirror.fromTextArea(document.getElementById(&quot;code&quot;), {
+         lineNumbers: true,
+<span class=\\"cm-negative\\">-        autoMatchBrackets: true</span>
+<span class=\\"cm-positive\\">+        autoMatchBrackets: true,</span>
+<span class=\\"cm-positive\\">+      onGutterClick: function(x){console.log(x);}</span>
+       });
+     &lt;/script&gt;
+   &lt;/body&gt;
+</span>"
+`;
+
 exports[`Supported languages Dockerfile should syntax highlight an example 1`] = `
 "<span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">FROM</span> alpine:3.4
 </span>"
