@@ -27,6 +27,7 @@ module.exports = {
   csharp: ['clike', 'text/x-csharp'],
   curl: 'shell',
   d: 'd',
+  diff: 'diff',
   ecmascript: 'javascript',
   erl: 'erlang',
   go: ['go', 'text/x-go'],
