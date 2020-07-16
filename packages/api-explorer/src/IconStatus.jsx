@@ -11,6 +11,11 @@ function IconStatus({ status, name }) {
     return <span />;
   }
 
+  let visibleStatusCode = '';
+  if (statusCode.code) {
+    visibleStatusCode = `${statusCode.code} `;
+  }
+
   return (
     <span
       className={classNames({
@@ -18,7 +23,8 @@ function IconStatus({ status, name }) {
         httperror: !statusCode.success,
       })}
     >
-      <i className="fa fa-circle" /> {statusCode.code} <em>{name || statusCode.message}</em>
+      <i className="fa fa-circle" /> {visibleStatusCode}
+      <em>{name || statusCode.message}</em>
     </span>
   );
 }

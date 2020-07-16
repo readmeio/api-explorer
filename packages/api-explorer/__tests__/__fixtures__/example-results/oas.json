@@ -14,6 +14,24 @@
       "get": {
         "description": "",
         "responses": {
+          "default": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {
+                      "user": {
+                        "id": "12343354",
+                        "email": "test@example.com",
+                        "name": "Test user name"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
