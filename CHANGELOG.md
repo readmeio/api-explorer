@@ -1,3 +1,11 @@
+## <small>6.15.1 (2020-07-16)</small>
+
+* build: updating dist files ([d9bda4f](https://github.com/readmeio/api-explorer/commit/d9bda4f))
+* fix: upgrading fetch-har to 3.0.1 (#838) ([2c9b0ac](https://github.com/readmeio/api-explorer/commit/2c9b0ac)), closes [#838](https://github.com/readmeio/api-explorer/issues/838)
+* style(logs): match null state to logged-out designs (#833) ([9a6a8da](https://github.com/readmeio/api-explorer/commit/9a6a8da)), closes [#833](https://github.com/readmeio/api-explorer/issues/833)
+
+
+
 ## 6.15.0 (2020-07-15)
 
 * build: updating dist files ([563fc28](https://github.com/readmeio/api-explorer/commit/563fc28))
