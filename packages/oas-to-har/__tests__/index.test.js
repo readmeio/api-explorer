@@ -860,6 +860,69 @@ describe('requestBody', () => {
       ).toBeUndefined();
     });
 
+    describe('multipart/form-data', () => {
+      it('should handle multipart/form-data request bodies', () => {
+        const har = oasToHar(
+          new Oas({
+            components: {
+              requestBodies: {
+                payload: {
+                  required: true,
+                  content: {
+                    'multipart/form-data': {
+                      schema: {
+                        type: 'object',
+                        properties: {
+                          'Document file': {
+                            type: 'string',
+                            format: 'binary',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              securitySchemes: {
+                bearerAuth: {
+                  type: 'apiKey',
+                  name: 'Authorization',
+                  in: 'header',
+                },
+              },
+            },
+          }),
+          {
+            path: '/multipart',
+            method: 'post',
+            security: [
+              {
+                bearerAuth: [],
+              },
+            ],
+            requestBody: {
+              $ref: '#/components/requestBodies/payload',
+            },
+            responses: {
+              default: {
+                description: 'OK',
+              },
+            },
+          },
+          {
+            body: {
+              'Document file': '.....',
+            },
+          }
+        );
+
+        expect(har.log.entries[0].request.headers).toStrictEqual([
+          { name: 'Content-Type', value: 'multipart/form-data' },
+        ]);
+        expect(har.log.entries[0].request.postData.mimeType).toBe('multipart/form-data');
+      });
+    });
+
     describe('`json` type', () => {
       it('should work for refs that require a lookup', () => {
         expect(
