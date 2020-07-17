@@ -66,7 +66,7 @@ class ResponseSchema extends React.Component {
           <select className="switcher-switch" onChange={this.changeHandler} value={this.state.selectedStatus}>
             {keys.map(status => (
               <option key={status} value={status}>
-                {status}
+                {status === 'default' ? 'Default' : status}
               </option>
             ))}
           </select>
