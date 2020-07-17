@@ -50,6 +50,22 @@ describe('createCodeShower', () => {
         ],
         status: '400',
       },
+      {
+        languages: [
+          {
+            code: encodeJsonExample({
+              user: {
+                id: 12343354,
+                email: 'test@example.com',
+                name: 'Test user name',
+              },
+            }),
+            language: 'application/json',
+            multipleExamples: false,
+          },
+        ],
+        status: 'default',
+      },
     ]);
   });
 

@@ -18,7 +18,7 @@ test('should display a header with a dropdown', () => {
   const responseSchema = shallow(<ResponseSchema {...props} />);
 
   expect(responseSchema.find('h3').text()).toContain('Response');
-  expect(responseSchema.find('select option').map(el => el.text())).toStrictEqual(['200', '400', '404']);
+  expect(responseSchema.find('select option').map(el => el.text())).toStrictEqual(['200', '400', '404', 'Default']);
 });
 
 test('selectedStatus should change state of selectedStatus', () => {
