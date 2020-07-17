@@ -25,7 +25,7 @@
     "rehype-sanitize": "^3.0.1",
     "rehype-stringify": "^6.0.0",
     "remark-breaks": "^1.0.0",
-    "remark-parse": "^7.0.2",
+    "remark-parse": "^8.0.3",
     "remark-rehype": "^7.0.0",
     "remark-slug": "^6.0.0",
     "remark-stringify": "^8.0.0",
