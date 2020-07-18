@@ -1,3 +1,20 @@
+## <small>6.15.2 (2020-07-18)</small>
+
+* build: updating dist files ([d08064d](https://github.com/readmeio/api-explorer/commit/d08064d))
+* fix: adding support for handling requestBody if its in a $ref (#847) ([7f80255](https://github.com/readmeio/api-explorer/commit/7f80255)), closes [#847](https://github.com/readmeio/api-explorer/issues/847)
+* feat: adding support for handling `default` responses (#846) ([783fe1a](https://github.com/readmeio/api-explorer/commit/783fe1a)), closes [#846](https://github.com/readmeio/api-explorer/issues/846)
+* chore(deps): bump lodash from 4.17.15 to 4.17.19 in /packages/api-logs (#843) ([50d7600](https://github.com/readmeio/api-explorer/commit/50d7600)), closes [#843](https://github.com/readmeio/api-explorer/issues/843)
+* chore(deps): bump lodash from 4.17.15 to 4.17.19 in /packages/markdown (#844) ([0088cd9](https://github.com/readmeio/api-explorer/commit/0088cd9)), closes [#844](https://github.com/readmeio/api-explorer/issues/844)
+* chore(deps): bump lodash from 4.17.15 to 4.17.19 in /packages/oas-to-har (#840) ([9a7ffa7](https://github.com/readmeio/api-explorer/commit/9a7ffa7)), closes [#840](https://github.com/readmeio/api-explorer/issues/840)
+* chore(deps): bump lodash from 4.17.15 to 4.17.19 in /packages/variable (#839) ([fc545eb](https://github.com/readmeio/api-explorer/commit/fc545eb)), closes [#839](https://github.com/readmeio/api-explorer/issues/839)
+* chore(deps): bump lodash in /packages/api-explorer (#837) ([1f62788](https://github.com/readmeio/api-explorer/commit/1f62788)), closes [#837](https://github.com/readmeio/api-explorer/issues/837)
+* chore(deps): bump lodash in /packages/markdown-magic (#841) ([aa44d36](https://github.com/readmeio/api-explorer/commit/aa44d36)), closes [#841](https://github.com/readmeio/api-explorer/issues/841)
+* chore(deps): bump lodash in /packages/oas-extensions (#836) ([d0e2f34](https://github.com/readmeio/api-explorer/commit/d0e2f34)), closes [#836](https://github.com/readmeio/api-explorer/issues/836)
+* chore(deps): bump lodash in /packages/oas-to-snippet (#842) ([e71eb63](https://github.com/readmeio/api-explorer/commit/e71eb63)), closes [#842](https://github.com/readmeio/api-explorer/issues/842)
+* chore(deps): bump lodash in /packages/syntax-highlighter (#845) ([07759a6](https://github.com/readmeio/api-explorer/commit/07759a6)), closes [#845](https://github.com/readmeio/api-explorer/issues/845)
+
+
+
 ## <small>6.15.1 (2020-07-16)</small>
 
 * build: updating dist files ([d9bda4f](https://github.com/readmeio/api-explorer/commit/d9bda4f))
