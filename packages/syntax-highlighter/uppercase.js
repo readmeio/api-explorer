@@ -19,6 +19,7 @@ const codeTypes = {
   curl: 'cURL',
   d: 'D',
   dart: 'Dart',
+  diff: 'Diff',
   dockerfile: 'Dockerfile',
   ecmascript: 'ECMAScript',
   erl: 'Erlang',

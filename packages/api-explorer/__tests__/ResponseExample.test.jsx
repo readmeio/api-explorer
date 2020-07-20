@@ -8,6 +8,7 @@ const string = require('./__fixtures__/string/oas.json');
 const exampleResults = require('./__fixtures__/example-results/oas');
 
 const ResponseExample = require('../src/ResponseExample');
+const ExampleTabs = require('../src/ExampleTabs');
 
 const oas = new Oas(petstore);
 
@@ -38,7 +39,11 @@ test('should show each example', () => {
     <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />
   );
 
-  expect(example.find('pre')).toHaveLength(2);
+  expect(example.find(ExampleTabs).render().find('.tabber-tab').text().trim()).toStrictEqual(
+    '200 OK 400 Bad Request Default'
+  );
+
+  expect(example.find('pre')).toHaveLength(3);
 });
 
 test('should display json viewer', () => {

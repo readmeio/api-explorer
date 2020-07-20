@@ -18207,9 +18207,9 @@ var PropTypes = __webpack_require__(7); // Only load CodeMirror in the browser, 
 
 var syntaxHighlighter = typeof window !== 'undefined' ? __webpack_require__(335) : false;
 
-var canonicalLanguage = __webpack_require__(363);
+var canonicalLanguage = __webpack_require__(364);
 
-var copy = __webpack_require__(364);
+var copy = __webpack_require__(365);
 
 function CopyCode(_ref) {
   var code = _ref.code,
@@ -18522,7 +18522,7 @@ if (true) {
 
 (function(mod) {
   if (true) // CommonJS
-    mod(__webpack_require__(0), __webpack_require__(349), __webpack_require__(102), __webpack_require__(350));
+    mod(__webpack_require__(0), __webpack_require__(350), __webpack_require__(102), __webpack_require__(351));
   else {}
 })(function(CodeMirror) {
   "use strict";
@@ -19629,6 +19629,7 @@ var codeTypes = {
   curl: 'cURL',
   d: 'D',
   dart: 'Dart',
+  diff: 'Diff',
   dockerfile: 'Dockerfile',
   ecmascript: 'ECMAScript',
   erl: 'Erlang',
@@ -20080,7 +20081,7 @@ var React = __webpack_require__(2);
 
 var PropTypes = __webpack_require__(7);
 
-var Lightbox = __webpack_require__(366);
+var Lightbox = __webpack_require__(367);
 
 var Image = /*#__PURE__*/function (_React$Component) {
   _inherits(Image, _React$Component);
@@ -21174,7 +21175,7 @@ module.exports.sanitize = function (sanitizeSchema) {
 /* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Emoji = __webpack_require__(368).emoji;
+var Emoji = __webpack_require__(369).emoji;
 
 var emojis = new Emoji();
 var colon = ':';
@@ -21571,24 +21572,24 @@ var _require = __webpack_require__(331),
  */
 
 
-var customParsers = Object.values(__webpack_require__(367)).map(function (parser) {
+var customParsers = Object.values(__webpack_require__(368)).map(function (parser) {
   return parser.sanitize(sanitize);
 });
 /* Custom Unified Compilers
  */
 
-var customCompilers = Object.values(__webpack_require__(369));
+var customCompilers = Object.values(__webpack_require__(370));
 /* Custom Unified Plugins
  */
 
-var sectionAnchorId = __webpack_require__(370);
+var sectionAnchorId = __webpack_require__(371);
 
-var tableFlattening = __webpack_require__(372);
+var tableFlattening = __webpack_require__(373);
 
-var toPlainText = __webpack_require__(373); // Processor Option Defaults
+var toPlainText = __webpack_require__(374); // Processor Option Defaults
 
 
-var options = __webpack_require__(374); // Sanitization Schema Defaults
+var options = __webpack_require__(375); // Sanitization Schema Defaults
 
 
 sanitize.clobberPrefix = '';
@@ -41365,13 +41366,13 @@ __webpack_require__(347);
 
 __webpack_require__(348);
 
+__webpack_require__(349);
+
 __webpack_require__(101);
 
-__webpack_require__(351);
+__webpack_require__(352);
 
 __webpack_require__(102);
-
-__webpack_require__(352);
 
 __webpack_require__(353);
 
@@ -41392,6 +41393,8 @@ __webpack_require__(360);
 __webpack_require__(361);
 
 __webpack_require__(362);
+
+__webpack_require__(363);
 
 function getMode(lang) {
   var mode = lang;
@@ -41497,6 +41500,7 @@ module.exports = {
   csharp: ['clike', 'text/x-csharp'],
   curl: 'shell',
   d: 'd',
+  diff: 'diff',
   ecmascript: 'javascript',
   erl: 'erlang',
   go: ['go', 'text/x-go'],
@@ -42552,6 +42556,56 @@ CodeMirror.defineMode("d", function(config, parserConfig) {
 
 (function(mod) {
   if (true) // CommonJS
+    mod(__webpack_require__(0));
+  else {}
+})(function(CodeMirror) {
+"use strict";
+
+CodeMirror.defineMode("diff", function() {
+
+  var TOKEN_NAMES = {
+    '+': 'positive',
+    '-': 'negative',
+    '@': 'meta'
+  };
+
+  return {
+    token: function(stream) {
+      var tw_pos = stream.string.search(/[\t ]+?$/);
+
+      if (!stream.sol() || tw_pos === 0) {
+        stream.skipToEnd();
+        return ("error " + (
+          TOKEN_NAMES[stream.string.charAt(0)] || '')).replace(/ $/, '');
+      }
+
+      var token_name = TOKEN_NAMES[stream.peek()] || stream.skipToEnd();
+
+      if (tw_pos === -1) {
+        stream.skipToEnd();
+      } else {
+        stream.pos = tw_pos;
+      }
+
+      return token_name;
+    }
+  };
+});
+
+CodeMirror.defineMIME("text/x-diff", "diff");
+
+});
+
+
+/***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (true) // CommonJS
     mod(__webpack_require__(0), __webpack_require__(100));
   else {}
 })(function(CodeMirror) {
@@ -42758,7 +42812,7 @@ CodeMirror.defineMode("d", function(config, parserConfig) {
 
 
 /***/ }),
-/* 346 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -43380,7 +43434,7 @@ CodeMirror.defineMode("erlang", function(cmCfg) {
 
 
 /***/ }),
-/* 347 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -43570,7 +43624,7 @@ CodeMirror.defineMIME("text/x-go", "go");
 
 
 /***/ }),
-/* 348 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -43806,7 +43860,7 @@ CodeMirror.defineMIME("text/x-groovy", "groovy");
 
 
 /***/ }),
-/* 349 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -44222,7 +44276,7 @@ if (!CodeMirror.mimeModes.hasOwnProperty("text/html"))
 
 
 /***/ }),
-/* 350 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -45085,7 +45139,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
 
 
 /***/ }),
-/* 351 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -45201,7 +45255,7 @@ CodeMirror.defineMIME("message/http", "http");
 
 
 /***/ }),
-/* 352 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -45629,7 +45683,7 @@ CodeMirror.defineMIME("text/x-julia", "julia");
 
 
 /***/ }),
-/* 353 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -46469,7 +46523,7 @@ function eatSuffix(stream, c){
 
 
 /***/ }),
-/* 354 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -46706,7 +46760,7 @@ function eatSuffix(stream, c){
 
 
 /***/ }),
-/* 355 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -47107,7 +47161,7 @@ CodeMirror.defineMIME('application/x-powershell', 'powershell');
 
 
 /***/ }),
-/* 356 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -47509,7 +47563,7 @@ CodeMirror.defineMIME('application/x-powershell', 'powershell');
 
 
 /***/ }),
-/* 357 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -47810,7 +47864,7 @@ CodeMirror.defineMIME("text/x-ruby", "ruby");
 
 
 /***/ }),
-/* 358 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -47885,7 +47939,7 @@ CodeMirror.defineMIME("text/rust", "rust");
 
 
 /***/ }),
-/* 359 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -48040,7 +48094,7 @@ CodeMirror.defineMIME('application/x-sh', 'shell');
 
 
 /***/ }),
-/* 360 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -48546,7 +48600,7 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
 
 
 /***/ }),
-/* 361 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -48772,7 +48826,7 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
 
 
 /***/ }),
-/* 362 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -48895,7 +48949,7 @@ CodeMirror.defineMIME("text/yaml", "yaml");
 
 
 /***/ }),
-/* 363 */
+/* 364 */
 /***/ (function(module, exports) {
 
 var modeAliases = {
@@ -48960,13 +49014,13 @@ module.exports = function (language) {
 };
 
 /***/ }),
-/* 364 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var deselectCurrent = __webpack_require__(365);
+var deselectCurrent = __webpack_require__(366);
 
 var clipboardToIE11Formatting = {
   "text/plain": "Text",
@@ -49080,7 +49134,7 @@ module.exports = copy;
 
 
 /***/ }),
-/* 365 */
+/* 366 */
 /***/ (function(module, exports) {
 
 
@@ -49125,7 +49179,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 366 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -49180,7 +49234,7 @@ var Lightbox = function Lightbox(_ref, ref) {
 module.exports = React.forwardRef(Lightbox);
 
 /***/ }),
-/* 367 */
+/* 368 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49215,7 +49269,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 368 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Autogenerated by build.js; do not edit!
@@ -49229,7 +49283,7 @@ function Emoji() {
 if(true) {exports.emoji = Emoji;}
 
 /***/ }),
-/* 369 */
+/* 370 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49268,12 +49322,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 370 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var flatMap = __webpack_require__(128);
 
-var kebabCase = __webpack_require__(371);
+var kebabCase = __webpack_require__(372);
 
 var matchTag = /^h[1-6]$/g;
 /** Concat a deep text value from an AST node's children
@@ -49330,7 +49384,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 371 */
+/* 372 */
 /***/ (function(module, exports) {
 
 /**
@@ -49771,7 +49825,7 @@ module.exports = kebabCase;
 
 
 /***/ }),
-/* 372 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -49844,7 +49898,7 @@ module.exports = function () {
 module.exports.tableFlattening = transformer;
 
 /***/ }),
-/* 373 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toString = __webpack_require__(122);
@@ -49856,7 +49910,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 374 */
+/* 375 */
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"correctnewlines\":false,\"markdownOptions\":{\"fences\":true,\"commonmark\":true,\"gfm\":true,\"ruleSpaces\":false,\"listItemIndent\":\"1\",\"spacedTable\":true,\"paddedTable\":true,\"setext\":true},\"settings\":{\"position\":false},\"normalize\":true,\"compatibilityMode\":false}");

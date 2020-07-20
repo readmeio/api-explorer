@@ -1,0 +1,14 @@
+diff --git a/index.html b/index.html
+index c1d9156..7764744 100644
+--- a/index.html
++++ b/index.html
+@@ -95,7 +95,8 @@ StringStream.prototype = {
+     <script>
+       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+         lineNumbers: true,
+-        autoMatchBrackets: true
++        autoMatchBrackets: true,
++      onGutterClick: function(x){console.log(x);}
+       });
+     </script>
+   </body>

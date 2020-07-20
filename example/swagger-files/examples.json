@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "http://example.com"
+      "url": "https://httpbin.org/"
     }
   ],
   "info": {
@@ -10,11 +10,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/results": {
+    "/examples": {
       "get": {
-        "description": "",
         "responses": {
-          "200": {
+          "default": {
             "description": "OK",
             "content": {
               "application/json": {
@@ -80,8 +79,7 @@
           "400": {
             "$ref": "#/components/responses/400-Response-Ref"
           }
-        },
-        "summary": "Update Password"
+        }
       }
     }
   },
@@ -101,12 +99,7 @@
           }
         }
       }
-    },
-    "parameters": {},
-    "examples": {},
-    "requestBodies": {},
-    "securitySchemes": {},
-    "headers": {}
+    }
   },
   "x-explorer-enabled": true,
   "x-samples-enabled": true,
