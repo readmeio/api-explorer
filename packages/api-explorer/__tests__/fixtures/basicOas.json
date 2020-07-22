@@ -79,9 +79,6 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "example": {
-                "lorem": "ipsum"
-              },
               "properties": {
                 "lorem": {
                   "type": "string"

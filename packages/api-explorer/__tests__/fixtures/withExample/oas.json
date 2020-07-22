@@ -26,13 +26,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "example": {
-                  "pet_type": "Carlino",
-                  "pet_children": [
-                    "john",
-                    "doo"
-                  ]
-                },
                 "anyOf": [
                   {
                     "title": "Pet by Type",

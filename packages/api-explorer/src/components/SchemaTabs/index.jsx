@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash.get'
-import jsf from 'json-schema-faker'
 import refParser from '@apidevtools/json-schema-ref-parser'
 import {FormattedMessage} from 'react-intl';
 import {omit} from 'ramda'
+import {Alert} from 'antd'
 
 import parametersToJsonSchema from '../../lib/parameters-to-json-schema'
+import generateFakeSchema from '../../../lib/generateFakeSchema'
+
 import BlockWithTab from '../BlockWithTab'
 import colors from '../../colors'
 import JsonViewer from "../JsonViewer";
@@ -46,10 +48,6 @@ function renderMissingSchema(nameSchema) {
     </div>
   )
 }
-jsf.option({
-  failOnInvalidTypes: false,
-  useDefaultValue: true,
-})
 
 const styles = {
   responseSchemaWrapper: {
@@ -93,10 +91,23 @@ export default class SchemaTabs extends Component {
 
   renderSchemaExample() {
     const {schema} = this.state
+    let example = get(schema, EXAMPLE)
+
+    if (schema.type === 'array') {
+      example = get(schema.items, EXAMPLE)
+    }
+
+    let generatedSchema
+    try {
+      generatedSchema = generateFakeSchema(example)
+    } catch (error) {
+      return <Alert type={'error'} message={error.message} />
+    }
+
     return (
       <JsonViewer
         missingMessage={'schemaTabs.missing.example'}
-        schema={schema.example}
+        schema={example || generatedSchema}
         key={'json-viewer-example'}
       />
     )
@@ -134,7 +145,6 @@ export default class SchemaTabs extends Component {
     const {operation} = this.props
     const {selected, schema} = this.state
     const hasSchema = schema && Object.keys(schema).length > 0
-    const hasExample = hasSchema && schema.example
     const hasResponses = operation && operation.responses && Object.keys(operation.responses).length > 0
 
     const selectedType = () => {
@@ -146,7 +156,7 @@ export default class SchemaTabs extends Component {
           return hasResponses ? this.renderResponseSchema() : renderMissingSchema(RESPONSE)
         }
         case EXAMPLE: {
-          return hasExample ? this.renderSchemaExample() : renderMissingSchema(EXAMPLE)
+          return hasSchema ? this.renderSchemaExample() : renderMissingSchema(EXAMPLE)
         }
         default: {
           return null

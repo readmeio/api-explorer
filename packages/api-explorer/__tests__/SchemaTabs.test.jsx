@@ -6,7 +6,7 @@ import ReactTestUtils from 'react-dom/test-utils'
 import { omit } from 'ramda'
 import { FormattedMessage } from 'react-intl';
 import jsf from 'json-schema-faker'
-import {Button} from "antd";
+import {Button, Alert} from "antd";
 import ReactJson from 'react-json-view'
 
 import OAS from './fixtures/basicOas.json'
@@ -21,6 +21,8 @@ import strings from '../i18n/en.json'
 
 const operationWithExample = require('./fixtures/withExample/operation.json')
 const oasWithExample = require('./fixtures/withExample/oas.json')
+const maxStackOas = require('./fixtures/withExample/maxStackOas.json')
+const maxStackOperation = require('./fixtures/withExample/maxStackOperation.json')
 
 jest.mock('json-schema-faker')
 
@@ -94,9 +96,35 @@ describe('SchemaTabs', () => {
       })
     })
 
+    test('render generated example when operation.requestBody.example is not set', (done) => {
+      const petId = 1234
+      // eslint-disable-next-line no-underscore-dangle
+      jsf._generateReturnValue(() => ({petId}))
+      element = shallow(<SchemaTabs {...props} />)
+      setTimeout(() => {
+        element.update()
+        expect(element.find(JsonViewer).prop('schema')).toEqual({petId})
+        done()
+      })
+    })
+
     test('render missing schema message', (done) => {
-      element = shallow(<SchemaTabs {...props} operation={omit(['requestBody'], OPERATION)} />)
+      const missingSchema = {}
+      element = shallow(<SchemaTabs {...props} operation={missingSchema} />)
       assertToHaveFoundMissingSchemaMessage(element, 'example', done)
+    })
+
+    test('render errors alert', (done) => {
+      // eslint-disable-next-line no-underscore-dangle
+      jsf._generateReturnValue(() => {
+        throw new Error('Maximum call stack size exceeded')
+      })
+      element = shallow(<SchemaTabs oas={maxStackOas} operation={maxStackOperation} />)
+      setTimeout(() => {
+        element.update()
+        expect(element.find(Alert).prop('message')).toEqual('Maximum call stack size exceeded')
+        done()
+      })
     })
   })
 
@@ -107,9 +135,6 @@ describe('SchemaTabs', () => {
         element.update()
         const expected = {
           type: 'object',
-          example: {
-            lorem: 'ipsum'
-          },
           properties: {
             lorem: {
               type: 'string'
