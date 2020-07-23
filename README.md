@@ -8,12 +8,15 @@ Open source components that make up ReadMe's API Explorer.
 
 This repo consists of the following npm modules:
 
-- [@readme/api-explorer](https://npm.im/@readme/api-explorer) — the React components that make up the explorer
-- [@readme/markdown](https://npm.im/@readme/markdown) — the markdown parser
-- [@readme/markdown-magic](https://npm.im/@readme/markdown-magic) — the legacy "magic block"-based markdown parser
-- [@readme/oas-extensions](https://npm.im/@readme/oas-extensions) — an exported object of our [OAS extensions](https://docs.readme.com/docs/swagger-extensions)
-- [@readme/oas-to-har](https://npm.im/@readme/oas-to-har) — utility to transform an OAS operation into a HAR representation
-- [@readme/syntax-highlighter](https://npm.im/@readme/syntax-highlighter) — the syntax highlighter in use on ReadMe
+- [@readme/api-explorer](https://npm.im/@readme/api-explorer) — React components that make up the API Explorer
+- [@readme/api-logs](https://npm.im/@readme/api-logs) — React components for ReadMe Metrics
+- [@readme/markdown](https://npm.im/@readme/markdown) — ReadMe's Markdown parser
+- [@readme/markdown-magic](https://npm.im/@readme/markdown-magic) — Our legacy "magic block"-based Markdown parser
+- [@readme/oas-extensions](https://npm.im/@readme/oas-extensions) — An exported object of our [OpenAPI extensions](https://docs.readme.com/docs/swagger-extensions)
+- [@readme/oas-to-har](https://npm.im/@readme/oas-to-har) — Utility to transform an OpenAPI operation into a HAR representation
+- [@readme/oas-to-snippet](https://npm.im/@readme/oas-to-snippet) — Utility to transform an OpenAPI operation into a code snippet
+- [@readme/syntax-highlighter](https://npm.im/@readme/syntax-highlighter) — The syntax highlighter in use on ReadMe
+- [@readme/variable](https://npm.im/@readme/variable) — React components for ReadMe custom variables
 
 ## Installation
 
@@ -39,6 +42,7 @@ npm start
 ```
 
 ## Fetching the latest stylesheet from ReadMe (for the demo site)
+
 ```
 # Fetch the latest
 curl https://readme.readme.io/css/bundle-hub2.css -o example/bundle-hub2.css
@@ -46,10 +50,3 @@ curl https://readme.readme.io/css/bundle-hub2.css -o example/bundle-hub2.css
 # Remove relative paths for gh-pages
 sed -i '' 's/\.\.\///g' example/bundle-hub2.css
 ```
-
-## Credits
-[Dom Harrington](https://github.com/domharrington)
-
-## License
-
-ISC
