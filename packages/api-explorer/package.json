@@ -11,7 +11,7 @@
     "@readme/oas-to-har": "^6.15.2",
     "@readme/oas-to-snippet": "^6.15.2",
     "@readme/oas-tooling": "^3.5.4",
-    "@readme/react-jsonschema-form": "^1.1.5",
+    "@readme/react-jsonschema-form": "^1.2.0",
     "@readme/syntax-highlighter": "^6.15.2",
     "@readme/variable": "^6.15.2",
     "classnames": "^2.2.5",
