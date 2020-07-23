@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "6.15.2",
+  "version": "6.16.0",
   "main": "dist/index.js",
   "dependencies": {
     "@readme/http-status-codes": "^7.1.0",

@@ -1,3 +1,11 @@
+## 6.16.0 (2020-07-23)
+
+* build: updating dist files ([15a2997](https://github.com/readmeio/api-explorer/commit/15a2997))
+* feat: upgrading @readme/react-jsonschema-form to v1.2.0 (#852) ([4e37271](https://github.com/readmeio/api-explorer/commit/4e37271)), closes [#852](https://github.com/readmeio/api-explorer/issues/852)
+* docs: updating the root readme a bit ([895a637](https://github.com/readmeio/api-explorer/commit/895a637))
+
+
+
 ## <small>6.15.2 (2020-07-18)</small>
 
 * build: updating dist files ([d08064d](https://github.com/readmeio/api-explorer/commit/d08064d))
