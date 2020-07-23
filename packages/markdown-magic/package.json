@@ -6,7 +6,7 @@
     "@readme/emojis": "1.0.0",
     "@readme/syntax-highlighter": "^6.15.2",
     "@readme/variable": "^6.15.2",
-    "hast-util-sanitize": "1.3.1",
+    "hast-util-sanitize": "3.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
     "rehype-raw": "4.0.2",
