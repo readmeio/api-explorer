@@ -11,59 +11,6 @@
   },
   "paths": {
     "/pets": {
-      "patch": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "anyOf": [
-                  {
-                    "title": "Pet by Type",
-                    "type": "object",
-                    "properties": {
-                      "pet_type": {
-                        "type": "string"
-                      },
-                      "pet_children": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "title": "Pet by Name",
-                    "type": "object",
-                    "properties": {
-                      "pet_name": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  {
-                    "title": "Pet by Address",
-                    "type": "object",
-                    "properties": {
-                      "pet_type": {
-                        "type": "string"
-                      },
-                      "pet_country": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Updated"
-          }
-        }
-      },
       "post": {
         "requestBody": {
           "content": {
@@ -75,12 +22,14 @@
                     "type": "object",
                     "properties": {
                       "pet_type": {
-                        "type": "string"
+                        "type": "string",
+                        "examples": ["carlino"]
                       },
                       "pet_children": {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "type": "string",
+                          "examples": ["john", "doo"]
                         }
                       }
                     }
@@ -88,6 +37,7 @@
                   {
                     "title": "Pet by Name",
                     "type": "object",
+                    "examples": [{ "pet_name": "scooby" }],
                     "properties": {
                       "pet_name": {
                         "type": "string"
@@ -102,7 +52,8 @@
                         "type": "string"
                       },
                       "pet_country": {
-                        "type": "string"
+                        "type": "string",
+                        "examples": ["neverland"]
                       }
                     }
                   }

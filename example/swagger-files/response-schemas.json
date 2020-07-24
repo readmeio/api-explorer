@@ -143,80 +143,61 @@
             "format": "int64"
           },
           "name": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name2": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name3": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name4": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name5": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name6": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name7": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name8": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name9": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name10": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name11": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name12": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name13": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name14": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name15": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name16": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name17": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name18": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "name19": {
-            "type": "string",
-            "example": "doggie"
+            "type": "string"
           },
           "photoUrls": {
             "type": "array",

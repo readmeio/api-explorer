@@ -91,23 +91,16 @@ export default class SchemaTabs extends Component {
 
   renderSchemaExample() {
     const {schema} = this.state
-    let example = get(schema, EXAMPLE)
-
-    if (schema.type === 'array') {
-      example = get(schema.items, EXAMPLE)
-    }
-
     let generatedSchema
     try {
-      generatedSchema = generateFakeSchema(example)
+      generatedSchema = generateFakeSchema(schema)
     } catch (error) {
       return <Alert type={'error'} message={error.message} />
     }
-
     return (
       <JsonViewer
         missingMessage={'schemaTabs.missing.example'}
-        schema={example || generatedSchema}
+        schema={generatedSchema}
         key={'json-viewer-example'}
       />
     )

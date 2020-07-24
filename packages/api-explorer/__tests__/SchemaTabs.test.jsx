@@ -84,26 +84,13 @@ describe('SchemaTabs', () => {
   })
 
   describe('with example schema selected', () => {
-    test('render jsonEditor', (done) => {
+    test('render jsonEditor with examples', (done) => {
+      const mockExample = {pet_type: 'carlino', pet_children: ['scooby', 'doo']}
+      jsf._generateReturnValue(() => mockExample)
       element = shallow(<SchemaTabs oas={oasWithExample} operation={operationWithExample} />)
-      const petType = 'Carlino'
-      const petChildren = ['john', 'doo']
       setTimeout(() => {
         element.update()
-        const expected = {pet_type: petType, pet_children: petChildren}
-        expect(element.find(JsonViewer).prop('schema')).toEqual(expected)
-        done()
-      })
-    })
-
-    test('render generated example when operation.requestBody.example is not set', (done) => {
-      const petId = 1234
-      // eslint-disable-next-line no-underscore-dangle
-      jsf._generateReturnValue(() => ({petId}))
-      element = shallow(<SchemaTabs {...props} />)
-      setTimeout(() => {
-        element.update()
-        expect(element.find(JsonViewer).prop('schema')).toEqual({petId})
+        expect(element.find(JsonViewer).prop('schema')).toEqual(mockExample)
         done()
       })
     })

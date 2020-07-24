@@ -3,51 +3,29 @@
     "content": {
       "application/json": {
         "schema": {
-          "example": {
-            "pet_type": "Carlino",
-            "pet_children": [
-              "john",
-              "doo"
-            ]
-          },
-          "anyOf": [
-            {
-              "title": "Pet by Type",
-              "type": "object",
-              "properties": {
-                "pet_type": {
-                  "type": "string"
-                },
-                "pet_children": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            {
-              "title": "Pet by Name",
-              "type": "object",
-              "properties": {
-                "pet_name": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "title": "Pet by Address",
-              "type": "object",
-              "properties": {
-                "pet_type": {
-                  "type": "number"
-                },
-                "pet_country": {
-                  "type": "any"
+          "type": "object",
+          "properties": {
+            "title": "Pet by Type",
+            "type": "object",
+            "properties": {
+              "pet_type": {
+                "type": "string",
+                "examples": [
+                  "carlino"
+                ]
+              },
+              "pet_children": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "examples": [
+                    "scooby",
+                    "doo"
+                  ]
                 }
               }
             }
-          ]
+          }
         }
       }
     }
@@ -80,111 +58,34 @@
     },
     "paths": {
       "/pets": {
-        "patch": {
-          "requestBody": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "example": {
-                    "pet_type": "Carlino",
-                    "pet_children": [
-                      "john",
-                      "doo"
-                    ]
-                  },
-                  "anyOf": [
-                    {
-                      "title": "Pet by Type",
-                      "type": "object",
-                      "properties": {
-                        "pet_type": {
-                          "type": "string"
-                        },
-                        "pet_children": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "title": "Pet by Name",
-                      "type": "object",
-                      "properties": {
-                        "pet_name": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "title": "Pet by Address",
-                      "type": "object",
-                      "properties": {
-                        "pet_type": {
-                          "type": "number"
-                        },
-                        "pet_country": {
-                          "type": "any"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Updated"
-            }
-          }
-        },
         "post": {
           "requestBody": {
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "title": "Pet by Type",
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "pet_type": {
-                            "type": "string"
-                          },
-                          "pet_children": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          }
+                  "type": "object",
+                  "properties": {
+                    "title": "Pet by Type",
+                    "type": "object",
+                    "properties": {
+                      "pet_type": {
+                        "type": "string",
+                        "examples": [
+                          "carlino"
+                        ]
+                      },
+                      "pet_children": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "examples": [
+                            "scooby",
+                            "doo"
+                          ]
                         }
                       }
-                    },
-                    {
-                      "title": "Pet by Name",
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "pet_name": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "title": "PetName",
-                      "type": "string"
-                    },
-                    {
-                      "title": "PetAge",
-                      "type": "number"
                     }
-                  ]
+                  }
                 }
               }
             }
