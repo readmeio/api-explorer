@@ -10,31 +10,9 @@ function setDefaultCustomization (JSONEditor) {
 
   editorsKeys.forEach(key => {
     JSONEditor.defaults.editors[key] = class Customization extends JSONEditor.defaults.editors[key] {
-      showEditJSON(){
-        super.showEditJSON()
-        if (this.editjson_holder && this.editjson_textarea && this.editjson_control) {
-          const outsideClickListener = event => {
-            if (!this.editjson_holder.contains(event.target) && this.editjson_holder.style.display !== 'none') {
-              this.hideEditJSON()
-              removeClickListener()
-            }
-          }
-          const removeClickListener = () => {
-            document.removeEventListener('click', outsideClickListener)
-          }
-          document.addEventListener('click', outsideClickListener)
-          this.editjson_textarea.style.width = '450px'
-          this.editjson_textarea.style.height = '340px'
-          const leftSize = parseInt(this.editjson_holder.style.left, 10) - this.editjson_holder.offsetWidth - parseInt(this.editjson_control.style.marginLeft, 10)
-          if(leftSize && typeof leftSize === 'number' && !isNaN(leftSize)){
-            this.editjson_holder.style.left = `${leftSize}px`
-          }
-          this.editjson_holder.style.top = `-104px`
-        }
-      }
       postBuild() {
         super.postBuild()
-        if (this.editjson_holder && this.editjson_textarea && this.editjson_copy && this.editjson_save && this.editjson_cancel) {
+        if (this.editjson_textarea && this.editjson_copy && this.editjson_save && this.editjson_cancel) {
           this.editjson_inline_header = document.createElement('div')
           this.editjson_inline_header.style.display = 'flex'
           this.editjson_inline_header.style.justifyContent = 'space-between'
@@ -58,11 +36,32 @@ function setDefaultCustomization (JSONEditor) {
           this.editjson_copy.style.margin = '0 0 4px 4px'
           this.editjson_copy.innerHTML = 'Copy JSON'
           this.editjson_save.classList.add('ant-btn-primary')
-          this.editjson_holder.insertBefore(this.editjson_inline_header, this.editjson_textarea)
+          this.editjson_save.style.margin = '4px 0 0 0'
+          this.editjson_cancel.style.margin = '4px 4px 0 0'
+
+          if (this.schema.id === 'root' ) {
+            this.editjson_card_holder = document.createElement('div')
+            this.editjson_card_holder.classList.add('card')
+            this.editjson_card_holder.classList.add('card-body')
+            this.editjson_card_holder.classList.add('mb-3')
+            this.editjson_card_holder.classList.add('bg-light')
+            this.editjson_card_holder.style.padding = '20px'
+            this.editjson_card_holder.style.border = '1px'
+            this.editjson_card_holder.style.display = 'none'
+            this.container.append(this.editjson_card_holder)
+            this.editjson_card_holder.append(this.editjson_inline_header)
+            this.editjson_card_holder.append(this.editjson_textarea)
+            this.editjson_card_holder.append(this.editjson_inline_footer)
+          }
+
+          if (this.schema.id !== 'root' && this.editjson_holder) {
+            this.editjson_holder.insertBefore(this.editjson_inline_header, this.editjson_textarea)
+            this.editjson_holder.append(this.editjson_inline_footer)
+          }
+
           this.editjson_inline_header.append(this.editjson_textcontainer)
           this.editjson_inline_header.append(this.editjson_copy)
           this.editjson_textcontainer.append(this.editjson_text)
-          this.editjson_holder.append(this.editjson_inline_footer)
           this.editjson_inline_footer.append(this.editjson_cancel)
           this.editjson_inline_footer.append(this.editjson_save)
         }
@@ -114,10 +113,10 @@ module.exports = function configureJSONEditor(JSONEditor, intl, setFormSubmissio
     setDefaultCustomization(JSONEditor)
     JSONEditor.defaults.editors.anyOf = anyOfEditor(intl, setFormSubmissionListener, JSONEditor.defaults.editors.multiple)
     JSONEditor.isCustomized = true
+    JSONEditor.defaults.editors.object = objectsEditor(JSONEditor.defaults.editors.object)
   }
 
   JSONEditor.defaults.editors.not = notCustomEditor(JSONEditor.defaults.editors.multiple)
-  JSONEditor.defaults.editors.object = objectsEditor(JSONEditor.defaults.editors.object)
 
   // eslint-disable-next-line consistent-return
   JSONEditor.defaults.resolvers.unshift((scheme) => {

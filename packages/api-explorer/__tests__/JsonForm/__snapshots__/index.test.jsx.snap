@@ -77,56 +77,7 @@ exports[`JSONForm  snapshot 1`] = `
     >
       <div
         style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
-      >
-        <div
-          style="display: flex; justify-content: space-between;"
-        >
-          <h3
-            class="card-title"
-            style="height: 36px; padding: 0px; border: 0px;"
-          >
-            <label
-              style="vertical-align: middle; display: inline-block; line-height: 32px; padding: 0px; text-transform: none;"
-            >
-              Edit JSON
-            </label>
-          </h3>
-          <button
-            class="ant-btn json-editor-btn-copy json-editor-btntype-copy ant-btn-primary ant-btn-background-ghost"
-            style="margin: 0px 0px 4px 4px;"
-            title="Copy"
-            type="button"
-          >
-            Copy JSON
-          </button>
-        </div>
-        <textarea
-          class="form-control"
-          style="height: 170px; width: 300px; display: block; resize: both;"
-        />
-        <div
-          style="display: flex; justify-content: flex-end;"
-        >
-          <button
-            class="ant-btn json-editor-btn-cancel json-editor-btntype-cancel"
-            title="Cancel"
-            type="button"
-          >
-            <span>
-              Cancel
-            </span>
-          </button>
-          <button
-            class="ant-btn json-editor-btn-save json-editor-btntype-save ant-btn-primary"
-            title="Save"
-            type="button"
-          >
-            <span>
-              Save
-            </span>
-          </button>
-        </div>
-      </div>
+      />
       <div
         style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
       >
@@ -153,6 +104,28 @@ exports[`JSONForm  snapshot 1`] = `
                 for="794943320288"
               >
                  petId
+              </label>
+            </div>
+          </div>
+          <div
+            class="form-group"
+            style="margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px; height: auto;"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                class="form-check-input"
+                disabled=""
+                id="794943320288"
+                style="width: auto;"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="794943320288"
+              >
+                 petPedigree
               </label>
             </div>
           </div>
@@ -250,10 +223,278 @@ exports[`JSONForm  snapshot 1`] = `
               </div>
             </div>
           </div>
+          <div
+            class="row"
+          >
+            <div
+              class="mia-container-wrapper col-md-12"
+              data-schemapath="root.petPedigree"
+              data-schematype="object"
+              style="position: relative;"
+            >
+              <h3
+                class="card-title"
+                style="display: inline-block;"
+              >
+                <button
+                  class="ant-btn json-editor-btn-collapse json-editor-btntype-toggle ant-btn-sm"
+                  style="margin: 0px 10px 0px 0px; border: 0px; background: transparent;"
+                  title="Collapse"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-caret-down"
+                  />
+                  <span>
+                     
+                  </span>
+                </button>
+                <label>
+                  petPedigree
+                </label>
+              </h3>
+              <span
+                class="btn-group"
+                style="display: inline-flex; margin: 5px 0px 0px 10px; float: right;"
+              >
+                <div
+                  style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+                >
+                  <div
+                    style="display: flex; justify-content: space-between;"
+                  >
+                    <h3
+                      class="card-title"
+                      style="height: 36px; padding: 0px; border: 0px;"
+                    >
+                      <label
+                        style="vertical-align: middle; display: inline-block; line-height: 32px; padding: 0px; text-transform: none;"
+                      >
+                        Edit JSON
+                      </label>
+                    </h3>
+                    <button
+                      class="ant-btn json-editor-btn-copy json-editor-btntype-copy ant-btn-primary ant-btn-background-ghost"
+                      style="margin: 0px 0px 4px 4px;"
+                      title="Copy"
+                      type="button"
+                    >
+                      Copy JSON
+                    </button>
+                  </div>
+                  <textarea
+                    class="form-control"
+                    style="height: 170px; width: 300px; display: block; resize: both;"
+                  />
+                  <div
+                    style="display: flex; justify-content: flex-end;"
+                  >
+                    <button
+                      class="ant-btn json-editor-btn-cancel json-editor-btntype-cancel"
+                      style="margin: 4px 4px 0px 0px;"
+                      title="Cancel"
+                      type="button"
+                    >
+                      <span>
+                        Cancel
+                      </span>
+                    </button>
+                    <button
+                      class="ant-btn json-editor-btn-save json-editor-btntype-save ant-btn-primary"
+                      style="margin: 4px 0px 0px 0px;"
+                      title="Save"
+                      type="button"
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+                >
+                  <div
+                    class="property-selector"
+                    style="width: 295px; max-height: 160px; padding: 5px 0px 5px 5px; overflow-y: auto; overflow-x: hidden;"
+                  >
+                    <div
+                      class="form-group"
+                      style="margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px; height: auto;"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <input
+                          class="form-check-input"
+                          id="794943320288"
+                          style="width: auto;"
+                          type="checkbox"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="794943320288"
+                        >
+                           petName
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <input
+                    class="form-control"
+                    placeholder="Property name..."
+                    style="width: 220px; margin-bottom: 0px; display: inline-block;"
+                    type="text"
+                  />
+                  <button
+                    class="ant-btn json-editor-btn-add json-editor-btntype-add"
+                    title="add"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-plus"
+                    />
+                    <span>
+                       add
+                    </span>
+                  </button>
+                  <div
+                    style="clear: both;"
+                  />
+                </div>
+                <button
+                  class="ant-btn json-editor-btn-edit_properties json-editor-btntype-properties ant-btn-sm"
+                  style="margin: 0px 8px; border-radius: 4px;"
+                  title="Object Properties"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-list"
+                  />
+                  <span>
+                     Properties
+                  </span>
+                </button>
+                <button
+                  class="ant-btn json-editor-btn-edit json-editor-btntype-editjson ant-btn-sm"
+                  style="margin: 0px 8px; border-radius: 4px;"
+                  title="Edit JSON"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-pen"
+                  />
+                  <span>
+                     JSON
+                  </span>
+                </button>
+              </span>
+              <div
+                style="display: none;"
+              />
+              <div
+                class="card card-body mb-3 bg-light"
+              >
+                <div>
+                  <div>
+                    <div
+                      class="row"
+                    >
+                      <div
+                        class="col-md-12"
+                        data-schemapath="root.petPedigree.petName"
+                        data-schematype="string"
+                      >
+                        <div
+                          class="form-group"
+                        >
+                          <label>
+                            petName 
+                            <em
+                              style="opacity: 0.5"
+                            >
+                              (string)
+                            </em>
+                          </label>
+                          <input
+                            class="form-control"
+                            name="root[petPedigree][petName]"
+                            type="text"
+                          />
+                          <div />
+                          <small
+                            class="form-text"
+                          >
+                            Name of pet to return
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div />
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div />
+    <div
+      class="card card-body mb-3 bg-light"
+      style="padding: 20px; border: 1px; display: none;"
+    >
+      <div
+        style="display: flex; justify-content: space-between;"
+      >
+        <h3
+          class="card-title"
+          style="height: 36px; padding: 0px; border: 0px;"
+        >
+          <label
+            style="vertical-align: middle; display: inline-block; line-height: 32px; padding: 0px; text-transform: none;"
+          >
+            Edit JSON
+          </label>
+        </h3>
+        <button
+          class="ant-btn json-editor-btn-copy json-editor-btntype-copy ant-btn-primary ant-btn-background-ghost"
+          style="margin: 0px 0px 4px 4px;"
+          title="Copy"
+          type="button"
+        >
+          Copy JSON
+        </button>
+      </div>
+      <textarea
+        class="form-control"
+        style="height: 170px; width: 300px; display: block; resize: both;"
+      />
+      <div
+        style="display: flex; justify-content: flex-end;"
+      >
+        <button
+          class="ant-btn json-editor-btn-cancel json-editor-btntype-cancel"
+          style="margin: 4px 4px 0px 0px;"
+          title="Cancel"
+          type="button"
+        >
+          <span>
+            Cancel
+          </span>
+        </button>
+        <button
+          class="ant-btn json-editor-btn-save json-editor-btntype-save ant-btn-primary"
+          style="margin: 4px 0px 0px 0px;"
+          title="Save"
+          type="button"
+        >
+          <span>
+            Save
+          </span>
+        </button>
+      </div>
+    </div>
   </div>
 </form>
 `;

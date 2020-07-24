@@ -15,9 +15,18 @@ describe('JSONForm ', () => {
           type: 'integer',
           description: 'ID of pet to return',
           format: 'int64'
+        },
+        petPedigree: {
+          type: 'object',
+          properties: {
+            petName: {
+              type: 'string',
+              description: 'Name of pet to return'
+            }
+          }
         }
       },
-      required: ['petId']
+      required: ['petId', 'petPedigree']
     },
     onChange: jest.fn(),
     onSubmit: jest.fn(),
@@ -33,15 +42,23 @@ describe('JSONForm ', () => {
    
     const originalDateNow = Date.now
     const originalRandom = Math.random
+    const originalRequestAnimationFrame = window.requestAnimationFrame
 
     Date.now = jest.fn().mockReturnValue(1589886640576)
     Math.random = jest.fn().mockReturnValue(0.5)
+
+    /**
+    * window.requestAnimationFrame has been mocked to avoid a non-deterministic behaviour of the test.
+    * Removing the line below could make the test produce a different snapshot from the expected one.
+    */
+    window.requestAnimationFrame = jest.fn()
 
     const element = await mountJsonForm(props)
     expect(element.getDOMNode()).toMatchSnapshot()
 
     Date.now = originalDateNow
     Math.random = originalRandom
+    window.requestAnimationFrame = originalRequestAnimationFrame
   })
 
   it('when form submits, calls onSubmit prop', async () => {
