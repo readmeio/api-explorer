@@ -30,7 +30,7 @@ class Preview extends React.Component {
   }
 
   render() {
-    const { status, docs, invalidSpec, invalidSpecPath, oas, oauth } = this.props;
+    const { status, docs, invalidSpec, invalidSpecPath, oas, oasUrl, oauth } = this.props;
 
     return (
       <div>
@@ -92,8 +92,12 @@ class Preview extends React.Component {
             appearance={{ referenceLayout: 'row' }}
             docs={docs}
             glossaryTerms={[]}
+            maskErrorMessages={true}
             oasFiles={{
-              'api-setting': Object.assign(extensions.defaults, oas),
+              'demo-api-setting': Object.assign(extensions.defaults, oas),
+            }}
+            oasUrls={{
+              'demo-api-setting': oasUrl,
             }}
             oauth={oauth}
             suggestedEdits={false}
@@ -120,6 +124,7 @@ Preview.propTypes = {
       version: PropTypes.string.isRequired,
     }),
   }).isRequired,
+  oasUrl: PropTypes.string.isRequired,
   oauth: PropTypes.bool,
   status: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
