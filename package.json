@@ -6,7 +6,7 @@
   "scripts": {
     "heroku-postbuild": "npm run bootstrap && node scripts/update-example-swagger-files && npm run build",
     "bootstrap": "lerna bootstrap",
-    "build": "./build.sh; lerna run build",
+    "build": "npm run update:emojis; ./build.sh; lerna run build",
     "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",
     "lint": "eslint example example/ lib/ scripts/ *.js --ext js --ext jsx",
@@ -14,7 +14,7 @@
     "pretest": "npm run update:examples; npm run lint",
     "start": "npm run update:examples; webpack-dev-server --open",
     "test": "lerna run test --stream",
-    "update:emojis": "rm -rf example/img/emojis; mkdir example/img/emojis; cp packages/markdown/node_modules/@readme/emojis/src/img/* example/img/emojis",
+    "update:emojis": "rm -rf example/img/emojis; mkdir example/img/emojis; cp node_modules/@readme/emojis/src/img/* example/img/emojis",
     "update:examples": "node scripts/update-example-swagger-files",
     "watch": "lerna run watch --stream",
     "version": "conventional-changelog --pkg lerna.json -i CHANGELOG.md -s && git add CHANGELOG.md"
@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^9.0.1",
+    "@readme/emojis": "^2.1.0",
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.7.2",
     "react": "^16.6.0",
@@ -80,10 +81,6 @@
       {
         "path": "packages/api-logs/dist/index.js",
         "maxSize": "20kb"
-      },
-      {
-        "path": "packages/markdown/dist/main.js",
-        "maxSize": "1mb"
       }
     ]
   },
