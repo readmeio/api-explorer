@@ -10,7 +10,6 @@ This repo consists of the following npm modules:
 
 - [@readme/api-explorer](https://npm.im/@readme/api-explorer) — React components that make up the API Explorer
 - [@readme/api-logs](https://npm.im/@readme/api-logs) — React components for ReadMe Metrics
-- [@readme/markdown](https://npm.im/@readme/markdown) — ReadMe's Markdown parser
 - [@readme/markdown-magic](https://npm.im/@readme/markdown-magic) — Our legacy "magic block"-based Markdown parser
 - [@readme/oas-extensions](https://npm.im/@readme/oas-extensions) — An exported object of our [OpenAPI extensions](https://docs.readme.com/docs/swagger-extensions)
 - [@readme/oas-to-har](https://npm.im/@readme/oas-to-har) — Utility to transform an OpenAPI operation into a HAR representation
