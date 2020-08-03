@@ -107,14 +107,15 @@ describe('Supported languages', () => {
             expect(uppercase(alias)).toBe(aliasName);
           });
 
-          it('should have a canonical directive set up', () => {
-            // eslint-disable-next-line jest/no-if
-            if ('canonical' in instructions.mode) {
+          if ('canonical' in instructions.mode) {
+            it('should have a canonical directive set up', () => {
               expect(canoncial(alias)).toBe(instructions.mode.canonical);
-            } else {
+            });
+          } else {
+            it('should have a canonical directive set up off the primary mode', () => {
               expect(canoncial(alias)).toBe(instructions.mode.primary);
-            }
-          });
+            });
+          }
         });
       });
     }
