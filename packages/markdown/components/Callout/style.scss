@@ -66,6 +66,10 @@
     }
     &.empty {
       float: left;
+      margin-top: calc(#{$l-offset} * .5);
+      .callout-icon {
+        line-height: 0;
+      }
     }
     > * {
       color: inherit;
