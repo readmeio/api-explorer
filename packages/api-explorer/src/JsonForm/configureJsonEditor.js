@@ -24,6 +24,7 @@ function setDefaultCustomization (JSONEditor) {
           this.editjson_textcontainer.style.height = '36px'
           this.editjson_textcontainer.style.padding = '0px'
           this.editjson_textcontainer.style.border = '0px'
+          this.editjson_textcontainer.style.backgroundColor = 'inherit'
           this.editjson_text = document.createElement('label')
           this.editjson_text.innerHTML = 'Edit JSON'
           this.editjson_text.style.verticalAlign = 'middle'
