@@ -25,7 +25,7 @@ module.exports = (classReference) => class objectCustomEditor extends classRefer
       this.editjson_textarea.style.width = '450px'
       this.editjson_textarea.style.height = '340px'
       this.editjson_textarea.style.fontFamily = 'monospace'
-      const leftSize = this.addproperty_button.offsetWidth - this.editjson_holder.offsetWidth + parseInt(this.addproperty_button.style.marginLeft, 10) + parseInt(this.addproperty_button.style.marginRight, 10)
+      const leftSize = parseInt(this.editjson_holder.style.left, 10) - this.editjson_holder.offsetWidth - parseInt(this.editjson_control.style.marginLeft, 10)
       if(leftSize && typeof leftSize === 'number' && !isNaN(leftSize)){
         this.editjson_holder.style.left = `${leftSize}px`
       }
