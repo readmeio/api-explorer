@@ -40,6 +40,14 @@ function isPrimitive(val) {
   return typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean';
 }
 
+function stringify(json) {
+  return JSON.stringify(removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json));
+}
+function matchesMimeType(arr, contentType) {
+  return arr.some(function (type) {
+    return contentType.indexOf(type) === 0;
+  });
+}
 module.exports = (
   oas,
   operationSchema = { path: '', method: '' },
@@ -187,68 +195,78 @@ module.exports = (
   }
 
   const schema = getSchema(operation, oas) || { schema: {} };
-
-  function stringify(json) {
-    // Default to JSON.stringify
-    return JSON.stringify(removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json));
-  }
-
   if (schema.schema && Object.keys(schema.schema).length) {
-    // If there is formData, then the type is application/x-www-form-urlencoded
-    if (Object.keys(formData.formData).length) {
-      har.postData.params = [];
-      har.postData.mimeType = 'application/x-www-form-urlencoded';
+    // console.log('📮 contentType=', contentType)
 
-      Object.keys(formData.formData).forEach(name => {
-        har.postData.params.push({
-          name,
-          value: String(formData.formData[name]),
-        });
-      });
-    } else if (
-      // formData.body can be one of the following:
-      // - `undefined` - if the form hasn't been touched yet because of formData.body on:
-      // https://github.com/readmeio/api-explorer/blob/b32a2146737c11813bd1b222a137de61854414b3/packages/api-explorer/src/Doc.jsx#L28
-      // - a primitive type
-      // - an object
-      typeof formData.body !== 'undefined' &&
-      (isPrimitive(formData.body) || Object.keys(formData.body).length)
-    ) {
-      har.postData.mimeType = contentType;
+    if (matchesMimeType(['application/x-www-form-urlencoded'], contentType)) {
+      if (Object.keys(formData.formData).length) {
+        har.postData.params = [];
+        har.postData.mimeType = 'application/x-www-form-urlencoded';
 
-      try {
-        // Find all `{ type: string, format: json }` properties in the schema
-        // because we need to manually JSON.parse them before submit, otherwise
-        // they'll be escaped instead of actual objects
-        const jsonTypes = Object.keys(schema.schema.properties).filter(
-          key => schema.schema.properties[key].format === 'json'
-        );
-
-        if (jsonTypes.length) {
-          // We have to clone the body object, otherwise the form
-          // will attempt to re-render with an object, which will
-          // cause it to error!
-          let cloned = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
-          jsonTypes.forEach(prop => {
-            // Attempt to JSON parse each of the json properties
-            // if this errors, it'll just get caught and stringify it normally
-            cloned[prop] = JSON.parse(cloned[prop]);
+        Object.keys(formData.formData).forEach(name => {
+          har.postData.params.push({
+            name,
+            value: String(formData.formData[name]),
           });
+        });
+      }
+    } else if (
+      matchesMimeType(
+        ['multipart/mixed', 'multipart/related', 'multipart/form-data', 'multipart/alternative'],
+        contentType
+      )
+    ) {
+      har.postData.mimeType = 'multipart/form-data';
+    } else if ('body' in formData && formData.body !== undefined && (isPrimitive(formData.body) || Object.keys(formData.body).length)) {
+      if (matchesMimeType(['application/json', 'application/x-json', 'text/json', 'text/x-json', '+json'], contentType)) {
+        // console.log('🧠 this is json', formData.body)
 
-          if (typeof cloned.RAW_BODY !== 'undefined') {
-            cloned = cloned.RAW_BODY;
+        har.postData.mimeType = contentType;
+
+        try {
+          // Find all `{ type: string, format: json }` properties in the schema because we need to manually JSON.parse
+          // them before submit, otherwise they'll be escaped instead of actual objects.
+          const jsonTypes = Object.keys(schema.schema.properties).filter(
+            key => schema.schema.properties[key].format === 'json'
+          );
+
+          if (jsonTypes.length) {
+            // We have to clone the body object, otherwise the form will attempt to re-render with an object, which will
+            // cause it to error!
+            try {
+              let cloned = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
+              jsonTypes.forEach(prop => {
+                // Attempt to parse each of the JSON properties, but if it fails for the data being invalid JSON,
+                // instead we'll catch the exception and handle it as raw text.
+                cloned[prop] = JSON.parse(cloned[prop]);
+              });
+
+              if (typeof cloned.RAW_BODY !== 'undefined') {
+                cloned = cloned.RAW_BODY;
+              }
+
+              har.postData.text = JSON.stringify(cloned);
+            } catch (e) {
+              har.postData.text = stringify(formData.body);
+            }
+          } else {
+            har.postData.text = stringify(formData.body);
           }
-
-          har.postData.text = JSON.stringify(cloned);
+        } catch (e) {
+          // If anything above fails for whatever reason, assume that whatever we had is invalid JSON and just treat it
+          // as raw text.
+          har.postData.text = stringify(formData.body);
+        }
+      } else {
+        har.postData.mimeType = contentType;
+        if (isPrimitive(formData.body)) {
+          har.postData.text = formData.body;
         } else {
           har.postData.text = stringify(formData.body);
         }
-      } catch (e) {
-        // If anything goes wrong in the above, assume that it's invalid JSON
-        // and stringify it
-        har.postData.text = stringify(formData.body);
       }
     }
+
   }
 
   // Add a `Content-Type` header if there are any body values setup above or if there is a schema defined, but only do
