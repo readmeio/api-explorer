@@ -10,6 +10,8 @@ module.exports = (classReference) => class objectCustomEditor extends classRefer
       this.editjson_textarea.style.height = '500px'
       this.editjson_textarea.style.resize = 'vertical'
       this.editjson_textarea.style.fontFamily = 'monospace'
+      this.collapsed = false
+      this.setButtonText(this.collapse_control, '', 'collapse', this.translate('button_collapse'))
     } 
     if (this.schema.id !== 'root' && this.editjson_holder && this.editjson_textarea && this.editjson_control) {
       const outsideClickListener = event => {
@@ -54,10 +56,30 @@ module.exports = (classReference) => class objectCustomEditor extends classRefer
     this.addproperty_button.classList.remove('ant-btn-primary')
     this.addproperty_button.classList.add('ant-btn-sm', 'ant-btn')
 
+    this.title.removeChild(this.collapse_control)
+    this.collapse_control = this.getButton('', 'collapse', this.translate('button_collapse'))
+    this.collapse_control.style.margin = '0 10px 0 0'
+    this.collapse_control.classList.add('json-editor-btntype-toggle')
     this.collapse_control.classList.remove('ant-btn-primary')
     this.collapse_control.classList.add('ant-btn-sm', 'ant-btn')
     this.collapse_control.style.border = '0px'
     this.collapse_control.style.background = 'transparent'
+    this.title.insertBefore(this.collapse_control, this.title.childNodes[0])
+    this.collapse_control.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (this.collapsed) {
+        this.editor_holder.style.display = ''
+        this.collapsed = false
+        this.setButtonText(this.collapse_control, '', 'collapse', this.translate('button_collapse'))
+      } else {
+        this.hideEditJSON()
+        this.editor_holder.style.display = 'none'
+        this.editjson_card_holder.style.display = 'none'
+        this.collapsed = true
+        this.setButtonText(this.collapse_control, '', 'expand', this.translate('button_expand'))
+      }
+    })
 
     this.controls.style.float = 'right'
     this.controls.style.margin = '5px 0px 0px 10px'
