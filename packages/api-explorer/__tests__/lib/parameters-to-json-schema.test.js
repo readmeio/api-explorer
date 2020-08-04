@@ -300,6 +300,108 @@ test('it should pass through description', () => {
   ]);
 });
 
+test('it should pass through maximum & minimum', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'body',
+          name: 'number',
+          description: 'number',
+          schema: {
+            type: 'number',
+            maximum: 18,
+            minimum: 10,
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Body Params',
+      type: 'body',
+      schema: {
+        type: 'object',
+        required: [],
+        properties: {
+          number: {
+            description: 'number',
+            type: 'number',
+            maximum: 18,
+            minimum: 10,
+          }
+        }
+      },
+    },
+  ]);
+})
+test('it should pass through examples', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'body',
+          name: 'number',
+          description: 'number',
+          examples: [ 15 ],
+          schema: {
+            type: 'number',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Body Params',
+      type: 'body',
+      schema: {
+        type: 'object',
+        required: [],
+        properties: {
+          number: {
+            description: 'number',
+            type: 'number',
+            examples: [ 15 ],
+          }
+        }
+      },
+    },
+  ]);
+})
+test('it should pass through pattern', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'body',
+          name: 'number',
+          description: 'number',
+          schema: {
+            type: 'number',
+            pattern: '[0-9]{2}$',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Body Params',
+      type: 'body',
+      schema: {
+        type: 'object',
+        required: [],
+        properties: {
+          number: {
+            description: 'number',
+            type: 'number',
+            pattern: '[0-9]{2}$',
+          }
+        }
+      },
+    },
+  ]);
+});
+
 test('it should work for top-level request body $ref', () => {
   expect(
     parametersToJsonSchema(
@@ -377,8 +479,6 @@ test('it should pull out schemas from `components/requestBodies`', () => {
     },
   ]);
 });
-
-test.skip('it should make things required correctly', () => {});
 
 test('it should pass false value as default parameter', () => {
   expect(
