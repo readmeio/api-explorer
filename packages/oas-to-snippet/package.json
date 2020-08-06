@@ -7,7 +7,7 @@
     "@readme/oas-extensions": "^6.15.2",
     "@readme/oas-to-har": "^6.15.2",
     "@readme/syntax-highlighter": "^6.15.2",
-    "httpsnippet": "^1.20.0",
+    "httpsnippet": "github:readmeio/httpsnippet#fix/multipart-handling",
     "httpsnippet-client-api": "^2.1.6"
   },
   "peerDependencies": {
@@ -34,6 +34,7 @@
     "@readme/eslint-config": "^3.2.0",
     "@readme/oas-examples": "^3.4.0",
     "@readme/oas-tooling": "^3.5.4",
+    "datauri": "^3.0.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "prettier": "^2.0.1"

@@ -90,7 +90,10 @@ class CodeSample extends React.Component {
           }
 
           let snippet;
-          const { code, highlightMode } = generateCodeSnippet(oas, operation, formData, auth, language, oasUrl);
+          const { code, highlightMode } = generateCodeSnippet(oas, operation, formData, auth, language, oasUrl, {
+            decodeDataUrl: true,
+          });
+
           if (code && highlightMode) {
             snippet = syntaxHighlighter(code, highlightMode, { dark: true });
           }

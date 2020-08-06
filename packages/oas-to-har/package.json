@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "dependencies": {
     "@readme/oas-extensions": "^6.15.2",
-    "@readme/oas-tooling": "^3.5.4"
+    "@readme/oas-tooling": "^3.5.4",
+    "data-uri-to-buffer": "^3.0.1"
   },
   "scripts": {
     "inspect": "jsinspect",
@@ -27,8 +28,8 @@
   },
   "devDependencies": {
     "@readme/eslint-config": "^3.2.0",
+    "datauri": "^3.0.0",
     "eslint": "^7.0.0",
-    "har-validator": "^5.1.3",
     "jest": "^26.0.1",
     "jest-expect-har": "^1.0.0",
     "jsinspect": "^0.12.6",

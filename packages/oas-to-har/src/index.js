@@ -1,6 +1,7 @@
 const extensions = require('@readme/oas-extensions');
 const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 const { Operation } = require('@readme/oas-tooling');
+const dataUriToBuffer = require('data-uri-to-buffer');
 
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');
@@ -43,18 +44,39 @@ function isPrimitive(val) {
 function stringify(json) {
   return JSON.stringify(removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json));
 }
+
+function getNameFromDataUrlType(type) {
+  const properties = type.split(';').filter(param => {
+    return param.split('=')[0] === 'name';
+  });
+
+  return properties.length !== 1 ? 'unknown' : properties[0].split('=')[1];
+}
+
 function matchesMimeType(arr, contentType) {
   return arr.some(function (type) {
     return contentType.indexOf(type) === 0;
   });
 }
+
 module.exports = (
   oas,
   operationSchema = { path: '', method: '' },
   values = {},
   auth = {},
-  opts = { proxyUrl: false }
+  opts = {
+    // If true, the operation URL will be rewritten and prefixed with https://try.readme.io/ in order to funnel requests
+    // through our CORS-friendly proxy.
+    proxyUrl: false,
+
+    // If true, when the operation is a `multipart/form-data` type, or one that uses `format: binary` properties in the
+    // request, the uploaded file will be decoded and a `fileName` property will be added into the resulting HAR,
+    // allowing for non-web code snippets to be generated from it that use the raw file instead of the encoded data URL.
+    decodeDataUrl: false,
+  }
 ) => {
+  // console.log('🥡 values=', values)
+
   let operation = operationSchema;
   if (!(operationSchema instanceof Operation)) {
     operation = new Operation(oas, operationSchema.path, operationSchema.method, operationSchema);
@@ -211,16 +233,45 @@ module.exports = (
         });
       }
     } else if (
-      matchesMimeType(
-        ['multipart/mixed', 'multipart/related', 'multipart/form-data', 'multipart/alternative'],
-        contentType
-      )
+      'body' in formData &&
+      formData.body !== undefined &&
+      (isPrimitive(formData.body) || Object.keys(formData.body).length)
     ) {
-      har.postData.mimeType = 'multipart/form-data';
-    } else if ('body' in formData && formData.body !== undefined && (isPrimitive(formData.body) || Object.keys(formData.body).length)) {
-      if (matchesMimeType(['application/json', 'application/x-json', 'text/json', 'text/x-json', '+json'], contentType)) {
-        // console.log('🧠 this is json', formData.body)
+      if (
+        matchesMimeType(
+          ['multipart/mixed', 'multipart/related', 'multipart/form-data', 'multipart/alternative'],
+          contentType
+        )
+      ) {
+        har.postData.mimeType = 'multipart/form-data';
+        har.postData.params = [];
 
+        // Discover all `{ type: string, format: binary }` properties the schema. If there are any, then that means
+        // that we're dealing with a `multipart/form-data` request and need to treat the payload as `postData.params`.
+        const binaryTypes = Object.keys(schema.schema.properties).filter(
+          key => schema.schema.properties[key].format === 'binary'
+        );
+
+        const cleanBody = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
+        Object.keys(cleanBody).forEach(name => {
+          const data = {
+            name,
+            value: String(cleanBody[name]),
+          };
+
+          // When we want to decode the data URL for the purpose of creating a code snippet that uses the file and not
+          // the data URL we should exclude the data URL/blob fromt he parameters data.
+          if (opts.decodeDataUrl && binaryTypes.includes(name)) {
+            const decoded = dataUriToBuffer(data.value);
+            data.fileName = getNameFromDataUrlType(decoded.typeFull);
+            data.contentType = decoded.type;
+          }
+
+          har.postData.params.push(data);
+        });
+      } else if (
+        matchesMimeType(['application/json', 'application/x-json', 'text/json', 'text/x-json', '+json'], contentType)
+      ) {
         har.postData.mimeType = contentType;
 
         try {
@@ -266,7 +317,6 @@ module.exports = (
         }
       }
     }
-
   }
 
   // Add a `Content-Type` header if there are any body values setup above or if there is a schema defined, but only do
