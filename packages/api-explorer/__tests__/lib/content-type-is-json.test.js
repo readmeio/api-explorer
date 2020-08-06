@@ -11,6 +11,11 @@ describe('contentTypeIsJson', () => {
     expect(contentTypeIsJson(contentType)).toBe(true);
   });
 
+  it('should return true if application/vnd.github.v3.star+json', () => {
+    const contentType = 'application/vnd.github.v3.star+json';
+    expect(contentTypeIsJson(contentType)).toBe(true);
+  });
+
   it('should return false otherwise', () => {
     const contentType = 'text/html';
     expect(contentTypeIsJson(contentType)).toBe(false);
