@@ -865,7 +865,7 @@ describe('requestBody', () => {
     describe('content types', () => {
       it.todo('should support vendor-prefixed json content types');
 
-      describe.skip('multipart/form-data', () => {
+      describe('multipart/form-data', () => {
         let owlbert;
 
         beforeAll(async () => {
