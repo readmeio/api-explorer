@@ -948,7 +948,7 @@ describe('requestBody', () => {
         });
       });
 
-      describe.skip('image/png', () => {
+      describe('image/png', () => {
         it('should handle a image/png request body', async () => {
           let owlbert = await datauri(path.join(__dirname, '__fixtures__', 'owlbert.png'));
 
@@ -994,7 +994,7 @@ describe('requestBody', () => {
           //  It's less than ideal, and code snippets for these kinds of operations are going to be extremely ugly, but
           //  there isn't anything we can do about it.
           expect(har.log.entries[0].request.postData.mimeType).toBe('image/png');
-          expect(har.log.entries[0].request.postData.text).toBe(`"${owlbert}"`);
+          expect(har.log.entries[0].request.postData.text).toBe(`${owlbert}`);
         });
       });
     });
