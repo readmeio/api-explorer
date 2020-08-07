@@ -5,6 +5,8 @@ const datauri = require('datauri');
 
 const oasToHar = require('../src/index');
 const commonParameters = require('./__fixtures__/common-parameters');
+const multipartFormData = require('./__fixtures__/multipart-form-data');
+const multipartFormDataArrayOfFiles = require('./__fixtures__/multipart-form-data/array-of-files');
 
 const oas = new Oas();
 
@@ -875,62 +877,9 @@ describe('requestBody', () => {
           owlbert = owlbert.replace(';base64', `;name=${encodeURIComponent('owlbert.png')};base64`);
         });
 
-        const oasFixture = new Oas({
-          components: {
-            requestBodies: {
-              payload: {
-                required: true,
-                content: {
-                  'multipart/form-data': {
-                    schema: {
-                      type: 'object',
-                      properties: {
-                        orderId: {
-                          type: 'integer',
-                        },
-                        userId: {
-                          type: 'integer',
-                        },
-                        documentFile: {
-                          type: 'string',
-                          format: 'binary',
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            securitySchemes: {
-              bearerAuth: {
-                type: 'apiKey',
-                name: 'Authorization',
-                in: 'header',
-              },
-            },
-          },
-        });
-
-        const operation = {
-          path: '/multipart',
-          method: 'post',
-          security: [
-            {
-              bearerAuth: [],
-            },
-          ],
-          requestBody: {
-            $ref: '#/components/requestBodies/payload',
-          },
-          responses: {
-            default: {
-              description: 'OK',
-            },
-          },
-        };
-
         it('should handle multipart/form-data request bodies', () => {
-          const har = oasToHar(oasFixture, operation, {
+          const fixture = new Oas(multipartFormData);
+          const har = oasToHar(fixture, fixture.operation('/anything', 'post'), {
             body: { orderId: 12345, userId: 67890, documentFile: owlbert },
           });
 
@@ -949,9 +898,10 @@ describe('requestBody', () => {
         });
 
         it('should handle a multipart/form-data file request bodies and decode files if `decodeDataUrl` is set', () => {
+          const fixture = new Oas(multipartFormData);
           const har = oasToHar(
-            oasFixture,
-            operation,
+            fixture,
+            fixture.operation('/anything', 'post'),
             { body: { orderId: 12345, userId: 67890, documentFile: owlbert } },
             {},
             {
@@ -969,6 +919,29 @@ describe('requestBody', () => {
                 fileName: 'owlbert.png',
                 name: 'documentFile',
                 value: owlbert,
+              },
+            ],
+          });
+        });
+
+        it('should handle a multipart/form-data request where files are in an array', () => {
+          const fixture = new Oas(multipartFormDataArrayOfFiles);
+          const har = oasToHar(
+            fixture,
+            fixture.operation('/anything', 'post'),
+            { body: { documentFiles: [owlbert, owlbert] } },
+            {},
+            {
+              decodeDataUrl: true,
+            }
+          );
+
+          expect(har.log.entries[0].request.postData).toStrictEqual({
+            mimeType: 'multipart/form-data',
+            params: [
+              {
+                name: 'documentFiles',
+                value: JSON.stringify([owlbert, owlbert]),
               },
             ],
           });
@@ -1256,7 +1229,7 @@ describe('common parameters', () => {
       httpVersion: 'HTTP/1.1',
       queryString: [{ name: 'limit', value: '10' }],
       method: 'POST',
-      url: 'http://httpbin.org/anything/1234',
+      url: 'https://httpbin.org/anything/1234',
     });
   });
 

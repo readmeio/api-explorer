@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "http://httpbin.org"
+      "url": "https://httpbin.org"
     }
   ],
   "info": {
@@ -10,7 +10,7 @@
     "title": "An example of how we handle file uploading"
   },
   "paths": {
-    "/multipart": {
+    "/anything": {
       "post": {
         "summary": "Multipart upload",
         "description": "https://swagger.io/docs/specification/describing-request-body/file-upload/",

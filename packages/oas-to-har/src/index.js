@@ -253,22 +253,37 @@ module.exports = (
         );
 
         const cleanBody = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
-        Object.keys(cleanBody).forEach(name => {
-          const data = {
-            name,
-            value: String(cleanBody[name]),
-          };
+        if (cleanBody !== undefined) {
+          Object.keys(cleanBody).forEach(name => {
+            // We neither have an easy way to transform `name` into `name[]` to signify that it's an array payload (and
+            // for all we know it might be an array of objects!), but also at the same time the HAR spec doesn't give
+            // any guidance for these kinds of cases so instead we're just falling back to stringifying the content
+            // instead of potentially including `fileName` properties.
+            if (Array.isArray(cleanBody[name])) {
+              har.postData.params.push({
+                name,
+                value: JSON.stringify(cleanBody[name]),
+              });
 
-          // When we want to decode the data URL for the purpose of creating a code snippet that uses the file and not
-          // the data URL we should exclude the data URL/blob fromt he parameters data.
-          if (opts.decodeDataUrl && binaryTypes.includes(name)) {
-            const decoded = dataUriToBuffer(data.value);
-            data.fileName = getNameFromDataUrlType(decoded.typeFull);
-            data.contentType = decoded.type;
-          }
+              return;
+            }
 
-          har.postData.params.push(data);
-        });
+            const data = {
+              name,
+              value: String(cleanBody[name]),
+            };
+
+            // When we want to decode the data URL for the purpose of creating a code snippet that uses the file and not
+            // the data URL we should exclude the data URL/blob fromt he parameters data.
+            if (opts.decodeDataUrl && binaryTypes.includes(name)) {
+              const decoded = dataUriToBuffer(data.value);
+              data.fileName = getNameFromDataUrlType(decoded.typeFull);
+              data.contentType = decoded.type;
+            }
+
+            har.postData.params.push(data);
+          });
+        }
       } else if (
         matchesMimeType(['application/json', 'application/x-json', 'text/json', 'text/x-json', '+json'], contentType)
       ) {
