@@ -75,8 +75,6 @@ module.exports = (
     decodeDataUrl: false,
   }
 ) => {
-  // console.log('🥡 values=', values)
-
   let operation = operationSchema;
   if (!(operationSchema instanceof Operation)) {
     operation = new Operation(oas, operationSchema.path, operationSchema.method, operationSchema);
@@ -218,8 +216,6 @@ module.exports = (
 
   const schema = getSchema(operation, oas) || { schema: {} };
   if (schema.schema && Object.keys(schema.schema).length) {
-    // console.log('📮 contentType=', contentType)
-
     if (matchesMimeType(['application/x-www-form-urlencoded'], contentType)) {
       if (Object.keys(formData.formData).length) {
         har.postData.params = [];
