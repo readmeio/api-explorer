@@ -237,86 +237,89 @@ module.exports = (
       formData.body !== undefined &&
       (isPrimitive(formData.body) || Object.keys(formData.body).length)
     ) {
-      if (
-        matchesMimeType(
-          ['multipart/mixed', 'multipart/related', 'multipart/form-data', 'multipart/alternative'],
-          contentType
-        )
-      ) {
-        har.postData.mimeType = 'multipart/form-data';
-        har.postData.params = [];
+      const isMultipart = matchesMimeType(
+        ['multipart/mixed', 'multipart/related', 'multipart/form-data', 'multipart/alternative'],
+        contentType
+      );
 
-        // Discover all `{ type: string, format: binary }` properties the schema. If there are any, then that means
-        // that we're dealing with a `multipart/form-data` request and need to treat the payload as `postData.params`.
-        const binaryTypes = Object.keys(schema.schema.properties).filter(
-          key => schema.schema.properties[key].format === 'binary'
-        );
+      const isJSON = matchesMimeType(
+        ['application/json', 'application/x-json', 'text/json', 'text/x-json', '+json'],
+        contentType
+      );
 
-        const cleanBody = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
-        if (cleanBody !== undefined) {
-          Object.keys(cleanBody).forEach(name => {
-            // We neither have an easy way to transform `name` into `name[]` to signify that it's an array payload (and
-            // for all we know it might be an array of objects!), but also at the same time the HAR spec doesn't give
-            // any guidance for these kinds of cases so instead we're just falling back to stringifying the content
-            // instead of potentially including `fileName` properties.
-            if (Array.isArray(cleanBody[name])) {
-              har.postData.params.push({
-                name,
-                value: JSON.stringify(cleanBody[name]),
-              });
-
-              return;
-            }
-
-            const data = {
-              name,
-              value: String(cleanBody[name]),
-            };
-
-            // When we want to decode the data URL for the purpose of creating a code snippet that uses the file and not
-            // the data URL we should exclude the data URL/blob fromt he parameters data.
-            if (opts.decodeDataUrl && binaryTypes.includes(name)) {
-              const decoded = dataUriToBuffer(data.value);
-              data.fileName = getNameFromDataUrlType(decoded.typeFull);
-              data.contentType = decoded.type;
-            }
-
-            har.postData.params.push(data);
-          });
-        }
-      } else if (
-        matchesMimeType(['application/json', 'application/x-json', 'text/json', 'text/x-json', '+json'], contentType)
-      ) {
-        har.postData.mimeType = contentType;
-
+      if (isMultipart || isJSON) {
         try {
-          // Find all `{ type: string, format: json }` properties in the schema because we need to manually JSON.parse
-          // them before submit, otherwise they'll be escaped instead of actual objects.
-          const jsonTypes = Object.keys(schema.schema.properties).filter(
-            key => schema.schema.properties[key].format === 'json'
-          );
+          let cleanBody = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
 
-          if (jsonTypes.length) {
-            // We have to clone the body object, otherwise the form will attempt to re-render with an object, which will
-            // cause it to error!
-            try {
-              let cloned = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.body)));
-              jsonTypes.forEach(prop => {
-                // Attempt to parse each of the JSON properties, but if it fails for the data being invalid JSON,
-                // instead we'll catch the exception and handle it as raw text.
-                cloned[prop] = JSON.parse(cloned[prop]);
+          if (isMultipart) {
+            har.postData.mimeType = 'multipart/form-data';
+            har.postData.params = [];
+
+            // Discover all `{ type: string, format: binary }` properties the schema. If there are any, then that means
+            // that we're dealing with a `multipart/form-data` request and need to treat the payload as `postData.params`.
+            const binaryTypes = Object.keys(schema.schema.properties).filter(
+              key => schema.schema.properties[key].format === 'binary'
+            );
+
+            if (cleanBody !== undefined) {
+              Object.keys(cleanBody).forEach(name => {
+                // We neither have an easy way to transform `name` into `name[]` to signify that it's an array payload
+                // (and for all we know it might be an array of objects!), but also at the same time the HAR spec
+                // doesn't give any guidance for these kinds of cases so instead we're just falling back to
+                // stringifying the content instead of potentially including `fileName` properties.
+                if (Array.isArray(cleanBody[name])) {
+                  har.postData.params.push({
+                    name,
+                    value: JSON.stringify(cleanBody[name]),
+                  });
+
+                  return;
+                }
+
+                const data = {
+                  name,
+                  value: String(cleanBody[name]),
+                };
+
+                // When we want to decode the data URL for the purpose of creating a code snippet that uses the file
+                // and not the data URL we should exclude the data URL/blob fromt he parameters data.
+                if (opts.decodeDataUrl && binaryTypes.includes(name)) {
+                  const decoded = dataUriToBuffer(data.value);
+                  data.fileName = getNameFromDataUrlType(decoded.typeFull);
+                  data.contentType = decoded.type;
+                }
+
+                har.postData.params.push(data);
               });
-
-              if (typeof cloned.RAW_BODY !== 'undefined') {
-                cloned = cloned.RAW_BODY;
-              }
-
-              har.postData.text = JSON.stringify(cloned);
-            } catch (e) {
-              har.postData.text = stringify(formData.body);
             }
           } else {
-            har.postData.text = stringify(formData.body);
+            har.postData.mimeType = contentType;
+
+            // Find all `{ type: string, format: json }` properties in the schema because we need to manually JSON.parse
+            // them before submit, otherwise they'll be escaped instead of actual objects.
+            const jsonTypes = Object.keys(schema.schema.properties).filter(
+              key => schema.schema.properties[key].format === 'json'
+            );
+
+            if (jsonTypes.length) {
+              try {
+                jsonTypes.forEach(prop => {
+                  // Attempt to parse each of the JSON properties, but if it fails for the data being invalid JSON,
+                  // instead we'll catch the exception and handle it as raw text.
+                  cleanBody[prop] = JSON.parse(cleanBody[prop]);
+                });
+
+                if (typeof cleanBody.RAW_BODY !== 'undefined') {
+                  cleanBody = cleanBody.RAW_BODY;
+                }
+
+                har.postData.text = JSON.stringify(cleanBody);
+              } catch (e) {
+                har.postData.text = stringify(formData.body);
+              }
+            } else {
+              har.postData.text = stringify(formData.body);
+            }
           }
         } catch (e) {
           // If anything above fails for whatever reason, assume that whatever we had is invalid JSON and just treat it
