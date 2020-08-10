@@ -1,3 +1,22 @@
+## <small>6.16.1 (2020-08-10)</small>
+
+* build: updating dist files ([98a676b](https://github.com/readmeio/api-explorer/commit/98a676b))
+* fix: resolve issue on /reference/ demo site ([e991953](https://github.com/readmeio/api-explorer/commit/e991953))
+* fix: updating the preview site css ([26042e0](https://github.com/readmeio/api-explorer/commit/26042e0))
+* fix: vendored json content types being treated as plain text (#865) ([102b449](https://github.com/readmeio/api-explorer/commit/102b449)), closes [#865](https://github.com/readmeio/api-explorer/issues/865)
+* docs: removing a reference to @readme/markdown from the root readme ([b080a06](https://github.com/readmeio/api-explorer/commit/b080a06))
+* chore: deleting an empty, unused file ([864c0ec](https://github.com/readmeio/api-explorer/commit/864c0ec))
+* chore: removing `@readme/markdown` from the repo (#866) ([9508f8b](https://github.com/readmeio/api-explorer/commit/9508f8b)), closes [#866](https://github.com/readmeio/api-explorer/issues/866)
+* chore(deps-dev): bump @readme/eslint-config from 3.2.0 to 3.4.0 (#858) ([141c0ba](https://github.com/readmeio/api-explorer/commit/141c0ba)), closes [#858](https://github.com/readmeio/api-explorer/issues/858)
+* chore(deps-dev): bump gh-pages from 3.0.0 to 3.1.0 (#857) ([3374fbd](https://github.com/readmeio/api-explorer/commit/3374fbd)), closes [#857](https://github.com/readmeio/api-explorer/issues/857)
+* chore(deps): bump @readme/oas-tooling from 3.5.4 to 3.5.6 (#863) ([d0137b0](https://github.com/readmeio/api-explorer/commit/d0137b0)), closes [#863](https://github.com/readmeio/api-explorer/issues/863)
+* chore(deps): bump actions/setup-node from v2.1.0 to v2.1.1 (#856) ([5b4183d](https://github.com/readmeio/api-explorer/commit/5b4183d)), closes [#856](https://github.com/readmeio/api-explorer/issues/856)
+* chore(deps): bump elliptic from 6.5.2 to 6.5.3 in /packages/api-logs (#855) ([e7933fe](https://github.com/readmeio/api-explorer/commit/e7933fe)), closes [#855](https://github.com/readmeio/api-explorer/issues/855)
+* chore(deps): bump httpsnippet-client-api from 2.1.6 to 2.2.1 (#860) ([c62dab7](https://github.com/readmeio/api-explorer/commit/c62dab7)), closes [#860](https://github.com/readmeio/api-explorer/issues/860)
+* style(rdmd/callout): fix icon alignment (#853) ([7ee7b5f](https://github.com/readmeio/api-explorer/commit/7ee7b5f)), closes [#853](https://github.com/readmeio/api-explorer/issues/853)
+
+
+
 ## 6.16.0 (2020-07-23)
 
 * build: updating dist files ([15a2997](https://github.com/readmeio/api-explorer/commit/15a2997))
