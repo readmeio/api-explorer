@@ -1,11 +1,11 @@
 {
   "name": "@readme/markdown-magic",
   "description": "ReadMe's React-based legacy Markdown parser",
-  "version": "6.15.2",
+  "version": "6.16.1",
   "dependencies": {
     "@readme/emojis": "1.0.0",
-    "@readme/syntax-highlighter": "^6.15.2",
-    "@readme/variable": "^6.15.2",
+    "@readme/syntax-highlighter": "^6.16.1",
+    "@readme/variable": "^6.16.1",
     "hast-util-sanitize": "1.3.1",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
