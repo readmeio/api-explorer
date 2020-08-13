@@ -986,10 +986,10 @@ describe('requestBody', () => {
           //  1. The HAR spec doesn't have support for covering a case where you're making a PUT request to an endpoint
           //    with the contents of a file, eg. `curl -T filename.png`. Since there's no parameter name, as this is
           //    the entire content of the payload body, we can't promote this up to `postData.params`.
-          //  2. Since the HAR spec doesn't have support for this, neither does https://github.com/Kong/httpsnippet,
-          //    which we couple with this library to generate code snippets. Since that doesn't have support for
-          //    `curl -T filename.png` cases, the only thing we can do is just set the data URL of the file as the
-          //    content of `postData.text`.
+          //  2. Since the HAR spec doesn't have support for this, neither does the `httpsnippet` module, which we
+          //    couple with this library to generate code snippets. Since that doesn't have support for `curl -T
+          //    filename.png` cases, the only thing we can do is just set the data URL of the file as the content of
+          //    `postData.text`.
           //
           //  It's less than ideal, and code snippets for these kinds of operations are going to be extremely ugly, but
           //  there isn't anything we can do about it.
