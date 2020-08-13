@@ -53,12 +53,6 @@ function getNameFromDataUrlType(type) {
   return properties.length !== 1 ? 'unknown' : properties[0].split('=')[1];
 }
 
-function matchesMimeType(arr, contentType) {
-  return arr.some(function (type) {
-    return contentType.indexOf(type) === 0;
-  });
-}
-
 module.exports = (
   oas,
   operationSchema = { path: '', method: '' },
@@ -216,7 +210,7 @@ module.exports = (
 
   const schema = getSchema(operation, oas) || { schema: {} };
   if (schema.schema && Object.keys(schema.schema).length) {
-    if (matchesMimeType(['application/x-www-form-urlencoded'], contentType)) {
+    if (operation.isFormUrlEncoded()) {
       if (Object.keys(formData.formData).length) {
         har.postData.params = [];
         har.postData.mimeType = 'application/x-www-form-urlencoded';
@@ -233,15 +227,8 @@ module.exports = (
       formData.body !== undefined &&
       (isPrimitive(formData.body) || Object.keys(formData.body).length)
     ) {
-      const isMultipart = matchesMimeType(
-        ['multipart/mixed', 'multipart/related', 'multipart/form-data', 'multipart/alternative'],
-        contentType
-      );
-
-      const isJSON = matchesMimeType(
-        ['application/json', 'application/x-json', 'text/json', 'text/x-json', '+json'],
-        contentType
-      );
+      const isMultipart = operation.isMultipart();
+      const isJSON = operation.isJson();
 
       if (isMultipart || isJSON) {
         try {

@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@readme/oas-extensions": "^6.16.1",
-    "@readme/oas-tooling": "^3.5.4",
+    "@readme/oas-tooling": "^3.5.8",
     "data-uri-to-buffer": "^3.0.1"
   },
   "scripts": {
