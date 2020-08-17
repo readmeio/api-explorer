@@ -1,7 +1,7 @@
 const extensions = require('@readme/oas-extensions');
 const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 const { Operation } = require('@readme/oas-tooling');
-const dataUriToBuffer = require('data-uri-to-buffer');
+const parseDataUrl = require('parse-data-url');
 
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');
@@ -15,8 +15,8 @@ function formatter(values, param, type, onlyIfExists) {
     return undefined;
   }
 
-  if (param.required && param.example) {
-    return param.example;
+  if (param.required && param.schema && param.schema.default) {
+    return param.schema.default;
   }
 
   return param.name;
@@ -43,14 +43,6 @@ function isPrimitive(val) {
 
 function stringify(json) {
   return JSON.stringify(removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json));
-}
-
-function getNameFromDataUrlType(type) {
-  const properties = type.split(';').filter(param => {
-    return param.split('=')[0] === 'name';
-  });
-
-  return properties.length !== 1 ? 'unknown' : properties[0].split('=')[1];
 }
 
 module.exports = (
@@ -264,12 +256,17 @@ module.exports = (
                   value: String(cleanBody[name]),
                 };
 
-                // When we want to decode the data URL for the purpose of creating a code snippet that uses the file
-                // and not the data URL we should exclude the data URL/blob fromt he parameters data.
-                if (opts.decodeDataUrl && binaryTypes.includes(name)) {
-                  const decoded = dataUriToBuffer(data.value);
-                  data.fileName = getNameFromDataUrlType(decoded.typeFull);
-                  data.contentType = decoded.type;
+                // If we're dealing with a binary type, and the value is a valid data URL we should parse out any
+                // available filename and content type to send along with the parameter to interpreters like `fetch-har`
+                // can make sense of it and send a usable payload.
+                if (binaryTypes.includes(name)) {
+                  const parsed = parseDataUrl(data.value);
+                  if (parsed) {
+                    data.fileName = 'name' in parsed ? parsed.name : 'unknown';
+                    if ('contentType' in parsed) {
+                      data.contentType = parsed.contentType;
+                    }
+                  }
                 }
 
                 har.postData.params.push(data);

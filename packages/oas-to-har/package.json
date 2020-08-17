@@ -6,7 +6,7 @@
   "dependencies": {
     "@readme/oas-extensions": "^6.16.1",
     "@readme/oas-tooling": "^3.5.8",
-    "data-uri-to-buffer": "^3.0.1"
+    "parse-data-url": "^2.0.0"
   },
   "scripts": {
     "inspect": "jsinspect",
