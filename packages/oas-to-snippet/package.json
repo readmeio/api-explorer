@@ -8,7 +8,7 @@
     "@readme/oas-extensions": "^7.0.0",
     "@readme/oas-to-har": "^7.0.0",
     "@readme/syntax-highlighter": "^7.0.0",
-    "httpsnippet-client-api": "^2.1.6"
+    "httpsnippet-client-api": "^2.3.0"
   },
   "peerDependencies": {
     "@readme/oas-tooling": "^3.4.7"
