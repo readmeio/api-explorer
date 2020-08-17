@@ -1,3 +1,25 @@
+## 7.0.0 (2020-08-17)
+
+* build: updating dist files ([133236e](https://github.com/readmeio/api-explorer/commit/133236e))
+* feat: adding support for file uploads (#867) ([c9913b9](https://github.com/readmeio/api-explorer/commit/c9913b9)), closes [#867](https://github.com/readmeio/api-explorer/issues/867)
+* chore(deps-dev): bump @babel/core from 7.10.2 to 7.11.1 (#882) ([e70a784](https://github.com/readmeio/api-explorer/commit/e70a784)), closes [#882](https://github.com/readmeio/api-explorer/issues/882)
+* chore(deps-dev): bump @readme/eslint-config from 3.4.0 to 3.4.1 (#869) ([942e42b](https://github.com/readmeio/api-explorer/commit/942e42b)), closes [#869](https://github.com/readmeio/api-explorer/issues/869)
+* chore(deps-dev): bump @readme/oas-examples from 3.4.0 to 3.5.5 (#883) ([ecbb456](https://github.com/readmeio/api-explorer/commit/ecbb456)), closes [#883](https://github.com/readmeio/api-explorer/issues/883)
+* chore(deps-dev): bump babel-jest from 26.1.0 to 26.3.0 (#881) ([e13f7c8](https://github.com/readmeio/api-explorer/commit/e13f7c8)), closes [#881](https://github.com/readmeio/api-explorer/issues/881)
+* chore(deps-dev): bump conventional-changelog-cli from 2.0.34 to 2.1.0 (#870) ([35b0a26](https://github.com/readmeio/api-explorer/commit/35b0a26)), closes [#870](https://github.com/readmeio/api-explorer/issues/870)
+* chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.2 to 1.15.3 (#880) ([4d9ec5c](https://github.com/readmeio/api-explorer/commit/4d9ec5c)), closes [#880](https://github.com/readmeio/api-explorer/issues/880)
+* chore(deps-dev): bump jest-expect-har from 1.0.0 to 1.0.3 (#876) ([43854d8](https://github.com/readmeio/api-explorer/commit/43854d8)), closes [#876](https://github.com/readmeio/api-explorer/issues/876)
+* chore(deps-dev): bump nock from 13.0.2 to 13.0.4 (#875) ([6db5aa4](https://github.com/readmeio/api-explorer/commit/6db5aa4)), closes [#875](https://github.com/readmeio/api-explorer/issues/875)
+* chore(deps-dev): bump terser-webpack-plugin from 3.0.6 to 4.1.0 (#872) ([7b84b2d](https://github.com/readmeio/api-explorer/commit/7b84b2d)), closes [#872](https://github.com/readmeio/api-explorer/issues/872)
+* chore(deps): bump @readme/markdown from 6.15.2 to 6.18.0 (#878) ([e1129e4](https://github.com/readmeio/api-explorer/commit/e1129e4)), closes [#878](https://github.com/readmeio/api-explorer/issues/878)
+* chore(deps): bump @readme/oas-tooling from 3.5.6 to 3.5.8 (#884) ([90e2e86](https://github.com/readmeio/api-explorer/commit/90e2e86)), closes [#884](https://github.com/readmeio/api-explorer/issues/884)
+* chore(deps): bump codemirror from 5.54.0 to 5.56.0 (#871) ([1b51587](https://github.com/readmeio/api-explorer/commit/1b51587)), closes [#871](https://github.com/readmeio/api-explorer/issues/871)
+* chore(deps): bump react-waypoint from 9.0.2 to 9.0.3 (#873) ([9c41e7f](https://github.com/readmeio/api-explorer/commit/9c41e7f)), closes [#873](https://github.com/readmeio/api-explorer/issues/873)
+* chore(deps): update actions/checkout requirement to v2.3.2 (#868) ([44cecca](https://github.com/readmeio/api-explorer/commit/44cecca)), closes [#868](https://github.com/readmeio/api-explorer/issues/868)
+* ci: bumping up dependabot to make weekly updates ([5ffff12](https://github.com/readmeio/api-explorer/commit/5ffff12))
+
+
+
 ## <small>6.16.1 (2020-08-10)</small>
 
 * build: updating dist files ([98a676b](https://github.com/readmeio/api-explorer/commit/98a676b))

@@ -1,13 +1,13 @@
 {
   "name": "@readme/oas-to-snippet",
   "description": "Transform an OpenAPI operation into a code snippet",
-  "version": "6.16.1",
+  "version": "7.0.0",
   "main": "src/index.js",
   "dependencies": {
     "@readme/httpsnippet": "^2.0.1",
-    "@readme/oas-extensions": "^6.16.1",
-    "@readme/oas-to-har": "^6.15.2",
-    "@readme/syntax-highlighter": "^6.16.1",
+    "@readme/oas-extensions": "^7.0.0",
+    "@readme/oas-to-har": "^7.0.0",
+    "@readme/syntax-highlighter": "^7.0.0",
     "httpsnippet-client-api": "^2.1.6"
   },
   "peerDependencies": {
