@@ -19,7 +19,13 @@ function formatter(values, param, type, onlyIfExists) {
     return param.schema.default;
   }
 
-  return param.name;
+  // If we don't have any values for the path parameter, just use the name of the parameter as the value so we don't
+  // try try to build a URL to something like `https://example.com/undefined`.
+  if (type === 'path') {
+    return param.name;
+  }
+
+  return undefined;
 }
 
 const defaultFormDataTypes = Object.keys(parametersToJsonSchema.types).reduce((prev, curr) => {
@@ -54,11 +60,6 @@ module.exports = (
     // If true, the operation URL will be rewritten and prefixed with https://try.readme.io/ in order to funnel requests
     // through our CORS-friendly proxy.
     proxyUrl: false,
-
-    // If true, when the operation is a `multipart/form-data` type, or one that uses `format: binary` properties in the
-    // request, the uploaded file will be decoded and a `fileName` property will be added into the resulting HAR,
-    // allowing for non-web code snippets to be generated from it that use the raw file instead of the encoded data URL.
-    decodeDataUrl: false,
   }
 ) => {
   let operation = operationSchema;

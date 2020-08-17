@@ -104,9 +104,9 @@ describe('parameters', () => {
         'https://example.com/param-path/id',
       ],
       [
-        'should use example if no value',
+        'should use default if no value',
         {
-          parameters: [{ name: 'id', in: 'path', required: true, example: '123' }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { default: '123' } }],
         },
         {},
         'https://example.com/param-path/123',
@@ -153,9 +153,15 @@ describe('parameters', () => {
         },
       ],
       [
+        'should not add the parameter name as a value if required but missing',
+        {
+          parameters: [{ name: 'a', in: 'query', required: true }],
+        },
+      ],
+      [
         'should set defaults if no value provided but is required',
         {
-          parameters: [{ name: 'a', in: 'query', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'query', required: true, schema: { default: 'value' } }],
         },
         {},
         [{ name: 'a', value: 'value' }],
@@ -163,7 +169,7 @@ describe('parameters', () => {
       [
         'should pass in value if one is set and prioritise provided values',
         {
-          parameters: [{ name: 'a', in: 'query', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'query', required: true, schema: { default: 'value' } }],
         },
         { query: { a: 'test' } },
         [{ name: 'a', value: 'test' }],
@@ -202,9 +208,15 @@ describe('parameters', () => {
         },
       ],
       [
+        'should not add the parameter name as a value if required but missing',
+        {
+          parameters: [{ name: 'a', in: 'cookie', required: true }],
+        },
+      ],
+      [
         'should set defaults if no value provided but is required',
         {
-          parameters: [{ name: 'a', in: 'cookie', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'cookie', required: true, schema: { default: 'value' } }],
         },
         {},
         [{ name: 'a', value: 'value' }],
@@ -212,7 +224,7 @@ describe('parameters', () => {
       [
         'should pass in value if one is set and prioritize provided values',
         {
-          parameters: [{ name: 'a', in: 'cookie', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'cookie', required: true, schema: { default: 'value' } }],
         },
         { cookie: { a: 'test' } },
         [{ name: 'a', value: 'test' }],
@@ -251,9 +263,15 @@ describe('parameters', () => {
         },
       ],
       [
+        'should not add the parameter name as a value if required but missing',
+        {
+          parameters: [{ name: 'a', in: 'header', required: true }],
+        },
+      ],
+      [
         'should set defaults if no value provided but is required',
         {
-          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'header', required: true, schema: { default: 'value' } }],
         },
         {},
         [{ name: 'a', value: 'value' }],
@@ -261,7 +279,7 @@ describe('parameters', () => {
       [
         'should pass in value if one is set and prioritise provided values',
         {
-          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'header', required: true, schema: { default: 'value' } }],
         },
         { header: { a: 'test' } },
         [{ name: 'a', value: 'test' }],
@@ -269,7 +287,7 @@ describe('parameters', () => {
       [
         'should pass accept header if endpoint expects a content back from response',
         {
-          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'header', required: true, schema: { default: 'value' } }],
           responses: {
             200: {
               content: {
@@ -892,28 +910,6 @@ describe('requestBody', () => {
             params: [
               { name: 'orderId', value: '12345' },
               { name: 'userId', value: '67890' },
-              { name: 'documentFile', value: owlbert },
-            ],
-          });
-        });
-
-        it('should handle a multipart/form-data file request bodies and decode files if `decodeDataUrl` is set', () => {
-          const fixture = new Oas(multipartFormData);
-          const har = oasToHar(
-            fixture,
-            fixture.operation('/anything', 'post'),
-            { body: { orderId: 12345, userId: 67890, documentFile: owlbert } },
-            {},
-            {
-              decodeDataUrl: true,
-            }
-          );
-
-          expect(har.log.entries[0].request.postData).toStrictEqual({
-            mimeType: 'multipart/form-data',
-            params: [
-              { name: 'orderId', value: '12345' },
-              { name: 'userId', value: '67890' },
               {
                 contentType: 'image/png',
                 fileName: 'owlbert.png',
@@ -926,15 +922,11 @@ describe('requestBody', () => {
 
         it('should handle a multipart/form-data request where files are in an array', () => {
           const fixture = new Oas(multipartFormDataArrayOfFiles);
-          const har = oasToHar(
-            fixture,
-            fixture.operation('/anything', 'post'),
-            { body: { documentFiles: [owlbert, owlbert] } },
-            {},
-            {
-              decodeDataUrl: true,
-            }
-          );
+          const har = oasToHar(fixture, fixture.operation('/anything', 'post'), {
+            body: {
+              documentFiles: [owlbert, owlbert],
+            },
+          });
 
           expect(har.log.entries[0].request.postData).toStrictEqual({
             mimeType: 'multipart/form-data',

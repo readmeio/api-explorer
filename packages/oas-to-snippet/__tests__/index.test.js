@@ -218,22 +218,6 @@ describe('multipart/form-data handlings', () => {
       },
       {},
       'curl',
-      oasUrl,
-      { decodeDataUrl: true }
-    );
-
-    expect(snippet).toMatchSnapshot();
-  });
-
-  it('should convert a multipart/form-data operation into a web-friendly data URL snippet', () => {
-    const snippet = generateCodeSnippet(
-      formDataOas,
-      formDataOas.operation('/multipart', 'post'),
-      {
-        body: { orderId: 10, userId: 3232, documentFile: owlbert },
-      },
-      {},
-      'curl',
       oasUrl
     );
 
