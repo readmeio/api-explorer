@@ -1,6 +1,8 @@
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
+const path = require('path');
+const datauri = require('datauri');
 
 const generateCodeSnippet = require('../src');
 
@@ -111,7 +113,7 @@ test('should not contain proxy url', () => {
   expect(code).toStrictEqual(expect.stringMatching('https://example.com/path/123'));
 });
 
-test('javascript should not contain `withCredentials`', () => {
+test('should not contain `withCredentials` in javascript snippets', () => {
   const { code } = generateCodeSnippet(oas, operation, {}, {}, 'javascript', oasUrl);
 
   expect(code).not.toMatch(/withCredentials/);
@@ -138,6 +140,89 @@ test('should support node-simple', () => {
 
   expect(snippet.code).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
   expect(snippet.highlightMode).toBe('javascript');
+});
+
+describe('multipart/form-data handlings', () => {
+  let formDataOas;
+  let owlbert;
+
+  beforeAll(async () => {
+    formDataOas = new Oas({
+      servers: [{ url: 'https://example.com' }],
+      paths: {
+        '/multipart': {
+          post: {
+            security: [
+              {
+                bearerAuth: [],
+              },
+            ],
+            requestBody: {
+              $ref: '#/components/requestBodies/payload',
+            },
+            responses: {
+              default: {
+                description: 'OK',
+              },
+            },
+          },
+        },
+      },
+      components: {
+        requestBodies: {
+          payload: {
+            required: true,
+            content: {
+              'multipart/form-data': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    orderId: {
+                      type: 'integer',
+                    },
+                    userId: {
+                      type: 'integer',
+                    },
+                    documentFile: {
+                      type: 'string',
+                      format: 'binary',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        securitySchemes: {
+          bearerAuth: {
+            type: 'apiKey',
+            name: 'Authorization',
+            in: 'header',
+          },
+        },
+      },
+    });
+
+    owlbert = await datauri(path.join(__dirname, '__fixtures__', 'owlbert.png'));
+
+    // Doing this manually for now until when/if https://github.com/data-uri/datauri/pull/29 is accepted.
+    owlbert = owlbert.replace(';base64', `;name=${encodeURIComponent('owlbert.png')};base64`);
+  });
+
+  it('should convert a multipart/form-data operation into a proper snippet that uses the original file', () => {
+    const snippet = generateCodeSnippet(
+      formDataOas,
+      formDataOas.operation('/multipart', 'post'),
+      {
+        body: { orderId: 10, userId: 3232, documentFile: owlbert },
+      },
+      {},
+      'curl',
+      oasUrl
+    );
+
+    expect(snippet).toMatchSnapshot();
+  });
 });
 
 describe('#getLangName()', () => {

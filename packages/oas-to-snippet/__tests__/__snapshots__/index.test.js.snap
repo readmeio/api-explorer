@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`multipart/form-data handlings should convert a multipart/form-data operation into a proper snippet that uses the original file 1`] = `
+Object {
+  "code": "curl --request POST \\\\
+  --url https://example.com/multipart \\\\
+  --header 'content-type: multipart/form-data; boundary=---011000010111000001101001' \\\\
+  --form orderId=10 \\\\
+  --form userId=3232 \\\\
+  --form documentFile=@owlbert.png",
+  "highlightMode": "shell",
+}
+`;

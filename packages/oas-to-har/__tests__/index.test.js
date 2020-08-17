@@ -1,8 +1,12 @@
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
+const path = require('path');
+const datauri = require('datauri');
 
 const oasToHar = require('../src/index');
 const commonParameters = require('./__fixtures__/common-parameters');
+const multipartFormData = require('./__fixtures__/multipart-form-data');
+const multipartFormDataArrayOfFiles = require('./__fixtures__/multipart-form-data/array-of-files');
 
 const oas = new Oas();
 
@@ -100,9 +104,9 @@ describe('parameters', () => {
         'https://example.com/param-path/id',
       ],
       [
-        'should use example if no value',
+        'should use default if no value',
         {
-          parameters: [{ name: 'id', in: 'path', required: true, example: '123' }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { default: '123' } }],
         },
         {},
         'https://example.com/param-path/123',
@@ -149,9 +153,15 @@ describe('parameters', () => {
         },
       ],
       [
+        'should not add the parameter name as a value if required but missing',
+        {
+          parameters: [{ name: 'a', in: 'query', required: true }],
+        },
+      ],
+      [
         'should set defaults if no value provided but is required',
         {
-          parameters: [{ name: 'a', in: 'query', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'query', required: true, schema: { default: 'value' } }],
         },
         {},
         [{ name: 'a', value: 'value' }],
@@ -159,7 +169,7 @@ describe('parameters', () => {
       [
         'should pass in value if one is set and prioritise provided values',
         {
-          parameters: [{ name: 'a', in: 'query', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'query', required: true, schema: { default: 'value' } }],
         },
         { query: { a: 'test' } },
         [{ name: 'a', value: 'test' }],
@@ -198,9 +208,15 @@ describe('parameters', () => {
         },
       ],
       [
+        'should not add the parameter name as a value if required but missing',
+        {
+          parameters: [{ name: 'a', in: 'cookie', required: true }],
+        },
+      ],
+      [
         'should set defaults if no value provided but is required',
         {
-          parameters: [{ name: 'a', in: 'cookie', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'cookie', required: true, schema: { default: 'value' } }],
         },
         {},
         [{ name: 'a', value: 'value' }],
@@ -208,7 +224,7 @@ describe('parameters', () => {
       [
         'should pass in value if one is set and prioritize provided values',
         {
-          parameters: [{ name: 'a', in: 'cookie', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'cookie', required: true, schema: { default: 'value' } }],
         },
         { cookie: { a: 'test' } },
         [{ name: 'a', value: 'test' }],
@@ -247,9 +263,15 @@ describe('parameters', () => {
         },
       ],
       [
+        'should not add the parameter name as a value if required but missing',
+        {
+          parameters: [{ name: 'a', in: 'header', required: true }],
+        },
+      ],
+      [
         'should set defaults if no value provided but is required',
         {
-          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'header', required: true, schema: { default: 'value' } }],
         },
         {},
         [{ name: 'a', value: 'value' }],
@@ -257,7 +279,7 @@ describe('parameters', () => {
       [
         'should pass in value if one is set and prioritise provided values',
         {
-          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'header', required: true, schema: { default: 'value' } }],
         },
         { header: { a: 'test' } },
         [{ name: 'a', value: 'test' }],
@@ -265,7 +287,7 @@ describe('parameters', () => {
       [
         'should pass accept header if endpoint expects a content back from response',
         {
-          parameters: [{ name: 'a', in: 'header', required: true, example: 'value' }],
+          parameters: [{ name: 'a', in: 'header', required: true, schema: { default: 'value' } }],
           responses: {
             200: {
               content: {
@@ -860,70 +882,114 @@ describe('requestBody', () => {
       ).toBeUndefined();
     });
 
-    describe('multipart/form-data', () => {
-      it('should handle multipart/form-data request bodies', () => {
-        const har = oasToHar(
-          new Oas({
-            components: {
-              requestBodies: {
-                payload: {
-                  required: true,
-                  content: {
-                    'multipart/form-data': {
-                      schema: {
-                        type: 'object',
-                        properties: {
-                          'Document file': {
-                            type: 'string',
-                            format: 'binary',
-                          },
-                        },
-                      },
+    describe('content types', () => {
+      describe('multipart/form-data', () => {
+        let owlbert;
+
+        beforeAll(async () => {
+          owlbert = await datauri(path.join(__dirname, '__fixtures__', 'owlbert.png'));
+
+          // Doing this manually for now until when/if https://github.com/data-uri/datauri/pull/29 is accepted.
+          owlbert = owlbert.replace(';base64', `;name=${encodeURIComponent('owlbert.png')};base64`);
+        });
+
+        it('should handle multipart/form-data request bodies', () => {
+          const fixture = new Oas(multipartFormData);
+          const har = oasToHar(fixture, fixture.operation('/anything', 'post'), {
+            body: { orderId: 12345, userId: 67890, documentFile: owlbert },
+          });
+
+          expect(har.log.entries[0].request.headers).toStrictEqual([
+            { name: 'Content-Type', value: 'multipart/form-data' },
+          ]);
+
+          expect(har.log.entries[0].request.postData).toStrictEqual({
+            mimeType: 'multipart/form-data',
+            params: [
+              { name: 'orderId', value: '12345' },
+              { name: 'userId', value: '67890' },
+              {
+                contentType: 'image/png',
+                fileName: 'owlbert.png',
+                name: 'documentFile',
+                value: owlbert,
+              },
+            ],
+          });
+        });
+
+        it('should handle a multipart/form-data request where files are in an array', () => {
+          const fixture = new Oas(multipartFormDataArrayOfFiles);
+          const har = oasToHar(fixture, fixture.operation('/anything', 'post'), {
+            body: {
+              documentFiles: [owlbert, owlbert],
+            },
+          });
+
+          expect(har.log.entries[0].request.postData).toStrictEqual({
+            mimeType: 'multipart/form-data',
+            params: [
+              {
+                name: 'documentFiles',
+                value: JSON.stringify([owlbert, owlbert]),
+              },
+            ],
+          });
+        });
+      });
+
+      describe('image/png', () => {
+        it('should handle a image/png request body', async () => {
+          let owlbert = await datauri(path.join(__dirname, '__fixtures__', 'owlbert.png'));
+
+          // Doing this manually for now until when/if https://github.com/data-uri/datauri/pull/29 is accepted.
+          owlbert = owlbert.replace(';base64', `;name=${encodeURIComponent('owlbert.png')};base64`);
+
+          const har = oasToHar(
+            oas,
+            {
+              path: '/',
+              method: 'post',
+              responses: {
+                200: {
+                  description: 'OK',
+                },
+              },
+              requestBody: {
+                content: {
+                  'image/png': {
+                    schema: {
+                      type: 'string',
+                      format: 'binary',
                     },
                   },
                 },
               },
-              securitySchemes: {
-                bearerAuth: {
-                  type: 'apiKey',
-                  name: 'Authorization',
-                  in: 'header',
-                },
-              },
             },
-          }),
-          {
-            path: '/multipart',
-            method: 'post',
-            security: [
-              {
-                bearerAuth: [],
-              },
-            ],
-            requestBody: {
-              $ref: '#/components/requestBodies/payload',
-            },
-            responses: {
-              default: {
-                description: 'OK',
-              },
-            },
-          },
-          {
-            body: {
-              'Document file': '.....',
-            },
-          }
-        );
+            { body: owlbert }
+          );
 
-        expect(har.log.entries[0].request.headers).toStrictEqual([
-          { name: 'Content-Type', value: 'multipart/form-data' },
-        ]);
-        expect(har.log.entries[0].request.postData.mimeType).toBe('multipart/form-data');
+          await expect(har).toBeAValidHAR();
+
+          // The `postData` contents here should be the data URL of the image for a couple reasons:
+          //
+          //  1. The HAR spec doesn't have support for covering a case where you're making a PUT request to an endpoint
+          //    with the contents of a file, eg. `curl -T filename.png`. Since there's no parameter name, as this is
+          //    the entire content of the payload body, we can't promote this up to `postData.params`.
+          //  2. Since the HAR spec doesn't have support for this, neither does the `httpsnippet` module, which we
+          //    couple with this library to generate code snippets. Since that doesn't have support for `curl -T
+          //    filename.png` cases, the only thing we can do is just set the data URL of the file as the content of
+          //    `postData.text`.
+          //
+          //  It's less than ideal, and code snippets for these kinds of operations are going to be extremely ugly, but
+          //  there isn't anything we can do about it.
+          expect(har.log.entries[0].request.postData.mimeType).toBe('image/png');
+          expect(har.log.entries[0].request.postData.text).toBe(`${owlbert}`);
+        });
       });
     });
 
-    describe('`json` type', () => {
+    describe('format: `json`', () => {
       it('should work for refs that require a lookup', () => {
         expect(
           oasToHar(
@@ -1151,7 +1217,7 @@ describe('common parameters', () => {
       httpVersion: 'HTTP/1.1',
       queryString: [{ name: 'limit', value: '10' }],
       method: 'POST',
-      url: 'http://httpbin.org/anything/1234',
+      url: 'https://httpbin.org/anything/1234',
     });
   });
 

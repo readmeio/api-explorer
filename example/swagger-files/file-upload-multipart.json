@@ -1,0 +1,49 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://httpbin.org"
+    }
+  ],
+  "info": {
+    "version": "1.0.0",
+    "title": "An example of how we handle file uploading"
+  },
+  "paths": {
+    "/anything": {
+      "post": {
+        "summary": "Multipart upload",
+        "description": "https://swagger.io/docs/specification/describing-request-body/file-upload/",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "type": "integer"
+                  },
+                  "userId": {
+                    "type": "integer"
+                  },
+                  "documentFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-explorer-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["curl", "node", "node-simple", "ruby", "javascript", "python"]
+}

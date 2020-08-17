@@ -1,4 +1,4 @@
-const HTTPSnippet = require('httpsnippet');
+const HTTPSnippet = require('@readme/httpsnippet');
 const HTTPSnippetSimpleApiClient = require('httpsnippet-client-api');
 const uppercase = require('@readme/syntax-highlighter/uppercase');
 const generateHar = require('@readme/oas-to-har');
@@ -70,6 +70,14 @@ const supportedLanguages = {
   },
 };
 
+/**
+ * @param {Oas} oas
+ * @param {Operation} operation
+ * @param {Object} values
+ * @param {Object} auth
+ * @param {String} lang
+ * @param {String} oasUrl
+ */
 module.exports = (oas, operation, values, auth, lang, oasUrl) => {
   const har = generateHar(oas, operation, values, auth);
 

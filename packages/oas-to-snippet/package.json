@@ -4,10 +4,10 @@
   "version": "6.16.1",
   "main": "src/index.js",
   "dependencies": {
+    "@readme/httpsnippet": "^2.0.1",
     "@readme/oas-extensions": "^6.16.1",
-    "@readme/oas-to-har": "^6.16.1",
+    "@readme/oas-to-har": "^6.15.2",
     "@readme/syntax-highlighter": "^6.16.1",
-    "httpsnippet": "^1.20.0",
     "httpsnippet-client-api": "^2.1.6"
   },
   "peerDependencies": {
@@ -33,7 +33,8 @@
   "devDependencies": {
     "@readme/eslint-config": "^3.2.0",
     "@readme/oas-examples": "^3.4.0",
-    "@readme/oas-tooling": "^3.5.4",
+    "@readme/oas-tooling": "^3.5.8",
+    "datauri": "^3.0.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "prettier": "^2.0.1"
