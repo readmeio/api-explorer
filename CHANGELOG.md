@@ -1,3 +1,10 @@
+## <small>7.0.1 (2020-08-17)</small>
+
+* build: updating dist files ([adaa779](https://github.com/readmeio/api-explorer/commit/adaa779))
+* chore(deps): upgrading httpsnippet-client-api for multipart support ([9a628f5](https://github.com/readmeio/api-explorer/commit/9a628f5))
+
+
+
 ## 7.0.0 (2020-08-17)
 
 * build: updating dist files ([133236e](https://github.com/readmeio/api-explorer/commit/133236e))
