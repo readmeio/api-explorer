@@ -883,8 +883,6 @@ describe('requestBody', () => {
     });
 
     describe('content types', () => {
-      it.todo('should support vendor-prefixed json content types');
-
       describe('multipart/form-data', () => {
         let owlbert;
 
@@ -1022,8 +1020,6 @@ describe('requestBody', () => {
           ).log.entries[0].request.postData.text
         ).toBe(JSON.stringify({ a: JSON.parse('{ "b": 1 }') }));
       });
-
-      it.todo('can handle cases where a json property is deep-nested');
 
       it('should leave invalid JSON as strings', () => {
         expect(
