@@ -4,7 +4,7 @@
   "version": "7.0.1",
   "main": "src/index.js",
   "dependencies": {
-    "@readme/httpsnippet": "^2.0.1",
+    "@readme/httpsnippet": "^2.1.0",
     "@readme/oas-extensions": "^7.0.0",
     "@readme/oas-to-har": "^7.0.0",
     "@readme/syntax-highlighter": "^7.0.0",
