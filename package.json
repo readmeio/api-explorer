@@ -61,7 +61,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@apidevtools/swagger-parser": "^9.0.1",
+    "@apidevtools/swagger-parser": "^10.0.1",
     "@readme/emojis": "^2.1.0",
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.7.2",
