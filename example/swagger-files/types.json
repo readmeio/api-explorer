@@ -97,7 +97,6 @@
                     "format": "date"
                   },
                   "string (format: date-time)": {
-                    "description": "Temporarily disabled back to a simple string input due to a bug in RJSF",
                     "type": "string",
                     "format": "date-time"
                   },
