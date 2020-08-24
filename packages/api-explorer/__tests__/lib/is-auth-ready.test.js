@@ -3,11 +3,22 @@ const Oas = require('@readme/oas-tooling');
 const isAuthReady = require('../../src/lib/is-auth-ready');
 const authTypesOas = require('../__fixtures__/auth-types/oas');
 const multipleSchemes = require('../__fixtures__/multiple-securities/oas');
+const noSecuritySchemes = require('../__fixtures__/auth-types/no-security-schemes');
 
 const oas = new Oas(authTypesOas);
 const oas2 = new Oas(multipleSchemes);
 
 describe('isAuthReady', () => {
+  it('should return true if a security type is defined, but no securitySchemes are present', () => {
+    const operation = new Oas(noSecuritySchemes).operation('/oauth', 'post');
+
+    expect(
+      isAuthReady(operation, {
+        oauth: 'bearer',
+      })
+    ).toBe(true);
+  });
+
   it('should return true if multiple security types required (&&)', () => {
     const operation = oas2.operation('/and-security', 'post');
 
