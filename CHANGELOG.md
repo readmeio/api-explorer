@@ -1,3 +1,17 @@
+## 7.1.0 (2020-08-24)
+
+* build: updating dist files ([1e66082](https://github.com/readmeio/api-explorer/commit/1e66082))
+* chore(deps-dev): bump @babel/core from 7.11.1 to 7.11.4 (#891) ([3c90c64](https://github.com/readmeio/api-explorer/commit/3c90c64)), closes [#891](https://github.com/readmeio/api-explorer/issues/891)
+* chore(deps-dev): bump @commitlint/cli from 8.3.5 to 9.1.2 (#889) ([af59090](https://github.com/readmeio/api-explorer/commit/af59090)), closes [#889](https://github.com/readmeio/api-explorer/issues/889)
+* chore(deps-dev): bump @commitlint/config-conventional (#890) ([2d6c416](https://github.com/readmeio/api-explorer/commit/2d6c416)), closes [#890](https://github.com/readmeio/api-explorer/issues/890)
+* chore(deps-dev): bump @readme/eslint-config from 3.4.1 to 3.4.2 (#886) ([de3569c](https://github.com/readmeio/api-explorer/commit/de3569c)), closes [#886](https://github.com/readmeio/api-explorer/issues/886)
+* chore(deps-dev): bump webpack from 4.43.0 to 4.44.1 (#888) ([5edaf1d](https://github.com/readmeio/api-explorer/commit/5edaf1d)), closes [#888](https://github.com/readmeio/api-explorer/issues/888)
+* chore(deps): bump @apidevtools/swagger-parser from 9.0.1 to 10.0.1 (#887) ([79289f3](https://github.com/readmeio/api-explorer/commit/79289f3)), closes [#887](https://github.com/readmeio/api-explorer/issues/887)
+* chore(deps): upgrading @readme/httpsnippet to 2.1.0 (#894) ([0361b23](https://github.com/readmeio/api-explorer/commit/0361b23)), closes [#894](https://github.com/readmeio/api-explorer/issues/894)
+* fix: bug where if no securityschemes were present, we might return valid security (#893) ([6aba7bf](https://github.com/readmeio/api-explorer/commit/6aba7bf)), closes [#893](https://github.com/readmeio/api-explorer/issues/893)
+
+
+
 ## <small>7.0.1 (2020-08-17)</small>
 
 * build: updating dist files ([adaa779](https://github.com/readmeio/api-explorer/commit/adaa779))
