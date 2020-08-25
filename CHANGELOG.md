@@ -1,3 +1,10 @@
+## <small>7.1.1 (2020-08-25)</small>
+
+* build: update dist files ([3bbcb0e](https://github.com/readmeio/api-explorer/commit/3bbcb0e))
+* fix: don't throw an error if the node-simple client is already present ([8766620](https://github.com/readmeio/api-explorer/commit/8766620))
+
+
+
 ## 7.1.0 (2020-08-24)
 
 * build: updating dist files ([1e66082](https://github.com/readmeio/api-explorer/commit/1e66082))
