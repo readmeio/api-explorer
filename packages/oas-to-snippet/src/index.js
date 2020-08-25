@@ -84,7 +84,13 @@ module.exports = (oas, operation, values, auth, lang, oasUrl) => {
   // API SDK client needs additional runtime information on the API definition we're showing the user so it can
   // generate an appropriate snippet.
   if (lang === 'node-simple') {
-    HTTPSnippet.addTargetClient('node', HTTPSnippetSimpleApiClient);
+    try {
+      HTTPSnippet.addTargetClient('node', HTTPSnippetSimpleApiClient);
+    } catch (e) {
+      if (!e.message.match(/already exists/)) {
+        throw e;
+      }
+    }
   }
 
   const snippet = new HTTPSnippet(har);
