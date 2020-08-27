@@ -4,7 +4,7 @@ const Form = require('@readme/react-jsonschema-form').default;
 const slug = require('lodash.kebabcase');
 
 const {
-  // DateTimeWidget,
+  DateWidget,
   PasswordWidget,
   TextWidget,
   UpDownWidget,
@@ -13,15 +13,16 @@ const {
 const Oas = require('@readme/oas-tooling');
 const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 
+const createArrayField = require('./form-components/ArrayField');
+const createBaseInput = require('./form-components/BaseInput');
+const createDateTimeWidget = require('./form-components/DateTimeWidget');
+const createFileWidget = require('./form-components/FileWidget');
+const createSchemaField = require('./form-components/SchemaField');
+const createSelectWidget = require('./form-components/SelectWidget');
+const createTextareaWidget = require('./form-components/TextareaWidget');
+const createURLWidget = require('./form-components/URLWidget');
 const DescriptionField = require('./form-components/DescriptionField');
 const UnsupportedField = require('./form-components/UnsupportedField');
-const createBaseInput = require('./form-components/BaseInput');
-const createSelectWidget = require('./form-components/SelectWidget');
-const createArrayField = require('./form-components/ArrayField');
-const createSchemaField = require('./form-components/SchemaField');
-const createTextareaWidget = require('./form-components/TextareaWidget');
-const createFileWidget = require('./form-components/FileWidget');
-const createURLWidget = require('./form-components/URLWidget');
 
 const { Operation } = Oas;
 
@@ -46,6 +47,7 @@ class Params extends React.Component {
     const {
       ArrayField,
       BaseInput,
+      DateTimeWidget,
       FileWidget,
       formData,
       onChange,
@@ -91,13 +93,9 @@ class Params extends React.Component {
                   binary: FileWidget,
                   blob: TextareaWidget,
                   byte: TextWidget,
-                  date: TextWidget,
-
-                  // 🚨 Temporarily disabling support for rendering the datetime widget as RJSF appears to be disabling it in
-                  // browsers that don't fully support it.
-                  /* dateTime: DateTimeWidget,
-                  'date-time': DateTimeWidget, */
-
+                  date: DateWidget,
+                  dateTime: DateTimeWidget,
+                  'date-time': DateTimeWidget,
                   double: UpDownWidget,
                   duration: TextWidget,
                   float: UpDownWidget,
@@ -133,6 +131,7 @@ class Params extends React.Component {
 Params.propTypes = {
   ArrayField: PropTypes.func.isRequired,
   BaseInput: PropTypes.func.isRequired,
+  DateTimeWidget: PropTypes.func.isRequired,
   FileWidget: PropTypes.func.isRequired,
   formData: PropTypes.shape({}).isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
@@ -153,6 +152,7 @@ Params.defaultProps = {
 function createParams(oas) {
   const ArrayField = createArrayField(oas);
   const BaseInput = createBaseInput(oas);
+  const DateTimeWidget = createDateTimeWidget(oas);
   const FileWidget = createFileWidget(oas);
   const SchemaField = createSchemaField();
   const SelectWidget = createSelectWidget(oas);
@@ -166,6 +166,7 @@ function createParams(oas) {
         {...props}
         ArrayField={ArrayField}
         BaseInput={BaseInput}
+        DateTimeWidget={DateTimeWidget}
         FileWidget={FileWidget}
         SchemaField={SchemaField}
         SelectWidget={SelectWidget}
