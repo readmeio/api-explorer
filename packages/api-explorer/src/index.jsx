@@ -32,8 +32,14 @@ class ApiExplorer extends React.Component {
     };
 
     this.onAuthGroupChange = this.onAuthGroupChange.bind(this);
+
     this.groups =
-      this.props.variables.user.keys && this.props.variables.user.keys.map(key => ({ id: key.id, name: key.name }));
+      this.props.variables.user.keys &&
+      this.props.variables.user.keys.map(key => ({
+        // If we don't have an `id` present, default to the `name` instead.
+        id: 'id' in key ? key.id : key.name,
+        name: key.name,
+      }));
 
     this.lazyHash = this.buildLazyHash();
   }
@@ -110,9 +116,18 @@ class ApiExplorer extends React.Component {
     const { user } = this.props.variables;
     let groupName = false;
     if (user.keys) {
-      // We need to remap the incoming group with the groups name so we can pick out the auth
-      // keys in `getAuth`.
-      groupName = user.keys.find(key => key.id === group).name;
+      // We need to remap the incoming group with the groups name so we can pick out the auth keys in `getAuth`.
+      let keys = user.keys.find(key => key.id === group);
+      if (keys !== undefined) {
+        groupName = keys.name;
+      } else {
+        // If the keys that we have for a user don't have an `id` set up, but does have `name`, we can pull it off that
+        // instead.
+        keys = user.keys.find(key => !('id' in key) && key.name === group);
+        if (keys !== undefined) {
+          groupName = keys.name;
+        }
+      }
     }
 
     this.setState({
