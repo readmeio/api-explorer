@@ -386,6 +386,7 @@
         }
       },
       "Dog": {
+        "title": "Woof",
         "allOf": [
           {
             "$ref": "#/components/schemas/Pet"
@@ -405,6 +406,7 @@
         ]
       },
       "Cat": {
+        "title": "Meow",
         "type": "object",
         "allOf": [
           {
