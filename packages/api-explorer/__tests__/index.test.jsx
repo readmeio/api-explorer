@@ -3,6 +3,7 @@ const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
 const WrappedApiExplorer = require('../src');
+const AuthBox = require('../src/AuthBox');
 const ErrorBoundary = require('../src/ErrorBoundary');
 
 const { ApiExplorer } = WrappedApiExplorer;
@@ -309,7 +310,7 @@ describe('auth', () => {
     expect(explorer.state('auth')).toStrictEqual({ api_key: '', petstore_auth: '' });
   });
 
-  it('should be updated via editing authbox', () => {
+  it('should be updated via editing AuthBox', () => {
     const explorer = mount(<ApiExplorer {...props} docs={docs.slice(0, 1)} />);
     const doc = explorer.find('Doc').at(0).instance();
 
@@ -328,6 +329,84 @@ describe('auth', () => {
     input.simulate('change');
 
     expect(explorer.state('auth').petstore_auth).toBe('12345678');
+  });
+
+  it('should be swapped via selecting through the AuthBox', () => {
+    const apiKey = '123456';
+    const apiKey2 = `${apiKey}-${apiKey}`;
+
+    const explorer = mount(
+      <ApiExplorer
+        {...props}
+        docs={docs.slice(0, 1)}
+        variables={{
+          user: {
+            keys: [
+              { id: apiKey, name: 'app 1', apiKey },
+              { id: apiKey2, name: 'app 2', apiKey: apiKey2 },
+            ],
+          },
+          defaults,
+        }}
+      />
+    );
+
+    const doc = explorer.find('Doc').at(0).instance();
+    doc.setState({ showEndpoint: true, showAuthBox: true });
+
+    explorer.update();
+
+    expect(doc.props.groups).toStrictEqual([
+      { id: apiKey, name: 'app 1' },
+      { id: apiKey2, name: 'app 2' },
+    ]);
+
+    const box = explorer.find(AuthBox);
+
+    const select = box.find('select');
+    select.instance().value = apiKey2;
+    select.simulate('change');
+
+    expect(explorer.state('auth').petstore_auth).toBe(apiKey2);
+  });
+
+  it('should be swapped via selecting through the AuthBox if the user keys are missing an `id` property (but have `name`)', () => {
+    const apiKey = '123456';
+    const apiKey2 = `${apiKey}-${apiKey}`;
+
+    const explorer = mount(
+      <ApiExplorer
+        {...props}
+        docs={docs.slice(0, 1)}
+        variables={{
+          user: {
+            keys: [
+              { name: 'app 1', apiKey },
+              { name: 'app 2', apiKey: apiKey2 },
+            ],
+          },
+          defaults,
+        }}
+      />
+    );
+
+    const doc = explorer.find('Doc').at(0).instance();
+    doc.setState({ showEndpoint: true, showAuthBox: true });
+
+    explorer.update();
+
+    expect(doc.props.groups).toStrictEqual([
+      { id: 'app 1', name: 'app 1' },
+      { id: 'app 2', name: 'app 2' },
+    ]);
+
+    const box = explorer.find(AuthBox);
+
+    const select = box.find('select');
+    select.instance().value = 'app 2';
+    select.simulate('change');
+
+    expect(explorer.state('auth').petstore_auth).toBe(apiKey2);
   });
 
   it('should merge securities auth changes', () => {
