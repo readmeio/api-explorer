@@ -1,3 +1,13 @@
+## 7.2.0 (2020-08-28)
+
+* build: updating dist files ([fa626b9](https://github.com/readmeio/api-explorer/commit/fa626b9))
+* fix: cases where user auth keys might not have an `id` present (#899) ([22f2863](https://github.com/readmeio/api-explorer/commit/22f2863)), closes [#899](https://github.com/readmeio/api-explorer/issues/899)
+* fix: creating a custom DateTimeWidget for datetime-local inputs (#895) ([dcf0258](https://github.com/readmeio/api-explorer/commit/dcf0258)), closes [#895](https://github.com/readmeio/api-explorer/issues/895)
+* fix: issue where polymorphism titles in refs wouldn't be surfaced (#898) ([f3becfe](https://github.com/readmeio/api-explorer/commit/f3becfe)), closes [#898](https://github.com/readmeio/api-explorer/issues/898)
+* chore(deps): upgrading @readme/oas-tooling to 3.5.10 (#896) ([bae7b7a](https://github.com/readmeio/api-explorer/commit/bae7b7a)), closes [#896](https://github.com/readmeio/api-explorer/issues/896)
+
+
+
 ## <small>7.1.1 (2020-08-25)</small>
 
 * build: update dist files ([3bbcb0e](https://github.com/readmeio/api-explorer/commit/3bbcb0e))
