@@ -96,7 +96,7 @@ test('should render schema from "application/json"', () => {
     operation: new Operation({}, '/', 'get', {
       ...oas.operation('/pet/findByTags', 'get'),
       responses: {
-        '200': {
+        200: {
           content: {
             'application/json': {
               description: 'successful operation',
@@ -120,7 +120,7 @@ test('should contain ResponseSchemaBody element if $ref exist for "application/x
     operation: new Operation(oas, '/', 'get', {
       ...oas.operation('/pet/{petId}', 'get'),
       responses: {
-        '200': {
+        200: {
           content: {
             'application/xml': {
               description: 'successful operation',
@@ -192,7 +192,7 @@ test('should not break if schema property missing', () => {
     operation: new Operation({}, '/', 'get', {
       ...oas.operation('/pet/findByTags', 'get'),
       responses: {
-        '200': {
+        200: {
           content: {
             'application/xml': {
               description: 'successful operation',
