@@ -10,7 +10,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            extends: './.babelrc',
+            extends: '../../.babelrc',
           },
         },
       },
