@@ -13,7 +13,8 @@
     "lint": "eslint . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run prettier && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage --runInBand"
+    "test": "jest --coverage --runInBand",
+    "build": "webpack"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org",
@@ -23,11 +24,17 @@
   "license": "ISC",
   "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/variable",
   "devDependencies": {
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
     "@readme/eslint-config": "^3.2.0",
+    "babel-loader": "^8.1.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "jsinspect": "^0.12.7",
-    "prettier": "^2.0.1"
+    "prettier": "^2.0.1",
+    "terser-webpack-plugin": "^4.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   },
   "prettier": "@readme/eslint-config/prettier"
 }
