@@ -1,3 +1,10 @@
+## <small>7.2.2 (2020-09-02)</small>
+
+* build: updating dist files ([6298bae](https://github.com/readmeio/api-explorer/commit/6298bae))
+* fix: updating the variable package to use the dist as its main entry ([2b27875](https://github.com/readmeio/api-explorer/commit/2b27875))
+
+
+
 ## <small>7.2.1 (2020-09-02)</small>
 
 * build: updating dists ([3d277f2](https://github.com/readmeio/api-explorer/commit/3d277f2))
