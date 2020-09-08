@@ -84,6 +84,10 @@ class CodeSample extends React.Component {
       operation[extensions.SAMPLES_ENABLED] !== undefined
         ? operation[extensions.SAMPLES_ENABLED]
         : oas[extensions.SAMPLES_ENABLED];
+    const sampleLanguages =
+      operation[extensions.SAMPLES_LANGUAGES] !== undefined
+        ? operation[extensions.SAMPLES_LANGUAGES]
+        : oas[extensions.SAMPLES_LANGUAGES]; 
 
     return (
       <div className="code-sample tabber-parent">
@@ -102,7 +106,7 @@ class CodeSample extends React.Component {
           return (
             <div>
               <ul className="code-sample-tabs">
-                {oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                {sampleLanguages.map(lang => (
                   // TODO add `is-lang-${lang}` class, to body?
                   <li key={lang}>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
