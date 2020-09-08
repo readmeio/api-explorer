@@ -80,12 +80,16 @@ class CodeSample extends React.Component {
 
   render() {
     const { oas, oasUrl, setLanguage, operation, formData, language, examples, auth } = this.props;
+    const samplesEnabled =
+      operation[extensions.SAMPLES_ENABLED] !== undefined
+        ? operation[extensions.SAMPLES_ENABLED]
+        : oas[extensions.SAMPLES_ENABLED];
 
     return (
       <div className="code-sample tabber-parent">
         {(() => {
           if (examples.length) return this.renderSelected(examples, setLanguage);
-          if (!oas[extensions.SAMPLES_ENABLED]) {
+          if (!samplesEnabled) {
             return <div className="hub-no-code">No code samples available</div>;
           }
 
