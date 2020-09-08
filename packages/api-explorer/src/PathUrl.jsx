@@ -40,11 +40,18 @@ function PathUrl({
   showAuthBox,
   toggleAuth,
 }) {
+
+  
+  const explorerEnabled = 
+    operation[extensions.EXPLORER_ENABLED] !== undefined 
+      ? operation[extensions.EXPLORER_ENABLED] 
+      : oas[extensions.EXPLORER_ENABLED];
+
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
         <div className="api-definition-container">
-          {oas[extensions.EXPLORER_ENABLED] && (
+          { explorerEnabled && (
             <div className="api-definition-actions">
               <AuthBox
                 auth={auth}
