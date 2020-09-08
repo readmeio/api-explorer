@@ -209,6 +209,11 @@ class ResponseExample extends React.Component {
       }
     };
 
+    const explorerEnabled = 
+      operation[extensions.EXPLORER_ENABLED] !== undefined
+        ? operation[extensions.EXPLORER_ENABLED]
+        : oas[extensions.EXPLORER_ENABLED];
+
     return (
       <div className="hub-reference-results-examples code-sample">
         {examples && examples.length > 0 && hasExamples && (
@@ -263,7 +268,7 @@ class ResponseExample extends React.Component {
 
         {(examples.length === 0 || (!hasExamples && result === null)) && (
           <div className="hub-no-code">
-            {oas[extensions.EXPLORER_ENABLED] ? 'Try the API to see Results' : 'No response examples available'}
+            {explorerEnabled ? 'Try the API to see Results' : 'No response examples available'}
           </div>
         )}
       </div>
