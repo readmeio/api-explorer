@@ -1,3 +1,33 @@
+## <small>7.2.2 (2020-09-02)</small>
+
+* build: updating dist files ([6298bae](https://github.com/readmeio/api-explorer/commit/6298bae))
+* fix: updating the variable package to use the dist as its main entry ([2b27875](https://github.com/readmeio/api-explorer/commit/2b27875))
+
+
+
+## <small>7.2.1 (2020-09-02)</small>
+
+* build: updating dists ([3d277f2](https://github.com/readmeio/api-explorer/commit/3d277f2))
+* chore: adding jsx transpilation to @readme/variable (#930) ([497ca49](https://github.com/readmeio/api-explorer/commit/497ca49)), closes [#930](https://github.com/readmeio/api-explorer/issues/930)
+* chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.3 to 1.15.4 (#902) ([1938133](https://github.com/readmeio/api-explorer/commit/1938133)), closes [#902](https://github.com/readmeio/api-explorer/issues/902)
+* chore(deps-dev): bump eslint from 7.3.1 to 7.7.0 (#904) ([b7b9bd6](https://github.com/readmeio/api-explorer/commit/b7b9bd6)), closes [#904](https://github.com/readmeio/api-explorer/issues/904)
+* chore(deps-dev): bump jest from 26.1.0 to 26.4.2 (#906) ([eb592f9](https://github.com/readmeio/api-explorer/commit/eb592f9)), closes [#906](https://github.com/readmeio/api-explorer/issues/906)
+* chore(deps-dev): bump prettier from 2.0.5 to 2.1.1 (#909) ([ecb7e8f](https://github.com/readmeio/api-explorer/commit/ecb7e8f)), closes [#909](https://github.com/readmeio/api-explorer/issues/909)
+* chore(deps): bump codemirror from 5.56.0 to 5.57.0 (#905) ([80ef34d](https://github.com/readmeio/api-explorer/commit/80ef34d)), closes [#905](https://github.com/readmeio/api-explorer/issues/905)
+* chore(deps): bump swagger2openapi from 6.0.3 to 6.2.3 (#907) ([2b16eb2](https://github.com/readmeio/api-explorer/commit/2b16eb2)), closes [#907](https://github.com/readmeio/api-explorer/issues/907)
+
+
+
+## 7.2.0 (2020-08-28)
+
+* build: updating dist files ([fa626b9](https://github.com/readmeio/api-explorer/commit/fa626b9))
+* fix: cases where user auth keys might not have an `id` present (#899) ([22f2863](https://github.com/readmeio/api-explorer/commit/22f2863)), closes [#899](https://github.com/readmeio/api-explorer/issues/899)
+* fix: creating a custom DateTimeWidget for datetime-local inputs (#895) ([dcf0258](https://github.com/readmeio/api-explorer/commit/dcf0258)), closes [#895](https://github.com/readmeio/api-explorer/issues/895)
+* fix: issue where polymorphism titles in refs wouldn't be surfaced (#898) ([f3becfe](https://github.com/readmeio/api-explorer/commit/f3becfe)), closes [#898](https://github.com/readmeio/api-explorer/issues/898)
+* chore(deps): upgrading @readme/oas-tooling to 3.5.10 (#896) ([bae7b7a](https://github.com/readmeio/api-explorer/commit/bae7b7a)), closes [#896](https://github.com/readmeio/api-explorer/issues/896)
+
+
+
 ## <small>7.1.1 (2020-08-25)</small>
 
 * build: update dist files ([3bbcb0e](https://github.com/readmeio/api-explorer/commit/3bbcb0e))
