@@ -941,7 +941,7 @@ describe('requestBody', () => {
               { name: 'userId', value: '67890' },
               {
                 contentType: 'image/png',
-                fileName: 'owlbert (1).png',
+                fileName: encodeURIComponent('owlbert (1).png'),
                 name: 'documentFile',
                 value: specialcharacters,
               },
