@@ -918,6 +918,37 @@ describe('requestBody', () => {
           });
         });
 
+        it('should handle multipart/form-data request bodies where the filename contains parentheses', () => {
+          // Doing this manually for now until when/if https://github.com/data-uri/datauri/pull/29 is accepted.
+          const specialcharacters = owlbert.replace(
+            'name=owlbert.png;',
+            `name=${encodeURIComponent('owlbert (1).png')};`
+          );
+
+          const fixture = new Oas(multipartFormData);
+          const har = oasToHar(fixture, fixture.operation('/anything', 'post'), {
+            body: { orderId: 12345, userId: 67890, documentFile: specialcharacters },
+          });
+
+          expect(har.log.entries[0].request.headers).toStrictEqual([
+            { name: 'Content-Type', value: 'multipart/form-data' },
+          ]);
+
+          expect(har.log.entries[0].request.postData).toStrictEqual({
+            mimeType: 'multipart/form-data',
+            params: [
+              { name: 'orderId', value: '12345' },
+              { name: 'userId', value: '67890' },
+              {
+                contentType: 'image/png',
+                fileName: encodeURIComponent('owlbert (1).png'),
+                name: 'documentFile',
+                value: specialcharacters,
+              },
+            ],
+          });
+        });
+
         it('should handle a multipart/form-data request where files are in an array', () => {
           const fixture = new Oas(multipartFormDataArrayOfFiles);
           const har = oasToHar(fixture, fixture.operation('/anything', 'post'), {
