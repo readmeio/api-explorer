@@ -68,7 +68,7 @@
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-hot-loader": "^4.12.16",
-    "swagger2openapi": "^6.0.1",
+    "swagger2openapi": "^7.0.0",
     "whatwg-fetch": "^3.0.0",
     "yaml": "^1.8.3"
   },
