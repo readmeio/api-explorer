@@ -23,7 +23,6 @@ This repo consists of the following npm modules:
 git clone git@github.com:readmeio/api-explorer.git
 cd api-explorer
 npm install
-npx lerna bootstrap
 ```
 
 ## Running the tests
