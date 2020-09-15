@@ -43,14 +43,12 @@ class Doc extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
-
-    const operation = this.getOperation()
-    const operationExtension =
-      operation[extensions.EXPLORER_ENABLED] !== undefined
-        ? operation
-        : this.oas
-
-    this.Params = createParams(operationExtension);
+    this.Params = createParams(this.oas);
+    this.operation = this.getOperation();
+    this.explorerEnabled =
+      this.operation[extensions.EXPLORER_ENABLED] !== undefined
+        ? this.operation[extensions.EXPLORER_ENABLED]
+        : this.oas[extensions.EXPLORER_ENABLED];
   }
 
   onChange(formData) {
