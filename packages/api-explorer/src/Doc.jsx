@@ -61,8 +61,6 @@ class Doc extends React.Component {
   }
 
   onSubmit() {
-    const operation = this.getOperation();
-
     if (!isAuthReady(operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
@@ -74,7 +72,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, {
+    const har = oasToHar(this.oas, this.operation, this.state.formData, this.props.auth, {
       proxyUrl: true,
     });
 
