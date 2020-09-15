@@ -244,6 +244,7 @@ class Doc extends React.Component {
         onChange={this.onChange}
         operation={this.getOperation()}
         result={this.state.result}
+        explorerEnabled={this.explorerEnabled}
       />
     );
   }
@@ -307,6 +308,7 @@ class Doc extends React.Component {
         onChange={this.onChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
+        explorerEnabled={this.explorerEnabled}
       />
     );
   }
@@ -329,6 +331,7 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         showAuthBox={this.state.showAuthBox}
         toggleAuth={this.toggleAuth}
+        explorerEnabled={this.explorerEnabled}
       />
     );
   }
