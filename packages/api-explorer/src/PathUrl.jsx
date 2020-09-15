@@ -39,13 +39,8 @@ function PathUrl({
   operation,
   showAuthBox,
   toggleAuth,
+  explorerEnabled
 }) {
-
-  
-  const explorerEnabled = 
-    operation[extensions.EXPLORER_ENABLED] !== undefined 
-      ? operation[extensions.EXPLORER_ENABLED] 
-      : oas[extensions.EXPLORER_ENABLED];
 
   return (
     <div className="api-definition-parent">
@@ -123,6 +118,7 @@ PathUrl.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   showAuthBox: PropTypes.bool,
   toggleAuth: PropTypes.func.isRequired,
+  explorerEnabled: PropTypes.bool.isRequired
 };
 
 PathUrl.defaultProps = {
