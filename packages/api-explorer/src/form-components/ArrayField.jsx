@@ -5,8 +5,7 @@ const extensions = require('@readme/oas-extensions');
 const BaseArrayField = require('@readme/react-jsonschema-form/lib/components/fields/ArrayField').default;
 const { getDefaultRegistry, retrieveSchema } = require('@readme/react-jsonschema-form/lib/utils');
 
-function createArrayField(oas) {
-  const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
+function createArrayField(oas, explorerEnabled) {
 
   function hasPrimitives(props) {
     const { schema, registry = getDefaultRegistry() } = props;

@@ -2,9 +2,7 @@ const extensions = require('@readme/oas-extensions');
 
 const SelectWidget = require('@readme/react-jsonschema-form/lib/components/widgets/SelectWidget').default;
 
-function createSelectWidget(oas) {
-  const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
-
+function createSelectWidget(oas, explorerEnabled) {
   // Return a function that renders null when the explorer is disabled
   if (!explorerEnabled) return () => null;
 

@@ -150,17 +150,18 @@ Params.defaultProps = {
 };
 
 function createParams(oas) {
-  const ArrayField = createArrayField(oas);
-  const BaseInput = createBaseInput(oas);
-  const DateTimeWidget = createDateTimeWidget(oas);
-  const FileWidget = createFileWidget(oas);
-  const SchemaField = createSchemaField();
-  const SelectWidget = createSelectWidget(oas);
-  const TextareaWidget = createTextareaWidget(oas);
-  const URLWidget = createURLWidget(oas);
-
+  
   // eslint-disable-next-line react/display-name
   return props => {
+    const ArrayField = createArrayField(oas, props.explorerEnabled);
+    const BaseInput = createBaseInput(oas, props.explorerEnabled);
+    const DateTimeWidget = createDateTimeWidget(oas, props.explorerEnabled);
+    const FileWidget = createFileWidget(oas, props.explorerEnabled);
+    const SchemaField = createSchemaField();
+    const SelectWidget = createSelectWidget(oas, props.explorerEnabled);
+    const TextareaWidget = createTextareaWidget(oas, props.explorerEnabled);
+    const URLWidget = createURLWidget(oas, props.explorerEnabled);
+
     return (
       <Params
         {...props}
