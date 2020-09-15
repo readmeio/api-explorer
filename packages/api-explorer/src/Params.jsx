@@ -143,6 +143,7 @@ Params.propTypes = {
   TextareaWidget: PropTypes.func.isRequired,
   URLWidget: PropTypes.func.isRequired,
   useNewMarkdownEngine: PropTypes.bool,
+  explorerEnabled: PropTypes.bool.isRequired,
 };
 
 Params.defaultProps = {
