@@ -64,7 +64,6 @@ class CodeSample extends React.Component {
         <div className="code-sample-body">
           {examplesWithLanguages.map((example, index) => {
             const { key, selected } = this.getKey(example, index);
-            console.log(`num 1 ${syntaxHighlighter}`);
             return (
               <div key={key} style={{ display: selected ? 'block' : 'none' }}>
                 <CopyCode key={`copy-${key}`} code={example.code} />
@@ -93,7 +92,6 @@ class CodeSample extends React.Component {
           let snippet;
           const { code, highlightMode } = generateCodeSnippet(oas, operation, formData, auth, language, oasUrl);
           if (code && highlightMode) {
-            console.log(syntaxHighlighter);
             snippet = syntaxHighlighter(code, highlightMode, { dark: true });
           }
 
