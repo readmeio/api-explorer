@@ -80,8 +80,12 @@ module.exports = (
     httpVersion: 'HTTP/1.1',
   };
 
+  const proxyEnabled =
+    operation[extensions.PROXY_ENABLED] !== undefined
+      ? operation[extensions.PROXY_ENABLED]
+      : oas[extensions.PROXY_ENABLED];
   // TODO look to move this to Oas class as well
-  if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
+  if (proxyEnabled && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
   }
 
