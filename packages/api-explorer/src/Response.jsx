@@ -25,7 +25,7 @@ class Response extends React.Component {
   }
 
   render() {
-    const { result, oas, operation, oauth, hideResults, exampleResponses } = this.props;
+    const { result, oas, operation, oauth, hideResults, exampleResponses, explorerEnabled } = this.props;
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
 
@@ -62,6 +62,7 @@ class Response extends React.Component {
             onChange={this.props.onChange}
             operation={operation}
             result={result}
+            explorerEnabled={explorerEnabled}
           />
         </div>
       </div>
@@ -77,6 +78,7 @@ Response.propTypes = {
   onChange: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   result: PropTypes.shape({}),
+  explorerEnabled: PropTypes.bool.isRequired,
 };
 
 Response.defaultProps = {

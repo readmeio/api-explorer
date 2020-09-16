@@ -173,7 +173,7 @@ class ResponseExample extends React.Component {
   }
 
   render() {
-    const { operation, result, oas, exampleResponses } = this.props;
+    const { operation, result, oas, exampleResponses, explorerEnabled } = this.props;
     const selectedTab = this.state.exampleTab;
     const { responseMediaType, responseMediaTypeExample } = this.state;
 
@@ -208,11 +208,6 @@ class ResponseExample extends React.Component {
         return getHighlightedExample(rx);
       }
     };
-
-    const explorerEnabled = 
-      operation[extensions.EXPLORER_ENABLED] !== undefined
-        ? operation[extensions.EXPLORER_ENABLED]
-        : oas[extensions.EXPLORER_ENABLED];
 
     return (
       <div className="hub-reference-results-examples code-sample">
@@ -282,6 +277,7 @@ ResponseExample.propTypes = {
   onChange: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   result: PropTypes.shape({}),
+  explorerEnabled: PropTypes.bool.isRequired,
 };
 
 ResponseExample.defaultProps = {
