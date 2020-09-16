@@ -37,18 +37,18 @@ class Doc extends React.Component {
       showEndpoint: false,
     };
 
-    this.onChange = this.onChange.bind(this);
-    this.oas = new Oas(this.props.oas, this.props.user);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.toggleAuth = this.toggleAuth.bind(this);
-    this.hideResults = this.hideResults.bind(this);
-    this.waypointEntered = this.waypointEntered.bind(this);
-    this.Params = createParams(this.oas);
-    this.operation = this.getOperation();
     this.explorerEnabled =
       this.operation[extensions.EXPLORER_ENABLED] !== undefined
         ? this.operation[extensions.EXPLORER_ENABLED]
         : this.oas[extensions.EXPLORER_ENABLED];
+    this.hideResults = this.hideResults.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.oas = new Oas(this.props.oas, this.props.user);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.operation = this.getOperation();
+    this.Params = createParams(this.oas);
+    this.toggleAuth = this.toggleAuth.bind(this);
+    this.waypointEntered = this.waypointEntered.bind(this);
   }
 
   onChange(formData) {
@@ -61,7 +61,7 @@ class Doc extends React.Component {
   }
 
   onSubmit() {
-    if (!isAuthReady(operation, this.props.auth)) {
+    if (!isAuthReady(this.operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.authInput.focus();
@@ -238,13 +238,13 @@ class Doc extends React.Component {
     return (
       <Response
         exampleResponses={exampleResponses}
+        explorerEnabled={this.explorerEnabled}
         hideResults={this.hideResults}
         oas={this.oas}
         oauth={this.props.oauth}
         onChange={this.onChange}
         operation={this.getOperation()}
         result={this.state.result}
-        explorerEnabled={this.explorerEnabled}
       />
     );
   }
@@ -303,12 +303,12 @@ class Doc extends React.Component {
   renderParams() {
     return (
       <this.Params
+        explorerEnabled={this.explorerEnabled}
         formData={this.state.formData}
         oas={this.oas}
         onChange={this.onChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
-        explorerEnabled={this.explorerEnabled}
       />
     );
   }
@@ -319,6 +319,7 @@ class Doc extends React.Component {
         auth={this.props.auth}
         authInputRef={el => (this.authInput = el)} // eslint-disable-line no-return-assign
         dirty={this.state.dirty}
+        explorerEnabled={this.explorerEnabled}
         group={this.props.group}
         groups={this.props.groups}
         loading={this.state.loading}
@@ -331,7 +332,6 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         showAuthBox={this.state.showAuthBox}
         toggleAuth={this.toggleAuth}
-        explorerEnabled={this.explorerEnabled}
       />
     );
   }

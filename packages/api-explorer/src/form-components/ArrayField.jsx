@@ -1,12 +1,10 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const extensions = require('@readme/oas-extensions');
 
 const BaseArrayField = require('@readme/react-jsonschema-form/lib/components/fields/ArrayField').default;
 const { getDefaultRegistry, retrieveSchema } = require('@readme/react-jsonschema-form/lib/utils');
 
 function createArrayField(oas, explorerEnabled) {
-
   function hasPrimitives(props) {
     const { schema, registry = getDefaultRegistry() } = props;
     const { rootSchema } = registry;
@@ -48,6 +46,7 @@ function createArrayField(oas, explorerEnabled) {
   }
 
   ArrayField.propTypes = {
+    explorerEnabled: PropTypes.bool.isRequired,
     formData: PropTypes.any,
     uiSchema: PropTypes.shape({}).isRequired,
   };

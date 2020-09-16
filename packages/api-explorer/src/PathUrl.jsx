@@ -1,7 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
 const AuthBox = require('./AuthBox');
@@ -39,14 +38,13 @@ function PathUrl({
   operation,
   showAuthBox,
   toggleAuth,
-  explorerEnabled
+  explorerEnabled,
 }) {
-
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
         <div className="api-definition-container">
-          { explorerEnabled && (
+          {explorerEnabled && (
             <div className="api-definition-actions">
               <AuthBox
                 auth={auth}
@@ -101,6 +99,7 @@ PathUrl.propTypes = {
   auth: PropTypes.shape({}),
   authInputRef: PropTypes.func,
   dirty: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool.isRequired,
   group: PropTypes.string,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
@@ -118,7 +117,6 @@ PathUrl.propTypes = {
   operation: PropTypes.instanceOf(Operation).isRequired,
   showAuthBox: PropTypes.bool,
   toggleAuth: PropTypes.func.isRequired,
-  explorerEnabled: PropTypes.bool.isRequired
 };
 
 PathUrl.defaultProps = {

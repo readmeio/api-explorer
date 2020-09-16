@@ -1,6 +1,5 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const extensions = require('@readme/oas-extensions');
 
 function createDateTimeWidget(oas, explorerEnabled) {
   // Return a function that renders null when the explorer is disabled
@@ -20,6 +19,7 @@ function createDateTimeWidget(oas, explorerEnabled) {
   }
 
   DateTimeWidget.propTypes = {
+    explorerEnabled: PropTypes.bool.isRequired,
     registry: PropTypes.shape({
       FieldTemplate: PropTypes.func,
       rootSchema: PropTypes.object,

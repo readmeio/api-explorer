@@ -1,4 +1,4 @@
-const extensions = require('@readme/oas-extensions');
+const PropTypes = require('prop-types');
 
 const SelectWidget = require('@readme/react-jsonschema-form/lib/components/widgets/SelectWidget').default;
 
@@ -8,5 +8,9 @@ function createSelectWidget(oas, explorerEnabled) {
 
   return SelectWidget;
 }
+
+SelectWidget.propTypes = {
+  explorerEnabled: PropTypes.bool.isRequired,
+};
 
 module.exports = createSelectWidget;

@@ -132,6 +132,7 @@ Params.propTypes = {
   ArrayField: PropTypes.func.isRequired,
   BaseInput: PropTypes.func.isRequired,
   DateTimeWidget: PropTypes.func.isRequired,
+  explorerEnabled: PropTypes.bool.isRequired,
   FileWidget: PropTypes.func.isRequired,
   formData: PropTypes.shape({}).isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
@@ -143,7 +144,6 @@ Params.propTypes = {
   TextareaWidget: PropTypes.func.isRequired,
   URLWidget: PropTypes.func.isRequired,
   useNewMarkdownEngine: PropTypes.bool,
-  explorerEnabled: PropTypes.bool.isRequired,
 };
 
 Params.defaultProps = {
@@ -151,7 +151,6 @@ Params.defaultProps = {
 };
 
 function createParams(oas) {
-  
   // eslint-disable-next-line react/display-name
   return props => {
     const ArrayField = createArrayField(oas, props.explorerEnabled);

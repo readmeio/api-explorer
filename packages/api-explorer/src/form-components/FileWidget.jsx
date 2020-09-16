@@ -1,4 +1,4 @@
-const extensions = require('@readme/oas-extensions');
+const PropTypes = require('prop-types');
 
 const FileWidget = require('@readme/react-jsonschema-form/lib/components/widgets/FileWidget').default;
 
@@ -8,5 +8,9 @@ function createFileWidget(oas, explorerEnabled) {
 
   return FileWidget;
 }
+
+FileWidget.propTypes = {
+  explorerEnabled: PropTypes.bool.isRequired,
+};
 
 module.exports = createFileWidget;

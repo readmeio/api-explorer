@@ -2,7 +2,6 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
 const syntaxHighlighter = require('@readme/syntax-highlighter');
-const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
 const showCodeResults = require('./lib/show-code-results');
@@ -273,11 +272,11 @@ class ResponseExample extends React.Component {
 
 ResponseExample.propTypes = {
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  explorerEnabled: PropTypes.bool.isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   result: PropTypes.shape({}),
-  explorerEnabled: PropTypes.bool.isRequired,
 };
 
 ResponseExample.defaultProps = {

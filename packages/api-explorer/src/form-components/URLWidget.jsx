@@ -1,4 +1,4 @@
-const extensions = require('@readme/oas-extensions');
+const PropTypes = require('prop-types');
 
 const URLWidget = require('@readme/react-jsonschema-form/lib/components/widgets/URLWidget').default;
 
@@ -8,5 +8,9 @@ function createURLWidget(oas, explorerEnabled) {
 
   return URLWidget;
 }
+
+URLWidget.propTypes = {
+  explorerEnabled: PropTypes.bool.isRequired,
+};
 
 module.exports = createURLWidget;

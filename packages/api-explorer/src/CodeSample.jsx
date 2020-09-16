@@ -87,7 +87,7 @@ class CodeSample extends React.Component {
     const sampleLanguages =
       operation[extensions.SAMPLES_LANGUAGES] !== undefined
         ? operation[extensions.SAMPLES_LANGUAGES]
-        : oas[extensions.SAMPLES_LANGUAGES]; 
+        : oas[extensions.SAMPLES_LANGUAGES];
 
     return (
       <div className="code-sample tabber-parent">
