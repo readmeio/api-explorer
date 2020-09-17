@@ -97,6 +97,7 @@
                     "format": "date"
                   },
                   "string (format: date-time)": {
+                    "description": "Unsupported due to the varying ways that `date-time` is utilized in API definitions for representing dates, the [lack of wide browser support for the input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local#Browser_compatibility), and that it's not [RFC 3339](https://tools.ietf.org/html/rfc3339) compliant.",
                     "type": "string",
                     "format": "date-time"
                   },
