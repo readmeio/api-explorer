@@ -77,6 +77,6 @@ test('should render markdown in body', () => {
     },
   };
 
-  const callout = shallow(<CallOut block={block} />);
-  expect(callout.render().find('.callout-body').html()).toMatchSnapshot();
+  const callout = mount(<CallOut block={block} />);
+  expect(callout.find('.callout-body').html()).toMatchSnapshot();
 });
