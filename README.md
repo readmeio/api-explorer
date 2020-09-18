@@ -14,7 +14,6 @@ This repo consists of the following npm modules:
 - [@readme/oas-extensions](https://npm.im/@readme/oas-extensions) — An exported object of our [OpenAPI extensions](https://docs.readme.com/docs/swagger-extensions)
 - [@readme/oas-to-har](https://npm.im/@readme/oas-to-har) — Utility to transform an OpenAPI operation into a HAR representation
 - [@readme/oas-to-snippet](https://npm.im/@readme/oas-to-snippet) — Utility to transform an OpenAPI operation into a code snippet
-- [@readme/syntax-highlighter](https://npm.im/@readme/syntax-highlighter) — The syntax highlighter in use on ReadMe
 - [@readme/variable](https://npm.im/@readme/variable) — React components for ReadMe custom variables
 
 ## Installation

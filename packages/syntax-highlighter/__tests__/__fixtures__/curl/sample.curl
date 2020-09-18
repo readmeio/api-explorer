@@ -1,3 +1,0 @@
-curl --request GET \
-  --url 'https://dash.readme.io/api/v1/api-specification?perPage=10&page=1' \
-  --header 'x-readme-version: v3.0'

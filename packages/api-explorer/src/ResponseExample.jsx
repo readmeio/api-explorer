@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@readme/syntax-highlighter').default;
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
