@@ -1,3 +1,11 @@
+## 7.3.0 (2020-09-18)
+
+* build: updating dist files ([77a8193](https://github.com/readmeio/api-explorer/commit/77a8193))
+* chore: ignoring the dist directory in variable pkg tests ([e435838](https://github.com/readmeio/api-explorer/commit/e435838))
+* chore: remove syntax-highlighter from api-explorer (#949) ([57b6dd6](https://github.com/readmeio/api-explorer/commit/57b6dd6)), closes [#949](https://github.com/readmeio/api-explorer/issues/949)
+
+
+
 ## <small>7.2.3 (2020-09-18)</small>
 
 * build: updating dist files ([03080ba](https://github.com/readmeio/api-explorer/commit/03080ba))
