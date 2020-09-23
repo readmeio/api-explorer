@@ -180,8 +180,7 @@ module.exports = (
   }
 
   // Are there `x-static` static headers configured for this OAS?
-  const userDefinedHeaders =
-    operation[extensions.HEADERS] !== undefined ? operation[extensions.HEADERS] : oas[extensions.HEADERS];
+  const userDefinedHeaders = extensions.extensionEnabled(oas, operation, 'x-headers');
   if (userDefinedHeaders) {
     userDefinedHeaders.forEach(header => {
       if (header.key.toLowerCase() === 'content-type') {
