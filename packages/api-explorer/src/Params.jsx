@@ -4,7 +4,6 @@ const Form = require('@readme/react-jsonschema-form').default;
 const slug = require('lodash.kebabcase');
 
 const {
-  DateWidget,
   PasswordWidget,
   TextWidget,
   UpDownWidget,
@@ -15,7 +14,6 @@ const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
 
 const createArrayField = require('./form-components/ArrayField');
 const createBaseInput = require('./form-components/BaseInput');
-const createDateTimeWidget = require('./form-components/DateTimeWidget');
 const createFileWidget = require('./form-components/FileWidget');
 const createSchemaField = require('./form-components/SchemaField');
 const createSelectWidget = require('./form-components/SelectWidget');
@@ -47,7 +45,6 @@ class Params extends React.Component {
     const {
       ArrayField,
       BaseInput,
-      DateTimeWidget,
       FileWidget,
       formData,
       onChange,
@@ -93,9 +90,17 @@ class Params extends React.Component {
                   binary: FileWidget,
                   blob: TextareaWidget,
                   byte: TextWidget,
-                  date: DateWidget,
-                  dateTime: DateTimeWidget,
-                  'date-time': DateTimeWidget,
+
+                  // Due to the varying ways that `date` and `date-time` is utilized in API definitions for representing
+                  // dates the lack of wide browser support, and that it's not RFC 3339 compliant we don't support the
+                  // `date-time-local` input for `date-time` formats, instead treating them as general strings.
+                  //
+                  // @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local#Browser_compatibility
+                  // @link https://tools.ietf.org/html/rfc3339
+                  date: TextWidget,
+                  dateTime: TextWidget,
+                  'date-time': TextWidget,
+
                   double: UpDownWidget,
                   duration: TextWidget,
                   float: UpDownWidget,
@@ -131,8 +136,6 @@ class Params extends React.Component {
 Params.propTypes = {
   ArrayField: PropTypes.func.isRequired,
   BaseInput: PropTypes.func.isRequired,
-  DateTimeWidget: PropTypes.func.isRequired,
-  explorerEnabled: PropTypes.bool.isRequired,
   FileWidget: PropTypes.func.isRequired,
   formData: PropTypes.shape({}).isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
@@ -167,7 +170,6 @@ function createParams(oas) {
         {...props}
         ArrayField={ArrayField}
         BaseInput={BaseInput}
-        DateTimeWidget={DateTimeWidget}
         FileWidget={FileWidget}
         SchemaField={SchemaField}
         SelectWidget={SelectWidget}

@@ -1,3 +1,54 @@
+## 7.3.0 (2020-09-18)
+
+* build: updating dist files ([77a8193](https://github.com/readmeio/api-explorer/commit/77a8193))
+* chore: ignoring the dist directory in variable pkg tests ([e435838](https://github.com/readmeio/api-explorer/commit/e435838))
+* chore: remove syntax-highlighter from api-explorer (#949) ([57b6dd6](https://github.com/readmeio/api-explorer/commit/57b6dd6)), closes [#949](https://github.com/readmeio/api-explorer/issues/949)
+
+
+
+## <small>7.2.3 (2020-09-18)</small>
+
+* build: updating dist files ([03080ba](https://github.com/readmeio/api-explorer/commit/03080ba))
+* fix: bug where file names with parentheses aren't recognized as a valid data URI (#900) ([4bbadc7](https://github.com/readmeio/api-explorer/commit/4bbadc7)), closes [#900](https://github.com/readmeio/api-explorer/issues/900) [#897](https://github.com/readmeio/api-explorer/issues/897)
+* fix: reverting `date` and `date-time` changes in #895 (#950) ([e4e1670](https://github.com/readmeio/api-explorer/commit/e4e1670)), closes [#895](https://github.com/readmeio/api-explorer/issues/895) [#950](https://github.com/readmeio/api-explorer/issues/950)
+* chore: allowing for commit bodies to be long ([94f4798](https://github.com/readmeio/api-explorer/commit/94f4798))
+* chore(deps-dev): bump @babel/preset-react from 7.10.1 to 7.10.4 (#939) ([507481f](https://github.com/readmeio/api-explorer/commit/507481f)), closes [#939](https://github.com/readmeio/api-explorer/issues/939)
+* chore(deps-dev): bump @commitlint/cli from 9.1.2 to 11.0.0 (#945) ([285f0bf](https://github.com/readmeio/api-explorer/commit/285f0bf)), closes [#945](https://github.com/readmeio/api-explorer/issues/945)
+* chore(deps-dev): bump @commitlint/config-conventional (#948) ([036c6fb](https://github.com/readmeio/api-explorer/commit/036c6fb)), closes [#948](https://github.com/readmeio/api-explorer/issues/948)
+* chore(deps-dev): bump @readme/eslint-config from 3.4.2 to 3.4.3 (#943) ([40e0a1f](https://github.com/readmeio/api-explorer/commit/40e0a1f)), closes [#943](https://github.com/readmeio/api-explorer/issues/943)
+* chore(deps-dev): bump eslint from 7.7.0 to 7.8.1 (#933) ([fc7dfb9](https://github.com/readmeio/api-explorer/commit/fc7dfb9)), closes [#933](https://github.com/readmeio/api-explorer/issues/933)
+* chore(deps-dev): bump husky from 4.2.5 to 4.3.0 (#947) ([f127ba1](https://github.com/readmeio/api-explorer/commit/f127ba1)), closes [#947](https://github.com/readmeio/api-explorer/issues/947)
+* chore(deps-dev): bump node-fetch from 2.6.0 to 2.6.1 (#935) ([ff6f51d](https://github.com/readmeio/api-explorer/commit/ff6f51d)), closes [#935](https://github.com/readmeio/api-explorer/issues/935)
+* chore(deps-dev): bump webpack-merge from 4.2.2 to 5.1.3 (#908) ([9b4ce8e](https://github.com/readmeio/api-explorer/commit/9b4ce8e)), closes [#908](https://github.com/readmeio/api-explorer/issues/908)
+* chore(deps-dev): bump webpack-merge from 5.1.3 to 5.1.4 (#946) ([6cd6715](https://github.com/readmeio/api-explorer/commit/6cd6715)), closes [#946](https://github.com/readmeio/api-explorer/issues/946)
+* chore(deps): bump httpsnippet-client-api from 2.3.0 to 2.3.1 (#942) ([92e3222](https://github.com/readmeio/api-explorer/commit/92e3222)), closes [#942](https://github.com/readmeio/api-explorer/issues/942)
+* chore(deps): bump swagger2openapi from 6.2.3 to 7.0.0 (#936) ([8a92a55](https://github.com/readmeio/api-explorer/commit/8a92a55)), closes [#936](https://github.com/readmeio/api-explorer/issues/936)
+* chore(deps): bump whatwg-fetch from 3.0.0 to 3.4.0 (#938) ([400c123](https://github.com/readmeio/api-explorer/commit/400c123)), closes [#938](https://github.com/readmeio/api-explorer/issues/938)
+* chore(deps): upgrading @readme/react-jsonschema-form to 1.2.1 (#951) ([7685402](https://github.com/readmeio/api-explorer/commit/7685402)), closes [#951](https://github.com/readmeio/api-explorer/issues/951)
+* docs: update installation instructions (#941) ([9b5ea59](https://github.com/readmeio/api-explorer/commit/9b5ea59)), closes [#941](https://github.com/readmeio/api-explorer/issues/941) [/github.com/readmeio/api-explorer/blob/master/package.json#L13](https://github.com//github.com/readmeio/api-explorer/blob/master/package.json/issues/L13)
+
+
+
+## <small>7.2.2 (2020-09-02)</small>
+
+* build: updating dist files ([6298bae](https://github.com/readmeio/api-explorer/commit/6298bae))
+* fix: updating the variable package to use the dist as its main entry ([2b27875](https://github.com/readmeio/api-explorer/commit/2b27875))
+
+
+
+## <small>7.2.1 (2020-09-02)</small>
+
+* build: updating dists ([3d277f2](https://github.com/readmeio/api-explorer/commit/3d277f2))
+* chore: adding jsx transpilation to @readme/variable (#930) ([497ca49](https://github.com/readmeio/api-explorer/commit/497ca49)), closes [#930](https://github.com/readmeio/api-explorer/issues/930)
+* chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.3 to 1.15.4 (#902) ([1938133](https://github.com/readmeio/api-explorer/commit/1938133)), closes [#902](https://github.com/readmeio/api-explorer/issues/902)
+* chore(deps-dev): bump eslint from 7.3.1 to 7.7.0 (#904) ([b7b9bd6](https://github.com/readmeio/api-explorer/commit/b7b9bd6)), closes [#904](https://github.com/readmeio/api-explorer/issues/904)
+* chore(deps-dev): bump jest from 26.1.0 to 26.4.2 (#906) ([eb592f9](https://github.com/readmeio/api-explorer/commit/eb592f9)), closes [#906](https://github.com/readmeio/api-explorer/issues/906)
+* chore(deps-dev): bump prettier from 2.0.5 to 2.1.1 (#909) ([ecb7e8f](https://github.com/readmeio/api-explorer/commit/ecb7e8f)), closes [#909](https://github.com/readmeio/api-explorer/issues/909)
+* chore(deps): bump codemirror from 5.56.0 to 5.57.0 (#905) ([80ef34d](https://github.com/readmeio/api-explorer/commit/80ef34d)), closes [#905](https://github.com/readmeio/api-explorer/issues/905)
+* chore(deps): bump swagger2openapi from 6.0.3 to 6.2.3 (#907) ([2b16eb2](https://github.com/readmeio/api-explorer/commit/2b16eb2)), closes [#907](https://github.com/readmeio/api-explorer/issues/907)
+
+
+
 ## 7.2.0 (2020-08-28)
 
 * build: updating dist files ([fa626b9](https://github.com/readmeio/api-explorer/commit/fa626b9))

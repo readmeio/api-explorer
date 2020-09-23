@@ -1,21 +1,21 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "7.2.0",
+  "version": "7.3.0",
   "main": "dist/index.js",
   "dependencies": {
     "@readme/http-status-codes": "^7.1.0",
     "@readme/markdown": "^6.15.2",
-    "@readme/markdown-magic": "^7.1.0",
-    "@readme/oas-extensions": "^7.1.0",
-    "@readme/oas-to-har": "^7.2.0",
-    "@readme/oas-to-snippet": "^7.2.0",
+    "@readme/markdown-magic": "^7.3.0",
+    "@readme/oas-extensions": "^7.2.3",
+    "@readme/oas-to-har": "^7.3.0",
+    "@readme/oas-to-snippet": "^7.3.0",
     "@readme/oas-tooling": "^3.5.11",
-    "@readme/react-jsonschema-form": "^1.2.0",
-    "@readme/syntax-highlighter": "^7.1.0",
-    "@readme/variable": "^7.1.0",
+    "@readme/react-jsonschema-form": "^1.2.1",
+    "@readme/syntax-highlighter": "^9.0.1",
+    "@readme/variable": "^7.3.0",
     "classnames": "^2.2.5",
-    "fetch-har": "^4.0.1",
+    "fetch-har": "^4.0.2",
     "js-cookie": "^2.1.4",
     "lodash.kebabcase": "^4.1.1",
     "prop-types": "^15.7.2",
@@ -54,7 +54,7 @@
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^5.1.3"
   },
   "prettier": "@readme/eslint-config/prettier"
 }
