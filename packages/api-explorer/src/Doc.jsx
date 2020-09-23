@@ -37,16 +37,12 @@ class Doc extends React.Component {
       showEndpoint: false,
     };
 
-    this.explorerEnabled =
-      this.operation[extensions.EXPLORER_ENABLED] !== undefined
-        ? this.operation[extensions.EXPLORER_ENABLED]
-        : this.oas[extensions.EXPLORER_ENABLED];
     this.hideResults = this.hideResults.bind(this);
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
     this.onSubmit = this.onSubmit.bind(this);
     this.operation = this.getOperation();
-    this.Params = createParams(this.oas);
+    this.Params = createParams(this.oas, this.operation);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
   }
@@ -238,7 +234,6 @@ class Doc extends React.Component {
     return (
       <Response
         exampleResponses={exampleResponses}
-        explorerEnabled={this.explorerEnabled}
         hideResults={this.hideResults}
         oas={this.oas}
         oauth={this.props.oauth}
@@ -303,7 +298,6 @@ class Doc extends React.Component {
   renderParams() {
     return (
       <this.Params
-        explorerEnabled={this.explorerEnabled}
         formData={this.state.formData}
         oas={this.oas}
         onChange={this.onChange}
@@ -319,7 +313,6 @@ class Doc extends React.Component {
         auth={this.props.auth}
         authInputRef={el => (this.authInput = el)} // eslint-disable-line no-return-assign
         dirty={this.state.dirty}
-        explorerEnabled={this.explorerEnabled}
         group={this.props.group}
         groups={this.props.groups}
         loading={this.state.loading}

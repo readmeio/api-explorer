@@ -2,6 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('@readme/react-jsonschema-form').default;
 const slug = require('lodash.kebabcase');
+const extensions = require('@readme/oas-extensions');
 
 const {
   PasswordWidget,
@@ -156,14 +157,15 @@ Params.defaultProps = {
 function createParams(oas) {
   // eslint-disable-next-line react/display-name
   return props => {
-    const ArrayField = createArrayField(oas, props.explorerEnabled);
-    const BaseInput = createBaseInput(oas, props.explorerEnabled);
-    const DateTimeWidget = createDateTimeWidget(oas, props.explorerEnabled);
-    const FileWidget = createFileWidget(oas, props.explorerEnabled);
+    const explorerEnabled = extensions.extensionEnabled(oas, props.operation, 'x-explorer-enabled');
+
+    const ArrayField = createArrayField(oas, explorerEnabled);
+    const BaseInput = createBaseInput(oas, explorerEnabled);
+    const FileWidget = createFileWidget(oas, explorerEnabled);
     const SchemaField = createSchemaField();
-    const SelectWidget = createSelectWidget(oas, props.explorerEnabled);
-    const TextareaWidget = createTextareaWidget(oas, props.explorerEnabled);
-    const URLWidget = createURLWidget(oas, props.explorerEnabled);
+    const SelectWidget = createSelectWidget(oas, explorerEnabled);
+    const TextareaWidget = createTextareaWidget(oas, explorerEnabled);
+    const URLWidget = createURLWidget(oas, explorerEnabled);
 
     return (
       <Params

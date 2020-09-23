@@ -80,14 +80,8 @@ class CodeSample extends React.Component {
 
   render() {
     const { oas, oasUrl, setLanguage, operation, formData, language, examples, auth } = this.props;
-    const samplesEnabled =
-      operation[extensions.SAMPLES_ENABLED] !== undefined
-        ? operation[extensions.SAMPLES_ENABLED]
-        : oas[extensions.SAMPLES_ENABLED];
-    const sampleLanguages =
-      operation[extensions.SAMPLES_LANGUAGES] !== undefined
-        ? operation[extensions.SAMPLES_LANGUAGES]
-        : oas[extensions.SAMPLES_LANGUAGES];
+    const samplesEnabled = extensions.extensionEnabled(oas, operation, 'x-samples-enabled');
+    const samplesLanguages = extensions.extensionEnabled(oas, operation, 'x-samples-languages');
 
     return (
       <div className="code-sample tabber-parent">
@@ -106,7 +100,7 @@ class CodeSample extends React.Component {
           return (
             <div>
               <ul className="code-sample-tabs">
-                {sampleLanguages.map(lang => (
+                {samplesLanguages.map(lang => (
                   // TODO add `is-lang-${lang}` class, to body?
                   <li key={lang}>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

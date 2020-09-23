@@ -10,7 +10,7 @@ function createURLWidget(oas, explorerEnabled) {
 }
 
 URLWidget.propTypes = {
-  explorerEnabled: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
 };
 
 module.exports = createURLWidget;

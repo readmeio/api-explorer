@@ -46,7 +46,7 @@ function createArrayField(oas, explorerEnabled) {
   }
 
   ArrayField.propTypes = {
-    explorerEnabled: PropTypes.bool.isRequired,
+    explorerEnabled: PropTypes.bool,
     formData: PropTypes.any,
     uiSchema: PropTypes.shape({}).isRequired,
   };

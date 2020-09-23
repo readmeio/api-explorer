@@ -10,7 +10,7 @@ function createSelectWidget(oas, explorerEnabled) {
 }
 
 SelectWidget.propTypes = {
-  explorerEnabled: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
 };
 
 module.exports = createSelectWidget;

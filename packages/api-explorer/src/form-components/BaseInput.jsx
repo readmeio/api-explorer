@@ -10,7 +10,7 @@ function createBaseInput(oas, explorerEnabled) {
 }
 
 BaseInput.propTypes = {
-  explorerEnabled: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
 };
 
 module.exports = createBaseInput;

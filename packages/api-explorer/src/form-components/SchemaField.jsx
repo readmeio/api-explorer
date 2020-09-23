@@ -183,7 +183,7 @@ CustomTemplateShell.propTypes = {
 };
 
 SchemaField.propTypes = {
-  explorerEnabled: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
   registry: PropTypes.shape({
     FieldTemplate: PropTypes.func,
     rootSchema: PropTypes.object,

@@ -10,7 +10,7 @@ function createTextareaWidget(oas, explorerEnabled) {
 }
 
 TextareaWidget.propTypes = {
-  explorerEnabled: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
 };
 
 module.exports = createTextareaWidget;

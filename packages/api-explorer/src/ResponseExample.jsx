@@ -173,9 +173,10 @@ class ResponseExample extends React.Component {
   }
 
   render() {
-    const { operation, result, oas, exampleResponses, explorerEnabled } = this.props;
+    const { operation, result, oas, exampleResponses } = this.props;
     const selectedTab = this.state.exampleTab;
     const { responseMediaType, responseMediaTypeExample } = this.state;
+    const explorerEnabled = extensions.extensionEnabled(oas, operation, 'x-explorer-enabled');
 
     let examples;
     if (exampleResponses.length) {
@@ -273,7 +274,7 @@ class ResponseExample extends React.Component {
 
 ResponseExample.propTypes = {
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
-  explorerEnabled: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,

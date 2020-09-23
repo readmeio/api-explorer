@@ -10,7 +10,7 @@ function createFileWidget(oas, explorerEnabled) {
 }
 
 FileWidget.propTypes = {
-  explorerEnabled: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
 };
 
 module.exports = createFileWidget;
