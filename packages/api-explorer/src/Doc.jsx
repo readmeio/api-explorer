@@ -9,6 +9,8 @@ const oasToHar = require('@readme/oas-to-har');
 const Oas = require('@readme/oas-tooling');
 const { getPath } = require('@readme/oas-tooling/utils');
 
+const { TutorialTile } = require('@readme/ui/lib/ui/compositions');
+
 const isAuthReady = require('./lib/is-auth-ready');
 
 const PathUrl = require('./PathUrl');
@@ -23,6 +25,31 @@ const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
 const pkg = require('../package.json');
+
+const tutorial = {
+  backgroundColor: '#018FF4',
+  emoji: '🦉',
+  title: 'hello',
+  description: 'hello world',
+  steps: [
+    {
+      title: '',
+      body: '',
+      isOpen: true,
+      lineNumbers: [''],
+    },
+  ],
+  snippet: {
+    endpoint: {},
+    codeOptions: [
+      {
+        code: '',
+        language: 'curl',
+        name: 'Curl',
+      },
+    ],
+  },
+};
 
 class Doc extends React.Component {
   constructor(props) {
@@ -127,7 +154,7 @@ class Doc extends React.Component {
         {doc.type === 'endpoint' && (
           <div className="hub-api">
             {this.renderPathUrl()}
-
+            <TutorialTile tutorial={tutorial} />
             <div className="hub-reference-section hub-reference-section-code">
               <div className="hub-reference-left">{this.renderCodeSample()}</div>
 
@@ -179,7 +206,6 @@ class Doc extends React.Component {
                 useNewMarkdownEngine={useNewMarkdownEngine}
               />
             </div>
-
             <div className="hub-reference-right">
               {doc.type === 'endpoint' && (
                 <div className="hub-reference-section-code">

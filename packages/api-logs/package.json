@@ -6,7 +6,7 @@
   "dependencies": {
     "async-retry": "^1.2.3",
     "prop-types": "^15.7.2",
-    "react": "^16.4.2"
+    "react": "^16.13.1"
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
