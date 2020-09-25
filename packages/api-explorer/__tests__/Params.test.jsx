@@ -399,15 +399,15 @@ describe('x-explorer-enabled', () => {
   });
 
   it('should check the operation level extensions first', () => {
-    const operation = oas.operation('/pet/{petId}/uploadImage', 'post')
-    operation['x-explorer-enabled'] = true
+    const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
+    operationExplorerEnabled['x-explorer-enabled'] = true;
 
     expect(
       mount(
         <ParamsWithExplorerDisabled
           {...props}
           oas={new Oas(oasWithExplorerDisabled)}
-          operation={operation}
+          operation={operationExplorerEnabled}
         />
       ).find('input[type="file"]')
     ).toHaveLength(1);
