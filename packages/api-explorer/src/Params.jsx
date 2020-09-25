@@ -157,6 +157,7 @@ Params.defaultProps = {
 function createParams(oas) {
   // eslint-disable-next-line react/display-name
   return props => {
+    // eslint-disable-next-line react/prop-types
     const explorerEnabled = extensions.extensionEnabled(oas, props.operation, 'x-explorer-enabled');
 
     const ArrayField = createArrayField(oas, explorerEnabled);
