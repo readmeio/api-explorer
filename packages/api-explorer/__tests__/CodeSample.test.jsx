@@ -278,6 +278,31 @@ describe('code examples', () => {
     expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 
+  it('should check the operation level extensions first', () => {
+    const operationSamplesEnabled = new Operation({}, '/pet/{id}', 'get');
+    operationSamplesEnabled['x-samples-enabled'] = true;
+    const languages = ['node', 'curl'];
+
+    const codeSample = shallow(
+      <CodeSample
+        {...props}
+        oas={
+          new Oas({
+            [extensions.SAMPLES_ENABLED]: false,
+            [extensions.SAMPLES_LANGUAGES]: languages,
+            servers: [{ url: 'http://example.com' }],
+          })
+        }
+        operation={operationSamplesEnabled}
+      />
+    );
+
+    expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
+    // We only render one language at a time
+    expect(codeSample.find('.hub-code-auto pre')).toHaveLength(1);
+    expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
+  });
+
   it('should not display more than one example block at a time', () => {
     const docProps = {
       ...props,
