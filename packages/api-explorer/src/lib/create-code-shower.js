@@ -12,14 +12,18 @@ function hasMultipleLanguages(response) {
   return response.content ? Object.keys(response.content).length > 1 : false;
 }
 
-function getExample(response, lang) {
+function getExample(response, lang, oas) {
   if (!response.content[lang].examples) {
     return false;
   }
 
   // This isn't actually something that's defined in the spec. Do we really need to support this?
-  if (response.content[lang].examples.response) {
-    return response.content[lang].examples.response.value;
+  const customResponse = response.content[lang].examples.response;
+  if (customResponse) {
+    if (customResponse.value.$ref) {
+      return findSchemaDefinition(customResponse.value.$ref, oas);
+    }
+    return customResponse.value;
   }
 
   const examples = Object.keys(response.content[lang].examples);
@@ -102,7 +106,7 @@ module.exports = type => {
             if (!language) return false;
 
             const langResponse = response.content[language];
-            const example = langResponse.code || getExample(response, language);
+            const example = langResponse.code || getExample(response, language, oas);
             const clang = constructLanguage(language, response, example);
             if (clang) {
               languages.push(clang);
@@ -114,7 +118,7 @@ module.exports = type => {
           const language = response.langauge || getLanguage(response);
           if (!language) return false;
 
-          const example = response.code || getExample(response, language);
+          const example = response.code || getExample(response, language, oas);
           const clang = constructLanguage(language, response, example);
           if (clang) {
             languages.push(clang);
