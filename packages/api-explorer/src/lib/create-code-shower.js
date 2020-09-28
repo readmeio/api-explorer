@@ -47,14 +47,16 @@ function getExample(response, lang, oas) {
   return example;
 }
 
-function getMultipleExamples(response, lang) {
+function getMultipleExamples(response, lang, oas) {
   if (!response.content[lang].examples || response.content[lang].examples.response) return false;
 
   const { examples } = response.content[lang];
   const multipleExamples = Object.keys(examples).map(key => {
     let example = examples[key];
     if (example !== null && typeof example === 'object') {
-      if ('value' in example) {
+      if ('$ref' in example.value) {
+        example = findSchemaDefinition(example.value.$ref, oas);
+      } else if ('value' in example) {
         example = example.value;
       }
 
@@ -70,8 +72,8 @@ function getMultipleExamples(response, lang) {
   return multipleExamples.length > 0 ? multipleExamples : false;
 }
 
-function constructLanguage(language, response, example) {
-  const multipleExamples = getMultipleExamples(response, language);
+function constructLanguage(language, response, example, oas) {
+  const multipleExamples = getMultipleExamples(response, language, oas);
   if (!example && !multipleExamples) {
     return false;
   }
@@ -110,7 +112,7 @@ module.exports = type => {
 
             const langResponse = response.content[language];
             const example = langResponse.code || getExample(response, language, oas);
-            const clang = constructLanguage(language, response, example);
+            const clang = constructLanguage(language, response, example, oas);
             if (clang) {
               languages.push(clang);
             }
@@ -122,7 +124,7 @@ module.exports = type => {
           if (!language) return false;
 
           const example = response.code || getExample(response, language, oas);
-          const clang = constructLanguage(language, response, example);
+          const clang = constructLanguage(language, response, example, oas);
           if (clang) {
             languages.push(clang);
           }
