@@ -37,6 +37,9 @@ function getExample(response, lang, oas) {
   example = response.content[lang].examples[example];
   if (example !== null && typeof example === 'object') {
     if ('value' in example) {
+      if ('$ref' in example.value) {
+        return findSchemaDefinition(example.value.$ref, oas);
+      }
       return example.value;
     }
   }
