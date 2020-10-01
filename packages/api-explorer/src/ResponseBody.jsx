@@ -62,29 +62,27 @@ function hasOauth(oauth) {
 function Unauthorized({ isOauth, oauth, responseBody }) {
   let unauthorizedResponse;
   if (isOauth) {
-    unauthorizedResponse = (<div className="text-center hub-expired-token">{hasOauth(oauth)}</div>);
+    unauthorizedResponse = <div className="text-center hub-expired-token">{hasOauth(oauth)}</div>;
   } else {
     unauthorizedResponse = (
-        <ReactJson
-          collapsed={1}
-          collapseStringsAfterLength={100}
-          displayDataTypes={false}
-          displayObjectSize={false}
-          enableClipboard={false}
-          name={null}
-          src={responseBody}
-          style={{
-            padding: '20px 10px',
-            backgroundColor: 'transparent',
-            fontSize: '12px',
-          }}
-          theme="tomorrow"
-        />
+      <ReactJson
+        collapsed={1}
+        collapseStringsAfterLength={100}
+        displayDataTypes={false}
+        displayObjectSize={false}
+        enableClipboard={false}
+        name={null}
+        src={responseBody}
+        style={{
+          padding: '20px 10px',
+          backgroundColor: 'transparent',
+          fontSize: '12px',
+        }}
+        theme="tomorrow"
+      />
     );
   }
-  return (
-    unauthorizedResponse
-  );
+  return unauthorizedResponse;
 }
 
 Unauthorized.propTypes = {
