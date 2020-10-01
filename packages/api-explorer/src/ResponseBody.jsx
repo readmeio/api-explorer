@@ -59,11 +59,31 @@ function hasOauth(oauth) {
   );
 }
 
-function Unauthorized({ isOauth, oauth }) {
+function Unauthorized({ isOauth, oauth, responseBody }) {
+  let unauthorizedResponse;
+  if (isOauth) {
+    unauthorizedResponse = (<div className="text-center hub-expired-token">{hasOauth(oauth)}</div>);
+  } else {
+    unauthorizedResponse = (
+        <ReactJson
+          collapsed={1}
+          collapseStringsAfterLength={100}
+          displayDataTypes={false}
+          displayObjectSize={false}
+          enableClipboard={false}
+          name={null}
+          src={responseBody}
+          style={{
+            padding: '20px 10px',
+            backgroundColor: 'transparent',
+            fontSize: '12px',
+          }}
+          theme="tomorrow"
+        />
+    );
+  }
   return (
-    <div className="text-center hub-expired-token">
-      {isOauth ? hasOauth(oauth) : <p>You couldn&apos;t be authenticated</p>}
-    </div>
+    unauthorizedResponse
   );
 }
 
@@ -80,7 +100,7 @@ function ResponseBody({ result, isOauth, oauth }) {
   return (
     <div className="tabber-body tabber-body-result" style={{ display: 'block' }}>
       {result.status !== 401 && <Authorized result={result} />}
-      {result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />}
+      {result.status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} responseBody={result.responseBody} />}
     </div>
   );
 }
