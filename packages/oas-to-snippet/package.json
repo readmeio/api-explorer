@@ -7,7 +7,7 @@
     "@readme/httpsnippet": "^2.1.1",
     "@readme/oas-extensions": "^7.2.3",
     "@readme/oas-to-har": "^7.3.0",
-    "@readme/syntax-highlighter": "^9.0.1",
+    "@readme/syntax-highlighter": "^10.0.0",
     "httpsnippet-client-api": "^2.3.0"
   },
   "peerDependencies": {
