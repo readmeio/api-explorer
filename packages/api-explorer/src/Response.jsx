@@ -25,7 +25,7 @@ class Response extends React.Component {
   }
 
   render() {
-    const { result, oas, operation, oauth, hideResults, exampleResponses } = this.props;
+    const { exampleResponses, hideResults, result, oas, operation, oauth } = this.props;
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
 

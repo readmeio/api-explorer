@@ -19,9 +19,23 @@ const props = {
   result: null,
 };
 
-test('should show no examples if endpoint does not any', () => {
+test('should show no examples if endpoint does not have any', () => {
   const example = shallow(<ResponseExample {...props} />);
 
+  expect(example.containsMatchingElement(<div>Try the API to see Results</div>)).toBe(true);
+});
+
+test('should check the operation level extensions first', () => {
+  const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
+  operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
+
+  const example = shallow(
+    <ResponseExample
+      {...props}
+      oas={new Oas({ ...petstore, [extensions.EXPLORER_ENABLED]: false })}
+      operation={operationExplorerEnabled}
+    />
+  );
   expect(example.containsMatchingElement(<div>Try the API to see Results</div>)).toBe(true);
 });
 

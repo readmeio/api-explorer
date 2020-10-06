@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
-const syntaxHighlighter = require('@readme/syntax-highlighter').default;
+const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
@@ -176,6 +176,7 @@ class ResponseExample extends React.Component {
     const { operation, result, oas, exampleResponses } = this.props;
     const selectedTab = this.state.exampleTab;
     const { responseMediaType, responseMediaTypeExample } = this.state;
+    const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
     let examples;
     if (exampleResponses.length) {
@@ -263,7 +264,7 @@ class ResponseExample extends React.Component {
 
         {(examples.length === 0 || (!hasExamples && result === null)) && (
           <div className="hub-no-code">
-            {oas[extensions.EXPLORER_ENABLED] ? 'Try the API to see Results' : 'No response examples available'}
+            {explorerEnabled ? 'Try the API to see Results' : 'No response examples available'}
           </div>
         )}
       </div>
@@ -273,6 +274,7 @@ class ResponseExample extends React.Component {
 
 ResponseExample.propTypes = {
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  explorerEnabled: PropTypes.bool,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,

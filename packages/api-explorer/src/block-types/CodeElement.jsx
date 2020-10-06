@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const syntaxHighlighter = require('@readme/syntax-highlighter').default;
+const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 
 const CopyCode = require('../CopyCode');
 

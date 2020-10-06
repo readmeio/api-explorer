@@ -1,3 +1,22 @@
+## 7.4.0 (2020-10-05)
+
+* build: updating dists ([6aea4cc](https://github.com/readmeio/api-explorer/commit/6aea4cc))
+* chore(deps-dev): bump @babel/core from 7.11.4 to 7.11.6 (#954) ([2178a2b](https://github.com/readmeio/api-explorer/commit/2178a2b)), closes [#954](https://github.com/readmeio/api-explorer/issues/954)
+* chore(deps-dev): bump @babel/preset-env from 7.10.2 to 7.11.5 (#934) ([5324d58](https://github.com/readmeio/api-explorer/commit/5324d58)), closes [#934](https://github.com/readmeio/api-explorer/issues/934)
+* chore(deps-dev): bump @readme/eslint-config from 3.4.3 to 3.5.0 (#957) ([4ef5f9c](https://github.com/readmeio/api-explorer/commit/4ef5f9c)), closes [#957](https://github.com/readmeio/api-explorer/issues/957)
+* chore(deps-dev): bump css-loader from 3.5.3 to 4.3.0 (#944) ([4656e48](https://github.com/readmeio/api-explorer/commit/4656e48)), closes [#944](https://github.com/readmeio/api-explorer/issues/944)
+* chore(deps-dev): bump eslint from 7.8.1 to 7.10.0 (#960) ([3a0e0bc](https://github.com/readmeio/api-explorer/commit/3a0e0bc)), closes [#960](https://github.com/readmeio/api-explorer/issues/960)
+* chore(deps-dev): bump node-sass from 4.13.1 to 4.14.1 (#779) ([c34d3e1](https://github.com/readmeio/api-explorer/commit/c34d3e1)), closes [#779](https://github.com/readmeio/api-explorer/issues/779)
+* chore(deps-dev): bump prettier from 2.1.1 to 2.1.2 (#955) ([54edfa4](https://github.com/readmeio/api-explorer/commit/54edfa4)), closes [#955](https://github.com/readmeio/api-explorer/issues/955)
+* chore(deps-dev): bump sass-loader from 7.3.1 to 10.0.2 (#932) ([78a8e07](https://github.com/readmeio/api-explorer/commit/78a8e07)), closes [#932](https://github.com/readmeio/api-explorer/issues/932)
+* chore(deps-dev): bump webpack from 4.44.1 to 4.44.2 (#952) ([b3dc40c](https://github.com/readmeio/api-explorer/commit/b3dc40c)), closes [#952](https://github.com/readmeio/api-explorer/issues/952)
+* chore(deps): bump @readme/markdown from 6.18.0 to 6.20.0 (#953) ([549c005](https://github.com/readmeio/api-explorer/commit/549c005)), closes [#953](https://github.com/readmeio/api-explorer/issues/953)
+* chore(deps): bump actions/checkout from v2.3.2 to v2.3.3 (#959) ([b5c6b59](https://github.com/readmeio/api-explorer/commit/b5c6b59)), closes [#959](https://github.com/readmeio/api-explorer/issues/959)
+* chore(deps): bump actions/setup-node from v2.1.1 to v2.1.2 (#963) ([6055a52](https://github.com/readmeio/api-explorer/commit/6055a52)), closes [#963](https://github.com/readmeio/api-explorer/issues/963)
+* chore(deps): upgrading @readme/syntax-highlighter to 10.0.0 (#964) ([93d0ab7](https://github.com/readmeio/api-explorer/commit/93d0ab7)), closes [#964](https://github.com/readmeio/api-explorer/issues/964)
+
+
+
 ## 7.3.0 (2020-09-18)
 
 * build: updating dist files ([77a8193](https://github.com/readmeio/api-explorer/commit/77a8193))

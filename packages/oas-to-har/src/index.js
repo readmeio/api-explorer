@@ -80,8 +80,9 @@ module.exports = (
     httpVersion: 'HTTP/1.1',
   };
 
+  const proxyEnabled = extensions.getExtension(extensions.PROXY_ENABLED, oas, operation);
   // TODO look to move this to Oas class as well
-  if (oas[extensions.PROXY_ENABLED] && opts.proxyUrl) {
+  if (proxyEnabled && opts.proxyUrl) {
     har.url = `https://try.readme.io/${har.url}`;
   }
 
@@ -179,8 +180,9 @@ module.exports = (
   }
 
   // Are there `x-static` static headers configured for this OAS?
-  if (oas[extensions.HEADERS]) {
-    oas[extensions.HEADERS].forEach(header => {
+  const userDefinedHeaders = extensions.getExtension(extensions.HEADERS, oas, operation);
+  if (userDefinedHeaders) {
+    userDefinedHeaders.forEach(header => {
       if (header.key.toLowerCase() === 'content-type') {
         hasContentType = true;
         contentType = String(header.value);
