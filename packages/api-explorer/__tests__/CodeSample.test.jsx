@@ -280,7 +280,7 @@ describe('code examples', () => {
 
   it('should check the operation level extensions first', () => {
     const operationSamplesEnabled = new Operation({}, '/pet/{id}', 'get');
-    operationSamplesEnabled['x-samples-enabled'] = true;
+    operationSamplesEnabled[extensions.SAMPLES_ENABLED] = true;
     const languages = ['node', 'curl'];
 
     const codeSample = shallow(

@@ -19,7 +19,7 @@ const props = {
   result: null,
 };
 
-test('should show no examples if endpoint does have not any', () => {
+test('should show no examples if endpoint does not have any', () => {
   const example = shallow(<ResponseExample {...props} />);
 
   expect(example.containsMatchingElement(<div>Try the API to see Results</div>)).toBe(true);
@@ -27,7 +27,7 @@ test('should show no examples if endpoint does have not any', () => {
 
 test('should check the operation level extensions first', () => {
   const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
-  operationExplorerEnabled['x-explorer-enabled'] = true;
+  operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
 
   const example = shallow(
     <ResponseExample

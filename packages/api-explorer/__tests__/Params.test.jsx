@@ -400,7 +400,7 @@ describe('x-explorer-enabled', () => {
 
   it('should check the operation level extensions first', () => {
     const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
-    operationExplorerEnabled['x-explorer-enabled'] = true;
+    operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
 
     expect(
       mount(
