@@ -278,7 +278,8 @@ describe('code examples', () => {
     expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 
-  it('should check the operation level extensions first', () => {
+  // Skipped until https://github.com/readmeio/api-explorer/issues/965 is resolved.
+  it.skip('should check the operation level extensions first', () => {
     const operationSamplesEnabled = new Operation({}, '/pet/{id}', 'get');
     operationSamplesEnabled[extensions.SAMPLES_ENABLED] = true;
     const languages = ['node', 'curl'];

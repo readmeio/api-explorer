@@ -81,7 +81,11 @@ class CodeSample extends React.Component {
   render() {
     const { oas, oasUrl, setLanguage, operation, formData, language, examples, auth } = this.props;
     const samplesEnabled = extensions.getExtension(extensions.SAMPLES_ENABLED, oas, operation);
-    const samplesLanguages = extensions.getExtension(extensions.SAMPLES_LANGUAGES, oas, operation);
+
+    // Operation-specific support for `x-samples-languages` is currently disabled until
+    // https://github.com/readmeio/api-explorer/issues/965 is resolved.
+    // const samplesLanguages = extensions.getExtension(extensions.SAMPLES_LANGUAGES, oas, operation);
+    const samplesLanguages = extensions.getExtension(extensions.SAMPLES_LANGUAGES, oas, {});
 
     return (
       <div className="code-sample tabber-parent">

@@ -73,7 +73,7 @@
     "/x-samples-languages": {
       "get": {
         "summary": "Code sample languages",
-        "description": "With an array of languages present in `x-samples-languages`, code samples will be generated for only those languages. If not present, it will default to the languages listed on https://docs.readme.com/guides/docs/openapi-extensions#code-sample-languages",
+        "description": "With an array of languages present in `x-samples-languages`, code samples will be generated for only those languages. If not present, it will default to the languages listed on https://docs.readme.com/guides/docs/openapi-extensions#code-sample-languages\n\n> 🚧 Operation-specific support for this extension is currently disabled until https://github.com/readmeio/api-explorer/issues/965 is resolved.",
         "parameters": [
           {
             "name": "status",
