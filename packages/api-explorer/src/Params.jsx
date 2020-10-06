@@ -160,13 +160,13 @@ function createParams(oas) {
     // eslint-disable-next-line react/prop-types
     const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, props.operation);
 
-    const ArrayField = createArrayField(oas, explorerEnabled);
-    const BaseInput = createBaseInput(oas, explorerEnabled);
-    const FileWidget = createFileWidget(oas, explorerEnabled);
+    const ArrayField = createArrayField(explorerEnabled);
+    const BaseInput = createBaseInput(explorerEnabled);
+    const FileWidget = createFileWidget(explorerEnabled);
     const SchemaField = createSchemaField();
-    const SelectWidget = createSelectWidget(oas, explorerEnabled);
-    const TextareaWidget = createTextareaWidget(oas, explorerEnabled);
-    const URLWidget = createURLWidget(oas, explorerEnabled);
+    const SelectWidget = createSelectWidget(explorerEnabled);
+    const TextareaWidget = createTextareaWidget(explorerEnabled);
+    const URLWidget = createURLWidget(explorerEnabled);
 
     return (
       <Params

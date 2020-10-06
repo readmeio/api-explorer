@@ -4,7 +4,7 @@ const PropTypes = require('prop-types');
 const BaseArrayField = require('@readme/react-jsonschema-form/lib/components/fields/ArrayField').default;
 const { getDefaultRegistry, retrieveSchema } = require('@readme/react-jsonschema-form/lib/utils');
 
-function createArrayField(oas, explorerEnabled) {
+function createArrayField(explorerEnabled) {
   function hasPrimitives(props) {
     const { schema, registry = getDefaultRegistry() } = props;
     const { rootSchema } = registry;
