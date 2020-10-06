@@ -40,11 +40,13 @@ function PathUrl({
   showAuthBox,
   toggleAuth,
 }) {
+  const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
+
   return (
     <div className="api-definition-parent">
       <div className="api-definition">
         <div className="api-definition-container">
-          {oas[extensions.EXPLORER_ENABLED] && (
+          {explorerEnabled && (
             <div className="api-definition-actions">
               <AuthBox
                 auth={auth}
@@ -99,6 +101,7 @@ PathUrl.propTypes = {
   auth: PropTypes.shape({}),
   authInputRef: PropTypes.func,
   dirty: PropTypes.bool.isRequired,
+  explorerEnabled: PropTypes.bool,
   group: PropTypes.string,
   groups: PropTypes.arrayOf(
     PropTypes.shape({

@@ -1,10 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const extensions = require('@readme/oas-extensions');
 
-function createDateTimeWidget(oas) {
-  const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
-
+function createDateTimeWidget(explorerEnabled) {
   // Return a function that renders null when the explorer is disabled
   if (!explorerEnabled) return () => null;
 

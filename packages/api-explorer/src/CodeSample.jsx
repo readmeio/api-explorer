@@ -80,12 +80,18 @@ class CodeSample extends React.Component {
 
   render() {
     const { oas, oasUrl, setLanguage, operation, formData, language, examples, auth } = this.props;
+    const samplesEnabled = extensions.getExtension(extensions.SAMPLES_ENABLED, oas, operation);
+
+    // Operation-specific support for `x-samples-languages` is currently disabled until
+    // https://github.com/readmeio/api-explorer/issues/965 is resolved.
+    // const samplesLanguages = extensions.getExtension(extensions.SAMPLES_LANGUAGES, oas, operation);
+    const samplesLanguages = extensions.getExtension(extensions.SAMPLES_LANGUAGES, oas, {});
 
     return (
       <div className="code-sample tabber-parent">
         {(() => {
           if (examples.length) return this.renderSelected(examples, setLanguage);
-          if (!oas[extensions.SAMPLES_ENABLED]) {
+          if (!samplesEnabled) {
             return <div className="hub-no-code">No code samples available</div>;
           }
 
@@ -98,7 +104,7 @@ class CodeSample extends React.Component {
           return (
             <div>
               <ul className="code-sample-tabs">
-                {oas[extensions.SAMPLES_LANGUAGES].map(lang => (
+                {samplesLanguages.map(lang => (
                   // TODO add `is-lang-${lang}` class, to body?
                   <li key={lang}>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

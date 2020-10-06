@@ -1,10 +1,6 @@
-const extensions = require('@readme/oas-extensions');
-
 const BaseInput = require('@readme/react-jsonschema-form/lib/components/widgets/BaseInput').default;
 
-function createBaseInput(oas) {
-  const explorerEnabled = oas[extensions.EXPLORER_ENABLED];
-
+function createBaseInput(explorerEnabled) {
   // Return a function that renders null when the explorer is disabled
   if (!explorerEnabled) return () => null;
 

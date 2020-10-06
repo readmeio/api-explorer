@@ -397,6 +397,21 @@ describe('x-explorer-enabled', () => {
       ).find('input[type="file"]')
     ).toHaveLength(0);
   });
+
+  it('should check the operation level extensions first', () => {
+    const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
+    operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
+
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={operationExplorerEnabled}
+        />
+      ).find('input[type="file"]')
+    ).toHaveLength(1);
+  });
 });
 
 describe('readOnly', () => {

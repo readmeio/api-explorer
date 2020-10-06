@@ -17,3 +17,12 @@ module.exports.defaults = {
   'x-headers': undefined,
   'x-send-defaults': false,
 };
+
+// add these functions to OAS class on packages/tooling/src/oas.js
+module.exports.getExtension = (ext, oas, operation) => {
+  if (operation[ext] === undefined && oas[ext] === undefined) {
+    return module.exports.defaults[ext];
+  }
+
+  return operation[ext] === undefined ? oas[ext] : operation[ext];
+};
