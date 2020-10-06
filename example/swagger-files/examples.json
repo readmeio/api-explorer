@@ -20,10 +20,7 @@
                 "examples": {
                   "response": {
                     "value": {
-                      "user": {
-                        "email": "test@example.com",
-                        "name": "Test user name"
-                      }
+                      "$ref": "#/components/schemas/UserResponse/example"
                     }
                   }
                 }
@@ -84,7 +81,16 @@
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "UserResponse": {
+        "example": {
+          "user": {
+            "email": "test@example.com",
+            "name": "Test user name"
+          }
+        }
+      }
+    },
     "responses": {
       "400-Response-Ref": {
         "description": "Validation failed",

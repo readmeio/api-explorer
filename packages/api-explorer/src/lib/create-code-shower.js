@@ -12,14 +12,18 @@ function hasMultipleLanguages(response) {
   return response.content ? Object.keys(response.content).length > 1 : false;
 }
 
-function getExample(response, lang) {
+function getExample(response, lang, oas) {
   if (!response.content[lang].examples) {
     return false;
   }
 
   // This isn't actually something that's defined in the spec. Do we really need to support this?
-  if (response.content[lang].examples.response) {
-    return response.content[lang].examples.response.value;
+  const customResponse = response.content[lang].examples.response;
+  if (customResponse) {
+    if (customResponse.value.$ref) {
+      return findSchemaDefinition(customResponse.value.$ref, oas);
+    }
+    return customResponse.value;
   }
 
   const examples = Object.keys(response.content[lang].examples);
@@ -33,6 +37,9 @@ function getExample(response, lang) {
   example = response.content[lang].examples[example];
   if (example !== null && typeof example === 'object') {
     if ('value' in example) {
+      if ('$ref' in example.value) {
+        return findSchemaDefinition(example.value.$ref, oas);
+      }
       return example.value;
     }
   }
@@ -40,14 +47,16 @@ function getExample(response, lang) {
   return example;
 }
 
-function getMultipleExamples(response, lang) {
+function getMultipleExamples(response, lang, oas) {
   if (!response.content[lang].examples || response.content[lang].examples.response) return false;
 
   const { examples } = response.content[lang];
   const multipleExamples = Object.keys(examples).map(key => {
     let example = examples[key];
     if (example !== null && typeof example === 'object') {
-      if ('value' in example) {
+      if ('$ref' in example.value) {
+        example = findSchemaDefinition(example.value.$ref, oas);
+      } else if ('value' in example) {
         example = example.value;
       }
 
@@ -63,8 +72,8 @@ function getMultipleExamples(response, lang) {
   return multipleExamples.length > 0 ? multipleExamples : false;
 }
 
-function constructLanguage(language, response, example) {
-  const multipleExamples = getMultipleExamples(response, language);
+function constructLanguage(language, response, example, oas) {
+  const multipleExamples = getMultipleExamples(response, language, oas);
   if (!example && !multipleExamples) {
     return false;
   }
@@ -102,8 +111,8 @@ module.exports = type => {
             if (!language) return false;
 
             const langResponse = response.content[language];
-            const example = langResponse.code || getExample(response, language);
-            const clang = constructLanguage(language, response, example);
+            const example = langResponse.code || getExample(response, language, oas);
+            const clang = constructLanguage(language, response, example, oas);
             if (clang) {
               languages.push(clang);
             }
@@ -114,8 +123,8 @@ module.exports = type => {
           const language = response.langauge || getLanguage(response);
           if (!language) return false;
 
-          const example = response.code || getExample(response, language);
-          const clang = constructLanguage(language, response, example);
+          const example = response.code || getExample(response, language, oas);
+          const clang = constructLanguage(language, response, example, oas);
           if (clang) {
             languages.push(clang);
           }
