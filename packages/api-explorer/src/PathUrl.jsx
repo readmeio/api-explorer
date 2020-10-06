@@ -40,7 +40,7 @@ function PathUrl({
   showAuthBox,
   toggleAuth,
 }) {
-  const explorerEnabled = extensions.extensionEnabled(oas, operation, extensions.EXPLORER_ENABLED);
+  const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
   return (
     <div className="api-definition-parent">

@@ -158,7 +158,7 @@ function createParams(oas) {
   // eslint-disable-next-line react/display-name
   return props => {
     // eslint-disable-next-line react/prop-types
-    const explorerEnabled = extensions.extensionEnabled(oas, props.operation, extensions.EXPLORER_ENABLED);
+    const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, props.operation);
 
     const ArrayField = createArrayField(oas, explorerEnabled);
     const BaseInput = createBaseInput(oas, explorerEnabled);

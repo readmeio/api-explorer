@@ -19,7 +19,7 @@ module.exports.defaults = {
 };
 
 // add these functions to OAS class on packages/tooling/src/oas.js
-module.exports.extensionEnabled = function (oas, operation, ext) {
+module.exports.getExtension = (ext, oas, operation) => {
   if (operation[ext] === undefined && oas[ext] === undefined) {
     return module.exports.defaults[ext];
   }

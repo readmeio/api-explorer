@@ -80,8 +80,8 @@ class CodeSample extends React.Component {
 
   render() {
     const { oas, oasUrl, setLanguage, operation, formData, language, examples, auth } = this.props;
-    const samplesEnabled = extensions.extensionEnabled(oas, operation, extensions.SAMPLES_ENABLED);
-    const samplesLanguages = extensions.extensionEnabled(oas, operation, extensions.SAMPLES_LANGUAGES);
+    const samplesEnabled = extensions.getExtension(extensions.SAMPLES_ENABLED, oas, operation);
+    const samplesLanguages = extensions.getExtension(extensions.SAMPLES_LANGUAGES, oas, operation);
 
     return (
       <div className="code-sample tabber-parent">

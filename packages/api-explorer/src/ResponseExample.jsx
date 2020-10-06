@@ -176,7 +176,7 @@ class ResponseExample extends React.Component {
     const { operation, result, oas, exampleResponses } = this.props;
     const selectedTab = this.state.exampleTab;
     const { responseMediaType, responseMediaTypeExample } = this.state;
-    const explorerEnabled = extensions.extensionEnabled(oas, operation, extensions.EXPLORER_ENABLED);
+    const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
     let examples;
     if (exampleResponses.length) {
