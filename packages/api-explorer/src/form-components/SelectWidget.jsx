@@ -1,5 +1,3 @@
-const PropTypes = require('prop-types');
-
 const SelectWidget = require('@readme/react-jsonschema-form/lib/components/widgets/SelectWidget').default;
 
 function createSelectWidget(explorerEnabled) {
@@ -8,9 +6,5 @@ function createSelectWidget(explorerEnabled) {
 
   return SelectWidget;
 }
-
-SelectWidget.propTypes = {
-  explorerEnabled: PropTypes.bool,
-};
 
 module.exports = createSelectWidget;

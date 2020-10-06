@@ -1,5 +1,3 @@
-const PropTypes = require('prop-types');
-
 const BaseInput = require('@readme/react-jsonschema-form/lib/components/widgets/BaseInput').default;
 
 function createBaseInput(explorerEnabled) {
@@ -8,9 +6,5 @@ function createBaseInput(explorerEnabled) {
 
   return BaseInput;
 }
-
-BaseInput.propTypes = {
-  explorerEnabled: PropTypes.bool,
-};
 
 module.exports = createBaseInput;

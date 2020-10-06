@@ -1,5 +1,3 @@
-const PropTypes = require('prop-types');
-
 const URLWidget = require('@readme/react-jsonschema-form/lib/components/widgets/URLWidget').default;
 
 function createURLWidget(explorerEnabled) {
@@ -8,9 +6,5 @@ function createURLWidget(explorerEnabled) {
 
   return URLWidget;
 }
-
-URLWidget.propTypes = {
-  explorerEnabled: PropTypes.bool,
-};
 
 module.exports = createURLWidget;

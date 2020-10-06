@@ -1,5 +1,3 @@
-const PropTypes = require('prop-types');
-
 const FileWidget = require('@readme/react-jsonschema-form/lib/components/widgets/FileWidget').default;
 
 function createFileWidget(explorerEnabled) {
@@ -8,9 +6,5 @@ function createFileWidget(explorerEnabled) {
 
   return FileWidget;
 }
-
-FileWidget.propTypes = {
-  explorerEnabled: PropTypes.bool,
-};
 
 module.exports = createFileWidget;
