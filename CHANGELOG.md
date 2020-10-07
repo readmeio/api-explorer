@@ -1,3 +1,11 @@
+## 7.5.0 (2020-10-07)
+
+* chore: stop storing package dist files in source control (#966) ([b096d5b](https://github.com/readmeio/api-explorer/commit/b096d5b)), closes [#966](https://github.com/readmeio/api-explorer/issues/966)
+* fix: parse example.response.value.$ref rather than render as plain text (#961) ([05dfc97](https://github.com/readmeio/api-explorer/commit/05dfc97)), closes [#961](https://github.com/readmeio/api-explorer/issues/961)
+* feat: operation level extensions (#940) ([198e86e](https://github.com/readmeio/api-explorer/commit/198e86e)), closes [#940](https://github.com/readmeio/api-explorer/issues/940)
+
+
+
 ## 7.4.0 (2020-10-05)
 
 * build: updating dists ([6aea4cc](https://github.com/readmeio/api-explorer/commit/6aea4cc))
