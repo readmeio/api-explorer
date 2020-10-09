@@ -10,6 +10,39 @@
     "version": "1.0"
   },
   "paths": {
+    "/example": {
+      "get": {
+        "description": "Showcase of responses with an `example` property present.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 12345,
+                  "email": "test@example.com",
+                  "name": "Test user name"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 12345,
+                    "email": "test@example.com",
+                    "name": "Test user name"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "/examples": {
       "get": {
         "responses": {

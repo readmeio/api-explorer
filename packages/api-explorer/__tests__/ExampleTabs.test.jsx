@@ -5,11 +5,11 @@ const Oas = require('@readme/oas-tooling');
 const example = require('./__fixtures__/example-results/oas');
 
 const ExampleTabs = require('../src/ExampleTabs');
-const showCodeResults = require('../src/lib/show-code-results');
+const getResponseExamples = require('../src/lib/get-response-examples');
 
 const oas = new Oas(example);
 const props = {
-  examples: showCodeResults(oas.operation('/results', 'get'), oas),
+  examples: getResponseExamples(oas.operation('/results', 'get'), oas),
   selected: 0,
   setExampleTab: () => {},
 };
