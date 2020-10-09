@@ -129,9 +129,9 @@ test('should support node-simple', () => {
   const petstoreOas = new Oas(petstore);
   const snippet = generateCodeSnippet(
     petstoreOas,
-    petstoreOas.operation('/pets', 'get'),
+    petstoreOas.operation('/user/login', 'get'),
     {
-      query: { limit: 10 },
+      query: { username: 'woof', password: 'barkbarkbark' },
     },
     {},
     'node-simple',
