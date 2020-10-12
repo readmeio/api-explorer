@@ -13,7 +13,7 @@ const props = {
   language: 'node',
   setLanguage: () => {},
   oasUrl: 'https://example.com/openapi.json',
-  operation: new Operation({}, '/pet/{id}', 'get'),
+  operation: new Operation({}, '/pet/{petId}', 'get'),
 };
 
 describe('tabs', () => {
@@ -61,7 +61,7 @@ describe('code examples', () => {
     const docProps = {
       ...props,
       language: 'node-simple',
-      operation: new Operation({}, '/pets/{petId}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
     };
 
     const codeSample = shallow(
@@ -85,7 +85,7 @@ describe('code examples', () => {
   it('should display custom examples over pre-filled examples', () => {
     const docProps = {
       ...props,
-      operation: new Operation({}, '/pet/{id}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
       examples: [
         {
           language: 'javascript',
@@ -114,7 +114,7 @@ describe('code examples', () => {
   it('should display custom examples even if SAMPLES_ENABLED is false', () => {
     const docProps = {
       ...props,
-      operation: new Operation({}, '/pet/{id}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
       examples: [
         {
           language: 'javascript',
@@ -142,7 +142,7 @@ describe('code examples', () => {
   it('should not error if no code given', () => {
     const docProps = {
       ...props,
-      operation: new Operation({}, '/pet/{id}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
       examples: [
         {
           language: 'javascript',
@@ -169,7 +169,7 @@ describe('code examples', () => {
   it('should not error if language requested cannot be auto-generated', () => {
     const docProps = {
       ...props,
-      operation: new Operation({}, '/pet/{id}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
       language: 'css',
     };
 
@@ -197,7 +197,7 @@ describe('code examples', () => {
   it('should not render sample if language is missing', () => {
     const docProps = {
       ...props,
-      operation: new Operation({}, '/pet/{id}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
       examples: [
         {
           code: 'console.log(1);',
@@ -229,7 +229,7 @@ describe('code examples', () => {
   it('should render first of examples if language does not exist', () => {
     const docProps = {
       ...props,
-      operation: new Operation({}, '/pet/{id}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
       examples: [
         {
           language: 'javascript',
@@ -280,7 +280,7 @@ describe('code examples', () => {
 
   // Skipped until https://github.com/readmeio/api-explorer/issues/965 is resolved.
   it.skip('should check the operation level extensions first', () => {
-    const operationSamplesEnabled = new Operation({}, '/pet/{id}', 'get');
+    const operationSamplesEnabled = new Operation({}, '/pet/{petId}', 'get');
     operationSamplesEnabled[extensions.SAMPLES_ENABLED] = true;
     const languages = ['node', 'curl'];
 
@@ -307,7 +307,7 @@ describe('code examples', () => {
   it('should not display more than one example block at a time', () => {
     const docProps = {
       ...props,
-      operation: new Operation({}, '/pet/{id}', 'get'),
+      operation: new Operation({}, '/pet/{petId}', 'get'),
       language: 'javascript',
       examples: [
         {

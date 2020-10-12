@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const Oas = require('@readme/oas-tooling');
 
-const showCodeResults = require('./lib/show-code-results');
+const getResponseExamples = require('./lib/get-response-examples');
 const IconStatus = require('./IconStatus');
 const Tab = require('./Tab');
 
@@ -31,7 +31,7 @@ function ResponseTabs({ result, oas, operation, responseTab, setTab, hideResults
         Metadata
       </Tab>
 
-      {showCodeResults(operation, oas).length > 0 && (
+      {getResponseExamples(operation, oas).length > 0 && (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a
           className="hub-reference-results-back pull-right"
