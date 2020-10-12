@@ -2,7 +2,7 @@ const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
-const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/react-jsonschema-form/lib/utils');
+const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/oas-form/lib/utils');
 
 const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
