@@ -1,12 +1,10 @@
-import React from "react";
+import React from 'react';
 
 export default function IconButton(props) {
-  const { type = "default", icon, className, ...otherProps } = props;
+  // eslint-disable-next-line react/prop-types
+  const { type = 'default', icon, className, ...otherProps } = props;
   return (
-    <button
-      type="button"
-      className={`btn btn-${type} ${className}`}
-      {...otherProps}>
+    <button className={`btn btn-${type} ${className}`} type="button" {...otherProps}>
       <i className={`glyphicon glyphicon-${icon}`} />
     </button>
   );

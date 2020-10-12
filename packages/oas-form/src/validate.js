@@ -1,29 +1,27 @@
-import toPath from "lodash/toPath";
-import Ajv from "ajv";
+/* eslint-disable unicorn/no-unsafe-regex */
+import toPath from 'lodash/toPath';
+import Ajv from 'ajv';
+import { deepEquals, getDefaultFormState, isObject, mergeObjects } from './utils';
+
 let ajv = createAjvInstance();
-import { deepEquals, getDefaultFormState } from "./utils";
 
 let formerCustomFormats = null;
 let formerMetaSchema = null;
 
-import { isObject, mergeObjects } from "./utils";
-
 function createAjvInstance() {
+  // eslint-disable-next-line no-shadow
   const ajv = new Ajv({
-    errorDataPath: "property",
+    errorDataPath: 'property',
     allErrors: true,
     multipleOfPrecision: 8,
-    schemaId: "auto",
-    unknownFormats: "ignore",
+    schemaId: 'auto',
+    unknownFormats: 'ignore',
   });
 
   // add custom formats
+  ajv.addFormat('data-url', /^data:([a-z]+\/[a-z0-9-+.]+)?;(?:name=(.*);)?base64,(.*)$/);
   ajv.addFormat(
-    "data-url",
-    /^data:([a-z]+\/[a-z0-9-+.]+)?;(?:name=(.*);)?base64,(.*)$/
-  );
-  ajv.addFormat(
-    "color",
+    'color',
     /^(#?([0-9A-Fa-f]{3}){1,2}\b|aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow|(rgb\(\s*\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\s*,\s*\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\s*,\s*\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\s*\))|(rgb\(\s*(\d?\d%|100%)+\s*,\s*(\d?\d%|100%)+\s*,\s*(\d?\d%|100%)+\s*\)))$/
   );
   return ajv;
@@ -55,10 +53,11 @@ function toErrorSchema(errors) {
 
     // If the property is at the root (.level1) then toPath creates
     // an empty array element at the first index. Remove it.
-    if (path.length > 0 && path[0] === "") {
+    if (path.length > 0 && path[0] === '') {
       path.splice(0, 1);
     }
 
+    // eslint-disable-next-line no-restricted-syntax, no-unused-vars
     for (const segment of path.slice(0)) {
       if (!(segment in parent)) {
         parent[segment] = {};
@@ -71,19 +70,17 @@ function toErrorSchema(errors) {
       // to avoid name collision with a possible sub schema field named
       // "errors" (see `validate.createErrorHandler`).
       parent.__errors = parent.__errors.concat(message);
-    } else {
-      if (message) {
-        parent.__errors = [message];
-      }
+    } else if (message) {
+      parent.__errors = [message];
     }
     return errorSchema;
   }, {});
 }
 
-export function toErrorList(errorSchema, fieldName = "root") {
+export function toErrorList(errorSchema, fieldName = 'root') {
   // XXX: We should transform fieldName as a full field path string.
   let errorList = [];
-  if ("__errors" in errorSchema) {
+  if ('__errors' in errorSchema) {
     errorList = errorList.concat(
       errorSchema.__errors.map(stack => {
         return {
@@ -93,7 +90,7 @@ export function toErrorList(errorSchema, fieldName = "root") {
     );
   }
   return Object.keys(errorSchema).reduce((acc, key) => {
-    if (key !== "__errors") {
+    if (key !== '__errors') {
       acc = acc.concat(toErrorList(errorSchema[key], key));
     }
     return acc;
@@ -125,9 +122,9 @@ function createErrorHandler(formData) {
 
 function unwrapErrorHandler(errorHandler) {
   return Object.keys(errorHandler).reduce((acc, key) => {
-    if (key === "addError") {
+    if (key === 'addError') {
       return acc;
-    } else if (key === "__errors") {
+    } else if (key === '__errors') {
       return { ...acc, [key]: errorHandler[key] };
     }
     return { ...acc, [key]: unwrapErrorHandler(errorHandler[key]) };
@@ -145,7 +142,7 @@ function transformAjvErrors(errors = []) {
 
   return errors.map(e => {
     const { dataPath, keyword, message, params, schemaPath } = e;
-    let property = `${dataPath}`;
+    const property = `${dataPath}`;
 
     // put data in expected format
     return {
@@ -184,11 +181,7 @@ export default function validateFormData(
   }
 
   // add more schemas to validate against
-  if (
-    additionalMetaSchemas &&
-    newMetaSchemas &&
-    Array.isArray(additionalMetaSchemas)
-  ) {
+  if (additionalMetaSchemas && newMetaSchemas && Array.isArray(additionalMetaSchemas)) {
     ajv.addMetaSchema(additionalMetaSchemas);
     formerMetaSchema = additionalMetaSchemas;
   }
@@ -217,8 +210,8 @@ export default function validateFormData(
   const noProperMetaSchema =
     validationError &&
     validationError.message &&
-    typeof validationError.message === "string" &&
-    validationError.message.includes("no schema with key or ref ");
+    typeof validationError.message === 'string' &&
+    validationError.message.includes('no schema with key or ref ');
 
   if (noProperMetaSchema) {
     errors = [
@@ -228,7 +221,7 @@ export default function validateFormData(
       },
     ];
   }
-  if (typeof transformErrors === "function") {
+  if (typeof transformErrors === 'function') {
     errors = transformErrors(errors);
   }
 
@@ -245,7 +238,7 @@ export default function validateFormData(
     };
   }
 
-  if (typeof customValidate !== "function") {
+  if (typeof customValidate !== 'function') {
     return { errors, errorSchema };
   }
 

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import * as types from "../../types";
-import { asNumber } from "../../utils";
+import * as types from '../../types';
+import { asNumber } from '../../utils';
 
 // Matches a string that ends in a . character, optionally followed by a sequence of
 // digits followed by any number of 0 characters up until the end of the line.
@@ -47,7 +47,7 @@ class NumberField extends React.Component {
 
     // Normalize decimals that don't start with a zero character in advance so
     // that the rest of the normalization logic is simpler
-    if (`${value}`.charAt(0) === ".") {
+    if (`${value}`.charAt(0) === '.') {
       value = `0${value}`;
     }
 
@@ -55,8 +55,8 @@ class NumberField extends React.Component {
     // <select>, due to an enum declaration etc) then, if the value ends in a
     // trailing decimal point or multiple zeroes, strip the trailing values
     let processed =
-      typeof value === "string" && value.match(trailingCharMatcherWithPrefix)
-        ? asNumber(value.replace(trailingCharMatcher, ""))
+      typeof value === 'string' && value.match(trailingCharMatcherWithPrefix)
+        ? asNumber(value.replace(trailingCharMatcher, ''))
         : asNumber(value);
 
     this.props.onChange(processed);
@@ -69,11 +69,11 @@ class NumberField extends React.Component {
 
     let value = formData;
 
-    if (typeof lastValue === "string" && typeof value === "number") {
+    if (typeof lastValue === 'string' && typeof value === 'number') {
       // Construct a regular expression that checks for a string that consists
       // of the formData value suffixed with zero or one '.' characters and zero
       // or more '0' characters
-      const re = new RegExp(`${value}`.replace(".", "\\.") + "\\.?0*$");
+      const re = new RegExp(`${value}`.replace('.', '\\.') + '\\.?0*$');
 
       // If the cached "lastValue" is a match, use that instead of the formData
       // value to prevent the input value from changing in the UI
@@ -82,13 +82,11 @@ class NumberField extends React.Component {
       }
     }
 
-    return (
-      <StringField {...props} formData={value} onChange={this.handleChange} />
-    );
+    return <StringField {...props} formData={value} onChange={this.handleChange} />;
   }
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   NumberField.propTypes = types.fieldProps;
 }
 

@@ -1,19 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function RadioWidget(props) {
-  const {
-    options,
-    value,
-    required,
-    disabled,
-    readonly,
-    autofocus,
-    onBlur,
-    onFocus,
-    onChange,
-    id,
-  } = props;
+  const { options, value, required, disabled, readonly, autofocus, onBlur, onFocus, onChange, id } = props;
   // Generating a unique field name to identify this set of radio buttons
   const name = Math.random().toString();
   const { enumOptions, enumDisabled, inline } = options;
@@ -23,10 +12,8 @@ function RadioWidget(props) {
     <div className="field-radio-group" id={id}>
       {enumOptions.map((option, i) => {
         const checked = option.value === value;
-        const itemDisabled =
-          enumDisabled && enumDisabled.indexOf(option.value) != -1;
-        const disabledCls =
-          disabled || itemDisabled || readonly ? "disabled" : "";
+        const itemDisabled = enumDisabled && enumDisabled.indexOf(option.value) != -1;
+        const disabledCls = disabled || itemDisabled || readonly ? 'disabled' : '';
         const radio = (
           <span>
             <input
@@ -63,7 +50,7 @@ RadioWidget.defaultProps = {
   autofocus: false,
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   RadioWidget.propTypes = {
     schema: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,

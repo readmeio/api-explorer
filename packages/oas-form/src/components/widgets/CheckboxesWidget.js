@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function selectValue(value, selected, all) {
   const at = all.indexOf(value);
@@ -20,10 +20,8 @@ function CheckboxesWidget(props) {
     <div className="checkboxes" id={id}>
       {enumOptions.map((option, index) => {
         const checked = value.indexOf(option.value) !== -1;
-        const itemDisabled =
-          enumDisabled && enumDisabled.indexOf(option.value) != -1;
-        const disabledCls =
-          disabled || itemDisabled || readonly ? "disabled" : "";
+        const itemDisabled = enumDisabled && enumDisabled.indexOf(option.value) != -1;
+        const disabledCls = disabled || itemDisabled || readonly ? 'disabled' : '';
         const checkbox = (
           <span>
             <input
@@ -65,7 +63,7 @@ CheckboxesWidget.defaultProps = {
   },
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   CheckboxesWidget.propTypes = {
     schema: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,

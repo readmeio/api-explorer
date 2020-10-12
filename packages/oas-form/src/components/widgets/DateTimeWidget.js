@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { pad } from "../../utils";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { pad } from '../../utils';
 
 export function utcToLocal(jsonDate) {
   if (!jsonDate) {
-    return "";
+    return '';
   }
 
   // required format of `"yyyy-MM-ddThh:mm" followed by optional ":ss" or ":ss.SSS"
@@ -50,7 +50,7 @@ function DateTimeWidget(props) {
   );
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   DateTimeWidget.propTypes = {
     value: PropTypes.string,
   };

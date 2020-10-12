@@ -1,6 +1,6 @@
-import AddButton from "../AddButton";
-import React, { Component } from "react";
-import * as types from "../../types";
+import AddButton from '../AddButton';
+import React, { Component } from 'react';
+import * as types from '../../types';
 
 import {
   orderProperties,
@@ -8,7 +8,7 @@ import {
   getDefaultRegistry,
   getUiOptions,
   ADDITIONAL_PROPERTY_FLAG,
-} from "../../utils";
+} from '../../utils';
 
 function DefaultObjectFieldTemplate(props) {
   const canExpand = function canExpand() {
@@ -31,10 +31,10 @@ function DefaultObjectFieldTemplate(props) {
   const { TitleField, DescriptionField } = props;
   return (
     <fieldset id={props.idSchema.$id}>
-      {(props.uiSchema["ui:title"] || props.title) && (
+      {(props.uiSchema['ui:title'] || props.title) && (
         <TitleField
           id={`${props.idSchema.$id}__title`}
-          title={props.title || props.uiSchema["ui:title"]}
+          title={props.title || props.uiSchema['ui:title']}
           required={props.required}
           formContext={props.formContext}
         />
@@ -76,9 +76,7 @@ class ObjectField extends Component {
 
   isRequired(name) {
     const schema = this.props.schema;
-    return (
-      Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
-    );
+    return Array.isArray(schema.required) && schema.required.indexOf(name) !== -1;
   }
 
   onPropertyChange = (name, addedByAdditionalProperties = false) => {
@@ -91,7 +89,7 @@ class ObjectField extends Component {
         // fields which are "mandated" by the schema, these fields can
         // be set to undefined by clicking a "delete field" button, so
         // set empty values to the empty string.
-        value = "";
+        value = '';
       }
       const newFormData = { ...this.props.formData, [name]: value };
       this.props.onChange(
@@ -154,21 +152,21 @@ class ObjectField extends Component {
 
   getDefaultValue(type) {
     switch (type) {
-      case "string":
-        return "New Value";
-      case "array":
+      case 'string':
+        return 'New Value';
+      case 'array':
         return [];
-      case "boolean":
+      case 'boolean':
         return false;
-      case "null":
+      case 'null':
         return null;
-      case "number":
+      case 'number':
         return 0;
-      case "object":
+      case 'object':
         return {};
       default:
         // We don't have a datatype for some reason (perhaps additionalProperties was true)
-        return "New Value";
+        return 'New Value';
     }
   }
 
@@ -176,10 +174,10 @@ class ObjectField extends Component {
     let type = schema.additionalProperties.type;
     const newFormData = { ...this.props.formData };
 
-    if (schema.additionalProperties.hasOwnProperty("$ref")) {
+    if (schema.additionalProperties.hasOwnProperty('$ref')) {
       const { registry = getDefaultRegistry() } = this.props;
       const refSchema = retrieveSchema(
-        { $ref: schema.additionalProperties["$ref"] },
+        { $ref: schema.additionalProperties['$ref'] },
         registry.rootSchema,
         this.props.formData
       );
@@ -187,9 +185,7 @@ class ObjectField extends Component {
       type = refSchema.type;
     }
 
-    newFormData[
-      this.getAvailableKey("newKey", newFormData)
-    ] = this.getDefaultValue(type);
+    newFormData[this.getAvailableKey('newKey', newFormData)] = this.getDefaultValue(type);
 
     this.props.onChange(newFormData);
   };
@@ -222,16 +218,16 @@ class ObjectField extends Component {
       title = schema.title === undefined ? name : schema.title;
     }
 
-    const description = uiSchema["ui:description"] || schema.description;
+    const description = uiSchema['ui:description'] || schema.description;
     let orderedProperties;
     try {
       const properties = Object.keys(schema.properties || {});
-      orderedProperties = orderProperties(properties, uiSchema["ui:order"]);
+      orderedProperties = orderProperties(properties, uiSchema['ui:order']);
     } catch (err) {
       return (
         <div>
-          <p className="config-error" style={{ color: "red" }}>
-            Invalid {name || "root"} object field configuration:
+          <p className="config-error" style={{ color: 'red' }}>
+            Invalid {name || 'root'} object field configuration:
             <em>{err.message}</em>.
           </p>
           <pre>{JSON.stringify(schema)}</pre>
@@ -239,20 +235,15 @@ class ObjectField extends Component {
       );
     }
 
-    const Template =
-      uiSchema["ui:ObjectFieldTemplate"] ||
-      registry.ObjectFieldTemplate ||
-      DefaultObjectFieldTemplate;
+    const Template = uiSchema['ui:ObjectFieldTemplate'] || registry.ObjectFieldTemplate || DefaultObjectFieldTemplate;
 
     const templateProps = {
-      title: uiSchema["ui:title"] || title,
+      title: uiSchema['ui:title'] || title,
       description,
       TitleField,
       DescriptionField,
       properties: orderedProperties.map(name => {
-        const addedByAdditionalProperties = schema.properties[
-          name
-        ].hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
+        const addedByAdditionalProperties = schema.properties[name].hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
         return {
           content: (
             <SchemaField
@@ -260,21 +251,14 @@ class ObjectField extends Component {
               name={name}
               required={this.isRequired(name)}
               schema={schema.properties[name]}
-              uiSchema={
-                addedByAdditionalProperties
-                  ? uiSchema.additionalProperties
-                  : uiSchema[name]
-              }
+              uiSchema={addedByAdditionalProperties ? uiSchema.additionalProperties : uiSchema[name]}
               errorSchema={errorSchema[name]}
               idSchema={idSchema[name]}
               idPrefix={idPrefix}
               formData={(formData || {})[name]}
               wasPropertyKeyModified={this.state.wasPropertyKeyModified}
               onKeyChange={this.onKeyChange(name)}
-              onChange={this.onPropertyChange(
-                name,
-                addedByAdditionalProperties
-              )}
+              onChange={this.onPropertyChange(name, addedByAdditionalProperties)}
               onBlur={onBlur}
               onFocus={onFocus}
               registry={registry}
@@ -302,7 +286,7 @@ class ObjectField extends Component {
   }
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   ObjectField.propTypes = types.fieldProps;
 }
 

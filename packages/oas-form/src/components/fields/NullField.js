@@ -1,5 +1,5 @@
-import { Component } from "react";
-import * as types from "../../types";
+import { Component } from 'react';
+import * as types from '../../types';
 
 class NullField extends Component {
   componentDidMount() {
@@ -13,7 +13,7 @@ class NullField extends Component {
   }
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   NullField.propTypes = types.fieldProps;
 }
 

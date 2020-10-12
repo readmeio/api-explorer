@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function ColorWidget(props) {
   const {
@@ -12,7 +12,7 @@ function ColorWidget(props) {
   return <BaseInput type="color" {...props} disabled={disabled || readonly} />;
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   ColorWidget.propTypes = {
     schema: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,

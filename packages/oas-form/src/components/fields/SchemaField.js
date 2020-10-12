@@ -1,8 +1,8 @@
-import { ADDITIONAL_PROPERTY_FLAG } from "../../utils";
-import IconButton from "../IconButton";
-import React from "react";
-import PropTypes from "prop-types";
-import * as types from "../../types";
+import { ADDITIONAL_PROPERTY_FLAG } from '../../utils';
+import IconButton from '../IconButton';
+import React from 'react';
+import PropTypes from 'prop-types';
+import * as types from '../../types';
 
 import {
   isMultiSelect,
@@ -16,25 +16,25 @@ import {
   isFilesArray,
   deepEquals,
   getSchemaType,
-} from "../../utils";
+} from '../../utils';
 
-const REQUIRED_FIELD_SYMBOL = "*";
+const REQUIRED_FIELD_SYMBOL = '*';
 const COMPONENT_TYPES = {
-  array: "ArrayField",
-  boolean: "BooleanField",
-  integer: "NumberField",
-  number: "NumberField",
-  object: "ObjectField",
-  string: "StringField",
-  null: "NullField",
+  array: 'ArrayField',
+  boolean: 'BooleanField',
+  integer: 'NumberField',
+  number: 'NumberField',
+  object: 'ObjectField',
+  string: 'StringField',
+  null: 'NullField',
 };
 
 function getFieldComponent(schema, uiSchema, idSchema, fields, registry) {
-  const field = uiSchema["ui:field"];
-  if (typeof field === "function") {
+  const field = uiSchema['ui:field'];
+  if (typeof field === 'function') {
     return field;
   }
-  if (typeof field === "string" && field in fields) {
+  if (typeof field === 'string' && field in fields) {
     return fields[field];
   }
 
@@ -52,13 +52,7 @@ function getFieldComponent(schema, uiSchema, idSchema, fields, registry) {
         const { fields } = registry;
         const { UnsupportedField } = fields;
 
-        return (
-          <UnsupportedField
-            schema={schema}
-            idSchema={idSchema}
-            reason={`Unknown field type ${schema.type}`}
-          />
-        );
+        return <UnsupportedField schema={schema} idSchema={idSchema} reason={`Unknown field type ${schema.type}`} />;
       };
 }
 
@@ -93,7 +87,7 @@ function Help(props) {
   if (!help) {
     return null;
   }
-  if (typeof help === "string") {
+  if (typeof help === 'string') {
     return <p className="help-block">{help}</p>;
   }
   return <div className="help-block">{help}</div>;
@@ -122,17 +116,7 @@ function ErrorList(props) {
   );
 }
 function DefaultTemplate(props) {
-  const {
-    id,
-    label,
-    children,
-    errors,
-    help,
-    description,
-    hidden,
-    required,
-    displayLabel,
-  } = props;
+  const { id, label, children, errors, help, description, hidden, required, displayLabel } = props;
   if (hidden) {
     return <div className="hidden">{children}</div>;
   }
@@ -147,7 +131,7 @@ function DefaultTemplate(props) {
     </WrapIfAdditional>
   );
 }
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   DefaultTemplate.propTypes = {
     id: PropTypes.string,
     classNames: PropTypes.string,
@@ -176,17 +160,7 @@ DefaultTemplate.defaultProps = {
 };
 
 function WrapIfAdditional(props) {
-  const {
-    id,
-    classNames,
-    disabled,
-    label,
-    onKeyChange,
-    onDropPropertyClick,
-    readonly,
-    required,
-    schema,
-  } = props;
+  const { id, classNames, disabled, label, onKeyChange, onDropPropertyClick, readonly, required, schema } = props;
   const keyLabel = `${label} Key`; // i18n ?
   const additional = schema.hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
 
@@ -200,24 +174,17 @@ function WrapIfAdditional(props) {
         <div className="col-xs-5 form-additional">
           <div className="form-group">
             <Label label={keyLabel} required={required} id={`${id}-key`} />
-            <LabelInput
-              label={label}
-              required={required}
-              id={`${id}-key`}
-              onChange={onKeyChange}
-            />
+            <LabelInput label={label} required={required} id={`${id}-key`} onChange={onKeyChange} />
           </div>
         </div>
-        <div className="form-additional form-group col-xs-5">
-          {props.children}
-        </div>
+        <div className="form-additional form-group col-xs-5">{props.children}</div>
         <div className="col-xs-2">
           <IconButton
             type="danger"
             icon="remove"
             className="array-item-remove btn-block"
             tabIndex="-1"
-            style={{ border: "0" }}
+            style={{ border: '0' }}
             disabled={disabled || readonly}
             onClick={onDropPropertyClick(label)}
           />
@@ -245,50 +212,33 @@ function SchemaFieldRender(props) {
     return null;
   }
 
-  const FieldTemplate =
-    uiSchema["ui:FieldTemplate"] || registry.FieldTemplate || DefaultTemplate;
+  const FieldTemplate = uiSchema['ui:FieldTemplate'] || registry.FieldTemplate || DefaultTemplate;
   let idSchema = props.idSchema;
   const schema = retrieveSchema(props.schema, rootSchema, formData);
 
-  idSchema = mergeObjects(
-    toIdSchema(schema, null, rootSchema, formData, idPrefix),
-    idSchema
-  );
+  idSchema = mergeObjects(toIdSchema(schema, null, rootSchema, formData, idPrefix), idSchema);
 
-  const FieldComponent = getFieldComponent(
-    schema,
-    uiSchema,
-    idSchema,
-    fields,
-    registry
-  );
+  const FieldComponent = getFieldComponent(schema, uiSchema, idSchema, fields, registry);
   const { DescriptionField } = fields;
-  const disabled = Boolean(props.disabled || uiSchema["ui:disabled"]);
-  const readonly = Boolean(
-    props.readonly ||
-      uiSchema["ui:readonly"] ||
-      props.schema.readOnly ||
-      schema.readOnly
-  );
-  const autofocus = Boolean(props.autofocus || uiSchema["ui:autofocus"]);
+  const disabled = Boolean(props.disabled || uiSchema['ui:disabled']);
+  const readonly = Boolean(props.readonly || uiSchema['ui:readonly'] || props.schema.readOnly || schema.readOnly);
+  const autofocus = Boolean(props.autofocus || uiSchema['ui:autofocus']);
   if (Object.keys(schema).length === 0) {
     return null;
   }
 
   const uiOptions = getUiOptions(uiSchema);
   let { label: displayLabel = true } = uiOptions;
-  if (schema.type === "array") {
-    displayLabel =
-      isMultiSelect(schema, rootSchema) ||
-      isFilesArray(schema, uiSchema, rootSchema);
+  if (schema.type === 'array') {
+    displayLabel = isMultiSelect(schema, rootSchema) || isFilesArray(schema, uiSchema, rootSchema);
   }
-  if (schema.type === "object") {
+  if (schema.type === 'object') {
     displayLabel = false;
   }
-  if (schema.type === "boolean" && !uiSchema["ui:widget"]) {
+  if (schema.type === 'boolean' && !uiSchema['ui:widget']) {
     displayLabel = false;
   }
-  if (uiSchema["ui:field"]) {
+  if (uiSchema['ui:field']) {
     displayLabel = false;
   }
 
@@ -318,37 +268,28 @@ function SchemaFieldRender(props) {
   if (wasPropertyKeyModified) {
     label = name;
   } else {
-    label = uiSchema["ui:title"] || props.schema.title || schema.title || name;
+    label = uiSchema['ui:title'] || props.schema.title || schema.title || name;
   }
 
-  const description =
-    uiSchema["ui:description"] ||
-    props.schema.description ||
-    schema.description;
+  const description = uiSchema['ui:description'] || props.schema.description || schema.description;
   const errors = __errors;
-  const help = uiSchema["ui:help"];
-  const hidden = uiSchema["ui:widget"] === "hidden";
+  const help = uiSchema['ui:help'];
+  const hidden = uiSchema['ui:widget'] === 'hidden';
   const classNames = [
-    "form-group",
-    "field",
+    'form-group',
+    'field',
     `field-${type}`,
-    errors && errors.length > 0 ? "field-error has-error has-danger" : "",
+    errors && errors.length > 0 ? 'field-error has-error has-danger' : '',
     uiSchema.classNames,
   ]
-    .join(" ")
+    .join(' ')
     .trim();
 
   const fieldProps = {
-    description: (
-      <DescriptionField
-        id={id + "__description"}
-        description={description}
-        formContext={formContext}
-      />
-    ),
+    description: <DescriptionField id={id + '__description'} description={description} formContext={formContext} />,
     rawDescription: description,
     help: <Help help={help} />,
-    rawHelp: typeof help === "string" ? help : undefined,
+    rawHelp: typeof help === 'string' ? help : undefined,
     errors: <ErrorList errors={errors} />,
     rawErrors: errors,
     id,
@@ -437,7 +378,7 @@ SchemaField.defaultProps = {
   autofocus: false,
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   SchemaField.propTypes = {
     schema: PropTypes.object.isRequired,
     uiSchema: PropTypes.object,

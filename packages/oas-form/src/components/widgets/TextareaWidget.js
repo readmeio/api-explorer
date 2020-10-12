@@ -1,28 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function TextareaWidget(props) {
-  const {
-    id,
-    options,
-    placeholder,
-    value,
-    required,
-    disabled,
-    readonly,
-    autofocus,
-    onChange,
-    onBlur,
-    onFocus,
-  } = props;
+  const { id, options, placeholder, value, required, disabled, readonly, autofocus, onChange, onBlur, onFocus } = props;
   const _onChange = ({ target: { value } }) => {
-    return onChange(value === "" ? options.emptyValue : value);
+    return onChange(value === '' ? options.emptyValue : value);
   };
   return (
     <textarea
       id={id}
       className="form-control"
-      value={typeof value === "undefined" ? "" : value}
+      value={typeof value === 'undefined' ? '' : value}
       placeholder={placeholder}
       required={required}
       disabled={disabled}
@@ -41,7 +29,7 @@ TextareaWidget.defaultProps = {
   options: {},
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   TextareaWidget.propTypes = {
     schema: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,

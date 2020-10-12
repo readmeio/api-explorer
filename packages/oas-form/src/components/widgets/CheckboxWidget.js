@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // Check to see if a schema specifies that a value must be true
 function schemaRequiresTrueValue(schema) {
@@ -51,15 +51,13 @@ function CheckboxWidget(props) {
   const required = schemaRequiresTrueValue(schema);
 
   return (
-    <div className={`checkbox ${disabled || readonly ? "disabled" : ""}`}>
-      {schema.description && (
-        <DescriptionField description={schema.description} />
-      )}
+    <div className={`checkbox ${disabled || readonly ? 'disabled' : ''}`}>
+      {schema.description && <DescriptionField description={schema.description} />}
       <label>
         <input
           type="checkbox"
           id={id}
-          checked={typeof value === "undefined" ? false : value}
+          checked={typeof value === 'undefined' ? false : value}
           required={required}
           disabled={disabled || readonly}
           autoFocus={autofocus}
@@ -77,7 +75,7 @@ CheckboxWidget.defaultProps = {
   autofocus: false,
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   CheckboxWidget.propTypes = {
     schema: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,

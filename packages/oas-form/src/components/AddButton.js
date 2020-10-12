@@ -1,5 +1,5 @@
-import React from "react";
-import IconButton from "./IconButton";
+import React from 'react';
+import IconButton from './IconButton';
 
 export default function AddButton({ className, onClick, disabled }) {
   return (

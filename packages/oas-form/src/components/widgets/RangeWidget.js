@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { rangeSpec } from "../../utils";
+import { rangeSpec } from '../../utils';
 
 function RangeWidget(props) {
   const {
@@ -19,7 +19,7 @@ function RangeWidget(props) {
   );
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   RangeWidget.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };

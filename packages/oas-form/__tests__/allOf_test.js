@@ -1,8 +1,8 @@
-import { expect } from "chai";
+import { expect } from 'chai';
 
-import { createFormComponent, createSandbox } from "./test_utils";
+import { createFormComponent, createSandbox } from './test_utils';
 
-describe("allOf", () => {
+describe('allOf', () => {
   let sandbox;
 
   beforeEach(() => {
@@ -13,12 +13,12 @@ describe("allOf", () => {
     sandbox.restore();
   });
 
-  it("should render a regular input element with a single type, when multiple types specified", () => {
+  it('should render a regular input element with a single type, when multiple types specified', () => {
     const schema = {
-      type: "object",
+      type: 'object',
       properties: {
         foo: {
-          allOf: [{ type: ["string", "number", "null"] }, { type: "string" }],
+          allOf: [{ type: ['string', 'number', 'null'] }, { type: 'string' }],
         },
       },
     };
@@ -27,15 +27,15 @@ describe("allOf", () => {
       schema,
     });
 
-    expect(node.querySelectorAll("input")).to.have.length.of(1);
+    expect(node.querySelectorAll('input')).to.have.length.of(1);
   });
 
-  it("should be able to handle incompatible types and not crash", () => {
+  it('should be able to handle incompatible types and not crash', () => {
     const schema = {
-      type: "object",
+      type: 'object',
       properties: {
         foo: {
-          allOf: [{ type: "string" }, { type: "boolean" }],
+          allOf: [{ type: 'string' }, { type: 'boolean' }],
         },
       },
     };
@@ -44,6 +44,6 @@ describe("allOf", () => {
       schema,
     });
 
-    expect(node.querySelectorAll("input")).to.have.length.of(0);
+    expect(node.querySelectorAll('input')).to.have.length.of(0);
   });
 });

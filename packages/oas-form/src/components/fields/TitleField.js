@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const REQUIRED_FIELD_SYMBOL = "*";
+const REQUIRED_FIELD_SYMBOL = '*';
 
 function TitleField(props) {
   const { id, title, required } = props;
@@ -13,7 +13,7 @@ function TitleField(props) {
   );
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   TitleField.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,

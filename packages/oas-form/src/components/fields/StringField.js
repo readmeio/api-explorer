@@ -1,14 +1,7 @@
-import React from "react";
-import * as types from "../../types";
+import React from 'react';
+import * as types from '../../types';
 
-import {
-  getWidget,
-  getUiOptions,
-  isSelect,
-  optionsList,
-  getDefaultRegistry,
-  hasWidget,
-} from "../../utils";
+import { getWidget, getUiOptions, isSelect, optionsList, getDefaultRegistry, hasWidget } from '../../utils';
 
 function StringField(props) {
   const {
@@ -30,13 +23,11 @@ function StringField(props) {
   const { title, format } = schema;
   const { widgets, formContext } = registry;
   const enumOptions = isSelect(schema) && optionsList(schema);
-  let defaultWidget = enumOptions ? "select" : "text";
+  let defaultWidget = enumOptions ? 'select' : 'text';
   if (format && hasWidget(schema, format, widgets)) {
     defaultWidget = format;
   }
-  const { widget = defaultWidget, placeholder = "", ...options } = getUiOptions(
-    uiSchema
-  );
+  const { widget = defaultWidget, placeholder = '', ...options } = getUiOptions(uiSchema);
   const Widget = getWidget(schema, widget, widgets);
   return (
     <Widget
@@ -60,7 +51,7 @@ function StringField(props) {
   );
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   StringField.propTypes = types.fieldProps;
 }
 
