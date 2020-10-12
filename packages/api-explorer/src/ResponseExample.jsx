@@ -5,7 +5,7 @@ const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').de
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
-const showCodeResults = require('./lib/show-code-results');
+const getResponseExamples = require('./lib/get-response-examples');
 const contentTypeIsJson = require('./lib/content-type-is-json');
 const upgradeLegacyResponses = require('./lib/upgrade-legacy-responses');
 
@@ -185,7 +185,7 @@ class ResponseExample extends React.Component {
       // legacy shape so we need to adhoc rewrite them to fit this new work.
       examples = upgradeLegacyResponses(exampleResponses);
     } else {
-      examples = showCodeResults(operation, oas);
+      examples = getResponseExamples(operation, oas);
     }
 
     const hasExamples = examples.find(e => {
