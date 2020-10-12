@@ -1,3 +1,14 @@
+## 7.6.0 (2020-10-12)
+
+* chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.4 to 1.15.5 (#977) ([bed2a7d](https://github.com/readmeio/api-explorer/commit/bed2a7d)), closes [#977](https://github.com/readmeio/api-explorer/issues/977)
+* chore(deps): bump @readme/markdown from 6.20.0 to 6.20.1 (#976) ([736c90a](https://github.com/readmeio/api-explorer/commit/736c90a)), closes [#976](https://github.com/readmeio/api-explorer/issues/976)
+* chore(deps): bump whatwg-fetch from 3.4.0 to 3.4.1 (#978) ([0187cc1](https://github.com/readmeio/api-explorer/commit/0187cc1)), closes [#978](https://github.com/readmeio/api-explorer/issues/978)
+* fix: camelcase "allowDangerousHtml" (#968) ([35f3d4a](https://github.com/readmeio/api-explorer/commit/35f3d4a)), closes [#968](https://github.com/readmeio/api-explorer/issues/968)
+* fix: updating our rjsf fork to fix a bug with oneOf stateloss (#980) ([468cc1e](https://github.com/readmeio/api-explorer/commit/468cc1e)), closes [#980](https://github.com/readmeio/api-explorer/issues/980)
+* feat: adding support for the `example` property on responses (#969) ([4313ec8](https://github.com/readmeio/api-explorer/commit/4313ec8)), closes [#969](https://github.com/readmeio/api-explorer/issues/969) [#922](https://github.com/readmeio/api-explorer/issues/922)
+
+
+
 ## 7.5.0 (2020-10-07)
 
 * chore: stop storing package dist files in source control (#966) ([b096d5b](https://github.com/readmeio/api-explorer/commit/b096d5b)), closes [#966](https://github.com/readmeio/api-explorer/issues/966)

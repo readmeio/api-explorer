@@ -222,7 +222,7 @@ test('render top level array of objects', () => {
 });
 
 test.each([
-  [true, '<a href="https://example.com" target="_self" title="">Description</a>'],
+  [true, '<a href="https://example.com" target="" title="">Description</a>'],
   [false, '<a href="https://example.com" target="_self">Description</a>'],
 ])('should render markdown in the description [new markdown engine=%s]', (useNewMarkdownEngine, expected) => {
   const schema = {
