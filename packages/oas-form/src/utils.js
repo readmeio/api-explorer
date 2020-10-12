@@ -195,7 +195,6 @@ export function getWidget(schema, widget, registeredWidgets = {}) {
     ReactIs.isMemo(widget)
   ) {
     return mergeOptions(widget);
-
   }
 
   if (typeof widget !== "string") {
