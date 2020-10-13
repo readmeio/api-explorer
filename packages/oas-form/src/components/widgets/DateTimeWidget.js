@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { pad } from "../../utils";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { pad } from '../../utils';
 
 export function utcToLocal(jsonDate) {
   if (!jsonDate) {
-    return "";
+    return '';
   }
 
   // required format of `"yyyy-MM-ddThh:mm" followed by optional ":ss" or ":ss.SSS"
@@ -26,6 +26,7 @@ export function utcToLocal(jsonDate) {
   return `${yyyy}-${MM}-${dd}T${hh}:${mm}:${ss}.${SSS}`;
 }
 
+// eslint-disable-next-line consistent-return
 export function localToUTC(dateString) {
   if (dateString) {
     return new Date(dateString).toJSON();
@@ -44,13 +45,13 @@ function DateTimeWidget(props) {
     <BaseInput
       type="datetime-local"
       {...props}
-      value={utcToLocal(value)}
       onChange={value => onChange(localToUTC(value))}
+      value={utcToLocal(value)}
     />
   );
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   DateTimeWidget.propTypes = {
     value: PropTypes.string,
   };

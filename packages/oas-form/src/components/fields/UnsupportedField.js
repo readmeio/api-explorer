@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function UnsupportedField({ schema, idSchema, reason }) {
   return (
@@ -8,7 +8,7 @@ function UnsupportedField({ schema, idSchema, reason }) {
         Unsupported field schema
         {idSchema && idSchema.$id && (
           <span>
-            {" for"} field <code>{idSchema.$id}</code>
+            {' for'} field <code>{idSchema.$id}</code>
           </span>
         )}
         {reason && <em>: {reason}</em>}.
@@ -18,11 +18,11 @@ function UnsupportedField({ schema, idSchema, reason }) {
   );
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   UnsupportedField.propTypes = {
-    schema: PropTypes.object.isRequired,
     idSchema: PropTypes.object,
     reason: PropTypes.string,
+    schema: PropTypes.object.isRequired,
   };
 }
 

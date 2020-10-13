@@ -1,24 +1,18 @@
+/* eslint-disable react/no-find-dom-node */
 /* Utils for tests. */
 
-import React from "react";
-import sinon from "sinon";
-import { renderIntoDocument, act } from "react-dom/test-utils";
-import { findDOMNode, render } from "react-dom";
+import React from 'react';
+import sinon from 'sinon';
+import { renderIntoDocument, act } from 'react-dom/test-utils';
+import { findDOMNode, render } from 'react-dom';
 
-import Form from "../src";
+import Form from '../src';
 
 export function createComponent(Component, props) {
   const onChange = sinon.spy();
   const onError = sinon.spy();
   const onSubmit = sinon.spy();
-  const comp = renderIntoDocument(
-    <Component
-      onSubmit={onSubmit}
-      onError={onError}
-      onChange={onChange}
-      {...props}
-    />
-  );
+  const comp = renderIntoDocument(<Component onChange={onChange} onError={onError} onSubmit={onSubmit} {...props} />);
   const node = findDOMNode(comp);
   return { comp, node, onChange, onError, onSubmit };
 }
@@ -28,8 +22,7 @@ export function createFormComponent(props) {
 }
 
 export function createSandbox() {
-  const sandbox = sinon.createSandbox();
-  return sandbox;
+  return sinon.createSandbox();
 }
 
 export function setProps(comp, newProps) {
@@ -45,17 +38,14 @@ export function describeRepeated(title, fn) {
     { omitExtraData: true },
     { omitExtraData: true, liveOmit: true },
   ];
-  for (let formExtraProps of formExtraPropsList) {
-    const createFormComponentFn = props =>
-      createFormComponent({ ...props, ...formExtraProps });
-    describe(title + " " + JSON.stringify(formExtraProps), () =>
-      fn(createFormComponentFn)
-    );
+  for (const formExtraProps of formExtraPropsList) {
+    const createFormComponentFn = props => createFormComponent({ ...props, ...formExtraProps });
+    describe(`${title} ${JSON.stringify(formExtraProps)}`, () => fn(createFormComponentFn));
   }
 }
 
 export function submitForm(node) {
   act(() => {
-    node.querySelector("button[type=submit]").click();
+    node.querySelector('button[type=submit]').click();
   });
 }

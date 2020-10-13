@@ -1,37 +1,25 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function TextareaWidget(props) {
-  const {
-    id,
-    options,
-    placeholder,
-    value,
-    required,
-    disabled,
-    readonly,
-    autofocus,
-    onChange,
-    onBlur,
-    onFocus,
-  } = props;
+  const { id, options, placeholder, value, required, disabled, readonly, autofocus, onChange, onBlur, onFocus } = props;
   const _onChange = ({ target: { value } }) => {
-    return onChange(value === "" ? options.emptyValue : value);
+    return onChange(value === '' ? options.emptyValue : value);
   };
   return (
     <textarea
-      id={id}
-      className="form-control"
-      value={typeof value === "undefined" ? "" : value}
-      placeholder={placeholder}
-      required={required}
-      disabled={disabled}
-      readOnly={readonly}
       autoFocus={autofocus}
-      rows={options.rows}
+      className="form-control"
+      disabled={disabled}
+      id={id}
       onBlur={onBlur && (event => onBlur(id, event.target.value))}
-      onFocus={onFocus && (event => onFocus(id, event.target.value))}
       onChange={_onChange}
+      onFocus={onFocus && (event => onFocus(id, event.target.value))}
+      placeholder={placeholder}
+      readOnly={readonly}
+      required={required}
+      rows={options.rows}
+      value={typeof value === 'undefined' ? '' : value}
     />
   );
 }
@@ -41,22 +29,22 @@ TextareaWidget.defaultProps = {
   options: {},
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   TextareaWidget.propTypes = {
-    schema: PropTypes.object.isRequired,
+    autofocus: PropTypes.bool,
+    disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
     options: PropTypes.shape({
       rows: PropTypes.number,
     }),
-    value: PropTypes.string,
-    required: PropTypes.bool,
-    disabled: PropTypes.bool,
+    placeholder: PropTypes.string,
     readonly: PropTypes.bool,
-    autofocus: PropTypes.bool,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onFocus: PropTypes.func,
+    required: PropTypes.bool,
+    schema: PropTypes.object.isRequired,
+    value: PropTypes.string,
   };
 }
 

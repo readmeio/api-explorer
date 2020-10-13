@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { dataURItoBlob, shouldRender } from "../../utils";
+import { dataURItoBlob, shouldRender } from '../../utils';
 
 function addNameToDataURL(dataURL, name) {
-  return dataURL.replace(";base64", `;name=${encodeURIComponent(name)};base64`);
+  return dataURL.replace(';base64', `;name=${encodeURIComponent(name)};base64`);
 }
 
 function processFile(file) {
@@ -49,11 +49,11 @@ function FilesInfo(props) {
 
 function extractFileInfo(dataURLs) {
   return dataURLs
-    .filter(dataURL => typeof dataURL !== "undefined")
+    .filter(dataURL => typeof dataURL !== 'undefined')
     .map(dataURL => {
       const { blob, name } = dataURItoBlob(dataURL);
       return {
-        name: name,
+        name,
         size: blob.size,
         type: blob.type,
       };
@@ -96,15 +96,17 @@ class FileWidget extends Component {
       <div>
         <p>
           <input
-            ref={ref => (this.inputRef = ref)}
-            id={id}
-            type="file"
-            disabled={readonly || disabled}
-            onChange={this.onChange}
-            defaultValue=""
-            autoFocus={autofocus}
-            multiple={multiple}
+            ref={ref => {
+              this.inputRef = ref;
+            }}
             accept={options.accept}
+            autoFocus={autofocus}
+            defaultValue=""
+            disabled={readonly || disabled}
+            id={id}
+            multiple={multiple}
+            onChange={this.onChange}
+            type="file"
           />
         </p>
         <FilesInfo filesInfo={filesInfo} />
@@ -117,14 +119,11 @@ FileWidget.defaultProps = {
   autofocus: false,
 };
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   FileWidget.propTypes = {
-    multiple: PropTypes.bool,
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
     autofocus: PropTypes.bool,
+    multiple: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   };
 }
 

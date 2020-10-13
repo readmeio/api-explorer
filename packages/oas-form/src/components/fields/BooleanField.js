@@ -1,12 +1,7 @@
-import React from "react";
-import * as types from "../../types";
+import React from 'react';
+import * as types from '../../types';
 
-import {
-  getWidget,
-  getUiOptions,
-  optionsList,
-  getDefaultRegistry,
-} from "../../utils";
+import { getWidget, getUiOptions, optionsList, getDefaultRegistry } from '../../utils';
 
 function BooleanField(props) {
   const {
@@ -27,7 +22,7 @@ function BooleanField(props) {
   } = props;
   const { title } = schema;
   const { widgets, formContext, fields } = registry;
-  const { widget = "checkbox", ...options } = getUiOptions(uiSchema);
+  const { widget = 'checkbox', ...options } = getUiOptions(uiSchema);
   const Widget = getWidget(schema, widget, widgets);
 
   let enumOptions;
@@ -36,51 +31,47 @@ function BooleanField(props) {
     enumOptions = optionsList({
       oneOf: schema.oneOf.map(option => ({
         ...option,
-        title: option.title || (option.const === true ? "Yes" : "No"),
+        title: option.title || (option.const === true ? 'Yes' : 'No'),
       })),
     });
   } else {
     enumOptions = optionsList({
       enum: schema.enum || [true, false],
-      enumNames:
-        schema.enumNames ||
-        (schema.enum && schema.enum[0] === false
-          ? ["No", "Yes"]
-          : ["Yes", "No"]),
+      enumNames: schema.enumNames || (schema.enum && schema.enum[0] === false ? ['No', 'Yes'] : ['Yes', 'No']),
     });
   }
 
   return (
     <Widget
-      options={{ ...options, enumOptions }}
-      schema={schema}
+      autofocus={autofocus}
+      DescriptionField={fields.DescriptionField}
+      disabled={disabled}
+      formContext={formContext}
       id={idSchema && idSchema.$id}
+      label={title === undefined ? name : title}
+      onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
-      onBlur={onBlur}
-      label={title === undefined ? name : title}
-      value={formData}
-      required={required}
-      disabled={disabled}
+      options={{ ...options, enumOptions }}
+      rawErrors={rawErrors}
       readonly={readonly}
       registry={registry}
-      formContext={formContext}
-      autofocus={autofocus}
-      rawErrors={rawErrors}
-      DescriptionField={fields.DescriptionField}
+      required={required}
+      schema={schema}
+      value={formData}
     />
   );
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   BooleanField.propTypes = types.fieldProps;
 }
 
 BooleanField.defaultProps = {
-  uiSchema: {},
+  autofocus: false,
   disabled: false,
   readonly: false,
-  autofocus: false,
+  uiSchema: {},
 };
 
 export default BooleanField;

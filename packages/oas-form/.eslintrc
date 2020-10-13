@@ -1,33 +1,43 @@
 {
   "parser": "babel-eslint",
-  "rules": {
-      "react/jsx-uses-react": 2,
-      "react/jsx-uses-vars": 2,
-      "react/react-in-jsx-scope": 2,
-      "react/jsx-tag-spacing": [1, {
-        "beforeSelfClosing": "always"
-      }],
-      "curly": [2],
-      "linebreak-style": [2, "unix"],
-      "semi": [2, "always"],
-      "comma-dangle": [0],
-      "no-unused-vars": [2, {
-        "vars": "all",
-        "args": "none",
-        "ignoreRestSiblings": true
-      }],
-      "no-console": [0],
-      "object-curly-spacing": [2, "always"],
-      "keyword-spacing": ["error"]
-  },
+  "extends": [
+    "@readme/eslint-config",
+    "@readme/eslint-config/react"
+  ],
   "env": {
-      "es6": true,
-      "browser": true,
-      "node": true
+    "browser": true,
+    "es6": true,
+    "node": true
   },
-  "extends": "eslint:recommended",
-  "plugins": [
-      "jsx-a11y",
-      "react"
-  ]
+  "root": true,
+  "rules": {
+    "camelcase": "off",
+    "class-methods-use-this": "off",
+    "default-case": "off",
+    "guard-for-in": "off",
+
+    "import/no-cycle": "off",
+
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/no-autofocus": "off",
+
+    "no-console": "off",
+    "no-restricted-globals": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
+    "no-prototype-builtins": "off",
+    "no-restricted-syntax": "off",
+    "no-shadow": "off", // These should get fixed!
+    "no-underscore-dangle": "off",
+    "no-unused-expressions": "off", // These should get fixed!
+    "no-use-before-define": "off",
+
+    "react/display-name": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": "off",
+
+    "sonarjs/no-identical-functions": "off" // These should get fixed!
+  }
 }
+
+

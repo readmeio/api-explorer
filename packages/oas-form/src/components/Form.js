@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import _pick from "lodash/pick";
-import _get from "lodash/get";
-import _isEmpty from "lodash/isEmpty";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import _pick from 'lodash/pick';
+import _get from 'lodash/get';
+import _isEmpty from 'lodash/isEmpty';
 
-import { default as DefaultErrorList } from "./ErrorList";
+import DefaultErrorList from './ErrorList';
 import {
   getDefaultFormState,
   retrieveSchema,
@@ -14,28 +14,25 @@ import {
   deepEquals,
   toPathSchema,
   isObject,
-} from "../utils";
-import validateFormData, { toErrorList } from "../validate";
-import { mergeObjects } from "../utils";
+  mergeObjects,
+} from '../utils';
+import validateFormData, { toErrorList } from '../validate';
 
 export default class Form extends Component {
   static defaultProps = {
-    uiSchema: {},
-    noValidate: false,
-    liveValidate: false,
     disabled: false,
-    noHtml5Validate: false,
     ErrorList: DefaultErrorList,
+    liveValidate: false,
+    noHtml5Validate: false,
+    noValidate: false,
     omitExtraData: false,
+    uiSchema: {},
   };
 
   constructor(props) {
     super(props);
     this.state = this.getStateFromProps(props, props.formData);
-    if (
-      this.props.onChange &&
-      !deepEquals(this.state.formData, this.props.formData)
-    ) {
+    if (this.props.onChange && !deepEquals(this.state.formData, this.props.formData)) {
       this.props.onChange(this.state);
     }
     this.formElement = null;
@@ -55,9 +52,9 @@ export default class Form extends Component {
 
   getStateFromProps(props, inputFormData) {
     const state = this.state || {};
-    const schema = "schema" in props ? props.schema : this.props.schema;
-    const uiSchema = "uiSchema" in props ? props.uiSchema : this.props.uiSchema;
-    const edit = typeof inputFormData !== "undefined";
+    const schema = 'schema' in props ? props.schema : this.props.schema;
+    const uiSchema = 'uiSchema' in props ? props.uiSchema : this.props.uiSchema;
+    const edit = typeof inputFormData !== 'undefined';
     const liveValidate = props.liveValidate || this.props.liveValidate;
     const mustValidate = edit && !props.noValidate && liveValidate;
     const rootSchema = schema;
@@ -75,13 +72,7 @@ export default class Form extends Component {
       errorSchema = mergeObjects(errorSchema, props.extraErrors);
       errors = toErrorList(errorSchema);
     }
-    const idSchema = toIdSchema(
-      retrievedSchema,
-      uiSchema["ui:rootFieldId"],
-      rootSchema,
-      formData,
-      props.idPrefix
-    );
+    const idSchema = toIdSchema(retrievedSchema, uiSchema['ui:rootFieldId'], rootSchema, formData, props.idPrefix);
     return {
       schema,
       uiSchema,
@@ -107,28 +98,21 @@ export default class Form extends Component {
     const { validate, transformErrors } = this.props;
     const { rootSchema } = this.getRegistry();
     const resolvedSchema = retrieveSchema(schema, rootSchema, formData);
-    return validateFormData(
-      formData,
-      resolvedSchema,
-      validate,
-      transformErrors,
-      additionalMetaSchemas,
-      customFormats
-    );
+    return validateFormData(formData, resolvedSchema, validate, transformErrors, additionalMetaSchemas, customFormats);
   }
 
   renderErrors() {
     const { errors, errorSchema, schema, uiSchema } = this.state;
     const { ErrorList, showErrorList, formContext } = this.props;
 
-    if (errors.length && showErrorList != false) {
+    if (errors.length && showErrorList !== false) {
       return (
         <ErrorList
           errors={errors}
           errorSchema={errorSchema}
+          formContext={formContext}
           schema={schema}
           uiSchema={uiSchema}
-          formContext={formContext}
         />
       );
     }
@@ -136,12 +120,12 @@ export default class Form extends Component {
   }
 
   getUsedFormData = (formData, fields) => {
-    //for the case of a single input form
-    if (fields.length === 0 && typeof formData !== "object") {
+    // for the case of a single input form
+    if (fields.length === 0 && typeof formData !== 'object') {
       return formData;
     }
 
-    let data = _pick(formData, fields);
+    const data = _pick(formData, fields);
     if (Array.isArray(formData)) {
       return Object.keys(data).map(key => data[key]);
     }
@@ -150,18 +134,18 @@ export default class Form extends Component {
   };
 
   getFieldNames = (pathSchema, formData) => {
-    const getAllPaths = (_obj, acc = [], paths = [""]) => {
+    const getAllPaths = (_obj, acc = [], paths = ['']) => {
       Object.keys(_obj).forEach(key => {
-        if (typeof _obj[key] === "object") {
-          let newPaths = paths.map(path => `${path}.${key}`);
+        if (typeof _obj[key] === 'object') {
+          const newPaths = paths.map(path => `${path}.${key}`);
           getAllPaths(_obj[key], acc, newPaths);
-        } else if (key === "$name" && _obj[key] !== "") {
+        } else if (key === '$name' && _obj[key] !== '') {
           paths.forEach(path => {
-            path = path.replace(/^\./, "");
+            path = path.replace(/^\./, '');
             const formValue = _get(formData, path);
             // adds path to fieldNames if it points to a value
             // or an empty object/array
-            if (typeof formValue !== "object" || _isEmpty(formValue)) {
+            if (typeof formValue !== 'object' || _isEmpty(formValue)) {
               acc.push(path);
             }
           });
@@ -183,17 +167,8 @@ export default class Form extends Component {
     let newFormData = formData;
 
     if (this.props.omitExtraData === true && this.props.liveOmit === true) {
-      const retrievedSchema = retrieveSchema(
-        this.state.schema,
-        this.state.schema,
-        formData
-      );
-      const pathSchema = toPathSchema(
-        retrievedSchema,
-        "",
-        this.state.schema,
-        formData
-      );
+      const retrievedSchema = retrieveSchema(this.state.schema, this.state.schema, formData);
+      const pathSchema = toPathSchema(retrievedSchema, '', this.state.schema, formData);
 
       const fieldNames = this.getFieldNames(pathSchema, formData);
 
@@ -216,14 +191,11 @@ export default class Form extends Component {
         : newErrorSchema;
       state = {
         formData: newFormData,
-        errorSchema: errorSchema,
+        errorSchema,
         errors: toErrorList(errorSchema),
       };
     }
-    this.setState(
-      state,
-      () => this.props.onChange && this.props.onChange(state)
-    );
+    this.setState(state, () => this.props.onChange && this.props.onChange(state));
   };
 
   onBlur = (...args) => {
@@ -248,17 +220,8 @@ export default class Form extends Component {
     let newFormData = this.state.formData;
 
     if (this.props.omitExtraData === true) {
-      const retrievedSchema = retrieveSchema(
-        this.state.schema,
-        this.state.schema,
-        newFormData
-      );
-      const pathSchema = toPathSchema(
-        retrievedSchema,
-        "",
-        this.state.schema,
-        newFormData
-      );
+      const retrievedSchema = retrieveSchema(this.state.schema, this.state.schema, newFormData);
+      const pathSchema = toPathSchema(retrievedSchema, '', this.state.schema, newFormData);
 
       const fieldNames = this.getFieldNames(pathSchema, newFormData);
 
@@ -276,7 +239,7 @@ export default class Form extends Component {
           if (this.props.onError) {
             this.props.onError(errors);
           } else {
-            console.error("Form validation failed", errors);
+            console.error('Form validation failed', errors);
           }
         });
         return;
@@ -293,17 +256,11 @@ export default class Form extends Component {
       errors = [];
     }
 
-    this.setState(
-      { formData: newFormData, errors: errors, errorSchema: errorSchema },
-      () => {
-        if (this.props.onSubmit) {
-          this.props.onSubmit(
-            { ...this.state, formData: newFormData, status: "submitted" },
-            event
-          );
-        }
+    this.setState({ formData: newFormData, errors, errorSchema }, () => {
+      if (this.props.onSubmit) {
+        this.props.onSubmit({ ...this.state, formData: newFormData, status: 'submitted' }, event);
       }
-    );
+    });
   };
 
   getRegistry() {
@@ -325,7 +282,7 @@ export default class Form extends Component {
   submit() {
     if (this.formElement) {
       this.formElement.dispatchEvent(
-        new CustomEvent("submit", {
+        new CustomEvent('submit', {
           cancelable: true,
         })
       );
@@ -355,52 +312,47 @@ export default class Form extends Component {
     const { schema, uiSchema, formData, errorSchema, idSchema } = this.state;
     const registry = this.getRegistry();
     const _SchemaField = registry.fields.SchemaField;
-    const FormTag = tagName ? tagName : "form";
+    const FormTag = tagName || 'form';
     if (deprecatedAutocomplete) {
-      console.warn(
-        "Using autocomplete property of Form is deprecated, use autoComplete instead."
-      );
+      console.warn('Using autocomplete property of Form is deprecated, use autoComplete instead.');
     }
-    const autoComplete = currentAutoComplete
-      ? currentAutoComplete
-      : deprecatedAutocomplete;
+    const autoComplete = currentAutoComplete || deprecatedAutocomplete;
 
     return (
       <FormTag
-        className={className ? className : "rjsf"}
-        id={id}
-        name={name}
-        method={method}
-        target={target}
-        action={action}
-        autoComplete={autoComplete}
-        encType={enctype}
-        acceptCharset={acceptcharset}
-        noValidate={noHtml5Validate}
-        onSubmit={this.onSubmit}
         ref={form => {
           this.formElement = form;
-        }}>
+        }}
+        acceptCharset={acceptcharset}
+        action={action}
+        autoComplete={autoComplete}
+        className={className || 'rjsf'}
+        encType={enctype}
+        id={id}
+        method={method}
+        name={name}
+        noValidate={noHtml5Validate}
+        onSubmit={this.onSubmit}
+        target={target}
+      >
         {this.renderErrors()}
         <_SchemaField
-          schema={schema}
-          uiSchema={uiSchema}
+          disabled={disabled}
           errorSchema={errorSchema}
-          idSchema={idSchema}
-          idPrefix={idPrefix}
           formContext={formContext}
           formData={formData}
-          onChange={this.onChange}
+          idPrefix={idPrefix}
+          idSchema={idSchema}
           onBlur={this.onBlur}
+          onChange={this.onChange}
           onFocus={this.onFocus}
           registry={registry}
-          disabled={disabled}
+          schema={schema}
+          uiSchema={uiSchema}
         />
-        {children ? (
-          children
-        ) : (
+        {children || (
           <div>
-            <button type="submit" className="btn btn-info">
+            <button className="btn btn-info" type="submit">
               Submit
             </button>
           </div>
@@ -410,43 +362,41 @@ export default class Form extends Component {
   }
 }
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   Form.propTypes = {
-    schema: PropTypes.object.isRequired,
-    uiSchema: PropTypes.object,
-    formData: PropTypes.any,
-    widgets: PropTypes.objectOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object])
-    ),
-    fields: PropTypes.objectOf(PropTypes.elementType),
-    ArrayFieldTemplate: PropTypes.elementType,
-    ObjectFieldTemplate: PropTypes.elementType,
-    FieldTemplate: PropTypes.elementType,
-    ErrorList: PropTypes.func,
-    onChange: PropTypes.func,
-    onError: PropTypes.func,
-    showErrorList: PropTypes.bool,
-    onSubmit: PropTypes.func,
-    id: PropTypes.string,
-    className: PropTypes.string,
-    tagName: PropTypes.elementType,
-    name: PropTypes.string,
-    method: PropTypes.string,
-    target: PropTypes.string,
+    acceptcharset: PropTypes.string,
     action: PropTypes.string,
+    additionalMetaSchemas: PropTypes.arrayOf(PropTypes.object),
+    ArrayFieldTemplate: PropTypes.elementType,
     autocomplete: PropTypes.string,
     autoComplete: PropTypes.string,
-    enctype: PropTypes.string,
-    acceptcharset: PropTypes.string,
-    noValidate: PropTypes.bool,
-    noHtml5Validate: PropTypes.bool,
-    liveValidate: PropTypes.bool,
-    validate: PropTypes.func,
-    transformErrors: PropTypes.func,
-    formContext: PropTypes.object,
+    className: PropTypes.string,
     customFormats: PropTypes.object,
-    additionalMetaSchemas: PropTypes.arrayOf(PropTypes.object),
-    omitExtraData: PropTypes.bool,
+    enctype: PropTypes.string,
+    ErrorList: PropTypes.func,
     extraErrors: PropTypes.object,
+    fields: PropTypes.objectOf(PropTypes.elementType),
+    FieldTemplate: PropTypes.elementType,
+    formContext: PropTypes.object,
+    formData: PropTypes.any,
+    id: PropTypes.string,
+    liveValidate: PropTypes.bool,
+    method: PropTypes.string,
+    name: PropTypes.string,
+    noHtml5Validate: PropTypes.bool,
+    noValidate: PropTypes.bool,
+    ObjectFieldTemplate: PropTypes.elementType,
+    omitExtraData: PropTypes.bool,
+    onChange: PropTypes.func,
+    onError: PropTypes.func,
+    onSubmit: PropTypes.func,
+    schema: PropTypes.object.isRequired,
+    showErrorList: PropTypes.bool,
+    tagName: PropTypes.elementType,
+    target: PropTypes.string,
+    transformErrors: PropTypes.func,
+    uiSchema: PropTypes.object,
+    validate: PropTypes.func,
+    widgets: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object])),
   };
 }

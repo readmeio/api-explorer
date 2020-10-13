@@ -1,16 +1,14 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const registry = PropTypes.shape({
   ArrayFieldTemplate: PropTypes.elementType,
-  FieldTemplate: PropTypes.elementType,
-  ObjectFieldTemplate: PropTypes.elementType,
   definitions: PropTypes.object.isRequired,
-  rootSchema: PropTypes.object,
   fields: PropTypes.objectOf(PropTypes.elementType).isRequired,
+  FieldTemplate: PropTypes.elementType,
   formContext: PropTypes.object.isRequired,
-  widgets: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.func, PropTypes.object])
-  ).isRequired,
+  ObjectFieldTemplate: PropTypes.elementType,
+  rootSchema: PropTypes.object,
+  widgets: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object])).isRequired,
 });
 
 export const fieldProps = {
@@ -28,7 +26,7 @@ export const fieldProps = {
   required: PropTypes.bool,
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.shape({
-    "ui:options": PropTypes.shape({
+    'ui:options': PropTypes.shape({
       addable: PropTypes.bool,
       orderable: PropTypes.bool,
       removable: PropTypes.bool,
