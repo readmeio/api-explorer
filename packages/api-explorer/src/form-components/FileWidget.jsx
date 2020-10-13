@@ -1,4 +1,4 @@
-const FileWidget = require('@readme/react-jsonschema-form/lib/components/widgets/FileWidget').default;
+const FileWidget = require('@readme/oas-form/src/components/widgets/FileWidget').default;
 
 function createFileWidget(explorerEnabled) {
   // Return a function that renders null when the explorer is disabled
