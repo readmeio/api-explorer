@@ -39,5 +39,3 @@
     "sonarjs/no-identical-functions": "off" // These should get fixed!
   }
 }
-
-
