@@ -20,16 +20,15 @@ function CheckboxesWidget(props) {
     <div className="checkboxes" id={id}>
       {enumOptions.map((option, index) => {
         const checked = value.indexOf(option.value) !== -1;
-        const itemDisabled = enumDisabled && enumDisabled.indexOf(option.value) != -1;
+        const itemDisabled = enumDisabled && enumDisabled.indexOf(option.value) !== -1;
         const disabledCls = disabled || itemDisabled || readonly ? 'disabled' : '';
         const checkbox = (
           <span>
             <input
-              type="checkbox"
-              id={`${id}_${index}`}
+              autoFocus={autofocus && index === 0}
               checked={checked}
               disabled={disabled || itemDisabled || readonly}
-              autoFocus={autofocus && index === 0}
+              id={`${id}_${index}`}
               onChange={event => {
                 const all = enumOptions.map(({ value }) => value);
                 if (event.target.checked) {
@@ -38,6 +37,7 @@ function CheckboxesWidget(props) {
                   onChange(deselectValue(option.value, value));
                 }
               }}
+              type="checkbox"
             />
             <span>{option.label}</span>
           </span>
@@ -65,19 +65,19 @@ CheckboxesWidget.defaultProps = {
 
 if (process.env.NODE_ENV !== 'production') {
   CheckboxesWidget.propTypes = {
-    schema: PropTypes.object.isRequired,
+    autofocus: PropTypes.bool,
+    disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
+    multiple: PropTypes.bool,
+    onChange: PropTypes.func,
     options: PropTypes.shape({
       enumOptions: PropTypes.array,
       inline: PropTypes.bool,
     }).isRequired,
-    value: PropTypes.any,
-    required: PropTypes.bool,
     readonly: PropTypes.bool,
-    disabled: PropTypes.bool,
-    multiple: PropTypes.bool,
-    autofocus: PropTypes.bool,
-    onChange: PropTypes.func,
+    required: PropTypes.bool,
+    schema: PropTypes.object.isRequired,
+    value: PropTypes.any,
   };
 }
 

@@ -18,9 +18,6 @@ describe('TitleField', () => {
   // For some reason, stateless components needs to be wrapped into a stateful
   // one to be rendered into the document.
   class TitleFieldWrapper extends React.Component {
-    constructor(props) {
-      super(props);
-    }
     render() {
       return <TitleField {...this.props} />;
     }
@@ -64,7 +61,7 @@ describe('TitleField', () => {
     };
     const { node } = createComponent(TitleFieldWrapper, props);
 
-    expect(node.textContent).to.equal(props.title + '*');
+    expect(node.textContent).to.equal(`${props.title}*`);
 
     expect(node.querySelector('span.required').textContent).to.equal('*');
   });

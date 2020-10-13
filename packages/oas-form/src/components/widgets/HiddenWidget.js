@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function HiddenWidget({ id, value }) {
-  return <input type="hidden" id={id} value={typeof value === 'undefined' ? '' : value} />;
+  return <input id={id} type="hidden" value={typeof value === 'undefined' ? '' : value} />;
 }
 
 if (process.env.NODE_ENV !== 'production') {

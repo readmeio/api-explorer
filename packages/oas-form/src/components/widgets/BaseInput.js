@@ -64,15 +64,15 @@ function BaseInput(props) {
   return [
     <input
       key={inputProps.id}
-      className="form-control"
-      readOnly={readonly}
-      disabled={disabled}
       autoFocus={autofocus}
+      className="form-control"
+      disabled={disabled}
+      readOnly={readonly}
       value={value == null ? '' : value}
       {...inputProps}
       list={schema.examples ? `examples_${inputProps.id}` : null}
-      onChange={_onChange}
       onBlur={onBlur && (event => onBlur(inputProps.id, event.target.value))}
+      onChange={_onChange}
       onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
     />,
     schema.examples ? (
@@ -86,24 +86,24 @@ function BaseInput(props) {
 }
 
 BaseInput.defaultProps = {
-  required: false,
+  autofocus: false,
   disabled: false,
   readonly: false,
-  autofocus: false,
+  required: false,
 };
 
 if (process.env.NODE_ENV !== 'production') {
   BaseInput.propTypes = {
-    id: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    value: PropTypes.any,
-    required: PropTypes.bool,
-    disabled: PropTypes.bool,
-    readonly: PropTypes.bool,
     autofocus: PropTypes.bool,
-    onChange: PropTypes.func,
+    disabled: PropTypes.bool,
+    id: PropTypes.string.isRequired,
     onBlur: PropTypes.func,
+    onChange: PropTypes.func,
     onFocus: PropTypes.func,
+    placeholder: PropTypes.string,
+    readonly: PropTypes.bool,
+    required: PropTypes.bool,
+    value: PropTypes.any,
   };
 }
 

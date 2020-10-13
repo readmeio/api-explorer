@@ -6,12 +6,12 @@ export default function AddButton({ className, onClick, disabled }) {
     <div className="row">
       <p className={`col-xs-3 col-xs-offset-9 text-right ${className}`}>
         <IconButton
-          type="info"
-          icon="plus"
           className="btn-add col-xs-12"
-          tabIndex="0"
-          onClick={onClick}
           disabled={disabled}
+          icon="plus"
+          onClick={onClick}
+          tabIndex="0"
+          type="info"
         />
       </p>
     </div>

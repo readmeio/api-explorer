@@ -20,9 +20,9 @@ function UnsupportedField({ schema, idSchema, reason }) {
 
 if (process.env.NODE_ENV !== 'production') {
   UnsupportedField.propTypes = {
-    schema: PropTypes.object.isRequired,
     idSchema: PropTypes.object,
     reason: PropTypes.string,
+    schema: PropTypes.object.isRequired,
   };
 }
 

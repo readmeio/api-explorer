@@ -1,3 +1,6 @@
+/* eslint-disable global-require */
+/* eslint-disable react/no-find-dom-node */
+/* eslint-disable max-classes-per-file */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
@@ -87,7 +90,7 @@ describeRepeated('Form common', createFormComponent => {
 
     function createComponent() {
       renderIntoDocument(
-        <Form schema={schema} onChange={onChangeProp} formData={formData}>
+        <Form formData={formData} onChange={onChangeProp} schema={schema}>
           <button type="submit">Submit</button>
           <button type="submit">Another submit</button>
         </Form>
@@ -158,11 +161,11 @@ describeRepeated('Form common', createFormComponent => {
           },
         },
       };
-      const comp = renderIntoDocument(<Form schema={schema} idPrefix="rjsf" />);
+      const comp = renderIntoDocument(<Form idPrefix="rjsf" schema={schema} />);
       const node = findDOMNode(comp);
       const inputs = node.querySelectorAll('input');
       const ids = [];
-      for (var i = 0, len = inputs.length; i < len; i++) {
+      for (let i = 0, len = inputs.length; i < len; i++) {
         const input = inputs[i];
         ids.push(input.getAttribute('id'));
       }
@@ -183,11 +186,11 @@ describeRepeated('Form common', createFormComponent => {
           },
         },
       };
-      const comp = renderIntoDocument(<Form schema={schema} idPrefix="rjsf" />);
+      const comp = renderIntoDocument(<Form idPrefix="rjsf" schema={schema} />);
       const node = findDOMNode(comp);
       const inputs = node.querySelectorAll('input');
       const ids = [];
-      for (var i = 0, len = inputs.length; i < len; i++) {
+      for (let i = 0, len = inputs.length; i < len; i++) {
         const input = inputs[i];
         ids.push(input.getAttribute('id'));
       }
@@ -239,11 +242,11 @@ describeRepeated('Form common', createFormComponent => {
         },
       };
 
-      const comp = renderIntoDocument(<Form schema={schema} idPrefix="rjsf" />);
+      const comp = renderIntoDocument(<Form idPrefix="rjsf" schema={schema} />);
       const node = findDOMNode(comp);
       const inputs = node.querySelectorAll('input');
       const ids = [];
-      for (var i = 0, len = inputs.length; i < len; i++) {
+      for (let i = 0, len = inputs.length; i < len; i++) {
         const input = inputs[i];
         ids.push(input.getAttribute('id'));
       }
@@ -288,7 +291,7 @@ describeRepeated('Form common', createFormComponent => {
         children,
       } = props;
       return (
-        <div className={'my-template ' + classNames}>
+        <div className={`my-template ${classNames}`}>
           <label htmlFor={id}>
             {label}
             {required ? '*' : null}
@@ -1025,7 +1028,7 @@ describeRepeated('Form common', createFormComponent => {
               },
             },
           };
-          return <Form onChange={this.onChange} schema={schema} formData={this.state.formData} />;
+          return <Form formData={this.state.formData} onChange={this.onChange} schema={schema} />;
         }
       }
 
@@ -2352,7 +2355,7 @@ describeRepeated('Form common', createFormComponent => {
 
           return (
             <Portal>
-              <div className="array" ref={innerRef}>
+              <div ref={innerRef} className="array">
                 <Form {...innerFormProps}>
                   <button className="array-form-submit" type="submit">
                     Submit

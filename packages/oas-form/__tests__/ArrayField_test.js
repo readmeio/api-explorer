@@ -288,7 +288,7 @@ describe('ArrayField', () => {
         const addBeforeButton = (
           <button
             key={`array-item-add-before-${item.key}`}
-            className={'array-item-move-before array-item-move-before-to-' + beforeIndex}
+            className={`array-item-move-before array-item-move-before-to-${beforeIndex}`}
             onClick={item.onAddIndexClick(beforeIndex)}
           >
             {'Add Item Above'}
@@ -299,7 +299,7 @@ describe('ArrayField', () => {
         const addAfterButton = (
           <button
             key={`array-item-add-after-${item.key}`}
-            className={'array-item-move-after array-item-move-after-to-' + afterIndex}
+            className={`array-item-move-after array-item-move-after-to-${afterIndex}`}
             onClick={item.onAddIndexClick(afterIndex)}
           >
             {'Add Item Below'}
@@ -307,7 +307,7 @@ describe('ArrayField', () => {
         );
 
         return (
-          <div key={item.key} data-rjsf-itemkey={item.key} className={`array-item item-${item.index}`}>
+          <div key={item.key} className={`array-item item-${item.index}`} data-rjsf-itemkey={item.key}>
             <div>{addBeforeButton}</div>
             {item.children}
             <div>{addAfterButton}</div>
@@ -511,13 +511,13 @@ describe('ArrayField', () => {
         const buttons = [];
         for (let i = 0; i < 3; i++) {
           buttons.push(
-            <button key={i} className={'array-item-move-to-' + i} onClick={props.onReorderClick(props.index, i)}>
-              {'Move item to index ' + i}
+            <button key={i} className={`array-item-move-to-${i}`} onClick={props.onReorderClick(props.index, i)}>
+              {`Move item to index ${i}`}
             </button>
           );
         }
         return (
-          <div key={props.key} data-rjsf-itemkey={props.key} className={`array-item item-${props.index}`}>
+          <div key={props.key} className={`array-item item-${props.index}`} data-rjsf-itemkey={props.key}>
             {props.children}
             {buttons}
           </div>
@@ -787,11 +787,11 @@ describe('ArrayField', () => {
           },
         },
       };
-      let form = createFormComponent({
+      const form = createFormComponent({
         schema: complexSchema,
         formData: {},
       });
-      let inputs = form.node.querySelectorAll('input[type=text]');
+      const inputs = form.node.querySelectorAll('input[type=text]');
       expect(inputs[0].value).eql('Default name');
       expect(inputs[1].value).eql('Default name');
     });
@@ -810,7 +810,7 @@ describe('ArrayField', () => {
           },
         },
       };
-      const { node } = createFormComponent({ schema: schema });
+      const { node } = createFormComponent({ schema });
       const inputs = node.querySelectorAll('input[type=text]');
       expect(inputs.length).to.eql(4);
       expect(inputs[0].value).to.eql('Raphael');
@@ -887,8 +887,8 @@ describe('ArrayField', () => {
         },
       };
       let form = createFormComponent({
-        schema: schema,
-        uiSchema: uiSchema,
+        schema,
+        uiSchema,
         formData: {},
         liveValidate: true,
         noValidate: true,
@@ -900,8 +900,8 @@ describe('ArrayField', () => {
       });
 
       form = createFormComponent({
-        schema: schema,
-        uiSchema: uiSchema,
+        schema,
+        uiSchema,
         formData: {},
         liveValidate: true,
         noValidate: false,

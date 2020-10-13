@@ -1767,7 +1767,7 @@ describe('StringField', () => {
       await new Promise(setImmediate);
 
       sinon.assert.calledWithMatch(onChange.lastCall, {
-        formData: 'data:text/plain;name=' + uriEncodedValue + ';base64,x=',
+        formData: `data:text/plain;name=${uriEncodedValue};base64,x=`,
       });
     });
 

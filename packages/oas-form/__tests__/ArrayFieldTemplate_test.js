@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import React, { PureComponent } from 'react';
 import { expect } from 'chai';
 import { Simulate } from 'react-dom/test-utils';
@@ -23,7 +24,7 @@ describe('ArrayFieldTemplate', () => {
           {props.canAdd && <button className="custom-array-add" />}
           {props.items.map(element => {
             return (
-              <div className="custom-array-item" key={element.index}>
+              <div key={element.index} className="custom-array-item">
                 {element.hasMoveUp && <button className="custom-array-item-move-up" />}
                 {element.hasMoveDown && <button className="custom-array-item-move-down" />}
 
@@ -288,7 +289,7 @@ describe('ArrayFieldTemplate', () => {
     it('should pass registry prop', () => {
       const ArrayFieldTemplate = ({ registry }) => {
         if (!registry) {
-          throw 'Error';
+          throw new Error('Error');
         }
         return null;
       };
@@ -302,7 +303,7 @@ describe('ArrayFieldTemplate', () => {
     it('should pass formData so it is in sync with items', () => {
       const ArrayFieldTemplate = ({ formData, items, onAddClick }) => {
         if (formData.length !== items.length) {
-          throw 'Error';
+          throw new Error('Error');
         }
         return (
           <div>

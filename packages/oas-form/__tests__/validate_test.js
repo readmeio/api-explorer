@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -48,7 +49,8 @@ describe('Validation', () => {
         },
       };
 
-      let errors, errorSchema;
+      let errors;
+      let errorSchema;
 
       beforeEach(() => {
         const result = validateFormData({ foo: 42, [illFormedKey]: 41 }, schema);
@@ -192,7 +194,8 @@ describe('Validation', () => {
     });
 
     describe('Custom validate function', () => {
-      let errors, errorSchema;
+      let errors;
+      let errorSchema;
 
       const schema = {
         type: 'object',
@@ -264,7 +267,8 @@ describe('Validation', () => {
         },
       };
 
-      let errors, errorSchema;
+      let errors;
+      let errorSchema;
 
       beforeEach(() => {
         const result = validateFormData({ foo: 42 }, schema);
@@ -322,7 +326,7 @@ describe('Validation', () => {
     };
     const newErrorMessage = 'Better error message';
     const transformErrors = errors => {
-      return [Object.assign({}, errors[0], { message: newErrorMessage })];
+      return [{ ...errors[0], message: newErrorMessage }];
     };
 
     let errors;
@@ -360,7 +364,8 @@ describe('Validation', () => {
           },
         };
 
-        let onError, node;
+        let onError;
+        let node;
         beforeEach(() => {
           const compInfo = createFormComponent({
             schema,
@@ -404,7 +409,8 @@ describe('Validation', () => {
           },
         };
 
-        let node, onError;
+        let node;
+        let onError;
 
         beforeEach(() => {
           onError = sandbox.spy();
@@ -646,7 +652,8 @@ describe('Validation', () => {
           },
         };
 
-        let node, onError;
+        let node;
+        let onError;
         beforeEach(() => {
           const compInfo = createFormComponent({
             schema,
@@ -723,7 +730,8 @@ describe('Validation', () => {
       });
     });
     describe('Custom meta schema', () => {
-      let onError, node;
+      let onError;
+      let node;
       const formData = {
         datasetId: 'no err',
       };

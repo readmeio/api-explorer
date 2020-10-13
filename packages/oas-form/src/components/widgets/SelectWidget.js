@@ -41,9 +41,9 @@ function getValue(event, multiple) {
       .call(event.target.options)
       .filter(o => o.selected)
       .map(o => o.value);
-  } else {
-    return event.target.value;
   }
+
+  return event.target.value;
 }
 
 function SelectWidget(props) {
@@ -66,13 +66,11 @@ function SelectWidget(props) {
   const emptyValue = multiple ? [] : '';
   return (
     <select
+      autoFocus={autofocus}
+      className="form-control"
+      disabled={disabled || readonly}
       id={id}
       multiple={multiple}
-      className="form-control"
-      value={typeof value === 'undefined' ? emptyValue : value}
-      required={required}
-      disabled={disabled || readonly}
-      autoFocus={autofocus}
       onBlur={
         onBlur &&
         (event => {
@@ -80,6 +78,10 @@ function SelectWidget(props) {
           onBlur(id, processValue(schema, newValue));
         })
       }
+      onChange={event => {
+        const newValue = getValue(event, multiple);
+        onChange(processValue(schema, newValue));
+      }}
       onFocus={
         onFocus &&
         (event => {
@@ -87,16 +89,14 @@ function SelectWidget(props) {
           onFocus(id, processValue(schema, newValue));
         })
       }
-      onChange={event => {
-        const newValue = getValue(event, multiple);
-        onChange(processValue(schema, newValue));
-      }}
+      required={required}
+      value={typeof value === 'undefined' ? emptyValue : value}
     >
       {!multiple && schema.default === undefined && <option value="">{placeholder}</option>}
       {enumOptions.map(({ value, label }, i) => {
-        const disabled = enumDisabled && enumDisabled.indexOf(value) != -1;
+        const disabled = enumDisabled && enumDisabled.indexOf(value) !== -1;
         return (
-          <option key={i} value={value} disabled={disabled}>
+          <option key={i} disabled={disabled} value={value}>
             {label}
           </option>
         );
@@ -111,20 +111,20 @@ SelectWidget.defaultProps = {
 
 if (process.env.NODE_ENV !== 'production') {
   SelectWidget.propTypes = {
-    schema: PropTypes.object.isRequired,
+    autofocus: PropTypes.bool,
+    disabled: PropTypes.bool,
     id: PropTypes.string.isRequired,
+    multiple: PropTypes.bool,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
     options: PropTypes.shape({
       enumOptions: PropTypes.array,
     }).isRequired,
-    value: PropTypes.any,
-    required: PropTypes.bool,
-    disabled: PropTypes.bool,
     readonly: PropTypes.bool,
-    multiple: PropTypes.bool,
-    autofocus: PropTypes.bool,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onFocus: PropTypes.func,
+    required: PropTypes.bool,
+    schema: PropTypes.object.isRequired,
+    value: PropTypes.any,
   };
 }
 

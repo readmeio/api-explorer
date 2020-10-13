@@ -31,22 +31,22 @@ function StringField(props) {
   const Widget = getWidget(schema, widget, widgets);
   return (
     <Widget
-      options={{ ...options, enumOptions }}
-      schema={schema}
+      autofocus={autofocus}
+      disabled={disabled}
+      formContext={formContext}
       id={idSchema && idSchema.$id}
       label={title === undefined ? name : title}
-      value={formData}
-      onChange={onChange}
       onBlur={onBlur}
+      onChange={onChange}
       onFocus={onFocus}
-      required={required}
-      disabled={disabled}
-      readonly={readonly}
-      formContext={formContext}
-      autofocus={autofocus}
-      registry={registry}
+      options={{ ...options, enumOptions }}
       placeholder={placeholder}
       rawErrors={rawErrors}
+      readonly={readonly}
+      registry={registry}
+      required={required}
+      schema={schema}
+      value={formData}
     />
   );
 }
@@ -56,10 +56,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 StringField.defaultProps = {
-  uiSchema: {},
+  autofocus: false,
   disabled: false,
   readonly: false,
-  autofocus: false,
+  uiSchema: {},
 };
 
 export default StringField;

@@ -53,7 +53,7 @@ function extractFileInfo(dataURLs) {
     .map(dataURL => {
       const { blob, name } = dataURItoBlob(dataURL);
       return {
-        name: name,
+        name,
         size: blob.size,
         type: blob.type,
       };
@@ -96,15 +96,17 @@ class FileWidget extends Component {
       <div>
         <p>
           <input
-            ref={ref => (this.inputRef = ref)}
-            id={id}
-            type="file"
-            disabled={readonly || disabled}
-            onChange={this.onChange}
-            defaultValue=""
-            autoFocus={autofocus}
-            multiple={multiple}
+            ref={ref => {
+              this.inputRef = ref;
+            }}
             accept={options.accept}
+            autoFocus={autofocus}
+            defaultValue=""
+            disabled={readonly || disabled}
+            id={id}
+            multiple={multiple}
+            onChange={this.onChange}
+            type="file"
           />
         </p>
         <FilesInfo filesInfo={filesInfo} />
@@ -119,9 +121,9 @@ FileWidget.defaultProps = {
 
 if (process.env.NODE_ENV !== 'production') {
   FileWidget.propTypes = {
+    autofocus: PropTypes.bool,
     multiple: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-    autofocus: PropTypes.bool,
   };
 }
 

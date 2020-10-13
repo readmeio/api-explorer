@@ -26,6 +26,7 @@ export function utcToLocal(jsonDate) {
   return `${yyyy}-${MM}-${dd}T${hh}:${mm}:${ss}.${SSS}`;
 }
 
+// eslint-disable-next-line consistent-return
 export function localToUTC(dateString) {
   if (dateString) {
     return new Date(dateString).toJSON();
@@ -44,8 +45,8 @@ function DateTimeWidget(props) {
     <BaseInput
       type="datetime-local"
       {...props}
-      value={utcToLocal(value)}
       onChange={value => onChange(localToUTC(value))}
+      value={utcToLocal(value)}
     />
   );
 }

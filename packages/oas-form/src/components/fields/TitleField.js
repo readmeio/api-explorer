@@ -16,8 +16,8 @@ function TitleField(props) {
 if (process.env.NODE_ENV !== 'production') {
   TitleField.propTypes = {
     id: PropTypes.string,
-    title: PropTypes.string,
     required: PropTypes.bool,
+    title: PropTypes.string,
   };
 }
 

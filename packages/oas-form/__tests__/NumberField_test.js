@@ -84,7 +84,7 @@ describe('NumberField', () => {
     });
   });
   describe('Number and text widget', () => {
-    let uiSchemas = [
+    const uiSchemas = [
       {},
       {
         'ui:options': {
@@ -92,7 +92,7 @@ describe('NumberField', () => {
         },
       },
     ];
-    for (let uiSchema of uiSchemas) {
+    for (const uiSchema of uiSchemas) {
       it('should render a string field with a label', () => {
         const { node } = createFormComponent({
           schema: {
@@ -159,6 +159,7 @@ describe('NumberField', () => {
         });
       });
 
+      // eslint-disable-next-line no-loop-func
       it('should handle a blur event', () => {
         const onBlur = sandbox.spy();
         const { node } = createFormComponent({
@@ -177,6 +178,7 @@ describe('NumberField', () => {
         expect(onBlur.calledWith(input.id, 2));
       });
 
+      // eslint-disable-next-line no-loop-func
       it('should handle a focus event', () => {
         const onFocus = sandbox.spy();
         const { node } = createFormComponent({

@@ -24,7 +24,7 @@ describe('FormContext', () => {
 
   it('should be passed to Form', () => {
     const { comp } = createFormComponent({
-      schema: schema,
+      schema,
       formContext,
     });
     expect(comp.props.formContext).eq(formContext);
@@ -34,13 +34,13 @@ describe('FormContext', () => {
     const fields = { custom: CustomComponent };
 
     const { node } = createFormComponent({
-      schema: schema,
+      schema,
       uiSchema: { 'ui:field': 'custom' },
       fields,
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 
   it('should be passed to custom widget', () => {
@@ -53,7 +53,7 @@ describe('FormContext', () => {
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 
   it('should be passed to TemplateField', () => {
@@ -74,7 +74,7 @@ describe('FormContext', () => {
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 
   it('should be passed to ArrayTemplateField', () => {
@@ -93,7 +93,7 @@ describe('FormContext', () => {
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 
   it('should be passed to custom TitleField', () => {
@@ -113,7 +113,7 @@ describe('FormContext', () => {
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 
   it('should be passed to custom DescriptionField', () => {
@@ -125,7 +125,7 @@ describe('FormContext', () => {
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 
   it('should be passed to multiselect', () => {
@@ -144,7 +144,7 @@ describe('FormContext', () => {
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 
   it('should be passed to files array', () => {
@@ -161,6 +161,6 @@ describe('FormContext', () => {
       formContext,
     });
 
-    expect(node.querySelector('#' + formContext.foo)).to.exist;
+    expect(node.querySelector(`#${formContext.foo}`)).to.exist;
   });
 });

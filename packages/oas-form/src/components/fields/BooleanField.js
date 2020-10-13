@@ -43,22 +43,22 @@ function BooleanField(props) {
 
   return (
     <Widget
-      options={{ ...options, enumOptions }}
-      schema={schema}
+      autofocus={autofocus}
+      DescriptionField={fields.DescriptionField}
+      disabled={disabled}
+      formContext={formContext}
       id={idSchema && idSchema.$id}
+      label={title === undefined ? name : title}
+      onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
-      onBlur={onBlur}
-      label={title === undefined ? name : title}
-      value={formData}
-      required={required}
-      disabled={disabled}
+      options={{ ...options, enumOptions }}
+      rawErrors={rawErrors}
       readonly={readonly}
       registry={registry}
-      formContext={formContext}
-      autofocus={autofocus}
-      rawErrors={rawErrors}
-      DescriptionField={fields.DescriptionField}
+      required={required}
+      schema={schema}
+      value={formData}
     />
   );
 }
@@ -68,10 +68,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 BooleanField.defaultProps = {
-  uiSchema: {},
+  autofocus: false,
   disabled: false,
   readonly: false,
-  autofocus: false,
+  uiSchema: {},
 };
 
 export default BooleanField;

@@ -43,9 +43,7 @@ class AnyOfField extends Component {
   } */
 
   getMatchingOption(formData, options) {
-    const { rootSchema } = this.props.registry;
-
-    let option = getMatchingOption(formData, options, rootSchema);
+    const option = getMatchingOption(formData, options);
     if (option !== 0) {
       return option;
     }
@@ -62,17 +60,17 @@ class AnyOfField extends Component {
 
     // If the new option is of type object and the current data is an object,
     // discard properties added using the old option.
-    let newFormData = undefined;
+    let newFormData;
     if (guessType(formData) === 'object' && (newOption.type === 'object' || newOption.properties)) {
-      newFormData = Object.assign({}, formData);
+      newFormData = { ...formData };
 
       const optionsToDiscard = options.slice();
       optionsToDiscard.splice(selectedOption, 1);
 
       // Discard any data added using other options
-      for (const option of optionsToDiscard) {
-        if (option.properties) {
-          for (const key in option.properties) {
+      for (const opt of optionsToDiscard) {
+        if (opt.properties) {
+          for (const key in opt.properties) {
             if (newFormData.hasOwnProperty(key)) {
               delete newFormData[key];
             }
@@ -117,11 +115,11 @@ class AnyOfField extends Component {
     if (option) {
       // If the subschema doesn't declare a type, infer the type from the
       // parent schema
-      optionSchema = option.type ? option : Object.assign({}, option, { type: baseType });
+      optionSchema = option.type ? option : { ...option, type: baseType };
     }
 
-    const enumOptions = options.map((option, index) => ({
-      label: option.title || `Option ${index + 1}`,
+    const enumOptions = options.map((opt, index) => ({
+      label: opt.title || `Option ${index + 1}`,
       value: index,
     }));
 
@@ -130,29 +128,29 @@ class AnyOfField extends Component {
         <div className="form-group">
           <Widget
             id={`${idSchema.$id}${schema.oneOf ? '__oneof_select' : '__anyof_select'}`}
-            schema={{ type: 'number', default: 0 }}
-            onChange={this.onOptionChange}
             onBlur={onBlur}
+            onChange={this.onOptionChange}
             onFocus={onFocus}
-            value={selectedOption}
             options={{ enumOptions }}
+            schema={{ type: 'number', default: 0 }}
+            value={selectedOption}
             {...uiOptions}
           />
         </div>
 
         {option !== null && (
           <_SchemaField
-            schema={optionSchema}
-            uiSchema={uiSchema}
+            disabled={disabled}
             errorSchema={errorSchema}
-            idSchema={idSchema}
-            idPrefix={idPrefix}
             formData={formData}
-            onChange={onChange}
+            idPrefix={idPrefix}
+            idSchema={idSchema}
             onBlur={onBlur}
+            onChange={onChange}
             onFocus={onFocus}
             registry={registry}
-            disabled={disabled}
+            schema={optionSchema}
+            uiSchema={uiSchema}
           />
         )}
       </div>
@@ -169,13 +167,13 @@ AnyOfField.defaultProps = {
 
 if (process.env.NODE_ENV !== 'production') {
   AnyOfField.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.object).isRequired,
     baseType: PropTypes.string,
-    uiSchema: PropTypes.object,
-    idSchema: PropTypes.object,
-    formData: PropTypes.any,
     errorSchema: PropTypes.object,
+    formData: PropTypes.any,
+    idSchema: PropTypes.object,
+    options: PropTypes.arrayOf(PropTypes.object).isRequired,
     registry: types.registry.isRequired,
+    uiSchema: PropTypes.object,
   };
 }
 

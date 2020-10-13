@@ -9,7 +9,6 @@ let formerCustomFormats = null;
 let formerMetaSchema = null;
 
 function createAjvInstance() {
-  // eslint-disable-next-line no-shadow
   const ajv = new Ajv({
     errorDataPath: 'property',
     allErrors: true,
@@ -57,7 +56,6 @@ function toErrorSchema(errors) {
       path.splice(0, 1);
     }
 
-    // eslint-disable-next-line no-restricted-syntax, no-unused-vars
     for (const segment of path.slice(0)) {
       if (!(segment in parent)) {
         parent[segment] = {};

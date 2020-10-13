@@ -59,12 +59,12 @@ describe('uiSchema', () => {
         'ui:widget': props => {
           return (
             <input
-              type="text"
               className="custom"
-              value={props.value}
               defaultValue={props.defaultValue}
-              required={props.required}
               onChange={event => props.onChange(event.target.value)}
+              required={props.required}
+              type="text"
+              value={props.value}
             />
           );
         },
@@ -78,7 +78,10 @@ describe('uiSchema', () => {
     });
 
     describe('custom options', () => {
-      let widget, widgets, schema, uiSchema;
+      let widget;
+      let widgets;
+      let schema;
+      let uiSchema;
 
       beforeEach(() => {
         sandbox.stub(console, 'warn');
@@ -286,12 +289,12 @@ describe('uiSchema', () => {
       const CustomWidget = props => {
         return (
           <input
-            type="text"
             className="custom"
-            value={props.value}
             defaultValue={props.defaultValue}
-            required={props.required}
             onChange={event => props.onChange(event.target.value)}
+            required={props.required}
+            type="text"
+            value={props.value}
           />
         );
       };
@@ -323,7 +326,7 @@ describe('uiSchema', () => {
 
       const CustomWidget = props => {
         const { value, options } = props;
-        return <input type="text" className={options.className} value={value} />;
+        return <input className={options.className} type="text" value={value} />;
       };
 
       describe('direct reference', () => {
@@ -1847,7 +1850,7 @@ describe('uiSchema', () => {
           };
           const formData = ['a', 'b'];
 
-          let rendered = createFormComponent({
+          const rendered = createFormComponent({
             schema,
             uiSchema,
             formData,
@@ -1888,7 +1891,7 @@ describe('uiSchema', () => {
             'ui:disabled': true,
           };
 
-          let rendered = createFormComponent({ schema, uiSchema });
+          const rendered = createFormComponent({ schema, uiSchema });
           node = rendered.node;
         });
 
@@ -2119,7 +2122,7 @@ describe('uiSchema', () => {
           };
           const formData = ['a', 'b'];
 
-          let rendered = createFormComponent({
+          const rendered = createFormComponent({
             schema,
             uiSchema,
             formData,
@@ -2160,7 +2163,7 @@ describe('uiSchema', () => {
             'ui:readonly': true,
           };
 
-          let rendered = createFormComponent({ schema, uiSchema });
+          const rendered = createFormComponent({ schema, uiSchema });
           node = rendered.node;
         });
 
@@ -2383,7 +2386,7 @@ describe('uiSchema', () => {
           const uiSchema = {};
           const formData = ['a', 'b'];
 
-          let rendered = createFormComponent({ schema, uiSchema, formData });
+          const rendered = createFormComponent({ schema, uiSchema, formData });
           node = rendered.node;
         });
 
@@ -2419,7 +2422,7 @@ describe('uiSchema', () => {
           };
           const uiSchema = {};
 
-          let rendered = createFormComponent({ schema, uiSchema });
+          const rendered = createFormComponent({ schema, uiSchema });
           node = rendered.node;
         });
 

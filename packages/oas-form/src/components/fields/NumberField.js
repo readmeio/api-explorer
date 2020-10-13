@@ -7,6 +7,7 @@ import { asNumber } from '../../utils';
 // digits followed by any number of 0 characters up until the end of the line.
 // Ensuring that there is at least one prefixed character is important so that
 // you don't incorrectly match against "0".
+// eslint-disable-next-line unicorn/no-unsafe-regex
 const trailingCharMatcherWithPrefix = /\.([0-9]*0)*$/;
 
 // This is used for trimming the trailing 0 and . characters without affecting
@@ -54,7 +55,7 @@ class NumberField extends React.Component {
     // Check that the value is a string (this can happen if the widget used is a
     // <select>, due to an enum declaration etc) then, if the value ends in a
     // trailing decimal point or multiple zeroes, strip the trailing values
-    let processed =
+    const processed =
       typeof value === 'string' && value.match(trailingCharMatcherWithPrefix)
         ? asNumber(value.replace(trailingCharMatcher, ''))
         : asNumber(value);
@@ -73,6 +74,7 @@ class NumberField extends React.Component {
       // Construct a regular expression that checks for a string that consists
       // of the formData value suffixed with zero or one '.' characters and zero
       // or more '0' characters
+      // eslint-disable-next-line prefer-template
       const re = new RegExp(`${value}`.replace('.', '\\.') + '\\.?0*$');
 
       // If the cached "lastValue" is a match, use that instead of the formData

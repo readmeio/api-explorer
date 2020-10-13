@@ -33,25 +33,25 @@ function DefaultObjectFieldTemplate(props) {
     <fieldset id={props.idSchema.$id}>
       {(props.uiSchema['ui:title'] || props.title) && (
         <TitleField
-          id={`${props.idSchema.$id}__title`}
-          title={props.title || props.uiSchema['ui:title']}
-          required={props.required}
           formContext={props.formContext}
+          id={`${props.idSchema.$id}__title`}
+          required={props.required}
+          title={props.title || props.uiSchema['ui:title']}
         />
       )}
       {props.description && (
         <DescriptionField
-          id={`${props.idSchema.$id}__description`}
           description={props.description}
           formContext={props.formContext}
+          id={`${props.idSchema.$id}__description`}
         />
       )}
       {props.properties.map(prop => prop.content)}
       {canExpand() && (
         <AddButton
           className="object-property-expand"
-          onClick={props.onAddClick(props.schema)}
           disabled={props.disabled || props.readonly}
+          onClick={props.onAddClick(props.schema)}
         />
       )}
     </fieldset>
@@ -60,13 +60,13 @@ function DefaultObjectFieldTemplate(props) {
 
 class ObjectField extends Component {
   static defaultProps = {
-    uiSchema: {},
-    formData: {},
-    errorSchema: {},
-    idSchema: {},
-    required: false,
     disabled: false,
+    errorSchema: {},
+    formData: {},
+    idSchema: {},
     readonly: false,
+    required: false,
+    uiSchema: {},
   };
 
   state = {
@@ -114,8 +114,8 @@ class ObjectField extends Component {
   };
 
   getAvailableKey = (preferredKey, formData) => {
-    var index = 0;
-    var newKey = preferredKey;
+    let index = 0;
+    let newKey = preferredKey;
     while (formData.hasOwnProperty(newKey)) {
       newKey = `${preferredKey}-${++index}`;
     }
@@ -177,7 +177,7 @@ class ObjectField extends Component {
     if (schema.additionalProperties.hasOwnProperty('$ref')) {
       const { registry = getDefaultRegistry() } = this.props;
       const refSchema = retrieveSchema(
-        { $ref: schema.additionalProperties['$ref'] },
+        { $ref: schema.additionalProperties.$ref },
         registry.rootSchema,
         this.props.formData
       );
@@ -242,32 +242,32 @@ class ObjectField extends Component {
       description,
       TitleField,
       DescriptionField,
-      properties: orderedProperties.map(name => {
-        const addedByAdditionalProperties = schema.properties[name].hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
+      properties: orderedProperties.map(prop => {
+        const addedByAdditionalProperties = schema.properties[prop].hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
         return {
           content: (
             <SchemaField
-              key={name}
-              name={name}
-              required={this.isRequired(name)}
-              schema={schema.properties[name]}
-              uiSchema={addedByAdditionalProperties ? uiSchema.additionalProperties : uiSchema[name]}
-              errorSchema={errorSchema[name]}
-              idSchema={idSchema[name]}
-              idPrefix={idPrefix}
-              formData={(formData || {})[name]}
-              wasPropertyKeyModified={this.state.wasPropertyKeyModified}
-              onKeyChange={this.onKeyChange(name)}
-              onChange={this.onPropertyChange(name, addedByAdditionalProperties)}
-              onBlur={onBlur}
-              onFocus={onFocus}
-              registry={registry}
+              key={prop}
               disabled={disabled}
-              readonly={readonly}
+              errorSchema={errorSchema[prop]}
+              formData={(formData || {})[prop]}
+              idPrefix={idPrefix}
+              idSchema={idSchema[prop]}
+              name={prop}
+              onBlur={onBlur}
+              onChange={this.onPropertyChange(prop, addedByAdditionalProperties)}
               onDropPropertyClick={this.onDropPropertyClick}
+              onFocus={onFocus}
+              onKeyChange={this.onKeyChange(prop)}
+              readonly={readonly}
+              registry={registry}
+              required={this.isRequired(prop)}
+              schema={schema.properties[prop]}
+              uiSchema={addedByAdditionalProperties ? uiSchema.additionalProperties : uiSchema[prop]}
+              wasPropertyKeyModified={this.state.wasPropertyKeyModified}
             />
           ),
-          name,
+          prop,
           readonly,
           disabled,
           required,

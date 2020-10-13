@@ -18,9 +18,6 @@ describe('DescriptionField', () => {
   // For some reason, stateless components needs to be wrapped into a stateful
   // one to be rendered into the document.
   class DescriptionFieldWrapper extends React.Component {
-    constructor(props) {
-      super(props);
-    }
     render() {
       return <DescriptionField {...this.props} />;
     }

@@ -1251,7 +1251,7 @@ describe('utils', () => {
     describe('uniqueItems is true', () => {
       describe('schema items enum is an array', () => {
         it('should be true', () => {
-          let schema = {
+          const schema = {
             items: { enum: ['foo', 'bar'] },
             uniqueItems: true,
           };
@@ -3544,6 +3544,7 @@ describe('utils', () => {
     };
 
     it('should fail if widget has incorrect type', () => {
+      // eslint-disable-next-line no-new-wrappers, unicorn/new-for-builtins
       const Widget = new Number(1);
       expect(() => getWidget(schema, Widget)).to.Throw(Error, `Unsupported widget definition: object`);
     });
@@ -3573,8 +3574,6 @@ describe('utils', () => {
 describe('Utils.isCyclic', () => {
   it('should catch inifinite recursion via circular referencing', () => {
     const schema = {
-      type: 'object',
-      definitions: {},
       properties: {
         foo: {
           type: 'object',

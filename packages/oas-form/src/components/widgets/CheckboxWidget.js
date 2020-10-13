@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Check to see if a schema specifies that a value must be true
+// eslint-disable-next-line consistent-return
 function schemaRequiresTrueValue(schema) {
   // Check if const is a truthy value
   if (schema.const) {
@@ -55,15 +56,15 @@ function CheckboxWidget(props) {
       {schema.description && <DescriptionField description={schema.description} />}
       <label>
         <input
-          type="checkbox"
-          id={id}
-          checked={typeof value === 'undefined' ? false : value}
-          required={required}
-          disabled={disabled || readonly}
           autoFocus={autofocus}
-          onChange={event => onChange(event.target.checked)}
+          checked={typeof value === 'undefined' ? false : value}
+          disabled={disabled || readonly}
+          id={id}
           onBlur={onBlur && (event => onBlur(id, event.target.checked))}
+          onChange={event => onChange(event.target.checked)}
           onFocus={onFocus && (event => onFocus(id, event.target.checked))}
+          required={required}
+          type="checkbox"
         />
         <span>{label}</span>
       </label>
@@ -77,14 +78,14 @@ CheckboxWidget.defaultProps = {
 
 if (process.env.NODE_ENV !== 'production') {
   CheckboxWidget.propTypes = {
-    schema: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired,
-    value: PropTypes.bool,
-    required: PropTypes.bool,
-    disabled: PropTypes.bool,
-    readonly: PropTypes.bool,
     autofocus: PropTypes.bool,
+    disabled: PropTypes.bool,
+    id: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    readonly: PropTypes.bool,
+    required: PropTypes.bool,
+    schema: PropTypes.object.isRequired,
+    value: PropTypes.bool,
   };
 }
 

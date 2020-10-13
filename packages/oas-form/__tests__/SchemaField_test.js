@@ -126,10 +126,6 @@ describe('SchemaField', () => {
 
   describe('ui:field support', () => {
     class MyObject extends React.Component {
-      constructor(props) {
-        super(props);
-      }
-
       render() {
         return <div id="custom" />;
       }
@@ -339,7 +335,7 @@ describe('SchemaField', () => {
 
     const uiSchema = {
       'ui:field': props => {
-        const { uiSchema, ...fieldProps } = props; //eslint-disable-line
+        const { uiSchema, ...fieldProps } = props; // eslint-disable-line no-unused-vars
         return <SchemaField {...fieldProps} />;
       },
     };

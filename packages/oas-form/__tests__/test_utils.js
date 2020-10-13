@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 /* Utils for tests. */
 
 import React from 'react';
@@ -11,7 +12,7 @@ export function createComponent(Component, props) {
   const onChange = sinon.spy();
   const onError = sinon.spy();
   const onSubmit = sinon.spy();
-  const comp = renderIntoDocument(<Component onSubmit={onSubmit} onError={onError} onChange={onChange} {...props} />);
+  const comp = renderIntoDocument(<Component onChange={onChange} onError={onError} onSubmit={onSubmit} {...props} />);
   const node = findDOMNode(comp);
   return { comp, node, onChange, onError, onSubmit };
 }
@@ -21,8 +22,7 @@ export function createFormComponent(props) {
 }
 
 export function createSandbox() {
-  const sandbox = sinon.createSandbox();
-  return sandbox;
+  return sinon.createSandbox();
 }
 
 export function setProps(comp, newProps) {
@@ -38,9 +38,9 @@ export function describeRepeated(title, fn) {
     { omitExtraData: true },
     { omitExtraData: true, liveOmit: true },
   ];
-  for (let formExtraProps of formExtraPropsList) {
+  for (const formExtraProps of formExtraPropsList) {
     const createFormComponentFn = props => createFormComponent({ ...props, ...formExtraProps });
-    describe(title + ' ' + JSON.stringify(formExtraProps), () => fn(createFormComponentFn));
+    describe(`${title} ${JSON.stringify(formExtraProps)}`, () => fn(createFormComponentFn));
   }
 }
 

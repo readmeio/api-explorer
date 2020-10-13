@@ -43,7 +43,7 @@ describe('withTheme', () => {
         },
       };
       const uiSchema = {};
-      let { node } = createComponent(WrapperClassComponent({ fields }), {
+      const { node } = createComponent(WrapperClassComponent({ fields }), {
         schema,
         uiSchema,
       });
@@ -73,7 +73,7 @@ describe('withTheme', () => {
         },
       };
       const uiSchema = {};
-      let { node } = createComponent(WrapperClassComponent({ fields: themeFields }), {
+      const { node } = createComponent(WrapperClassComponent({ fields: themeFields }), {
         schema,
         uiSchema,
         fields: userFields,
@@ -105,7 +105,7 @@ describe('withTheme', () => {
         },
       };
       const uiSchema = {};
-      let { node } = createComponent(WrapperClassComponent({ fields: themeFields }), {
+      const { node } = createComponent(WrapperClassComponent({ fields: themeFields }), {
         schema,
         uiSchema,
         fields: userFields,
@@ -124,7 +124,7 @@ describe('withTheme', () => {
         type: 'string',
       };
       const uiSchema = {};
-      let { node } = createComponent(WrapperClassComponent({ widgets }), {
+      const { node } = createComponent(WrapperClassComponent({ widgets }), {
         schema,
         uiSchema,
       });
@@ -151,7 +151,7 @@ describe('withTheme', () => {
         },
       };
       const uiSchema = {};
-      let { node } = createComponent(WrapperClassComponent({ widgets: themeWidgets }), {
+      const { node } = createComponent(WrapperClassComponent({ widgets: themeWidgets }), {
         schema,
         uiSchema,
         widgets: userWidgets,
@@ -176,7 +176,7 @@ describe('withTheme', () => {
         },
       };
       const uiSchema = {};
-      let { node } = createComponent(WrapperClassComponent({ widgets: themeWidgets }), {
+      const { node } = createComponent(WrapperClassComponent({ widgets: themeWidgets }), {
         schema,
         uiSchema,
         widgets: userWidgets,
@@ -205,7 +205,7 @@ describe('withTheme', () => {
         },
       };
       const uiSchema = {};
-      let { node } = createComponent(WrapperClassComponent({ ...themeTemplates }), {
+      const { node } = createComponent(WrapperClassComponent({ ...themeTemplates }), {
         schema,
         uiSchema,
       });
@@ -228,7 +228,7 @@ describe('withTheme', () => {
         type: 'object',
         properties: { foo: { type: 'string' }, bar: { type: 'string' } },
       };
-      let { node } = createComponent(WrapperClassComponent({ ...themeTemplates }), {
+      const { node } = createComponent(WrapperClassComponent({ ...themeTemplates }), {
         schema,
         ...userTemplates,
       });
