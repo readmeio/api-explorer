@@ -129,7 +129,9 @@ module.exports = (intl, setFormSubmissionListener, classReference) => class AnyO
   }
 
   hideErrorMessage() {
-    this.editor_holder.style.display = 'block'
+    if (this.editor_holder) {
+      this.editor_holder.style.display = 'block'
+    }
     this.errorMessageHtmlNode.style.display = 'none'
   }
 
@@ -140,7 +142,9 @@ module.exports = (intl, setFormSubmissionListener, classReference) => class AnyO
   }
 
   hideEditor() {
-    this.editor_holder.style.display = 'none'
+    if (this.editor_holder) {
+      this.editor_holder.style.display = 'none'
+    }
   }
 }
 

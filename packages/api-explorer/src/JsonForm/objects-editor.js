@@ -69,13 +69,22 @@ module.exports = (classReference) => class objectCustomEditor extends classRefer
       e.preventDefault()
       e.stopPropagation()
       if (this.collapsed) {
-        this.editor_holder.style.display = ''
+        if (this.editor_holder) {
+          this.editor_holder.style.display = ''
+        }
+
         this.collapsed = false
         this.setButtonText(this.collapse_control, '', 'collapse', this.translate('button_collapse'))
       } else {
         this.hideEditJSON()
-        this.editor_holder.style.display = 'none'
-        this.editjson_card_holder.style.display = 'none'
+        if (this.editor_holder) {
+          this.editor_holder.style.display = 'none'
+        }
+
+        if (this.editjson_card_holder) {
+          this.editjson_card_holder.style.display = 'none'
+        }
+
         this.collapsed = true
         this.setButtonText(this.collapse_control, '', 'expand', this.translate('button_expand'))
       }
