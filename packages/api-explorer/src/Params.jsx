@@ -4,7 +4,7 @@ const Form = require('@readme/oas-form').default;
 const slug = require('lodash.kebabcase');
 const extensions = require('@readme/oas-extensions');
 
-const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/lib/components/widgets').default;
+const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
 
 const Oas = require('@readme/oas-tooling');
 const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');

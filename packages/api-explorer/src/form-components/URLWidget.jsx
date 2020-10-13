@@ -1,4 +1,4 @@
-const URLWidget = require('@readme/oas-form/lib/components/widgets/URLWidget').default;
+const URLWidget = require('@readme/oas-form/src/components/widgets/URLWidget').default;
 
 function createURLWidget(explorerEnabled) {
   // Return a function that renders null when the explorer is disabled

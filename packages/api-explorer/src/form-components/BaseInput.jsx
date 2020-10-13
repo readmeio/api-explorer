@@ -1,4 +1,4 @@
-const BaseInput = require('@readme/oas-form/lib/components/widgets/BaseInput').default;
+const BaseInput = require('@readme/oas-form/src/components/widgets/BaseInput').default;
 
 function createBaseInput(explorerEnabled) {
   // Return a function that renders null when the explorer is disabled

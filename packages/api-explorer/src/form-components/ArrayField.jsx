@@ -1,8 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const BaseArrayField = require('@readme/oas-form/lib/components/fields/ArrayField').default;
-const { getDefaultRegistry, retrieveSchema } = require('@readme/oas-form/lib/utils');
+const BaseArrayField = require('@readme/oas-form/src/components/fields/ArrayField').default;
+const { getDefaultRegistry, retrieveSchema } = require('@readme/oas-form/src/utils');
 
 function createArrayField(explorerEnabled) {
   function hasPrimitives(props) {

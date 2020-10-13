@@ -3,8 +3,8 @@ require('../../style/main.scss');
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const BaseSchemaField = require('@readme/oas-form/lib/components/fields/SchemaField').default;
-const { ADDITIONAL_PROPERTY_FLAG, findSchemaDefinition } = require('@readme/oas-form/lib/utils');
+const BaseSchemaField = require('@readme/oas-form/src/components/fields/SchemaField').default;
+const { ADDITIONAL_PROPERTY_FLAG, findSchemaDefinition } = require('@readme/oas-form/src/utils');
 
 function getDefaultNumFormat(type) {
   if (type === 'integer') return 'int32';
