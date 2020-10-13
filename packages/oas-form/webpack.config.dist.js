@@ -10,8 +10,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
-    filename: 'react-jsonschema-form.js',
-    library: 'JSONSchemaForm',
+    filename: 'oas-form.js',
+    library: 'OASForm',
     libraryTarget: 'umd',
   },
   plugins: [
