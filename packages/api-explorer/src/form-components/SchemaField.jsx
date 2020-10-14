@@ -107,8 +107,11 @@ function SchemaField(props) {
     delete schema.$ref;
   }
 
-  if (!doesFormatExist(props.registry.widgets, schema.type, schema.format)) {
-    schema.format = undefined;
+  // If we have a format that isn't recognized by any widget that we've set up in the form, we should remove it because
+  // we won't know how to render it and schemas without a format will just get rendered automatically a `string`
+  // anyways.
+  if (schema.format && !doesFormatExist(props.registry.widgets, schema.type, schema.format)) {
+    delete schema.format;
   }
 
   if ('name' in props) {
