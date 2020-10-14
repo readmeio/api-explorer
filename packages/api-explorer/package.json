@@ -11,7 +11,7 @@
     "@readme/oas-form": "^1.0.0",
     "@readme/oas-to-har": "^7.6.0",
     "@readme/oas-to-snippet": "^7.6.0",
-    "@readme/oas-tooling": "^3.6.0",
+    "@readme/oas-tooling": "^3.6.1",
     "@readme/syntax-highlighter": "^10.0.0",
     "@readme/variable": "^7.5.0",
     "classnames": "^2.2.5",
