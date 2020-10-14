@@ -147,6 +147,23 @@ test('should not throw on unknown string format', () => {
   expect(params.find('input')).toHaveLength(1);
 });
 
+// If we have `readOnly` and `allOf` on the same level, with no `format` or `type`, we want to make sure that the form
+// can get properly rendered out, and nothing gets added to either schema that'll cause them to not be able to be merged
+// into each other by `@readme/oas-form`.
+//
+// https://github.com/readmeio/api-explorer/issues/967
+test('should not throw on a readOnly + allOf schema', () => {
+  const testOas = new Oas(polymorphism);
+
+  expect(() => {
+    mount(
+      <div>
+        <Params {...props} oas={testOas} operation={testOas.operation('/pets', 'put')} />
+      </div>
+    );
+  }).not.toThrow('Unsupported field schema for field `body-putpets__self`: Unknown field type undefined.');
+});
+
 test('should convert `mixed type` to string', () => {
   const params = renderParams({ type: 'mixed type' });
 
