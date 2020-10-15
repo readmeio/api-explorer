@@ -1,3 +1,10 @@
+## <small>7.6.1 (2020-10-15)</small>
+
+* fix: don't look for `$ref` in string examples ([59c5d18](https://github.com/readmeio/api-explorer/commit/59c5d18))
+* fix: only attempt to render json examples if they're a json media type ([892c094](https://github.com/readmeio/api-explorer/commit/892c094))
+
+
+
 ## 7.6.0 (2020-10-12)
 
 * chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.4 to 1.15.5 (#977) ([bed2a7d](https://github.com/readmeio/api-explorer/commit/bed2a7d)), closes [#977](https://github.com/readmeio/api-explorer/issues/977)
