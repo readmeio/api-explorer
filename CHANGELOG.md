@@ -1,3 +1,10 @@
+## <small>8.0.1 (2020-10-15)</small>
+
+* chore(deps): upgrading @readme/markdown to hide code copy buttons (#986) ([bcd6478](https://github.com/readmeio/api-explorer/commit/bcd6478)), closes [#986](https://github.com/readmeio/api-explorer/issues/986)
+* chore(deps): upgrading `@readme/oas-tooling` to fix a flattenSchema bug (#985) ([7855a26](https://github.com/readmeio/api-explorer/commit/7855a26)), closes [#985](https://github.com/readmeio/api-explorer/issues/985)
+
+
+
 ## 8.0.0 (2020-10-14)
 
 * docs: adding a summary to the `/examples` example defn ([a1a2cfa](https://github.com/readmeio/api-explorer/commit/a1a2cfa))
