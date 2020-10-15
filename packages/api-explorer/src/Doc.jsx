@@ -154,11 +154,11 @@ class Doc extends React.Component {
   }
 
   openTutorial({ tutorial: selectedTutorial }) {
-    this.setState(prevState => ({ showTutorialModal: true, selectedTutorial }));
+    this.setState(() => ({ showTutorialModal: true, selectedTutorial }));
   }
 
   closeTutorialModal() {
-    this.setState(prevState => ({ showTutorialModal: false, selectedTutorial: null }));
+    this.setState(() => ({ showTutorialModal: false, selectedTutorial: null }));
   }
 
   mainTheme(doc) {
@@ -410,8 +410,8 @@ class Doc extends React.Component {
               )}
             </header>
             <div className="tutorialtile-container">
-              {doc.tutorials && doc.tutorials.length && doc.tutorials.map(t => (
-                <TutorialTile openTutorial={this.openTutorial} tutorial={t} />
+              {doc.tutorials && doc.tutorials.length && doc.tutorials.map((t, idx) => (
+                <TutorialTile key={`tutorial-${idx}`} openTutorial={this.openTutorial} tutorial={t} />
               ))}
               <TutorialTile openTutorial={this.openTutorial} tutorial={tutorial} />
             </div>
@@ -496,6 +496,7 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
+  tutorials: PropTypes.arrayOf(PropTypes.shape({})),
   useNewMarkdownEngine: PropTypes.bool,
   user: PropTypes.shape({}),
 };
