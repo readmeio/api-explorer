@@ -1,3 +1,10 @@
+## <small>7.6.1 (2020-10-15)</small>
+
+* fix: don't look for `$ref` in string examples ([59c5d18](https://github.com/readmeio/api-explorer/commit/59c5d18))
+* fix: only attempt to render json examples if they're a json media type ([892c094](https://github.com/readmeio/api-explorer/commit/892c094))
+
+
+
 ## <small>8.0.1 (2020-10-15)</small>
 
 * chore(deps): upgrading @readme/markdown to hide code copy buttons (#986) ([bcd6478](https://github.com/readmeio/api-explorer/commit/bcd6478)), closes [#986](https://github.com/readmeio/api-explorer/issues/986)
