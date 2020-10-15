@@ -140,6 +140,20 @@
         }
       }
     },
+    "/single-media-type-single-example-in-example-prop-thats-a-string": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": "column1,column2,column3,column4"
+              }
+            }
+          }
+        }
+      }
+    },
     "/single-media-type-single-example": {
       "get": {
         "responses": {
@@ -154,6 +168,70 @@
                       "name": "Fluffy",
                       "petType": "Cat"
                     }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed",
+            "content": {
+              "application/xml": {
+                "examples": {
+                  "response": {
+                    "value":
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/single-media-type-single-example-in-examples-prop-that-are-strings": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "cat": {
+                    "summary": "An example of a cat",
+                    "value": "{\n  \"name\": \"Fluffy\",\n  \"petType\": \"Cat\"\n}"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed",
+            "content": {
+              "application/xml": {
+                "examples": {
+                  "response": {
+                    "value":
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/single-media-type-single-example-in-examples-prop-that-are-arrays": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "cat": {
+                    "summary": "An example of a cat",
+                    "value": "[\n  {\n    \"name\": \"Fluffy\",\n    \"petType\": \"Cat\"\n  }\n]"
                   }
                 }
               }

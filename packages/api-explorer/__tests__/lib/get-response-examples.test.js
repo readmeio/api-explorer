@@ -50,6 +50,22 @@ describe('#getResponseExamples', () => {
         },
       ]);
     });
+
+    it('should not fail if the example is a string', () => {
+      const operation = oas.operation('/single-media-type-single-example-in-example-prop-thats-a-string', 'get');
+      expect(getResponseExamples(operation, oas)).toStrictEqual([
+        {
+          status: '200',
+          languages: [
+            {
+              language: 'application/json',
+              code: 'column1,column2,column3,column4',
+              multipleExamples: false,
+            },
+          ],
+        },
+      ]);
+    });
   });
 
   describe('`examples`', () => {
@@ -104,6 +120,70 @@ describe('#getResponseExamples', () => {
             },
           ],
           status: 'default',
+        },
+      ]);
+    });
+
+    it('should not fail if the example is a string', () => {
+      const operation = oas.operation('/single-media-type-single-example-in-examples-prop-that-are-strings', 'get');
+
+      expect(getResponseExamples(operation, oas)).toStrictEqual([
+        {
+          languages: [
+            {
+              code: encodeJsonExample({
+                name: 'Fluffy',
+                petType: 'Cat',
+              }),
+              language: 'application/json',
+              multipleExamples: false,
+            },
+          ],
+          status: '200',
+        },
+        {
+          languages: [
+            {
+              code:
+                '<?xml version="1.0" encoding="UTF-8"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>',
+              language: 'application/xml',
+              multipleExamples: false,
+            },
+          ],
+          status: '400',
+        },
+      ]);
+    });
+
+    it('should not fail if the example is an array', () => {
+      const operation = oas.operation('/single-media-type-single-example-in-examples-prop-that-are-arrays', 'get');
+
+      expect(getResponseExamples(operation, oas)).toStrictEqual([
+        {
+          languages: [
+            {
+              code: encodeJsonExample([
+                {
+                  name: 'Fluffy',
+                  petType: 'Cat',
+                },
+              ]),
+              language: 'application/json',
+              multipleExamples: false,
+            },
+          ],
+          status: '200',
+        },
+        {
+          languages: [
+            {
+              code:
+                '<?xml version="1.0" encoding="UTF-8"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>',
+              language: 'application/xml',
+              multipleExamples: false,
+            },
+          ],
+          status: '400',
         },
       ]);
     });

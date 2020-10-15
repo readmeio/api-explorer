@@ -39,7 +39,7 @@ function getExample(response, lang, oas) {
     example = response.content[lang].examples[example];
     if (example !== null && typeof example === 'object') {
       if ('value' in example) {
-        if ('$ref' in example.value) {
+        if (typeof example.value === 'object' && '$ref' in example.value) {
           return findSchemaDefinition(example.value.$ref, oas);
         }
         return example.value;
@@ -59,10 +59,12 @@ function getMultipleExamples(response, mediaType, oas) {
   const multipleExamples = Object.keys(examples).map(key => {
     let example = examples[key];
     if (example !== null && typeof example === 'object') {
-      if ('$ref' in example.value) {
-        example = findSchemaDefinition(example.value.$ref, oas);
-      } else if ('value' in example) {
-        example = example.value;
+      if ('value' in example) {
+        if (typeof example.value === 'object' && '$ref' in example.value) {
+          example = findSchemaDefinition(example.value.$ref, oas);
+        } else {
+          example = example.value;
+        }
       }
 
       example = JSON.stringify(example, undefined, 2);
