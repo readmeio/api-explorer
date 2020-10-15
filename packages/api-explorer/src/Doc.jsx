@@ -79,7 +79,6 @@ class Doc extends React.Component {
     this.waypointEntered = this.waypointEntered.bind(this);
     this.openTutorial = this.openTutorial.bind(this);
     this.closeTutorialModal = this.closeTutorialModal.bind(this);
-    this.Params = createParams(this.oas);
   }
 
   onChange(formData) {
