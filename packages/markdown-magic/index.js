@@ -49,7 +49,7 @@ module.exports = function markdown(text, opts = {}) {
     .use(variableParser.sanitize(sanitize))
     .use(!opts.correctnewlines ? breaks : () => {})
     .use(gemojiParser.sanitize(sanitize))
-    .use(remarkRehype, { allowDangerousHTML: true })
+    .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSanitize)
     .use(rehypeReact, {

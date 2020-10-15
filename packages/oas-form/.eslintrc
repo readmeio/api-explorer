@@ -1,0 +1,41 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "@readme/eslint-config",
+    "@readme/eslint-config/react"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "root": true,
+  "rules": {
+    "camelcase": "off",
+    "class-methods-use-this": "off",
+    "default-case": "off",
+    "guard-for-in": "off",
+
+    "import/no-cycle": "off",
+
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/no-autofocus": "off",
+
+    "no-console": "off",
+    "no-restricted-globals": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
+    "no-prototype-builtins": "off",
+    "no-restricted-syntax": "off",
+    "no-shadow": "off", // These should get fixed!
+    "no-underscore-dangle": "off",
+    "no-unused-expressions": "off", // These should get fixed!
+    "no-use-before-define": "off",
+
+    "react/display-name": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": "off",
+
+    "sonarjs/no-identical-functions": "off" // These should get fixed!
+  }
+}

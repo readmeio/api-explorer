@@ -37,6 +37,50 @@
             "description": "Updated"
           }
         }
+      },
+      "put": {
+        "summary": "allOf with a readOnly prop",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "_self": {
+                    "readOnly": true,
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/linkBase"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "source": {
+                                "$ref": "#/components/schemas/linkBase"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "id": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
       }
     }
   },
@@ -93,6 +137,25 @@
             }
           }
         ]
+      },
+      "linkBase": {
+        "type": "object",
+        "required": [
+          "href",
+          "rel"
+        ],
+        "properties": {
+          "href": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "readOnly": true
+          }
+        }
       }
     }
   }

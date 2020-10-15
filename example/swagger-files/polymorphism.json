@@ -254,6 +254,445 @@
         }
       }
     },
+    "/one-of-complex": {
+      "post": {
+        "summary": "oneOf object with a complex schema",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "oneOf": [
+                  {
+                    "title": "Andalucia",
+                    "type": "object",
+                    "properties": {
+                      "listing_id": {
+                        "type": "integer"
+                      },
+                      "regulatory_body": {
+                        "type": "string"
+                      },
+                      "registration": {
+                        "type": "object",
+                        "properties": {
+                          "permit_number": {
+                            "type": "string"
+                          },
+                          "registration_ownership": {
+                            "type": "string",
+                            "enum": [
+                              "OWNER",
+                              "PROPERTY_MANAGER"
+                            ]
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "full_name": {
+                            "type": "string"
+                          },
+                          "identification_number": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "permit_number",
+                          "registration_ownership",
+                          "email",
+                          "full_name",
+                          "identification_number"
+                        ]
+                      },
+                      "exemption": {
+                        "type": "object",
+                        "properties": {
+                          "reason": {
+                            "type": "string",
+                            "enum": [
+                              "LISTING_TYPE_NOT_INCLUDED",
+                              "LISTING_NOT_TOURIST_ACCOMMODATION"
+                            ]
+                          },
+                          "registration_ownership": {
+                            "type": "string",
+                            "enum": [
+                              "OWNER",
+                              "PROPERTY_MANAGER"
+                            ]
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "full_name": {
+                            "type": "string"
+                          },
+                          "identification_number": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "reason",
+                          "registration_ownership",
+                          "email",
+                          "full_name",
+                          "identification_number"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "listing_id",
+                      "regulatory_body"
+                    ]
+                  },
+                  {
+                    "title": "Baltimore",
+                    "type": "object",
+                    "properties": {
+                      "listing_id": {
+                        "type": "integer"
+                      },
+                      "regulatory_body": {
+                        "type": "string"
+                      },
+                      "registration": {
+                        "type": "object",
+                        "properties": {
+                          "permit_number": {
+                            "type": "string"
+                          },
+                          "expiration_date": {
+                            "type": "string"
+                          },
+                          "full_name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "listing_address": {
+                            "type": "string"
+                          },
+                          "attestation_existing_registration": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "permit_number",
+                          "expiration_date",
+                          "full_name",
+                          "email",
+                          "listing_address",
+                          "attestation_existing_registration"
+                        ]
+                      },
+                      "exemption": {
+                        "type": "object",
+                        "properties": {
+                          "exemption_reason": {
+                            "type": "string",
+                            "enum": [
+                              "hotel_motel"
+                            ]
+                          },
+                          "full_name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "attestation_exemption_claim": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "exemption_reason",
+                          "full_name",
+                          "email",
+                          "attestation_exemption_claim"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "listing_id",
+                      "regulatory_body"
+                    ]
+                  },
+                  {
+                    "title": "Boston",
+                    "type": "object",
+                    "properties": {
+                      "listing_id": {
+                        "type": "integer"
+                      },
+                      "regulatory_body": {
+                        "type": "string"
+                      },
+                      "registration": {
+                        "type": "object",
+                        "properties": {
+                          "permit_number": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "full_name": {
+                            "type": "string"
+                          },
+                          "listing_address": {
+                            "type": "string"
+                          },
+                          "attestation": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "permit_number",
+                          "email",
+                          "full_name",
+                          "listing_address",
+                          "attestation"
+                        ]
+                      },
+                      "exemption": {
+                        "type": "object",
+                        "properties": {
+                          "exemption_reason": {
+                            "type": "string",
+                            "enum": [
+                              "hotel_motel",
+                              "bed_breakfast_lodging",
+                              "institutional_business",
+                              "hospitals"
+                            ]
+                          },
+                          "listing_address": {
+                            "type": "string"
+                          },
+                          "attestation": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "exemption_reason",
+                          "listing_address",
+                          "attestation"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "listing_id",
+                      "regulatory_body"
+                    ]
+                  },
+                  {
+                    "title": "Catalonia",
+                    "type": "object",
+                    "properties": {
+                      "listing_id": {
+                        "type": "integer"
+                      },
+                      "regulatory_body": {
+                        "type": "string"
+                      },
+                      "registration": {
+                        "type": "object",
+                        "properties": {
+                          "permit_number": {
+                            "type": "string"
+                          },
+                          "registration_ownership": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "full_name": {
+                            "type": "string"
+                          },
+                          "identification_number": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "permit_number",
+                          "registration_ownership",
+                          "email",
+                          "full_name",
+                          "identification_number"
+                        ]
+                      },
+                      "exemption": {
+                        "type": "object",
+                        "properties": {
+                          "reason": {
+                            "type": "string",
+                            "enum": [
+                              "listing_not_full_building",
+                              "listing_is_shared_room",
+                              "other_exemption_reason"
+                            ]
+                          },
+                          "registration_ownership": {
+                            "type": "string",
+                            "enum": [
+                              "OWNER",
+                              "PROPERTY_MANAGER"
+                            ]
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "full_name": {
+                            "type": "string"
+                          },
+                          "identification_number": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "reason",
+                          "registration_ownership",
+                          "email",
+                          "full_name",
+                          "identification_number"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "listing_id",
+                      "regulatory_body"
+                    ]
+                  },
+                  {
+                    "title": "Chicago",
+                    "type": "object",
+                    "properties": {
+                      "listing_id": {
+                        "type": "integer"
+                      },
+                      "regulatory_body": {
+                        "type": "string"
+                      },
+                      "registration": {
+                        "type": "object",
+                        "properties": {
+                          "permit_number": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "permit_number"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "listing_id",
+                      "regulatory_body",
+                      "registration"
+                    ]
+                  },
+                  {
+                    "title": "Cuba",
+                    "type": "object",
+                    "properties": {
+                      "listing_id": {
+                        "type": "integer"
+                      },
+                      "regulatory_body": {
+                        "type": "string"
+                      },
+                      "affiliation": {
+                        "type": "object",
+                        "properties": {
+                          "attestation_entrepreneur": {
+                            "type": "boolean"
+                          },
+                          "listing_address": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "attestation_entrepreneur",
+                          "listing_address"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "listing_id",
+                      "regulatory_body",
+                      "affiliation"
+                    ]
+                  },
+                  {
+                    "title": "Denmark",
+                    "type": "object",
+                    "properties": {
+                      "listing_id": {
+                        "type": "integer"
+                      },
+                      "regulatory_body": {
+                        "type": "string"
+                      },
+                      "categorization": {
+                        "type": "object",
+                        "properties": {
+                          "listing_type": {
+                            "type": "string",
+                            "enum": [
+                              "primary_residence",
+                              "houseboat",
+                              "tent",
+                              "tree_house",
+                              "hotel_or_hostel",
+                              "serviced_apartment",
+                              "trailer",
+                              "mobile_home",
+                              "summer_house"
+                            ]
+                          },
+                          "data_reporting_status": {
+                            "type": "string",
+                            "enum": [
+                              "private_activity",
+                              "business_activity"
+                            ]
+                          },
+                          "data_reporting_bbr": {
+                            "type": "string"
+                          },
+                          "attestation": {
+                            "type": "boolean"
+                          },
+                          "attestation_conditional": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "listing_type"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "listing_id",
+                      "regulatory_body",
+                      "categorization"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/anything/nested-one-of-object-ref": {
       "post": {
         "summary": "nested oneOf object with $ref pointers",

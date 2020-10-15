@@ -10,7 +10,41 @@
     "version": "1.0"
   },
   "paths": {
+    "/example": {
+      "get": {
+        "description": "Showcase of responses with an `example` property present.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": 12345,
+                  "email": "test@example.com",
+                  "name": "Test user name"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 12345,
+                    "email": "test@example.com",
+                    "name": "Test user name"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "/examples": {
+      "description": "Showcase of responses with an `examples` property present.",
       "get": {
         "responses": {
           "default": {
@@ -20,11 +54,15 @@
                 "examples": {
                   "response": {
                     "value": {
-                      "user": {
-                        "email": "test@example.com",
-                        "name": "Test user name"
-                      }
+                      "$ref": "#/components/schemas/UserResponse/example"
                     }
+                  }
+                }
+              },
+              "text/csv, text/comma-separated-values": {
+                "examples": {
+                  "display_view=app": {
+                    "value": "app1,app2,app3,app4,app5"
                   }
                 }
               }
@@ -84,7 +122,16 @@
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "UserResponse": {
+        "example": {
+          "user": {
+            "email": "test@example.com",
+            "name": "Test user name"
+          }
+        }
+      }
+    },
     "responses": {
       "400-Response-Ref": {
         "description": "Validation failed",

@@ -1,11 +1,11 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
-const syntaxHighlighter = require('@readme/syntax-highlighter').default;
+const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
 
-const showCodeResults = require('./lib/show-code-results');
+const getResponseExamples = require('./lib/get-response-examples');
 const contentTypeIsJson = require('./lib/content-type-is-json');
 const upgradeLegacyResponses = require('./lib/upgrade-legacy-responses');
 
@@ -121,7 +121,7 @@ class ResponseExample extends React.Component {
     );
   }
 
-  showExamples(language, examples, mediaTypes, ex, responseMediaType) {
+  showExamples(language, isJSON, examples, mediaTypes, ex, responseMediaType) {
     const { responseExample } = this.state;
     let responseExampleCopy = responseExample;
     if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
@@ -151,6 +151,12 @@ class ResponseExample extends React.Component {
 
         {examples.map((example, index) => {
           try {
+            if (!isJSON) {
+              // This example isn't for a JSON content type so we shouldn't bother trying to feed it into
+              // `getReactJSON`.
+              throw Error;
+            }
+
             return (
               <div key={index} className="example example_json">
                 {getReactJson(example, responseExampleCopy)}
@@ -176,6 +182,7 @@ class ResponseExample extends React.Component {
     const { operation, result, oas, exampleResponses } = this.props;
     const selectedTab = this.state.exampleTab;
     const { responseMediaType, responseMediaTypeExample } = this.state;
+    const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
     let examples;
     if (exampleResponses.length) {
@@ -184,7 +191,7 @@ class ResponseExample extends React.Component {
       // legacy shape so we need to adhoc rewrite them to fit this new work.
       examples = upgradeLegacyResponses(exampleResponses);
     } else {
-      examples = showCodeResults(operation, oas);
+      examples = getResponseExamples(operation, oas);
     }
 
     const hasExamples = examples.find(e => {
@@ -239,6 +246,7 @@ class ResponseExample extends React.Component {
                       {example.multipleExamples &&
                         this.showExamples(
                           example.language,
+                          isJson,
                           example.multipleExamples,
                           mediaTypes,
                           ex,
@@ -263,7 +271,7 @@ class ResponseExample extends React.Component {
 
         {(examples.length === 0 || (!hasExamples && result === null)) && (
           <div className="hub-no-code">
-            {oas[extensions.EXPLORER_ENABLED] ? 'Try the API to see Results' : 'No response examples available'}
+            {explorerEnabled ? 'Try the API to see Results' : 'No response examples available'}
           </div>
         )}
       </div>
@@ -273,6 +281,7 @@ class ResponseExample extends React.Component {
 
 ResponseExample.propTypes = {
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  explorerEnabled: PropTypes.bool,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,

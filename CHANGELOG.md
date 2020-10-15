@@ -1,3 +1,64 @@
+## <small>7.6.1 (2020-10-15)</small>
+
+* fix: don't look for `$ref` in string examples ([59c5d18](https://github.com/readmeio/api-explorer/commit/59c5d18))
+* fix: only attempt to render json examples if they're a json media type ([892c094](https://github.com/readmeio/api-explorer/commit/892c094))
+
+
+
+## <small>8.0.1 (2020-10-15)</small>
+
+* chore(deps): upgrading @readme/markdown to hide code copy buttons (#986) ([bcd6478](https://github.com/readmeio/api-explorer/commit/bcd6478)), closes [#986](https://github.com/readmeio/api-explorer/issues/986)
+* chore(deps): upgrading `@readme/oas-tooling` to fix a flattenSchema bug (#985) ([7855a26](https://github.com/readmeio/api-explorer/commit/7855a26)), closes [#985](https://github.com/readmeio/api-explorer/issues/985)
+
+
+
+## 8.0.0 (2020-10-14)
+
+* docs: adding a summary to the `/examples` example defn ([a1a2cfa](https://github.com/readmeio/api-explorer/commit/a1a2cfa))
+* fix: don't set a format on the schema if we don't recognize it (#984) ([878551c](https://github.com/readmeio/api-explorer/commit/878551c)), closes [#984](https://github.com/readmeio/api-explorer/issues/984) [#967](https://github.com/readmeio/api-explorer/issues/967)
+* chore: removing a heap of unused oas-form packages (#983) ([6446ca9](https://github.com/readmeio/api-explorer/commit/6446ca9)), closes [#983](https://github.com/readmeio/api-explorer/issues/983) [#982](https://github.com/readmeio/api-explorer/issues/982)
+* feat: pull in our react-jsonschema-form fork to this repo (#981) ([ade4ea0](https://github.com/readmeio/api-explorer/commit/ade4ea0)), closes [#981](https://github.com/readmeio/api-explorer/issues/981) [#982](https://github.com/readmeio/api-explorer/issues/982)
+
+
+
+## 7.6.0 (2020-10-12)
+
+* chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.4 to 1.15.5 (#977) ([bed2a7d](https://github.com/readmeio/api-explorer/commit/bed2a7d)), closes [#977](https://github.com/readmeio/api-explorer/issues/977)
+* chore(deps): bump @readme/markdown from 6.20.0 to 6.20.1 (#976) ([736c90a](https://github.com/readmeio/api-explorer/commit/736c90a)), closes [#976](https://github.com/readmeio/api-explorer/issues/976)
+* chore(deps): bump whatwg-fetch from 3.4.0 to 3.4.1 (#978) ([0187cc1](https://github.com/readmeio/api-explorer/commit/0187cc1)), closes [#978](https://github.com/readmeio/api-explorer/issues/978)
+* fix: camelcase "allowDangerousHtml" (#968) ([35f3d4a](https://github.com/readmeio/api-explorer/commit/35f3d4a)), closes [#968](https://github.com/readmeio/api-explorer/issues/968)
+* fix: updating our rjsf fork to fix a bug with oneOf stateloss (#980) ([468cc1e](https://github.com/readmeio/api-explorer/commit/468cc1e)), closes [#980](https://github.com/readmeio/api-explorer/issues/980)
+* feat: adding support for the `example` property on responses (#969) ([4313ec8](https://github.com/readmeio/api-explorer/commit/4313ec8)), closes [#969](https://github.com/readmeio/api-explorer/issues/969) [#922](https://github.com/readmeio/api-explorer/issues/922)
+
+
+
+## 7.5.0 (2020-10-07)
+
+* chore: stop storing package dist files in source control (#966) ([b096d5b](https://github.com/readmeio/api-explorer/commit/b096d5b)), closes [#966](https://github.com/readmeio/api-explorer/issues/966)
+* fix: parse example.response.value.$ref rather than render as plain text (#961) ([05dfc97](https://github.com/readmeio/api-explorer/commit/05dfc97)), closes [#961](https://github.com/readmeio/api-explorer/issues/961)
+* feat: operation level extensions (#940) ([198e86e](https://github.com/readmeio/api-explorer/commit/198e86e)), closes [#940](https://github.com/readmeio/api-explorer/issues/940)
+
+
+
+## 7.4.0 (2020-10-05)
+
+* build: updating dists ([6aea4cc](https://github.com/readmeio/api-explorer/commit/6aea4cc))
+* chore(deps-dev): bump @babel/core from 7.11.4 to 7.11.6 (#954) ([2178a2b](https://github.com/readmeio/api-explorer/commit/2178a2b)), closes [#954](https://github.com/readmeio/api-explorer/issues/954)
+* chore(deps-dev): bump @babel/preset-env from 7.10.2 to 7.11.5 (#934) ([5324d58](https://github.com/readmeio/api-explorer/commit/5324d58)), closes [#934](https://github.com/readmeio/api-explorer/issues/934)
+* chore(deps-dev): bump @readme/eslint-config from 3.4.3 to 3.5.0 (#957) ([4ef5f9c](https://github.com/readmeio/api-explorer/commit/4ef5f9c)), closes [#957](https://github.com/readmeio/api-explorer/issues/957)
+* chore(deps-dev): bump css-loader from 3.5.3 to 4.3.0 (#944) ([4656e48](https://github.com/readmeio/api-explorer/commit/4656e48)), closes [#944](https://github.com/readmeio/api-explorer/issues/944)
+* chore(deps-dev): bump eslint from 7.8.1 to 7.10.0 (#960) ([3a0e0bc](https://github.com/readmeio/api-explorer/commit/3a0e0bc)), closes [#960](https://github.com/readmeio/api-explorer/issues/960)
+* chore(deps-dev): bump node-sass from 4.13.1 to 4.14.1 (#779) ([c34d3e1](https://github.com/readmeio/api-explorer/commit/c34d3e1)), closes [#779](https://github.com/readmeio/api-explorer/issues/779)
+* chore(deps-dev): bump prettier from 2.1.1 to 2.1.2 (#955) ([54edfa4](https://github.com/readmeio/api-explorer/commit/54edfa4)), closes [#955](https://github.com/readmeio/api-explorer/issues/955)
+* chore(deps-dev): bump sass-loader from 7.3.1 to 10.0.2 (#932) ([78a8e07](https://github.com/readmeio/api-explorer/commit/78a8e07)), closes [#932](https://github.com/readmeio/api-explorer/issues/932)
+* chore(deps-dev): bump webpack from 4.44.1 to 4.44.2 (#952) ([b3dc40c](https://github.com/readmeio/api-explorer/commit/b3dc40c)), closes [#952](https://github.com/readmeio/api-explorer/issues/952)
+* chore(deps): bump @readme/markdown from 6.18.0 to 6.20.0 (#953) ([549c005](https://github.com/readmeio/api-explorer/commit/549c005)), closes [#953](https://github.com/readmeio/api-explorer/issues/953)
+* chore(deps): bump actions/checkout from v2.3.2 to v2.3.3 (#959) ([b5c6b59](https://github.com/readmeio/api-explorer/commit/b5c6b59)), closes [#959](https://github.com/readmeio/api-explorer/issues/959)
+* chore(deps): bump actions/setup-node from v2.1.1 to v2.1.2 (#963) ([6055a52](https://github.com/readmeio/api-explorer/commit/6055a52)), closes [#963](https://github.com/readmeio/api-explorer/issues/963)
+* chore(deps): upgrading @readme/syntax-highlighter to 10.0.0 (#964) ([93d0ab7](https://github.com/readmeio/api-explorer/commit/93d0ab7)), closes [#964](https://github.com/readmeio/api-explorer/issues/964)
+
+
+
 ## 7.3.0 (2020-09-18)
 
 * build: updating dist files ([77a8193](https://github.com/readmeio/api-explorer/commit/77a8193))

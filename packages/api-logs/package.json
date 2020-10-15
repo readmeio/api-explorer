@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "7.2.3",
+  "version": "8.0.0",
   "main": "dist/index.js",
   "dependencies": {
     "async-retry": "^1.2.3",

@@ -69,11 +69,13 @@ class Doc extends React.Component {
       showTutorialModal: false,
     };
 
+    this.hideResults = this.hideResults.bind(this);
     this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
     this.onSubmit = this.onSubmit.bind(this);
+    this.operation = this.getOperation();
+    this.Params = createParams(this.oas, this.operation);
     this.toggleAuth = this.toggleAuth.bind(this);
-    this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
     this.openTutorial = this.openTutorial.bind(this);
     this.closeTutorialModal = this.closeTutorialModal.bind(this);
@@ -90,9 +92,7 @@ class Doc extends React.Component {
   }
 
   onSubmit() {
-    const operation = this.getOperation();
-
-    if (!isAuthReady(operation, this.props.auth)) {
+    if (!isAuthReady(this.operation, this.props.auth)) {
       this.setState({ showAuthBox: true });
       setTimeout(() => {
         this.authInput.focus();
@@ -103,7 +103,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, operation, this.state.formData, this.props.auth, {
+    const har = oasToHar(this.oas, this.operation, this.state.formData, this.props.auth, {
       proxyUrl: true,
     });
 
@@ -405,7 +405,7 @@ class Doc extends React.Component {
               <h2>{doc.title}</h2>
               {doc.excerpt && (
                 <div className="markdown-body excerpt">
-                  {useNewMarkdownEngine ? markdown(doc.excerpt) : markdownMagic(doc.excerpt)}
+                  {useNewMarkdownEngine ? markdown(doc.excerpt, { copyButtons: false }) : markdownMagic(doc.excerpt)}
                 </div>
               )}
             </header>

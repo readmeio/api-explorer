@@ -2,7 +2,7 @@ const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('@readme/oas-tooling');
-const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/react-jsonschema-form/lib/utils');
+const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/oas-form/src/utils');
 
 const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
@@ -145,6 +145,23 @@ test('should not throw on unknown string format', () => {
   );
 
   expect(params.find('input')).toHaveLength(1);
+});
+
+// If we have `readOnly` and `allOf` on the same level, with no `format` or `type`, we want to make sure that the form
+// can get properly rendered out, and nothing gets added to either schema that'll cause them to not be able to be merged
+// into each other by `@readme/oas-form`.
+//
+// https://github.com/readmeio/api-explorer/issues/967
+test('should not throw on a readOnly + allOf schema', () => {
+  const testOas = new Oas(polymorphism);
+
+  expect(() => {
+    mount(
+      <div>
+        <Params {...props} oas={testOas} operation={testOas.operation('/pets', 'put')} />
+      </div>
+    );
+  }).not.toThrow('Unsupported field schema for field `body-putpets__self`: Unknown field type undefined.');
 });
 
 test('should convert `mixed type` to string', () => {
@@ -396,6 +413,21 @@ describe('x-explorer-enabled', () => {
         />
       ).find('input[type="file"]')
     ).toHaveLength(0);
+  });
+
+  it('should check the operation level extensions first', () => {
+    const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
+    operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
+
+    expect(
+      mount(
+        <ParamsWithExplorerDisabled
+          {...props}
+          oas={new Oas(oasWithExplorerDisabled)}
+          operation={operationExplorerEnabled}
+        />
+      ).find('input[type="file"]')
+    ).toHaveLength(1);
   });
 });
 

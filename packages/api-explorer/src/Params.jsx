@@ -1,13 +1,10 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Form = require('@readme/react-jsonschema-form').default;
+const Form = require('@readme/oas-form').default;
 const slug = require('lodash.kebabcase');
+const extensions = require('@readme/oas-extensions');
 
-const {
-  PasswordWidget,
-  TextWidget,
-  UpDownWidget,
-} = require('@readme/react-jsonschema-form/lib/components/widgets').default;
+const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
 
 const Oas = require('@readme/oas-tooling');
 const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
@@ -154,16 +151,19 @@ Params.defaultProps = {
 };
 
 function createParams(oas) {
-  const ArrayField = createArrayField(oas);
-  const BaseInput = createBaseInput(oas);
-  const FileWidget = createFileWidget(oas);
-  const SchemaField = createSchemaField();
-  const SelectWidget = createSelectWidget(oas);
-  const TextareaWidget = createTextareaWidget(oas);
-  const URLWidget = createURLWidget(oas);
-
   // eslint-disable-next-line react/display-name
   return props => {
+    // eslint-disable-next-line react/prop-types
+    const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, props.operation);
+
+    const ArrayField = createArrayField(explorerEnabled);
+    const BaseInput = createBaseInput(explorerEnabled);
+    const FileWidget = createFileWidget(explorerEnabled);
+    const SchemaField = createSchemaField();
+    const SelectWidget = createSelectWidget(explorerEnabled);
+    const TextareaWidget = createTextareaWidget(explorerEnabled);
+    const URLWidget = createURLWidget(explorerEnabled);
+
     return (
       <Params
         {...props}
