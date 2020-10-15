@@ -9,7 +9,7 @@
     "@readme/oas-to-har": "^8.0.1",
     "@readme/oas-tooling": "^3.6.1",
     "@readme/syntax-highlighter": "^10.0.0",
-    "httpsnippet-client-api": "^2.3.0"
+    "httpsnippet-client-api": "^2.3.3"
   },
   "scripts": {
     "lint": "eslint .",
