@@ -9,15 +9,12 @@ test.each([[true], [false]])('should parse description as markdown [new markdown
 
   let html;
   if (useNewMarkdownEngine) {
-    html = mount(markdown.react(actual)).html();
+    html = mount(markdown.react(actual, { copyButtons: false })).html();
   } else {
     html = shallow(markdownMagic(actual)).html();
   }
 
-  // I wanted to use http://airbnb.io/enzyme/docs/api/ShallowWrapper/contains.html here but it wasnt working
-  expect(
-    shallow(<DescriptionField description={actual} formContext={{ useNewMarkdownEngine }} />)
-      .html()
-      .indexOf(html) > 1
-  ).toBe(true);
+  expect(shallow(<DescriptionField description={actual} formContext={{ useNewMarkdownEngine }} />).html()).toContain(
+    html
+  );
 });
