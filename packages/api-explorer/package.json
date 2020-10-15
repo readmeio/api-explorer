@@ -13,7 +13,7 @@
     "@readme/oas-tooling": "^3.5.11",
     "@readme/react-jsonschema-form": "^1.2.1",
     "@readme/syntax-highlighter": "^9.0.1",
-    "@readme/ui": "^1.8.2",
+    "@readme/ui": "^1.10.0",
     "@readme/variable": "^7.3.0",
     "classnames": "^2.2.5",
     "fetch-har": "^4.0.2",
@@ -23,6 +23,7 @@
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-debounce-input": "^3.2.0",
+    "react-dom": "^16.13.1",
     "react-json-view": "^1.19.1",
     "react-waypoint": "^9.0.2",
     "whatwg-fetch": "^3.0.0"

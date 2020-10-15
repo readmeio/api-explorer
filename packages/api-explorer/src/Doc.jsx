@@ -9,7 +9,9 @@ const oasToHar = require('@readme/oas-to-har');
 const Oas = require('@readme/oas-tooling');
 const { getPath } = require('@readme/oas-tooling/utils');
 
-const { TutorialTile } = require('@readme/ui/lib/ui/compositions');
+const { TutorialTile, TutorialModal } = require('@readme/ui');
+require('@readme/ui/.bundles/umd/main.css');
+// const { TutorialTile, TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
 const isAuthReady = require('./lib/is-auth-ready');
 
@@ -29,26 +31,27 @@ const pkg = require('../package.json');
 const tutorial = {
   backgroundColor: '#018FF4',
   emoji: '🦉',
-  title: 'hello',
+  title: 'My Unique Title',
   description: 'hello world',
   steps: [
     {
-      title: '',
-      body: '',
+      title: 'Step One',
+      body: 'This is a description',
       isOpen: true,
-      lineNumbers: [''],
+      lineNumbers: ['1-3'],
     },
   ],
   snippet: {
     endpoint: {},
     codeOptions: [
       {
-        code: '',
-        language: 'curl',
-        name: 'Curl',
+        code: 'const res = "<<url>>";',
+        language: 'javascript',
+        name: 'index.js',
       },
     ],
   },
+  response: '',
 };
 
 class Doc extends React.Component {
@@ -62,6 +65,8 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
+      selectedTutorial: null,
+      showTutorialModal: false,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -70,6 +75,8 @@ class Doc extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.hideResults = this.hideResults.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
+    this.openTutorial = this.openTutorial.bind(this);
+    this.closeTutorialModal = this.closeTutorialModal.bind(this);
     this.Params = createParams(this.oas);
   }
 
@@ -146,6 +153,14 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
+  openTutorial({ tutorial: selectedTutorial }) {
+    this.setState(prevState => ({ showTutorialModal: true, selectedTutorial }));
+  }
+
+  closeTutorialModal() {
+    this.setState(prevState => ({ showTutorialModal: false, selectedTutorial: null }));
+  }
+
   mainTheme(doc) {
     const { useNewMarkdownEngine } = this.props;
 
@@ -154,7 +169,6 @@ class Doc extends React.Component {
         {doc.type === 'endpoint' && (
           <div className="hub-api">
             {this.renderPathUrl()}
-            <TutorialTile tutorial={tutorial} />
             <div className="hub-reference-section hub-reference-section-code">
               <div className="hub-reference-left">{this.renderCodeSample()}</div>
 
@@ -395,6 +409,12 @@ class Doc extends React.Component {
                 </div>
               )}
             </header>
+            <div className="tutorialtile-container">
+              {doc.tutorials && doc.tutorials.length && doc.tutorials.map(t => (
+                <TutorialTile openTutorial={this.openTutorial} tutorial={t} />
+              ))}
+              <TutorialTile openTutorial={this.openTutorial} tutorial={tutorial} />
+            </div>
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
@@ -405,6 +425,16 @@ class Doc extends React.Component {
           // cos we can just pass it around?
         }
         <input id={`swagger-${extensions.SEND_DEFAULTS}`} type="hidden" value={oas[extensions.SEND_DEFAULTS]} />
+        {this.state.selectedTutorial && (
+          <TutorialModal
+            action={'View'}
+            baseUrl={this.props.baseUrl}
+            closeTutorialModal={this.closeTutorialModal}
+            open={this.state.showTutorialModal}
+            target={'#tutorialmodal-root'}
+            tutorial={this.state.selectedTutorial}
+          />
+        )}
       </div>
     );
   }
