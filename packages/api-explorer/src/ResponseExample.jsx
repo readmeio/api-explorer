@@ -121,7 +121,7 @@ class ResponseExample extends React.Component {
     );
   }
 
-  showExamples(language, examples, mediaTypes, ex, responseMediaType) {
+  showExamples(language, isJSON, examples, mediaTypes, ex, responseMediaType) {
     const { responseExample } = this.state;
     let responseExampleCopy = responseExample;
     if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
@@ -151,6 +151,12 @@ class ResponseExample extends React.Component {
 
         {examples.map((example, index) => {
           try {
+            if (!isJSON) {
+              // This example isn't for a JSON content type so we shouldn't bother trying to feed it into
+              // `getReactJSON`.
+              throw Error;
+            }
+
             return (
               <div key={index} className="example example_json">
                 {getReactJson(example, responseExampleCopy)}
@@ -240,6 +246,7 @@ class ResponseExample extends React.Component {
                       {example.multipleExamples &&
                         this.showExamples(
                           example.language,
+                          isJson,
                           example.multipleExamples,
                           mediaTypes,
                           ex,
