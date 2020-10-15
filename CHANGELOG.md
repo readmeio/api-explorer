@@ -1,3 +1,12 @@
+## 8.0.0 (2020-10-14)
+
+* docs: adding a summary to the `/examples` example defn ([a1a2cfa](https://github.com/readmeio/api-explorer/commit/a1a2cfa))
+* fix: don't set a format on the schema if we don't recognize it (#984) ([878551c](https://github.com/readmeio/api-explorer/commit/878551c)), closes [#984](https://github.com/readmeio/api-explorer/issues/984) [#967](https://github.com/readmeio/api-explorer/issues/967)
+* chore: removing a heap of unused oas-form packages (#983) ([6446ca9](https://github.com/readmeio/api-explorer/commit/6446ca9)), closes [#983](https://github.com/readmeio/api-explorer/issues/983) [#982](https://github.com/readmeio/api-explorer/issues/982)
+* feat: pull in our react-jsonschema-form fork to this repo (#981) ([ade4ea0](https://github.com/readmeio/api-explorer/commit/ade4ea0)), closes [#981](https://github.com/readmeio/api-explorer/issues/981) [#982](https://github.com/readmeio/api-explorer/issues/982)
+
+
+
 ## 7.6.0 (2020-10-12)
 
 * chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.4 to 1.15.5 (#977) ([bed2a7d](https://github.com/readmeio/api-explorer/commit/bed2a7d)), closes [#977](https://github.com/readmeio/api-explorer/issues/977)
