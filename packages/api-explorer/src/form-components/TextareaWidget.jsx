@@ -1,4 +1,4 @@
-const TextareaWidget = require('@readme/react-jsonschema-form/lib/components/widgets/TextareaWidget').default;
+const TextareaWidget = require('@readme/oas-form/src/components/widgets/TextareaWidget').default;
 
 function createTextareaWidget(explorerEnabled) {
   // Return a function that renders null when the explorer is disabled

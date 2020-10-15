@@ -99,7 +99,7 @@ class ResponseSchema extends React.Component {
           {response.description &&
             (useNewMarkdownEngine ? (
               <div className="markdown-body" style={{ padding: 0 }}>
-                <div className="pin">{markdown(response.description)}</div>
+                <div className="pin">{markdown(response.description, { copyButtons: false })}</div>
               </div>
             ) : (
               <div className="desc">{markdownMagic(response.description)}</div>

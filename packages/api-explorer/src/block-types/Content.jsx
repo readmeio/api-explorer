@@ -47,8 +47,9 @@ const Content = props => {
 
   if (useNewMarkdownEngine) {
     const content = markdown(body, {
-      showAnchorIcons: splitReferenceDocs,
       compatibilityMode: flags.rdmdCompatibilityMode,
+      copyButtons: false,
+      showAnchorIcons: splitReferenceDocs,
     });
 
     if (isThreeColumn === true) {

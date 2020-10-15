@@ -3,8 +3,8 @@ require('../../style/main.scss');
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const BaseSchemaField = require('@readme/react-jsonschema-form/lib/components/fields/SchemaField').default;
-const { ADDITIONAL_PROPERTY_FLAG, findSchemaDefinition } = require('@readme/react-jsonschema-form/lib/utils');
+const BaseSchemaField = require('@readme/oas-form/src/components/fields/SchemaField').default;
+const { ADDITIONAL_PROPERTY_FLAG, findSchemaDefinition } = require('@readme/oas-form/src/utils');
 
 function getDefaultNumFormat(type) {
   if (type === 'integer') return 'int32';
@@ -107,8 +107,11 @@ function SchemaField(props) {
     delete schema.$ref;
   }
 
-  if (!doesFormatExist(props.registry.widgets, schema.type, schema.format)) {
-    schema.format = undefined;
+  // If we have a format that isn't recognized by any widget that we've set up in the form, we should remove it because
+  // we won't know how to render it and schemas without a format will just get rendered automatically a `string`
+  // anyways.
+  if (schema.format && !doesFormatExist(props.registry.widgets, schema.type, schema.format)) {
+    delete schema.format;
   }
 
   if ('name' in props) {

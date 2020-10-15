@@ -7,7 +7,7 @@ const markdownMagic = require('@readme/markdown-magic');
 
 function getDescriptionMarkdown(useNewMarkdownEngine, description) {
   if (useNewMarkdownEngine) {
-    return markdown(description);
+    return markdown(description, { copyButtons: false });
   }
 
   return markdownMagic(description);
