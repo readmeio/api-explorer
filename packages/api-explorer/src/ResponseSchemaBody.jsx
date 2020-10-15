@@ -16,7 +16,7 @@ function getSchemaType(schema) {
 
 function getDescriptionMarkdown(useNewMarkdownEngine, description) {
   if (useNewMarkdownEngine) {
-    return markdown(description);
+    return markdown(description, { copyButtons: false });
   }
 
   return markdownMagic(description);
