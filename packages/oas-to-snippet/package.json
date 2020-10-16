@@ -1,7 +1,7 @@
 {
   "name": "@readme/oas-to-snippet",
   "description": "Transform an OpenAPI operation into a code snippet",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "main": "src/index.js",
   "dependencies": {
     "@readme/httpsnippet": "^2.2.2",

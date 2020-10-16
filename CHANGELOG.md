@@ -1,3 +1,10 @@
+## <small>8.0.2 (2020-10-16)</small>
+
+* feat: swapping request module node samples with node-fetch (#988) ([4bf7464](https://github.com/readmeio/api-explorer/commit/4bf7464)), closes [#988](https://github.com/readmeio/api-explorer/issues/988)
+* fix: bugs with processing examples (#987) ([b341b3c](https://github.com/readmeio/api-explorer/commit/b341b3c)), closes [#987](https://github.com/readmeio/api-explorer/issues/987)
+
+
+
 ## <small>7.6.1 (2020-10-15)</small>
 
 * fix: don't look for `$ref` in string examples ([59c5d18](https://github.com/readmeio/api-explorer/commit/59c5d18))
