@@ -67,7 +67,7 @@ test('should pass through json values to code snippet', () => {
     oasUrl
   );
 
-  expect(code).toStrictEqual(expect.stringMatching("body: {id: '123'}"));
+  expect(code).toMatch('body: \'{"id":"123"}\'');
 });
 
 test('should pass through form encoded values to code snippet', () => {
@@ -97,7 +97,8 @@ test('should pass through form encoded values to code snippet', () => {
     oasUrl
   );
 
-  expect(code).toStrictEqual(expect.stringMatching("form: {id: '123'}"));
+  expect(code).toMatch("encodedParams.set('id', '123');");
+  expect(code).toMatch('body: encodedParams.toString()');
 });
 
 test('should not contain proxy url', () => {

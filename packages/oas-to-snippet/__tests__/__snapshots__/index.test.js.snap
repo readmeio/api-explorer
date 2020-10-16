@@ -4,7 +4,7 @@ exports[`multipart/form-data handlings should convert a multipart/form-data oper
 Object {
   "code": "curl --request POST \\\\
   --url https://example.com/multipart \\\\
-  --header 'content-type: multipart/form-data; boundary=---011000010111000001101001' \\\\
+  --header 'Content-Type: multipart/form-data; boundary=---011000010111000001101001' \\\\
   --form orderId=10 \\\\
   --form userId=3232 \\\\
   --form documentFile=@owlbert.png",
