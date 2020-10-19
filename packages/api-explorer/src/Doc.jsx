@@ -407,7 +407,7 @@ class Doc extends React.Component {
                 </div>
               )}
             </header>
-            <div className="tutorialtile-container">
+            <div className="TutorialTile-Container">
               {doc.tutorials &&
                 doc.tutorials.length &&
                 doc.tutorials.map((t, idx) => (
