@@ -1,3 +1,17 @@
+## <small>8.0.3 (2020-10-19)</small>
+
+* chore(deps-dev): bump jest from 26.4.2 to 26.5.3 (#994) ([dc1ebf4](https://github.com/readmeio/api-explorer/commit/dc1ebf4)), closes [#994](https://github.com/readmeio/api-explorer/issues/994)
+* fix: issue in node-simple snippets where basic auth wasn't decoded (#989) ([b04e46b](https://github.com/readmeio/api-explorer/commit/b04e46b)), closes [#989](https://github.com/readmeio/api-explorer/issues/989)
+
+
+
+## <small>8.0.2 (2020-10-16)</small>
+
+* feat: swapping request module node samples with node-fetch (#988) ([4bf7464](https://github.com/readmeio/api-explorer/commit/4bf7464)), closes [#988](https://github.com/readmeio/api-explorer/issues/988)
+* fix: bugs with processing examples (#987) ([b341b3c](https://github.com/readmeio/api-explorer/commit/b341b3c)), closes [#987](https://github.com/readmeio/api-explorer/issues/987)
+
+
+
 ## <small>7.6.1 (2020-10-15)</small>
 
 * fix: don't look for `$ref` in string examples ([59c5d18](https://github.com/readmeio/api-explorer/commit/59c5d18))

@@ -37,7 +37,7 @@ const supportedLanguages = {
     highlight: 'java',
   },
   node: {
-    httpsnippet: ['node', 'request'],
+    httpsnippet: ['node', 'fetch'],
     highlight: 'javascript',
   },
   'node-simple': {
