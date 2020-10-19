@@ -9,9 +9,8 @@ const oasToHar = require('@readme/oas-to-har');
 const Oas = require('@readme/oas-tooling');
 const { getPath } = require('@readme/oas-tooling/utils');
 
-const { TutorialTile, TutorialModal } = require('@readme/ui');
+const { TutorialTile, TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 require('@readme/ui/.bundles/umd/main.css');
-// const { TutorialTile, TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
 const isAuthReady = require('./lib/is-auth-ready');
 
@@ -409,9 +408,11 @@ class Doc extends React.Component {
               )}
             </header>
             <div className="tutorialtile-container">
-              {doc.tutorials && doc.tutorials.length && doc.tutorials.map((t, idx) => (
-                <TutorialTile key={`tutorial-${idx}`} openTutorial={this.openTutorial} tutorial={t} />
-              ))}
+              {doc.tutorials &&
+                doc.tutorials.length &&
+                doc.tutorials.map((t, idx) => (
+                  <TutorialTile key={`tutorial-${idx}`} openTutorial={this.openTutorial} tutorial={t} />
+                ))}
               <TutorialTile openTutorial={this.openTutorial} tutorial={tutorial} />
             </div>
           </div>
@@ -469,6 +470,7 @@ Doc.propTypes = {
       path: PropTypes.string.isRequired,
     }),
     title: PropTypes.string.isRequired,
+    tutorials: PropTypes.arrayOf(PropTypes.shape({})),
     type: PropTypes.string.isRequired,
   }).isRequired,
   flags: PropTypes.shape({
@@ -495,7 +497,6 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
-  tutorials: PropTypes.arrayOf(PropTypes.shape({})),
   useNewMarkdownEngine: PropTypes.bool,
   user: PropTypes.shape({}),
 };
