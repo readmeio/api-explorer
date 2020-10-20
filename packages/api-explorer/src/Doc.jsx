@@ -27,32 +27,6 @@ const Content = require('./block-types/Content');
 
 const pkg = require('../package.json');
 
-const tutorial = {
-  backgroundColor: '#018FF4',
-  emoji: '🦉',
-  title: 'My Unique Title',
-  description: 'hello world',
-  steps: [
-    {
-      title: 'Step One',
-      body: 'This is a description',
-      isOpen: true,
-      lineNumbers: ['1-3'],
-    },
-  ],
-  snippet: {
-    endpoint: {},
-    codeOptions: [
-      {
-        code: 'const res = "<<url>>";',
-        language: 'javascript',
-        name: 'index.js',
-      },
-    ],
-  },
-  response: '',
-};
-
 class Doc extends React.Component {
   constructor(props) {
     super(props);
@@ -413,7 +387,6 @@ class Doc extends React.Component {
                 doc.tutorials.map((t, idx) => (
                   <TutorialTile key={`tutorial-${idx}`} openTutorial={this.openTutorial} tutorial={t} />
                 ))}
-              <TutorialTile openTutorial={this.openTutorial} tutorial={tutorial} />
             </div>
           </div>
           <div className="hub-reference-right">&nbsp;</div>
