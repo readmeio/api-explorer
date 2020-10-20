@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 
 const getResponseExamples = require('./lib/get-response-examples');
 const IconStatus = require('./IconStatus');

@@ -1,7 +1,7 @@
 const React = require('react');
 const classNames = require('classnames');
 const PropTypes = require('prop-types');
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 
 const ResponseTabs = require('./ResponseTabs');
 const ResponseMetadata = require('./ResponseMetadata');
