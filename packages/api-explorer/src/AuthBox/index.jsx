@@ -3,7 +3,7 @@ require('./style.scss');
 const React = require('react');
 const PropTypes = require('prop-types');
 const classNames = require('classnames');
-const { Operation } = require('@readme/oas-tooling');
+const { Operation } = require('oas/tooling');
 
 const SecurityInput = require('../SecurityInput');
 

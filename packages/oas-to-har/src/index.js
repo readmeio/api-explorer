@@ -1,6 +1,6 @@
 const extensions = require('@readme/oas-extensions');
-const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('@readme/oas-tooling/utils');
-const { Operation } = require('@readme/oas-tooling');
+const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('oas/tooling/utils');
+const { Operation } = require('oas/tooling');
 const parseDataUrl = require('parse-data-url');
 
 const configureSecurity = require('./lib/configure-security');

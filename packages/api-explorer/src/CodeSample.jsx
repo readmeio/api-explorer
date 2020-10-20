@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('@readme/oas-extensions');
 const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 const generateCodeSnippet = require('@readme/oas-to-snippet');
 
 const { Operation } = Oas;
