@@ -92,12 +92,35 @@ class Demo extends React.Component {
         docs[i].tutorials = [
           {
             title: 'Test Tutorial',
+            description: 'Tutorial description',
             slug: 'test-tutorial',
             backgroundColor: '#018FF4',
             emoji: '🦉',
             _id: '123',
+            response: '',
+            steps: [
+              {
+                title: 'Step One',
+                body: 'Step one description',
+                lineNumbers: ['1-3'],
+              },
+            ],
+            snippet: {
+              endpoint: {},
+              codeOptions: [
+                {
+                  code: 'const res = true;',
+                  language: 'javascript',
+                  name: 'index.js',
+                },
+              ],
+            },
           },
         ];
+      });
+    } else {
+      docs.forEach((doc, i) => {
+        docs[i].tutorials = [];
       });
     }
 

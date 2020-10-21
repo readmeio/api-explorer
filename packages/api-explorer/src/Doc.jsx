@@ -381,13 +381,13 @@ class Doc extends React.Component {
                 </div>
               )}
             </header>
-            <div className="TutorialTile-Container">
-              {doc.tutorials &&
-                doc.tutorials.length &&
-                doc.tutorials.map((t, idx) => (
+            {doc.tutorials && !!doc.tutorials.length && (
+              <div className="TutorialTile-Container">
+                {doc.tutorials.map((t, idx) => (
                   <TutorialTile key={`tutorial-${idx}`} openTutorial={this.openTutorial} tutorial={t} />
                 ))}
-            </div>
+              </div>
+            )}
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
