@@ -98,7 +98,7 @@ test('should pass through form encoded values to code snippet', () => {
   );
 
   expect(code).toMatch("encodedParams.set('id', '123');");
-  expect(code).toMatch('body: encodedParams.toString()');
+  expect(code).toMatch('body: encodedParams');
 });
 
 test('should not contain proxy url', () => {
