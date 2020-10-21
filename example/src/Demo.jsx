@@ -16,6 +16,7 @@ class Demo extends React.Component {
     super(props);
     this.state = {
       brokenExplorerState: false,
+      enableTutorials: true,
       maskErrorMessages: false,
       useNewMarkdownEngine: true,
     };
@@ -34,6 +35,10 @@ class Demo extends React.Component {
       'Use new Markdown engine?': {
         description: null,
         stateProp: 'useNewMarkdownEngine',
+      },
+      'Enable tutorials (beta)': {
+        description: 'Enable our tutorials beta.',
+        stateProp: 'enableTutorials',
       },
     };
 
@@ -67,7 +72,7 @@ class Demo extends React.Component {
 
   render() {
     const { fetchSwagger, status, docs, oas, oasUrl, oauth } = this.props;
-    const { brokenExplorerState, maskErrorMessages, useNewMarkdownEngine } = this.state;
+    const { brokenExplorerState, enableTutorials, maskErrorMessages, useNewMarkdownEngine } = this.state;
 
     const additionalProps = {
       oasFiles: {
@@ -80,6 +85,20 @@ class Demo extends React.Component {
 
     if (brokenExplorerState) {
       delete additionalProps.oasFiles;
+    }
+
+    if (enableTutorials) {
+      docs.forEach((doc, i) => {
+        docs[i].tutorials = [
+          {
+            title: 'Test Tutorial',
+            slug: 'test-tutorial',
+            backgroundColor: '#018FF4',
+            emoji: '🦉',
+            _id: '123',
+          },
+        ];
+      });
     }
 
     return (
