@@ -1,3 +1,15 @@
+## 8.1.0 (2020-10-21)
+
+* chore: bumping up the bundlesize limit on the explorer -- things will get better ([9654c18](https://github.com/readmeio/api-explorer/commit/9654c18))
+* chore: remove unnecessary stringification from node-fetch snippets (#1004) ([2218ed4](https://github.com/readmeio/api-explorer/commit/2218ed4)), closes [#1004](https://github.com/readmeio/api-explorer/issues/1004)
+* chore(deps): swapping `@readme/oas-tooling` for `oas` (#998) ([752c730](https://github.com/readmeio/api-explorer/commit/752c730)), closes [#998](https://github.com/readmeio/api-explorer/issues/998)
+* test: skipping a broken ReactIs test (#1003) ([759ab14](https://github.com/readmeio/api-explorer/commit/759ab14)), closes [#1003](https://github.com/readmeio/api-explorer/issues/1003)
+* feat: set default javascript target to use fetch instead of xhr (#1000) ([52e2a8d](https://github.com/readmeio/api-explorer/commit/52e2a8d)), closes [#1000](https://github.com/readmeio/api-explorer/issues/1000)
+* feat: tutorials-integration (#958) ([279eccd](https://github.com/readmeio/api-explorer/commit/279eccd)), closes [#958](https://github.com/readmeio/api-explorer/issues/958) [#1000](https://github.com/readmeio/api-explorer/issues/1000) [#999](https://github.com/readmeio/api-explorer/issues/999)
+* fix: updating the ResponseSchemaBody for the async flattenSchema changes (#999) ([a77cff9](https://github.com/readmeio/api-explorer/commit/a77cff9)), closes [#999](https://github.com/readmeio/api-explorer/issues/999)
+
+
+
 ## <small>8.0.3 (2020-10-19)</small>
 
 * chore(deps-dev): bump jest from 26.4.2 to 26.5.3 (#994) ([dc1ebf4](https://github.com/readmeio/api-explorer/commit/dc1ebf4)), closes [#994](https://github.com/readmeio/api-explorer/issues/994)
