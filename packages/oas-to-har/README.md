@@ -15,7 +15,7 @@ npm install --save @readme/oas-to-har
 ## Usage
 
 ```js
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 const oasToHar = require('@readme/oas-to-har');
 
 const spec = new Oas('petstore.json');

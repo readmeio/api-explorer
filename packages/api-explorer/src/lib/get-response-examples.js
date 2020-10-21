@@ -1,4 +1,4 @@
-const { findSchemaDefinition } = require('@readme/oas-tooling/utils');
+const { findSchemaDefinition } = require('oas/tooling/utils');
 
 function getMediaType(response) {
   return response.content ? Object.keys(response.content)[0] : '';

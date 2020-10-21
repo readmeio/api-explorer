@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
 const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const extensions = require('@readme/oas-extensions');
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 
 const getResponseExamples = require('./lib/get-response-examples');
 const contentTypeIsJson = require('./lib/content-type-is-json');

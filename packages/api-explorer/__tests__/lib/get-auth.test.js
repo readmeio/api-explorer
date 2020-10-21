@@ -1,4 +1,4 @@
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 
 const multipleSecurities = require('../__fixtures__/multiple-securities/oas.json');
 const getAuth = require('../../src/lib/get-auth');

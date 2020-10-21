@@ -1,5 +1,5 @@
 const extensions = require('@readme/oas-extensions');
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 const path = require('path');
 const datauri = require('datauri');
 

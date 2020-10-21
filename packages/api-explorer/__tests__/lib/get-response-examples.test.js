@@ -1,4 +1,4 @@
-const Oas = require('@readme/oas-tooling');
+const Oas = require('oas/tooling');
 const getResponseExamples = require('../../src/lib/get-response-examples');
 
 const example = require('../__fixtures__/example-results/oas.json');

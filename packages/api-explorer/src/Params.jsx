@@ -6,8 +6,8 @@ const extensions = require('@readme/oas-extensions');
 
 const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
 
-const Oas = require('@readme/oas-tooling');
-const { parametersToJsonSchema } = require('@readme/oas-tooling/utils');
+const Oas = require('oas/tooling');
+const { parametersToJsonSchema } = require('oas/tooling/utils');
 
 const createArrayField = require('./form-components/ArrayField');
 const createBaseInput = require('./form-components/BaseInput');
