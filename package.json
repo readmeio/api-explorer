@@ -77,7 +77,7 @@
     "files": [
       {
         "path": "packages/api-explorer/dist/index.js",
-        "maxSize": "1.2mb"
+        "maxSize": "1.5mb"
       },
       {
         "path": "packages/api-logs/dist/index.js",
