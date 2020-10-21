@@ -9,6 +9,9 @@ const oasToHar = require('@readme/oas-to-har');
 const Oas = require('oas/tooling');
 const { getPath } = require('oas/tooling/utils');
 
+const { TutorialTile, TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
+require('@readme/ui/.bundles/umd/main.css');
+
 const isAuthReady = require('./lib/is-auth-ready');
 
 const PathUrl = require('./PathUrl');
@@ -35,6 +38,8 @@ class Doc extends React.Component {
       needsAuth: false,
       result: null,
       showEndpoint: false,
+      selectedTutorial: null,
+      showTutorialModal: false,
     };
 
     this.hideResults = this.hideResults.bind(this);
@@ -45,6 +50,8 @@ class Doc extends React.Component {
     this.Params = createParams(this.oas, this.operation);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
+    this.openTutorial = this.openTutorial.bind(this);
+    this.closeTutorialModal = this.closeTutorialModal.bind(this);
   }
 
   onChange(formData) {
@@ -118,6 +125,14 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
+  openTutorial({ tutorial: selectedTutorial }) {
+    this.setState(() => ({ showTutorialModal: true, selectedTutorial }));
+  }
+
+  closeTutorialModal() {
+    this.setState(() => ({ showTutorialModal: false, selectedTutorial: null }));
+  }
+
   mainTheme(doc) {
     const { useNewMarkdownEngine } = this.props;
 
@@ -126,7 +141,6 @@ class Doc extends React.Component {
         {doc.type === 'endpoint' && (
           <div className="hub-api">
             {this.renderPathUrl()}
-
             <div className="hub-reference-section hub-reference-section-code">
               <div className="hub-reference-left">{this.renderCodeSample()}</div>
 
@@ -178,7 +192,6 @@ class Doc extends React.Component {
                 useNewMarkdownEngine={useNewMarkdownEngine}
               />
             </div>
-
             <div className="hub-reference-right">
               {doc.type === 'endpoint' && (
                 <div className="hub-reference-section-code">
@@ -368,6 +381,13 @@ class Doc extends React.Component {
                 </div>
               )}
             </header>
+            {doc.tutorials && !!doc.tutorials.length && (
+              <div className="TutorialTile-Container">
+                {doc.tutorials.map((t, idx) => (
+                  <TutorialTile key={`tutorial-${idx}`} openTutorial={this.openTutorial} tutorial={t} />
+                ))}
+              </div>
+            )}
           </div>
           <div className="hub-reference-right">&nbsp;</div>
         </div>
@@ -378,6 +398,16 @@ class Doc extends React.Component {
           // cos we can just pass it around?
         }
         <input id={`swagger-${extensions.SEND_DEFAULTS}`} type="hidden" value={oas[extensions.SEND_DEFAULTS]} />
+        {this.state.selectedTutorial && (
+          <TutorialModal
+            action={'View'}
+            baseUrl={this.props.baseUrl}
+            closeTutorialModal={this.closeTutorialModal}
+            open={this.state.showTutorialModal}
+            target={'#tutorialmodal-root'}
+            tutorial={this.state.selectedTutorial}
+          />
+        )}
       </div>
     );
   }
@@ -413,6 +443,7 @@ Doc.propTypes = {
       path: PropTypes.string.isRequired,
     }),
     title: PropTypes.string.isRequired,
+    tutorials: PropTypes.arrayOf(PropTypes.shape({})),
     type: PropTypes.string.isRequired,
   }).isRequired,
   flags: PropTypes.shape({

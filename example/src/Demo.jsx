@@ -16,6 +16,7 @@ class Demo extends React.Component {
     super(props);
     this.state = {
       brokenExplorerState: false,
+      enableTutorials: false,
       maskErrorMessages: false,
       useNewMarkdownEngine: true,
     };
@@ -34,6 +35,10 @@ class Demo extends React.Component {
       'Use new Markdown engine?': {
         description: null,
         stateProp: 'useNewMarkdownEngine',
+      },
+      'Enable tutorials (beta)': {
+        description: 'Enable our tutorials beta.',
+        stateProp: 'enableTutorials',
       },
     };
 
@@ -67,7 +72,7 @@ class Demo extends React.Component {
 
   render() {
     const { fetchSwagger, status, docs, oas, oasUrl, oauth } = this.props;
-    const { brokenExplorerState, maskErrorMessages, useNewMarkdownEngine } = this.state;
+    const { brokenExplorerState, enableTutorials, maskErrorMessages, useNewMarkdownEngine } = this.state;
 
     const additionalProps = {
       oasFiles: {
@@ -80,6 +85,43 @@ class Demo extends React.Component {
 
     if (brokenExplorerState) {
       delete additionalProps.oasFiles;
+    }
+
+    if (enableTutorials) {
+      docs.forEach((doc, i) => {
+        docs[i].tutorials = [
+          {
+            title: 'Test Tutorial',
+            description: 'Tutorial description',
+            slug: 'test-tutorial',
+            backgroundColor: '#018FF4',
+            emoji: '🦉',
+            _id: '123',
+            response: '',
+            steps: [
+              {
+                title: 'Step One',
+                body: 'Step one description',
+                lineNumbers: ['1-3'],
+              },
+            ],
+            snippet: {
+              endpoint: {},
+              codeOptions: [
+                {
+                  code: 'const res = true;',
+                  language: 'javascript',
+                  name: 'index.js',
+                },
+              ],
+            },
+          },
+        ];
+      });
+    } else {
+      docs.forEach((doc, i) => {
+        docs[i].tutorials = [];
+      });
     }
 
     return (

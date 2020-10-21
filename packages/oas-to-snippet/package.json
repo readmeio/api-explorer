@@ -8,7 +8,7 @@
     "@readme/oas-extensions": "^8.0.0",
     "@readme/oas-to-har": "^8.0.3",
     "@readme/syntax-highlighter": "^10.0.0",
-    "httpsnippet-client-api": "^2.4.1",
+    "httpsnippet-client-api": "^2.4.2",
     "oas": "^5.0.0"
   },
   "scripts": {

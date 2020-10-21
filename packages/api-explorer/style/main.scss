@@ -777,3 +777,25 @@ form.rjsf {
     z-index: -1;
   }
 }
+
+/* tutorial tiles */
+.TutorialTile-Container {
+  display: flex;
+  overflow-x: auto;
+  padding: 15px 20px;
+
+  // extra padding b/c flexbox doesn’t work that way
+  &::after {
+    content: '';
+    flex: 0 0 auto;
+    display: block;
+    height: 1px;
+    opacity: 0;
+    width: 20px;
+  }
+
+  // spacing for multiple tiles
+  > div + div {
+    margin-left: 15px;
+  }
+}
