@@ -5,7 +5,7 @@
   "description": "Open source components that make up ReadMe's API explorer",
   "scripts": {
     "heroku-postbuild": "npm run bootstrap && node scripts/update-example-swagger-files && npm run build",
-    "bootstrap": "lerna bootstrap --concurrency 2",
+    "bootstrap": "lerna bootstrap --concurrency 2 --hoist",
     "build": "npm run update:emojis; ./build.sh; lerna run build",
     "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",

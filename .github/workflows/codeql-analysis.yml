@@ -34,5 +34,8 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
+    - name: Consolidate dependencies
+      run: npx lerna bootstrap --hoist
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
