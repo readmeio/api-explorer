@@ -29,7 +29,7 @@ const supportedLanguages = {
     highlight: 'java',
   },
   javascript: {
-    httpsnippet: ['javascript', 'xhr', { cors: false }],
+    httpsnippet: ['javascript', 'fetch'],
     highlight: 'javascript',
   },
   kotlin: {
