@@ -22,47 +22,73 @@ function getDescriptionMarkdown(useNewMarkdownEngine, description) {
   return markdownMagic(description);
 }
 
-function ResponseSchemaBody({ schema, oas, useNewMarkdownEngine }) {
-  const rows = flattenArray(flattenSchema(schema, oas)).map(row => (
-    <tr key={Math.random().toString(10)}>
-      <th
-        style={{
-          whiteSpace: 'nowrap',
-          width: '30%',
-          paddingRight: '5px',
-          textAlign: 'right',
-          overflow: 'hidden',
-        }}
-      >
-        {row.type}
-      </th>
-      <td
-        style={{
-          width: '70%',
-          overflow: 'hidden',
-          paddingLeft: '15px',
-          wordBreak: 'break-word',
-        }}
-      >
-        {row.name}
-        {row.description && getDescriptionMarkdown(useNewMarkdownEngine, row.description)}
-      </td>
-    </tr>
-  ));
+class ResponseSchemaBody extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div>
-      {schema && schema.type && (
-        <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
-          {`Response schema type: `}
-          <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
-        </p>
-      )}
-      <table style={{ tableLayout: 'fixed' }}>
-        <tbody>{rows}</tbody>
-      </table>
-    </div>
-  );
+    this.state = {
+      flattenedSchema: null,
+    };
+  }
+
+  componentDidMount() {
+    const { schema, oas } = this.props;
+
+    flattenSchema(schema, oas).then(flattened => {
+      this.setState({
+        flattenedSchema: flattenArray(flattened),
+      });
+    });
+  }
+
+  render() {
+    const { schema, useNewMarkdownEngine } = this.props;
+    const { flattenedSchema } = this.state;
+
+    let rows = [];
+    if (flattenedSchema) {
+      rows = flattenedSchema.map(row => (
+        <tr key={Math.random().toString(10)}>
+          <th
+            style={{
+              whiteSpace: 'nowrap',
+              width: '30%',
+              paddingRight: '5px',
+              textAlign: 'right',
+              overflow: 'hidden',
+            }}
+          >
+            {row.type}
+          </th>
+          <td
+            style={{
+              width: '70%',
+              overflow: 'hidden',
+              paddingLeft: '15px',
+              wordBreak: 'break-word',
+            }}
+          >
+            {row.name}
+            {row.description && getDescriptionMarkdown(useNewMarkdownEngine, row.description)}
+          </td>
+        </tr>
+      ));
+    }
+
+    return (
+      <div>
+        {schema && schema.type && (
+          <p style={{ fontStyle: 'italic', margin: '0 0 10px 15px' }}>
+            {`Response schema type: `}
+            <span style={{ fontWeight: 'bold' }}>{getSchemaType(schema)}</span>
+          </p>
+        )}
+        <table style={{ tableLayout: 'fixed' }}>
+          <tbody>{rows}</tbody>
+        </table>
+      </div>
+    );
+  }
 }
 
 ResponseSchemaBody.propTypes = {
