@@ -16,7 +16,7 @@ class Demo extends React.Component {
     super(props);
     this.state = {
       brokenExplorerState: false,
-      enableTutorials: true,
+      enableTutorials: false,
       maskErrorMessages: false,
       useNewMarkdownEngine: true,
     };
