@@ -1,5 +1,6 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const { waitFor } = require('@testing-library/dom');
 const Oas = require('oas/tooling');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');
@@ -16,28 +17,14 @@ test('display object properties in the table', () => {
       },
     },
   };
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
 
-  expect(responseSchemaBody.find('th').text()).toContain('String');
-  expect(responseSchemaBody.find('td').text()).toBe('a');
-});
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
 
-test('display properties if object contains $ref type', () => {
-  const schema = {
-    type: 'object',
-    properties: {
-      category: {
-        $ref: '#/components/schemas/Category',
-      },
-    },
-  };
-
-  expect(
-    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
-      .find('td')
-      .map(a => a.text())
-      .filter(a => a === 'category.name')
-  ).toHaveLength(1);
+    expect(comp.find('th').text()).toContain('String');
+    expect(comp.find('td').text()).toBe('a');
+  });
 });
 
 test('display object properties inside another object in the table', () => {
@@ -54,58 +41,18 @@ test('display object properties inside another object in the table', () => {
       },
     },
   };
-  expect(
-    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
-      .find('td')
-      .map(a => a.text())
-      .filter(a => a === 'a.a')
-  ).toHaveLength(1);
-});
 
-test('display $ref items inside object', () => {
-  const schema = {
-    type: 'object',
-    properties: {
-      a: {
-        type: 'object',
-        properties: {
-          pets: {
-            type: 'array',
-            items: {
-              $ref: '#/components/schemas/Pet',
-            },
-          },
-        },
-      },
-    },
-  };
-  const testOas = {
-    components: {
-      schemas: {
-        Pet: {
-          type: 'object',
-          properties: {
-            index: {
-              type: 'integer',
-            },
-          },
-        },
-      },
-    },
-  };
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={testOas} schema={schema} />);
-  expect(
-    responseSchemaBody
-      .find('th')
-      .map(a => a.text())
-      .filter(a => a === '[Object]')
-  ).toHaveLength(1);
-  expect(
-    responseSchemaBody
-      .find('td')
-      .map(a => a.text())
-      .filter(a => a === 'a.pets[].index')
-  ).toHaveLength(1);
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
+
+    expect(
+      comp
+        .find('td')
+        .map(a => a.text())
+        .filter(a => a === 'a.a')
+    ).toHaveLength(1);
+  });
 });
 
 test('not fail when object property missing', () => {
@@ -113,44 +60,11 @@ test('not fail when object property missing', () => {
     type: 'object',
   };
 
-  expect(shallow(<ResponseSchemaBody oas={oas} schema={schema} />).find('th')).toHaveLength(0);
-});
-
-test('render top level array of $ref', () => {
-  const schema = {
-    type: 'array',
-    items: {
-      $ref: '#/components/schemas/Pet',
-    },
-  };
-
-  const testOas = {
-    components: {
-      schemas: {
-        Pet: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
-  };
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={testOas} schema={schema} />);
-  expect(
-    responseSchemaBody
-      .find('td')
-      .map(a => a.text())
-      .filter(a => a === 'name')
-  ).toHaveLength(1);
-  expect(
-    responseSchemaBody
-      .find('th')
-      .map(a => a.text())
-      .filter(a => a === 'String')
-  ).toHaveLength(1);
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
+    expect(comp.find('th')).toHaveLength(0);
+  });
 });
 
 test('not render more than 3 level deep object', () => {
@@ -178,19 +92,23 @@ test('not render more than 3 level deep object', () => {
     },
   };
 
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
-  expect(
-    responseSchemaBody
-      .find('td')
-      .map(a => a.text())
-      .filter(a => a === 'a.a.a')
-  ).toHaveLength(1);
-  expect(
-    responseSchemaBody
-      .find('td')
-      .map(a => a.text())
-      .filter(a => a === 'a.a.a.a')
-  ).toHaveLength(0);
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
+
+    expect(
+      comp
+        .find('td')
+        .map(a => a.text())
+        .filter(a => a === 'a.a.a')
+    ).toHaveLength(1);
+    expect(
+      comp
+        .find('td')
+        .map(a => a.text())
+        .filter(a => a === 'a.a.a.a')
+    ).toHaveLength(0);
+  });
 });
 
 test('render top level array of objects', () => {
@@ -206,19 +124,23 @@ test('render top level array of objects', () => {
     },
   };
 
-  const responseSchemaBody = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
-  expect(
-    responseSchemaBody
-      .find('td')
-      .map(a => a.text())
-      .filter(a => a === 'name')
-  ).toHaveLength(1);
-  expect(
-    responseSchemaBody
-      .find('th')
-      .map(a => a.text())
-      .filter(a => a === 'String')
-  ).toHaveLength(1);
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
+
+    expect(
+      comp
+        .find('td')
+        .map(a => a.text())
+        .filter(a => a === 'name')
+    ).toHaveLength(1);
+    expect(
+      comp
+        .find('th')
+        .map(a => a.text())
+        .filter(a => a === 'String')
+    ).toHaveLength(1);
+  });
 });
 
 test.each([
@@ -235,11 +157,11 @@ test.each([
     },
   };
 
-  expect(
-    mount(<ResponseSchemaBody oas={oas} schema={schema} useNewMarkdownEngine={useNewMarkdownEngine} />)
-      .find('a')
-      .html()
-  ).toBe(expected);
+  const comp = mount(<ResponseSchemaBody oas={oas} schema={schema} useNewMarkdownEngine={useNewMarkdownEngine} />);
+  return waitFor(() => {
+    comp.update();
+    expect(comp.find('a').html()).toBe(expected);
+  });
 });
 
 test('should show "string" response type for a simple `string` schema', () => {
@@ -247,7 +169,11 @@ test('should show "string" response type for a simple `string` schema', () => {
     type: 'string',
   };
 
-  expect(shallow(<ResponseSchemaBody oas={oas} schema={schema} />).text()).toBe('Response schema type: string');
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
+    expect(comp.text()).toBe('Response schema type: string');
+  });
 });
 
 test('should show "string" response type for an `object` schema that contains a string', () => {
@@ -260,11 +186,12 @@ test('should show "string" response type for an `object` schema that contains a 
     },
   };
 
-  expect(
-    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
-      .find('p')
-      .text()
-  ).toBe('Response schema type: object');
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
+
+    expect(comp.find('p').text()).toBe('Response schema type: object');
+  });
 });
 
 test('should show "array" response schema type', () => {
@@ -280,9 +207,189 @@ test('should show "array" response schema type', () => {
     },
   };
 
-  expect(
-    shallow(<ResponseSchemaBody oas={oas} schema={schema} />)
-      .find('p')
-      .text()
-  ).toBe('Response schema type: array of objects');
+  const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+  return waitFor(() => {
+    comp.update();
+
+    expect(comp.find('p').text()).toBe('Response schema type: array of objects');
+  });
+});
+
+describe('$ref handling', () => {
+  it('display properties if object contains $ref type', () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        category: {
+          $ref: '#/components/schemas/Category',
+        },
+      },
+    };
+
+    const comp = shallow(<ResponseSchemaBody oas={oas} schema={schema} />);
+    return waitFor(() => {
+      comp.update();
+
+      expect(
+        comp
+          .find('td')
+          .map(a => a.text())
+          .filter(a => a === 'category.name')
+      ).toHaveLength(1);
+    });
+  });
+
+  it('display $ref items inside object', () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        a: {
+          type: 'object',
+          properties: {
+            pets: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Pet',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const testOas = {
+      components: {
+        schemas: {
+          Pet: {
+            type: 'object',
+            properties: {
+              index: {
+                type: 'integer',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const comp = shallow(<ResponseSchemaBody oas={testOas} schema={schema} />);
+    return waitFor(() => {
+      comp.update();
+
+      expect(
+        comp
+          .find('th')
+          .map(a => a.text())
+          .filter(a => a === '[Object]')
+      ).toHaveLength(1);
+      expect(
+        comp
+          .find('td')
+          .map(a => a.text())
+          .filter(a => a === 'a.pets[].index')
+      ).toHaveLength(1);
+    });
+  });
+
+  it('render top level array of $ref', () => {
+    const schema = {
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/Pet',
+      },
+    };
+
+    const testOas = {
+      components: {
+        schemas: {
+          Pet: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const comp = shallow(<ResponseSchemaBody oas={testOas} schema={schema} />);
+    return waitFor(() => {
+      comp.update();
+
+      expect(
+        comp
+          .find('td')
+          .map(a => a.text())
+          .filter(a => a === 'name')
+      ).toHaveLength(1);
+      expect(
+        comp
+          .find('th')
+          .map(a => a.text())
+          .filter(a => a === 'String')
+      ).toHaveLength(1);
+    });
+  });
+
+  describe('circular refs', () => {
+    const circularOas = {
+      components: {
+        schemas: {
+          Customfields: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Customfields',
+            },
+          },
+        },
+      },
+    };
+
+    it('should not fail on a fully circular ref', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          $ref: '#/components/schemas/Customfields',
+        },
+      };
+
+      const comp = shallow(<ResponseSchemaBody oas={circularOas} schema={schema} />);
+      return waitFor(() => {
+        comp.update();
+        expect(comp.find('tr')).toHaveLength(0);
+      });
+    });
+
+    it('should do its best to recognize that a circular ref is present', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'number',
+            },
+            fields: {
+              $ref: '#/components/schemas/Customfields',
+            },
+          },
+        },
+      };
+
+      const comp = shallow(<ResponseSchemaBody oas={circularOas} schema={schema} />);
+      return waitFor(() => {
+        comp.update();
+
+        expect(comp.find('tr')).toHaveLength(2);
+
+        expect(comp.find('tr').at(0).find('th').text()).toBe('Number');
+        expect(comp.find('tr').at(0).find('td').text()).toBe('id');
+
+        expect(comp.find('tr').at(1).find('th').text()).toBe('Circular');
+        expect(comp.find('tr').at(1).find('td').text()).toBe('fields');
+      });
+    });
+  });
 });
