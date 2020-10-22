@@ -32,10 +32,10 @@ exports[`check list items 1`] = `
 `;
 
 exports[`code samples 1`] = `
-"<pre><code class=\\"lang-javascript\\"><span class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
-</span></code></pre>
-<pre><code><span class=\\"cm-s-neo\\">code-without-language
-</span></code></pre>"
+"<pre><code class=\\"lang-javascript\\"><div class=\\"cm-s-neo\\"><span class=\\"cm-keyword\\">var</span> <span class=\\"cm-def\\">a</span> <span class=\\"cm-operator\\">=</span> <span class=\\"cm-number\\">1</span>;
+</div></code></pre>
+<pre><code><div class=\\"cm-s-neo\\">code-without-language
+</div></code></pre>"
 `;
 
 exports[`emojis 1`] = `
@@ -54,7 +54,7 @@ exports[`headings 1`] = `
 <h4 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h4\\"></div>h4<a class=\\"fa fa-anchor\\" href=\\"#section-h4\\"></a></h4>
 <h5 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h5\\"></div>h5<a class=\\"fa fa-anchor\\" href=\\"#section-h5\\"></a></h5>
 <h6 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-h6\\"></div>h6<a class=\\"fa fa-anchor\\" href=\\"#section-h6\\"></a></h6>
-<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-code\\"></div><code><span class=\\"cm-s-neo\\">code</span></code><a class=\\"fa fa-anchor\\" href=\\"#section-code\\"></a></h1>
+<h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-code\\"></div><code><div class=\\"cm-s-neo\\">code</div></code><a class=\\"fa fa-anchor\\" href=\\"#section-code\\"></a></h1>
 <h1 class=\\"header-scroll\\"><div class=\\"anchor waypoint\\" id=\\"section-heading-with-some-more-content\\"></div>heading with some more CONTENT<a class=\\"fa fa-anchor\\" href=\\"#section-heading-with-some-more-content\\"></a></h1>"
 `;
 

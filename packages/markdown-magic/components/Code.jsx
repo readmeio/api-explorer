@@ -1,7 +1,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const syntaxHighlighter = require('@readme/syntax-highlighter');
+const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 
 function Code({ className, children }) {
   const language = className.replace('language-', '');
