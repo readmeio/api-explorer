@@ -3,6 +3,14 @@ const path = require('path');
 
 module.exports = {
   entry: ['./index.jsx'],
+  externals: {
+    react: {
+      root: 'React',
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+    },
+  },
   module: {
     rules: [
       {

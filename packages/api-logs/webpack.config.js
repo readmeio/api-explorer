@@ -2,6 +2,14 @@ const path = require('path');
 
 module.exports = {
   entry: ['whatwg-fetch', './index.jsx'],
+  externals: {
+    react: {
+      root: 'React',
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+    },
+  },
   module: {
     rules: [
       {
