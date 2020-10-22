@@ -3,26 +3,28 @@
   "description": "React component for Variables",
   "version": "8.1.0",
   "main": "dist/index.js",
-  "dependencies": {
-    "classnames": "^2.2.6",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1"
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readmeio/api-explorer.git",
+    "directory": "packages/variable"
   },
   "scripts": {
+    "build": "webpack",
     "inspect": "jsinspect",
     "lint": "eslint . --ext .jsx --ext .js",
     "pretest": "npm run lint && npm run prettier && npm run inspect",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage --runInBand",
-    "build": "webpack"
+    "test": "jest --coverage --runInBand"
   },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org",
-    "access": "public"
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "prop-types": "^15.7.2"
   },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
-  "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/variable",
+  "peerDependencies": {
+    "react": "16.x"
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
@@ -32,6 +34,7 @@
     "jest": "^26.0.1",
     "jsinspect": "^0.12.7",
     "prettier": "^2.0.1",
+    "react": "^16.14.0",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
