@@ -27,7 +27,7 @@ const props = {
   operation,
 };
 
-const Params = createParams(oas);
+const Params = createParams(oas, operation);
 
 const jsonOperation = new Operation(oas, '/path', 'post', {
   requestBody: {
@@ -344,7 +344,7 @@ describe('schema handling', () => {
 
 describe('x-explorer-enabled', () => {
   const oasWithExplorerDisabled = { ...oas, [extensions.EXPLORER_ENABLED]: false };
-  const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled);
+  const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled, oas.operation('/pet', 'post'));
 
   it('array should still show add button, but sub-elements should not be editable', () => {
     const elem = mount(
@@ -419,14 +419,12 @@ describe('x-explorer-enabled', () => {
     const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
     operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
 
+    const Component = createParams(oasWithExplorerDisabled, operationExplorerEnabled);
+
     expect(
-      mount(
-        <ParamsWithExplorerDisabled
-          {...props}
-          oas={new Oas(oasWithExplorerDisabled)}
-          operation={operationExplorerEnabled}
-        />
-      ).find('input[type="file"]')
+      mount(<Component {...props} oas={new Oas(oasWithExplorerDisabled)} operation={operationExplorerEnabled} />).find(
+        'input[type="file"]'
+      )
     ).toHaveLength(1);
   });
 });
