@@ -1,7 +1,7 @@
 {
   "name": "@readme/variable",
   "description": "React component for Variables",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "main": "dist/index.js",
   "dependencies": {
     "classnames": "^2.2.6",
