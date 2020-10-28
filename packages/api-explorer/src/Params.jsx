@@ -150,20 +150,29 @@ Params.defaultProps = {
   useNewMarkdownEngine: false,
 };
 
-function createParams(oas) {
+function createParams(oas, operation) {
+  const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
+
+  // These component creation methods should remain **outside** of the function that `createParams` returns because
+  // anytime data within the form is edited we don't want to recreate every form component at the same time as this
+  // introduces the possibility of the user input losing focus.
+  //
+  // This unfortunately can't be easily tested without introducing Puppeteer testing of the explorer as
+  // `document.activeElement` isn't exposed within Enzyme (and also Enzyme is deprecating the `.simulate()` method it
+  // provides which will make it even more difficult to determine which element is in focus).
+  //
+  // https://github.com/readmeio/api-explorer/commit/2313073711f3bb7b40df6e33eaf403e62caa22a3
+  // https://github.com/enzymejs/enzyme/issues/2173#issuecomment-505551552
+  const ArrayField = createArrayField(explorerEnabled);
+  const BaseInput = createBaseInput(explorerEnabled);
+  const FileWidget = createFileWidget(explorerEnabled);
+  const SchemaField = createSchemaField();
+  const SelectWidget = createSelectWidget(explorerEnabled);
+  const TextareaWidget = createTextareaWidget(explorerEnabled);
+  const URLWidget = createURLWidget(explorerEnabled);
+
   // eslint-disable-next-line react/display-name
   return props => {
-    // eslint-disable-next-line react/prop-types
-    const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, props.operation);
-
-    const ArrayField = createArrayField(explorerEnabled);
-    const BaseInput = createBaseInput(explorerEnabled);
-    const FileWidget = createFileWidget(explorerEnabled);
-    const SchemaField = createSchemaField();
-    const SelectWidget = createSelectWidget(explorerEnabled);
-    const TextareaWidget = createTextareaWidget(explorerEnabled);
-    const URLWidget = createURLWidget(explorerEnabled);
-
     return (
       <Params
         {...props}

@@ -1,3 +1,10 @@
+## <small>8.1.1 (2020-10-28)</small>
+
+* fix: regression in focus being lost when editing inputs in arrays (#1014) ([0238d96](https://github.com/readmeio/api-explorer/commit/0238d96)), closes [#1014](https://github.com/readmeio/api-explorer/issues/1014)
+* chore(deps-dev): bump @readme/eslint-config from 3.5.0 to 3.6.2 (#1006) ([6af41aa](https://github.com/readmeio/api-explorer/commit/6af41aa)), closes [#1006](https://github.com/readmeio/api-explorer/issues/1006)
+
+
+
 ## 8.1.0 (2020-10-21)
 
 * chore: bumping up the bundlesize limit on the explorer -- things will get better ([9654c18](https://github.com/readmeio/api-explorer/commit/9654c18))
