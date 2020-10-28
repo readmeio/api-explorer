@@ -3,10 +3,12 @@
   "description": "React component for Api Logs",
   "version": "8.1.1",
   "main": "dist/index.js",
-  "dependencies": {
-    "async-retry": "^1.2.3",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1"
+  "author": "sean dokko <github.com/dok>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readmeio/api-explorer.git",
+    "directory": "packages/api-logs"
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
@@ -17,13 +19,13 @@
     "test": "jest --coverage --runInBand",
     "watch": "webpack -w --progress"
   },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org",
-    "access": "public"
+  "dependencies": {
+    "async-retry": "^1.2.3",
+    "prop-types": "^15.7.2"
   },
-  "author": "sean dokko <github.com/dok>",
-  "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/api-logs",
+  "peerDependencies": {
+    "react": "16.x"
+  },
   "devDependencies": {
     "@readme/eslint-config": "^3.2.0",
     "eslint": "^7.0.0",
@@ -32,6 +34,7 @@
     "jsinspect": "^0.12.7",
     "nock": "^13.0.2",
     "prettier": "^2.0.1",
+    "react": "^16.14.0",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.41.0",
     "webpack-merge": "^5.1.3"

@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "description": "Open source components that make up ReadMe's API explorer",
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:readme/api-explorer.git"
+  },
   "scripts": {
     "heroku-postbuild": "npm run bootstrap && node scripts/update-example-swagger-files && npm run build",
     "bootstrap": "lerna bootstrap --concurrency 2 --hoist",
@@ -20,14 +26,19 @@
     "watch": "lerna run watch --stream",
     "version": "conventional-changelog --pkg lerna.json -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.0.1",
+    "@readme/emojis": "^2.1.0",
+    "babel-polyfill": "^6.26.0",
+    "prop-types": "^15.7.2",
+    "react-hot-loader": "^4.12.16",
+    "swagger2openapi": "^7.0.0",
+    "whatwg-fetch": "^3.0.0",
+    "yaml": "^1.8.3"
   },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:readme/api-explorer.git"
+  "peerDependencies": {
+    "react": "16.x",
+    "react-dom": "16.x"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -52,6 +63,8 @@
     "lerna": "^3.14.1",
     "node-sass": "^4.12.0",
     "prettier": "^2.0.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "sass-loader": "^10.0.2",
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^4.1.0",
@@ -59,18 +72,6 @@
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2",
     "webpack-merge": "^5.1.3"
-  },
-  "dependencies": {
-    "@apidevtools/swagger-parser": "^10.0.1",
-    "@readme/emojis": "^2.1.0",
-    "babel-polyfill": "^6.26.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.16",
-    "swagger2openapi": "^7.0.0",
-    "whatwg-fetch": "^3.0.0",
-    "yaml": "^1.8.3"
   },
   "prettier": "@readme/eslint-config/prettier",
   "bundlewatch": {

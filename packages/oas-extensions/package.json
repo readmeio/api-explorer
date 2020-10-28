@@ -2,16 +2,16 @@
   "name": "@readme/oas-extensions",
   "description": "A list of extensions that ReadMe has added to the OAS spec",
   "version": "8.1.1",
+  "author": "Dom Harrington <dom@harrington-mail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readmeio/api-explorer.git",
+    "directory": "packages/oas-extensions"
+  },
   "scripts": {
     "test": "eslint ."
   },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org",
-    "access": "public"
-  },
-  "author": "Dom Harrington <dom@harrington-mail.com>",
-  "license": "ISC",
-  "repository": "https://github.com/readmeio/api-explorer/tree/master/packages/oas-extensions",
   "devDependencies": {
     "@readme/eslint-config": "^3.2.0",
     "eslint": "^7.0.0"
