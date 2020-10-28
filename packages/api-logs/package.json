@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "8.1.1",
+  "version": "9.0.0",
   "main": "dist/index.js",
   "author": "sean dokko <github.com/dok>",
   "license": "ISC",

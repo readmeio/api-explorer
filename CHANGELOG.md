@@ -1,3 +1,11 @@
+## 9.0.0 (2020-10-28)
+
+* chore: package lockfile cleanup ([452bdc7](https://github.com/readmeio/api-explorer/commit/452bdc7))
+* chore: pinning react and react-dom across every dependency (#1005) ([4c76046](https://github.com/readmeio/api-explorer/commit/4c76046)), closes [#1005](https://github.com/readmeio/api-explorer/issues/1005)
+* chore(deps): bump @apidevtools/swagger-parser from 10.0.1 to 10.0.2 (#1008) ([68e2fa3](https://github.com/readmeio/api-explorer/commit/68e2fa3)), closes [#1008](https://github.com/readmeio/api-explorer/issues/1008)
+
+
+
 ## <small>8.1.1 (2020-10-28)</small>
 
 * fix: regression in focus being lost when editing inputs in arrays (#1014) ([0238d96](https://github.com/readmeio/api-explorer/commit/0238d96)), closes [#1014](https://github.com/readmeio/api-explorer/issues/1014)
