@@ -307,6 +307,17 @@ describe('suggest edits', () => {
     expect(doc.find('a.hub-reference-edit.pull-right')).toHaveLength(0);
   });
 
+  it('should not show if they have no markdown body', () => {
+    const doc = shallow(
+      <Doc
+        {...props}
+        doc={{ body: '', slug: 'slug', title: 'title', type: 'endpoint' }}
+        suggestedEdits
+      />
+    );
+    expect(doc.find('a.hub-reference-edit.pull-right')).toHaveLength(0);
+  });
+
   it('should show icon if suggested edits is true', () => {
     const doc = shallow(<Doc {...props} suggestedEdits />);
     expect(doc.find('a.hub-reference-edit.pull-right')).toHaveLength(1);

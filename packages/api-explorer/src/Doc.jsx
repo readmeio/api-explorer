@@ -367,7 +367,7 @@ class Doc extends React.Component {
         <div className="hub-reference-section hub-reference-section-top">
           <div className="hub-reference-left">
             <header>
-              {this.props.suggestedEdits && (
+              {this.props.suggestedEdits && (doc.body || '').length > 0 && (
                 <a className="hub-reference-edit pull-right" href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}>
                   <i className="icon icon-register" />
                   Suggest Edits
