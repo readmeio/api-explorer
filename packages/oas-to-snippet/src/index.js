@@ -2,7 +2,7 @@ const HTTPSnippet = require('@readme/httpsnippet');
 const HTTPSnippetSimpleApiClient = require('httpsnippet-client-api');
 const { uppercase } = require('@readme/syntax-highlighter');
 const generateHar = require('@readme/oas-to-har');
-const supportedLanguages = require('./supportedLangs');
+const supportedLanguages = require('./supportedLanguages');
 
 /**
  * @param {Oas} oas
