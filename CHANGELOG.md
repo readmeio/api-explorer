@@ -1,3 +1,10 @@
+## <small>9.0.1 (2020-10-29)</small>
+
+* fix: consumption (#1015) ([7279e0a](https://github.com/readmeio/api-explorer/commit/7279e0a)), closes [#1015](https://github.com/readmeio/api-explorer/issues/1015)
+* chore(deps): upgrading `@readme/syntax-highlighter` (#1016) ([08078d1](https://github.com/readmeio/api-explorer/commit/08078d1)), closes [#1016](https://github.com/readmeio/api-explorer/issues/1016)
+
+
+
 ## 9.0.0 (2020-10-28)
 
 * chore: package lockfile cleanup ([452bdc7](https://github.com/readmeio/api-explorer/commit/452bdc7))
