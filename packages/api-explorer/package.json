@@ -27,7 +27,7 @@
     "@readme/oas-form": "^9.0.0",
     "@readme/oas-to-har": "^9.0.0",
     "@readme/oas-to-snippet": "^9.0.0",
-    "@readme/syntax-highlighter": "^10.1.2",
+    "@readme/syntax-highlighter": "^10.2.0",
     "@readme/variable": "^9.0.0",
     "classnames": "^2.2.5",
     "fetch-har": "^4.0.2",
