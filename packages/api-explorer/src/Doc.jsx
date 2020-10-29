@@ -403,6 +403,7 @@ class Doc extends React.Component {
             action={'View'}
             baseUrl={this.props.baseUrl}
             closeTutorialModal={this.closeTutorialModal}
+            moduleEnabled={true}
             open={this.state.showTutorialModal}
             target={'#tutorialmodal-root'}
             tutorial={this.state.selectedTutorial}

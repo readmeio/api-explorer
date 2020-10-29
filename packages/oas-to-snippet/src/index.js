@@ -2,73 +2,7 @@ const HTTPSnippet = require('@readme/httpsnippet');
 const HTTPSnippetSimpleApiClient = require('httpsnippet-client-api');
 const { uppercase } = require('@readme/syntax-highlighter');
 const generateHar = require('@readme/oas-to-har');
-
-const supportedLanguages = {
-  c: {
-    httpsnippet: ['c'],
-    highlight: 'text/x-csrc',
-  },
-  cplusplus: {
-    httpsnippet: ['c'],
-    highlight: 'text/x-c++src',
-  },
-  csharp: {
-    httpsnippet: ['csharp', 'restsharp'],
-    highlight: 'text/x-csharp',
-  },
-  curl: {
-    httpsnippet: ['shell', 'curl'],
-    highlight: 'shell',
-  },
-  go: {
-    httpsnippet: ['go', 'native'],
-    highlight: 'go',
-  },
-  java: {
-    httpsnippet: ['java', 'okhttp'],
-    highlight: 'java',
-  },
-  javascript: {
-    httpsnippet: ['javascript', 'fetch'],
-    highlight: 'javascript',
-  },
-  kotlin: {
-    httpsnippet: ['java', 'okhttp'],
-    highlight: 'java',
-  },
-  node: {
-    httpsnippet: ['node', 'fetch'],
-    highlight: 'javascript',
-  },
-  'node-simple': {
-    httpsnippet: ['node', 'api'],
-    highlight: 'javascript',
-  },
-  objectivec: {
-    httpsnippet: ['objc', 'NSURLSession'],
-    highlight: 'objectivec',
-  },
-  php: {
-    httpsnippet: ['php', 'curl'],
-    highlight: 'php',
-  },
-  powershell: {
-    httpsnippet: ['powershell'],
-    highlight: 'powershell',
-  },
-  python: {
-    httpsnippet: ['python', 'requests'],
-    highlight: 'python',
-  },
-  ruby: {
-    httpsnippet: ['ruby'],
-    highlight: 'ruby',
-  },
-  swift: {
-    httpsnippet: ['swift', 'nsurlsession'],
-    highlight: 'swift',
-  },
-};
+const supportedLanguages = require('./supportedLanguages');
 
 /**
  * @param {Oas} oas
