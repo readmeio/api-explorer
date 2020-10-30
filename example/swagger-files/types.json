@@ -167,6 +167,11 @@
                     "type": "integer",
                     "format": "int32"
                   },
+                  "integer (format: int32) with multipleOf 2": {
+                    "type": "integer",
+                    "format": "int32",
+                    "multipleOf": 2
+                  },
                   "integer (format: uint32)": {
                     "type": "integer",
                     "format": "uint32"
