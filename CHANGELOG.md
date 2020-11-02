@@ -1,3 +1,12 @@
+## <small>9.0.2 (2020-11-02)</small>
+
+* chore: add multipleOf integer example (#1018) ([ee38839](https://github.com/readmeio/api-explorer/commit/ee38839)), closes [#1018](https://github.com/readmeio/api-explorer/issues/1018)
+* chore(deps-dev): bump @babel/plugin-transform-react-jsx (#1019) ([2175f08](https://github.com/readmeio/api-explorer/commit/2175f08)), closes [#1019](https://github.com/readmeio/api-explorer/issues/1019)
+* chore(deps-dev): bump node-fetch from 2.6.0 to 2.6.1 (#1022) ([2a99551](https://github.com/readmeio/api-explorer/commit/2a99551)), closes [#1022](https://github.com/readmeio/api-explorer/issues/1022)
+* chore(deps): upgrading httpsnippet-client-api to 2.4.4 ([db755b3](https://github.com/readmeio/api-explorer/commit/db755b3))
+
+
+
 ## <small>9.0.1 (2020-10-29)</small>
 
 * fix: consumption (#1015) ([7279e0a](https://github.com/readmeio/api-explorer/commit/7279e0a)), closes [#1015](https://github.com/readmeio/api-explorer/issues/1015)
