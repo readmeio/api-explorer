@@ -21,7 +21,7 @@
     "@readme/oas-extensions": "^9.0.0",
     "@readme/oas-to-har": "^9.0.0",
     "@readme/syntax-highlighter": "^10.2.0",
-    "httpsnippet-client-api": "^2.4.2",
+    "httpsnippet-client-api": "^2.4.4",
     "oas": "^5.0.0"
   },
   "devDependencies": {
