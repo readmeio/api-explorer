@@ -18,10 +18,10 @@ const antdTheme = (JSONEditor) => class extends JSONEditor.defaults.themes.boots
   }
 
   getButton (text, icon, title) {
-    const el = icon.className === 'fas fa-copy' 
+    const el = icon.className === 'fas fa-copy'
     || icon.className === 'fas fa-save'
     || icon.className === 'fas fa-ban'
-    ? super.getButton(text, undefined, title) 
+    ? super.getButton(text, undefined, title)
     : super.getButton(text, icon, title)
     el.classList.add('ant-btn')
     el.classList.remove('btn')
@@ -55,11 +55,14 @@ const antdTheme = (JSONEditor) => class extends JSONEditor.defaults.themes.boots
   addInputError (input, text) {
     super.addInputError(input, text)
     input.style.background = 'white'
-    input.errmsg.style.gridColumn = '1 / -1'
-    input.errmsg.style.padding = '8px'
-    input.errmsg.style.margin = '8px 0 0'
-    input.errmsg.classList.add('alert', 'alert-danger')
-    input.errmsg.setAttribute('role', 'alert')
+
+    if (input.errmsg) {
+      input.errmsg.style.gridColumn = '1 / -1'
+      input.errmsg.style.padding = '8px'
+      input.errmsg.style.margin = '8px 0 0'
+      input.errmsg.classList.add('alert', 'alert-danger')
+      input.errmsg.setAttribute('role', 'alert')
+    }
   }
 }
 

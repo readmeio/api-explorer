@@ -4,6 +4,7 @@ import antdTheme from "./antd-theme-json-editor";
 import notCustomEditor from "./not-custom-editor";
 import anyOfEditor from "./anyOf-custom-editor";
 import objectsEditor from "./objects-editor";
+import arraysEditor from "./arrays-editor";
 
 function setDefaultCustomization (JSONEditor) {
   const editorsKeys = Object.keys(JSONEditor.defaults.editors)
@@ -112,6 +113,7 @@ module.exports = function configureJSONEditor(JSONEditor, intl, setFormSubmissio
 
   if (!JSONEditor.isCustomized) {
     setDefaultCustomization(JSONEditor)
+    JSONEditor.defaults.editors.array = arraysEditor(JSONEditor.defaults.editors.array)
     JSONEditor.defaults.editors.anyOf = anyOfEditor(intl, setFormSubmissionListener, JSONEditor.defaults.editors.multiple)
     JSONEditor.isCustomized = true
     JSONEditor.defaults.editors.object = objectsEditor(JSONEditor.defaults.editors.object)

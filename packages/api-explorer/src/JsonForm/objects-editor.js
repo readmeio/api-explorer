@@ -12,7 +12,7 @@ module.exports = (classReference) => class objectCustomEditor extends classRefer
       this.editjson_textarea.style.fontFamily = 'monospace'
       this.collapsed = false
       this.setButtonText(this.collapse_control, '', 'collapse', this.translate('button_collapse'))
-    } 
+    }
     if (this.schema.id !== 'root' && this.editjson_holder && this.editjson_textarea && this.editjson_control) {
       const outsideClickListener = event => {
         if (!this.editjson_holder.contains(event.target) && this.editjson_holder.style.display !== 'none') {
@@ -49,6 +49,21 @@ module.exports = (classReference) => class objectCustomEditor extends classRefer
 
   postBuild() {
     super.postBuild()
+
+    if (this.parent && this.header) {
+      this.header.style.fontSize = '14px'
+      this.header.style.fontWeight = '400'
+      this.header.style.textTransform = 'unset'
+
+      if (
+        this.jsoneditor &&
+        this.jsoneditor.schema &&
+        Array.isArray(this.jsoneditor.schema.required) &&
+        this.jsoneditor.schema.required.includes(this.key)
+      ) {
+        this.header.classList.add('required')
+      }
+    }
 
     this.editjson_control.classList.remove('ant-btn-primary')
     this.editjson_control.classList.add('ant-btn-sm', 'ant-btn')

@@ -249,7 +249,10 @@ exports[`JSONForm  snapshot 1`] = `
                      
                   </span>
                 </button>
-                <label>
+                <label
+                  class="required"
+                  style="font-size: 14px; font-weight: 400; text-transform: unset;"
+                >
                   petPedigree
                 </label>
               </h3>
