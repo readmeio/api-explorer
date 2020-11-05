@@ -12,9 +12,8 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "inspect": "jsinspect",
     "lint": "eslint . --ext .jsx --ext .js",
-    "pretest": "npm run lint && npm run prettier && npm run inspect",
+    "pretest": "npm run lint && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage --runInBand",
     "watch": "webpack -w --progress"
@@ -31,7 +30,6 @@
     "eslint": "^7.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^26.0.1",
-    "jsinspect": "^0.12.7",
     "nock": "^13.0.2",
     "prettier": "^2.0.1",
     "react": "^16.14.0",

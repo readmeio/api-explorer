@@ -11,9 +11,8 @@
     "directory": "packages/oas-to-har"
   },
   "scripts": {
-    "inspect": "jsinspect",
     "lint": "eslint .",
-    "pretest": "npm run lint && npm run prettier && npm run inspect",
+    "pretest": "npm run lint && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "test": "jest --coverage"
   },
@@ -28,7 +27,6 @@
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "jest-expect-har": "^1.0.0",
-    "jsinspect": "^0.12.6",
     "prettier": "^2.0.1"
   },
   "prettier": "@readme/eslint-config/prettier",
