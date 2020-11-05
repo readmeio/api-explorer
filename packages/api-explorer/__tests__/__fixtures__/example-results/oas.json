@@ -63,6 +63,83 @@
           }
         }
       }
+    },
+    "/single-media-type-multiple-examples": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "cat": {
+                    "summary": "An example of a cat",
+                    "value": {
+                      "name": "Fluffy",
+                      "petType": "Cat"
+                    }
+                  },
+                  "dog": {
+                    "summary": "An example of a dog with a cat's name",
+                    "value": {
+                      "name": "Puma",
+                      "petType": "Dog"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed",
+            "content": {
+              "application/xml": {
+                "examples": {
+                  "response": {
+                    "value":
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/single-media-type-single-example": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "cat": {
+                    "summary": "An example of a cat",
+                    "value": {
+                      "name": "Fluffy",
+                      "petType": "Cat"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed",
+            "content": {
+              "application/xml": {
+                "examples": {
+                  "response": {
+                    "value":
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

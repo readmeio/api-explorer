@@ -4,9 +4,9 @@ const path = require('path');
 const datauri = require('datauri');
 
 const oasToHar = require('../src/index');
-const commonParameters = require('./__fixtures__/common-parameters');
-const multipartFormData = require('./__fixtures__/multipart-form-data');
-const multipartFormDataArrayOfFiles = require('./__fixtures__/multipart-form-data/array-of-files');
+const commonParameters = require('./__fixtures__/common-parameters.json');
+const multipartFormData = require('./__fixtures__/multipart-form-data.json');
+const multipartFormDataArrayOfFiles = require('./__fixtures__/multipart-form-data/array-of-files.json');
 
 const oas = new Oas();
 

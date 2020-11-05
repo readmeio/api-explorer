@@ -1,9 +1,9 @@
 const Oas = require('oas/tooling');
 
 const isAuthReady = require('../../src/lib/is-auth-ready');
-const authTypesOas = require('../__fixtures__/auth-types/oas');
-const multipleSchemes = require('../__fixtures__/multiple-securities/oas');
-const noSecuritySchemes = require('../__fixtures__/auth-types/no-security-schemes');
+const authTypesOas = require('../__fixtures__/auth-types/oas.json');
+const multipleSchemes = require('../__fixtures__/multiple-securities/oas.json');
+const noSecuritySchemes = require('../__fixtures__/auth-types/no-security-schemes.json');
 
 const oas = new Oas(authTypesOas);
 const oas2 = new Oas(multipleSchemes);
