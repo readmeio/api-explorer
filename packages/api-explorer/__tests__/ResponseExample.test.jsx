@@ -5,7 +5,7 @@ const Oas = require('oas/tooling');
 
 const petstore = require('./__fixtures__/petstore/oas');
 const string = require('./__fixtures__/string/oas.json');
-const exampleResults = require('./__fixtures__/example-results/oas');
+const exampleResults = require('./__fixtures__/example-results/oas.json');
 
 const ResponseExample = require('../src/ResponseExample');
 const ExampleTabs = require('../src/ExampleTabs');
@@ -155,7 +155,7 @@ describe('exampleTab', () => {
 
     expect(doc.state('exampleTab')).toBe(0);
 
-    doc.instance().setExampleTab(1);
+    doc.instance().setCurrentTab(1);
 
     expect(doc.state('exampleTab')).toBe(1);
   });

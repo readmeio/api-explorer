@@ -5,7 +5,6 @@ const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').de
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
-const getResponseExamples = require('./lib/get-response-examples');
 const contentTypeIsJson = require('./lib/content-type-is-json');
 const upgradeLegacyResponses = require('./lib/upgrade-legacy-responses');
 
@@ -13,13 +12,13 @@ const ExampleTabs = require('./ExampleTabs');
 
 const { Operation } = Oas;
 
-function isDisplayable(example, responseExampleCopy) {
-  if (!responseExampleCopy) return true;
+function isDisplayable(example, current) {
+  if (!current) return true;
 
-  return example.label === responseExampleCopy;
+  return example.label === current;
 }
 
-function getReactJson(example, responseExampleCopy) {
+function getReactJson(example, current) {
   return (
     <ReactJson
       key={example.code}
@@ -33,7 +32,7 @@ function getReactJson(example, responseExampleCopy) {
       style={{
         padding: '20px 10px',
         backgroundColor: 'transparent',
-        display: isDisplayable(example, responseExampleCopy) ? 'block' : 'none',
+        display: isDisplayable(example, current) ? 'block' : 'none',
         fontSize: '12px',
       }}
       theme="tomorrow"
@@ -45,28 +44,39 @@ class ResponseExample extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      exampleTab: 0,
-      responseExample: null,
+      currentExample: null,
+      currentTab: 0,
+      responseExamples: [],
       responseMediaType: null,
       responseMediaTypeExample: null,
     };
 
-    this.setExampleTab = this.setExampleTab.bind(this);
+    this.setCurrentTab = this.setCurrentTab.bind(this);
     this.setResponseExample = this.setResponseExample.bind(this);
     this.setResponseMediaType = this.setResponseMediaType.bind(this);
   }
 
-  setExampleTab(index) {
+  componentDidMount() {
+    const { operation } = this.props;
+
+    operation.getResponseExamples().then(examples => {
+      this.setState({
+        responseExamples: examples || [],
+      });
+    });
+  }
+
+  setCurrentTab(index) {
     this.setState({
-      exampleTab: index,
-      responseExample: null,
+      currentExample: null,
+      currentTab: index,
       responseMediaType: null,
       responseMediaTypeExample: null,
     });
   }
 
   setResponseExample(index) {
-    this.setState({ responseExample: index });
+    this.setState({ currentExample: index });
   }
 
   setResponseMediaType(example, index) {
@@ -122,9 +132,9 @@ class ResponseExample extends React.Component {
   }
 
   showExamples(language, isJSON, examples, mediaTypes, ex, responseMediaType) {
-    const { responseExample } = this.state;
-    let responseExampleCopy = responseExample;
-    if (!responseExampleCopy && examples[0]) responseExampleCopy = examples[0].label;
+    const { currentExample } = this.state;
+    let current = currentExample;
+    if (!current && examples[0]) current = examples[0].label;
 
     return (
       <div>
@@ -137,7 +147,7 @@ class ResponseExample extends React.Component {
               <select
                 className="response-select"
                 onChange={e => this.setResponseExample(e.target.value)}
-                value={responseExampleCopy}
+                value={current}
               >
                 {examples.map(example => (
                   <option key={example.label} value={example.label}>
@@ -159,13 +169,13 @@ class ResponseExample extends React.Component {
 
             return (
               <div key={index} className="example example_json">
-                {getReactJson(example, responseExampleCopy)}
+                {getReactJson(example, current)}
               </div>
             );
           } catch (e) {
             return (
               <div key={index} className="example">
-                <div style={{ display: isDisplayable(example, responseExampleCopy) ? 'block' : 'none' }}>
+                <div style={{ display: isDisplayable(example, current) ? 'block' : 'none' }}>
                   {syntaxHighlighter(example.code, language, {
                     dark: true,
                   })}
@@ -180,8 +190,7 @@ class ResponseExample extends React.Component {
 
   render() {
     const { operation, result, oas, exampleResponses } = this.props;
-    const selectedTab = this.state.exampleTab;
-    const { responseMediaType, responseMediaTypeExample } = this.state;
+    const { currentTab, responseExamples, responseMediaType, responseMediaTypeExample } = this.state;
     const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
     let examples;
@@ -191,7 +200,7 @@ class ResponseExample extends React.Component {
       // legacy shape so we need to adhoc rewrite them to fit this new work.
       examples = upgradeLegacyResponses(exampleResponses);
     } else {
-      examples = getResponseExamples(operation, oas);
+      examples = responseExamples;
     }
 
     const hasExamples = examples.find(e => {
@@ -220,7 +229,7 @@ class ResponseExample extends React.Component {
       <div className="hub-reference-results-examples code-sample">
         {examples && examples.length > 0 && hasExamples && (
           <span>
-            <ExampleTabs examples={examples} selected={selectedTab} setExampleTab={this.setExampleTab} />
+            <ExampleTabs examples={examples} selected={currentTab} setCurrentTab={this.setCurrentTab} />
 
             <div className="code-sample-body">
               {examples.map((ex, index) => {
@@ -239,7 +248,7 @@ class ResponseExample extends React.Component {
                   <div key={index}>
                     <pre
                       className={`tomorrow-night tabber-body tabber-body-${index}`}
-                      style={{ display: index === selectedTab ? 'block' : '' }}
+                      style={{ display: index === currentTab ? 'block' : '' }}
                     >
                       {!example.multipleExamples && this.showMediaTypes(ex, responseMediaType, true)}
 

@@ -1,10 +1,10 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const { waitFor } = require('@testing-library/dom');
 const FetchResponse = require('node-fetch').Response;
 const Oas = require('oas/tooling');
 
-const petstore = require('./__fixtures__/petstore/oas');
-const exampleResults = require('./__fixtures__/example-results/oas');
+const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 
 const parseResponse = require('../src/lib/parse-response');
 const ResponseTabs = require('../src/ResponseTabs');
@@ -12,7 +12,6 @@ const ResponseTabs = require('../src/ResponseTabs');
 const oas = new Oas(petstore);
 const props = {
   hideResults: () => {},
-  oas,
   operation: oas.operation('/pet', 'post'),
   responseTab: 'result',
   setTab: () => {},
@@ -32,28 +31,28 @@ beforeEach(async () => {
 });
 
 test('should show result/metadata tab', () => {
-  const exampleTabs = shallow(<ResponseTabs {...props} />);
+  const comp = shallow(<ResponseTabs {...props} />);
 
-  expect(exampleTabs.find('Tab')).toHaveLength(2);
+  expect(comp.find('Tab')).toHaveLength(2);
 });
 
 test('should select matching tab by name', () => {
-  const exampleTabs = mount(<ResponseTabs {...props} />);
+  const comp = mount(<ResponseTabs {...props} />);
 
-  expect(exampleTabs.find('a').at(0).hasClass('selected')).toBe(true);
+  expect(comp.find('a').at(0).hasClass('selected')).toBe(true);
 });
 
 test('should not have a "back to examples" button if no examples', () => {
-  const exampleTabs = shallow(<ResponseTabs {...props} />);
+  const comp = shallow(<ResponseTabs {...props} />);
 
-  expect(exampleTabs.find('a.pull-right')).toHaveLength(0);
+  expect(comp.find('a.pull-right')).toHaveLength(0);
 });
 
 test('should call setTab() on click', () => {
   const setTab = jest.fn();
-  const exampleTabs = mount(<ResponseTabs {...props} setTab={setTab} />);
+  const comp = mount(<ResponseTabs {...props} setTab={setTab} />);
 
-  exampleTabs
+  comp
     .find('a')
     .at(1)
     .simulate('click', { preventDefault() {} });
@@ -63,23 +62,19 @@ test('should call setTab() on click', () => {
 
 test('should call hideResults() on click', () => {
   const hideResults = jest.fn();
-  const exampleResultsOas = new Oas(exampleResults);
-  const exampleTabs = shallow(
-    <ResponseTabs
-      {...props}
-      hideResults={hideResults}
-      oas={exampleResultsOas}
-      operation={exampleResultsOas.operation('/results', 'get')}
-    />
-  );
+  const comp = shallow(<ResponseTabs {...props} hideResults={hideResults} />);
 
-  exampleTabs.find('a.pull-right').simulate('click', { preventDefault() {} });
+  return waitFor(() => {
+    comp.update();
 
-  expect(hideResults).toHaveBeenCalled();
+    comp.find('a.pull-right').simulate('click', { preventDefault() {} });
+
+    expect(hideResults).toHaveBeenCalled();
+  });
 });
 
 test('should display status code for response', () => {
-  const exampleTabs = shallow(<ResponseTabs {...props} />);
+  const comp = shallow(<ResponseTabs {...props} />);
 
-  expect(exampleTabs.find('IconStatus')).toHaveLength(1);
+  expect(comp.find('IconStatus')).toHaveLength(1);
 });

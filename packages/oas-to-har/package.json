@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@readme/oas-extensions": "^9.0.0",
-    "oas": "^5.0.0",
+    "oas": "github:readmeio/oas#feat/get-examples",
     "parse-data-url": "^3.0.0"
   },
   "devDependencies": {
