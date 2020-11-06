@@ -1,3 +1,10 @@
+## 9.2.0 (2020-11-06)
+
+* chore: rebuilding lock files ([9282a30](https://github.com/readmeio/api-explorer/commit/9282a30))
+* feat: improved support for response examples (#1027) ([d22a5cf](https://github.com/readmeio/api-explorer/commit/d22a5cf)), closes [#1027](https://github.com/readmeio/api-explorer/issues/1027)
+
+
+
 ## 9.1.0 (2020-11-06)
 
 * style: removing jsinspect (#1028) ([0de5c32](https://github.com/readmeio/api-explorer/commit/0de5c32)), closes [#1028](https://github.com/readmeio/api-explorer/issues/1028)
