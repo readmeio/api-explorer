@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const classNames = require('classnames');
 const { getStatusCode } = require('@readme/http-status-codes');
 
-function IconStatus({ status, name }) {
+function IconStatus({ status }) {
   let statusCode;
   try {
     statusCode = getStatusCode(status);
@@ -24,18 +24,16 @@ function IconStatus({ status, name }) {
       })}
     >
       <i className="fa fa-circle" /> {visibleStatusCode}
-      <em>{name || statusCode.message}</em>
+      <em>{statusCode.message}</em>
     </span>
   );
 }
 
 IconStatus.propTypes = {
-  name: PropTypes.string,
   status: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 IconStatus.defaultProps = {
-  name: '',
   status: 200, // TODO: For some reason this wasn't getting passed sometimes
 };
 

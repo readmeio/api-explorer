@@ -3,7 +3,7 @@ const { mount } = require('enzyme');
 const FetchResponse = require('node-fetch').Response;
 const Oas = require('oas/tooling');
 
-const petstore = require('./__fixtures__/petstore/oas');
+const petstore = require('./__fixtures__/petstore/oas.json');
 
 const parseResponse = require('../src/lib/parse-response');
 const ResponseBody = require('../src/ResponseBody');

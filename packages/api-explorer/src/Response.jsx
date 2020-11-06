@@ -41,7 +41,6 @@ class Response extends React.Component {
               <span>
                 <ResponseTabs
                   hideResults={hideResults}
-                  oas={oas}
                   operation={operation}
                   responseTab={responseTab}
                   result={result}

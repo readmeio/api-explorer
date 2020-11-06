@@ -7,7 +7,7 @@ const PathUrl = require('../src/PathUrl');
 const { splitPath } = PathUrl;
 
 const { Operation } = Oas;
-const petstore = require('./__fixtures__/petstore/oas');
+const petstore = require('./__fixtures__/petstore/oas.json');
 
 const oas = new Oas(petstore);
 

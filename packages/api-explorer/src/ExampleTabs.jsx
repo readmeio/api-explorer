@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const IconStatus = require('./IconStatus');
 const Tab = require('./Tab');
 
-function ExampleTabs({ examples, selected, setExampleTab }) {
+function ExampleTabs({ examples, selected, setCurrentTab }) {
   return (
     <ul className="code-sample-tabs hub-reference-results-header">
       {examples.map((example, index) => {
@@ -12,11 +12,11 @@ function ExampleTabs({ examples, selected, setExampleTab }) {
             key={index}
             onClick={e => {
               e.preventDefault();
-              setExampleTab(index);
+              setCurrentTab(index);
             }}
             selected={index === selected}
           >
-            <IconStatus name={example.name} status={example.status} />
+            <IconStatus status={example.status} />
           </Tab>
         );
       })}
@@ -27,7 +27,7 @@ function ExampleTabs({ examples, selected, setExampleTab }) {
 ExampleTabs.propTypes = {
   examples: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selected: PropTypes.number.isRequired,
-  setExampleTab: PropTypes.func.isRequired,
+  setCurrentTab: PropTypes.func.isRequired,
 };
 
 module.exports = ExampleTabs;

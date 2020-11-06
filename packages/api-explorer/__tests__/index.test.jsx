@@ -8,8 +8,8 @@ const ErrorBoundary = require('../src/ErrorBoundary');
 
 const { ApiExplorer } = WrappedApiExplorer;
 
-const oas = require('./__fixtures__/petstore/oas');
-const oasCommon = require('./__fixtures__/parameters/common');
+const oas = require('./__fixtures__/petstore/oas.json');
+const oasCommon = require('./__fixtures__/parameters/common.json');
 
 const createDocs = require('../lib/create-docs');
 

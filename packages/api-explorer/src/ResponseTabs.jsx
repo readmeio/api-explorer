@@ -1,56 +1,75 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const Oas = require('oas/tooling');
+const { Operation } = require('oas/tooling');
 
-const getResponseExamples = require('./lib/get-response-examples');
 const IconStatus = require('./IconStatus');
 const Tab = require('./Tab');
 
-const { Operation } = Oas;
+class ResponseTabs extends React.Component {
+  constructor(props) {
+    super(props);
 
-function ResponseTabs({ result, oas, operation, responseTab, setTab, hideResults }) {
-  return (
-    <ul className="code-sample-tabs hub-reference-results-header">
-      <Tab
-        onClick={e => {
-          e.preventDefault();
-          setTab('result');
-        }}
-        selected={responseTab === 'result'}
-      >
-        <IconStatus status={result.status} />
-      </Tab>
+    this.state = {
+      responseExamples: null,
+    };
+  }
 
-      <Tab
-        onClick={e => {
-          e.preventDefault();
-          setTab('metadata');
-        }}
-        selected={responseTab === 'metadata'}
-      >
-        Metadata
-      </Tab>
+  componentDidMount() {
+    const { operation } = this.props;
 
-      {getResponseExamples(operation, oas).length > 0 && (
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a
-          className="hub-reference-results-back pull-right"
-          href="#"
+    operation.getResponseExamples().then(examples => {
+      this.setState({
+        responseExamples: examples,
+      });
+    });
+  }
+
+  render() {
+    const { responseExamples } = this.state;
+    const { result, responseTab, setTab, hideResults } = this.props;
+
+    return (
+      <ul className="code-sample-tabs hub-reference-results-header">
+        <Tab
           onClick={e => {
             e.preventDefault();
-            hideResults();
+            setTab('result');
           }}
+          selected={responseTab === 'result'}
         >
-          <span className="fa fa-chevron-circle-left"> to examples </span>
-        </a>
-      )}
-    </ul>
-  );
+          <IconStatus status={result.status} />
+        </Tab>
+
+        <Tab
+          onClick={e => {
+            e.preventDefault();
+            setTab('metadata');
+          }}
+          selected={responseTab === 'metadata'}
+        >
+          Metadata
+        </Tab>
+
+        {responseExamples && (
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+          <a
+            className="hub-reference-results-back pull-right"
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              hideResults();
+            }}
+          >
+            <span className="fa fa-chevron-circle-left"> to examples </span>
+          </a>
+        )}
+      </ul>
+    );
+  }
 }
 
 ResponseTabs.propTypes = {
   hideResults: PropTypes.func.isRequired,
-  oas: PropTypes.instanceOf(Oas).isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   responseTab: PropTypes.string.isRequired,
   result: PropTypes.shape({

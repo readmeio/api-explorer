@@ -4,7 +4,7 @@ const Oas = require('oas/tooling');
 
 const AuthBox = require('../src/AuthBox');
 
-const multipleSecurities = require('./__fixtures__/multiple-securities/oas');
+const multipleSecurities = require('./__fixtures__/multiple-securities/oas.json');
 
 const oas = new Oas(multipleSecurities);
 
