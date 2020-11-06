@@ -1,3 +1,9 @@
+## 9.1.0 (2020-11-06)
+
+* style: removing jsinspect (#1028) ([0de5c32](https://github.com/readmeio/api-explorer/commit/0de5c32)), closes [#1028](https://github.com/readmeio/api-explorer/issues/1028)
+
+
+
 ## <small>9.0.2 (2020-11-02)</small>
 
 * chore: add multipleOf integer example (#1018) ([ee38839](https://github.com/readmeio/api-explorer/commit/ee38839)), closes [#1018](https://github.com/readmeio/api-explorer/issues/1018)
