@@ -1,3 +1,9 @@
+## <small>9.2.1 (2020-11-09)</small>
+
+* chore(deps): upgrading oas to 5.2.0 (#1029) ([4f0807d](https://github.com/readmeio/api-explorer/commit/4f0807d)), closes [#1029](https://github.com/readmeio/api-explorer/issues/1029)
+
+
+
 ## 9.2.0 (2020-11-06)
 
 * chore: rebuilding lock files ([9282a30](https://github.com/readmeio/api-explorer/commit/9282a30))
