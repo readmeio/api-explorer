@@ -178,7 +178,7 @@ form.rjsf .field .form-group select {
 }
 
  /* For each nested object in an array, unset max-width for description. */
- .array-item fieldset .field-description {
+.array-item fieldset .field-description {
   max-width: unset;
   text-align: left;
 }
@@ -798,4 +798,10 @@ form.rjsf {
   > div + div {
     margin-left: 15px;
   }
+}
+
+// Make response examples/Try It results scrollable so they don't blow up the page.
+.hub-reference-results-examples .code-sample-body {
+  max-height: 80vh;
+  overflow: auto;
 }
