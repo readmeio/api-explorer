@@ -4,7 +4,8 @@ jsf.option({
   failOnInvalidTypes: false,
   failOnInvalidFormat: false,
   useDefaultValue: true,
-  useExamplesValue: true
+  useExamplesValue: true,
+  alwaysFakeOptionals: true,
 })
 
 export default function generateFakeSchema(schema) {
