@@ -1,5 +1,6 @@
 const extensions = require('@readme/oas-extensions');
-const { findSchemaDefinition, getSchema, parametersToJsonSchema } = require('oas/tooling/utils');
+const { findSchemaDefinition, getSchema } = require('oas/tooling/utils');
+const { types: jsonSchemaTypes } = require('oas/tooling/operation/get-parameters-as-json-schema');
 const { Operation } = require('oas/tooling');
 const parseDataUrl = require('parse-data-url');
 
@@ -28,7 +29,7 @@ function formatter(values, param, type, onlyIfExists) {
   return undefined;
 }
 
-const defaultFormDataTypes = Object.keys(parametersToJsonSchema.types).reduce((prev, curr) => {
+const defaultFormDataTypes = Object.keys(jsonSchemaTypes).reduce((prev, curr) => {
   return Object.assign(prev, { [curr]: {} });
 }, {});
 
@@ -96,8 +97,8 @@ module.exports = (
     }
   }
 
-  if (operation.parameters) {
-    operation.parameters.forEach(addParameter);
+  if (operation.schema.parameters) {
+    operation.schema.parameters.forEach(addParameter);
   }
 
   // Does this operation have any common parameters?
@@ -142,16 +143,16 @@ module.exports = (
   }
 
   // Does this response have any documented content types?
-  if (operation.responses) {
-    Object.keys(operation.responses).some(response => {
-      if (!operation.responses[response].content) return false;
+  if (operation.schema.responses) {
+    Object.keys(operation.schema.responses).some(response => {
+      if (!operation.schema.responses[response].content) return false;
 
       // if there is an Accept header specified in the form, we'll use that instead.
       if (formData.header.Accept) return true;
 
       har.headers.push({
         name: 'Accept',
-        value: getResponseContentType(operation.responses[response].content),
+        value: getResponseContentType(operation.schema.responses[response].content),
       });
 
       return true;
@@ -203,7 +204,7 @@ module.exports = (
     });
   }
 
-  const schema = getSchema(operation, oas) || { schema: {} };
+  const schema = getSchema(operation.schema, oas) || { schema: {} };
   if (schema.schema && Object.keys(schema.schema).length) {
     if (operation.isFormUrlEncoded()) {
       if (Object.keys(formData.formData).length) {
@@ -329,7 +330,7 @@ module.exports = (
     });
   }
 
-  const securityRequirements = operation.security || oas.security;
+  const securityRequirements = operation.getSecurity();
 
   if (securityRequirements && securityRequirements.length) {
     // TODO pass these values through the formatter?

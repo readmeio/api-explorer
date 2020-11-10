@@ -28,7 +28,7 @@ test('should show no examples if endpoint does not have any', () => {
 
 test('should check the operation level extensions first', () => {
   const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
-  operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
+  operationExplorerEnabled.schema[extensions.EXPLORER_ENABLED] = true;
 
   const comp = shallow(
     <ResponseExample

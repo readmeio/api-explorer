@@ -6,14 +6,16 @@ const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 
 const CodeSample = require('../src/CodeSample');
 
-const { Operation } = Oas;
+const oas = new Oas(petstore);
+
 const props = {
   auth: {},
   formData: {},
   language: 'node',
   setLanguage: () => {},
+  oas,
   oasUrl: 'https://example.com/openapi.json',
-  operation: new Operation({}, '/pet/{petId}', 'get'),
+  operation: oas.operation('/pet/{petId}', 'get'),
 };
 
 describe('tabs', () => {
@@ -22,25 +24,25 @@ describe('tabs', () => {
 
   it('should display tabs if SAMPLES_ENABLED is true', () => {
     const languages = ['node', 'curl'];
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
         {...props}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: true,
             [extensions.SAMPLES_LANGUAGES]: languages,
-            servers: [{ url: 'http://example.com' }],
           })
         }
       />
     );
 
-    expect(codeSample.find('ul.code-sample-tabs li')).toHaveLength(2);
-    expect(codeSample.find('li')).toHaveLength(languages.length);
+    expect(comp.find('ul.code-sample-tabs li')).toHaveLength(2);
+    expect(comp.find('li')).toHaveLength(languages.length);
   });
 
   it('should display a message if no code samples', () => {
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
         {...props}
         oas={
@@ -52,21 +54,16 @@ describe('tabs', () => {
       />
     );
 
-    expect(codeSample.find('.hub-no-code').text()).toBe('No code samples available');
+    expect(comp.find('.hub-no-code').text()).toBe('No code samples available');
   });
 });
 
 describe('code examples', () => {
   it('should support the `node-simple` language', () => {
-    const docProps = {
-      ...props,
-      language: 'node-simple',
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-    };
-
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
-        {...docProps}
+        {...props}
+        language={'node-simple'}
         oas={
           new Oas({
             ...petstore,
@@ -77,83 +74,68 @@ describe('code examples', () => {
       />
     );
 
-    expect(codeSample.find('.hub-code-auto pre').text()).toContain(
+    expect(comp.find('.hub-code-auto pre').text()).toContain(
       "const sdk = require('api')('https://example.com/openapi.json');"
     );
   });
 
   it('should display custom examples over pre-filled examples', () => {
-    const docProps = {
-      ...props,
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-      examples: [
-        {
-          language: 'javascript',
-          code: 'console.log(1);',
-        },
-      ],
-    };
-
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
-        {...docProps}
+        {...props}
+        examples={[
+          {
+            language: 'javascript',
+            code: 'console.log(1);',
+          },
+        ]}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: true,
             [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
-            servers: [{ url: 'http://example.com' }],
           })
         }
       />
     );
 
-    expect(codeSample.find('.code-sample-body')).toHaveLength(1);
-    expect(codeSample.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
+    expect(comp.find('.code-sample-body')).toHaveLength(1);
+    expect(comp.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
   });
 
   it('should display custom examples even if SAMPLES_ENABLED is false', () => {
-    const docProps = {
-      ...props,
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-      examples: [
-        {
-          language: 'javascript',
-          code: 'console.log(1);',
-        },
-      ],
-    };
-
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
-        {...docProps}
+        {...props}
+        examples={[
+          {
+            language: 'javascript',
+            code: 'console.log(1);',
+          },
+        ]}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: false,
-            servers: [{ url: 'http://example.com' }],
           })
         }
       />
     );
 
-    expect(codeSample.find('.code-sample-body')).toHaveLength(1);
-    expect(codeSample.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
+    expect(comp.find('.code-sample-body')).toHaveLength(1);
+    expect(comp.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
   });
 
   it('should not error if no code given', () => {
-    const docProps = {
-      ...props,
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-      examples: [
-        {
-          language: 'javascript',
-        },
-      ],
-    };
-
     expect(() =>
       shallow(
         <CodeSample
-          {...docProps}
+          {...props}
+          examples={[
+            {
+              language: 'javascript',
+            },
+          ]}
           oas={
             new Oas({
               [extensions.SAMPLES_ENABLED]: true,
@@ -167,165 +149,145 @@ describe('code examples', () => {
   });
 
   it('should not error if language requested cannot be auto-generated', () => {
-    const docProps = {
-      ...props,
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-      language: 'css',
-    };
-
-    const component = (
+    const comp = (
       <CodeSample
-        {...docProps}
+        {...props}
+        language={'css'}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: true,
             [extensions.SAMPLES_LANGUAGES]: ['css'],
-            servers: [{ url: 'http://example.com' }],
           })
         }
       />
     );
 
-    expect(() => shallow(component)).not.toThrow(/Cannot read property 'snippet' of undefined/);
+    expect(() => shallow(comp)).not.toThrow(/Cannot read property 'snippet' of undefined/);
 
-    const codeSample = shallow(component);
+    const codeSample = shallow(comp);
     expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
     expect(codeSample.find('.hub-code-auto pre')).toHaveLength(0);
     expect(codeSample.find('.hub-no-code')).toHaveLength(1);
   });
 
   it('should not render sample if language is missing', () => {
-    const docProps = {
-      ...props,
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-      examples: [
-        {
-          code: 'console.log(1);',
-        },
-        {
-          language: 'curl',
-          code: 'curl example.com',
-        },
-      ],
-    };
-
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
-        {...docProps}
+        {...props}
+        examples={[
+          {
+            code: 'console.log(1);',
+          },
+          {
+            language: 'curl',
+            code: 'curl example.com',
+          },
+        ]}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: true,
             [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
-            servers: [{ url: 'http://example.com' }],
           })
         }
       />
     );
 
-    expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
-    expect(codeSample.find('.code-sample-body pre')).toHaveLength(1);
+    expect(comp.find('.code-sample-tabs a')).toHaveLength(1);
+    expect(comp.find('.code-sample-body pre')).toHaveLength(1);
   });
 
   it('should render first of examples if language does not exist', () => {
-    const docProps = {
-      ...props,
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-      examples: [
-        {
-          language: 'javascript',
-        },
-        {
-          language: 'typescript',
-        },
-      ],
-      language: 'perl',
-    };
-
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
-        {...docProps}
+        {...props}
+        examples={[
+          {
+            language: 'javascript',
+          },
+          {
+            language: 'typescript',
+          },
+        ]}
+        language={'perl'}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: true,
             [extensions.SAMPLES_LANGUAGES]: ['css'],
-            servers: [{ url: 'http://example.com' }],
           })
         }
       />
     );
 
-    expect(codeSample.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
+    expect(comp.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
   });
 
   it('should display examples if SAMPLES_ENABLED is true', () => {
-    const languages = ['node', 'curl'];
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
         {...props}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: languages,
-            servers: [{ url: 'http://example.com' }],
+            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
           })
         }
       />
     );
 
-    expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
+    expect(comp.find('.hub-code-auto')).toHaveLength(1);
+
     // We only render one language at a time
-    expect(codeSample.find('.hub-code-auto pre')).toHaveLength(1);
-    expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
+    expect(comp.find('.hub-code-auto pre')).toHaveLength(1);
+    expect(comp.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 
   // Skipped until https://github.com/readmeio/api-explorer/issues/965 is resolved.
   it.skip('should check the operation level extensions first', () => {
-    const operationSamplesEnabled = new Operation({}, '/pet/{petId}', 'get');
-    operationSamplesEnabled[extensions.SAMPLES_ENABLED] = true;
-    const languages = ['node', 'curl'];
+    const operationSamplesEnabled = oas.operation('/pet/{petId}', 'get');
+    operationSamplesEnabled.schema[extensions.SAMPLES_ENABLED] = true;
 
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
         {...props}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: false,
-            [extensions.SAMPLES_LANGUAGES]: languages,
-            servers: [{ url: 'http://example.com' }],
+            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
           })
         }
         operation={operationSamplesEnabled}
       />
     );
 
-    expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
+    expect(comp.find('.hub-code-auto')).toHaveLength(1);
+
     // We only render one language at a time
-    expect(codeSample.find('.hub-code-auto pre')).toHaveLength(1);
-    expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
+    expect(comp.find('.hub-code-auto pre')).toHaveLength(1);
+    expect(comp.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 
   it('should not display more than one example block at a time', () => {
-    const docProps = {
-      ...props,
-      operation: new Operation({}, '/pet/{petId}', 'get'),
-      language: 'javascript',
-      examples: [
-        {
-          name: 'Javascript/Node.js',
-          code: 'console.log(1);',
-          language: 'javascript',
-        },
-        {
-          name: 'TypeScript',
-          code: 'console.log(1)',
-          language: 'javascript',
-        },
-      ],
-    };
-
-    const codeSample = shallow(
+    const comp = shallow(
       <CodeSample
-        {...docProps}
+        {...props}
+        examples={[
+          {
+            name: 'Javascript/Node.js',
+            code: 'console.log(1);',
+            language: 'javascript',
+          },
+          {
+            name: 'TypeScript',
+            code: 'console.log(1)',
+            language: 'javascript',
+          },
+        ]}
+        language={'javascript'}
         oas={
           new Oas({
             [extensions.SAMPLES_ENABLED]: true,
@@ -336,7 +298,7 @@ describe('code examples', () => {
       />
     );
 
-    expect(codeSample.find('.code-sample-tabs a.selected')).toHaveLength(1);
+    expect(comp.find('.code-sample-tabs a.selected')).toHaveLength(1);
   });
 });
 
@@ -349,9 +311,9 @@ describe('updating language', () => {
         {...props}
         oas={
           new Oas({
+            ...petstore,
             [extensions.SAMPLES_ENABLED]: true,
             [extensions.SAMPLES_LANGUAGES]: ['node'],
-            servers: [{ url: 'http://example.com' }],
           })
         }
         setLanguage={setLanguage}
