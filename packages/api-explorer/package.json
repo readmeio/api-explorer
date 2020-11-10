@@ -1,7 +1,7 @@
 {
   "name": "@mia-platform/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "6.5.3",
+  "version": "6.5.4",
   "main": "dist/index.js",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^9.0.1",
