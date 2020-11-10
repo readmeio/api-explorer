@@ -1,3 +1,10 @@
+## <small>9.2.2 (2020-11-10)</small>
+
+* chore(deps): upgrading oas to 5.2.1 (#1040) ([e1dac43](https://github.com/readmeio/api-explorer/commit/e1dac43)), closes [#1040](https://github.com/readmeio/api-explorer/issues/1040)
+* style: making the response example section scrollable (#1039) ([15a81f4](https://github.com/readmeio/api-explorer/commit/15a81f4)), closes [#1039](https://github.com/readmeio/api-explorer/issues/1039)
+
+
+
 ## <small>9.2.1 (2020-11-09)</small>
 
 * chore(deps): upgrading oas to 5.2.0 (#1029) ([4f0807d](https://github.com/readmeio/api-explorer/commit/4f0807d)), closes [#1029](https://github.com/readmeio/api-explorer/issues/1029)
