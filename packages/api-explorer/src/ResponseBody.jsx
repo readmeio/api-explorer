@@ -2,11 +2,15 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const ReactJson = require('react-json-view').default;
-const contentTypeIsJson = require('./lib/content-type-is-json');
 const oauthHref = require('./lib/oauth-href');
+const { matchesMimeType } = require('oas/tooling/utils');
 
 function Authorized({ result }) {
-  const isJson = result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
+  const isJson =
+    result.type &&
+    (matchesMimeType.json(result.type) || matchesMimeType.wildcard(result.type)) &&
+    typeof result.responseBody === 'object';
+
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}

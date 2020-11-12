@@ -4,8 +4,8 @@ const ReactJson = require('react-json-view').default;
 const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
+const { matchesMimeType } = require('oas/tooling/utils');
 
-const contentTypeIsJson = require('./lib/content-type-is-json');
 const upgradeLegacyResponses = require('./lib/upgrade-legacy-responses');
 
 const ExampleTabs = require('./ExampleTabs');
@@ -242,7 +242,9 @@ class ResponseExample extends React.Component {
                   example = mediaTypes[0];
                 }
 
-                const isJson = example.language && contentTypeIsJson(example.language);
+                const isJson =
+                  example.language &&
+                  (matchesMimeType.json(example.language) || matchesMimeType.wildcard(example.language));
 
                 return (
                   <div key={index}>
