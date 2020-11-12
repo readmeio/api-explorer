@@ -22,7 +22,7 @@
     "@readme/oas-to-har": "^9.2.2",
     "@readme/syntax-highlighter": "^10.2.0",
     "httpsnippet-client-api": "^2.4.4",
-    "oas": "^6.0.0"
+    "oas": "^6.1.0"
   },
   "devDependencies": {
     "@readme/eslint-config": "^3.2.0",
