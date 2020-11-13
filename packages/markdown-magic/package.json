@@ -1,7 +1,7 @@
 {
   "name": "@readme/markdown-magic",
   "description": "ReadMe's React-based legacy Markdown parser",
-  "version": "9.2.1",
+  "version": "9.2.3",
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
   "repository": {

@@ -82,3 +82,24 @@ test('should make code `dark` if it is in right column', () => {
 
   expect(content.html()).toContain('cm-s-tomorrow-night');
 });
+
+test('should render the bodies of pinned callouts', () => {
+  const content = mount(
+    <Content
+      body={`
+        [block:callout]
+        {
+          "type": "warning",
+          "title": "covfefe",
+          "body": "This body should be rendered twice!",
+          "sidebar": true
+        }
+        [/block]
+      `}
+      isThreeColumn={true}
+      useNewMarkdownEngine={true}
+    />
+  );
+
+  expect(content.html()).toMatchSnapshot();
+});
