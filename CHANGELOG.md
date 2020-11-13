@@ -1,3 +1,11 @@
+## <small>9.2.3 (2020-11-13)</small>
+
+* chore(deps): bump actions/checkout from v2.3.3 to v2.3.4 (#1031) ([2849d87](https://github.com/readmeio/api-explorer/commit/2849d87)), closes [#1031](https://github.com/readmeio/api-explorer/issues/1031)
+* fix(markdown): pinned callouts not rendering body (#1044) ([7499bba](https://github.com/readmeio/api-explorer/commit/7499bba)), closes [#1044](https://github.com/readmeio/api-explorer/issues/1044)
+* docs: updating the installation docs ([01a5b27](https://github.com/readmeio/api-explorer/commit/01a5b27))
+
+
+
 ## <small>9.2.2 (2020-11-10)</small>
 
 * chore(deps): upgrading oas to 5.2.1 (#1040) ([e1dac43](https://github.com/readmeio/api-explorer/commit/e1dac43)), closes [#1040](https://github.com/readmeio/api-explorer/issues/1040)

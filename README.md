@@ -21,7 +21,7 @@ This repo consists of the following npm modules:
 ```sh
 git clone git@github.com:readmeio/api-explorer.git
 cd api-explorer
-npm install
+npm ci
 ```
 
 ## Running the tests
