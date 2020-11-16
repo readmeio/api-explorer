@@ -37,7 +37,7 @@
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "prettier": "^2.0.1",
-    "react": "^16.14.0"
+    "react": "^17.0.1"
   },
   "prettier": "@readme/eslint-config/prettier"
 }
