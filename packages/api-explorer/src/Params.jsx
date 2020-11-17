@@ -140,7 +140,7 @@ class Params extends React.Component {
                         {syntaxHighlighter(
                           JSON.stringify(formDataRawJson, undefined, 2),
                           'json',
-                          { editable: true },
+                          { editable: true, dark: false },
                           {
                             onChange: (editor, data, value) => {
                               return onRawJsonChange(value);

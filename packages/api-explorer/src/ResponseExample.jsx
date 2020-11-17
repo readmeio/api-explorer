@@ -177,7 +177,7 @@ class ResponseExample extends React.Component {
               <div key={index} className="example">
                 <div style={{ display: isDisplayable(example, current) ? 'block' : 'none' }}>
                   {syntaxHighlighter(example.code, language, {
-                    dark: true,
+                    customTheme: 'tomorrow-night',
                   })}
                 </div>
               </div>
@@ -211,7 +211,7 @@ class ResponseExample extends React.Component {
       return (
         <div className="example">
           {syntaxHighlighter(hx.code, hx.language, {
-            dark: true,
+            customTheme: 'tomorrow-night',
           })}
         </div>
       );
