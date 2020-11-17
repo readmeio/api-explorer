@@ -5,6 +5,7 @@ const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
 const AuthBox = require('./AuthBox');
+const { Button } = require('@readme/ui/.bundles/es/ui/components');
 
 const { Operation } = Oas;
 
@@ -37,8 +38,10 @@ function PathUrl({
   onChange,
   onSubmit,
   operation,
+  resetForm,
   showAuthBox,
   toggleAuth,
+  validationErrors,
 }) {
   const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
@@ -79,6 +82,17 @@ function PathUrl({
 
                 {loading && <i className="fa fa-circle-o-notch fa-spin" />}
               </button>
+
+              {validationErrors.json && (
+                <div>
+                  <p>Invalid Request</p>
+                  <p>Check your body parameters and try again.</p>
+
+                  <Button bem={{ [`red_text`]: true }} onClick={resetForm}>
+                    Reset Parameters
+                  </Button>
+                </div>
+              )}
             </div>
           )}
 
@@ -117,8 +131,14 @@ PathUrl.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  resetForm: PropTypes.func.isRequired,
   showAuthBox: PropTypes.bool,
+  showValidationErrors: PropTypes.bool,
   toggleAuth: PropTypes.func.isRequired,
+  validationErrors: PropTypes.shape({
+    form: PropTypes.bool,
+    json: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  }).isRequired,
 };
 
 PathUrl.defaultProps = {
@@ -126,6 +146,7 @@ PathUrl.defaultProps = {
   authInputRef: () => {},
   needsAuth: false,
   showAuthBox: false,
+  showValidationErrors: false,
 };
 
 module.exports = PathUrl;

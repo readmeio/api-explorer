@@ -8,6 +8,7 @@ const { Waypoint } = require('react-waypoint');
 const oasToHar = require('@readme/oas-to-har');
 const Oas = require('oas/tooling');
 const { getPath } = require('oas/tooling/utils');
+const { matchesMimeType } = require('oas/tooling/utils');
 
 const { TutorialTile, TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 require('@readme/ui/.bundles/umd/main.css');
@@ -25,41 +26,150 @@ const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
-const pkg = require('../package.json');
+const { version: packageVersion } = require('../package.json');
 
 class Doc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: {},
       dirty: false,
+      editingMode: 'form',
+      formData: {},
+
+      // For raw mode we should default the body to an empty JSON object. If this operation has a request body example
+      // that we can use, it'll get filled in when the `componentDidMount` event kicks.
+      formDataRawJson: {},
+      formDataRawJsonOriginal: {}, // This'll hold a copy of the original JSON block incase the user wants to reset their changes.
+
       loading: false,
-      showAuthBox: false,
       needsAuth: false,
       result: null,
-      showEndpoint: false,
       selectedTutorial: null,
+      showAuthBox: false,
+      showEndpoint: false,
       showTutorialModal: false,
+
+      validationErrors: {
+        form: false,
+        json: false,
+      },
     };
 
+    this.enableRequestBodyJsonEditor = false;
+    this.closeTutorialModal = this.closeTutorialModal.bind(this);
     this.hideResults = this.hideResults.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.oas = new Oas(this.props.oas, this.props.user);
+
+    this.onChange = this.onChange.bind(this);
+    this.onModeChange = this.onModeChange.bind(this);
+    this.onRawJsonChange = this.onRawJsonChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+
+    this.openTutorial = this.openTutorial.bind(this);
     this.operation = this.getOperation();
     this.Params = createParams(this.oas, this.operation);
+
+    this.resetForm = this.resetForm.bind(this);
+
     this.toggleAuth = this.toggleAuth.bind(this);
     this.waypointEntered = this.waypointEntered.bind(this);
-    this.openTutorial = this.openTutorial.bind(this);
-    this.closeTutorialModal = this.closeTutorialModal.bind(this);
+  }
+
+  componentDidMount() {
+    if (!this.shouldEnableRequestBodyJsonEditor()) {
+      return;
+    }
+
+    this.operation.getRequestBodyExamples().then(examples => {
+      if (!Object.keys(examples).length) {
+        return;
+      }
+
+      const jsonExamples = examples.filter(
+        ex => matchesMimeType.json(ex.mediaType) || matchesMimeType.wildcard(ex.mediaType)
+      );
+
+      if (jsonExamples.length) {
+        const example = jsonExamples[0];
+        let code = false;
+
+        if (example.code) {
+          code = example.code;
+        } else if (example.multipleExamples) {
+          code = example.multipleExamples[0].code;
+        }
+
+        try {
+          // Examples are stringified when we get them from `oas` because they need to be stringified for
+          // `@readme/syntax-highlighter` but because we need to pass a usable non-stringified object/array/primitive
+          // to our `CodeSample` component and `@readme/oas-to-har` we're parsing it out here. Cool? Cool.
+          code = JSON.parse(code);
+        } catch (e) {
+          code = {};
+        }
+
+        this.setState({
+          formDataRawJson: code || {},
+          formDataRawJsonOriginal: code || {},
+        });
+      }
+    });
+  }
+
+  resetForm() {
+    this.setState(previousState => {
+      return {
+        formDataRawJson: previousState.formDataRawJsonOriginal,
+        validationErrors: {
+          ...previousState.validationErrors,
+          json: false,
+        },
+        dirty: false,
+      };
+    });
   }
 
   onChange(formData) {
     this.setState(previousState => {
       return {
-        formData: { ...previousState.formData, ...formData },
         dirty: true,
+        formData: { ...previousState.formData, ...formData },
+        validationErrors: {
+          ...previousState.validationErrors,
+          form: false,
+        },
       };
+    });
+  }
+
+  onRawJsonChange(rawData) {
+    this.setState(previousState => {
+      let data;
+      try {
+        data = JSON.parse(rawData);
+
+        return {
+          dirty: true,
+          formDataRawJson: data,
+          validationErrors: {
+            ...previousState.validationErrors,
+            json: false,
+          },
+        };
+      } catch (err) {
+        return {
+          validationErrors: {
+            ...previousState.validationErrors,
+            json: err.message,
+          },
+        };
+      }
+    });
+  }
+
+  onModeChange(mode) {
+    this.setState({
+      editingMode: mode.toLowerCase(),
     });
   }
 
@@ -75,7 +185,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, this.operation, this.state.formData, this.props.auth, {
+    const har = oasToHar(this.oas, this.operation, this.getFormDataForCurrentMode(), this.props.auth, {
       proxyUrl: true,
     });
 
@@ -86,7 +196,7 @@ class Doc extends React.Component {
     // instead.
     //
     // https://stackoverflow.com/questions/42815087/sending-a-custom-user-agent-string-along-with-my-headers-fetch
-    request.headers.append('x-readme-api-explorer', pkg.version);
+    request.headers.append('x-readme-api-explorer', packageVersion);
 
     return fetch(request).then(async res => {
       this.props.tryItMetrics(har, res);
@@ -96,6 +206,19 @@ class Doc extends React.Component {
         result: await parseResponse(har, res),
       });
     });
+  }
+
+  getFormDataForCurrentMode() {
+    const { formData, formDataRawJson, editingMode } = this.state;
+
+    if (editingMode === 'form') {
+      return formData;
+    }
+
+    return {
+      ...formData,
+      body: formDataRawJson,
+    };
   }
 
   getOperation() {
@@ -131,6 +254,23 @@ class Doc extends React.Component {
 
   closeTutorialModal() {
     this.setState(() => ({ showTutorialModal: false, selectedTutorial: null }));
+  }
+
+  shouldEnableRequestBodyJsonEditor() {
+    // Instead of just relying on if the prop is set, or setting this in the component constructor, we're checking if
+    // it's changed against the current stored value because in the demo server you can toggle raw mode on and off and
+    // we should only do these supplemental checks if we absolutely need to.
+    if (this.enableRequestBodyJsonEditor !== this.props.enableRequestBodyJsonEditor) {
+      // Request body raw mode should only be enabled if the operation has a request body to fill out and its delivered
+      // with a JSON-compatible media type.
+      if (this.operation.hasRequestBody()) {
+        if (this.operation.isJson()) {
+          this.enableRequestBodyJsonEditor = this.props.enableRequestBodyJsonEditor;
+        }
+      }
+    }
+
+    return this.enableRequestBodyJsonEditor;
   }
 
   mainTheme(doc) {
@@ -226,7 +366,7 @@ class Doc extends React.Component {
       <CodeSample
         auth={this.props.auth}
         examples={examples}
-        formData={this.state.formData}
+        formData={this.getFormDataForCurrentMode()}
         language={this.props.language}
         oas={this.oas}
         oasUrl={this.props.oasUrl}
@@ -285,6 +425,24 @@ class Doc extends React.Component {
     );
   }
 
+  renderTutorial() {
+    const { selectedTutorial, showTutorialModal } = this.state;
+
+    return (
+      selectedTutorial && (
+        <TutorialModal
+          action={'View'}
+          baseUrl={this.props.baseUrl}
+          closeTutorialModal={this.closeTutorialModal}
+          moduleEnabled={true}
+          open={showTutorialModal}
+          target={'#tutorialmodal-root'}
+          tutorial={selectedTutorial}
+        />
+      )
+    );
+  }
+
   renderLogs() {
     if (!this.props.Logs) return null;
     const { Logs } = this.props;
@@ -310,13 +468,23 @@ class Doc extends React.Component {
   }
 
   renderParams() {
+    const { formData, formDataRawJson, validationErrors } = this.state;
+
+    console.log('renderparams formDataRawJson=', formDataRawJson)
+
     return (
       <this.Params
-        formData={this.state.formData}
+        enableJsonEditor={this.shouldEnableRequestBodyJsonEditor()}
+        formData={formData}
+        formDataRawJson={formDataRawJson}
         oas={this.oas}
         onChange={this.onChange}
+        onModeChange={this.onModeChange}
+        onRawJsonChange={this.onRawJsonChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
+        resetForm={this.resetForm}
+        validationErrors={validationErrors}
       />
     );
   }
@@ -337,8 +505,10 @@ class Doc extends React.Component {
         onChange={this.props.onAuthChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
+        resetForm={this.resetForm}
         showAuthBox={this.state.showAuthBox}
         toggleAuth={this.toggleAuth}
+        validationErrors={this.state.validationErrors}
       />
     );
   }
@@ -399,17 +569,8 @@ class Doc extends React.Component {
           // cos we can just pass it around?
         }
         <input id={`swagger-${extensions.SEND_DEFAULTS}`} type="hidden" value={oas[extensions.SEND_DEFAULTS]} />
-        {this.state.selectedTutorial && (
-          <TutorialModal
-            action={'View'}
-            baseUrl={this.props.baseUrl}
-            closeTutorialModal={this.closeTutorialModal}
-            moduleEnabled={true}
-            open={this.state.showTutorialModal}
-            target={'#tutorialmodal-root'}
-            tutorial={this.state.selectedTutorial}
-          />
-        )}
+
+        {this.renderTutorial()}
       </div>
     );
   }
@@ -448,6 +609,7 @@ Doc.propTypes = {
     tutorials: PropTypes.arrayOf(PropTypes.shape({})),
     type: PropTypes.string.isRequired,
   }).isRequired,
+  enableRequestBodyJsonEditor: PropTypes.bool,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
   }),
@@ -482,6 +644,7 @@ Doc.defaultProps = {
     splitReferenceDocs: false,
   },
   baseUrl: '/',
+  enableRequestBodyJsonEditor: false,
   flags: {
     correctnewlines: false,
   },

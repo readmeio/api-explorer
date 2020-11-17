@@ -1,12 +1,14 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('@readme/oas-form').default;
-const slug = require('lodash.kebabcase');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas/tooling');
+
+const syntaxHighlighter =
+  typeof window !== 'undefined' ? require('@readme/syntax-highlighter/dist/index.js').default : () => {};
 
 const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
-
-const Oas = require('oas/tooling');
+const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 
 const createArrayField = require('./form-components/ArrayField');
 const createBaseInput = require('./form-components/BaseInput');
@@ -27,17 +29,16 @@ class Params extends React.Component {
     const { operation } = this.props;
 
     this.jsonSchema = operation.getParametersAsJsonSchema();
+    this.operationId = operation.getOperationId();
 
-    // If this operation doesn't have a set operationID (it's not required per the spec!) generate a hash off the
-    // path+method to be one so we have unique form IDs across the explorer.
-    if ('operationId' in operation.schema) {
-      this.operationId = operation.schema.operationId;
-    } else {
-      this.operationId = slug(`${operation.method} ${operation.path}`).replace(/-/g, '');
-    }
+    this.onModeChange = this.onModeChange.bind(this);
   }
 
-  render() {
+  onModeChange(mode) {
+    return this.props.onModeChange(mode);
+  }
+
+  getForm(schema) {
     const {
       ArrayField,
       BaseInput,
@@ -53,76 +54,120 @@ class Params extends React.Component {
     } = this.props;
 
     return (
-      <div id={`form-${this.perationId}`}>
+      <Form
+        key={`${schema.type}-form`}
+        fields={{
+          ArrayField,
+          DescriptionField,
+          SchemaField,
+          UnsupportedField,
+        }}
+        formContext={{
+          useNewMarkdownEngine,
+        }}
+        formData={formData[schema.type]}
+        id={`form-${schema.type}-${this.operationId}`}
+        idPrefix={`${schema.type}-${this.operationId}`}
+        onChange={form => {
+          return onChange({ [schema.type]: form.formData });
+        }}
+        onSubmit={onSubmit}
+        schema={schema.schema}
+        widgets={{
+          // 🚧 If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
+          BaseInput,
+          binary: FileWidget,
+          blob: TextareaWidget,
+          byte: TextWidget,
+
+          // Due to the varying ways that `date` and `date-time` is utilized in API definitions for representing
+          // dates the lack of wide browser support, and that it's not RFC 3339 compliant we don't support the
+          // `date-time-local` input for `date-time` formats, instead treating them as general strings.
+          //
+          // @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local#Browser_compatibility
+          // @link https://tools.ietf.org/html/rfc3339
+          date: TextWidget,
+          dateTime: TextWidget,
+          'date-time': TextWidget,
+
+          double: UpDownWidget,
+          duration: TextWidget,
+          float: UpDownWidget,
+          html: TextareaWidget,
+          int8: UpDownWidget,
+          int16: UpDownWidget,
+          int32: UpDownWidget,
+          int64: UpDownWidget,
+          integer: UpDownWidget,
+          json: TextareaWidget,
+          password: PasswordWidget,
+          SelectWidget,
+          string: TextWidget,
+          timestamp: TextWidget,
+          uint8: UpDownWidget,
+          uint16: UpDownWidget,
+          uint32: UpDownWidget,
+          uint64: UpDownWidget,
+          uri: URLWidget,
+          url: URLWidget,
+          uuid: TextWidget,
+        }}
+      >
+        <button style={{ display: 'none' }} type="submit" />
+      </Form>
+    );
+  }
+
+  render() {
+    const { enableJsonEditor, formDataRawJson, onRawJsonChange, resetForm, validationErrors } = this.props;
+
+    return (
+      <div id={`form-${this.operationId}`}>
         {this.jsonSchema &&
           this.jsonSchema.map(schema => {
-            return [
-              <div key={`${schema.type}-header`} className="param-type-header">
-                <h3>{schema.label}</h3>
-                <div className="param-header-border" />
-              </div>,
-              <Form
-                key={`${schema.type}-form`}
-                fields={{
-                  ArrayField,
-                  DescriptionField,
-                  SchemaField,
-                  UnsupportedField,
-                }}
-                formContext={{
-                  useNewMarkdownEngine,
-                }}
-                formData={formData[schema.type]}
-                id={`form-${schema.type}-${this.operationId}`}
-                idPrefix={`${schema.type}-${this.operationId}`}
-                onChange={form => {
-                  return onChange({ [schema.type]: form.formData });
-                }}
-                onSubmit={onSubmit}
-                schema={schema.schema}
-                widgets={{
-                  // 🚧 If new supported formats are added here, they must also be added to `SchemaField.getCustomType`.
-                  BaseInput,
-                  binary: FileWidget,
-                  blob: TextareaWidget,
-                  byte: TextWidget,
+            return (
+              <React.Fragment key={`${schema.type}-block`}>
+                {enableJsonEditor ? (
+                  <React.Fragment>
+                    <div key={`${schema.type}-header`} className="param-type-header">
+                      <h3>{schema.label}</h3>
+                      <div className="param-header-border" />
+                    </div>
 
-                  // Due to the varying ways that `date` and `date-time` is utilized in API definitions for representing
-                  // dates the lack of wide browser support, and that it's not RFC 3339 compliant we don't support the
-                  // `date-time-local` input for `date-time` formats, instead treating them as general strings.
-                  //
-                  // @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local#Browser_compatibility
-                  // @link https://tools.ietf.org/html/rfc3339
-                  date: TextWidget,
-                  dateTime: TextWidget,
-                  'date-time': TextWidget,
+                    <Tabs onClick={this.onModeChange}>
+                      <div label="Form">{this.getForm(schema)}</div>
+                      <div label="JSON">
+                        {syntaxHighlighter(
+                          JSON.stringify(formDataRawJson, undefined, 2),
+                          'json',
+                          { editable: true },
+                          {
+                            onChange: (editor, data, value) => {
+                              return onRawJsonChange(value);
+                            },
+                          }
+                        )}
 
-                  double: UpDownWidget,
-                  duration: TextWidget,
-                  float: UpDownWidget,
-                  html: TextareaWidget,
-                  int8: UpDownWidget,
-                  int16: UpDownWidget,
-                  int32: UpDownWidget,
-                  int64: UpDownWidget,
-                  integer: UpDownWidget,
-                  json: TextareaWidget,
-                  password: PasswordWidget,
-                  SelectWidget,
-                  string: TextWidget,
-                  timestamp: TextWidget,
-                  uint8: UpDownWidget,
-                  uint16: UpDownWidget,
-                  uint32: UpDownWidget,
-                  uint64: UpDownWidget,
-                  uri: URLWidget,
-                  url: URLWidget,
-                  uuid: TextWidget,
-                }}
-              >
-                <button style={{ display: 'none' }} type="submit" />
-              </Form>,
-            ];
+                        {validationErrors.json && <div>Invalid JSON</div>}
+
+                        <Button bem={{ [`red_text`]: true }} onClick={resetForm}>
+                          Reset
+                        </Button>
+                      </div>
+                    </Tabs>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <div key={`${schema.type}-header`} className="param-type-header">
+                      <h3>{schema.label}</h3>
+                      <div className="param-header-border" />
+                    </div>
+
+                    {this.getForm(schema)}
+                  </React.Fragment>
+                )}
+              </React.Fragment>
+            );
           })}
       </div>
     );
@@ -132,20 +177,30 @@ class Params extends React.Component {
 Params.propTypes = {
   ArrayField: PropTypes.func.isRequired,
   BaseInput: PropTypes.func.isRequired,
+  enableJsonEditor: PropTypes.bool,
   FileWidget: PropTypes.func.isRequired,
   formData: PropTypes.shape({}).isRequired,
+  formDataRawJson: PropTypes.any.isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
+  onModeChange: PropTypes.func.isRequired,
+  onRawJsonChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  resetForm: PropTypes.func.isRequired,
   SchemaField: PropTypes.func.isRequired,
   SelectWidget: PropTypes.func.isRequired,
   TextareaWidget: PropTypes.func.isRequired,
   URLWidget: PropTypes.func.isRequired,
   useNewMarkdownEngine: PropTypes.bool,
+  validationErrors: PropTypes.shape({
+    form: PropTypes.bool,
+    json: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  }).isRequired,
 };
 
 Params.defaultProps = {
+  enableJsonEditor: false,
   useNewMarkdownEngine: false,
 };
 
