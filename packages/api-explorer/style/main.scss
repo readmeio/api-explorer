@@ -3,7 +3,7 @@
 
 :root {
   --graphite: #4f5a66; // graphite
-  --shale: #939eae; //shale
+  --shale: #939eae; // shale
 }
 
 /* Add margin to left- and right-sides of RJSF component. */
@@ -94,8 +94,12 @@ form form.rjsf {
     margin-bottom: 20px;
     padding: 5px 5px 5px 10px;
 
-    &-ErrorIcon {
-      margin-right: 5px;
+    &-Error {
+      font-size: 0.86957em; // match sm buttons
+
+      &-Icon {
+        margin-right: 5px;
+      }
     }
   }
 
@@ -105,6 +109,14 @@ form form.rjsf {
     border-radius: 6px 6px 0 0;
     font-size: 12px;
     padding-top: 5px;
+  }
+
+  /* invalid state */
+  &_invalidJson {
+    .CodeMirror,
+    .CodeEditor-Toolbar {
+      border-color: #e95f6a; // red
+    }
   }
 }
 
@@ -890,4 +902,57 @@ form.rjsf {
 .hub-reference-results-examples .code-sample-body {
   max-height: 80vh;
   overflow: auto;
+}
+
+/* disabled Try It button (when JSON is invalid) */
+#hub-reference .hub-api .api-definition .api-try-it-out[disabled],
+#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:hover,
+#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:active,
+#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:focus {
+  background: transparent;
+  border-color: transparent;
+  color: #e95f6a !important;
+  cursor: not-allowed;
+  transition: none;
+}
+
+#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:hover,
+#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:active,
+#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:focus {
+  .api-try-it-out-popover {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+}
+
+.api-try-it-out-popover {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(#000, 0.1), 0 10px 30px rgba(#000, 0.1);
+  color:  #384248;
+  cursor: default;
+  line-height: 1.2;
+  opacity: 0;
+  padding: 20px;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  transform: translateY(-5px);
+  transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: normal;
+  width: 220px;
+  word-break: break-word;
+  z-index: 10;
+
+  &-h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+
+  &-description {
+    margin-bottom: 15px;
+  }
 }

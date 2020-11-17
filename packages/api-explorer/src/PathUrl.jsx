@@ -68,31 +68,40 @@ function PathUrl({
 
               <button
                 className={classNames('api-try-it-out', { active: dirty })}
-                disabled={loading}
+                disabled={loading || validationErrors.json}
                 onClick={onSubmit}
                 type="submit"
               >
                 {!loading && (
                   <span className="try-it-now-btn">
-                    <span className="fa fa-compass" />
+                    {validationErrors.json ? (
+                      <i className="fa fa-times-circle api-try-it-out-errorIcon" />
+                    ) : (
+                      <span className="fa fa-compass" />
+                    )}
                     &nbsp;
                     <span>Try It</span>
                   </span>
                 )}
 
                 {loading && <i className="fa fa-circle-o-notch fa-spin" />}
+
+                {validationErrors.json && (
+                  <section className="api-try-it-out-popover">
+                    <h1 className="api-try-it-out-popover-h1">Invalid Request</h1>
+                    <div className="api-try-it-out-popover-description">Check your body parameters and try again.</div>
+                    <div
+                      className="Button Button_red Button_md"
+                      onClick={resetForm}
+                      onKeyDown={resetForm}
+                      role="button"
+                      tabIndex="0"
+                    >
+                      Reset Parameters
+                    </div>
+                  </section>
+                )}
               </button>
-
-              {validationErrors.json && (
-                <div>
-                  <p>Invalid Request</p>
-                  <p>Check your body parameters and try again.</p>
-
-                  <Button bem={{ [`red_text`]: true }} onClick={resetForm}>
-                    Reset Parameters
-                  </Button>
-                </div>
-              )}
             </div>
           )}
 

@@ -122,7 +122,10 @@ class Params extends React.Component {
     const { enableJsonEditor, formDataRawJson, onRawJsonChange, resetForm, validationErrors } = this.props;
 
     return (
-      <div className="param-type" id={`form-${this.operationId}`}>
+      <div
+        className={`param-type ${validationErrors.json && 'param-type_invalidJson'}`}
+        id={`form-${this.operationId}`}
+      >
         {this.jsonSchema &&
           this.jsonSchema.map(schema => {
             return (
@@ -152,10 +155,10 @@ class Params extends React.Component {
                         )}
 
                         <div className="CodeEditor-Toolbar">
-                          <div>
+                          <div className="CodeEditor-Toolbar-Error">
                             {validationErrors.json && (
                               <>
-                                <i className="fa fa-times-circle CodeEditor-Toolbar-ErrorIcon" />
+                                <i className="fa fa-times-circle CodeEditor-Toolbar-Error-Icon" />
                                 Invalid JSON
                               </>
                             )}
