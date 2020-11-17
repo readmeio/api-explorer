@@ -122,7 +122,7 @@ class Params extends React.Component {
     const { enableJsonEditor, formDataRawJson, onRawJsonChange, resetForm, validationErrors } = this.props;
 
     return (
-      <div id={`form-${this.operationId}`}>
+      <div className="param-type" id={`form-${this.operationId}`}>
         {this.jsonSchema &&
           this.jsonSchema.map(schema => {
             return (
@@ -140,7 +140,10 @@ class Params extends React.Component {
                         {syntaxHighlighter(
                           JSON.stringify(formDataRawJson, undefined, 2),
                           'json',
-                          { editable: true },
+                          {
+                            darkMode: false,
+                            editable: true,
+                          },
                           {
                             onChange: (editor, data, value) => {
                               return onRawJsonChange(value);
@@ -148,11 +151,19 @@ class Params extends React.Component {
                           }
                         )}
 
-                        {validationErrors.json && <div>Invalid JSON</div>}
-
-                        <Button bem={{ [`red_text`]: true }} onClick={resetForm}>
-                          Reset
-                        </Button>
+                        <div className="CodeEditor-Toolbar">
+                          <div>
+                            {validationErrors.json && (
+                              <>
+                                <i className="fa fa-times-circle CodeEditor-Toolbar-ErrorIcon" />
+                                Invalid JSON
+                              </>
+                            )}
+                          </div>
+                          <Button bem={{ [`red_text`]: true }} onClick={resetForm} size="sm">
+                            Reset
+                          </Button>
+                        </div>
                       </div>
                     </Tabs>
                   </React.Fragment>
