@@ -144,8 +144,8 @@ class Params extends React.Component {
                           JSON.stringify(formDataRawJson, undefined, 2),
                           'json',
                           {
-                            darkMode: false,
                             editable: true,
+                            dark: false,
                           },
                           {
                             onChange: (editor, data, value) => {

@@ -34,7 +34,7 @@ function Authorized({ result }) {
       {!result.isBinary && !isJson && (
         <pre className="tomorrow-night">
           <div className="cm-s-tomorrow-night codemirror-highlight">
-            {syntaxHighlighter(result.responseBody, result.type)}
+            {syntaxHighlighter(result.responseBody, result.type, { customTheme: 'tomorrow-night' })}
           </div>
         </pre>
       )}
