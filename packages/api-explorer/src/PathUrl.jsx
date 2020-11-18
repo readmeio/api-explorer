@@ -5,7 +5,6 @@ const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
 const AuthBox = require('./AuthBox');
-const { Button } = require('@readme/ui/.bundles/es/ui/components');
 
 const { Operation } = Oas;
 
