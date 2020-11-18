@@ -123,7 +123,7 @@ class Params extends React.Component {
 
     return (
       <div
-        className={`param-type ${validationErrors.json? 'param-type_invalidJson' : ''}`}
+        className={`param-type ${validationErrors.json ? 'param-type_invalidJson' : ''}`}
         id={`form-${this.operationId}`}
       >
         {this.jsonSchema &&

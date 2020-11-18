@@ -39,7 +39,9 @@ class Doc extends React.Component {
       // For raw mode we should default the body to an empty JSON object. If this operation has a request body example
       // that we can use, it'll get filled in when the `componentDidMount` event kicks.
       formDataRawJson: {},
-      formDataRawJsonOriginal: {}, // This'll hold a copy of the original JSON block incase the user wants to reset their changes.
+
+      // This'll hold a copy of the original raw JSON block incase the user wants to reset their changes.
+      formDataRawJsonOriginal: {},
 
       loading: false,
       needsAuth: false,
@@ -58,6 +60,7 @@ class Doc extends React.Component {
     this.enableRequestBodyJsonEditor = false;
     this.closeTutorialModal = this.closeTutorialModal.bind(this);
     this.hideResults = this.hideResults.bind(this);
+
     this.oas = new Oas(this.props.oas, this.props.user);
 
     this.onChange = this.onChange.bind(this);
@@ -469,8 +472,6 @@ class Doc extends React.Component {
 
   renderParams() {
     const { formData, formDataRawJson, validationErrors } = this.state;
-
-    console.log('renderparams formDataRawJson=', formDataRawJson)
 
     return (
       <this.Params
