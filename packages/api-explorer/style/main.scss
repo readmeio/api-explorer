@@ -35,8 +35,7 @@ form form.rjsf {
   .Tabs {
 
     &-list {
-      border-bottom-width: 1px;
-      border-color: #ddd;
+      border: 0;
       position: absolute;
       height: 34px;
       right: 30px; // match padding
