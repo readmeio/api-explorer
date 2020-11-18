@@ -114,6 +114,10 @@ class ApiExplorer extends React.Component {
    * @param {string} group
    */
   onAuthGroupChange(group) {
+    // Invoke supplementary handler (if available)
+    if (this.props.onAuthGroupChange && typeof this.props.onAuthGroupChange === 'function') {
+      this.props.onAuthGroupChange(group);
+    }
     const { user } = this.props.variables;
     let groupName = false;
     if (user.keys) {
@@ -291,6 +295,7 @@ ApiExplorer.propTypes = {
   oasFiles: PropTypes.shape({}).isRequired,
   oasUrls: PropTypes.shape({}).isRequired,
   oauth: PropTypes.bool,
+  onAuthGroupChange: PropTypes.func,
   onError: PropTypes.func,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
