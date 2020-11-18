@@ -2,8 +2,8 @@
 @import "./markdown-overrides.scss";
 
 :root {
-  --graphite: #4f5a66; // graphite
-  --shale: #939eae; // shale
+  --apie-tab-color-focus: #4f5a66; // graphite
+  --apie-tab-color: #939eae; // shale
 }
 
 /* Add margin to left- and right-sides of RJSF component. */
@@ -45,7 +45,7 @@ form form.rjsf {
     }
 
     &-listItem {
-      color: var(--shale);
+      color: var(--apie-tab-color);
       font-size: 14px;
       font-weight: 600;
 
@@ -58,7 +58,7 @@ form form.rjsf {
 
       &:hover,
       &:focus {
-        color: var(--graphite);
+        color: var(--apie-tab-color-focus);
       }
 
       &:active {
