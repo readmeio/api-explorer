@@ -213,6 +213,11 @@ class ApiExplorer extends React.Component {
     const NewGlossaryTermsContext = utils.GlossaryContext;
     /* eslint-enable global-require */
 
+    const onAuthGroupChange = auth => {
+      if (this.props && this.props.onAuthGroupChange) this.props.onAuthGroupChange(auth);
+      return this.onAuthGroupChange(auth);
+    };
+
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
@@ -247,7 +252,7 @@ class ApiExplorer extends React.Component {
                                 oasUrl={this.getOasUrl(doc)}
                                 oauth={this.props.oauth}
                                 onAuthChange={this.onAuthChange}
-                                onAuthGroupChange={this.onAuthGroupChange}
+                                onAuthGroupChange={onAuthGroupChange}
                                 onError={this.props.onError}
                                 setLanguage={this.setLanguage}
                                 suggestedEdits={this.props.suggestedEdits}
