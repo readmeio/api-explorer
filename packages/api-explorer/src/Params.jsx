@@ -193,8 +193,8 @@ Params.propTypes = {
   BaseInput: PropTypes.func.isRequired,
   enableJsonEditor: PropTypes.bool,
   FileWidget: PropTypes.func.isRequired,
-  formData: PropTypes.shape({}).isRequired,
-  formDataRawJson: PropTypes.any.isRequired,
+  formData: PropTypes.shape({}),
+  formDataRawJson: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
   onModeChange: PropTypes.func.isRequired,
@@ -215,7 +215,13 @@ Params.propTypes = {
 
 Params.defaultProps = {
   enableJsonEditor: false,
+  formData: {},
+  formDataRawJson: {},
   useNewMarkdownEngine: false,
+  validationErrors: {
+    form: false,
+    json: false,
+  },
 };
 
 function createParams(oas, operation) {

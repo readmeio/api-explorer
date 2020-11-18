@@ -21,6 +21,7 @@ const props = {
   onChange: () => {},
   onSubmit: () => {},
   operation: oas.operation('/pet/{petId}', 'get'),
+  resetForm: () => {},
   toggleAuth: () => {},
 };
 
@@ -32,7 +33,7 @@ test('should display the path', () => {
   expect(pathUrl.find('span.api-variable').text()).toBe('petId');
 });
 
-describe('loading prop', () => {
+describe('#loading', () => {
   it('should toggle try it visibility', () => {
     expect(shallow(<PathUrl {...props} loading={false} />).find('.try-it-now-btn')).toHaveLength(1);
 
@@ -52,7 +53,7 @@ describe('loading prop', () => {
   });
 });
 
-describe('dirty prop', () => {
+describe('#dirty', () => {
   it('should add active class', () => {
     expect(shallow(<PathUrl {...props} dirty />).find('button.active')).toHaveLength(1);
 
@@ -60,22 +61,62 @@ describe('dirty prop', () => {
   });
 });
 
-test('button click should call onSubmit', () => {
-  let called = false;
-  function onSubmit() {
-    called = true;
-  }
+describe('#resetForm()', () => {
+  it('should fire when clicked', () => {
+    const resetForm = jest.fn();
 
-  shallow(
-    <PathUrl {...props} onSubmit={onSubmit} operation={new Operation({}, '/path', 'get', { operationId: '123' })} />
-  )
-    .find('button[type="submit"]')
-    .simulate('click');
+    shallow(
+      <PathUrl
+        {...props}
+        resetForm={resetForm}
+        validationErrors={{
+          form: false,
+          json: 'invalid json',
+        }}
+      />
+    )
+      .find('.api-try-it-out-popover div[role="button"]')
+      .simulate('click');
 
-  expect(called).toBe(true);
+    expect(resetForm).toHaveBeenCalled();
+  });
 });
 
-describe('splitPath()', () => {
+describe('#validationErrors', () => {
+  it('should not show validation errors if there are none', () => {
+    expect(shallow(<PathUrl {...props} />).find('.api-try-it-out-popover')).toHaveLength(0);
+  });
+
+  it('should show validation errors', () => {
+    expect(
+      shallow(
+        <PathUrl
+          {...props}
+          validationErrors={{
+            form: false,
+            json: 'invalid json',
+          }}
+        />
+      ).find('.api-try-it-out-popover')
+    ).toHaveLength(1);
+  });
+});
+
+describe('#onSubmit()', () => {
+  it('button click should call onSubmit', () => {
+    const onSubmit = jest.fn();
+
+    shallow(
+      <PathUrl {...props} onSubmit={onSubmit} operation={new Operation({}, '/path', 'get', { operationId: '123' })} />
+    )
+      .find('button[type="submit"]')
+      .simulate('click');
+
+    expect(onSubmit).toHaveBeenCalled();
+  });
+});
+
+describe('#splitPath()', () => {
   it('should work for multiple path params', () => {
     expect(splitPath('/{a}/{b}/c')).toHaveLength(5);
     expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}')).toHaveLength(4);

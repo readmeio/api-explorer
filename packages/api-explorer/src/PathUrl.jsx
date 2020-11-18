@@ -155,6 +155,10 @@ PathUrl.defaultProps = {
   needsAuth: false,
   showAuthBox: false,
   showValidationErrors: false,
+  validationErrors: {
+    form: false,
+    json: false,
+  },
 };
 
 module.exports = PathUrl;
