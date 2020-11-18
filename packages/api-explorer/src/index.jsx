@@ -114,6 +114,10 @@ class ApiExplorer extends React.Component {
    * @param {string} group
    */
   onAuthGroupChange(group) {
+    // Invoke supplementary handler (if available)
+    if (this.props.onAuthGroupChange && typeof this.props.onAuthGroupChange === 'function') {
+      this.props.onAuthGroupChange(group);
+    }
     const { user } = this.props.variables;
     let groupName = false;
     if (user.keys) {
@@ -209,11 +213,6 @@ class ApiExplorer extends React.Component {
     const NewGlossaryTermsContext = utils.GlossaryContext;
     /* eslint-enable global-require */
 
-    const onAuthGroupChange = auth => {
-      if (this.props && this.props.onAuthGroupChange) this.props.onAuthGroupChange(auth);
-      return this.onAuthGroupChange(auth);
-    };
-
     return (
       <div className={`is-lang-${this.state.language}`}>
         <div
@@ -248,7 +247,7 @@ class ApiExplorer extends React.Component {
                                 oasUrl={this.getOasUrl(doc)}
                                 oauth={this.props.oauth}
                                 onAuthChange={this.onAuthChange}
-                                onAuthGroupChange={onAuthGroupChange}
+                                onAuthGroupChange={this.onAuthGroupChange}
                                 onError={this.props.onError}
                                 setLanguage={this.setLanguage}
                                 suggestedEdits={this.props.suggestedEdits}
