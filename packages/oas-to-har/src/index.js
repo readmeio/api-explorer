@@ -97,9 +97,7 @@ module.exports = (
     }
   }
 
-  if (operation.schema.parameters) {
-    operation.schema.parameters.forEach(addParameter);
-  }
+  operation.getParameters().forEach(addParameter);
 
   // Does this operation have any common parameters?
   if (oas.paths && oas.paths[operation.path] && oas.paths[operation.path].parameters) {
