@@ -45,7 +45,7 @@ function Authorized({ result }) {
 Authorized.propTypes = {
   result: PropTypes.shape({
     isBinary: PropTypes.bool,
-    responseBody: PropTypes.oneOf([PropTypes.object, PropTypes.string]).isRequired,
+    responseBody: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     type: PropTypes.string,
   }).isRequired,
 };

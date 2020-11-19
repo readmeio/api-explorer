@@ -523,7 +523,7 @@ class Doc extends React.Component {
       if (lazy) {
         return (
           <Waypoint bottomOffset="-1%" fireOnRapidScroll={false} onEnter={this.waypointEntered}>
-            {this.state.showEndpoint && this.renderEndpoint()}
+            {this.state.showEndpoint ? this.renderEndpoint() : <div />}
           </Waypoint>
         );
       }

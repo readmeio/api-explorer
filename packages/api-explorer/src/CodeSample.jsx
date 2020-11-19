@@ -144,8 +144,8 @@ CodeSample.propTypes = {
   auth: PropTypes.shape({}).isRequired,
   examples: PropTypes.arrayOf(
     PropTypes.shape({
-      code: PropTypes.string.isRequired,
-      language: PropTypes.string.isRequired,
+      code: PropTypes.string,
+      language: PropTypes.string,
     })
   ),
   formData: PropTypes.shape({}).isRequired,
