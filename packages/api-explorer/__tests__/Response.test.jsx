@@ -18,30 +18,30 @@ const props = {
 
 describe('no result', () => {
   it('nothing should render', () => {
-    const comp = shallow(<Response {...props} />);
+    const codeSampleResponseTabs = shallow(<Response {...props} />);
 
-    expect(comp.find('span')).toHaveLength(0);
+    expect(codeSampleResponseTabs.find('span')).toHaveLength(0);
   });
 });
 
 describe('setTab', () => {
   it('setTab should change state of selectedTab', () => {
-    const comp = shallow(<Response {...props} />);
+    const doc = shallow(<Response {...props} />);
 
-    expect(comp.state('responseTab')).toBe('result');
+    expect(doc.state('responseTab')).toBe('result');
 
-    comp.instance().setTab('metadata');
+    doc.instance().setTab('metadata');
 
-    expect(comp.state('responseTab')).toBe('metadata');
+    expect(doc.state('responseTab')).toBe('metadata');
 
-    comp.instance().setTab('result');
+    doc.instance().setTab('result');
 
-    expect(comp.state('responseTab')).toBe('result');
+    expect(doc.state('responseTab')).toBe('result');
   });
 });
 
 test('should show different component tabs based on state', () => {
-  const comp = mount(
+  const doc = mount(
     <Response
       {...props}
       result={{
@@ -55,13 +55,13 @@ test('should show different component tabs based on state', () => {
     />
   );
 
-  expect(comp.find('ResponseBody')).toHaveLength(1);
-  comp.instance().setTab('metadata');
+  expect(doc.find('ResponseBody')).toHaveLength(1);
+  doc.instance().setTab('metadata');
 
   // I want to do the below assertion instead, but it's not working
   // expect(doc.find('ResponseMetadata').length).toBe(1);
-  expect(comp.html()).toContain('Response Headers');
+  expect(doc.html()).toContain('Response Headers');
 
   // Should include request body in HTML
-  expect(comp.html()).toContain(JSON.stringify({ b: 2 }));
+  expect(doc.html()).toContain(JSON.stringify({ b: 2 }));
 });

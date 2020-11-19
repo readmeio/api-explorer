@@ -33,7 +33,7 @@ test('should display the path', () => {
   expect(pathUrl.find('span.api-variable').text()).toBe('petId');
 });
 
-describe('#loading', () => {
+describe('loading prop', () => {
   it('should toggle try it visibility', () => {
     expect(shallow(<PathUrl {...props} loading={false} />).find('.try-it-now-btn')).toHaveLength(1);
 
@@ -53,7 +53,7 @@ describe('#loading', () => {
   });
 });
 
-describe('#dirty', () => {
+describe('dirty prop', () => {
   it('should add active class', () => {
     expect(shallow(<PathUrl {...props} dirty />).find('button.active')).toHaveLength(1);
 
@@ -116,7 +116,7 @@ describe('#onSubmit()', () => {
   });
 });
 
-describe('#splitPath()', () => {
+describe('splitPath()', () => {
   it('should work for multiple path params', () => {
     expect(splitPath('/{a}/{b}/c')).toHaveLength(5);
     expect(splitPath('/v1/flight/{FlightID}/sitezonetargeting/{SiteZoneTargetingID}')).toHaveLength(4);
