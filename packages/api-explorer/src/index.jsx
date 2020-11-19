@@ -115,9 +115,8 @@ class ApiExplorer extends React.Component {
    */
   onAuthGroupChange(group) {
     // Invoke supplementary handler (if available)
-    if (this.props.onAuthGroupChange && typeof this.props.onAuthGroupChange === 'function') {
-      this.props.onAuthGroupChange(group);
-    }
+    this.props.onAuthGroupChange(group);
+
     const { user } = this.props.variables;
     let groupName = false;
     if (user.keys) {
@@ -324,6 +323,7 @@ ApiExplorer.defaultProps = {
   Logs: undefined,
   maskErrorMessages: true,
   oauth: false,
+  onAuthGroupChange: () => {},
   onError: () => {},
   tryItMetrics: () => {},
   useNewMarkdownEngine: false,
