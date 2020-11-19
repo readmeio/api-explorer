@@ -44,6 +44,12 @@ module.exports = (oas, operation, values, auth, lang, oasUrl) => {
     };
   }
 
+  if (lang === 'node') {
+    language.httpsnippet[2] = {
+      useObjectBody: true,
+    };
+  }
+
   return {
     code: snippet.convert(...language.httpsnippet),
     highlightMode: language.highlight,
