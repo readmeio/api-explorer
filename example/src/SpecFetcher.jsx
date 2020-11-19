@@ -3,7 +3,7 @@ const swagger2openapi = require('swagger2openapi');
 const swaggerParser = require('@apidevtools/swagger-parser');
 const yaml = require('yaml');
 
-const createDocs = require('../../packages/api-explorer/lib/create-docs');
+const createDocs = require('../../packages/api-explorer/__tests__/__fixtures__/create-docs');
 
 function withSpecFetching(Component) {
   return class SpecFetcher extends React.Component {
