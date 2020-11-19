@@ -1,3 +1,16 @@
+## 10.0.0-alpha.0 (2020-11-19)
+
+* chore: externalize rdmd in webpack build ([86176bd](https://github.com/readmeio/api-explorer/commit/86176bd))
+* chore(deps dev): move RDMD to `peerDependencies` ([9a6ea3b](https://github.com/readmeio/api-explorer/commit/9a6ea3b))
+* chore(deps-dev): bump babel-loader from 8.1.0 to 8.2.1 (#1047) ([7a753b6](https://github.com/readmeio/api-explorer/commit/7a753b6)), closes [#1047](https://github.com/readmeio/api-explorer/issues/1047)
+* chore(deps-dev): bump conventional-changelog-cli from 2.1.0 to 2.1.1 (#1033) ([a3e7319](https://github.com/readmeio/api-explorer/commit/a3e7319)), closes [#1033](https://github.com/readmeio/api-explorer/issues/1033)
+* chore(deps-dev): sync lockfiles ([5791ac2](https://github.com/readmeio/api-explorer/commit/5791ac2))
+* chore(deps): add @readme/markdown as devDependency ([07b7bc3](https://github.com/readmeio/api-explorer/commit/07b7bc3))
+* chore(deps): bump swagger2openapi from 7.0.0 to 7.0.3 (#1045) ([e8f878b](https://github.com/readmeio/api-explorer/commit/e8f878b)), closes [#1045](https://github.com/readmeio/api-explorer/issues/1045)
+* fix: reverting the markdown bump in #1044 (#1051) ([9395846](https://github.com/readmeio/api-explorer/commit/9395846)), closes [#1044](https://github.com/readmeio/api-explorer/issues/1044) [#1051](https://github.com/readmeio/api-explorer/issues/1051)
+
+
+
 ## <small>9.2.3 (2020-11-13)</small>
 
 * chore(deps): bump actions/checkout from v2.3.3 to v2.3.4 (#1031) ([2849d87](https://github.com/readmeio/api-explorer/commit/2849d87)), closes [#1031](https://github.com/readmeio/api-explorer/issues/1031)
