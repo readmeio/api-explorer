@@ -83,40 +83,45 @@ class Doc extends React.Component {
       return;
     }
 
-    this.operation.getRequestBodyExamples().then(examples => {
-      if (!Object.keys(examples).length) {
-        return;
-      }
-
-      const jsonExamples = examples.filter(
-        ex => matchesMimeType.json(ex.mediaType) || matchesMimeType.wildcard(ex.mediaType)
-      );
-
-      if (jsonExamples.length) {
-        const example = jsonExamples[0];
-        let code = false;
-
-        if (example.code) {
-          code = example.code;
-        } else if (example.multipleExamples) {
-          code = example.multipleExamples[0].code;
+    this.operation
+      .getRequestBodyExamples()
+      .then(examples => {
+        if (!Object.keys(examples).length) {
+          return;
         }
 
-        try {
-          // Examples are stringified when we get them from `oas` because they need to be stringified for
-          // `@readme/syntax-highlighter` but because we need to pass a usable non-stringified object/array/primitive
-          // to our `CodeSample` component and `@readme/oas-to-har` we're parsing it out here. Cool? Cool.
-          code = JSON.parse(code);
-        } catch (e) {
-          code = {};
-        }
+        const jsonExamples = examples.filter(
+          ex => matchesMimeType.json(ex.mediaType) || matchesMimeType.wildcard(ex.mediaType)
+        );
 
-        this.setState({
-          formDataRawJson: code || {},
-          formDataRawJsonOriginal: code || {},
-        });
-      }
-    });
+        if (jsonExamples.length) {
+          const example = jsonExamples[0];
+          let code = false;
+
+          if (example.code) {
+            code = example.code;
+          } else if (example.multipleExamples) {
+            code = example.multipleExamples[0].code;
+          }
+
+          try {
+            // Examples are stringified when we get them from `oas` because they need to be stringified for
+            // `@readme/syntax-highlighter` but because we need to pass a usable non-stringified object/array/primitive
+            // to our `CodeSample` component and `@readme/oas-to-har` we're parsing it out here. Cool? Cool.
+            code = JSON.parse(code);
+          } catch (e) {
+            code = {};
+          }
+
+          this.setState({
+            formDataRawJson: code || {},
+            formDataRawJsonOriginal: code || {},
+          });
+        }
+      })
+      .catch(() => {
+        // If we fail to generate examples for whatever reason fail silently.
+      });
   }
 
   resetForm() {
