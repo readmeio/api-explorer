@@ -11,7 +11,7 @@ const { ApiExplorer } = WrappedApiExplorer;
 const oas = require('./__fixtures__/petstore/oas.json');
 const oasCommon = require('./__fixtures__/parameters/common.json');
 
-const createDocs = require('../lib/create-docs');
+const createDocs = require('./__fixtures__/create-docs');
 
 const docs = createDocs(oas, 'test-api-setting');
 
