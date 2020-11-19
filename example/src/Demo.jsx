@@ -77,7 +77,13 @@ class Demo extends React.Component {
 
   render() {
     const { fetchSwagger, status, docs, oas, oasUrl, oauth } = this.props;
-    const { brokenExplorerState, enableJsonEditor, enableTutorials, maskErrorMessages, useNewMarkdownEngine } = this.state;
+    const {
+      brokenExplorerState,
+      enableJsonEditor,
+      enableTutorials,
+      maskErrorMessages,
+      useNewMarkdownEngine,
+    } = this.state;
 
     const additionalProps = {
       oasFiles: {
