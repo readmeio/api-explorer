@@ -176,6 +176,10 @@
     #loading-screen.is-loaded {
       display: none;
     }
+
+    .hub-container {
+      display: flex;
+    }
   </style>
 </head>
 
@@ -232,17 +236,11 @@
           }
           section#hub-content {
             border-left: 1px solid #ddd;
-            margin-left: 246px;
             padding-left: 0px;
             width: unset;
           }
           section#hub-content.with-errors {
             border-left: none;
-          }
-          @media (max-width: 768px) {
-            section#hub-content {
-              margin-left: 0 !important;
-            }
           }
         </style>
         <div id="hub-sidebar-parent" class="hub-sidebar-sticky">
