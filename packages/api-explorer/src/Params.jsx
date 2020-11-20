@@ -4,14 +4,12 @@ const Form = require('@readme/oas-form').default;
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
-const syntaxHighlighter =
-  typeof window !== 'undefined' ? require('@readme/syntax-highlighter/dist/index.js').default : () => {};
-
 const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
 const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 
 const createArrayField = require('./form-components/ArrayField');
 const createBaseInput = require('./form-components/BaseInput');
+const createCodeEditor = require('./form-components/CodeEditor');
 const createFileWidget = require('./form-components/FileWidget');
 const createSchemaField = require('./form-components/SchemaField');
 const createSelectWidget = require('./form-components/SelectWidget');
@@ -119,7 +117,15 @@ class Params extends React.Component {
   }
 
   render() {
-    const { enableJsonEditor, formDataRawJson, onRawJsonChange, resetForm, validationErrors } = this.props;
+    const {
+      CodeEditor,
+      dirty,
+      enableJsonEditor,
+      formDataRawJson,
+      onRawJsonChange,
+      resetForm,
+      validationErrors,
+    } = this.props;
 
     return (
       <div
@@ -140,19 +146,7 @@ class Params extends React.Component {
                     <Tabs onClick={this.onModeChange}>
                       <div label="Form">{this.getForm(schema)}</div>
                       <div label="JSON">
-                        {syntaxHighlighter(
-                          JSON.stringify(formDataRawJson, undefined, 2),
-                          'json',
-                          {
-                            editable: true,
-                            dark: false,
-                          },
-                          {
-                            onChange: (editor, data, value) => {
-                              return onRawJsonChange(value);
-                            },
-                          }
-                        )}
+                        <CodeEditor code={formDataRawJson} dirty={dirty} onChange={onRawJsonChange} />
 
                         <div className="CodeEditor-Toolbar">
                           <div className="CodeEditor-Toolbar-Error">
@@ -191,6 +185,8 @@ class Params extends React.Component {
 Params.propTypes = {
   ArrayField: PropTypes.func.isRequired,
   BaseInput: PropTypes.func.isRequired,
+  CodeEditor: PropTypes.func.isRequired,
+  dirty: PropTypes.bool,
   enableJsonEditor: PropTypes.bool,
   FileWidget: PropTypes.func.isRequired,
   formData: PropTypes.shape({}),
@@ -214,6 +210,7 @@ Params.propTypes = {
 };
 
 Params.defaultProps = {
+  dirty: false,
   enableJsonEditor: false,
   formData: {},
   formDataRawJson: {},
@@ -245,6 +242,8 @@ function createParams(oas, operation) {
   const TextareaWidget = createTextareaWidget(explorerEnabled);
   const URLWidget = createURLWidget(explorerEnabled);
 
+  const CodeEditor = createCodeEditor();
+
   // eslint-disable-next-line react/display-name
   return props => {
     return (
@@ -252,6 +251,7 @@ function createParams(oas, operation) {
         {...props}
         ArrayField={ArrayField}
         BaseInput={BaseInput}
+        CodeEditor={CodeEditor}
         FileWidget={FileWidget}
         SchemaField={SchemaField}
         SelectWidget={SelectWidget}

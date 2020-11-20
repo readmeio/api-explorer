@@ -166,6 +166,7 @@ class Doc extends React.Component {
         };
       } catch (err) {
         return {
+          dirty: true,
           validationErrors: {
             ...previousState.validationErrors,
             json: err.message,
@@ -476,10 +477,11 @@ class Doc extends React.Component {
   }
 
   renderParams() {
-    const { formData, formDataRawJson, validationErrors } = this.state;
+    const { dirty, formData, formDataRawJson, validationErrors } = this.state;
 
     return (
       <this.Params
+        dirty={dirty}
         enableJsonEditor={this.shouldEnableRequestBodyJsonEditor()}
         formData={formData}
         formDataRawJson={formDataRawJson}
