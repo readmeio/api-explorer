@@ -127,12 +127,12 @@ class Doc extends React.Component {
   resetForm() {
     this.setState(previousState => {
       return {
+        dirty: false,
         formDataRawJson: previousState.formDataRawJsonOriginal,
         validationErrors: {
           ...previousState.validationErrors,
           json: false,
         },
-        dirty: false,
       };
     });
   }
