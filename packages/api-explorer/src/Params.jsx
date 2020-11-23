@@ -1,7 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('@readme/oas-form').default;
-const slug = require('lodash.kebabcase');
 const extensions = require('@readme/oas-extensions');
 
 const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
@@ -27,14 +26,7 @@ class Params extends React.Component {
     const { operation } = this.props;
 
     this.jsonSchema = operation.getParametersAsJsonSchema();
-
-    // If this operation doesn't have a set operationID (it's not required per the spec!) generate a hash off the
-    // path+method to be one so we have unique form IDs across the explorer.
-    if ('operationId' in operation.schema) {
-      this.operationId = operation.schema.operationId;
-    } else {
-      this.operationId = slug(`${operation.method} ${operation.path}`).replace(/-/g, '');
-    }
+    this.operationId = this.operation.getOperationId();
   }
 
   render() {
