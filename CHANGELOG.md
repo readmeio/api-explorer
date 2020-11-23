@@ -1,3 +1,20 @@
+## 9.3.0 (2020-11-23)
+
+* chore: hoisting deps ([f89ca82](https://github.com/readmeio/api-explorer/commit/f89ca82))
+* chore: removing some dead code (#1055) ([eae6110](https://github.com/readmeio/api-explorer/commit/eae6110)), closes [#1055](https://github.com/readmeio/api-explorer/issues/1055)
+* chore(deps-dev): bump @babel/cli from 7.12.1 to 7.12.7 (#1061) ([f2d8d1c](https://github.com/readmeio/api-explorer/commit/f2d8d1c)), closes [#1061](https://github.com/readmeio/api-explorer/issues/1061)
+* chore(deps-dev): bump @babel/preset-env from 7.11.5 to 7.12.7 (#1063) ([9a8cb28](https://github.com/readmeio/api-explorer/commit/9a8cb28)), closes [#1063](https://github.com/readmeio/api-explorer/issues/1063)
+* chore(deps-dev): bump babel-loader from 8.1.0 to 8.2.1 (#1047) ([7a753b6](https://github.com/readmeio/api-explorer/commit/7a753b6)), closes [#1047](https://github.com/readmeio/api-explorer/issues/1047)
+* chore(deps-dev): bump conventional-changelog-cli from 2.1.0 to 2.1.1 (#1033) ([a3e7319](https://github.com/readmeio/api-explorer/commit/a3e7319)), closes [#1033](https://github.com/readmeio/api-explorer/issues/1033)
+* chore(deps-dev): bump webpack-merge from 5.1.4 to 5.4.0 (#1062) ([66b67dd](https://github.com/readmeio/api-explorer/commit/66b67dd)), closes [#1062](https://github.com/readmeio/api-explorer/issues/1062)
+* chore(deps): bump swagger2openapi from 7.0.0 to 7.0.3 (#1045) ([e8f878b](https://github.com/readmeio/api-explorer/commit/e8f878b)), closes [#1045](https://github.com/readmeio/api-explorer/issues/1045)
+* chore(oas-to-snippet): replace stringified request body with JSON.stringify and object (#1056) ([2b60206](https://github.com/readmeio/api-explorer/commit/2b60206)), closes [#1056](https://github.com/readmeio/api-explorer/issues/1056)
+* Style: fix padding and color on the demo reference page (#1057) ([dae05f4](https://github.com/readmeio/api-explorer/commit/dae05f4)), closes [#1057](https://github.com/readmeio/api-explorer/issues/1057)
+* feat(api explorer): adding optional handler for auth group change (#1054) ([f61142b](https://github.com/readmeio/api-explorer/commit/f61142b)), closes [#1054](https://github.com/readmeio/api-explorer/issues/1054)
+* fix: reverting the markdown bump in #1044 (#1051) ([9395846](https://github.com/readmeio/api-explorer/commit/9395846)), closes [#1044](https://github.com/readmeio/api-explorer/issues/1044) [#1051](https://github.com/readmeio/api-explorer/issues/1051)
+
+
+
 ## <small>9.2.3 (2020-11-13)</small>
 
 * chore(deps): bump actions/checkout from v2.3.3 to v2.3.4 (#1031) ([2849d87](https://github.com/readmeio/api-explorer/commit/2849d87)), closes [#1031](https://github.com/readmeio/api-explorer/issues/1031)
