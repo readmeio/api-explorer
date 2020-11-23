@@ -26,7 +26,7 @@ class Params extends React.Component {
     const { operation } = this.props;
 
     this.jsonSchema = operation.getParametersAsJsonSchema();
-    this.operationId = this.operation.getOperationId();
+    this.operationId = operation.getOperationId();
   }
 
   render() {
