@@ -610,3 +610,35 @@ describe('#onModeChange()', () => {
     expect(doc.state('editingMode')).toBe('json');
   });
 });
+
+describe('#getFormDataForCurrentMode()', () => {
+  it('should pull back the appropriate form data for the current editing mode', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    doc.setState({
+      formData: {
+        headers: {
+          'x-breed': 'pug',
+        },
+        body: {
+          name: 'booster',
+        },
+      },
+      formDataRawJson: {
+        name: 'buster',
+      },
+    });
+
+    expect(doc.instance().getFormDataForCurrentMode()).toStrictEqual({
+      headers: { 'x-breed': 'pug' },
+      body: { name: 'booster' },
+    });
+
+    doc.setState({ editingMode: 'json' });
+
+    expect(doc.instance().getFormDataForCurrentMode()).toStrictEqual({
+      headers: { 'x-breed': 'pug' },
+      body: { name: 'buster' },
+    });
+  });
+});
