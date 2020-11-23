@@ -24,7 +24,7 @@ describe('tabs', () => {
 
   it('should display tabs if SAMPLES_ENABLED is true', () => {
     const languages = ['node', 'curl'];
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         oas={
@@ -37,12 +37,12 @@ describe('tabs', () => {
       />
     );
 
-    expect(comp.find('ul.code-sample-tabs li')).toHaveLength(2);
-    expect(comp.find('li')).toHaveLength(languages.length);
+    expect(codeSample.find('ul.code-sample-tabs li')).toHaveLength(2);
+    expect(codeSample.find('li')).toHaveLength(languages.length);
   });
 
   it('should display a message if no code samples', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         oas={
@@ -54,13 +54,13 @@ describe('tabs', () => {
       />
     );
 
-    expect(comp.find('.hub-no-code').text()).toBe('No code samples available');
+    expect(codeSample.find('.hub-no-code').text()).toBe('No code samples available');
   });
 });
 
 describe('code examples', () => {
   it('should support the `node-simple` language', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         language={'node-simple'}
@@ -74,13 +74,13 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.hub-code-auto pre').text()).toContain(
+    expect(codeSample.find('.hub-code-auto pre').text()).toContain(
       "const sdk = require('api')('https://example.com/openapi.json');"
     );
   });
 
   it('should display custom examples over pre-filled examples', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         examples={[
@@ -99,12 +99,12 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.code-sample-body')).toHaveLength(1);
-    expect(comp.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
+    expect(codeSample.find('.code-sample-body')).toHaveLength(1);
+    expect(codeSample.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
   });
 
   it('should display custom examples even if SAMPLES_ENABLED is false', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         examples={[
@@ -122,8 +122,8 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.code-sample-body')).toHaveLength(1);
-    expect(comp.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
+    expect(codeSample.find('.code-sample-body')).toHaveLength(1);
+    expect(codeSample.find('pre.tomorrow-night.tabber-body')).toHaveLength(1);
   });
 
   it('should not error if no code given', () => {
@@ -149,7 +149,7 @@ describe('code examples', () => {
   });
 
   it('should not error if language requested cannot be auto-generated', () => {
-    const comp = (
+    const component = (
       <CodeSample
         {...props}
         language={'css'}
@@ -163,16 +163,16 @@ describe('code examples', () => {
       />
     );
 
-    expect(() => shallow(comp)).not.toThrow(/Cannot read property 'snippet' of undefined/);
+    expect(() => shallow(component)).not.toThrow(/Cannot read property 'snippet' of undefined/);
 
-    const codeSample = shallow(comp);
+    const codeSample = shallow(component);
     expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
     expect(codeSample.find('.hub-code-auto pre')).toHaveLength(0);
     expect(codeSample.find('.hub-no-code')).toHaveLength(1);
   });
 
   it('should not render sample if language is missing', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         examples={[
@@ -194,12 +194,12 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.code-sample-tabs a')).toHaveLength(1);
-    expect(comp.find('.code-sample-body pre')).toHaveLength(1);
+    expect(codeSample.find('.code-sample-tabs a')).toHaveLength(1);
+    expect(codeSample.find('.code-sample-body pre')).toHaveLength(1);
   });
 
   it('should render first of examples if language does not exist', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         examples={[
@@ -221,11 +221,11 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
+    expect(codeSample.find('.code-sample-tabs a.selected').text()).toBe('JavaScript');
   });
 
   it('should display examples if SAMPLES_ENABLED is true', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         oas={
@@ -238,11 +238,11 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.hub-code-auto')).toHaveLength(1);
+    expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
 
     // We only render one language at a time
-    expect(comp.find('.hub-code-auto pre')).toHaveLength(1);
-    expect(comp.find('.hub-lang-switch-node').text()).toBe('Node');
+    expect(codeSample.find('.hub-code-auto pre')).toHaveLength(1);
+    expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 
   // Skipped until https://github.com/readmeio/api-explorer/issues/965 is resolved.
@@ -250,7 +250,7 @@ describe('code examples', () => {
     const operationSamplesEnabled = oas.operation('/pet/{petId}', 'get');
     operationSamplesEnabled.schema[extensions.SAMPLES_ENABLED] = true;
 
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         oas={
@@ -264,15 +264,15 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.hub-code-auto')).toHaveLength(1);
+    expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
 
     // We only render one language at a time
-    expect(comp.find('.hub-code-auto pre')).toHaveLength(1);
-    expect(comp.find('.hub-lang-switch-node').text()).toBe('Node');
+    expect(codeSample.find('.hub-code-auto pre')).toHaveLength(1);
+    expect(codeSample.find('.hub-lang-switch-node').text()).toBe('Node');
   });
 
   it('should not display more than one example block at a time', () => {
-    const comp = shallow(
+    const codeSample = shallow(
       <CodeSample
         {...props}
         examples={[
@@ -298,7 +298,7 @@ describe('code examples', () => {
       />
     );
 
-    expect(comp.find('.code-sample-tabs a.selected')).toHaveLength(1);
+    expect(codeSample.find('.code-sample-tabs a.selected')).toHaveLength(1);
   });
 });
 
