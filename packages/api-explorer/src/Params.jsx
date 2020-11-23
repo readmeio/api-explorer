@@ -117,15 +117,7 @@ class Params extends React.Component {
   }
 
   render() {
-    const {
-      CodeEditor,
-      dirty,
-      enableJsonEditor,
-      formDataRawJson,
-      onRawJsonChange,
-      resetForm,
-      validationErrors,
-    } = this.props;
+    const { CodeEditor, enableJsonEditor, formDataJsonRaw, onJsonChange, resetForm, validationErrors } = this.props;
 
     return (
       <div
@@ -146,7 +138,7 @@ class Params extends React.Component {
                     <Tabs onClick={this.onModeChange}>
                       <div label="Form">{this.getForm(schema)}</div>
                       <div label="JSON">
-                        <CodeEditor code={formDataRawJson} dirty={dirty} onChange={onRawJsonChange} />
+                        <CodeEditor code={formDataJsonRaw} onChange={onJsonChange} />
 
                         <div className="CodeEditor-Toolbar">
                           <div className="CodeEditor-Toolbar-Error">
@@ -186,15 +178,14 @@ Params.propTypes = {
   ArrayField: PropTypes.func.isRequired,
   BaseInput: PropTypes.func.isRequired,
   CodeEditor: PropTypes.func.isRequired,
-  dirty: PropTypes.bool,
   enableJsonEditor: PropTypes.bool,
   FileWidget: PropTypes.func.isRequired,
   formData: PropTypes.shape({}),
-  formDataRawJson: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  formDataJsonRaw: PropTypes.string,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
+  onJsonChange: PropTypes.func.isRequired,
   onModeChange: PropTypes.func.isRequired,
-  onRawJsonChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
   resetForm: PropTypes.func.isRequired,
@@ -210,10 +201,9 @@ Params.propTypes = {
 };
 
 Params.defaultProps = {
-  dirty: false,
   enableJsonEditor: false,
   formData: {},
-  formDataRawJson: {},
+  formDataJsonRaw: '{}',
   useNewMarkdownEngine: false,
   validationErrors: {
     form: false,

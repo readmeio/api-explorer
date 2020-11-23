@@ -515,15 +515,16 @@ describe('#enableRequestBodyJsonEditor', () => {
       );
 
       return waitFor(() => {
-        expect(doc.state('formDataRawJson')).toStrictEqual(petExample);
-        expect(doc.state('formDataRawJsonOriginal')).toStrictEqual(doc.state('formDataRawJson'));
+        expect(doc.state('formDataJson')).toStrictEqual(petExample);
+        expect(doc.state('formDataJsonOriginal')).toStrictEqual(doc.state('formDataJson'));
+        expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
       });
     });
   });
 });
 
 describe('#resetForm()', () => {
-  it('should reset formDataRawJson', () => {
+  it('should reset formDataJson', () => {
     const doc = mount(
       <Doc
         {...props}
@@ -538,21 +539,22 @@ describe('#resetForm()', () => {
     );
 
     return waitFor(() => {
-      expect(doc.state('formDataRawJson')).toStrictEqual(petExample);
+      expect(doc.state('formDataJson')).toStrictEqual(petExample);
 
-      doc.setState({ formDataRawJson: { name: 'buster' } });
+      doc.setState({ formDataJson: { name: 'buster' } });
 
       doc.instance().resetForm();
 
-      expect(doc.state('formDataRawJson')).toStrictEqual(petExample);
+      expect(doc.state('formDataJson')).toStrictEqual(petExample);
+      expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
       expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
       expect(doc.state('dirty')).toBe(false);
     });
   });
 });
 
-describe('#onRawJsonChange()', () => {
-  it('should update formDataRawJson when given valid json', () => {
+describe('#onJsonChange()', () => {
+  it('should update formDataJson when given valid json', () => {
     const doc = shallow(
       <Doc
         {...props}
@@ -566,9 +568,10 @@ describe('#onRawJsonChange()', () => {
       />
     );
 
-    doc.instance().onRawJsonChange(JSON.stringify({ name: 'buster' }));
+    doc.instance().onJsonChange(JSON.stringify({ name: 'buster' }));
 
-    expect(doc.state('formDataRawJson')).toStrictEqual({ name: 'buster' });
+    expect(doc.state('formDataJson')).toStrictEqual({ name: 'buster' });
+    expect(doc.state('formDataJsonRaw')).toStrictEqual(JSON.stringify({ name: 'buster' }));
     expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
     expect(doc.state('dirty')).toBe(true);
   });
@@ -587,10 +590,11 @@ describe('#onRawJsonChange()', () => {
       />
     );
 
-    doc.instance().onRawJsonChange(JSON.stringify({ name: 'buster' }));
-    doc.instance().onRawJsonChange('{ invalid json }');
+    doc.instance().onJsonChange(JSON.stringify({ name: 'buster' }));
+    doc.instance().onJsonChange('{ invalid json }');
 
-    expect(doc.state('formDataRawJson')).toStrictEqual({ name: 'buster' });
+    expect(doc.state('formDataJson')).toStrictEqual({ name: 'buster' });
+    expect(doc.state('formDataJsonRaw')).toStrictEqual('{ invalid json }');
     expect(doc.state('validationErrors')).toStrictEqual({
       form: false,
       json: expect.any(String),
@@ -624,7 +628,7 @@ describe('#getFormDataForCurrentMode()', () => {
           name: 'booster',
         },
       },
-      formDataRawJson: {
+      formDataJson: {
         name: 'buster',
       },
     });

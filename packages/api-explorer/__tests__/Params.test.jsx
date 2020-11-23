@@ -22,8 +22,8 @@ const stringOas = new Oas(string);
 const props = {
   oas,
   onChange: () => {},
+  onJsonChange: () => {},
   onModeChange: () => {},
-  onRawJsonChange: () => {},
   onSubmit: () => {},
   operation,
   resetForm: () => {},

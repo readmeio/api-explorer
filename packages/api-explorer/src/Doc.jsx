@@ -28,6 +28,8 @@ const Content = require('./block-types/Content');
 
 const { version: packageVersion } = require('../package.json');
 
+const stringifyPretty = data => JSON.stringify(data, undefined, 2);
+
 class Doc extends React.Component {
   constructor(props) {
     super(props);
@@ -36,12 +38,19 @@ class Doc extends React.Component {
       editingMode: 'form',
       formData: {},
 
-      // For raw mode we should default the body to an empty JSON object. If this operation has a request body example
-      // that we can use, it'll get filled in when the `componentDidMount` event kicks.
-      formDataRawJson: {},
+      // For raw mode we should default the body to an empty JSON object. If this operation has a
+      // request body example that we can use, it'll get filled in when the `componentDidMount`
+      // event kicks.
+      formDataJson: {},
 
-      // This'll hold a copy of the original raw JSON block incase the user wants to reset their changes.
-      formDataRawJsonOriginal: {},
+      // This'll hold a copy of the original raw JSON block incase the user wants to reset their
+      // changes.
+      formDataJsonOriginal: {},
+
+      // This holds a copy of whatever data the user is currently inputting into the JSON request
+      // code editor. On page load it'll hold the contents of `formDataJson` until the user makes
+      // changes.
+      formDataJsonRaw: '{}',
 
       loading: false,
       needsAuth: false,
@@ -64,8 +73,8 @@ class Doc extends React.Component {
     this.oas = new Oas(this.props.oas, this.props.user);
 
     this.onChange = this.onChange.bind(this);
+    this.onJsonChange = this.onJsonChange.bind(this);
     this.onModeChange = this.onModeChange.bind(this);
-    this.onRawJsonChange = this.onRawJsonChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.openTutorial = this.openTutorial.bind(this);
@@ -113,9 +122,12 @@ class Doc extends React.Component {
             code = {};
           }
 
+          code = code || {};
+
           this.setState({
-            formDataRawJson: code || {},
-            formDataRawJsonOriginal: code || {},
+            formDataJson: code,
+            formDataJsonOriginal: code,
+            formDataJsonRaw: stringifyPretty(code),
           });
         }
       })
@@ -128,7 +140,8 @@ class Doc extends React.Component {
     this.setState(previousState => {
       return {
         dirty: false,
-        formDataRawJson: previousState.formDataRawJsonOriginal,
+        formDataJson: previousState.formDataJsonOriginal,
+        formDataJsonRaw: stringifyPretty(previousState.formDataJsonOriginal),
         validationErrors: {
           ...previousState.validationErrors,
           json: false,
@@ -150,7 +163,7 @@ class Doc extends React.Component {
     });
   }
 
-  onRawJsonChange(rawData) {
+  onJsonChange(rawData) {
     this.setState(previousState => {
       let data;
       try {
@@ -158,7 +171,8 @@ class Doc extends React.Component {
 
         return {
           dirty: true,
-          formDataRawJson: data,
+          formDataJson: data,
+          formDataJsonRaw: rawData,
           validationErrors: {
             ...previousState.validationErrors,
             json: false,
@@ -167,6 +181,8 @@ class Doc extends React.Component {
       } catch (err) {
         return {
           dirty: true,
+          formDataJson: previousState.formDataJson,
+          formDataJsonRaw: rawData,
           validationErrors: {
             ...previousState.validationErrors,
             json: err.message,
@@ -218,7 +234,7 @@ class Doc extends React.Component {
   }
 
   getFormDataForCurrentMode() {
-    const { formData, formDataRawJson, editingMode } = this.state;
+    const { editingMode, formData, formDataJson } = this.state;
 
     if (editingMode === 'form') {
       return formData;
@@ -226,7 +242,7 @@ class Doc extends React.Component {
 
     return {
       ...formData,
-      body: formDataRawJson,
+      body: formDataJson,
     };
   }
 
@@ -477,18 +493,17 @@ class Doc extends React.Component {
   }
 
   renderParams() {
-    const { dirty, formData, formDataRawJson, validationErrors } = this.state;
+    const { formData, formDataJsonRaw, validationErrors } = this.state;
 
     return (
       <this.Params
-        dirty={dirty}
         enableJsonEditor={this.shouldEnableRequestBodyJsonEditor()}
         formData={formData}
-        formDataRawJson={formDataRawJson}
+        formDataJsonRaw={formDataJsonRaw}
         oas={this.oas}
         onChange={this.onChange}
+        onJsonChange={this.onJsonChange}
         onModeChange={this.onModeChange}
-        onRawJsonChange={this.onRawJsonChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
         resetForm={this.resetForm}
