@@ -85,7 +85,7 @@ describe('form id attribute', () => {
         </div>
       )
         .html()
-        .match(new RegExp(`form-path-${operation.schema.operationId}`, 'g'))
+        .match(new RegExp(`form-path-${operation.getOperationId()}`, 'g'))
     ).toHaveLength(1);
   });
 });
