@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   entry: ['whatwg-fetch', './src/index.jsx'],
   externals: {
+    '@readme/markdown': '@readme/markdown',
     react: {
       root: 'React',
       commonjs: 'react',

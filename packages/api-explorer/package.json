@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@readme/http-status-codes": "^7.1.0",
-    "@readme/markdown": "^6.21.0",
     "@readme/markdown-magic": "^9.3.0",
     "@readme/oas-extensions": "^9.0.0",
     "@readme/oas-form": "^9.3.0",
@@ -41,12 +40,14 @@
     "whatwg-fetch": "^3.0.0"
   },
   "peerDependencies": {
+    "@readme/markdown": "^6.21.0",
     "@readme/ui": "^1.10.2",
     "react": "16.x",
     "react-dom": "16.x"
   },
   "devDependencies": {
     "@readme/eslint-config": "^3.2.0",
+    "@readme/markdown": "^6.21.0",
     "@readme/oas-examples": "^3.6.0",
     "@readme/ui": "^1.11.0",
     "@testing-library/dom": "^7.26.3",
