@@ -85,7 +85,7 @@ class ResponseSchema extends React.Component {
 
     const schema = this.getSchema(operation);
 
-    let response = operation.schema.responses[this.state.selectedStatus];
+    let response = operation.getResponseByStatusCode(this.state.selectedStatus);
 
     // @todo This should really be called higher up when the OAS is processed within the Doc component.
     if (response.$ref) {
