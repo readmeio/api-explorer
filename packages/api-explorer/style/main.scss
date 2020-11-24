@@ -904,20 +904,16 @@ form.rjsf {
 }
 
 /* disabled Try It button (when JSON is invalid) */
-#hub-reference .hub-api .api-definition .api-try-it-out[disabled],
-#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:hover,
-#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:active,
-#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:focus {
+#hub-reference .hub-api .api-definition .api-try-it-out.invalid,
+#hub-reference .hub-api .api-definition .api-try-it-out.invalid:hover,
+#hub-reference .hub-api .api-definition .api-try-it-out.invalid:active,
+#hub-reference .hub-api .api-definition .api-try-it-out.invalid:focus {
   background: transparent;
   border-color: transparent;
   color: #e95f6a !important;
   cursor: not-allowed;
   transition: none;
-}
 
-#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:hover,
-#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:active,
-#hub-reference .hub-api .api-definition .api-try-it-out[disabled]:focus {
   .api-try-it-out-popover {
     opacity: 1;
     pointer-events: auto;

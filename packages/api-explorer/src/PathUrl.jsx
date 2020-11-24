@@ -66,7 +66,7 @@ function PathUrl({
               />
 
               <button
-                className={classNames('api-try-it-out', { active: dirty })}
+                className={classNames('api-try-it-out', { active: dirty }, { invalid: validationErrors.json })}
                 disabled={loading || validationErrors.json}
                 onClick={onSubmit}
                 type="submit"
