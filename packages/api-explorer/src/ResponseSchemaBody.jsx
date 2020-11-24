@@ -55,6 +55,8 @@ class ResponseSchemaBody extends React.Component {
               textAlign: 'right',
               overflow: 'visible',
               wordBreak: 'break-all',
+              // eslint-disable-next-line no-dupe-keys
+              wordBreak: 'break-word',
             }}
           >
             {row.name}
