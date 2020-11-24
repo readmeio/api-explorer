@@ -29,7 +29,9 @@
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.0.1",
     "@readme/emojis": "^2.1.0",
+    "@readme/ui": "^1.14.2",
     "babel-polyfill": "^6.26.0",
+    "oas": "^6.1.0",
     "prop-types": "^15.7.2",
     "react-hot-loader": "^4.12.16",
     "swagger2openapi": "^7.0.0",
