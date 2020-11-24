@@ -913,6 +913,11 @@ form.rjsf {
   color: #e95f6a !important;
   cursor: not-allowed;
   transition: none;
+}
+
+#hub-reference .hub-api .api-definition .api-try-it-out.invalid:hover,
+#hub-reference .hub-api .api-definition .api-try-it-out.invalid:active,
+#hub-reference .hub-api .api-definition .api-try-it-out.invalid:focus {
 
   .api-try-it-out-popover {
     opacity: 1;
