@@ -68,7 +68,7 @@ class CodeSample extends React.Component {
               <div key={key} style={{ display: selected ? 'block' : 'none' }}>
                 <CopyCode key={`copy-${key}`} code={example.code} />
                 <pre className="tomorrow-night tabber-body" style={{ display: selected ? 'block' : '' }}>
-                  {syntaxHighlighter(example.code, example.language, { dark: true })}
+                  {syntaxHighlighter(example.code, example.language, { customTheme: 'tomorrow-night' })}
                 </pre>
               </div>
             );
@@ -98,7 +98,7 @@ class CodeSample extends React.Component {
           let snippet;
           const { code, highlightMode } = generateCodeSnippet(oas, operation, formData, auth, language, oasUrl);
           if (code && highlightMode) {
-            snippet = syntaxHighlighter(code, highlightMode, { dark: true });
+            snippet = syntaxHighlighter(code, highlightMode, { customTheme: 'tomorrow-night' });
           }
 
           return (
@@ -144,8 +144,8 @@ CodeSample.propTypes = {
   auth: PropTypes.shape({}).isRequired,
   examples: PropTypes.arrayOf(
     PropTypes.shape({
-      code: PropTypes.string.isRequired,
-      language: PropTypes.string.isRequired,
+      code: PropTypes.string,
+      language: PropTypes.string,
     })
   ),
   formData: PropTypes.shape({}).isRequired,

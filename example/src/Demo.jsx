@@ -16,6 +16,7 @@ class Demo extends React.Component {
     super(props);
     this.state = {
       brokenExplorerState: false,
+      enableJsonEditor: true,
       enableTutorials: false,
       maskErrorMessages: false,
       useNewMarkdownEngine: true,
@@ -35,6 +36,10 @@ class Demo extends React.Component {
       'Use new Markdown engine?': {
         description: null,
         stateProp: 'useNewMarkdownEngine',
+      },
+      'Enable JSON editor (beta)': {
+        description: 'Enable our request body JSON editor.',
+        stateProp: 'enableJsonEditor',
       },
       'Enable tutorials (beta)': {
         description: 'Enable our tutorials beta.',
@@ -72,7 +77,13 @@ class Demo extends React.Component {
 
   render() {
     const { fetchSwagger, status, docs, oas, oasUrl, oauth } = this.props;
-    const { brokenExplorerState, enableTutorials, maskErrorMessages, useNewMarkdownEngine } = this.state;
+    const {
+      brokenExplorerState,
+      enableJsonEditor,
+      enableTutorials,
+      maskErrorMessages,
+      useNewMarkdownEngine,
+    } = this.state;
 
     const additionalProps = {
       oasFiles: {
@@ -146,6 +157,7 @@ class Demo extends React.Component {
             docs={docs}
             // We only really set this to `true` for testing sites for errors using puppeteer
             dontLazyLoad={false}
+            enableRequestBodyJsonEditor={enableJsonEditor}
             flags={{ correctnewlines: false }}
             glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
             Logs={Logs}

@@ -5,10 +5,12 @@ global.Request = Request;
 
 const React = require('react');
 const { shallow, mount } = require('enzyme');
+const { waitFor } = require('@testing-library/dom');
 const Doc = require('../src/Doc');
 const ErrorBoundary = require('../src/ErrorBoundary');
 
 const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
+const uspto = require('@readme/oas-examples/3.0/json/uspto.json');
 const petstoreWithAuth = require('./__fixtures__/petstore/oas.json');
 const multipleSecurities = require('./__fixtures__/multiple-securities/oas.json');
 
@@ -23,6 +25,7 @@ const props = {
     type: 'endpoint',
   },
   language: 'node',
+  lazy: false,
   oas: petstore,
   oauth: false,
   onAuthChange: () => {},
@@ -30,6 +33,22 @@ const props = {
   setLanguage: () => {},
   suggestedEdits: false,
   tryItMetrics: () => {},
+};
+
+const petExample = {
+  category: {
+    id: 0,
+    name: 'string',
+  },
+  name: 'doggie',
+  photoUrls: ['string'],
+  status: 'available',
+  tags: [
+    {
+      id: 0,
+      name: 'string',
+    },
+  ],
 };
 
 function assertDocElements(component, doc) {
@@ -153,14 +172,14 @@ describe('state.dirty', () => {
   it('should default to false', () => {
     const doc = shallow(<Doc {...props} />);
 
-    expect(doc.state('dirty')).toBe(false);
+    expect(doc.state('dirty')).toStrictEqual({ form: false, json: false });
   });
 
   it('should switch to true on form change', () => {
     const doc = shallow(<Doc {...props} />);
     doc.instance().onChange({ a: 1 });
 
-    expect(doc.state('dirty')).toBe(true);
+    expect(doc.state('dirty')).toStrictEqual({ form: true, json: false });
   });
 });
 
@@ -318,14 +337,14 @@ describe('suggest edits', () => {
   });
 });
 
-describe('Response Schema', () => {
-  it('should render Response Schema if endpoint does have a response', () => {
-    const doc = mount(<Doc {...props} oas={petstoreWithAuth} />);
+describe('ResponseSchema', () => {
+  it('should render ResponseSchema if endpoint does have a response', () => {
+    const doc = shallow(<Doc {...props} oas={petstoreWithAuth} />);
     doc.setState({ showEndpoint: true });
     expect(doc.find('ResponseSchema')).toHaveLength(1);
   });
 
-  it('should not render Response Schema if endpoint does not have a response', () => {
+  it('should not render ResponseSchema if endpoint does not have a response', () => {
     const doc = shallow(
       <Doc
         {...props}
@@ -339,14 +358,14 @@ describe('Response Schema', () => {
         oas={multipleSecurities}
       />
     );
+
     expect(doc.find('ResponseSchema')).toHaveLength(0);
   });
 });
 
 describe('RenderLogs', () => {
   it('should return a log component', () => {
-    const doc = mount(<Doc {...props} />);
-    doc.setProps({ Logs: () => {} });
+    const doc = shallow(<Doc {...props} Logs={() => {}} />);
     const res = doc.instance().renderLogs();
     expect(typeof res).toBe('object');
   });
@@ -354,7 +373,7 @@ describe('RenderLogs', () => {
 
 describe('themes', () => {
   it('should output code samples and responses in the right column', () => {
-    const doc = mount(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);
+    const doc = shallow(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);
     doc.setState({ showEndpoint: true });
 
     expect(doc.find('.hub-reference-right').find('CodeSample')).toHaveLength(1);
@@ -399,11 +418,9 @@ describe('error handling', () => {
   it('should output with a masked error message if the endpoint fails to load', () => {
     const doc = mount(<Doc {...props} doc={docProps} maskErrorMessages={true} oas={brokenOas} />);
 
-    doc.setState({ showEndpoint: true });
+    expect(doc.find(ErrorBoundary)).toHaveLength(1);
 
     const html = doc.html();
-
-    expect(doc.find(ErrorBoundary)).toHaveLength(1);
     expect(html).not.toMatch('support@readme.io');
     expect(html).toMatch("endpoint's documentation");
   });
@@ -438,5 +455,222 @@ describe('error handling', () => {
     expect(html).toMatch('support@readme.io');
     expect(html).toMatch("endpoint's documentation");
     expect(html).toMatch(/ERR-([0-9A-Z]{6})/);
+  });
+});
+
+describe('#enableRequestBodyJsonEditor', () => {
+  it('should not show the editor on an operation without a request body', () => {
+    const doc = shallow(<Doc {...props} enableRequestBodyJsonEditor={true} />);
+
+    expect(doc.find('Tabs')).toHaveLength(0);
+  });
+
+  it('should not show the editor on an operation with a non-json request body', () => {
+    const doc = mount(
+      <Doc
+        {...props}
+        doc={{
+          ...props.doc,
+          api: { method: 'post' },
+          swagger: { path: '/{dataset}/{version}/records' },
+        }}
+        enableRequestBodyJsonEditor={true}
+        oas={uspto}
+      />
+    );
+
+    expect(doc.find('Tabs')).toHaveLength(0);
+  });
+
+  it('should show the editor on an operation with a json-compatible request body', () => {
+    const doc = mount(
+      <Doc
+        {...props}
+        doc={{
+          ...props.doc,
+          api: { method: 'post' },
+          swagger: { path: '/pet' },
+        }}
+        enableRequestBodyJsonEditor={true}
+        oas={petstore}
+      />
+    );
+
+    expect(doc.find('Tabs')).toHaveLength(1);
+  });
+
+  describe('#formDataJson', () => {
+    it('should fill formDataJson with an example request body', () => {
+      const doc = mount(
+        <Doc
+          {...props}
+          doc={{
+            ...props.doc,
+            api: { method: 'post' },
+            swagger: { path: '/pet' },
+          }}
+          enableRequestBodyJsonEditor={true}
+          oas={petstore}
+        />
+      );
+
+      return waitFor(() => {
+        expect(doc.state('formDataJson')).toStrictEqual(petExample);
+        expect(doc.state('formDataJsonOriginal')).toStrictEqual(doc.state('formDataJson'));
+        expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
+      });
+    });
+  });
+});
+
+describe('#resetForm()', () => {
+  it('should reset formDataJson', () => {
+    const doc = mount(
+      <Doc
+        {...props}
+        doc={{
+          ...props.doc,
+          api: { method: 'post' },
+          swagger: { path: '/pet' },
+        }}
+        enableRequestBodyJsonEditor={true}
+        oas={petstore}
+      />
+    );
+
+    return waitFor(() => {
+      expect(doc.state('formDataJson')).toStrictEqual(petExample);
+
+      doc.setState({ formDataJson: { name: 'buster' } });
+
+      doc.instance().resetForm();
+
+      expect(doc.state('formDataJson')).toStrictEqual(petExample);
+      expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
+      expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
+      expect(doc.state('dirty')).toStrictEqual({ form: true, json: false });
+    });
+  });
+});
+
+describe('#onJsonChange()', () => {
+  it('should update formDataJson when given valid json', () => {
+    const doc = shallow(
+      <Doc
+        {...props}
+        doc={{
+          ...props.doc,
+          api: { method: 'post' },
+          swagger: { path: '/pet' },
+        }}
+        enableRequestBodyJsonEditor={true}
+        oas={petstore}
+      />
+    );
+
+    doc.instance().onJsonChange(JSON.stringify({ name: 'buster' }));
+
+    expect(doc.state('formDataJson')).toStrictEqual({ name: 'buster' });
+    expect(doc.state('formDataJsonRaw')).toStrictEqual(JSON.stringify({ name: 'buster' }));
+    expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
+    expect(doc.state('dirty')).toStrictEqual({ form: false, json: true });
+  });
+
+  it('should set validation errors when given invalid JSON', () => {
+    const doc = shallow(
+      <Doc
+        {...props}
+        doc={{
+          ...props.doc,
+          api: { method: 'post' },
+          swagger: { path: '/pet' },
+        }}
+        enableRequestBodyJsonEditor={true}
+        oas={petstore}
+      />
+    );
+
+    doc.instance().onJsonChange(JSON.stringify({ name: 'buster' }));
+    doc.instance().onJsonChange('{ invalid json }');
+
+    expect(doc.state('formDataJson')).toStrictEqual({ name: 'buster' });
+    expect(doc.state('formDataJsonRaw')).toStrictEqual('{ invalid json }');
+    expect(doc.state('validationErrors')).toStrictEqual({
+      form: false,
+      json: expect.any(String),
+    });
+
+    expect(doc.state('dirty')).toStrictEqual({ form: false, json: true });
+  });
+});
+
+describe('#onModeChange()', () => {
+  it('should change the editing mode', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    expect(doc.state('editingMode')).toBe('form');
+
+    doc.instance().onModeChange('JSON');
+    expect(doc.state('editingMode')).toBe('json');
+  });
+});
+
+describe('#isDirty()', () => {
+  it('should return a dirty state based on the current editing mode', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    doc.setState({ dirty: { form: true, json: false } });
+
+    expect(doc.instance().isDirty()).toBe(true);
+
+    doc.setState({ editingMode: 'json' });
+
+    expect(doc.instance().isDirty()).toBe(false);
+  });
+});
+
+describe('#getValidationErrors()', () => {
+  it('should return validation errors based on the current editing mode', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    doc.setState({ validationErrors: { form: false, json: 'invalid json' } });
+
+    expect(doc.instance().getValidationErrors()).toBe(false);
+
+    doc.setState({ editingMode: 'json' });
+
+    expect(doc.instance().getValidationErrors()).toBe('invalid json');
+  });
+});
+
+describe('#getFormDataForCurrentMode()', () => {
+  it('should pull back the appropriate form data for the current editing mode', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    doc.setState({
+      formData: {
+        headers: {
+          'x-breed': 'pug',
+        },
+        body: {
+          name: 'booster',
+        },
+      },
+      formDataJson: {
+        name: 'buster',
+      },
+    });
+
+    expect(doc.instance().getFormDataForCurrentMode()).toStrictEqual({
+      headers: { 'x-breed': 'pug' },
+      body: { name: 'booster' },
+    });
+
+    doc.setState({ editingMode: 'json' });
+
+    expect(doc.instance().getFormDataForCurrentMode()).toStrictEqual({
+      headers: { 'x-breed': 'pug' },
+      body: { name: 'buster' },
+    });
   });
 });

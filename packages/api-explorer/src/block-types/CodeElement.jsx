@@ -36,16 +36,19 @@ class CodeElement extends React.PureComponent {
   render() {
     const { activeTab, code, dark } = this.props;
 
+    const props = {
+      tokenizeVariables: true,
+    };
+
+    if (dark) {
+      props.customTheme = 'tomorrow-night';
+    }
+
     return (
       <div style={{ display: activeTab ? 'block' : 'none' }}>
         <CopyCode code={() => (this.state.el ? this.state.el.textContent : '')} />
         <pre style={{ display: activeTab ? 'block' : 'none' }}>
-          <code ref={this.el}>
-            {syntaxHighlighter(code.code, code.language, {
-              dark,
-              tokenizeVariables: true,
-            })}
-          </code>
+          <code ref={this.el}>{syntaxHighlighter(code.code, code.language, props)}</code>
         </pre>
       </div>
     );

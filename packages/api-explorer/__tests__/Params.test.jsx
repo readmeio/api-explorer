@@ -20,11 +20,13 @@ const booleanOas = new Oas(boolean);
 const stringOas = new Oas(string);
 
 const props = {
-  formData: {},
   oas,
   onChange: () => {},
+  onJsonChange: () => {},
+  onModeChange: () => {},
   onSubmit: () => {},
   operation,
+  resetForm: () => {},
 };
 
 const Params = createParams(oas, operation);

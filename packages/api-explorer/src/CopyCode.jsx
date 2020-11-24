@@ -40,7 +40,7 @@ class CopyCode extends React.Component {
 }
 
 CopyCode.propTypes = {
-  code: PropTypes.string.isRequired,
+  code: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
 };
 
 module.exports = CopyCode;

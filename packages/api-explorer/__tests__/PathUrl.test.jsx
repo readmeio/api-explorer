@@ -21,6 +21,7 @@ const props = {
   onChange: () => {},
   onSubmit: () => {},
   operation: oas.operation('/pet/{petId}', 'get'),
+  resetForm: () => {},
   toggleAuth: () => {},
 };
 
@@ -60,19 +61,42 @@ describe('dirty prop', () => {
   });
 });
 
-test('button click should call onSubmit', () => {
-  let called = false;
-  function onSubmit() {
-    called = true;
-  }
+describe('#resetForm()', () => {
+  it('should fire when clicked', () => {
+    const resetForm = jest.fn();
 
-  shallow(
-    <PathUrl {...props} onSubmit={onSubmit} operation={new Operation({}, '/path', 'get', { operationId: '123' })} />
-  )
-    .find('button[type="submit"]')
-    .simulate('click');
+    shallow(<PathUrl {...props} resetForm={resetForm} validationErrors={'invalid json'} />)
+      .find('.api-try-it-out-popover div[role="button"]')
+      .simulate('click');
 
-  expect(called).toBe(true);
+    expect(resetForm).toHaveBeenCalled();
+  });
+});
+
+describe('#validationErrors', () => {
+  it('should not show validation errors if there are none', () => {
+    expect(shallow(<PathUrl {...props} />).find('.api-try-it-out-popover')).toHaveLength(0);
+  });
+
+  it('should show validation errors', () => {
+    expect(
+      shallow(<PathUrl {...props} validationErrors={'invalid json'} />).find('.api-try-it-out-popover')
+    ).toHaveLength(1);
+  });
+});
+
+describe('#onSubmit()', () => {
+  it('button click should call onSubmit', () => {
+    const onSubmit = jest.fn();
+
+    shallow(
+      <PathUrl {...props} onSubmit={onSubmit} operation={new Operation({}, '/path', 'get', { operationId: '123' })} />
+    )
+      .find('button[type="submit"]')
+      .simulate('click');
+
+    expect(onSubmit).toHaveBeenCalled();
+  });
 });
 
 describe('splitPath()', () => {

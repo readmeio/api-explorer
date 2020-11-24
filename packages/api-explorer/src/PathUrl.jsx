@@ -37,8 +37,10 @@ function PathUrl({
   onChange,
   onSubmit,
   operation,
+  resetForm,
   showAuthBox,
   toggleAuth,
+  validationErrors,
 }) {
   const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
@@ -64,20 +66,40 @@ function PathUrl({
               />
 
               <button
-                className={classNames('api-try-it-out', { active: dirty })}
-                disabled={loading}
+                className={classNames('api-try-it-out', { active: dirty }, { invalid: validationErrors })}
+                disabled={loading || validationErrors}
                 onClick={onSubmit}
                 type="submit"
               >
                 {!loading && (
                   <span className="try-it-now-btn">
-                    <span className="fa fa-compass" />
+                    {validationErrors ? (
+                      <i className="fa fa-times-circle api-try-it-out-errorIcon" />
+                    ) : (
+                      <span className="fa fa-compass" />
+                    )}
                     &nbsp;
                     <span>Try It</span>
                   </span>
                 )}
 
                 {loading && <i className="fa fa-circle-o-notch fa-spin" />}
+
+                {validationErrors && (
+                  <section className="api-try-it-out-popover">
+                    <h1 className="api-try-it-out-popover-h1">Invalid Request</h1>
+                    <div className="api-try-it-out-popover-description">Check your body parameters and try again.</div>
+                    <div
+                      className="Button Button_red Button_md"
+                      onClick={resetForm}
+                      onKeyDown={resetForm}
+                      role="button"
+                      tabIndex="0"
+                    >
+                      Reset Parameters
+                    </div>
+                  </section>
+                )}
               </button>
             </div>
           )}
@@ -117,8 +139,11 @@ PathUrl.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  resetForm: PropTypes.func.isRequired,
   showAuthBox: PropTypes.bool,
+  showValidationErrors: PropTypes.bool,
   toggleAuth: PropTypes.func.isRequired,
+  validationErrors: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 PathUrl.defaultProps = {
@@ -126,6 +151,8 @@ PathUrl.defaultProps = {
   authInputRef: () => {},
   needsAuth: false,
   showAuthBox: false,
+  showValidationErrors: false,
+  validationErrors: false,
 };
 
 module.exports = PathUrl;

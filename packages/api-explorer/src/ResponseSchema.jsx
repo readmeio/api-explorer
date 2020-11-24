@@ -43,7 +43,6 @@ class ResponseSchema extends React.Component {
   getContent(operation, oas) {
     const status = this.state.selectedStatus;
     const response = operation.getResponseByStatusCode(status);
-
     if (!response) return false;
 
     if (response.$ref) return findSchemaDefinition(response.$ref, oas).content;

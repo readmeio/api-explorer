@@ -2,11 +2,15 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const ReactJson = require('react-json-view').default;
-const contentTypeIsJson = require('./lib/content-type-is-json');
 const oauthHref = require('./lib/oauth-href');
+const { matchesMimeType } = require('oas/tooling/utils');
 
 function Authorized({ result }) {
-  const isJson = result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
+  const isJson =
+    result.type &&
+    (matchesMimeType.json(result.type) || matchesMimeType.wildcard(result.type)) &&
+    typeof result.responseBody === 'object';
+
   return (
     <div>
       {result.isBinary && <div>A binary file was returned</div>}
@@ -30,7 +34,7 @@ function Authorized({ result }) {
       {!result.isBinary && !isJson && (
         <pre className="tomorrow-night">
           <div className="cm-s-tomorrow-night codemirror-highlight">
-            {syntaxHighlighter(result.responseBody, result.type)}
+            {syntaxHighlighter(result.responseBody, result.type, { customTheme: 'tomorrow-night' })}
           </div>
         </pre>
       )}
@@ -41,7 +45,7 @@ function Authorized({ result }) {
 Authorized.propTypes = {
   result: PropTypes.shape({
     isBinary: PropTypes.bool,
-    responseBody: PropTypes.oneOf([PropTypes.object, PropTypes.string]).isRequired,
+    responseBody: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
     type: PropTypes.string,
   }).isRequired,
 };

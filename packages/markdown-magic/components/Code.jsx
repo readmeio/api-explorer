@@ -8,7 +8,7 @@ function Code({ className, children }) {
 
   return (
     <code className={language ? `lang-${language}` : null}>
-      {syntaxHighlighter(children[0], language, { tokenizeVariables: true })}
+      {syntaxHighlighter(children[0], language, { tokenizeVariables: true, customTheme: 'tomorrow-night' })}
     </code>
   );
 }

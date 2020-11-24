@@ -78,9 +78,18 @@ test('Code will render status code within em tag', () => {
 });
 
 test('If codes array is not passed as an array expect empty array', () => {
+  // We're mocking out `console.error` because we're intentionally going against what's set for the `block.data.codes`
+  // proptype and it's annoying having React warn us about something we know is going to be a warning.
+  /* eslint-disable no-console */
+  const originalError = console.error;
+  console.error = jest.fn();
+
   const codeInput = mount(<Code block={badBlock} />);
 
+  console.error = originalError;
+
   expect(codeInput.find('span').text()).toBe('');
+  /* eslint-enable no-console */
 });
 
 test('Code will render language if name or status is not provided within a tag if codes has a status', () => {

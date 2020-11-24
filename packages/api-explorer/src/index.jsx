@@ -234,6 +234,7 @@ class ApiExplorer extends React.Component {
                                 auth={this.state.auth}
                                 baseUrl={this.props.baseUrl.replace(/\/$/, '')}
                                 doc={doc}
+                                enableRequestBodyJsonEditor={this.props.enableRequestBodyJsonEditor}
                                 flags={this.props.flags}
                                 group={this.state.group}
                                 groups={this.groups}
@@ -278,6 +279,7 @@ ApiExplorer.propTypes = {
   baseUrl: PropTypes.string,
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   dontLazyLoad: PropTypes.bool,
+  enableRequestBodyJsonEditor: PropTypes.bool,
   flags: PropTypes.shape({
     correctnewlines: PropTypes.bool,
     rdmdCompatibilityMode: PropTypes.bool,
@@ -316,6 +318,7 @@ ApiExplorer.propTypes = {
 ApiExplorer.defaultProps = {
   baseUrl: '/',
   dontLazyLoad: false,
+  enableRequestBodyJsonEditor: false,
   flags: {
     correctnewlines: false,
     rdmdCompatibilityMode: false,

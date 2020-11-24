@@ -1,5 +1,5 @@
 const { stringify } = require('querystring');
-const contentTypeIsJson = require('./content-type-is-json');
+const { matchesMimeType } = require('oas/tooling/utils');
 
 function getQuerystring(har) {
   // Converting [{ name: a, value: '123456' }] => { a: '123456' } so we can use querystring.stringify
@@ -12,7 +12,7 @@ function getQuerystring(har) {
 
 async function getResponseBody(response) {
   const contentType = response.headers.get('Content-Type');
-  const isJson = contentType && contentTypeIsJson(contentType);
+  const isJson = contentType && (matchesMimeType.json(contentType) || matchesMimeType.wildcard(contentType));
 
   // We have to clone it before reading, just incase
   // we cannot parse it as JSON later, then we can
