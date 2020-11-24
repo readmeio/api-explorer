@@ -14,8 +14,9 @@ class ResponseSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedStatus: Object.keys(props.operation.responses || {})[0],
+      selectedStatus: Object.keys(props.operation.schema.responses || {})[0],
     };
+
     this.selectedStatus = this.selectedStatus.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
   }
@@ -41,7 +42,7 @@ class ResponseSchema extends React.Component {
 
   getContent(operation, oas) {
     const status = this.state.selectedStatus;
-    const response = operation && operation.responses && operation.responses[status];
+    const response = operation.getResponseByStatusCode(status);
 
     if (!response) return false;
 
@@ -58,7 +59,7 @@ class ResponseSchema extends React.Component {
   }
 
   renderHeader() {
-    const keys = Object.keys(this.props.operation.responses);
+    const keys = Object.keys(this.props.operation.schema.responses);
 
     return (
       <h3>
@@ -78,10 +79,13 @@ class ResponseSchema extends React.Component {
 
   render() {
     const { operation, oas, useNewMarkdownEngine } = this.props;
-    if (!operation.responses || Object.keys(operation.responses).length === 0) return null;
+    if (!operation.schema || !operation.schema.responses || Object.keys(operation.schema.responses).length === 0) {
+      return null;
+    }
+
     const schema = this.getSchema(operation);
 
-    let response = operation.responses[this.state.selectedStatus];
+    let response = operation.getResponseByStatusCode(this.state.selectedStatus);
 
     // @todo This should really be called higher up when the OAS is processed within the Doc component.
     if (response.$ref) {

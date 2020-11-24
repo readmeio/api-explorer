@@ -85,7 +85,7 @@ describe('form id attribute', () => {
         </div>
       )
         .html()
-        .match(new RegExp(`form-path-${operation.operationId}`, 'g'))
+        .match(new RegExp(`form-path-${operation.getOperationId()}`, 'g'))
     ).toHaveLength(1);
   });
 });
@@ -417,7 +417,7 @@ describe('x-explorer-enabled', () => {
 
   it('should check the operation level extensions first', () => {
     const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
-    operationExplorerEnabled[extensions.EXPLORER_ENABLED] = true;
+    operationExplorerEnabled.schema[extensions.EXPLORER_ENABLED] = true;
 
     const Component = createParams(oasWithExplorerDisabled, operationExplorerEnabled);
 

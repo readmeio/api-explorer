@@ -15,7 +15,7 @@
     "build": "npm run update:emojis; ./build.sh; lerna run build",
     "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",
-    "lint": "eslint example example/ lib/ scripts/ *.js --ext js --ext jsx",
+    "lint": "eslint example/ lib/ scripts/ *.js --ext js --ext jsx",
     "postinstall": "npm run bootstrap",
     "publish": "lerna publish",
     "pretest": "npm run update:examples; npm run lint",

@@ -263,10 +263,11 @@ class Doc extends React.Component {
 
     return (
       operation &&
-      operation.responses && (
+      operation.schema &&
+      operation.schema.responses && (
         <ResponseSchema
           oas={this.oas}
-          operation={this.getOperation()}
+          operation={operation}
           theme={theme}
           useNewMarkdownEngine={useNewMarkdownEngine}
         />

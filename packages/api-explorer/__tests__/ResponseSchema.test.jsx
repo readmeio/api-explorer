@@ -41,7 +41,7 @@ test.each([[true], [false]])(
     } else {
       text = responseSchema.find('div.desc').first().text();
     }
-    expect(text).toBe(props.operation.responses['200'].description);
+    expect(text).toBe(props.operation.schema.responses['200'].description);
   }
 );
 
