@@ -51,24 +51,23 @@ class ResponseSchemaBody extends React.Component {
         <tr key={Math.random().toString(10)}>
           <th
             style={{
-              whiteSpace: 'nowrap',
-              width: '30%',
               paddingRight: '5px',
               textAlign: 'right',
-              overflow: 'hidden',
-            }}
-          >
-            {row.type}
-          </th>
-          <td
-            style={{
-              width: '70%',
-              overflow: 'hidden',
-              paddingLeft: '15px',
-              wordBreak: 'break-word',
+              overflow: 'visible',
+              wordBreak: 'break-all',
             }}
           >
             {row.name}
+          </th>
+          <td
+            style={{
+              overflow: 'hidden',
+              paddingLeft: '15px',
+              wordBreak: 'break-word',
+              verticalAlign: 'top',
+            }}
+          >
+            {row.type}
             {row.description && getDescriptionMarkdown(useNewMarkdownEngine, row.description)}
           </td>
         </tr>
