@@ -65,16 +65,7 @@ describe('#resetForm()', () => {
   it('should fire when clicked', () => {
     const resetForm = jest.fn();
 
-    shallow(
-      <PathUrl
-        {...props}
-        resetForm={resetForm}
-        validationErrors={{
-          form: false,
-          json: 'invalid json',
-        }}
-      />
-    )
+    shallow(<PathUrl {...props} resetForm={resetForm} validationErrors={'invalid json'} />)
       .find('.api-try-it-out-popover div[role="button"]')
       .simulate('click');
 
@@ -89,15 +80,7 @@ describe('#validationErrors', () => {
 
   it('should show validation errors', () => {
     expect(
-      shallow(
-        <PathUrl
-          {...props}
-          validationErrors={{
-            form: false,
-            json: 'invalid json',
-          }}
-        />
-      ).find('.api-try-it-out-popover')
+      shallow(<PathUrl {...props} validationErrors={'invalid json'} />).find('.api-try-it-out-popover')
     ).toHaveLength(1);
   });
 });

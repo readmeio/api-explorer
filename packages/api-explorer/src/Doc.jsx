@@ -34,7 +34,11 @@ class Doc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dirty: false,
+      dirty: {
+        form: false,
+        json: false,
+      },
+
       editingMode: 'form',
       formData: {},
 
@@ -139,7 +143,10 @@ class Doc extends React.Component {
   resetForm() {
     this.setState(previousState => {
       return {
-        dirty: false,
+        dirty: {
+          ...previousState.dirty,
+          json: false,
+        },
         formDataJson: previousState.formDataJsonOriginal,
         formDataJsonRaw: stringifyPretty(previousState.formDataJsonOriginal),
         validationErrors: {
@@ -153,7 +160,10 @@ class Doc extends React.Component {
   onChange(formData) {
     this.setState(previousState => {
       return {
-        dirty: true,
+        dirty: {
+          ...previousState.dirty,
+          form: true,
+        },
         formData: { ...previousState.formData, ...formData },
         validationErrors: {
           ...previousState.validationErrors,
@@ -170,7 +180,10 @@ class Doc extends React.Component {
         data = JSON.parse(rawData);
 
         return {
-          dirty: true,
+          dirty: {
+            ...previousState.dirty,
+            json: true,
+          },
           formDataJson: data,
           formDataJsonRaw: rawData,
           validationErrors: {
@@ -180,7 +193,10 @@ class Doc extends React.Component {
         };
       } catch (err) {
         return {
-          dirty: true,
+          dirty: {
+            ...previousState.dirty,
+            json: true,
+          },
           formDataJson: previousState.formDataJson,
           formDataJsonRaw: rawData,
           validationErrors: {
@@ -231,6 +247,16 @@ class Doc extends React.Component {
         result: await parseResponse(har, res),
       });
     });
+  }
+
+  isDirty() {
+    return this.state.editingMode === 'form' ? this.state.dirty.form : this.state.dirty.json;
+  }
+
+  getValidationErrors() {
+    const { editingMode, validationErrors } = this.state;
+
+    return editingMode === 'form' ? validationErrors.form : validationErrors.json;
   }
 
   getFormDataForCurrentMode() {
@@ -517,7 +543,7 @@ class Doc extends React.Component {
       <PathUrl
         auth={this.props.auth}
         authInputRef={el => (this.authInput = el)} // eslint-disable-line no-return-assign
-        dirty={this.state.dirty}
+        dirty={this.isDirty()}
         group={this.props.group}
         groups={this.props.groups}
         loading={this.state.loading}
@@ -531,7 +557,7 @@ class Doc extends React.Component {
         resetForm={this.resetForm}
         showAuthBox={this.state.showAuthBox}
         toggleAuth={this.toggleAuth}
-        validationErrors={this.state.validationErrors}
+        validationErrors={this.getValidationErrors()}
       />
     );
   }

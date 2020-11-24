@@ -66,14 +66,14 @@ function PathUrl({
               />
 
               <button
-                className={classNames('api-try-it-out', { active: dirty }, { invalid: validationErrors.json })}
-                disabled={loading || validationErrors.json}
+                className={classNames('api-try-it-out', { active: dirty }, { invalid: validationErrors })}
+                disabled={loading || validationErrors}
                 onClick={onSubmit}
                 type="submit"
               >
                 {!loading && (
                   <span className="try-it-now-btn">
-                    {validationErrors.json ? (
+                    {validationErrors ? (
                       <i className="fa fa-times-circle api-try-it-out-errorIcon" />
                     ) : (
                       <span className="fa fa-compass" />
@@ -85,7 +85,7 @@ function PathUrl({
 
                 {loading && <i className="fa fa-circle-o-notch fa-spin" />}
 
-                {validationErrors.json && (
+                {validationErrors && (
                   <section className="api-try-it-out-popover">
                     <h1 className="api-try-it-out-popover-h1">Invalid Request</h1>
                     <div className="api-try-it-out-popover-description">Check your body parameters and try again.</div>
@@ -143,10 +143,7 @@ PathUrl.propTypes = {
   showAuthBox: PropTypes.bool,
   showValidationErrors: PropTypes.bool,
   toggleAuth: PropTypes.func.isRequired,
-  validationErrors: PropTypes.shape({
-    form: PropTypes.bool,
-    json: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  }).isRequired,
+  validationErrors: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 PathUrl.defaultProps = {
@@ -155,10 +152,7 @@ PathUrl.defaultProps = {
   needsAuth: false,
   showAuthBox: false,
   showValidationErrors: false,
-  validationErrors: {
-    form: false,
-    json: false,
-  },
+  validationErrors: false,
 };
 
 module.exports = PathUrl;

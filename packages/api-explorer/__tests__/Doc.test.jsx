@@ -172,14 +172,14 @@ describe('state.dirty', () => {
   it('should default to false', () => {
     const doc = shallow(<Doc {...props} />);
 
-    expect(doc.state('dirty')).toBe(false);
+    expect(doc.state('dirty')).toStrictEqual({ form: false, json: false });
   });
 
   it('should switch to true on form change', () => {
     const doc = shallow(<Doc {...props} />);
     doc.instance().onChange({ a: 1 });
 
-    expect(doc.state('dirty')).toBe(true);
+    expect(doc.state('dirty')).toStrictEqual({ form: true, json: false });
   });
 });
 
@@ -548,7 +548,7 @@ describe('#resetForm()', () => {
       expect(doc.state('formDataJson')).toStrictEqual(petExample);
       expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
       expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
-      expect(doc.state('dirty')).toBe(false);
+      expect(doc.state('dirty')).toStrictEqual({ form: true, json: false });
     });
   });
 });
@@ -573,7 +573,7 @@ describe('#onJsonChange()', () => {
     expect(doc.state('formDataJson')).toStrictEqual({ name: 'buster' });
     expect(doc.state('formDataJsonRaw')).toStrictEqual(JSON.stringify({ name: 'buster' }));
     expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
-    expect(doc.state('dirty')).toBe(true);
+    expect(doc.state('dirty')).toStrictEqual({ form: false, json: true });
   });
 
   it('should set validation errors when given invalid JSON', () => {
@@ -600,7 +600,7 @@ describe('#onJsonChange()', () => {
       json: expect.any(String),
     });
 
-    expect(doc.state('dirty')).toBe(true);
+    expect(doc.state('dirty')).toStrictEqual({ form: false, json: true });
   });
 });
 
@@ -612,6 +612,34 @@ describe('#onModeChange()', () => {
 
     doc.instance().onModeChange('JSON');
     expect(doc.state('editingMode')).toBe('json');
+  });
+});
+
+describe('#isDirty()', () => {
+  it('should return a dirty state based on the current editing mode', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    doc.setState({ dirty: { form: true, json: false } });
+
+    expect(doc.instance().isDirty()).toBe(true);
+
+    doc.setState({ editingMode: 'json' });
+
+    expect(doc.instance().isDirty()).toBe(false);
+  });
+});
+
+describe('#getValidationErrors()', () => {
+  it('should return validation errors based on the current editing mode', () => {
+    const doc = shallow(<Doc {...props} />);
+
+    doc.setState({ validationErrors: { form: false, json: 'invalid json' } });
+
+    expect(doc.instance().getValidationErrors()).toBe(false);
+
+    doc.setState({ editingMode: 'json' });
+
+    expect(doc.instance().getValidationErrors()).toBe('invalid json');
   });
 });
 
