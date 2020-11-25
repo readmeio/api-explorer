@@ -65,7 +65,8 @@ class ResponseTabs extends React.Component {
               hideResults();
             }}
           >
-            <span className="fa fa-chevron-circle-left"> to examples </span>
+            <i className="fa fa-chevron-circle-left" />
+            Examples
           </a>
         )}
       </ul>
