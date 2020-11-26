@@ -64,6 +64,7 @@ function getOtherParams(pathOperation, oas) {
         if (current.schema.minimum) schema.minimum = current.schema.minimum;
         if (current.schema.maximum) schema.maximum = current.schema.maximum;
         if (current.examples) schema.examples = current.examples;
+        if (current.example) schema.example = current.example;
       }
 
       prev[current.name] = schema;

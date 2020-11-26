@@ -44,14 +44,13 @@ exports[`JSONForm  snapshot 1`] = `
     type="submit"
   />
   <div
-    class="mia-container-wrapper"
+    class="je-object__container mia-container-wrapper"
     data-schemaid="root"
     data-schemapath="root"
     data-schematype="object"
-    style="position: relative;"
   >
     <h3
-      class="card-title"
+      class="card-title je-object__title"
       style="display: inline-block;"
     >
       <button
@@ -72,18 +71,19 @@ exports[`JSONForm  snapshot 1`] = `
       </label>
     </h3>
     <span
-      class="btn-group"
-      style="display: inline-flex; margin: 5px 0px 0px 10px; float: right;"
+      class="btn-group je-object__controls"
+      style="display: inline-flex; float: right; margin: 5px 0px 0px 10px;"
     >
       <div
-        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+        class="je-modal"
+        style="display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); padding: 5px; position: absolute; z-index: 9999; font-size: 14px;"
       />
       <div
-        style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+        class="je-modal"
+        style="display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); padding: 5px; position: absolute; z-index: 9999; font-size: 14px;"
       >
         <div
           class="property-selector"
-          style="width: 295px; max-height: 160px; padding: 5px 0px 5px 5px; overflow-y: auto; overflow-x: hidden;"
         >
           <div
             class="form-group"
@@ -131,9 +131,8 @@ exports[`JSONForm  snapshot 1`] = `
           </div>
         </div>
         <input
-          class="form-control"
+          class="form-control property-selector-input"
           placeholder="Property name..."
-          style="width: 220px; margin-bottom: 0px; display: inline-block;"
           type="text"
         />
         <button
@@ -227,13 +226,12 @@ exports[`JSONForm  snapshot 1`] = `
             class="row"
           >
             <div
-              class="mia-container-wrapper col-md-12"
+              class="je-object__container mia-container-wrapper col-md-12"
               data-schemapath="root.petPedigree"
               data-schematype="object"
-              style="position: relative;"
             >
               <h3
-                class="card-title"
+                class="card-title je-object__title"
                 style="display: inline-block;"
               >
                 <button
@@ -257,11 +255,12 @@ exports[`JSONForm  snapshot 1`] = `
                 </label>
               </h3>
               <span
-                class="btn-group"
-                style="display: inline-flex; margin: 5px 0px 0px 10px; float: right;"
+                class="btn-group je-object__controls"
+                style="display: inline-flex; float: right; margin: 5px 0px 0px 10px;"
               >
                 <div
-                  style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+                  class="je-modal"
+                  style="display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); padding: 5px; position: absolute; z-index: 9999; font-size: 14px;"
                 >
                   <div
                     style="display: flex; justify-content: space-between;"
@@ -286,8 +285,8 @@ exports[`JSONForm  snapshot 1`] = `
                     </button>
                   </div>
                   <textarea
-                    class="form-control"
-                    style="height: 170px; width: 300px; display: block; resize: both;"
+                    class="form-control je-edit-json--textarea"
+                    style="resize: both;"
                   />
                   <div
                     style="display: flex; justify-content: flex-end;"
@@ -315,11 +314,11 @@ exports[`JSONForm  snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  style="box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); position: absolute; z-index: 9999; display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; padding: 5px; font-size: 14px;"
+                  class="je-modal"
+                  style="display: none; background: rgb(255, 255, 255); border-radius: 4px; margin-top: 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); padding: 5px; position: absolute; z-index: 9999; font-size: 14px;"
                 >
                   <div
                     class="property-selector"
-                    style="width: 295px; max-height: 160px; padding: 5px 0px 5px 5px; overflow-y: auto; overflow-x: hidden;"
                   >
                     <div
                       class="form-group"
@@ -344,9 +343,8 @@ exports[`JSONForm  snapshot 1`] = `
                     </div>
                   </div>
                   <input
-                    class="form-control"
+                    class="form-control property-selector-input"
                     placeholder="Property name..."
-                    style="width: 220px; margin-bottom: 0px; display: inline-block;"
                     type="text"
                   />
                   <button
@@ -470,8 +468,8 @@ exports[`JSONForm  snapshot 1`] = `
         </button>
       </div>
       <textarea
-        class="form-control"
-        style="height: 170px; width: 300px; display: block; resize: both;"
+        class="form-control je-edit-json--textarea"
+        style="resize: both;"
       />
       <div
         style="display: flex; justify-content: flex-end;"

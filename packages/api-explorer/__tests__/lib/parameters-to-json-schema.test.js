@@ -368,6 +368,41 @@ test('it should pass through examples', () => {
     },
   ]);
 })
+
+test('it should pass through example', () => {
+  expect(
+    parametersToJsonSchema({
+      parameters: [
+        {
+          in: 'body',
+          name: 'number',
+          description: 'number',
+          example: 42,
+          schema: {
+            type: 'number',
+          },
+        },
+      ],
+    }),
+  ).toEqual([
+    {
+      label: 'Body Params',
+      type: 'body',
+      schema: {
+        type: 'object',
+        required: [],
+        properties: {
+          number: {
+            description: 'number',
+            type: 'number',
+            example: 42,
+          }
+        }
+      },
+    },
+  ]);
+})
+
 test('it should pass through pattern', () => {
   expect(
     parametersToJsonSchema({

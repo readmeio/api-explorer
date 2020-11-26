@@ -19,6 +19,20 @@ describe('generateFakeSchema', () => {
       }
     },
     {
+      title: 'basic usage of example',
+      schema: {
+        type: 'object',
+        example: { foo: 'bar' },
+        required: ['foo'],
+        properties: {
+          foo: { type: 'string' }
+        }
+      },
+      expectation: generatedFakeSchema => {
+        expect(generatedFakeSchema).toEqual({foo: 'bar'})
+      }
+    },
+    {
       title: 'example of schema from crud-service',
       schema: {
         type: 'array',
@@ -29,8 +43,8 @@ describe('generateFakeSchema', () => {
           properties: {
             _id: {
               type: 'string',
-              examples: ['000000000000000000000000'],
               pattern: '^[a-fA-F\\d]{24}$',
+              example: '000000000000000000000000',
               description: '_id'
             },
             creatorId: {
@@ -74,7 +88,7 @@ describe('generateFakeSchema', () => {
       }
     },
     {
-      title: 'use of examples within properties',
+      title: 'use examples in a single field',
       schema: {
         type: 'object',
         required: ['foo'],
@@ -82,6 +96,22 @@ describe('generateFakeSchema', () => {
           foo: {
             type: 'string',
             examples: ['bar2']
+          }
+        }
+      },
+      expectation: generatedFakeSchema => {
+        expect(generatedFakeSchema).toEqual({foo: 'bar2'})
+      }
+    },
+    {
+      title: 'use example in a single field',
+      schema: {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'string',
+            example: 'bar2'
           }
         }
       },
@@ -106,37 +136,132 @@ describe('generateFakeSchema', () => {
       }
     },
     {
-      title: 'not supported by json-schema-faker - example key outside the properties',
+      title: 'use example as array of string outside the items',
       schema: {
         type: 'object',
-        example: {foo: 'bar'},
         required: ['foo'],
         properties: {
           foo: {
-            type: 'string',
+            type: 'array',
+            example: ['array'],
+            items: {
+              type: 'string'
+            }
+          },
+          randomKey: {
+            type: 'string'
           }
         }
       },
       expectation: generatedFakeSchema => {
-        expect(generatedFakeSchema).not.toEqual({foo: 'bar'})
-        expect(generatedFakeSchema).toEqual({foo: expect.any(String)})
+        expect(generatedFakeSchema).toEqual({foo: ['array'], randomKey: expect.any(String)})
       }
     },
     {
-      title: 'not supported by json-schema-faker - example key inside the properties',
+      title: 'use example in array of object',
       schema: {
         type: 'object',
         required: ['foo'],
         properties: {
           foo: {
-            type: 'string',
-            example: 'bar'
+            type: 'array',
+            minItems: 1,
+            maxItems: 1,
+            items: {
+              type: 'object',
+              properties: {
+                fooChildren: {
+                  type: 'string',
+                  example: 'nestedBar'
+                }
+              }
+            }
+          },
+          randomKey: {
+            type: 'string'
           }
         }
       },
       expectation: generatedFakeSchema => {
-        expect(generatedFakeSchema).not.toEqual({foo: 'bar'})
-        expect(generatedFakeSchema).toEqual({foo: expect.any(String)})
+        expect(generatedFakeSchema).toEqual({foo: [{fooChildren: 'nestedBar'}], randomKey: expect.any(String)})
+      }
+    },
+    {
+      title: 'use example outside properties in array of object',
+      schema: {
+        type: 'object',
+        required: ['foo'],
+        example: {foo: [{fooChildren: 'nestedBar'}]},
+        properties: {
+          foo: {
+            type: 'array',
+            minItems: 1,
+            maxItems: 1,
+            items: {
+              type: 'object',
+              properties: {
+                fooChildren: {
+                  type: 'string',
+                }
+              }
+            }
+          },
+          randomKey: {
+            type: 'string'
+          }
+        }
+      },
+      expectation: generatedFakeSchema => {
+        expect(generatedFakeSchema).toEqual({foo: [{fooChildren: 'nestedBar'}], randomKey: expect.any(String)})
+      }
+    },
+    {
+      title: 'use example key in properties not used as real example',
+      schema: {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          example: {
+            type: 'string'
+          },
+          foo: {
+            type: 'string',
+            example: 'bar'
+          },
+          randomKey: {
+            type: 'string'
+          }
+        }
+      },
+      expectation: generatedFakeSchema => {
+        expect(generatedFakeSchema).toEqual({example: expect.any(String), foo: 'bar', randomKey: expect.any(String)})
+      }
+    },
+    {
+      title: 'use example key in properties not used as real example in nested case',
+      schema: {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          example: {
+            type: 'object',
+            properties: {
+              example: {
+                type: 'string'
+              }
+            }
+          },
+          foo: {
+            type: 'string',
+            example: 'bar'
+          },
+          randomKey: {
+            type: 'string'
+          }
+        }
+      },
+      expectation: generatedFakeSchema => {
+        expect(generatedFakeSchema).toEqual({example: {example: expect.any(String)}, foo: 'bar', randomKey: expect.any(String)})
       }
     }
   ]

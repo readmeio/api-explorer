@@ -21,13 +21,20 @@
                     "title": "Pet by Type",
                     "type": "object",
                     "properties": {
-                      "pet_type": {
+                      "_id": {
+                        "pattern": "^[a-fA-F\\d]{24}$",
+                        "example": "000000000000000000000000",
                         "type": "string"
+                      },
+                      "pet_type": {
+                        "type": "string",
+                        "example": "dachshund"
                       },
                       "pet_children": {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "long haired dachshund"
                         }
                       }
                     }
@@ -37,7 +44,8 @@
                     "type": "object",
                     "properties": {
                       "pet_name": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "dachshund"
                       }
                     }
                   },
@@ -46,10 +54,12 @@
                     "type": "object",
                     "properties": {
                       "pet_type": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "dachshund"
                       },
                       "pet_country": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "spain"
                       }
                     }
                   }
@@ -111,6 +121,26 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      }
+    },
+    "/pets2": {
+      "patch": {
+        "parameters": [{
+          "description": "birthDate",
+          "example": "2020-09-16T12:00:00.000Z",
+          "required": false,
+          "name": "birthDate",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?(Z|[+-]\\d{2}:\\d{2}))?$"
+          }
+        }],
         "responses": {
           "200": {
             "description": "Updated"

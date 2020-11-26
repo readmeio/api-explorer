@@ -8,6 +8,7 @@
     "no-restricted-syntax": 0,
     "no-underscore-dangle": ["error", { "allow": ["_cache", "_id", "_key"] }],
     "no-param-reassign": ["error", { "props": false }],
-    "no-use-before-define": 0
+    "no-use-before-define": 0,
+    "guard-for-in": "off"
   }
 }

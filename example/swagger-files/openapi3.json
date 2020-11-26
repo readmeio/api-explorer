@@ -2070,7 +2070,7 @@
               "properties": {
                 "_id": {
                   "type": "string",
-                  "examples": ["000000000000000000000000"],
+                  "example": "000000000000000000000000",
                   "pattern": "^[a-fA-F\\d]{24}$",
                   "description": "Hexadecimal identifier of the document in the collection"
                 },
