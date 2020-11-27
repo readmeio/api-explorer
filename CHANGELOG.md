@@ -1,3 +1,15 @@
+## 10.0.0 (2020-11-27)
+
+* style: combining a couple imports into one line ([4c5a788](https://github.com/readmeio/api-explorer/commit/4c5a788))
+* style: incorporating ui components in the preview site (#1067) ([d675512](https://github.com/readmeio/api-explorer/commit/d675512)), closes [#1067](https://github.com/readmeio/api-explorer/issues/1067) [#1069](https://github.com/readmeio/api-explorer/issues/1069)
+* fix(examples): fix examples button type (#1070) ([5f913fe](https://github.com/readmeio/api-explorer/commit/5f913fe)), closes [#1070](https://github.com/readmeio/api-explorer/issues/1070)
+* feat: flipping the order of data in the response schema component (#1065) ([59bcb0a](https://github.com/readmeio/api-explorer/commit/59bcb0a)), closes [#1065](https://github.com/readmeio/api-explorer/issues/1065)
+* feat: request body raw/json mode editor (#1050) ([d4c3a83](https://github.com/readmeio/api-explorer/commit/d4c3a83)), closes [#1050](https://github.com/readmeio/api-explorer/issues/1050)
+* chore(deps): upgrading oas to v6 (#1041) ([cf74e31](https://github.com/readmeio/api-explorer/commit/cf74e31)), closes [#1041](https://github.com/readmeio/api-explorer/issues/1041)
+* refactor: splitting rdmd out as an external dep (#1064) ([32356ab](https://github.com/readmeio/api-explorer/commit/32356ab)), closes [#1064](https://github.com/readmeio/api-explorer/issues/1064)
+
+
+
 ## 9.3.0 (2020-11-23)
 
 * chore: hoisting deps ([f89ca82](https://github.com/readmeio/api-explorer/commit/f89ca82))
