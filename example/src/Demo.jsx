@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const { Box, Button, Dropdown, Flex, Toggle } = require('@readme/ui/.bundles/es/ui/components');
+const { Flex, Toggle } = require('@readme/ui/.bundles/es/ui/components');
 
 const extensions = require('../../packages/oas-extensions');
 
@@ -49,30 +49,26 @@ class Demo extends React.Component {
     };
 
     return (
-      <Dropdown align="start" className="api-experiments" justify="end" sticky>
-        <Button size="sm">Options</Button>
-        <Box bem={[['pop']]}>
-          <Flex layout="col">
-            {Object.keys(experiments).map(name => {
-              const experiment = experiments[name];
+      <Flex className="api-experiments" justify="start">
+        {Object.keys(experiments).map(name => {
+          const experiment = experiments[name];
 
-              return (
-                <Toggle
-                  key={name}
-                  checked={this.state[experiment.stateProp]}
-                  label={name}
-                  name={name}
-                  onChange={e => {
-                    this.setState({ [experiment.stateProp]: e.target.checked });
-                    this.forceUpdate();
-                  }}
-                  type="toggle"
-                />
-              );
-            })}
-          </Flex>
-        </Box>
-      </Dropdown>
+          return (
+            <Toggle
+              key={name}
+              checked={this.state[experiment.stateProp]}
+              label={name}
+              name={name}
+              onChange={e => {
+                this.setState({ [experiment.stateProp]: e.target.checked });
+                this.forceUpdate();
+              }}
+              size="md"
+              type="toggle"
+            />
+          );
+        })}
+      </Flex>
     );
   }
 
