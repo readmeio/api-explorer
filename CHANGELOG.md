@@ -1,3 +1,9 @@
+## <small>10.0.1 (2020-11-27)</small>
+
+* chore(deps): upgrading httpsnippet-client-api (#1071) ([93839c9](https://github.com/readmeio/api-explorer/commit/93839c9)), closes [#1071](https://github.com/readmeio/api-explorer/issues/1071)
+
+
+
 ## 10.0.0 (2020-11-27)
 
 * style: combining a couple imports into one line ([4c5a788](https://github.com/readmeio/api-explorer/commit/4c5a788))
