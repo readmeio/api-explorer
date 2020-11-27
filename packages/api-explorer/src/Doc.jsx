@@ -7,8 +7,7 @@ const markdownMagic = require('@readme/markdown-magic');
 const { Waypoint } = require('react-waypoint');
 const oasToHar = require('@readme/oas-to-har');
 const Oas = require('oas/tooling');
-const { getPath } = require('oas/tooling/utils');
-const { matchesMimeType } = require('oas/tooling/utils');
+const { getPath, matchesMimeType } = require('oas/tooling/utils');
 
 const { TutorialTile, TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 require('@readme/ui/.bundles/umd/main.css');
