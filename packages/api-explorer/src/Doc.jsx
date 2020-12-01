@@ -281,6 +281,7 @@ class Doc extends React.Component {
         parameters: doc.api.params,
       });
     }
+
     this.operation = operation;
     return operation;
   }
@@ -313,9 +314,11 @@ class Doc extends React.Component {
     if (this.enableRequestBodyJsonEditor !== this.props.enableRequestBodyJsonEditor) {
       // Request body raw mode should only be enabled if the operation has a request body to fill out and its delivered
       // with a JSON-compatible media type.
-      if (this.operation.hasRequestBody()) {
-        if (this.operation.isJson()) {
-          this.enableRequestBodyJsonEditor = this.props.enableRequestBodyJsonEditor;
+      if (this.operation) {
+        if (this.operation.hasRequestBody()) {
+          if (this.operation.isJson()) {
+            this.enableRequestBodyJsonEditor = this.props.enableRequestBodyJsonEditor;
+          }
         }
       }
     }
