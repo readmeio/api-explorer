@@ -1,3 +1,10 @@
+## <small>10.0.2 (2020-12-03)</small>
+
+* fix: dont fetch logs for users who aren't logged in (#1066) ([d98172e](https://github.com/readmeio/api-explorer/commit/d98172e)), closes [#1066](https://github.com/readmeio/api-explorer/issues/1066)
+* fix: issues with the new json editor (#1079) ([d8e9d8e](https://github.com/readmeio/api-explorer/commit/d8e9d8e)), closes [#1079](https://github.com/readmeio/api-explorer/issues/1079)
+
+
+
 ## <small>10.0.1 (2020-11-27)</small>
 
 * chore(deps): upgrading httpsnippet-client-api (#1071) ([93839c9](https://github.com/readmeio/api-explorer/commit/93839c9)), closes [#1071](https://github.com/readmeio/api-explorer/issues/1071)
