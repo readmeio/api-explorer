@@ -154,6 +154,13 @@ describe('Logs', () => {
     mock.done();
   });
 
+  it('should not fetch if no group is present', () => {
+    const comp = shallow(<Logs {...props} />);
+
+    comp.instance().getLogs = jest.fn();
+    expect(comp.instance().getLogs).not.toHaveBeenCalled();
+  });
+
   it('should render a "view more" button', () => {
     const comp = shallow(<LogTest {...props} />);
     expect(comp.find('a[target="_blank"]').prop('href')).toBe(

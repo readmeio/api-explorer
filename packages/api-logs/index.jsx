@@ -83,7 +83,9 @@ class Logs extends React.Component {
   }
 
   componentDidMount() {
-    this.getLogs();
+    if (this.props.group) {
+      this.getLogs();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -239,7 +241,7 @@ class Logs extends React.Component {
 
   render() {
     const { query, baseUrl, group, loginUrl } = this.props;
-    if (!group)
+    if (!group) {
       return (
         <div className="logs">
           <div>
@@ -256,6 +258,7 @@ class Logs extends React.Component {
           </div>
         </div>
       );
+    }
 
     const url = `${baseUrl}/logs?${querystring.stringify({ ...query, id: group })}`;
 
