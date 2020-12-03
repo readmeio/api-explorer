@@ -4,6 +4,7 @@ module.exports = {
   entry: ['whatwg-fetch', './src/index.jsx'],
   externals: {
     '@readme/markdown': '@readme/markdown',
+    '@readme/variable': '@readme/variable',
     react: {
       root: 'React',
       commonjs: 'react',
