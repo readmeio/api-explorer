@@ -83,8 +83,6 @@ class Variable extends React.Component {
   render() {
     const { variable, user, selected } = this.props;
 
-    console.log({ variable });
-
     if (Array.isArray(user.keys)) {
       const selectedValue = selected ? user.keys.find(key => key.name === selected) : user.keys[0];
       return (
@@ -156,8 +154,6 @@ module.exports = props => (
     )}
   </VariablesContext.Consumer>
 );
-
-console.log('loading variable');
 
 module.exports.Variable = Variable;
 
