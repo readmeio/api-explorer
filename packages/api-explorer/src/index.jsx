@@ -202,9 +202,9 @@ class ApiExplorer extends React.Component {
     });
 
     /* eslint-disable global-require */
-    const BaseUrlContext = require('@readme/markdown-magic/contexts/BaseUrl');
+    const BaseUrlContext = require('@readme/markdown-magic/src/contexts/BaseUrl');
     const VariablesContext = require('@readme/variable/contexts/Variables');
-    const GlossaryTermsContext = require('@readme/markdown-magic/contexts/GlossaryTerms');
+    const GlossaryTermsContext = require('@readme/markdown-magic/src/contexts/GlossaryTerms');
 
     const { utils } = require('@readme/markdown');
     const NewBaseUrlContext = utils.BaseUrlContext;
