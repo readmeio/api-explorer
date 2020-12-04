@@ -34,6 +34,17 @@ module.exports = responses => {
     });
   });
 
+  // Ensure we have a numeric status code, unless it's a range as defined in
+  // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#responsesObject
+  // (1XX, 2XX, 3XX, 4XX and 5XX)
+  function parseStatusCode(code) {
+    if (['1xx', '2xx', '3xx', '4xx', '5xx'].includes(code.toLowerCase())) {
+      return code;
+    }
+
+    return parseInt(code, 10);
+  }
+
   return Object.keys(codes)
     .map(status => {
       const data = codes[status];
@@ -65,7 +76,7 @@ module.exports = responses => {
       });
 
       return {
-        status: parseInt(status, 10),
+        status: parseStatusCode(status),
         languages,
       };
     })

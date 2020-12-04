@@ -41,6 +41,38 @@ describe('upgradeLegacyResponses', () => {
     ]);
   });
 
+  it('should return codes array for the XX status codes', () => {
+    const encodedExample = {
+      meta: {
+        status_code: '4XX',
+        status: 'OK',
+      },
+      data: [],
+    };
+
+    const response = [
+      {
+        code: encodedExample,
+        language: 'json',
+        name: '',
+        status: '4XX',
+      },
+    ];
+
+    expect(upgradeLegacyResponses(response)).toStrictEqual([
+      {
+        languages: [
+          {
+            code: encodedExample,
+            language: 'json',
+            multipleExamples: false,
+          },
+        ],
+        status: '4XX',
+      },
+    ]);
+  });
+
   it('should return codes array for legacy response shape that has multiple examples', () => {
     const response = [
       {
