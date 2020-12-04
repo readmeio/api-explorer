@@ -80,15 +80,15 @@
     "files": [
       {
         "path": "packages/api-explorer/dist/index.js",
-        "maxSize": "1mb"
+        "maxSize": "1.2MB"
       },
       {
         "path": "packages/api-logs/dist/index.js",
-        "maxSize": "10kb"
+        "maxSize": "10KB"
       },
       {
         "path": "packages/variable/dist/index.js",
-        "maxSize": "5kb"
+        "maxSize": "5KB"
       }
     ]
   },
