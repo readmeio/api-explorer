@@ -78,13 +78,14 @@ class ResponseSchema extends React.Component {
 
   render() {
     const { operation, oas, useNewMarkdownEngine } = this.props;
+    const { selectedStatus } = this.state;
     if (!operation.schema || !operation.schema.responses || Object.keys(operation.schema.responses).length === 0) {
       return null;
     }
 
     const schema = this.getSchema(operation);
 
-    let response = operation.getResponseByStatusCode(this.state.selectedStatus);
+    let response = operation.getResponseByStatusCode(selectedStatus);
 
     // @todo This should really be called higher up when the OAS is processed within the Doc component.
     if (response.$ref) {
@@ -108,7 +109,14 @@ class ResponseSchema extends React.Component {
               <div className="desc">{markdownMagic(response.description)}</div>
             ))}
 
-          {schema && <ResponseSchemaBody oas={oas} schema={schema} useNewMarkdownEngine={useNewMarkdownEngine} />}
+          {schema && (
+            <ResponseSchemaBody
+              key={`statusCode-${selectedStatus}`}
+              oas={oas}
+              schema={schema}
+              useNewMarkdownEngine={useNewMarkdownEngine}
+            />
+          )}
         </div>
       </div>
     );
