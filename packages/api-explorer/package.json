@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@readme/http-status-codes": "^7.1.0",
-    "@readme/markdown-magic": "^10.0.0",
+    "@readme/markdown-magic": "^11.0.0",
     "@readme/oas-extensions": "^10.0.0",
     "@readme/oas-form": "^10.0.0",
     "@readme/oas-to-har": "^10.0.0",
