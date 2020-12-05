@@ -1,3 +1,21 @@
+## <small>10.0.3 (2020-12-05)</small>
+
+* chore: building lock files ([b2d4cf2](https://github.com/readmeio/api-explorer/commit/b2d4cf2))
+* chore: deplatforming @readme/markdown-magic from this repo (#1083) ([2614ec4](https://github.com/readmeio/api-explorer/commit/2614ec4)), closes [#1083](https://github.com/readmeio/api-explorer/issues/1083)
+* chore: rebuilding lock files ([b006844](https://github.com/readmeio/api-explorer/commit/b006844))
+* chore: updating the dev/preview server css ([e899078](https://github.com/readmeio/api-explorer/commit/e899078))
+* chore(deps-dev): bump babel-jest from 26.3.0 to 26.6.3 (#1076) ([bcf4188](https://github.com/readmeio/api-explorer/commit/bcf4188)), closes [#1076](https://github.com/readmeio/api-explorer/issues/1076)
+* chore(deps-dev): bump babel-loader from 8.2.1 to 8.2.2 (#1073) ([917c70e](https://github.com/readmeio/api-explorer/commit/917c70e)), closes [#1073](https://github.com/readmeio/api-explorer/issues/1073)
+* chore(deps-dev): bump isomorphic-fetch from 2.2.1 to 3.0.0 (#1077) ([6ca0252](https://github.com/readmeio/api-explorer/commit/6ca0252)), closes [#1077](https://github.com/readmeio/api-explorer/issues/1077)
+* chore(deps-dev): bump nock from 13.0.4 to 13.0.5 (#1075) ([220dba3](https://github.com/readmeio/api-explorer/commit/220dba3)), closes [#1075](https://github.com/readmeio/api-explorer/issues/1075)
+* chore(deps): move variable to peerdep (#1080) ([c9ebcee](https://github.com/readmeio/api-explorer/commit/c9ebcee)), closes [#1080](https://github.com/readmeio/api-explorer/issues/1080)
+* ci: bumping down our bundlewatch threshold for smaller dists ([b1235d1](https://github.com/readmeio/api-explorer/commit/b1235d1))
+* ci: slightly altering the bundlewatch limits ([560ed43](https://github.com/readmeio/api-explorer/commit/560ed43))
+* fix: issue where response schemas wouldn't always change states (#1081) ([f2b2bd7](https://github.com/readmeio/api-explorer/commit/f2b2bd7)), closes [#1081](https://github.com/readmeio/api-explorer/issues/1081) [#1042](https://github.com/readmeio/api-explorer/issues/1042)
+* fix(api-explorer): fix legacy status ranges (4XX, etc) (#1082) ([b537f8c](https://github.com/readmeio/api-explorer/commit/b537f8c)), closes [#1082](https://github.com/readmeio/api-explorer/issues/1082)
+
+
+
 ## <small>10.0.2 (2020-12-03)</small>
 
 * fix: dont fetch logs for users who aren't logged in (#1066) ([d98172e](https://github.com/readmeio/api-explorer/commit/d98172e)), closes [#1066](https://github.com/readmeio/api-explorer/issues/1066)
