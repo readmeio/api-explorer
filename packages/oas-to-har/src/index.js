@@ -81,10 +81,10 @@ module.exports = (
     httpVersion: 'HTTP/1.1',
   };
 
-  const proxyEnabled = extensions.getExtension(extensions.PROXY_ENABLED, oas, operation);
-  // TODO look to move this to Oas class as well
-  if (proxyEnabled && opts.proxyUrl) {
-    har.url = `https://try.readme.io/${har.url}`;
+  if (opts.proxyUrl) {
+    if (extensions.getExtension(extensions.PROXY_ENABLED, oas, operation)) {
+      har.url = `https://try.readme.io/${har.url}`;
+    }
   }
 
   // Does this operation have any parameters?
