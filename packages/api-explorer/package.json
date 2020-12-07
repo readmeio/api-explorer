@@ -52,7 +52,7 @@
     "@readme/ui": "^1.16.1",
     "@readme/variable": "^10.0.3",
     "@testing-library/dom": "^7.26.3",
-    "css-loader": "^4.3.0",
+    "css-loader": "^5.0.1",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "node-fetch": "^2.0.0-alpha.9",
