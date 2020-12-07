@@ -1,3 +1,11 @@
+## <small>10.0.4 (2020-12-07)</small>
+
+* chore(deps-dev): bump @readme/eslint-config from 3.6.2 to 3.7.1 (#1084) ([9c55377](https://github.com/readmeio/api-explorer/commit/9c55377)), closes [#1084](https://github.com/readmeio/api-explorer/issues/1084)
+* chore(deps-dev): bump prettier from 2.1.2 to 2.2.1 (#1085) ([326fe06](https://github.com/readmeio/api-explorer/commit/326fe06)), closes [#1085](https://github.com/readmeio/api-explorer/issues/1085)
+* chore(deps): upgrading @readme/syntax-highlighter to 10.4.1 (#1091) ([d13415a](https://github.com/readmeio/api-explorer/commit/d13415a)), closes [#1091](https://github.com/readmeio/api-explorer/issues/1091)
+
+
+
 ## <small>10.0.3 (2020-12-05)</small>
 
 * chore: building lock files ([b2d4cf2](https://github.com/readmeio/api-explorer/commit/b2d4cf2))
