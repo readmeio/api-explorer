@@ -30,6 +30,7 @@
     "fetch-har": "^4.0.2",
     "js-cookie": "^2.1.4",
     "lodash.kebabcase": "^4.1.1",
+    "lodash.clonedeep": "^4.5.0",
     "oas": "^6.1.0",
     "prop-types": "^15.7.2",
     "react-copy-to-clipboard": "^5.0.1",
@@ -40,7 +41,7 @@
   },
   "peerDependencies": {
     "@readme/markdown": "^6.21.0",
-    "@readme/ui": "^1.16.1",
+    "@readme/ui": "^1.17.0",
     "@readme/variable": "^10.0.0",
     "react": "16.x",
     "react-dom": "16.x"
@@ -49,7 +50,7 @@
     "@readme/eslint-config": "^3.2.0",
     "@readme/markdown": "^6.21.0",
     "@readme/oas-examples": "^3.6.0",
-    "@readme/ui": "^1.16.1",
+    "@readme/ui": "^1.17.0",
     "@readme/variable": "^10.0.4",
     "@testing-library/dom": "^7.26.3",
     "css-loader": "^4.3.0",
