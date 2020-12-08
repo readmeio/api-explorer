@@ -1,5 +1,4 @@
 {
-  "parser": "babel-eslint",
   "extends": [
     "@readme/eslint-config",
     "@readme/eslint-config/react"

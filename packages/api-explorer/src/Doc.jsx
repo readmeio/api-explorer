@@ -454,17 +454,13 @@ class Doc extends React.Component {
     const { useNewMarkdownEngine } = this.props;
     const operation = this.getOperation();
 
-    return (
-      operation &&
-      operation.schema &&
-      operation.schema.responses && (
-        <ResponseSchema
-          oas={this.oas}
-          operation={operation}
-          theme={theme}
-          useNewMarkdownEngine={useNewMarkdownEngine}
-        />
-      )
+    return operation?.schema?.responses && (
+      <ResponseSchema
+        oas={this.oas}
+        operation={operation}
+        theme={theme}
+        useNewMarkdownEngine={useNewMarkdownEngine}
+      />
     );
   }
 
