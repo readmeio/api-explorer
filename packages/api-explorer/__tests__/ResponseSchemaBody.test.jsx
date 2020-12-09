@@ -22,8 +22,8 @@ test('display object properties in the table', () => {
   return waitFor(() => {
     comp.update();
 
-    expect(comp.find('th').text()).toContain('a');
-    expect(comp.find('td').text()).toBe('String');
+    expect(comp.find('th').text()).toContain('String');
+    expect(comp.find('td').text()).toBe('a');
   });
 });
 
@@ -48,7 +48,7 @@ test('display object properties inside another object in the table', () => {
 
     expect(
       comp
-        .find('th')
+        .find('td')
         .map(a => a.text())
         .filter(a => a === 'a.a')
     ).toHaveLength(1);
@@ -98,13 +98,13 @@ test('not render more than 3 level deep object', () => {
 
     expect(
       comp
-        .find('th')
+        .find('td')
         .map(a => a.text())
         .filter(a => a === 'a.a.a')
     ).toHaveLength(1);
     expect(
       comp
-        .find('th')
+        .find('td')
         .map(a => a.text())
         .filter(a => a === 'a.a.a.a')
     ).toHaveLength(0);
@@ -130,13 +130,13 @@ test('render top level array of objects', () => {
 
     expect(
       comp
-        .find('th')
+        .find('td')
         .map(a => a.text())
         .filter(a => a === 'name')
     ).toHaveLength(1);
     expect(
       comp
-        .find('td')
+        .find('th')
         .map(a => a.text())
         .filter(a => a === 'String')
     ).toHaveLength(1);
@@ -232,7 +232,7 @@ describe('$ref handling', () => {
 
       expect(
         comp
-          .find('th')
+          .find('td')
           .map(a => a.text())
           .filter(a => a === 'category.name')
       ).toHaveLength(1);
@@ -280,14 +280,13 @@ describe('$ref handling', () => {
         comp
           .find('th')
           .map(a => a.text())
-          .filter(a => a === 'a.pets[].index')
+          .filter(a => a === '[Object]')
       ).toHaveLength(1);
-
       expect(
         comp
           .find('td')
           .map(a => a.text())
-          .filter(a => a === '[Object]')
+          .filter(a => a === 'a.pets[].index')
       ).toHaveLength(1);
     });
   });
@@ -321,13 +320,13 @@ describe('$ref handling', () => {
 
       expect(
         comp
-          .find('th')
+          .find('td')
           .map(a => a.text())
           .filter(a => a === 'name')
       ).toHaveLength(1);
       expect(
         comp
-          .find('td')
+          .find('th')
           .map(a => a.text())
           .filter(a => a === 'String')
       ).toHaveLength(1);
@@ -385,11 +384,11 @@ describe('$ref handling', () => {
 
         expect(comp.find('tr')).toHaveLength(2);
 
-        expect(comp.find('tr').at(0).find('th').text()).toBe('id');
-        expect(comp.find('tr').at(0).find('td').text()).toBe('Number');
+        expect(comp.find('tr').at(0).find('th').text()).toBe('Number');
+        expect(comp.find('tr').at(0).find('td').text()).toBe('id');
 
-        expect(comp.find('tr').at(1).find('th').text()).toBe('fields');
-        expect(comp.find('tr').at(1).find('td').text()).toBe('Circular');
+        expect(comp.find('tr').at(1).find('th').text()).toBe('Circular');
+        expect(comp.find('tr').at(1).find('td').text()).toBe('fields');
       });
     });
   });
