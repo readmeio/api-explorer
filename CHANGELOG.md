@@ -1,3 +1,9 @@
+## <small>10.0.6 (2020-12-09)</small>
+
+* fix: bug where it takes two clicks to get a code snippet to copy (#1096) ([e5bd424](https://github.com/readmeio/api-explorer/commit/e5bd424)), closes [#1096](https://github.com/readmeio/api-explorer/issues/1096)
+
+
+
 ## <small>10.0.5 (2020-12-09)</small>
 
 * Revert "feat: flipping the order of data in the response schema component (#1065)" (#1094) ([2154c83](https://github.com/readmeio/api-explorer/commit/2154c83)), closes [#1065](https://github.com/readmeio/api-explorer/issues/1065) [#1094](https://github.com/readmeio/api-explorer/issues/1094)
