@@ -8,6 +8,8 @@ const ResponseMetadata = require('./ResponseMetadata');
 const ResponseBody = require('./ResponseBody');
 const ResponseExample = require('./ResponseExample');
 
+const upgradeLegacyResponses = require('./lib/upgrade-legacy-responses');
+
 const { Operation } = Oas;
 
 class Response extends React.Component {
@@ -17,6 +19,17 @@ class Response extends React.Component {
       responseTab: 'result',
     };
 
+    const { exampleResponses, operation } = props;
+
+    if (exampleResponses.length) {
+      // With https://github.com/readmeio/api-explorer/pull/312 we changed the shape of response examples, but
+      // unfortunately APIs that are manually documented in ReadMe are still in the legacy shape so we need to adhoc
+      // rewrite them to fit this new work.
+      this.examples = upgradeLegacyResponses(exampleResponses);
+    } else {
+      this.examples = operation.getResponseExamples() || [];
+    }
+
     this.setTab = this.setTab.bind(this);
   }
 
@@ -25,7 +38,7 @@ class Response extends React.Component {
   }
 
   render() {
-    const { exampleResponses, hideResults, result, oas, operation, oauth } = this.props;
+    const { hideResults, result, oas, operation, oauth } = this.props;
     const { responseTab } = this.state;
     const securities = operation.prepareSecurity();
 
@@ -40,6 +53,7 @@ class Response extends React.Component {
             {result !== null && (
               <span>
                 <ResponseTabs
+                  examples={this.examples}
                   hideResults={hideResults}
                   operation={operation}
                   responseTab={responseTab}
@@ -56,7 +70,7 @@ class Response extends React.Component {
           </div>
 
           <ResponseExample
-            exampleResponses={exampleResponses}
+            examples={this.examples}
             oas={oas}
             onChange={this.props.onChange}
             operation={operation}
@@ -69,7 +83,9 @@ class Response extends React.Component {
 }
 
 Response.propTypes = {
+  // Responses from the manual API editor. OAS response examples are pulled within the constructor.
   exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+
   hideResults: PropTypes.func.isRequired,
   oas: PropTypes.instanceOf(Oas).isRequired,
   oauth: PropTypes.bool.isRequired,

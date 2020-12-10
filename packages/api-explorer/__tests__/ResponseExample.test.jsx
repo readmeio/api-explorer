@@ -1,6 +1,5 @@
 const React = require('react');
 const { shallow } = require('enzyme');
-const { waitFor } = require('@testing-library/dom');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
@@ -11,12 +10,15 @@ const exampleResults = require('./__fixtures__/example-results/oas.json');
 const ResponseExample = require('../src/ResponseExample');
 const ExampleTabs = require('../src/ExampleTabs');
 
-const oas = new Oas(petstore);
+const upgradeLegacyResponses = require('../src/lib/upgrade-legacy-responses')
 
+const oas = new Oas(petstore);
+const operation = oas.operation('/pet', 'post');
 const props = {
+  examples: operation.getResponseExamples(),
   oas,
   onChange: () => {},
-  operation: oas.operation('/pet', 'post'),
+  operation,
   result: null,
 };
 
@@ -52,104 +54,78 @@ describe('has examples', () => {
   describe('from an openapi definition', () => {
     it('should show each example', () => {
       const exampleOas = new Oas(exampleResults);
-      const comp = shallow(
-        <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />
+      const op = exampleOas.operation('/results', 'get');
+      const examples = op.getResponseExamples();
+
+      const comp = shallow(<ResponseExample {...props} examples={examples} oas={exampleOas} operation={op} />);
+
+      expect(comp.find(ExampleTabs).render().find('.tabber-tab').text().trim()).toStrictEqual(
+        '200 OK 400 Bad Request Default'
       );
 
-      return waitFor(() => {
-        comp.update();
-
-        expect(comp.find(ExampleTabs).render().find('.tabber-tab').text().trim()).toStrictEqual(
-          '200 OK 400 Bad Request Default'
-        );
-
-        expect(comp.find('pre')).toHaveLength(3);
-      });
+      expect(comp.find('pre')).toHaveLength(3);
     });
 
     it('should display json viewer', () => {
       const exampleOas = new Oas(exampleResults);
-      const comp = shallow(
-        <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />
-      );
+      const op = exampleOas.operation('/results', 'get');
+      const examples = op.getResponseExamples();
 
-      return waitFor(() => {
-        comp.update();
+      const comp = shallow(<ResponseExample {...props} examples={examples} oas={exampleOas} operation={op} />);
 
-        // Asserting all JSON examples are displayed with JSON viewer from the example oas.json
-        expect(comp.find('pre').at(0).render().find('.react-json-view')).toHaveLength(1);
-      });
+      // Asserting all JSON examples are displayed with JSON viewer from the example oas.json
+      expect(comp.find('pre').at(0).render().find('.react-json-view')).toHaveLength(1);
     });
 
     it('should not fail to parse invalid json and instead show the standard syntax highlighter', () => {
       const exampleOas = new Oas(string);
-      const comp = shallow(
-        <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/format-uuid', 'get')} />
-      );
+      const op = exampleOas.operation('/format-uuid', 'get');
+      const examples = op.getResponseExamples();
 
-      return waitFor(() => {
-        comp.update();
+      const comp = shallow(<ResponseExample {...props} examples={examples} oas={exampleOas} operation={op} />);
 
-        // Asserting that instead of failing with the invalid JSON we attempted to render, we fallback
-        // to just rendering the string in our standard syntax highlighter.
-        expect(comp.find('pre').at(0).render().find('.cm-number')).toHaveLength(4);
-      });
+      // Asserting that instead of failing with the invalid JSON we attempted to render, we fallback to just rendering
+      // the string in our standard syntax highlighter.
+      expect(comp.find('pre').at(0).render().find('.cm-number')).toHaveLength(4);
     });
 
     it('should correctly highlight XML syntax', () => {
       const exampleOas = new Oas(exampleResults);
-      const comp = shallow(
-        <ResponseExample {...props} oas={exampleOas} operation={exampleOas.operation('/results', 'get')} />
-      );
+      const op = exampleOas.operation('/results', 'get');
+      const examples = op.getResponseExamples();
 
-      return waitFor(() => {
-        comp.update();
+      const comp = shallow(<ResponseExample {...props} examples={examples} oas={exampleOas} operation={op} />);
 
-        // Asserting that there are XML tags
-        expect(comp.find('pre').at(1).render().find('.cm-tag')).toHaveLength(25);
-      });
+      // Asserting that there are XML tags
+      expect(comp.find('pre').at(1).render().find('.cm-tag')).toHaveLength(25);
     });
 
     it('should show select for multiple examples on a single media type', () => {
       const exampleOas = new Oas(exampleResults);
-      const comp = shallow(
-        <ResponseExample
-          {...props}
-          oas={exampleOas}
-          operation={exampleOas.operation('/single-media-type-multiple-examples', 'get')}
-        />
-      );
+      const op = exampleOas.operation('/single-media-type-multiple-examples', 'get');
+      const examples = op.getResponseExamples();
 
-      return waitFor(() => {
-        comp.update();
+      const comp = shallow(<ResponseExample {...props} examples={examples} oas={exampleOas} operation={op} />);
 
-        const html = comp.html();
+      const html = comp.html();
 
-        expect(html).not.toContain('>Response type');
-        expect(html).toContain('>Choose an example');
-      });
+      expect(html).not.toContain('>Response type');
+      expect(html).toContain('>Choose an example');
     });
 
     it('should not show a select if a media type has a single example', () => {
       const exampleOas = new Oas(exampleResults);
-      const comp = shallow(
-        <ResponseExample
-          {...props}
-          oas={exampleOas}
-          operation={exampleOas.operation('/single-media-type-single-example', 'get')}
-        />
-      );
+      const op = exampleOas.operation('/single-media-type-single-example', 'get');
+      const examples = op.getResponseExamples();
 
-      return waitFor(() => {
-        comp.update();
+      const comp = shallow(<ResponseExample {...props} examples={examples} oas={exampleOas} operation={op} />);
 
-        expect(comp.html()).not.toContain('<select');
-      });
+      expect(comp.html()).not.toContain('<select');
     });
   });
 
   it('should correctly handle non-json legacy manual api examples', () => {
-    const exampleResponses = [
+    const exampleResponses = upgradeLegacyResponses([
       {
         status: 200,
         language: 'xml',
@@ -167,9 +143,9 @@ describe('has examples', () => {
         language: 'xml',
         code: '<?xml version="1.0" encoding="UTF-8"?><detail>404 Erroror</detail>',
       },
-    ];
+    ]);
 
-    const comp = shallow(<ResponseExample {...props} exampleResponses={exampleResponses} />);
+    const comp = shallow(<ResponseExample {...props} examples={exampleResponses} />);
 
     const html = comp.html();
 
@@ -184,12 +160,8 @@ describe('#setCurrentTab', () => {
 
     expect(comp.state('currentTab')).toBe(0);
 
-    return waitFor(() => {
-      comp.update();
+    comp.instance().setCurrentTab(1);
 
-      comp.instance().setCurrentTab(1);
-
-      expect(comp.state('currentTab')).toBe(1);
-    });
+    expect(comp.state('currentTab')).toBe(1);
   });
 });
