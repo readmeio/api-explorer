@@ -57,6 +57,9 @@ class Doc extends React.Component {
 
       loading: false,
       needsAuth: false,
+
+      oasLoaded: false,
+
       result: null,
       selectedTutorial: null,
       showAuthBox: false,
@@ -81,8 +84,8 @@ class Doc extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.openTutorial = this.openTutorial.bind(this);
-    this.operation = this.getOperation();
-    this.Params = createParams(this.oas, this.operation);
+    this.operation = null; // Set within `componentDidMount`.
+    this.Params = null; // Set within `componentDidMount`.
 
     this.resetForm = this.resetForm.bind(this);
 
@@ -91,13 +94,21 @@ class Doc extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.shouldEnableRequestBodyJsonEditor()) {
-      return;
-    }
+    this.oas
+      .dereference()
+      .then(() => {
+        this.operation = this.getOperation();
+        this.Params = createParams(this.oas, this.operation);
+      })
+      .then(() => {
+        this.setState({ oasLoaded: true });
+      })
+      .then(() => {
+        if (!this.shouldEnableRequestBodyJsonEditor()) {
+          return;
+        }
 
-    this.operation
-      .getRequestBodyExamples()
-      .then(examples => {
+        const examples = this.operation.getRequestBodyExamples();
         if (!Object.keys(examples).length) {
           return;
         }
@@ -134,8 +145,24 @@ class Doc extends React.Component {
           });
         }
       })
-      .catch(() => {
-        // If we fail to generate examples for whatever reason fail silently.
+      .catch(err => {
+        // Errors thrown from here won't get caught with the `ErrorBoundary` component because that's not how error
+        // boundaries are supposed to be used. Thankfully there's this gross hack that can force the error boundary to
+        // catch it.
+        //
+        // This hack is likely going to throw the below warning about there being a memory leak but since the explorer
+        // won't be in a functional state at this point, and we can't cancel the `oas.dereference` promise with
+        // `.cancel()` as native promises don't yet support that (XHR has `.abort()` but this isn't that), it's
+        // probably fine?
+        //
+        //    Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory
+        //    leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the
+        //    componentWillUnmount method.
+        //
+        // @link https://github.com/facebook/react/issues/11334#issuecomment-423718317
+        this.setState(() => {
+          throw err;
+        });
       });
   }
 
@@ -423,7 +450,7 @@ class Doc extends React.Component {
         language={this.props.language}
         oas={this.oas}
         oasUrl={this.props.oasUrl}
-        operation={this.getOperation()}
+        operation={this.operation}
         setLanguage={this.props.setLanguage}
       />
     );
@@ -444,7 +471,7 @@ class Doc extends React.Component {
         oas={this.oas}
         oauth={this.props.oauth}
         onChange={this.onChange}
-        operation={this.getOperation()}
+        operation={this.operation}
         result={this.state.result}
       />
     );
@@ -452,15 +479,17 @@ class Doc extends React.Component {
 
   renderResponseSchema(theme = 'light') {
     const { useNewMarkdownEngine } = this.props;
-    const operation = this.getOperation();
+    const operation = this.operation;
 
-    return operation?.schema?.responses && (
-      <ResponseSchema
-        oas={this.oas}
-        operation={operation}
-        theme={theme}
-        useNewMarkdownEngine={useNewMarkdownEngine}
-      />
+    return (
+      operation?.schema?.responses && (
+        <ResponseSchema
+          oas={this.oas}
+          operation={operation}
+          theme={theme}
+          useNewMarkdownEngine={useNewMarkdownEngine}
+        />
+      )
     );
   }
 
@@ -495,7 +524,7 @@ class Doc extends React.Component {
   renderLogs() {
     if (!this.props.Logs) return null;
     const { Logs } = this.props;
-    const operation = this.getOperation();
+    const operation = this.operation;
     const { method } = operation;
     const url = `${this.oas.url()}${operation.path}`;
 
@@ -529,7 +558,7 @@ class Doc extends React.Component {
         onJsonChange={this.onJsonChange}
         onModeChange={this.onModeChange}
         onSubmit={this.onSubmit}
-        operation={this.getOperation()}
+        operation={this.operation}
         resetForm={this.resetForm}
         validationErrors={validationErrors}
       />
@@ -551,7 +580,7 @@ class Doc extends React.Component {
         onAuthGroupChange={this.props.onAuthGroupChange}
         onChange={this.props.onAuthChange}
         onSubmit={this.onSubmit}
-        operation={this.getOperation()}
+        operation={this.operation}
         resetForm={this.resetForm}
         showAuthBox={this.state.showAuthBox}
         toggleAuth={this.toggleAuth}
@@ -561,10 +590,14 @@ class Doc extends React.Component {
   }
 
   render() {
+    const { oasLoaded } = this.state;
     const { doc, lazy, useNewMarkdownEngine } = this.props;
     const { oas } = this;
 
     const renderEndpoint = () => {
+      // Has the OAS been dereferenced and fully loaded?
+      if (!oasLoaded) return null;
+
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
       if (lazy) {
         return (
