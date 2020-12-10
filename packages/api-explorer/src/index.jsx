@@ -12,36 +12,9 @@ const Doc = require('./Doc');
 const { TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
 const getAuth = require('./lib/get-auth');
+const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
 const supportedHttpMethods = ['connect', 'delete', 'get', 'head', 'options', 'patch', 'post', 'put', 'trace'];
-
-const defaultTutorial = {
-  backgroundColor: '',
-  emoji: '',
-  response: '',
-  referenceDisplay: [],
-  steps: [
-    {
-      title: '',
-      body: '',
-      isOpen: true,
-      lineNumbers: [''],
-    },
-  ],
-  snippet: {
-    endpoint: {},
-    codeOptions: [
-      {
-        code: '',
-        language: '',
-        highlightedSyntax: '',
-        name: '',
-      },
-    ],
-  },
-  title: '',
-  description: '',
-};
 
 class ApiExplorer extends React.Component {
   constructor(props) {
@@ -62,7 +35,7 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      selectedTutorial: defaultTutorial,
+      selectedTutorial: DEFAULT_TUTORIAL,
       showTutorialModal: false,
     };
 
@@ -226,7 +199,7 @@ class ApiExplorer extends React.Component {
   }
 
   closeTutorialModal() {
-    this.setState(() => ({ showTutorialModal: false, selectedTutorial: defaultTutorial }));
+    this.setState(() => ({ showTutorialModal: false, selectedTutorial: DEFAULT_TUTORIAL }));
   }
 
   renderTutorialModal() {
