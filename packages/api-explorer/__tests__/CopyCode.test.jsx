@@ -1,5 +1,5 @@
 const React = require('react');
-const { mount } = require('enzyme');
+const { render, fireEvent, screen } = require('@testing-library/react');
 
 const CopyCode = require('../src/CopyCode');
 
@@ -14,24 +14,21 @@ window.prompt = () => {};
 
 test('should copy a snippet to the clipboard', () => {
   const onCopy = jest.fn();
+  render(<CopyCode code={curl} onCopy={onCopy} />);
 
-  const node = mount(<CopyCode code={curl} onCopy={onCopy} />);
-
-  node.find('button').simulate('click');
-
+  fireEvent.click(screen.getByRole('button'));
   expect(onCopy).toHaveBeenCalledWith(curl);
 });
 
 test('should update the code to copy when supplied with a new snippet', () => {
   const onCopy = jest.fn();
+  const { rerender } = render(<CopyCode code={curl} onCopy={onCopy} />)
 
-  const node = mount(<CopyCode code={curl} onCopy={onCopy} />);
-
-  node.find('button').simulate('click');
+  fireEvent.click(screen.getByRole('button'));
   expect(onCopy).toHaveBeenCalledWith(curl);
 
-  node.setProps({ code: 'console.log()' });
+  rerender(<CopyCode code='console.log()' onCopy={onCopy} />);
 
-  node.find('button').simulate('click');
+  fireEvent.click(screen.getByRole('button'));
   expect(onCopy).toHaveBeenCalledWith('console.log()');
 });

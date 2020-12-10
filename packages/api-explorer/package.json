@@ -52,6 +52,8 @@
     "@readme/ui": "^1.16.1",
     "@readme/variable": "^10.0.4",
     "@testing-library/dom": "^7.26.3",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
     "css-loader": "^4.3.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
