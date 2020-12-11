@@ -1,11 +1,10 @@
+const React = require('react');
+const { shallow, mount } = require('enzyme');
+const { render, fireEvent, screen } = require('@testing-library/react');
+const { waitFor } = require('@testing-library/dom');
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
 
-global.Request = Request;
-
-const React = require('react');
-const { shallow, mount } = require('enzyme');
-const { waitFor } = require('@testing-library/dom');
 const Doc = require('../src/Doc');
 const ErrorBoundary = require('../src/ErrorBoundary');
 
@@ -13,6 +12,10 @@ const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 const uspto = require('@readme/oas-examples/3.0/json/uspto.json');
 const petstoreWithAuth = require('./__fixtures__/petstore/oas.json');
 const multipleSecurities = require('./__fixtures__/multiple-securities/oas.json');
+
+global.Request = Request;
+
+const waitForAsync = () => new Promise(resolve => setImmediate(resolve))
 
 const props = {
   auth: {},
@@ -57,7 +60,11 @@ function assertDocElements(component, doc) {
   expect(component.find('h2').text()).toBe(doc.title);
 }
 
-test('should output a div', () => {
+test.only('should render the explorer', () => {
+  render(<Doc {...props} />);
+});
+
+/* test('should output a div', () => {
   const doc = shallow(<Doc {...props} />);
 
   doc.setState({ showEndpoint: true });
@@ -71,7 +78,7 @@ test('should output a div', () => {
   // below that uses `jest.useFakeTimers()` fail ¯\_(ツ)_/¯. Skipping for now.
   // expect(doc.find('Params').length).toBe(1);
   expect(doc.find('Content')).toHaveLength(1);
-});
+}); */
 
 test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
   const doc = mount(
