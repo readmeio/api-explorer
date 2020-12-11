@@ -1,6 +1,7 @@
 const React = require('react');
 const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
+const cloneDeep = require('lodash.clonedeep');
 const extensions = require('@readme/oas-extensions');
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
@@ -8,8 +9,10 @@ const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bund
 
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
+const { TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
 const getAuth = require('./lib/get-auth');
+const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
 const supportedHttpMethods = ['connect', 'delete', 'get', 'head', 'options', 'patch', 'post', 'put', 'trace'];
 
@@ -21,6 +24,8 @@ class ApiExplorer extends React.Component {
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
     this.onAuthChange = this.onAuthChange.bind(this);
+    this.closeTutorialModal = this.closeTutorialModal.bind(this);
+    this.openTutorialModal = this.openTutorialModal.bind(this);
 
     this.state = {
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
@@ -30,6 +35,8 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
+      selectedTutorial: DEFAULT_TUTORIAL,
+      showTutorialModal: false,
     };
 
     this.onAuthGroupChange = this.onAuthGroupChange.bind(this);
@@ -186,6 +193,31 @@ class ApiExplorer extends React.Component {
     this.setState({ selectedApp: { selected, changeSelected: this.changeSelected } });
   }
 
+  openTutorialModal({ tutorial }) {
+    const selectedTutorial = { ...cloneDeep(tutorial) };
+    this.setState(() => ({ showTutorialModal: true, selectedTutorial }));
+  }
+
+  closeTutorialModal() {
+    this.setState(() => ({ showTutorialModal: false, selectedTutorial: DEFAULT_TUTORIAL }));
+  }
+
+  renderTutorialModal() {
+    const { selectedTutorial, showTutorialModal } = this.state;
+
+    return (
+      <TutorialModal
+        action={'View'}
+        baseUrl={this.props.baseUrl.replace(/\/$/, '')}
+        closeTutorialModal={this.closeTutorialModal}
+        moduleEnabled={true}
+        open={showTutorialModal}
+        target={'#tutorialmodal-root'}
+        tutorial={selectedTutorial}
+      />
+    );
+  }
+
   render() {
     const docs = this.props.docs.filter(doc => {
       // If the HTTP method is something we don't support, then we shouldn't attempt to render it as a normal API
@@ -214,6 +246,7 @@ class ApiExplorer extends React.Component {
 
     return (
       <div className={`is-lang-${this.state.language}`}>
+        {this.renderTutorialModal()}
         <div
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
           id="hub-reference"
@@ -249,6 +282,7 @@ class ApiExplorer extends React.Component {
                                 onAuthChange={this.onAuthChange}
                                 onAuthGroupChange={this.onAuthGroupChange}
                                 onError={this.props.onError}
+                                openTutorialModal={this.openTutorialModal}
                                 setLanguage={this.setLanguage}
                                 suggestedEdits={this.props.suggestedEdits}
                                 tryItMetrics={this.props.tryItMetrics}

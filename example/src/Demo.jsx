@@ -110,16 +110,22 @@ class Demo extends React.Component {
               {
                 title: 'Step One',
                 body: 'Step one description',
-                lineNumbers: ['1-3'],
+                lineNumbers: ['1'],
+              },
+              {
+                title: 'Step Two',
+                body: 'Step one description',
+                lineNumbers: [],
               },
             ],
             snippet: {
               endpoint: {},
               codeOptions: [
                 {
-                  code: 'const res = true;',
-                  language: 'javascript',
-                  name: 'index.js',
+                  code: 'const r = "hello world";',
+                  language: 'node',
+                  highlightedSyntax: 'javascript',
+                  name: 'Node',
                 },
               ],
             },
