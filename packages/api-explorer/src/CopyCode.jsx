@@ -13,15 +13,18 @@ class CopyCode extends React.Component {
     this.onCopy = this.onCopy.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const code = typeof prevProps.code === 'function' ? prevProps.code() : prevProps.code;
-
-    if (code !== this.state.code) {
-      this.setState({ code });
+  static getDerivedStateFromProps(props, state) {
+    const code = typeof props.code === 'function' ? props.code() : props.code;
+    if (!('code' in state) || code !== state.code) {
+      return { code };
     }
+
+    return null;
   }
 
-  onCopy() {
+  onCopy(text) {
+    this.props.onCopy(text);
+
     this.setState({ copied: true });
     setTimeout(() => {
       this.setState({ copied: false });
@@ -41,6 +44,11 @@ class CopyCode extends React.Component {
 
 CopyCode.propTypes = {
   code: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+  onCopy: PropTypes.func,
+};
+
+CopyCode.defaultProps = {
+  onCopy: () => {},
 };
 
 module.exports = CopyCode;
