@@ -1,3 +1,16 @@
+## <small>10.0.6 (2020-12-09)</small>
+
+* fix: bug where it takes two clicks to get a code snippet to copy (#1096) ([e5bd424](https://github.com/readmeio/api-explorer/commit/e5bd424)), closes [#1096](https://github.com/readmeio/api-explorer/issues/1096)
+
+
+
+## <small>10.0.5 (2020-12-09)</small>
+
+* Revert "feat: flipping the order of data in the response schema component (#1065)" (#1094) ([2154c83](https://github.com/readmeio/api-explorer/commit/2154c83)), closes [#1065](https://github.com/readmeio/api-explorer/issues/1065) [#1094](https://github.com/readmeio/api-explorer/issues/1094)
+* fix: only access the proxy-enabled extension if we need to (#1092) ([c1ac336](https://github.com/readmeio/api-explorer/commit/c1ac336)), closes [#1092](https://github.com/readmeio/api-explorer/issues/1092)
+
+
+
 ## <small>10.0.4 (2020-12-07)</small>
 
 * chore(deps-dev): bump @readme/eslint-config from 3.6.2 to 3.7.1 (#1084) ([9c55377](https://github.com/readmeio/api-explorer/commit/9c55377)), closes [#1084](https://github.com/readmeio/api-explorer/issues/1084)
