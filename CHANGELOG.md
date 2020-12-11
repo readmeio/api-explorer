@@ -1,3 +1,12 @@
+## <small>10.0.7 (2020-12-11)</small>
+
+* chore(deps): bump ini from 1.3.5 to 1.3.8 in /packages/variable (#1099) ([0da9230](https://github.com/readmeio/api-explorer/commit/0da9230)), closes [#1099](https://github.com/readmeio/api-explorer/issues/1099)
+* fix(tutorials): solving ux issues within tutorial modal (#1093) ([aaed2d6](https://github.com/readmeio/api-explorer/commit/aaed2d6)), closes [#1093](https://github.com/readmeio/api-explorer/issues/1093)
+* refactor: use nanoid instead of shortid (#1095) ([2479089](https://github.com/readmeio/api-explorer/commit/2479089)), closes [#1095](https://github.com/readmeio/api-explorer/issues/1095)
+* docs: removing unnecessary line breaks from the petstore example ([64db892](https://github.com/readmeio/api-explorer/commit/64db892))
+
+
+
 ## <small>10.0.6 (2020-12-09)</small>
 
 * fix: bug where it takes two clicks to get a code snippet to copy (#1096) ([e5bd424](https://github.com/readmeio/api-explorer/commit/e5bd424)), closes [#1096](https://github.com/readmeio/api-explorer/issues/1096)

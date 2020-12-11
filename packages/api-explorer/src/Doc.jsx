@@ -9,7 +9,7 @@ const oasToHar = require('@readme/oas-to-har');
 const Oas = require('oas/tooling');
 const { getPath, matchesMimeType } = require('oas/tooling/utils');
 
-const { TutorialTile, TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
+const { TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
 require('@readme/ui/.bundles/umd/main.css');
 
 const isAuthReady = require('./lib/is-auth-ready');
@@ -61,10 +61,8 @@ class Doc extends React.Component {
       oasLoaded: false,
 
       result: null,
-      selectedTutorial: null,
       showAuthBox: false,
       showEndpoint: false,
-      showTutorialModal: false,
 
       validationErrors: {
         form: false,
@@ -73,7 +71,6 @@ class Doc extends React.Component {
     };
 
     this.enableRequestBodyJsonEditor = false;
-    this.closeTutorialModal = this.closeTutorialModal.bind(this);
     this.hideResults = this.hideResults.bind(this);
 
     this.oas = new Oas(this.props.oas, this.props.user);
@@ -83,7 +80,6 @@ class Doc extends React.Component {
     this.onModeChange = this.onModeChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
-    this.openTutorial = this.openTutorial.bind(this);
     this.operation = null; // Set within `componentDidMount`.
     this.Params = null; // Set within `componentDidMount`.
 
@@ -326,14 +322,6 @@ class Doc extends React.Component {
     this.setState({ showEndpoint: true });
   }
 
-  openTutorial({ tutorial: selectedTutorial }) {
-    this.setState(() => ({ showTutorialModal: true, selectedTutorial }));
-  }
-
-  closeTutorialModal() {
-    this.setState(() => ({ showTutorialModal: false, selectedTutorial: null }));
-  }
-
   shouldEnableRequestBodyJsonEditor() {
     // Instead of just relying on if the prop is set, or setting this in the component constructor, we're checking if
     // it's changed against the current stored value because in the demo server you can toggle raw mode on and off and
@@ -503,24 +491,6 @@ class Doc extends React.Component {
     );
   }
 
-  renderTutorial() {
-    const { selectedTutorial, showTutorialModal } = this.state;
-
-    return (
-      selectedTutorial && (
-        <TutorialModal
-          action={'View'}
-          baseUrl={this.props.baseUrl}
-          closeTutorialModal={this.closeTutorialModal}
-          moduleEnabled={true}
-          open={showTutorialModal}
-          target={'#tutorialmodal-root'}
-          tutorial={selectedTutorial}
-        />
-      )
-    );
-  }
-
   renderLogs() {
     if (!this.props.Logs) return null;
     const { Logs } = this.props;
@@ -635,7 +605,7 @@ class Doc extends React.Component {
             {doc.tutorials && !!doc.tutorials.length && (
               <div className="TutorialTile-Container">
                 {doc.tutorials.map((t, idx) => (
-                  <TutorialTile key={`tutorial-${idx}`} openTutorial={this.openTutorial} tutorial={t} />
+                  <TutorialTile key={`tutorial-${idx}`} openTutorial={this.props.openTutorialModal} tutorial={t} />
                 ))}
               </div>
             )}
@@ -649,8 +619,6 @@ class Doc extends React.Component {
           // cos we can just pass it around?
         }
         <input id={`swagger-${extensions.SEND_DEFAULTS}`} type="hidden" value={oas[extensions.SEND_DEFAULTS]} />
-
-        {this.renderTutorial()}
       </div>
     );
   }
@@ -711,6 +679,7 @@ Doc.propTypes = {
   onAuthChange: PropTypes.func.isRequired,
   onAuthGroupChange: PropTypes.func.isRequired,
   onError: PropTypes.func,
+  openTutorialModal: PropTypes.func,
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
@@ -736,6 +705,7 @@ Doc.defaultProps = {
   oas: {},
   oasUrl: '',
   onError: () => {},
+  openTutorialModal: () => {},
   useNewMarkdownEngine: false,
   user: {},
 };
