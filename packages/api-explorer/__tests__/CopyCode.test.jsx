@@ -1,5 +1,5 @@
 const React = require('react');
-const { mount } = require('enzyme');
+const { render, fireEvent, screen } = require('@testing-library/react');
 
 const CopyCode = require('../src/CopyCode');
 
@@ -15,9 +15,9 @@ window.prompt = () => {};
 test('should copy a snippet to the clipboard', () => {
   const onCopy = jest.fn();
 
-  const node = mount(<CopyCode code={curl} onCopy={onCopy} />);
+  render(<CopyCode code={curl} onCopy={onCopy} />);
 
-  node.find('button').simulate('click');
+  fireEvent.click(screen.getByRole('button'));
 
   expect(onCopy).toHaveBeenCalledWith(curl);
 });
@@ -25,13 +25,15 @@ test('should copy a snippet to the clipboard', () => {
 test('should update the code to copy when supplied with a new snippet', () => {
   const onCopy = jest.fn();
 
-  const node = mount(<CopyCode code={curl} onCopy={onCopy} />);
+  const { rerender } = render(<CopyCode code={curl} onCopy={onCopy} />);
 
-  node.find('button').simulate('click');
+  fireEvent.click(screen.getByRole('button'));
   expect(onCopy).toHaveBeenCalledWith(curl);
 
-  node.setProps({ code: 'console.log()' });
+  rerender(<CopyCode code={curl} onCopy={onCopy} />);
 
-  node.find('button').simulate('click');
-  expect(onCopy).toHaveBeenCalledWith('console.log()');
+  rerender(<CopyCode code='fetch("https://example.com")' onCopy={onCopy} />);
+
+  fireEvent.click(screen.getByRole('button'));
+  expect(onCopy).toHaveBeenCalledWith('fetch("https://example.com")');
 });
