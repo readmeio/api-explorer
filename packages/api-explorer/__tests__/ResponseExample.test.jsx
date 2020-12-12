@@ -10,7 +10,7 @@ const exampleResults = require('./__fixtures__/example-results/oas.json');
 const ResponseExample = require('../src/ResponseExample');
 const ExampleTabs = require('../src/ExampleTabs');
 
-const upgradeLegacyResponses = require('../src/lib/upgrade-legacy-responses')
+const upgradeLegacyResponses = require('../src/lib/upgrade-legacy-responses');
 
 const oas = new Oas(petstore);
 const operation = oas.operation('/pet', 'post');

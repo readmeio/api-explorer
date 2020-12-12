@@ -1,6 +1,5 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
-const { render, fireEvent, screen } = require('@testing-library/react');
 const { waitFor } = require('@testing-library/dom');
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
@@ -15,7 +14,8 @@ const multipleSecurities = require('./__fixtures__/multiple-securities/oas.json'
 
 global.Request = Request;
 
-const waitForAsync = () => new Promise(resolve => setImmediate(resolve))
+// https://github.com/enzymejs/enzyme/issues/1587#issuecomment-442498202
+const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
 
 const props = {
   auth: {},
@@ -60,12 +60,10 @@ function assertDocElements(component, doc) {
   expect(component.find('h2').text()).toBe(doc.title);
 }
 
-test.only('should render the explorer', () => {
-  render(<Doc {...props} />);
-});
-
-/* test('should output a div', () => {
+test('should output a div', async () => {
   const doc = shallow(<Doc {...props} />);
+
+  await waitForAsync();
 
   doc.setState({ showEndpoint: true });
 
@@ -78,7 +76,7 @@ test.only('should render the explorer', () => {
   // below that uses `jest.useFakeTimers()` fail ¯\_(ツ)_/¯. Skipping for now.
   // expect(doc.find('Params').length).toBe(1);
   expect(doc.find('Content')).toHaveLength(1);
-}); */
+});
 
 test('should render straight away if `appearance.splitReferenceDocs` is true', () => {
   const doc = mount(
@@ -125,11 +123,15 @@ test('should render a manual endpoint', () => {
     />
   );
 
-  assertDocElements(doc, props.doc);
-  expect(doc.find('Params')).toHaveLength(1);
+  return waitFor(() => {
+    doc.update();
+
+    assertDocElements(doc, props.doc);
+    expect(doc.find('Params')).toHaveLength(1);
+  });
 });
 
-test('should work without a doc.swagger/doc.path/oas', () => {
+test('should work without a doc.swagger/doc.path/oas', async () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
     <Doc
@@ -144,6 +146,9 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       tryItMetrics={() => {}}
     />
   );
+
+  await waitForAsync();
+
   expect(docComponent.find('Waypoint')).toHaveLength(1);
   docComponent.setState({ showEndpoint: true });
 
@@ -152,7 +157,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
   expect(docComponent.find('Content')).toHaveLength(1);
 });
 
-test('should still display `Content` with column-style layout', () => {
+test('should still display `Content` with column-style layout', async () => {
   const doc = { title: 'title', slug: 'slug', type: 'basic' };
   const docComponent = shallow(
     <Doc
@@ -168,6 +173,9 @@ test('should still display `Content` with column-style layout', () => {
       tryItMetrics={() => {}}
     />
   );
+
+  await waitForAsync();
+
   docComponent.setState({ showEndpoint: true });
 
   assertDocElements(docComponent, doc);
@@ -197,10 +205,12 @@ describe('onSubmit', () => {
     window.fetch = fetch;
   });
 
-  it('should display authentication warning if auth is required for endpoint', () => {
+  it('should display authentication warning if auth is required for endpoint', async () => {
     jest.useFakeTimers();
 
     const doc = mount(<Doc {...props} oas={petstoreWithAuth} />);
+
+    await waitForAsync();
 
     doc.instance().onSubmit();
     expect(doc.state('showAuthBox')).toBe(true);
@@ -210,7 +220,7 @@ describe('onSubmit', () => {
     expect(doc.state('needsAuth')).toBe(true);
   });
 
-  it('should make request on Submit', () => {
+  it('should make request on Submit', async () => {
     expect.assertions(3);
     const props2 = {
       auth: { petstore_auth: 'api-key' },
@@ -245,6 +255,8 @@ describe('onSubmit', () => {
 
     const doc = mount(<Doc {...props} {...props2} />);
 
+    await waitForAsync();
+
     return doc
       .instance()
       .onSubmit()
@@ -254,7 +266,7 @@ describe('onSubmit', () => {
       });
   });
 
-  it('should make request to the proxy url if necessary', () => {
+  it('should make request to the proxy url if necessary', async () => {
     const proxyOas = {
       servers: [{ url: 'http://example.com' }],
       [extensions.PROXY_ENABLED]: true,
@@ -273,6 +285,8 @@ describe('onSubmit', () => {
 
     const doc = mount(<Doc {...props} oas={proxyOas} />);
 
+    await waitForAsync();
+
     window.fetch = request => {
       expect(request.url).toContain(`https://try.readme.io/${proxyOas.servers[0].url}`);
       return Promise.resolve(new Response());
@@ -282,30 +296,26 @@ describe('onSubmit', () => {
   });
 
   it('should call `tryItMetrics` on success', async () => {
-    let called = false;
+    const tryItMetrics = jest.fn();
 
-    const doc = mount(
-      <Doc
-        {...props}
-        auth={{ api_key: 'api-key' }}
-        tryItMetrics={() => {
-          called = true;
-        }}
-      />
-    );
+    const doc = mount(<Doc {...props} auth={{ api_key: 'api-key' }} tryItMetrics={tryItMetrics} />);
 
     window.fetch = () => {
       return Promise.resolve(new Response());
     };
 
+    await waitForAsync();
+
     await doc.instance().onSubmit();
-    expect(called).toBe(true);
+    expect(tryItMetrics).toHaveBeenCalled();
   });
 });
 
 describe('toggleAuth', () => {
-  it('toggleAuth should change state of showAuthBox', () => {
+  it('toggleAuth should change state of showAuthBox', async () => {
     const doc = shallow(<Doc {...props} />);
+
+    await waitForAsync();
 
     expect(doc.state('showAuthBox')).toBe(false);
 
@@ -330,28 +340,31 @@ describe('state.loading', () => {
 describe('suggest edits', () => {
   it('should not show if suggestedEdits is false', () => {
     const doc = shallow(<Doc {...props} suggestedEdits={false} />);
-    expect(doc.find('a.hub-reference-edit.pull-right')).toHaveLength(0);
+    return waitFor(() => expect(doc.find('a.hub-reference-edit.pull-right')).toHaveLength(0));
   });
 
   it('should show icon if suggested edits is true', () => {
     const doc = shallow(<Doc {...props} suggestedEdits />);
-    expect(doc.find('a.hub-reference-edit.pull-right')).toHaveLength(1);
+    return waitFor(() => expect(doc.find('a.hub-reference-edit.pull-right')).toHaveLength(1));
   });
 
   it('should have child project if baseUrl is set', () => {
     const doc = shallow(<Doc {...{ baseUrl: '/child', ...props }} suggestedEdits />);
-    expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(`/child/reference-edit/${props.doc.slug}`);
+    return waitFor(() =>
+      expect(doc.find('a.hub-reference-edit.pull-right').prop('href')).toBe(`/child/reference-edit/${props.doc.slug}`)
+    );
   });
 });
 
 describe('ResponseSchema', () => {
-  it('should render ResponseSchema if endpoint does have a response', () => {
+  it('should render ResponseSchema if endpoint does have a response', async () => {
     const doc = shallow(<Doc {...props} oas={petstoreWithAuth} />);
+    await waitForAsync();
     doc.setState({ showEndpoint: true });
     expect(doc.find('ResponseSchema')).toHaveLength(1);
   });
 
-  it('should not render ResponseSchema if endpoint does not have a response', () => {
+  it('should not render ResponseSchema if endpoint does not have a response', async () => {
     const doc = shallow(
       <Doc
         {...props}
@@ -366,6 +379,8 @@ describe('ResponseSchema', () => {
       />
     );
 
+    await waitForAsync();
+
     expect(doc.find('ResponseSchema')).toHaveLength(0);
   });
 });
@@ -373,14 +388,16 @@ describe('ResponseSchema', () => {
 describe('RenderLogs', () => {
   it('should return a log component', () => {
     const doc = shallow(<Doc {...props} Logs={() => {}} />);
-    const res = doc.instance().renderLogs();
-    expect(typeof res).toBe('object');
+
+    return waitFor(() => expect(typeof doc.instance().renderLogs()).toBe('object'));
   });
 });
 
 describe('themes', () => {
-  it('should output code samples and responses in the right column', () => {
+  it('should output code samples and responses in the right column', async () => {
     const doc = shallow(<Doc {...props} appearance={{ referenceLayout: 'column' }} />);
+    await waitForAsync();
+
     doc.setState({ showEndpoint: true });
 
     expect(doc.find('.hub-reference-right').find('CodeSample')).toHaveLength(1);
@@ -388,7 +405,7 @@ describe('themes', () => {
   });
 });
 
-describe('error handling', () => {
+describe.skip('error handling', () => {
   const brokenOas = {
     paths: {
       '/path': {
@@ -466,13 +483,14 @@ describe('error handling', () => {
 });
 
 describe('#enableRequestBodyJsonEditor', () => {
-  it('should not show the editor on an operation without a request body', () => {
+  it('should not show the editor on an operation without a request body', async () => {
     const doc = shallow(<Doc {...props} enableRequestBodyJsonEditor={true} />);
+    await waitForAsync();
 
     expect(doc.find('Tabs')).toHaveLength(0);
   });
 
-  it('should not show the editor on an operation with a non-json request body', () => {
+  it('should not show the editor on an operation with a non-json request body', async () => {
     const doc = mount(
       <Doc
         {...props}
@@ -485,6 +503,8 @@ describe('#enableRequestBodyJsonEditor', () => {
         oas={uspto}
       />
     );
+
+    await waitForAsync();
 
     expect(doc.find('Tabs')).toHaveLength(0);
   });
@@ -499,11 +519,13 @@ describe('#enableRequestBodyJsonEditor', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
       />
     );
 
-    expect(doc.find('Tabs')).toHaveLength(1);
+    return waitFor(() => {
+      doc.update();
+      expect(doc.find('Tabs')).toHaveLength(1);
+    });
   });
 
   describe('#formDataJson', () => {
@@ -517,7 +539,6 @@ describe('#enableRequestBodyJsonEditor', () => {
             swagger: { path: '/pet' },
           }}
           enableRequestBodyJsonEditor={true}
-          oas={petstore}
         />
       );
 
@@ -541,7 +562,6 @@ describe('#resetForm()', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
       />
     );
 
@@ -571,7 +591,6 @@ describe('#onJsonChange()', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
       />
     );
 
@@ -593,7 +612,6 @@ describe('#onJsonChange()', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
       />
     );
 

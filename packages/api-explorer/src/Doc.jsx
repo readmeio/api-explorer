@@ -89,77 +89,70 @@ class Doc extends React.Component {
     this.waypointEntered = this.waypointEntered.bind(this);
   }
 
-  componentDidMount() {
-    this.oas
-      .dereference()
-      .then(() => {
-        this.operation = this.getOperation();
-        this.Params = createParams(this.oas, this.operation);
-      })
-      .then(() => {
-        this.setState({ oasLoaded: true });
-      })
-      .then(() => {
-        if (!this.shouldEnableRequestBodyJsonEditor()) {
-          return;
-        }
-
-        const examples = this.operation.getRequestBodyExamples();
-        if (!Object.keys(examples).length) {
-          return;
-        }
-
-        const jsonExamples = examples.filter(
-          ex => matchesMimeType.json(ex.mediaType) || matchesMimeType.wildcard(ex.mediaType)
-        );
-
-        if (jsonExamples.length) {
-          const example = jsonExamples[0];
-          let code = false;
-
-          if (example.code) {
-            code = example.code;
-          } else if (example.multipleExamples) {
-            code = example.multipleExamples[0].code;
-          }
-
-          try {
-            // Examples are stringified when we get them from `oas` because they need to be stringified for
-            // `@readme/syntax-highlighter` but because we need to pass a usable non-stringified object/array/primitive
-            // to our `CodeSample` component and `@readme/oas-to-har` we're parsing it out here. Cool? Cool.
-            code = JSON.parse(code);
-          } catch (e) {
-            code = {};
-          }
-
-          code = code || {};
-
-          this.setState({
-            formDataJson: code,
-            formDataJsonOriginal: code,
-            formDataJsonRaw: stringifyPretty(code),
-          });
-        }
-      })
-      .catch(err => {
-        // Errors thrown from here won't get caught with the `ErrorBoundary` component because that's not how error
-        // boundaries are supposed to be used. Thankfully there's this gross hack that can force the error boundary to
-        // catch it.
-        //
-        // This hack is likely going to throw the below warning about there being a memory leak but since the explorer
-        // won't be in a functional state at this point, and we can't cancel the `oas.dereference` promise with
-        // `.cancel()` as native promises don't yet support that (XHR has `.abort()` but this isn't that), it's
-        // probably fine?
-        //
-        //    Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory
-        //    leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the
-        //    componentWillUnmount method.
-        //
-        // @link https://github.com/facebook/react/issues/11334#issuecomment-423718317
-        this.setState(() => {
-          throw err;
-        });
+  async componentDidMount() {
+    await this.oas.dereference().catch(err => {
+      // Errors thrown from here won't get caught with the `ErrorBoundary` component because that's not how error
+      // boundaries are supposed to be used. Thankfully there's this gross hack that can force the error boundary to
+      // catch it.
+      //
+      // This hack is likely going to throw the below warning about there being a memory leak but since the explorer
+      // won't be in a functional state at this point, and we can't cancel the `oas.dereference` promise with
+      // `.cancel()` as native promises don't yet support that (XHR has `.abort()` but this isn't that), it's
+      // probably fine?
+      //
+      //    Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory
+      //    leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the
+      //    componentWillUnmount method.
+      //
+      // @link https://github.com/facebook/react/issues/11334#issuecomment-423718317
+      this.setState(() => {
+        throw err;
       });
+    });
+
+    this.operation = this.getOperation();
+    this.Params = createParams(this.oas, this.operation);
+
+    this.setState({ oasLoaded: true });
+
+    if (this.shouldEnableRequestBodyJsonEditor()) {
+      const examples = this.operation.getRequestBodyExamples();
+      if (!Object.keys(examples).length) {
+        return;
+      }
+
+      const jsonExamples = examples.filter(
+        ex => matchesMimeType.json(ex.mediaType) || matchesMimeType.wildcard(ex.mediaType)
+      );
+
+      if (jsonExamples.length) {
+        const example = jsonExamples[0];
+        let code = false;
+
+        if (example.code) {
+          code = example.code;
+        } else if (example.multipleExamples) {
+          code = example.multipleExamples[0].code;
+        }
+
+        try {
+          // Examples are stringified when we get them from `oas` because they need to be stringified for
+          // `@readme/syntax-highlighter` but because we need to pass a usable non-stringified object/array/primitive
+          // to our `CodeSample` component and `@readme/oas-to-har` we're parsing it out here. Cool? Cool.
+          code = JSON.parse(code);
+        } catch (e) {
+          code = {};
+        }
+
+        code = code || {};
+
+        this.setState({
+          formDataJson: code,
+          formDataJsonOriginal: code,
+          formDataJsonRaw: stringifyPretty(code),
+        });
+      }
+    }
   }
 
   resetForm() {

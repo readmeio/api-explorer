@@ -8,6 +8,9 @@ const ErrorBoundary = require('../src/ErrorBoundary');
 
 const { ApiExplorer } = WrappedApiExplorer;
 
+// https://github.com/enzymejs/enzyme/issues/1587#issuecomment-442498202
+const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
+
 const oas = require('./__fixtures__/petstore/oas.json');
 const oasCommon = require('./__fixtures__/parameters/common.json');
 
@@ -310,8 +313,11 @@ describe('auth', () => {
     expect(explorer.state('auth')).toStrictEqual({ api_key: '', petstore_auth: '' });
   });
 
-  it('should be updated via editing AuthBox', () => {
+  it('should be updated via editing AuthBox', async () => {
     const explorer = mount(<ApiExplorer {...props} docs={docs.slice(0, 1)} />);
+
+    await waitForAsync();
+
     const doc = explorer.find('Doc').at(0).instance();
 
     doc.setState({ showEndpoint: true, showAuthBox: true });
@@ -331,7 +337,7 @@ describe('auth', () => {
     expect(explorer.state('auth').petstore_auth).toBe('12345678');
   });
 
-  it('should be swapped via selecting through the AuthBox', () => {
+  it('should be swapped via selecting through the AuthBox', async () => {
     const apiKey = '123456';
     const apiKey2 = `${apiKey}-${apiKey}`;
 
@@ -350,6 +356,8 @@ describe('auth', () => {
         }}
       />
     );
+
+    await waitForAsync();
 
     const doc = explorer.find('Doc').at(0).instance();
     doc.setState({ showEndpoint: true, showAuthBox: true });
@@ -370,7 +378,7 @@ describe('auth', () => {
     expect(explorer.state('auth').petstore_auth).toBe(apiKey2);
   });
 
-  it('should be swapped via selecting through the AuthBox if the user keys are missing an `id` property (but have `name`)', () => {
+  it('should be swapped via selecting through the AuthBox if the user keys are missing an `id` property (but have `name`)', async () => {
     const apiKey = '123456';
     const apiKey2 = `${apiKey}-${apiKey}`;
 
@@ -389,6 +397,8 @@ describe('auth', () => {
         }}
       />
     );
+
+    await waitForAsync();
 
     const doc = explorer.find('Doc').at(0).instance();
     doc.setState({ showEndpoint: true, showAuthBox: true });
