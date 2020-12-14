@@ -25,8 +25,8 @@
     "oas": "^7.0.0"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^3.2.0",
-    "@readme/oas-examples": "^3.6.0",
+    "@readme/eslint-config": "^4.0.0",
+    "@readme/oas-examples": "^4.0.0",
     "datauri": "^3.0.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
