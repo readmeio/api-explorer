@@ -1,3 +1,16 @@
+## <small>10.0.8 (2020-12-14)</small>
+
+* chore(deps-dev): bump @babel/core from 7.11.6 to 7.12.10 (#1104) ([2404aac](https://github.com/readmeio/api-explorer/commit/2404aac)), closes [#1104](https://github.com/readmeio/api-explorer/issues/1104)
+* chore(deps-dev): bump @readme/eslint-config from 3.7.1 to 3.8.0 (#1103) ([119d043](https://github.com/readmeio/api-explorer/commit/119d043)), closes [#1103](https://github.com/readmeio/api-explorer/issues/1103)
+* chore(deps-dev): bump @readme/oas-examples from 3.6.0 to 4.0.0 (#1107) ([6427a15](https://github.com/readmeio/api-explorer/commit/6427a15)), closes [#1107](https://github.com/readmeio/api-explorer/issues/1107)
+* chore(deps-dev): bump @testing-library/dom from 7.28.1 to 7.29.0 (#1102) ([e656105](https://github.com/readmeio/api-explorer/commit/e656105)), closes [#1102](https://github.com/readmeio/api-explorer/issues/1102)
+* chore(deps): bump actions/setup-node from v2.1.2 to v2.1.3 (#1101) ([be38c1d](https://github.com/readmeio/api-explorer/commit/be38c1d)), closes [#1101](https://github.com/readmeio/api-explorer/issues/1101)
+* chore(deps): bump ini from 1.3.5 to 1.3.8 in /packages/api-explorer (#1100) ([5b4d8c2](https://github.com/readmeio/api-explorer/commit/5b4d8c2)), closes [#1100](https://github.com/readmeio/api-explorer/issues/1100)
+* chore(deps): bump ui to 1.17.3 (#1109) ([c54fd97](https://github.com/readmeio/api-explorer/commit/c54fd97)), closes [#1109](https://github.com/readmeio/api-explorer/issues/1109)
+* style: upgrading @readme/eslint-config to v4 (#1108) ([8c2ed7e](https://github.com/readmeio/api-explorer/commit/8c2ed7e)), closes [#1108](https://github.com/readmeio/api-explorer/issues/1108)
+
+
+
 ## <small>10.0.7 (2020-12-11)</small>
 
 * chore(deps): bump ini from 1.3.5 to 1.3.8 in /packages/variable (#1099) ([0da9230](https://github.com/readmeio/api-explorer/commit/0da9230)), closes [#1099](https://github.com/readmeio/api-explorer/issues/1099)
