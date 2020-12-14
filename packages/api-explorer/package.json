@@ -47,12 +47,12 @@
     "react-dom": "16.x"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^3.2.0",
+    "@readme/eslint-config": "^4.0.0",
     "@readme/markdown": "^6.21.0",
     "@readme/oas-examples": "^4.0.0",
     "@readme/ui": "^1.17.0",
     "@readme/variable": "^10.0.7",
-    "@testing-library/dom": "^7.26.3",
+    "@testing-library/react": "^11.2.2",
     "css-loader": "^4.3.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",

@@ -55,7 +55,7 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.4.4",
-    "@readme/eslint-config": "^3.6.0",
+    "@readme/eslint-config": "^4.0.0",
     "atob": "^2.0.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",

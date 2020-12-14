@@ -26,7 +26,7 @@
     "react": "16.x"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^3.2.0",
+    "@readme/eslint-config": "^4.0.0",
     "eslint": "^7.0.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^26.0.1",

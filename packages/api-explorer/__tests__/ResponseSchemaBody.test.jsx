@@ -1,6 +1,6 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
-const { waitFor } = require('@testing-library/dom');
+const { waitFor } = require('@testing-library/react');
 const Oas = require('oas/tooling');
 
 const ResponseSchemaBody = require('../src/ResponseSchemaBody');

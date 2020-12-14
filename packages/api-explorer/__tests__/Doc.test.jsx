@@ -5,7 +5,7 @@ global.Request = Request;
 
 const React = require('react');
 const { shallow, mount } = require('enzyme');
-const { waitFor } = require('@testing-library/dom');
+const { waitFor } = require('@testing-library/react');
 const Doc = require('../src/Doc');
 const ErrorBoundary = require('../src/ErrorBoundary');
 

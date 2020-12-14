@@ -1,6 +1,6 @@
 const React = require('react');
 const { shallow } = require('enzyme');
-const { waitFor } = require('@testing-library/dom');
+const { waitFor } = require('@testing-library/react');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
