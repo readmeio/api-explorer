@@ -70,15 +70,13 @@ class Doc extends React.Component {
     this.enableRequestBodyJsonEditor = false;
     this.hideResults = this.hideResults.bind(this);
 
-    this.oas = new Oas(this.props.oas, this.props.user);
-
     this.onChange = this.onChange.bind(this);
     this.onJsonChange = this.onJsonChange.bind(this);
     this.onModeChange = this.onModeChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.operation = this.getOperation();
-    this.Params = createParams(this.oas, this.operation);
+    this.Params = createParams(this.props.oas, this.operation);
 
     this.resetForm = this.resetForm.bind(this);
 
@@ -86,7 +84,7 @@ class Doc extends React.Component {
     this.waypointEntered = this.waypointEntered.bind(this);
   }
 
-  componentDidMount() {
+  /* componentDidMount() {
     if (!this.shouldEnableRequestBodyJsonEditor()) {
       return;
     }
@@ -133,7 +131,7 @@ class Doc extends React.Component {
       .catch(() => {
         // If we fail to generate examples for whatever reason fail silently.
       });
-  }
+  } */
 
   resetForm() {
     this.setState(previousState => {
@@ -221,7 +219,7 @@ class Doc extends React.Component {
 
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });
 
-    const har = oasToHar(this.oas, this.operation, this.getFormDataForCurrentMode(), this.props.auth, {
+    const har = oasToHar(this.props.oas, this.operation, this.getFormDataForCurrentMode(), this.props.auth, {
       proxyUrl: true,
     });
 
@@ -271,9 +269,9 @@ class Doc extends React.Component {
     if (this.operation) return this.operation;
 
     const { doc } = this.props;
-    let operation = doc.swagger ? this.oas.operation(doc.swagger.path, doc.api.method) : null;
-    if (!getPath(this.oas, doc)) {
-      operation = new Operation(this.oas, doc.swagger.path, doc.api.method, {
+    let operation = doc.swagger ? this.props.oas.operation(doc.swagger.path, doc.api.method) : null;
+    if (!getPath(this.props.oas, doc)) {
+      operation = new Operation(this.props.oas, doc.swagger.path, doc.api.method, {
         parameters: doc.api.params,
       });
     }
@@ -409,7 +407,7 @@ class Doc extends React.Component {
         examples={examples}
         formData={this.getFormDataForCurrentMode()}
         language={this.props.language}
-        oas={this.oas}
+        oas={this.props.oas}
         oasUrl={this.props.oasUrl}
         operation={this.getOperation()}
         setLanguage={this.props.setLanguage}
@@ -429,7 +427,7 @@ class Doc extends React.Component {
       <Response
         exampleResponses={exampleResponses}
         hideResults={this.hideResults}
-        oas={this.oas}
+        oas={this.props.oas}
         oauth={this.props.oauth}
         onChange={this.onChange}
         operation={this.getOperation()}
@@ -447,7 +445,7 @@ class Doc extends React.Component {
       operation.schema &&
       operation.schema.responses && (
         <ResponseSchema
-          oas={this.oas}
+          oas={this.props.oas}
           operation={operation}
           theme={theme}
           useNewMarkdownEngine={useNewMarkdownEngine}
@@ -471,7 +469,7 @@ class Doc extends React.Component {
     const { Logs } = this.props;
     const operation = this.getOperation();
     const { method } = operation;
-    const url = `${this.oas.url()}${operation.path}`;
+    const url = `${this.props.oas.url()}${operation.path}`;
 
     return (
       <Logs
@@ -498,7 +496,7 @@ class Doc extends React.Component {
         enableJsonEditor={this.shouldEnableRequestBodyJsonEditor()}
         formData={formData}
         formDataJsonRaw={formDataJsonRaw}
-        oas={this.oas}
+        oas={this.props.oas}
         onChange={this.onChange}
         onJsonChange={this.onJsonChange}
         onModeChange={this.onModeChange}
@@ -520,7 +518,7 @@ class Doc extends React.Component {
         groups={this.props.groups}
         loading={this.state.loading}
         needsAuth={this.state.needsAuth}
-        oas={this.oas}
+        oas={this.props.oas}
         oauth={this.props.oauth}
         onAuthGroupChange={this.props.onAuthGroupChange}
         onChange={this.props.onAuthChange}
@@ -535,8 +533,7 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, lazy, useNewMarkdownEngine } = this.props;
-    const { oas } = this;
+    const { doc, lazy, oas, useNewMarkdownEngine } = this.props;
 
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
@@ -644,7 +641,7 @@ Doc.propTypes = {
   loginUrl: PropTypes.string,
   Logs: PropTypes.func,
   maskErrorMessages: PropTypes.bool,
-  oas: PropTypes.shape({}),
+  oas: PropTypes.instanceOf(Oas).isRequired,
   oasUrl: PropTypes.string,
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
@@ -673,7 +670,6 @@ Doc.defaultProps = {
   lazy: true,
   Logs: undefined,
   maskErrorMessages: true,
-  oas: {},
   oasUrl: '',
   onError: () => {},
   openTutorialModal: () => {},

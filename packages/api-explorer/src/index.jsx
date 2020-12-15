@@ -3,6 +3,8 @@ const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const cloneDeep = require('lodash.clonedeep');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas/tooling');
+
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
@@ -107,7 +109,7 @@ class ApiExplorer extends React.Component {
 
   getOas(doc) {
     const apiSetting = this.getApiSettingFromDoc(doc);
-    return this.props.oasFiles[apiSetting];
+    return new Oas(this.props.oasFiles[apiSetting], this.props.variables.user);
   }
 
   getOasUrl(doc) {
