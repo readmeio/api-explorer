@@ -21,15 +21,24 @@ function hashErrorMessageToUniqueCode(string) {
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       error: false,
       errorCode: false,
       info: false,
     };
+
+    // For instances where we're running async processes we can't rely on `componentDidCatch` to catch errors because
+    // it doesn't catch errors that are thrown from React hooks or inside of `componentDidMount` so we're going to be
+    // passing in the `error` prop.
+    //
+    // @link https://github.com/facebook/react/issues/11334
+    if (props.error) {
+      this.state.error = props.error;
+      this.state.errorCode = this.getSupportCodeAndDispatchError(props.error, false);
+    }
   }
 
-  componentDidCatch(error, info) {
+  getSupportCodeAndDispatchError(error, info) {
     const supportErrorCode = `ERR-${hashErrorMessageToUniqueCode(error.message)}`;
     const errorData = {
       supportErrorCode,
@@ -39,9 +48,13 @@ class ErrorBoundary extends React.Component {
 
     this.props.onError(error, errorData);
 
+    return supportErrorCode;
+  }
+
+  componentDidCatch(error, info) {
     this.setState({
       error,
-      errorCode: supportErrorCode,
+      errorCode: this.getSupportCodeAndDispatchError(error, info),
       info,
     });
   }
@@ -95,11 +108,13 @@ class ErrorBoundary extends React.Component {
 ErrorBoundary.propTypes = {
   appContext: PropTypes.oneOf(['endpoint', 'explorer']).isRequired,
   children: PropTypes.node.isRequired,
+  error: PropTypes.any,
   maskErrorMessages: PropTypes.bool.isRequired,
   onError: PropTypes.func,
 };
 
 ErrorBoundary.defaultProps = {
+  error: false,
   onError: () => {},
 };
 

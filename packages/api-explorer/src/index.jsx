@@ -10,7 +10,7 @@ const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
 
 const ErrorBoundary = require('./ErrorBoundary');
-const Doc = require('./Doc');
+const DocAsync = require('./DocAsync');
 const { TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
 const getAuth = require('./lib/get-auth');
@@ -263,7 +263,7 @@ class ApiExplorer extends React.Component {
                         <BaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
                           <NewBaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
                             <SelectedAppContext.Provider value={this.state.selectedApp}>
-                              <Doc
+                              <DocAsync
                                 key={doc._id}
                                 appearance={this.props.appearance}
                                 auth={this.state.auth}

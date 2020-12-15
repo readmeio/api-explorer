@@ -166,6 +166,10 @@ class Demo extends React.Component {
             Logs={Logs}
             maskErrorMessages={maskErrorMessages}
             oauth={oauth}
+            onError={err => {
+              // eslint-disable-next-line no-console
+              console.error(err);
+            }}
             suggestedEdits
             useNewMarkdownEngine={useNewMarkdownEngine}
             variables={{
