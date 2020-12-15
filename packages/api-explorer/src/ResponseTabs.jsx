@@ -9,24 +9,11 @@ class ResponseTabs extends React.Component {
   constructor(props) {
     super(props);
 
+    const { operation } = props;
+
     this.state = {
-      responseExamples: null,
+      responseExamples: operation.getResponseExamples() || [],
     };
-  }
-
-  componentDidMount() {
-    const { operation } = this.props;
-
-    operation
-      .getResponseExamples()
-      .then(examples => {
-        this.setState({
-          responseExamples: examples,
-        });
-      })
-      .catch(() => {
-        // If we fail to generate examples for whatever reason fail silently.
-      });
   }
 
   render() {

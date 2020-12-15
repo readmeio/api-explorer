@@ -43,27 +43,20 @@ function getReactJson(example, current) {
 class ResponseExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentExample: null,
-      currentTab: 0,
-      responseExamples: [],
-      responseMediaType: null,
-      responseMediaTypeExample: null,
-    };
 
     this.setCurrentTab = this.setCurrentTab.bind(this);
     this.setResponseExample = this.setResponseExample.bind(this);
     this.setResponseMediaType = this.setResponseMediaType.bind(this);
-  }
 
-  componentDidMount() {
-    const { operation } = this.props;
+    const { operation } = props;
 
-    operation.getResponseExamples().then(examples => {
-      this.setState({
-        responseExamples: examples || [],
-      });
-    });
+    this.state = {
+      currentExample: null,
+      currentTab: 0,
+      responseExamples: operation.getResponseExamples() || [],
+      responseMediaType: null,
+      responseMediaTypeExample: null,
+    };
   }
 
   setCurrentTab(index) {
