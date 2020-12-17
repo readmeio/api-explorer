@@ -1648,31 +1648,23 @@ describe('x-headers', () => {
   });
 });
 
-/**
- *    string -> "blue"
-   array -> ["blue","black","brown"]
-   object -> { "R": 100, "G": 200, "B": 150 }
-
-The following table shows examples of rendering differences for each value.
-style 	explode 	empty 	string 	array 	object
-matrix 	false 	;color 	;color=blue 	;color=blue,black,brown 	;color=R,100,G,200,B,150
-matrix 	true 	;color 	;color=blue 	;color=blue;color=black;color=brown 	;R=100;G=200;B=150
-label 	false 	. 	.blue 	.blue.black.brown 	.R.100.G.200.B.150
-label 	true 	. 	.blue 	.blue.black.brown 	.R=100.G=200.B=150
-form 	false 	color= 	color=blue 	color=blue,black,brown 	color=R,100,G,200,B,150
-form 	true 	color= 	color=blue 	color=blue&color=black&color=brown 	R=100&G=200&B=150
-simple 	false 	n/a 	blue 	blue,black,brown 	R,100,G,200,B,150
-simple 	true 	n/a 	blue 	blue,black,brown 	R=100,G=200,B=150
-spaceDelimited 	false 	n/a 	n/a 	blue%20black%20brown 	R%20100%20G%20200%20B%20150
-pipeDelimited 	false 	n/a 	n/a 	blue|black|brown 	R|100|G|200|B|150
-deepObject 	true 	n/a 	n/a 	n/a 	color[R]=100&color[G]=200&color[B]=150
- */
 describe('style tests', () => {
   // const stringInput = 'blue';
   const arrayInput = ['blue', 'black', 'brown'];
   // const objectInput = { R: 100, G: 200, B: 150 };
 
-  // on hold. parameter-builders requires a request object to be passed in with url data.
+  /*
+    https://swagger.io/docs/specification/serialization/#path
+
+    style 	  explode 	URI template 	  Primitive value id = 5 	Array id = [3, 4, 5] 	  Object id = {"role": "admin", "firstName": "Alex"}
+    simple* 	false* 	  /users/{id} 	  /users/5 	              /users/3,4,5 	          /users/role,admin,firstName,Alex
+    simple 	  true 	    /users/{id*} 	  /users/5 	              /users/3,4,5 	          /users/role=admin,firstName=Alex
+    label 	  false 	  /users/{.id} 	  /users/.5 	            /users/.3,4,5 	        /users/.role,admin,firstName,Alex
+    label 	  true 	    /users/{.id*} 	/users/.5 	            /users/.3.4.5 	        /users/.role=admin.firstName=Alex
+    matrix 	  false 	  /users/{;id} 	  /users/;id=5 	          /users/;id=3,4,5 	      /users/;id=role,admin,firstName,Alex
+    matrix 	  true 	    /users/{;id*} 	/users/;id=5 	          /users/;id=3;id=4;id=5 	/users/;role=admin;firstName=Alex
+    * Default serialization method
+  */
   /* 
   describe('path values', () => {
     
@@ -1710,6 +1702,18 @@ describe('style tests', () => {
 */
 
   /*
+    https://swagger.io/docs/specification/serialization/#query
+
+    style 	        explode 	URI template 	Primitive value id = 5 	Array id = [3, 4, 5] 	  Object id = {"role": "admin", "firstName": "Alex"}
+    form * 	        true * 	  /users{?id*} 	/users?id=5 	          /users?id=3&id=4&id=5 	/users?role=admin&firstName=Alex
+    form 	          false 	  /users{?id} 	/users?id=5 	          /users?id=3,4,5 	      /users?id=role,admin,firstName,Alex
+    spaceDelimited 	true 	    /users{?id*} 	n/a 	                  /users?id=3&id=4&id=5 	n/a
+    spaceDelimited 	false 	  n/a 	        n/a 	                  /users?id=3%204%205 	  n/a
+    pipeDelimited 	true 	    /users{?id*} 	n/a 	                  /users?id=3&id=4&id=5 	n/a
+    pipeDelimited 	false 	  n/a 	        n/a 	                  /users?id=3|4|5 	      n/a
+    deepObject 	    true 	    n/a 	        n/a 	                  n/a 	                  /users?id[role]=admin&id[firstName]=Alex
+    * Default serialization method
+  */
   describe('query values', () => {
     it.each([
       [
@@ -1724,7 +1728,7 @@ describe('style tests', () => {
           ],
         },
         { query: { a: arrayInput } },
-        [{ name: 'a', value: 'a|b|c' }],
+        [{ name: 'a', value: 'blue|black|brown' }],
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
       const har = oasToHar(
@@ -1742,8 +1746,15 @@ describe('style tests', () => {
       expect(har.log.entries[0].request.queryString).toStrictEqual(expectedQueryString);
     });
   });
-*/
 
+  /*
+    https://swagger.io/docs/specification/serialization/#cookie
+
+    style 	explode 	URI template 	Primitive value id = 5 	Array id = [3, 4, 5] 	Object id = {"role": "admin", "firstName": "Alex"}
+    form * 	true * 		Cookie:       id=5 	  	 
+    form 	  false 	  id={id} 	    Cookie: id=5 	          Cookie: id=3,4,5 	    Cookie: id=role,admin,firstName,Alex
+    * Default serialization method
+  */
   describe('cookie values', () => {
     it.each([
       [
@@ -1775,38 +1786,46 @@ describe('style tests', () => {
 
       expect(har.log.entries[0].request.cookies).toStrictEqual(expectedCookies);
     });
+  });
 
-    describe('header values', () => {
-      it.each([
-        [
-          'should support pipe delimited array styles',
-          {
-            parameters: [
-              {
-                name: 'a',
-                in: 'header',
-                style: 'pipeDelimited',
-              },
-            ],
-          },
-          { header: { a: arrayInput } },
-          [{ name: 'a', value: 'blue|black|brown' }],
-        ],
-      ])('%s', async (testCase, operation = {}, values = {}, expectedHeaders = []) => {
-        const har = oasToHar(
-          oas,
-          {
-            path: '/header',
-            method: 'get',
-            ...operation,
-          },
-          values
-        );
+  /*
+    https://swagger.io/docs/specification/serialization/#header
 
-        await expect(har).toBeAValidHAR();
+    style 	  explode 	URI template 	Primitive value X-MyHeader = 5 	Array X-MyHeader = [3, 4, 5] 	Object X-MyHeader = {"role": "admin", "firstName": "Alex"}
+    simple * 	false * 	{id} 	        X-MyHeader: 5 	                X-MyHeader: 3,4,5 	          X-MyHeader: role,admin,firstName,Alex
+    simple 	  true 	    {id*} 	      X-MyHeader: 5 	                X-MyHeader: 3,4,5 	          X-MyHeader: role=admin,firstName=Alex
+    * Default serialization method
+  */
+  describe('header values', () => {
+    it.each([
+      [
+        'should support pipe delimited array styles',
+        {
+          parameters: [
+            {
+              name: 'a',
+              in: 'header',
+              style: 'pipeDelimited',
+            },
+          ],
+        },
+        { header: { a: arrayInput } },
+        [{ name: 'a', value: 'blue|black|brown' }],
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedHeaders = []) => {
+      const har = oasToHar(
+        oas,
+        {
+          path: '/header',
+          method: 'get',
+          ...operation,
+        },
+        values
+      );
 
-        expect(har.log.entries[0].request.headers).toStrictEqual(expectedHeaders);
-      });
+      await expect(har).toBeAValidHAR();
+
+      expect(har.log.entries[0].request.headers).toStrictEqual(expectedHeaders);
     });
   });
 });

@@ -7,25 +7,45 @@ const parseDataUrl = require('parse-data-url');
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');
 const parameterBuilders = require('./lib/parameter-builders');
+const stylize = require('./lib/parameter-builders/style-serializer');
 
 function getValueFromReq(req, normalizedType, name) {
+  console.log('req', req, normalizedType, name);
   switch (normalizedType) {
     case 'header':
       return req.headers[name];
     case 'cookie':
       return req.headers.Cookie;
+    case 'query':
+      console.log(req.query[name]);
+      return req.query[name].value;
     default:
       throw new Error('unrecognized normalized type');
   }
 }
 function formatStyle(value, parameter, type) {
   const normalizedType = type.toLowerCase();
-  if (['query', 'path', 'header', 'cookie'].includes(normalizedType)) {
+  if (['path', 'header', 'cookie'].includes(normalizedType)) {
     const req = {};
     parameterBuilders[normalizedType]({ req, value, parameter });
     return getValueFromReq(req, normalizedType, parameter.name);
   }
 
+  if (normalizedType === 'query') {
+    return stylize({
+      value,
+      key: parameter.name,
+      style: parameter.style,
+      explode: parameter.explode,
+      /*
+        TODO: this parameter is optional to stylize. It defaults to false, and can accept falsy, truthy, or "unsafe". 
+        I do not know if it is correct for query to use this. See style-serializer for more info
+      */
+      escape: true,
+    });
+  }
+
+  console.log("didn't match");
   return undefined;
 }
 
