@@ -10,6 +10,7 @@ const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
 const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
 
 const ErrorBoundary = require('./ErrorBoundary');
+const Doc = require('./Doc');
 const DocAsync = require('./DocAsync');
 const { TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
@@ -22,12 +23,13 @@ class ApiExplorer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setLanguage = this.setLanguage.bind(this);
-    this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
-    this.onAuthChange = this.onAuthChange.bind(this);
     this.closeTutorialModal = this.closeTutorialModal.bind(this);
+    this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
+    this.onAuthChange = this.onAuthChange.bind(this);
+    this.onAuthGroupChange = this.onAuthGroupChange.bind(this);
     this.openTutorialModal = this.openTutorialModal.bind(this);
+    this.setLanguage = this.setLanguage.bind(this);
 
     this.state = {
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
@@ -41,8 +43,6 @@ class ApiExplorer extends React.Component {
       showTutorialModal: false,
     };
 
-    this.onAuthGroupChange = this.onAuthGroupChange.bind(this);
-
     this.groups =
       this.props.variables.user.keys &&
       this.props.variables.user.keys.map(key => ({
@@ -51,7 +51,28 @@ class ApiExplorer extends React.Component {
         name: key.name,
       }));
 
+    this.DocComponent = this.createDoc();
+
     this.lazyHash = this.buildLazyHash();
+  }
+
+  createDoc() {
+    const { shouldDereferenceOas } = this.props;
+
+    // Creating a stable test environment to be able to test the DocAsync component on this root Explorer component is
+    // extremely challenging with our current adhoc setup of `enzyme` and `@testing-library/react` so instead of futzing
+    // with it, we have a `shouldDereferenceOas` prop on this component that dictates if we should wrap `Doc` with
+    // `DocAsync`.
+    //
+    // It's messy, but it at least lets us code tests for this component to be supplied dereferenced OAS definitions
+    // while also having a functional server environment where async dereferencing is always enabled.
+    return props => {
+      if (shouldDereferenceOas) {
+        return <DocAsync {...props} />;
+      }
+
+      return <Doc {...props} />;
+    };
   }
 
   onAuthChange(auth) {
@@ -113,7 +134,7 @@ class ApiExplorer extends React.Component {
       return new Oas(this.props.oasFiles[apiSetting], this.props.variables.user);
     }
 
-    return false;
+    return {};
   }
 
   getOasUrl(doc) {
@@ -267,7 +288,7 @@ class ApiExplorer extends React.Component {
                         <BaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
                           <NewBaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
                             <SelectedAppContext.Provider value={this.state.selectedApp}>
-                              <DocAsync
+                              <this.DocComponent
                                 key={doc._id}
                                 appearance={this.props.appearance}
                                 auth={this.state.auth}
@@ -338,6 +359,7 @@ ApiExplorer.propTypes = {
   oauth: PropTypes.bool,
   onAuthGroupChange: PropTypes.func,
   onError: PropTypes.func,
+  shouldDereferenceOas: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
   useNewMarkdownEngine: PropTypes.bool,
@@ -368,6 +390,7 @@ ApiExplorer.defaultProps = {
   oauth: false,
   onAuthGroupChange: () => {},
   onError: () => {},
+  shouldDereferenceOas: true,
   tryItMetrics: () => {},
   useNewMarkdownEngine: false,
 };

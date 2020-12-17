@@ -2,52 +2,69 @@ const React = require('react');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
+const Oas = require('oas/tooling');
+
 const WrappedApiExplorer = require('../src');
 const AuthBox = require('../src/AuthBox');
 const ErrorBoundary = require('../src/ErrorBoundary');
 
 const { ApiExplorer } = WrappedApiExplorer;
 
-const oas = require('./__fixtures__/petstore/oas.json');
+const petstore = require('./__fixtures__/petstore/oas.json');
 const oasCommon = require('./__fixtures__/parameters/common.json');
 
 const createDocs = require('./__fixtures__/create-docs');
 
-const docs = createDocs(oas, 'test-api-setting');
-
+let docs;
 const languages = ['node', 'curl'];
 const props = {
   appearance: {},
   docs,
   flags: {},
   glossaryTerms: [],
-  oasFiles: {
-    'test-api-setting': { ...oas, [extensions.SAMPLES_LANGUAGES]: languages },
-  },
+  oasFiles: {},
   oasUrls: {
     'test-api-setting': 'https://example.com/openapi.json',
   },
+  shouldDereferenceOas: false,
   suggestedEdits: false,
   variables: { user: {}, defaults: [] },
 };
 
+beforeAll(async () => {
+  // Tests for this component default to not do async dereferencing with the `DocAsync` component so instead we're
+  // supplying the `oasFiles` prop with dereferenced definitions.
+  const oas = new Oas({ ...petstore, [extensions.SAMPLES_LANGUAGES]: languages });
+  await oas.dereference();
+
+  const { user, ...definition } = oas;
+
+  docs = createDocs(definition, 'test-api-setting');
+  props.docs = docs;
+  props.oasFiles['test-api-setting'] = definition;
+});
+
 test('ApiExplorer renders a doc for each', () => {
-  const explorer = shallow(<ApiExplorer {...props} />);
+  const explorer = mount(<ApiExplorer {...props} />);
 
   expect(explorer.find('Doc')).toHaveLength(docs.length);
 });
 
-test('ApiExplorer should not render a common parameter OAS operation method', () => {
-  const docsCommon = createDocs(oasCommon, 'test-api-setting');
+test('ApiExplorer should not render a common parameter OAS operation method', async () => {
+  const oas = new Oas(oasCommon);
+  await oas.dereference();
+  const { user, ...definition } = oas;
+
+  const docsCommon = createDocs(definition, 'test-api-setting');
   const propsCommon = {
     ...props,
     docs: docsCommon,
     oasFiles: {
-      'test-api-setting': oasCommon,
+      'test-api-setting': definition,
     },
   };
 
-  const explorer = shallow(<ApiExplorer {...propsCommon} />);
+  const explorer = mount(<ApiExplorer {...propsCommon} />);
 
   // Doc should have neither `servers` or `parameters` from the spec because those aren't real HTTP methods.
   expect(explorer.find('Doc')).toHaveLength(docsCommon.length - 2);
@@ -94,7 +111,7 @@ describe('selected language', () => {
       <ApiExplorer
         {...props}
         oasFiles={{
-          'test-api-setting': oas,
+          'test-api-setting': petstore,
         }}
       />
     );
@@ -140,7 +157,7 @@ describe('selected language', () => {
       <ApiExplorer
         {...props}
         oasFiles={{
-          'test-api-setting': oas,
+          'test-api-setting': petstore,
         }}
       />
     );
@@ -161,51 +178,51 @@ describe('oas', () => {
 
   // Swagger apis and some legacies
   it('should fetch it from `doc.category.apiSetting`', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer
         {...props}
         docs={[{ ...baseDoc, category: { apiSetting: 'test-api-setting' } }]}
         oasFiles={{
-          'test-api-setting': oas,
+          'test-api-setting': petstore,
         }}
       />
     );
 
-    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+    expect(explorer.find('Doc').get(0).props.oas).toBeInstanceOf(Oas);
   });
 
   // Some other legacy APIs where Endpoints are created in arbitrary categories
   it('should fetch it from `doc.api.apiSetting._id`', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer
         {...props}
         docs={[{ ...baseDoc, api: { method: 'get', apiSetting: { _id: 'test-api-setting' } } }]}
         oasFiles={{
-          'test-api-setting': oas,
+          'test-api-setting': petstore,
         }}
       />
     );
 
-    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+    expect(explorer.find('Doc').get(0).props.oas).toBeInstanceOf(Oas);
   });
 
   it('should fetch it from `doc.api.apiSetting` if it is a string', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer
         {...props}
         docs={[{ ...baseDoc, api: { method: 'get', apiSetting: 'test-api-setting' } }]}
         oasFiles={{
-          'test-api-setting': oas,
+          'test-api-setting': petstore,
         }}
       />
     );
 
-    expect(explorer.find('Doc').get(0).props.oas).toBe(oas);
+    expect(explorer.find('Doc').get(0).props.oas).toBeInstanceOf(Oas);
   });
 
   // Of course... `typeof null === 'object'`
   it('should not error if `doc.api.apiSetting` is null', () => {
-    const explorer = shallow(
+    const explorer = mount(
       <ApiExplorer {...props} docs={[{ ...baseDoc, api: { method: 'get', apiSetting: null } }]} />
     );
 
@@ -213,7 +230,7 @@ describe('oas', () => {
   });
 
   it('should set it to empty object', () => {
-    const explorer = shallow(<ApiExplorer {...props} docs={[baseDoc]} />);
+    const explorer = mount(<ApiExplorer {...props} docs={[baseDoc]} />);
 
     expect(explorer.find('Doc').get(0).props.oas).toStrictEqual({});
   });
