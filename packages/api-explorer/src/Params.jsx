@@ -129,7 +129,7 @@ class Params extends React.Component {
             return (
               <React.Fragment key={`${schema.type}-block`}>
                 {enableJsonEditor && schema.type === 'body' ? (
-                  <React.Fragment>
+                  <div className="param-body-wrapper">
                     <div key={`${schema.type}-header`} className="param-type-header">
                       <h3>{schema.label}</h3>
                       <div className="param-header-border" />
@@ -155,7 +155,7 @@ class Params extends React.Component {
                         </div>
                       </div>
                     </Tabs>
-                  </React.Fragment>
+                  </div>
                 ) : (
                   <React.Fragment>
                     <div key={`${schema.type}-header`} className="param-type-header">
