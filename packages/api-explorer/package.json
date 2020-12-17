@@ -31,7 +31,7 @@
     "js-cookie": "^2.1.4",
     "lodash.clonedeep": "^4.5.0",
     "lodash.kebabcase": "^4.1.1",
-    "oas": "^8.0.0",
+    "oas": "^8.0.1",
     "prop-types": "^15.7.2",
     "react-copy-to-clipboard": "^5.0.1",
     "react-debounce-input": "^3.2.0",
