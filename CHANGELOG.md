@@ -1,3 +1,10 @@
+## <small>10.0.9 (2020-12-17)</small>
+
+* chore: updating lock files ([5d12eae](https://github.com/readmeio/api-explorer/commit/5d12eae))
+* fix: upgrade oas to 6.1.1 to resolve a regression in common parameters (#1111) ([4b78cf4](https://github.com/readmeio/api-explorer/commit/4b78cf4)), closes [#1111](https://github.com/readmeio/api-explorer/issues/1111)
+
+
+
 ## <small>10.0.8 (2020-12-14)</small>
 
 * chore(deps-dev): bump @babel/core from 7.11.6 to 7.12.10 (#1104) ([2404aac](https://github.com/readmeio/api-explorer/commit/2404aac)), closes [#1104](https://github.com/readmeio/api-explorer/issues/1104)
