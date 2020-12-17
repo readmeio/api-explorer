@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@readme/oas-extensions": "^10.0.8",
+    "lodash": "^4.17.19",
     "oas": "^6.1.1",
     "parse-data-url": "^3.0.0"
   },

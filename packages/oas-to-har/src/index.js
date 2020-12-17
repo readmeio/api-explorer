@@ -6,8 +6,34 @@ const parseDataUrl = require('parse-data-url');
 
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');
+const parameterBuilders = require('./lib/parameter-builders');
+
+function getValueFromReq(req, normalizedType, name) {
+  switch (normalizedType) {
+    case 'header':
+      return req.headers[name];
+    case 'cookie':
+      return req.headers.Cookie;
+    default:
+      throw new Error('unrecognized normalized type');
+  }
+}
+function formatStyle(value, parameter, type) {
+  const normalizedType = type.toLowerCase();
+  if (['query', 'path', 'header', 'cookie'].includes(normalizedType)) {
+    const req = {};
+    parameterBuilders[normalizedType]({ req, value, parameter });
+    return getValueFromReq(req, normalizedType, parameter.name);
+  }
+
+  return undefined;
+}
 
 function formatter(values, param, type, onlyIfExists) {
+  if (param.style) {
+    return formatStyle(values[type][param.name], param, type);
+  }
+
   if (typeof values[type][param.name] !== 'undefined') {
     return values[type][param.name];
   }

@@ -1647,3 +1647,166 @@ describe('x-headers', () => {
     ).toStrictEqual([{ name: 'x-api-key', value: '123456' }]);
   });
 });
+
+/**
+ *    string -> "blue"
+   array -> ["blue","black","brown"]
+   object -> { "R": 100, "G": 200, "B": 150 }
+
+The following table shows examples of rendering differences for each value.
+style 	explode 	empty 	string 	array 	object
+matrix 	false 	;color 	;color=blue 	;color=blue,black,brown 	;color=R,100,G,200,B,150
+matrix 	true 	;color 	;color=blue 	;color=blue;color=black;color=brown 	;R=100;G=200;B=150
+label 	false 	. 	.blue 	.blue.black.brown 	.R.100.G.200.B.150
+label 	true 	. 	.blue 	.blue.black.brown 	.R=100.G=200.B=150
+form 	false 	color= 	color=blue 	color=blue,black,brown 	color=R,100,G,200,B,150
+form 	true 	color= 	color=blue 	color=blue&color=black&color=brown 	R=100&G=200&B=150
+simple 	false 	n/a 	blue 	blue,black,brown 	R,100,G,200,B,150
+simple 	true 	n/a 	blue 	blue,black,brown 	R=100,G=200,B=150
+spaceDelimited 	false 	n/a 	n/a 	blue%20black%20brown 	R%20100%20G%20200%20B%20150
+pipeDelimited 	false 	n/a 	n/a 	blue|black|brown 	R|100|G|200|B|150
+deepObject 	true 	n/a 	n/a 	n/a 	color[R]=100&color[G]=200&color[B]=150
+ */
+describe('style tests', () => {
+  // const stringInput = 'blue';
+  const arrayInput = ['blue', 'black', 'brown'];
+  // const objectInput = { R: 100, G: 200, B: 150 };
+
+  // on hold. parameter-builders requires a request object to be passed in with url data.
+  /* 
+  describe('path values', () => {
+    
+    it.each([
+      [
+        'should support pipe delimited path styles',
+        {
+          parameters: [
+            {
+              name: 'a',
+              in: 'path',
+              style: 'pipeDelimited',
+            },
+          ],
+        },
+        { path: { a: arrayInput } },
+        'https://example.com/style-path/a=blue|black|brown',
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedUrl) => {
+      const har = oasToHar(
+        oas,
+        {
+          path: '/style-path/{a}',
+          method: 'get',
+          ...operation,
+        },
+        values
+      );
+
+      await expect(har).toBeAValidHAR();
+
+      expect(har.log.entries[0].request.url).toStrictEqual(expectedUrl);
+    });
+  });
+*/
+
+  /*
+  describe('query values', () => {
+    it.each([
+      [
+        'should support pipe delimited query styles',
+        {
+          parameters: [
+            {
+              name: 'a',
+              in: 'query',
+              style: 'pipeDelimited',
+            },
+          ],
+        },
+        { query: { a: arrayInput } },
+        [{ name: 'a', value: 'a|b|c' }],
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
+      const har = oasToHar(
+        oas,
+        {
+          path: '/query',
+          method: 'get',
+          ...operation,
+        },
+        values
+      );
+
+      await expect(har).toBeAValidHAR();
+
+      expect(har.log.entries[0].request.queryString).toStrictEqual(expectedQueryString);
+    });
+  });
+*/
+
+  describe('cookie values', () => {
+    it.each([
+      [
+        'should support pipe delimited cookie styles',
+        {
+          parameters: [
+            {
+              name: 'a',
+              in: 'cookie',
+              style: 'pipeDelimited',
+            },
+          ],
+        },
+        { cookie: { a: arrayInput } },
+        [{ name: 'a', value: 'a=blue|black|brown' }],
+      ],
+    ])('%s', async (testCase, operation = {}, values = {}, expectedCookies = []) => {
+      const har = oasToHar(
+        oas,
+        {
+          path: '/',
+          method: 'get',
+          ...operation,
+        },
+        values
+      );
+
+      await expect(har).toBeAValidHAR();
+
+      expect(har.log.entries[0].request.cookies).toStrictEqual(expectedCookies);
+    });
+
+    describe('header values', () => {
+      it.each([
+        [
+          'should support pipe delimited array styles',
+          {
+            parameters: [
+              {
+                name: 'a',
+                in: 'header',
+                style: 'pipeDelimited',
+              },
+            ],
+          },
+          { header: { a: arrayInput } },
+          [{ name: 'a', value: 'blue|black|brown' }],
+        ],
+      ])('%s', async (testCase, operation = {}, values = {}, expectedHeaders = []) => {
+        const har = oasToHar(
+          oas,
+          {
+            path: '/header',
+            method: 'get',
+            ...operation,
+          },
+          values
+        );
+
+        await expect(har).toBeAValidHAR();
+
+        expect(har.log.entries[0].request.headers).toStrictEqual(expectedHeaders);
+      });
+    });
+  });
+});
