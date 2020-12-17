@@ -27,13 +27,13 @@ form form.rjsf {
   margin: 2% 2%;
 }
 
-/* relative parent for json tab (only used if body && json flag is enabled) */
-.param-body-wrapper {
-  position: relative;
-}
-
 /* Style table header. */
 .param-type {
+
+  /* relative parent for json tab (only used if body && json flag is enabled) */
+  &-body {
+    position: relative;
+  }
 
   /* override tab ui */
   .Tabs {
