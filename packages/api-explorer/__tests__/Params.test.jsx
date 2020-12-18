@@ -467,3 +467,16 @@ describe('should not contains error message when property key missing in object 
     ).not.toContain('Invalid empty object object field configuration');
   });
 });
+
+describe('request body JSON editor', () => {
+  it('should only show the tabs on request body forms', () => {
+    const node = mount(
+      <div>
+        <Params {...props} enableJsonEditor={true} oas={oas} operation={oas.operation('/user/{username}', 'put')} />
+      </div>
+    );
+
+    expect(node.find('.param-type-path')).toHaveLength(0);
+    expect(node.find('.param-type-body')).toHaveLength(1);
+  });
+});
