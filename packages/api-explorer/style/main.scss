@@ -29,6 +29,7 @@ form form.rjsf {
 
 /* Style table header. */
 .param-type {
+  position: relative;
 
   /* relative parent for json tab (only used if body && json flag is enabled) */
   &-body {
