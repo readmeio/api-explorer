@@ -1,4 +1,5 @@
 const React = require('react');
+const { act } = require('react-dom/test-utils');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
@@ -11,9 +12,20 @@ const ErrorBoundary = require('../src/ErrorBoundary');
 const { ApiExplorer } = WrappedApiExplorer;
 
 const petstore = require('./__fixtures__/petstore/oas.json');
+const polymorphism = require('./__fixtures__/polymorphism/oas.json');
 const oasCommon = require('./__fixtures__/parameters/common.json');
 
 const createDocs = require('./__fixtures__/create-docs');
+
+function wait(amount = 0) {
+  return new Promise(resolve => setTimeout(resolve, amount));
+}
+
+async function actWait(amount = 0) {
+  await act(async () => {
+    await wait(amount);
+  });
+}
 
 let docs;
 const languages = ['node', 'curl'];
@@ -48,6 +60,31 @@ test('ApiExplorer renders a doc for each', () => {
   const explorer = mount(<ApiExplorer {...props} />);
 
   expect(explorer.find('Doc')).toHaveLength(docs.length);
+});
+
+test('DocAsync should do OAS dereferencing', async () => {
+  const docsAsync = createDocs(polymorphism, 'test-api-setting');
+
+  const propsAsync = {
+    ...props,
+    docs: docsAsync,
+    shouldDereferenceOas: true,
+    oasFiles: {
+      'test-api-setting': polymorphism,
+    },
+  };
+
+  const explorer = mount(<ApiExplorer {...propsAsync} />);
+
+  // Enzyme doesn't automatically wrap our mounted component in `act()` so we need to do some hocus pocus here to get
+  // ReactDOM from throwing the following error:
+  //
+  //    Warning: An update to DocAsync inside a test was not wrapped in act(...).
+  //
+  // https://github.com/enzymejs/enzyme/issues/2073#issuecomment-531488981
+  await actWait();
+
+  expect(explorer.html()).toMatchSnapshot();
 });
 
 test('ApiExplorer should not render a common parameter OAS operation method', async () => {
