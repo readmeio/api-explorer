@@ -263,13 +263,13 @@ describe('oas', () => {
       <ApiExplorer {...props} docs={[{ ...baseDoc, api: { method: 'get', apiSetting: null } }]} />
     );
 
-    expect(explorer.find('Doc').get(0).props.oas).toStrictEqual({});
+    expect(explorer.find('Doc').get(0).props.oas).toStrictEqual(new Oas());
   });
 
   it('should set it to empty object', () => {
     const explorer = mount(<ApiExplorer {...props} docs={[baseDoc]} />);
 
-    expect(explorer.find('Doc').get(0).props.oas).toStrictEqual({});
+    expect(explorer.find('Doc').get(0).props.oas).toStrictEqual(new Oas());
   });
 });
 

@@ -133,6 +133,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       auth={{}}
       doc={doc}
       language="node"
+      oas={new Oas()}
       oauth={false}
       onAuthChange={() => {}}
       onAuthGroupChange={() => {}}
@@ -157,6 +158,7 @@ test('should still display `Content` with column-style layout', () => {
       auth={{}}
       doc={doc}
       language="node"
+      oas={new Oas()}
       oauth={false}
       onAuthChange={() => {}}
       onAuthGroupChange={() => {}}

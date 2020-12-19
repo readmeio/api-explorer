@@ -130,11 +130,7 @@ class ApiExplorer extends React.Component {
 
   getOas(doc) {
     const apiSetting = this.getApiSettingFromDoc(doc);
-    if (apiSetting && apiSetting in this.props.oasFiles) {
-      return new Oas(this.props.oasFiles[apiSetting], this.props.variables.user);
-    }
-
-    return {};
+    return new Oas(this.props.oasFiles[apiSetting], this.props.variables.user);
   }
 
   getOasUrl(doc) {
