@@ -31,6 +31,11 @@ form form.rjsf {
 .param-type {
   position: relative;
 
+  /* relative parent for json tab (only used if body && json flag is enabled) */
+  &-body {
+    position: relative;
+  }
+
   /* override tab ui */
   .Tabs {
 
