@@ -6,52 +6,11 @@ const parseDataUrl = require('parse-data-url');
 
 const configureSecurity = require('./lib/configure-security');
 const removeUndefinedObjects = require('./lib/remove-undefined-objects');
-const parameterBuilders = require('./lib/parameter-builders');
-const stylize = require('./lib/parameter-builders/style-serializer');
-
-function getValueFromReq(req, normalizedType, name) {
-  console.log('req', req, normalizedType, name);
-  switch (normalizedType) {
-    case 'header':
-      return req.headers[name];
-    case 'cookie':
-      return req.headers.Cookie;
-    case 'query':
-      console.log(req.query[name]);
-      return req.query[name].value;
-    default:
-      throw new Error('unrecognized normalized type');
-  }
-}
-function formatStyle(value, parameter, type) {
-  const normalizedType = type.toLowerCase();
-  if (['path', 'header', 'cookie'].includes(normalizedType)) {
-    const req = {};
-    parameterBuilders[normalizedType]({ req, value, parameter });
-    return getValueFromReq(req, normalizedType, parameter.name);
-  }
-
-  if (normalizedType === 'query') {
-    return stylize({
-      value,
-      key: parameter.name,
-      style: parameter.style,
-      explode: parameter.explode,
-      /*
-        TODO: this parameter is optional to stylize. It defaults to false, and can accept falsy, truthy, or "unsafe". 
-        I do not know if it is correct for query to use this. See style-serializer for more info
-      */
-      escape: true,
-    });
-  }
-
-  console.log("didn't match");
-  return undefined;
-}
+const formatStyle = require('./lib/style-formatting');
 
 function formatter(values, param, type, onlyIfExists) {
   if (param.style) {
-    return formatStyle(values[type][param.name], param, type);
+    return formatStyle(values[type][param.name], param);
   }
 
   if (typeof values[type][param.name] !== 'undefined') {
@@ -96,6 +55,28 @@ function isPrimitive(val) {
 
 function stringify(json) {
   return JSON.stringify(removeUndefinedObjects(typeof json.RAW_BODY !== 'undefined' ? json.RAW_BODY : json));
+}
+
+function appendHarValue(harParam, name, value) {
+  if (typeof value === 'undefined') return;
+
+  if (Array.isArray(value)) {
+    // If the formatter gives us an array, we're expected to add each array value as a new parameter item with the same parameter name
+    value.forEach(singleValue => {
+      appendHarValue(harParam, name, singleValue);
+    });
+  } else if (typeof value === 'object') {
+    // If the formatter gives us an object, we're expected to add each property value as a new parameter item, each with the name of the property
+    Object.keys(value).forEach(key => {
+      appendHarValue(harParam, key, value[key]);
+    });
+  } else {
+    // If the formatter gives us a non-array, non-object, we add it as is
+    harParam.push({
+      name,
+      value: String(value),
+    });
+  }
 }
 
 module.exports = (
@@ -163,12 +144,7 @@ module.exports = (
   if (queryStrings && queryStrings.length) {
     queryStrings.forEach(queryString => {
       const value = formatter(formData, queryString, 'query', true);
-      if (typeof value === 'undefined') return;
-
-      har.queryString.push({
-        name: queryString.name,
-        value: String(value),
-      });
+      appendHarValue(har.queryString, queryString.name, value);
     });
   }
 
@@ -177,12 +153,7 @@ module.exports = (
   if (cookies && cookies.length) {
     cookies.forEach(cookie => {
       const value = formatter(formData, cookie, 'cookie', true);
-      if (typeof value === 'undefined') return;
-
-      har.cookies.push({
-        name: cookie.name,
-        value: String(value),
-      });
+      appendHarValue(har.cookies, cookie.name, value);
     });
   }
 
@@ -216,11 +187,7 @@ module.exports = (
         hasContentType = true;
         contentType = String(value);
       }
-
-      har.headers.push({
-        name: header.name,
-        value: String(value),
-      });
+      appendHarValue(har.headers, header.name, value);
     });
   }
 
