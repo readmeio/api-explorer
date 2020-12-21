@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.4.5",
-    "ajv": "^6.7.0",
+    "ajv": "^7.0.2",
     "core-js": "^2.5.7",
     "json-schema-merge-allof": "^0.6.0",
     "jsonpointer": "^4.0.1",
