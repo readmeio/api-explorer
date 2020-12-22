@@ -328,94 +328,62 @@ const objectInput = { R: 100, G: 200, B: 150 };
 // this should test form(empty, primitive, array, object)*(explode:t/f), spaceDelimited(array, object)*(explode:f), pipeDelimited(array, object)*(explode:f), deepObject(object)*(explode:t)
 /* describe('query values', () => {
   describe('form style', () => {
+    const paramNoExplode = {
+      parameters: [
+        {
+          name: 'color',
+          in: 'query',
+          style: 'form',
+          explode: false,
+        },
+      ],
+    };
+
+    const paramExplode = {
+      parameters: [
+        {
+          name: 'color',
+          in: 'query',
+          style: 'form',
+          explode: true,
+        },
+      ],
+    };
+
     it.each([
       [
         'should support form delimited query styles for non exploded empty input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: false,
-            },
-          ],
-        },
+        paramNoExplode,
         { query: { color: emptyInput } },
         [{ name: 'color', value: '' }],
       ],
       [
         'should support form delimited query styles for exploded empty input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: true,
-            },
-          ],
-        },
+        paramExplode,
         { query: { color: emptyInput } },
         [{ name: 'color', value: '' }],
       ],
       [
         'should support form delimited query styles for non exploded string input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: false,
-            },
-          ],
-        },
+        paramNoExplode,
         { query: { color: stringInput } },
         [{ name: 'color', value: 'blue' }],
       ],
       [
         'should support form delimited query styles for exploded string input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: true,
-            },
-          ],
-        },
+        paramExplode,
         { query: { color: stringInput } },
         [{ name: 'color', value: 'blue' }],
       ],
       [
         'should support form delimited query styles for non exploded array input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: false,
-            },
-          ],
-        },
+        paramNoExplode,
         { query: { color: arrayInput } },
         [{ name: 'color', value: 'blue,black,brown' }],
       ],
       [
         'should support form delimited query styles for exploded array input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: true,
-            },
-          ],
-        },
+        paramExplode,
         { cookie: { color: arrayInput } },
         [
           { name: 'color', value: 'blue' },
@@ -425,31 +393,13 @@ const objectInput = { R: 100, G: 200, B: 150 };
       ],
       [
         'should support form delimited query styles for non exploded object input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: false,
-            },
-          ],
-        },
+        paramNoExplode,
         { query: { color: objectInput } },
         [{ name: 'color', value: 'R,100,G,200,B,150' }],
       ],
       [
         'should support form delimited query styles for exploded object input',
-        {
-          parameters: [
-            {
-              name: 'color',
-              in: 'query',
-              style: 'form',
-              explode: true,
-            },
-          ],
-        },
+        paramExplode,
         { query: { color: objectInput } },
         [
           { name: 'R', value: '100' },
@@ -495,60 +445,52 @@ const objectInput = { R: 100, G: 200, B: 150 };
 
     it.each([
       [
-        'should support space delimited query styles for non exploded empty input',
+        'should NOT support space delimited query styles for non exploded empty input',
         paramNoExplode,
         { query: { color: emptyInput } },
-        [{ name: 'color', value: '' }],
+        [],
       ],
       [
-        'should support space delimited query styles for exploded empty input',
+        'should NOT support space delimited query styles for exploded empty input',
         paramExplode,
         { query: { color: emptyInput } },
-        [{ name: 'color', value: '' }],
+        [],
       ],
       [
-        'should support space delimited query styles for non exploded string input',
+        'should NOT support space delimited query styles for non exploded string input',
         paramNoExplode,
         { query: { color: stringInput } },
-        [{ name: 'color', value: 'blue' }],
+        [],
       ],
       [
-        'should support space delimited query styles for exploded string input',
+        'should NOT support space delimited query styles for exploded string input',
         paramExplode,
         { query: { color: stringInput } },
-        [{ name: 'color', value: 'blue' }],
+        [],
       ],
       [
         'should support space delimited query styles for non exploded array input',
         paramNoExplode,
         { query: { color: arrayInput } },
-        [{ name: 'color', value: 'blue black brown' }],
+        [{ name: 'color', value: 'blue%20black%20brown' }],
       ],
       [
-        'should support space delimited query styles for exploded array input',
+        'should NOT support space delimited query styles for exploded array input',
         paramExplode,
         { cookie: { color: arrayInput } },
-        [
-          { name: 'color', value: 'blue' },
-          { name: 'color', value: 'black' },
-          { name: 'color', value: 'brown' },
-        ],
+        [],
       ],
       [
         'should support space delimited query styles for non exploded object input',
         paramNoExplode,
         { query: { color: objectInput } },
-        [{ name: 'color', value: 'R 100 G 200 B 150' }],
+        [{ name: 'color', value: 'R%20100%20G%20200%20B%20150' }],
       ],
       [
-        'should support space delimited query styles for exploded object input',
+        'should NOT support space delimited query styles for exploded object input',
         paramExplode,
         { query: { color: objectInput } },
-        [
-          { name: 'R', value: '100' },
-          { name: 'G', value: '200' },
-          { name: 'B', value: '150' },
-        ],
+        [],
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
       const har = oasToHar(
@@ -592,60 +534,52 @@ const objectInput = { R: 100, G: 200, B: 150 };
 
     it.each([
       [
-        'should support pipe delimited query styles for non exploded empty input',
+        'should NOT support pipe delimited query styles for non exploded empty input',
         paramNoExplode,
         { query: { color: emptyInput } },
-        [{ name: 'color', value: '' }],
+        [],
       ],
       [
-        'should support pipe delimited query styles for exploded empty input',
+        'should NOT support pipe delimited query styles for exploded empty input',
         paramExplode,
         { query: { color: emptyInput } },
-        [{ name: 'color', value: '' }],
+        [],
       ],
       [
-        'should support pipe delimited query styles for non exploded string input',
+        'should NOT support pipe delimited query styles for non exploded string input',
         paramNoExplode,
         { query: { color: stringInput } },
-        [{ name: 'color', value: 'blue' }],
+        [],
       ],
       [
-        'should support pipe delimited query styles for exploded string input',
+        'should NOT support pipe delimited query styles for exploded string input',
         paramExplode,
         { query: { color: stringInput } },
-        [{ name: 'color', value: 'blue' }],
+        [],
       ],
       [
         'should support pipe delimited query styles for non exploded array input',
         paramNoExplode,
         { query: { color: arrayInput } },
-        [{ name: 'color', value: 'blue,black,brown' }],
+        [{ name: 'color', value: 'blue|black|brown' }],
       ],
       [
-        'should support pipe delimited query styles for exploded array input',
+        'should NOT support pipe delimited query styles for exploded array input',
         paramExplode,
         { cookie: { color: arrayInput } },
-        [
-          { name: 'color', value: 'blue' },
-          { name: 'color', value: 'black' },
-          { name: 'color', value: 'brown' },
-        ],
+        [],
       ],
       [
         'should support pipe delimited query styles for non exploded object input',
         paramNoExplode,
         { query: { color: objectInput } },
-        [{ name: 'color', value: 'R,100,G,200,B,150' }],
+        [{ name: 'color', value: 'R|100|G|200|B|150' },]
       ],
       [
-        'should support pipe delimited query styles for exploded object input',
+        'should NOT support pipe delimited query styles for exploded object input',
         paramExplode,
         { query: { color: objectInput } },
-        [
-          { name: 'R', value: '100' },
-          { name: 'G', value: '200' },
-          { name: 'B', value: '150' },
-        ],
+        [],
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
       const har = oasToHar(
@@ -689,59 +623,55 @@ const objectInput = { R: 100, G: 200, B: 150 };
 
     it.each([
       [
-        'should support deepObject delimited query styles for non exploded empty input',
+        'should NOT support deepObject delimited query styles for non exploded empty input',
         paramNoExplode,
         { query: { color: emptyInput } },
-        [{ name: 'color', value: '' }],
+        [],
       ],
       [
-        'should support deepObject delimited query styles for exploded empty input',
+        'should NOT support deepObject delimited query styles for exploded empty input',
         paramExplode,
         { query: { color: emptyInput } },
-        [{ name: 'color', value: '' }],
+        [],
       ],
       [
-        'should support deepObject delimited query styles for non exploded string input',
+        'should NOT support deepObject delimited query styles for non exploded string input',
         paramNoExplode,
         { query: { color: stringInput } },
-        [{ name: 'color', value: 'blue' }],
+        [],
       ],
       [
-        'should support deepObject delimited query styles for exploded string input',
+        'should NOT support deepObject delimited query styles for exploded string input',
         paramExplode,
         { query: { color: stringInput } },
-        [{ name: 'color', value: 'blue' }],
+        [],
       ],
       [
-        'should support deepObject delimited query styles for non exploded array input',
+        'should NOT support deepObject delimited query styles for non exploded array input',
         paramNoExplode,
         { query: { color: arrayInput } },
-        [{ name: 'color', value: 'blue,black,brown' }],
+        [],
       ],
       [
-        'should support deepObject delimited query styles for exploded array input',
+        'should NOT support deepObject delimited query styles for exploded array input',
         paramExplode,
         { cookie: { color: arrayInput } },
-        [
-          { name: 'color', value: 'blue' },
-          { name: 'color', value: 'black' },
-          { name: 'color', value: 'brown' },
-        ],
+        [],
       ],
       [
-        'should support deepObject delimited query styles for non exploded object input',
+        'should NOT support deepObject delimited query styles for non exploded object input',
         paramNoExplode,
         { query: { color: objectInput } },
-        [{ name: 'color', value: 'R,100,G,200,B,150' }],
+        [],
       ],
       [
         'should support deepObject delimited query styles for exploded object input',
         paramExplode,
         { query: { color: objectInput } },
         [
-          { name: 'R', value: '100' },
-          { name: 'G', value: '200' },
-          { name: 'B', value: '150' },
+          { name: 'color[R]', value: '100' },
+          { name: 'color[G]', value: '200' },
+          { name: 'color[B]', value: '150' },
         ],
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
