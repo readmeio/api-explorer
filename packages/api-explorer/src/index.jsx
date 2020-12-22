@@ -54,6 +54,8 @@ class ApiExplorer extends React.Component {
     this.DocComponent = this.createDoc();
 
     this.lazyHash = this.buildLazyHash();
+
+    this.oasInstances = {};
   }
 
   createDoc() {
@@ -130,7 +132,12 @@ class ApiExplorer extends React.Component {
 
   getOas(doc) {
     const apiSetting = this.getApiSettingFromDoc(doc);
-    return new Oas(this.props.oasFiles[apiSetting], this.props.variables.user);
+
+    if (!(apiSetting in this.oasInstances)) {
+      this.oasInstances[apiSetting] = new Oas(this.props.oasFiles[apiSetting], this.props.variables.user);
+    }
+
+    return this.oasInstances[apiSetting];
   }
 
   getOasUrl(doc) {
