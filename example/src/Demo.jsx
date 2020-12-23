@@ -137,10 +137,10 @@ class Demo extends React.Component {
     };
 
     const propOverrides = {
-      appearance: Object.keys(appearance) ? appearance : props.appearance,
-      flags: Object.keys(flags) ? flags : props.flags,
-      oasFiles: Object.keys(oasFiles) ? oasFiles : props.oasFiles,
-      oasUrls: Object.keys(oasUrls) ? oasUrls : props.oasUrls,
+      appearance: Object.keys(appearance).length ? appearance : props.appearance,
+      flags: Object.keys(flags).length ? flags : props.flags,
+      oasFiles: Object.keys(oasFiles).length ? oasFiles : props.oasFiles,
+      oasUrls: Object.keys(oasUrls).length ? oasUrls : props.oasUrls,
     };
 
     if (brokenExplorerState) {

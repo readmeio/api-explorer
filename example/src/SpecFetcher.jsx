@@ -96,7 +96,14 @@ function withSpecFetching(Component) {
             }
 
             this.createDocs(oas);
-            this.setState({ oas, oasUrl });
+            this.setState({
+              appearance: {},
+              flags: {},
+              oas,
+              oasFiles: {},
+              oasUrl,
+              oasUrls: {},
+            });
 
             // eslint-disable-next-line sonarjs/no-identical-functions
             this.updateStatus('Done!', () => {
