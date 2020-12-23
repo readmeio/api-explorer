@@ -203,7 +203,7 @@ class Demo extends React.Component {
           {status.length > 0 ? <pre>{status.join('\n')}</pre> : this.experimentToggles()}
         </div>
 
-        {status.length === 0 && <ApiExplorer {...props} {...propOverrides} />}
+        <div id="api-explorer">{status.length === 0 && <ApiExplorer {...props} {...propOverrides} />}</div>
       </div>
     );
   }
