@@ -1,8 +1,57 @@
 const stylize = require('./style-serializer');
 
+// Certain styles don't support empty values, This function tracks that list
+function shouldNotStyleEmptyValues(parameter) {
+  return ['simple', 'spaceDelimited', 'pipeDelimited', 'deepObject'].includes(parameter.style);
+}
+
+// Note: This isn't necessarily part of the spec. Behavior for the value 'undefined' is, well, undefined.
+//   This code makes our system look better. If we wanted to be more accurate, we might want to remove this,
+//   restore the un-fixed behavior for undefined and have our UI pass in empty string instead of undefined.
+function removeUndefinedForPath(value) {
+  let finalValue = value;
+
+  if (typeof finalValue === 'undefined') {
+    return '';
+  }
+
+  if (Array.isArray(finalValue)) {
+    finalValue = finalValue.filter(val => (val === undefined ? '' : val));
+
+    if (finalValue.length === 0) {
+      finalValue = '';
+    }
+  }
+
+  if (typeof finalValue === 'object') {
+    Object.keys(finalValue).forEach(key => {
+      finalValue[key] = finalValue[key] === undefined ? '' : finalValue[key];
+    });
+  }
+
+  return finalValue;
+}
+
 function stylizeValue(value, parameter) {
+  let finalValue = value;
+
+  // Some styles don't work with empty values. We catch those there
+  if (shouldNotStyleEmptyValues(parameter) && (typeof finalValue === 'undefined' || finalValue === '')) {
+    // Paths need return an unstyled empty string instead of undefined so it's ignored in the final path string
+    if (parameter.in === 'path') {
+      return '';
+    }
+    // Everything but path should return undefined when unstyled so it's ignored in the final parameter array
+    return undefined;
+  }
+
+  // Every style that adds their style to empty values should use emptystring for path parameters instead of undefined to avoid the string 'undefined'
+  if (parameter.in === 'path') {
+    finalValue = removeUndefinedForPath(finalValue);
+  }
+
   return stylize({
-    value,
+    value: finalValue,
     key: parameter.name,
     style: parameter.style,
     explode: parameter.explode,
@@ -41,11 +90,6 @@ function handleExplode(value, parameter) {
   return stylizeValue(value, parameter);
 }
 
-// Certain styles don't support empty values, This function tracks that list
-function shouldNotStyleEmptyValues(parameter) {
-  return ['simple', 'spaceDelimited', 'pipeDelimited', 'deepObject'].includes(parameter.style);
-}
-
 function shouldExplode(parameter) {
   return (
     (parameter.explode || (parameter.explode !== false && parameter.style === 'form')) &&
@@ -56,15 +100,6 @@ function shouldExplode(parameter) {
 }
 
 module.exports = function formatStyle(value, parameter) {
-  // Many styles don't work with empty values
-  if ((typeof value === 'undefined' || value === '') && shouldNotStyleEmptyValues(parameter)) {
-    // when we return anything but path, the system understands undefined as "don't include". For path, it appends the string undefined. So we bypass that logic here.
-    if (parameter.in === 'path') {
-      return '';
-    }
-    return undefined;
-  }
-
   // Deep object only works on exploded objects
   if (parameter.style === 'deepObject' && (typeof value !== 'object' || parameter.explode === false)) {
     return undefined;

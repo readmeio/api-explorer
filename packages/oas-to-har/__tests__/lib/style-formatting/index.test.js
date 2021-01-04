@@ -5,8 +5,10 @@ const oasToHar = require('../../../src/index');
 const oas = new Oas();
 
 const emptyInput = '';
+const undefinedInput = undefined;
 const stringInput = 'blue';
 const arrayInput = ['blue', 'black', 'brown'];
+const undefinedArrayInput = [undefined];
 const objectInput = { R: 100, G: 200, B: 150 };
 
 /**
@@ -96,6 +98,30 @@ describe('path values', () => {
         'should support matrix path styles styles for exploded empty input',
         paramExplode,
         { path: { color: emptyInput } },
+        `https://example.com/style-path/${semicolon}color`,
+      ],
+      [
+        'should support matrix path styles non exploded undefined input',
+        paramNoExplode,
+        { path: { color: undefinedInput } },
+        `https://example.com/style-path/${semicolon}color`,
+      ],
+      [
+        'should support matrix path styles styles for exploded undefined input',
+        paramExplode,
+        { path: { color: undefinedInput } },
+        `https://example.com/style-path/${semicolon}color`,
+      ],
+      [
+        'should support matrix path styles non exploded undefined array input',
+        paramNoExplode,
+        { path: { color: undefinedArrayInput } },
+        `https://example.com/style-path/${semicolon}color`,
+      ],
+      [
+        'should support matrix path styles styles for exploded undefined array input',
+        paramExplode,
+        { path: { color: undefinedArrayInput } },
         `https://example.com/style-path/${semicolon}color`,
       ],
       [
