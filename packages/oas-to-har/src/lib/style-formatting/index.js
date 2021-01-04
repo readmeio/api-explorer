@@ -48,13 +48,20 @@ function shouldNotStyleEmptyValues(parameter) {
 
 function shouldExplode(parameter) {
   return (
-    (parameter.explode || (parameter.explode !== false && parameter.style === 'form')) && parameter.in !== 'header'
+    (parameter.explode || (parameter.explode !== false && parameter.style === 'form')) &&
+    // header and path doesn't explode into separate parameters like query and cookie do
+    parameter.in !== 'header' &&
+    parameter.in !== 'path'
   );
 }
 
 module.exports = function formatStyle(value, parameter) {
   // Many styles don't work with empty values
   if ((typeof value === 'undefined' || value === '') && shouldNotStyleEmptyValues(parameter)) {
+    // when we return anything but path, the system understands undefined as "don't include". For path, it appends the string undefined. So we bypass that logic here.
+    if (parameter.in === 'path') {
+      return '';
+    }
     return undefined;
   }
 

@@ -182,6 +182,11 @@ function encodePrimitive({ key, value, style, escape }) {
   }
 
   if (style === 'matrix') {
+    // This conditional added by Aaron to be more accurate to the spec
+    if (value === '') {
+      return `;${key}`;
+    }
+
     return `;${key}=${valueEncoder(value)}`;
   }
 

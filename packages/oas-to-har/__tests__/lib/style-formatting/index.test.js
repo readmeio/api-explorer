@@ -174,6 +174,8 @@ describe('path values', () => {
       ],
     };
 
+    const equals = '%3D';
+
     it.each([
       [
         'should support label path styles non exploded empty input',
@@ -221,7 +223,7 @@ describe('path values', () => {
         'should support label path styles styles for exploded object input',
         paramExplode,
         { path: { color: objectInput } },
-        'https://example.com/style-path/.R=100.G=200.B=150',
+        `https://example.com/style-path/.R${equals}100.G${equals}200.B${equals}150`,
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedUrl) => {
       const har = oasToHar(
@@ -264,7 +266,7 @@ describe('path values', () => {
     };
 
     const comma = '%2C';
-    const equals = '%2D';
+    const equals = '%3D';
 
     it.each([
       [
