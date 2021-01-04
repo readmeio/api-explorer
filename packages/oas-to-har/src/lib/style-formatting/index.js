@@ -26,7 +26,13 @@ function handleExplode(value, parameter) {
     const newObj = {};
 
     Object.keys(value).forEach(key => {
-      newObj[key] = stylizeValue(value[key], parameter);
+      const stylizedValue = stylizeValue(value[key], parameter);
+
+      if (parameter.style === 'deepObject') {
+        newObj[`${parameter.name}[${key}]`] = stylizedValue;
+      } else {
+        newObj[key] = stylizedValue;
+      }
     });
 
     return newObj;
@@ -40,8 +46,20 @@ function shouldNotStyleEmptyValues(parameter) {
   return ['simple', 'spaceDelimited', 'pipeDelimited', 'deepObject'].includes(parameter.style);
 }
 
+function shouldExplode(parameter) {
+  return (
+    (parameter.explode || (parameter.explode !== false && parameter.style === 'form')) && parameter.in !== 'header'
+  );
+}
+
 module.exports = function formatStyle(value, parameter) {
+  // Many styles don't work with empty values
   if ((typeof value === 'undefined' || value === '') && shouldNotStyleEmptyValues(parameter)) {
+    return undefined;
+  }
+
+  // Deep object only works on exploded objects
+  if (parameter.style === 'deepObject' && (typeof value !== 'object' || parameter.explode === false)) {
     return undefined;
   }
 
@@ -49,7 +67,7 @@ module.exports = function formatStyle(value, parameter) {
   //  We need this because the stylizeValue function assumes we're building strings, not richer data types
   // The first part of this conditional checks if explode is enabled. Explode is disabled for everything by default except for forms.
   // The second part of this conditional bypasses the custom explode logic for headers, because they work differently, and stylizeValue is accurate
-  if ((parameter.explode || (parameter.explode !== false && parameter.style === 'form')) && parameter.in !== 'header') {
+  if (shouldExplode(parameter)) {
     return handleExplode(value, parameter);
   }
 

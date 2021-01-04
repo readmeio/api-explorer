@@ -1,6 +1,6 @@
 const Oas = require('oas/tooling');
 
-const oasToHar = require('../src/index');
+const oasToHar = require('../../../src/index');
 
 const oas = new Oas();
 
@@ -57,7 +57,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
  */
 
 // This should work for matrix(empty, primitive, array, object)*(explode:t/f), label(empty, primitive, array, object)*(explode:t/f), simple(primitive, array, object)*(explode:t/f)
-/* describe('cookie values', () => {
+/* describe('path values', () => {
   describe('matrix path', () => {
     const paramNoExplode = {
       parameters: [
@@ -94,6 +94,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
         { path: { color: emptyInput } },
         'https://example.com/style-path/;color',
       ],
+      [
         'should support matrix path styles styles for non exploded string input',
         paramNoExplode,
         { path: { color: stringInput } },
@@ -326,7 +327,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
 }); */
 
 // this should test form(empty, primitive, array, object)*(explode:t/f), spaceDelimited(array, object)*(explode:f), pipeDelimited(array, object)*(explode:f), deepObject(object)*(explode:t)
-/* describe('query values', () => {
+describe('query values', () => {
   describe('form style', () => {
     const paramNoExplode = {
       parameters: [
@@ -384,7 +385,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
       [
         'should support form delimited query styles for exploded array input',
         paramExplode,
-        { cookie: { color: arrayInput } },
+        { query: { color: arrayInput } },
         [
           { name: 'color', value: 'blue' },
           { name: 'color', value: 'black' },
@@ -425,22 +426,26 @@ const objectInput = { R: 100, G: 200, B: 150 };
   });
 
   describe('spaceDelimited style', () => {
-    const paramExplode = {
-      parameters: {
-        name: 'color',
-        in: 'query',
-        style: 'spaceDelimited',
-        explode: false,
-      },
+    const paramNoExplode = {
+      parameters: [
+        {
+          name: 'color',
+          in: 'query',
+          style: 'spaceDelimited',
+          explode: false,
+        },
+      ],
     };
 
-    const paramNoExplode = {
-      parameters: {
-        name: 'color',
-        in: 'query',
-        style: 'spaceDelimited',
-        explode: false,
-      },
+    const paramExplode = {
+      parameters: [
+        {
+          name: 'color',
+          in: 'query',
+          style: 'spaceDelimited',
+          explode: true,
+        },
+      ],
     };
 
     it.each([
@@ -472,20 +477,23 @@ const objectInput = { R: 100, G: 200, B: 150 };
         'should support space delimited query styles for non exploded array input',
         paramNoExplode,
         { query: { color: arrayInput } },
-        [{ name: 'color', value: 'blue%20black%20brown' }],
+        // Note: this is space here, but %20 in the example above, because encoding happens far down the line
+        [{ name: 'color', value: 'blue black brown' }],
       ],
       [
         'should NOT support space delimited query styles for exploded array input',
         paramExplode,
-        { cookie: { color: arrayInput } },
+        { query: { color: arrayInput } },
         [],
       ],
-      [
+      // This is supposed to be supported, but the style-seralizer library we use does not have support. Holding off for now.
+      /* [
         'should support space delimited query styles for non exploded object input',
         paramNoExplode,
         { query: { color: objectInput } },
-        [{ name: 'color', value: 'R%20100%20G%20200%20B%20150' }],
-      ],
+        // Note: this is space here, but %20 in the example above, because encoding happens far down the line
+        [{ name: 'color', value: 'R 100 G 200 B 150' }],
+      ], */
       [
         'should NOT support space delimited query styles for exploded object input',
         paramExplode,
@@ -493,6 +501,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
         [],
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
+      console.log(testCase);
       const har = oasToHar(
         oas,
         {
@@ -569,12 +578,13 @@ const objectInput = { R: 100, G: 200, B: 150 };
         { cookie: { color: arrayInput } },
         [],
       ],
-      [
+      // This is supposed to be supported, but the style-seralizer library we use does not have support. Holding off for now.
+      /* [
         'should support pipe delimited query styles for non exploded object input',
         paramNoExplode,
         { query: { color: objectInput } },
-        [{ name: 'color', value: 'R|100|G|200|B|150' },]
-      ],
+        [{ name: 'color', value: 'R|100|G|200|B|150' }],
+      ], */
       [
         'should NOT support pipe delimited query styles for exploded object input',
         paramExplode,
@@ -690,7 +700,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
       expect(har.log.entries[0].request.queryString).toStrictEqual(expectedQueryString);
     });
   });
-}); */
+});
 
 // This should work for form style, supporting empty, string array and object inputs, with both exploded and non-exploded output
 describe('cookie values', () => {
