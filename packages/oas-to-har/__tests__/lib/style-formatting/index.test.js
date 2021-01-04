@@ -57,7 +57,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
  */
 
 // This should work for matrix(empty, primitive, array, object)*(explode:t/f), label(empty, primitive, array, object)*(explode:t/f), simple(primitive, array, object)*(explode:t/f)
-/* describe('path values', () => {
+describe('path values', () => {
   describe('matrix path', () => {
     const paramNoExplode = {
       parameters: [
@@ -81,54 +81,58 @@ const objectInput = { R: 100, G: 200, B: 150 };
       ],
     };
 
+    const semicolon = '%3B';
+    const equals = '%3D';
+    const comma = '%2C';
+
     it.each([
       [
         'should support matrix path styles non exploded empty input',
         paramNoExplode,
         { path: { color: emptyInput } },
-        'https://example.com/style-path/;color',
+        `https://example.com/style-path/${semicolon}color`,
       ],
       [
         'should support matrix path styles styles for exploded empty input',
         paramExplode,
         { path: { color: emptyInput } },
-        'https://example.com/style-path/;color',
+        `https://example.com/style-path/${semicolon}color`,
       ],
       [
         'should support matrix path styles styles for non exploded string input',
         paramNoExplode,
         { path: { color: stringInput } },
-        'https://example.com/style-path/;color=blue',
+        `https://example.com/style-path/${semicolon}color${equals}blue`,
       ],
       [
         'should support matrix path styles styles for exploded string input',
         paramExplode,
         { path: { color: stringInput } },
-        'https://example.com/style-path/;color=blue',
+        `https://example.com/style-path/${semicolon}color${equals}blue`,
       ],
       [
         'should support matrix path styles styles for non exploded array input',
         paramNoExplode,
         { path: { color: arrayInput } },
-        'https://example.com/style-path/;color=blue,black,brown',
+        `https://example.com/style-path/${semicolon}color${equals}blue${comma}black${comma}brown`,
       ],
       [
         'should support matrix path styles styles for exploded array input',
         paramExplode,
         { path: { color: arrayInput } },
-        'https://example.com/style-path/;color=blue;color=black;color=brown',
+        `https://example.com/style-path/${semicolon}color${equals}blue${semicolon}color${equals}black${semicolon}color${equals}brown`,
       ],
       [
         'should support matrix path styles styles for non exploded object input',
         paramNoExplode,
         { path: { color: objectInput } },
-        'https://example.com/style-path/;color=R,100,G,200,B,150',
+        `https://example.com/style-path/${semicolon}color${equals}R${comma}100${comma}G${comma}200${comma}B${comma}150`,
       ],
       [
         'should support matrix path styles styles for exploded object input',
         paramExplode,
         { path: { color: objectInput } },
-        'https://example.com/style-path/;R=100;G=200;B=150',
+        `https://example.com/style-path/${semicolon}R${equals}100${semicolon}G${equals}200${semicolon}B${equals}150`,
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedUrl) => {
       const har = oasToHar(
@@ -211,7 +215,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
         'should support label path styles styles for non exploded object input',
         paramNoExplode,
         { path: { color: objectInput } },
-        'https://example.com/style-path/,R,100.G.200.B.150',
+        'https://example.com/style-path/.R.100.G.200.B.150',
       ],
       [
         'should support label path styles styles for exploded object input',
@@ -259,18 +263,21 @@ const objectInput = { R: 100, G: 200, B: 150 };
       ],
     };
 
+    const comma = '%2C';
+    const equals = '%2D';
+
     it.each([
       [
         'should NOT support simple path styles non exploded empty input',
         paramNoExplode,
         { path: { color: emptyInput } },
-        '',
+        'https://example.com/style-path/',
       ],
       [
         'should NOT support simple path styles styles for exploded empty input',
         paramExplode,
         { path: { color: emptyInput } },
-        '',
+        'https://example.com/style-path/',
       ],
       [
         'should support simple path styles styles for non exploded string input',
@@ -288,25 +295,25 @@ const objectInput = { R: 100, G: 200, B: 150 };
         'should support simple path styles styles for non exploded array input',
         paramNoExplode,
         { path: { color: arrayInput } },
-        'https://example.com/style-path/blue,black,brown',
+        `https://example.com/style-path/blue${comma}black${comma}brown`,
       ],
       [
         'should support simple path styles styles for exploded array input',
         paramExplode,
         { path: { color: arrayInput } },
-        'https://example.com/style-path/blue,black,brown',
+        `https://example.com/style-path/blue${comma}black${comma}brown`,
       ],
       [
         'should support simple path styles styles for non exploded object input',
         paramNoExplode,
         { path: { color: objectInput } },
-        'https://example.com/style-path/R,100,G,200,B,150',
+        `https://example.com/style-path/R${comma}100${comma}G${comma}200${comma}B${comma}150`,
       ],
       [
         'should support simple path styles styles for exploded object input',
         paramExplode,
         { path: { color: objectInput } },
-        'https://example.com/style-path/R=100,G=200,B=150',
+        `https://example.com/style-path/R${equals}100${comma}G${equals}200${comma}B${equals}150`,
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedUrl) => {
       const har = oasToHar(
@@ -324,7 +331,7 @@ const objectInput = { R: 100, G: 200, B: 150 };
       expect(har.log.entries[0].request.url).toStrictEqual(expectedUrl);
     });
   });
-}); */
+});
 
 // this should test form(empty, primitive, array, object)*(explode:t/f), spaceDelimited(array, object)*(explode:f), pipeDelimited(array, object)*(explode:f), deepObject(object)*(explode:t)
 describe('query values', () => {
@@ -501,7 +508,6 @@ describe('query values', () => {
         [],
       ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
-      console.log(testCase);
       const har = oasToHar(
         oas,
         {
