@@ -10,6 +10,11 @@ const stringInput = 'blue';
 const arrayInput = ['blue', 'black', 'brown'];
 const undefinedArrayInput = [undefined];
 const objectInput = { R: 100, G: 200, B: 150 };
+const undefinedObjectInput = { R: undefined };
+
+const semicolon = '%3B';
+const equals = '%3D';
+const comma = '%2C';
 
 /**
  * These tests ensure that each style matches the spec: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#style-values
@@ -83,10 +88,6 @@ describe('path values', () => {
       ],
     };
 
-    const semicolon = '%3B';
-    const equals = '%3D';
-    const comma = '%2C';
-
     it.each([
       [
         'should support matrix path styles non exploded empty input',
@@ -123,6 +124,18 @@ describe('path values', () => {
         paramExplode,
         { path: { color: undefinedArrayInput } },
         `https://example.com/style-path/${semicolon}color`,
+      ],
+      [
+        'should support matrix path styles non exploded undefined object input',
+        paramNoExplode,
+        { path: { color: undefinedObjectInput } },
+        `https://example.com/style-path/${semicolon}color${equals}R${comma}`,
+      ],
+      [
+        'should support matrix path styles styles for exploded undefined object input',
+        paramExplode,
+        { path: { color: undefinedObjectInput } },
+        `https://example.com/style-path/${semicolon}R${equals}`,
       ],
       [
         'should support matrix path styles styles for non exploded string input',
@@ -199,8 +212,6 @@ describe('path values', () => {
         },
       ],
     };
-
-    const equals = '%3D';
 
     it.each([
       [
@@ -290,9 +301,6 @@ describe('path values', () => {
         },
       ],
     };
-
-    const comma = '%2C';
-    const equals = '%3D';
 
     it.each([
       [

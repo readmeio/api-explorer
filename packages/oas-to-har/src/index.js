@@ -10,6 +10,8 @@ const formatStyle = require('./lib/style-formatting');
 
 function formatter(values, param, type, onlyIfExists) {
   if (param.style) {
+    // Note: Technically we could send everything through the format style and choose the proper default for each
+    //  `in` type (e.g. query defaults to form).
     return formatStyle(values[type][param.name], param);
   }
 
@@ -137,7 +139,12 @@ module.exports = (
     // Find the path parameter or set a default value if it does not exist
     const parameter = parameters.find(param => param.name === key) || { name: key };
 
-    return encodeURIComponent(formatter(formData, parameter, 'path'));
+    // The library that handles our style processing already encodes uri elements. For everything else we need to handle it here.
+    if (!parameter.style) {
+      return encodeURIComponent(formatter(formData, parameter, 'path'));
+    }
+
+    return formatter(formData, parameter, 'path');
   });
 
   const queryStrings = parameters && parameters.filter(param => param.in === 'query');
