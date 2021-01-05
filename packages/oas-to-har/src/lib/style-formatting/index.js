@@ -100,8 +100,8 @@ function shouldExplode(parameter) {
 }
 
 module.exports = function formatStyle(value, parameter) {
-  // Deep object only works on exploded objects
-  if (parameter.style === 'deepObject' && (typeof value !== 'object' || parameter.explode === false)) {
+  // Deep object only works on exploded non-array objects
+  if (parameter.style === 'deepObject' && (value.constructor !== Object || parameter.explode === false)) {
     return undefined;
   }
 

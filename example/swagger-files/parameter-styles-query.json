@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "description": "This oas file demonstrates all of the different path parameter styles",
+      "description": "This oas file demonstrates all of the different query parameter styles",
       "version": "1.0.0",
       "title": "Parameter Styles",
       "contact": {
@@ -13,26 +13,26 @@
       }
     },
     "paths": {
-        "/nonExplodedMatrixPaths/{primitive}/{array}/{object}": {
+        "/nonExplodedFormQueries": {
             "get": {
-                "summary": "Demonstrate all non-exploded matrix path styles",
-                "operationId": "demonstratePaths",
+                "summary": "Demonstrate all non-exploded form query styles",
+                "operationId": "demonstrateQueries",
                 "parameters": [{
                     "name": "primitive",
-                    "in": "path",
-                    "description": "Matrix style primitive",
+                    "in": "query",
+                    "description": "Form style primitive",
                     "required": true,
-                    "style": "matrix",
+                    "style": "form",
                     "explode": false,
                     "schema": {
                         "type": "string"
                     }
                 }, {
                     "name": "array",
-                    "in": "path",
-                    "description": "Matrix style array",
+                    "in": "query",
+                    "description": "Form style array",
                     "required": true,
-                    "style": "matrix",
+                    "style": "form",
                     "explode": false,
                     "schema": {
                         "type": "array",
@@ -42,10 +42,10 @@
                     }
                 }, {
                     "name": "object",
-                    "in": "path",
-                    "description": "Matrix style object",
+                    "in": "query",
+                    "description": "Form style object",
                     "required": true,
-                    "style": "matrix",
+                    "style": "form",
                     "explode": false,
                     "schema": {
                         "type": "object",
@@ -66,26 +66,26 @@
                 }
             }
         },
-        "/explodedMatrixPaths/{primitive}/{array}/{object}": {
+        "/explodedFormQueries": {
             "get": {
-                "summary": "Demonstrate all exploded matrix path styles",
-                "operationId": "demonstratePaths",
+                "summary": "Demonstrate all exploded form query styles",
+                "operationId": "demonstrateQueries",
                 "parameters": [{
                     "name": "primitive",
-                    "in": "path",
-                    "description": "Matrix style primitive",
+                    "in": "query",
+                    "description": "Form style primitive",
                     "required": true,
-                    "style": "matrix",
+                    "style": "form",
                     "explode": true,
                     "schema": {
                         "type": "string"
                     }
                 }, {
                     "name": "array",
-                    "in": "path",
-                    "description": "Matrix style array",
+                    "in": "query",
+                    "description": "Form style array",
                     "required": true,
-                    "style": "matrix",
+                    "style": "form",
                     "explode": true,
                     "schema": {
                         "type": "array",
@@ -95,10 +95,10 @@
                     }
                 }, {
                     "name": "object",
-                    "in": "path",
-                    "description": "Matrix style object",
+                    "in": "query",
+                    "description": "Form style object",
                     "required": true,
-                    "style": "matrix",
+                    "style": "form",
                     "explode": true,
                     "schema": {
                         "type": "object",
@@ -119,26 +119,16 @@
                 }
             }
         },
-        "/nonExplodedLabelPaths/{primitive}/{array}/{object}": {
+        "/nonExplodedSpaceDelimitedQueries": {
             "get": {
-                "summary": "Demonstrate all non-exploded label path styles",
-                "operationId": "demonstratePaths",
+                "summary": "Demonstrate all non-exploded spaceDelimited query styles",
+                "operationId": "demonstrateQueries",
                 "parameters": [{
-                    "name": "primitive",
-                    "in": "path",
-                    "description": "label style primitive",
-                    "required": true,
-                    "style": "label",
-                    "explode": false,
-                    "schema": {
-                        "type": "string"
-                    }
-                }, {
                     "name": "array",
-                    "in": "path",
-                    "description": "label style array",
+                    "in": "query",
+                    "description": "spaceDelimited style array",
                     "required": true,
-                    "style": "label",
+                    "style": "spaceDelimited",
                     "explode": false,
                     "schema": {
                         "type": "array",
@@ -148,10 +138,10 @@
                     }
                 }, {
                     "name": "object",
-                    "in": "path",
-                    "description": "label style object",
+                    "in": "query",
+                    "description": "spaceDelimited style object. Note: This does not currently work. See associated test.",
                     "required": true,
-                    "style": "label",
+                    "style": "spaceDelimited",
                     "explode": false,
                     "schema": {
                         "type": "object",
@@ -172,27 +162,17 @@
                 }
             }
         },
-        "/explodedLabelPaths/{primitive}/{array}/{object}": {
+        "/nonExplodedPipeDelimitedQueries": {
             "get": {
-                "summary": "Demonstrate all exploded label path styles",
-                "operationId": "demonstratePaths",
+                "summary": "Demonstrate all non-exploded pipeDelimited query styles",
+                "operationId": "demonstrateQueries",
                 "parameters": [{
-                    "name": "primitive",
-                    "in": "path",
-                    "description": "label style primitive",
-                    "required": true,
-                    "style": "label",
-                    "explode": true,
-                    "schema": {
-                        "type": "string"
-                    }
-                }, {
                     "name": "array",
-                    "in": "path",
-                    "description": "label style array",
+                    "in": "query",
+                    "description": "pipeDelimited style array",
                     "required": true,
-                    "style": "label",
-                    "explode": true,
+                    "style": "pipeDelimited",
+                    "explode": false,
                     "schema": {
                         "type": "array",
                         "items": {
@@ -201,11 +181,11 @@
                     }
                 }, {
                     "name": "object",
-                    "in": "path",
-                    "description": "label style object",
+                    "in": "query",
+                    "description": "pipeDelimited style object. Note: This does not currently work. See associated test.",
                     "required": true,
-                    "style": "label",
-                    "explode": true,
+                    "style": "pipeDelimited",
+                    "explode": false,
                     "schema": {
                         "type": "object",
                         "properties": {
@@ -225,92 +205,16 @@
                 }
             }
         },
-        "/nonExplodedSimplePaths/{primitive}/{array}/{object}": {
+        "/explodedDeepObjectQueries": {
             "get": {
-                "summary": "Demonstrate all non-exploded simple path styles",
-                "operationId": "demonstratePaths",
+                "summary": "Demonstrate all non-exploded deep object query styles",
+                "operationId": "demonstrateQueries",
                 "parameters": [{
-                    "name": "primitive",
-                    "in": "path",
-                    "description": "simple style primitive",
-                    "required": true,
-                    "style": "simple",
-                    "explode": false,
-                    "schema": {
-                        "type": "string"
-                    }
-                }, {
-                    "name": "array",
-                    "in": "path",
-                    "description": "simple style array",
-                    "required": true,
-                    "style": "simple",
-                    "explode": false,
-                    "schema": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                }, {
                     "name": "object",
-                    "in": "path",
+                    "in": "query",
                     "description": "simple style object",
                     "required": true,
-                    "style": "simple",
-                    "explode": false,
-                    "schema": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "description": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }],
-                "responses": {
-                    "200": {
-                        "description": "Successful response"
-                    }
-                }
-            }
-        },
-        "/explodedSimplePaths/{primitive}/{array}/{object}": {
-            "get": {
-                "summary": "Demonstrate all exploded simple path styles",
-                "operationId": "demonstratePaths",
-                "parameters": [{
-                    "name": "primitive",
-                    "in": "path",
-                    "description": "simple style primitive",
-                    "required": true,
-                    "style": "simple",
-                    "explode": true,
-                    "schema": {
-                        "type": "string"
-                    }
-                }, {
-                    "name": "array",
-                    "in": "path",
-                    "description": "simple style array",
-                    "required": true,
-                    "style": "simple",
-                    "explode": true,
-                    "schema": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                }, {
-                    "name": "object",
-                    "in": "path",
-                    "description": "simple style object",
-                    "required": true,
-                    "style": "simple",
+                    "style": "deepObject",
                     "explode": true,
                     "schema": {
                         "type": "object",
@@ -340,4 +244,4 @@
       "schemas": {
       }
     }
-  }
+}

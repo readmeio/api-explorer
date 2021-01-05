@@ -12,9 +12,9 @@ const undefinedArrayInput = [undefined];
 const objectInput = { R: 100, G: 200, B: 150 };
 const undefinedObjectInput = { R: undefined };
 
-const semicolon = '%3B';
-const equals = '%3D';
-const comma = '%2C';
+const semicolon = ';'; // %3B when encoded, which we don't want
+const equals = '='; // %3D when encoded, which we don't want
+const comma = ','; // %2C when encoded, which we don't want
 
 /**
  * These tests ensure that each style matches the spec: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#style-values
@@ -617,7 +617,7 @@ describe('query values', () => {
       [
         'should NOT support pipe delimited query styles for exploded array input',
         paramExplode,
-        { cookie: { color: arrayInput } },
+        { query: { color: arrayInput } },
         [],
       ],
       // This is supposed to be supported, but the style-seralizer library we use does not have support. Holding off for now.
@@ -707,7 +707,7 @@ describe('query values', () => {
       [
         'should NOT support deepObject delimited query styles for exploded array input',
         paramExplode,
-        { cookie: { color: arrayInput } },
+        { query: { color: arrayInput } },
         [],
       ],
       [
@@ -906,14 +906,13 @@ describe('header values', () => {
       { header: { color: arrayInput } },
       [{ name: 'color', value: 'blue,black,brown' }],
     ],
-    // DOES NOT CURRENTLY WORK, BECAUSE WE DON'T WANT SEPARATE HEADER VALUES FOR EXPLODE
     [
       'should support simple header styles for exploded arrays',
       paramExplode,
       { header: { color: arrayInput } },
       // NOTE: The wording of explode sounds like exploding this object should lead to multiple color headers,
       //  but the examples at https://swagger.io/docs/specification/serialization/#header show a single header
-      //  I believe this is because in HTTP, multiple headers are represented by a comma separated list in a single header
+      //  I believe this is because in HTTP (https://tools.ietf.org/html/rfc7230#section-3.2.2), multiple identical headers are represented by a comma separated list in a single header
       [{ name: 'color', value: 'blue,black,brown' }],
     ],
     [
@@ -922,14 +921,13 @@ describe('header values', () => {
       { header: { color: objectInput } },
       [{ name: 'color', value: 'R,100,G,200,B,150' }],
     ],
-    // DOES NOT CURRENTLY WORK, BECAUSE WE DON'T WANT SEPARATE HEADER VALUES FOR EXPLODE
     [
       'should support simple header styles for exploded objects',
       paramExplode,
       { header: { color: objectInput } },
       // NOTE: The wording of explode sounds like exploding this object should lead to an R, G and B header,
       //  but the examples at https://swagger.io/docs/specification/serialization/#header show a single header
-      //  I believe this is because in HTTP, multiple headers are represented by a comma separated list in a single header
+      //  I'm not sure why this is the case, since explosion should push these values up one level. I would think that we would end up with R, G and B headers. For some unclear reason we do not.
       [{ name: 'color', value: 'R=100,G=200,B=150' }],
     ],
   ])('%s', async (testCase, operation = {}, values = {}, expectedHeaders = []) => {
