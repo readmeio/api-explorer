@@ -31,7 +31,7 @@
     "@readme/emojis": "^2.1.0",
     "@readme/ui": "^1.17.3",
     "babel-polyfill": "^6.26.0",
-    "oas": "github:readmeio/oas#perf/schema-memoization",
+    "oas": "github:readmeio/oas#build/v9",
     "prop-types": "^15.7.2",
     "react-hot-loader": "^4.12.16",
     "swagger2openapi": "^7.0.0",

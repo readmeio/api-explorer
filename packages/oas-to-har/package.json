@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@readme/oas-extensions": "^10.0.8",
-    "oas": "github:readmeio/oas#perf/schema-memoization",
+    "oas": "github:readmeio/oas#build/v9",
     "parse-data-url": "^3.0.0"
   },
   "devDependencies": {
