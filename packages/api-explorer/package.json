@@ -50,7 +50,7 @@
     "@readme/eslint-config": "^4.0.0",
     "@readme/markdown": "^6.21.0",
     "@readme/oas-examples": "^4.0.0",
-    "@readme/ui": "^1.17.0",
+    "@readme/ui": "^1.17.6",
     "@readme/variable": "^10.0.9",
     "@testing-library/react": "^11.2.2",
     "css-loader": "^4.3.0",
