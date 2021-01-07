@@ -16,7 +16,7 @@
         "/nonExplodedSimpleHeaders": {
             "get": {
                 "summary": "Demonstrate all non-exploded simple header styles",
-                "operationId": "demonstrateHeaders",
+                "operationId": "demonstrateNonExplodedSimpleHeaders",
                 "parameters": [{
                     "name": "primitive",
                     "in": "header",
@@ -69,7 +69,7 @@
         "/explodedSimpleHeaders": {
             "get": {
                 "summary": "Demonstrate all exploded simple header styles",
-                "operationId": "demonstrateHeaders",
+                "operationId": "demonstrateExplodedSimpleHeaders",
                 "parameters": [{
                     "name": "primitive",
                     "in": "header",

@@ -16,7 +16,7 @@
         "/nonExplodedFormQueries": {
             "get": {
                 "summary": "Demonstrate all non-exploded form query styles",
-                "operationId": "demonstrateQueries",
+                "operationId": "demonstrateNonExplodedFormQueries",
                 "parameters": [{
                     "name": "primitive",
                     "in": "query",
@@ -69,7 +69,7 @@
         "/explodedFormQueries": {
             "get": {
                 "summary": "Demonstrate all exploded form query styles",
-                "operationId": "demonstrateQueries",
+                "operationId": "demonstrateExplodedFormQueries",
                 "parameters": [{
                     "name": "primitive",
                     "in": "query",
@@ -122,7 +122,7 @@
         "/nonExplodedSpaceDelimitedQueries": {
             "get": {
                 "summary": "Demonstrate all non-exploded spaceDelimited query styles",
-                "operationId": "demonstrateQueries",
+                "operationId": "demonstrateNonExplodedSpaceDelimitedQueries",
                 "parameters": [{
                     "name": "array",
                     "in": "query",
@@ -165,7 +165,7 @@
         "/nonExplodedPipeDelimitedQueries": {
             "get": {
                 "summary": "Demonstrate all non-exploded pipeDelimited query styles",
-                "operationId": "demonstrateQueries",
+                "operationId": "demonstrateNonExplodedPipeDelimitedQueries",
                 "parameters": [{
                     "name": "array",
                     "in": "query",
@@ -207,8 +207,8 @@
         },
         "/explodedDeepObjectQueries": {
             "get": {
-                "summary": "Demonstrate all non-exploded deep object query styles",
-                "operationId": "demonstrateQueries",
+                "summary": "Demonstrate all exploded deep object query styles",
+                "operationId": "demonstrateExplodedDeepObjectQueries",
                 "parameters": [{
                     "name": "object",
                     "in": "query",

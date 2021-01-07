@@ -16,7 +16,7 @@
         "/nonExplodedMatrixPaths/{primitive}/{array}/{object}": {
             "get": {
                 "summary": "Demonstrate all non-exploded matrix path styles",
-                "operationId": "demonstratePaths",
+                "operationId": "demonstrateNonExplodedMatrixPaths",
                 "parameters": [{
                     "name": "primitive",
                     "in": "path",
@@ -69,7 +69,7 @@
         "/explodedMatrixPaths/{primitive}/{array}/{object}": {
             "get": {
                 "summary": "Demonstrate all exploded matrix path styles",
-                "operationId": "demonstratePaths",
+                "operationId": "demonstrateExplodedMatrixPaths",
                 "parameters": [{
                     "name": "primitive",
                     "in": "path",
@@ -122,7 +122,7 @@
         "/nonExplodedLabelPaths/{primitive}/{array}/{object}": {
             "get": {
                 "summary": "Demonstrate all non-exploded label path styles",
-                "operationId": "demonstratePaths",
+                "operationId": "demonstrateNonExplodedLabelPaths",
                 "parameters": [{
                     "name": "primitive",
                     "in": "path",
@@ -175,7 +175,7 @@
         "/explodedLabelPaths/{primitive}/{array}/{object}": {
             "get": {
                 "summary": "Demonstrate all exploded label path styles",
-                "operationId": "demonstratePaths",
+                "operationId": "demonstrateExplodedLabelPaths",
                 "parameters": [{
                     "name": "primitive",
                     "in": "path",
@@ -228,7 +228,7 @@
         "/nonExplodedSimplePaths/{primitive}/{array}/{object}": {
             "get": {
                 "summary": "Demonstrate all non-exploded simple path styles",
-                "operationId": "demonstratePaths",
+                "operationId": "demonstrateNonExplodedSimplePaths",
                 "parameters": [{
                     "name": "primitive",
                     "in": "path",
@@ -281,7 +281,7 @@
         "/explodedSimplePaths/{primitive}/{array}/{object}": {
             "get": {
                 "summary": "Demonstrate all exploded simple path styles",
-                "operationId": "demonstratePaths",
+                "operationId": "demonstrateExplodedSimplePaths",
                 "parameters": [{
                     "name": "primitive",
                     "in": "path",

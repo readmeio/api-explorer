@@ -23,7 +23,7 @@ const comma = ','; // %2C when encoded, which we don't want
  * Why 3.1.0 when it's not out yet, and we don't support it? Well all the prior documentation is riddled with documentation inconsistencies that appear
  *    to be cleared up in 3.1.0. No new features, just less confusion.
  *
- * That said, we still prefer the spec to https://swagger.io/docs/specification/serialization which is drastically different for some unknown reason.
+ * Sometimes we also refer to https://swagger.io/docs/specification/serialization for implementation clarification, such as when explode becomes multiple parameters, and when it stays as multiple values in one parameter
  *
  * I have copied the spec and example from the 3.1.0 docs below for easy reference
  *
@@ -529,7 +529,7 @@ describe('query values', () => {
         { query: { color: arrayInput } },
         [],
       ],
-      // This is supposed to be supported, but the style-seralizer library we use does not have support. Holding off for now.
+      // This is supposed to be supported, but the style-serializer library we use does not have support. Holding off for now.
       /* [
         'should support space delimited query styles for non exploded object input',
         paramNoExplode,

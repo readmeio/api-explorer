@@ -16,7 +16,7 @@
         "/nonExplodedFormCookies": {
             "get": {
                 "summary": "Demonstrate all non-exploded form cookie styles",
-                "operationId": "demonstrateCookies",
+                "operationId": "demonstrateNonExplodedFormCookies",
                 "parameters": [{
                     "name": "primitive",
                     "in": "cookie",
@@ -69,7 +69,7 @@
         "/explodedFormCookies": {
             "get": {
                 "summary": "Demonstrate all exploded form cookie styles",
-                "operationId": "demonstrateCookies",
+                "operationId": "demonstrateExplodedFormCookies",
                 "parameters": [{
                     "name": "primitive",
                     "in": "cookie",
