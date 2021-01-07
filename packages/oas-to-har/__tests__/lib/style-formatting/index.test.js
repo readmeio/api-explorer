@@ -49,18 +49,18 @@ const comma = ','; // %2C when encoded, which we don't want
  *     object -> { "R": 100, "G": 200, "B": 150 }
  *
  *  The following table shows examples of rendering differences for each value. (NON-SPEC-NOTE: I've added the additional `in` column for easy reference)
- *  style 	        explode 	empty 	string 	      array 	                              object                                  in
- *  matrix 	        false 	  ;color 	;color=blue 	;color=blue,black,brown 	            ;color=R,100,G,200,B,150                path
- *  matrix 	        true 	    ;color 	;color=blue 	;color=blue;color=black;color=brown 	;R=100;G=200;B=150                      path
- *  label 	        false     . 	    .blue 	      .blue.black.brown 	                  .R.100.G.200.B.150                      path
- *  label 	        true      . 	    .blue 	      .blue.black.brown 	                  .R=100.G=200.B=150                      path
- *  form 	          false 	  color= 	color=blue 	  color=blue,black,brown 	              color=R,100,G,200,B,150                 query, cookie
- *  form 	          true 	    color= 	color=blue 	  color=blue&color=black&color=brown 	  R=100&G=200&B=150                       query, cookie
- *  simple 	        false 	  n/a 	  blue 	        blue,black,brown 	                    R,100,G,200,B,150                       path, header
- *  simple 	        true 	    n/a 	  blue 	        blue,black,brown 	                    R=100,G=200,B=150                       path, header
- *  spaceDelimited 	false 	  n/a 	  n/a 	        blue%20black%20brown 	                R%20100%20G%20200%20B%20150             query
- *  pipeDelimited 	false 	  n/a 	  n/a 	        blue|black|brown 	                    R|100|G|200|B|150                       query
- *  deepObject 	    true 	    n/a 	  n/a 	        n/a 	                                color[R]=100&color[G]=200&color[B]=150  query
+ *  style           explode   empty   string        array                                 object                                  in
+ *  matrix          false     ;color  ;color=blue   ;color=blue,black,brown               ;color=R,100,G,200,B,150                path
+ *  matrix          true      ;color  ;color=blue   ;color=blue;color=black;color=brown   ;R=100;G=200;B=150                      path
+ *  label           false     .       .blue         .blue.black.brown                     .R.100.G.200.B.150                      path
+ *  label           true      .       .blue         .blue.black.brown                     .R=100.G=200.B=150                      path
+ *  form            false     color=  color=blue    color=blue,black,brown                color=R,100,G,200,B,150                 query, cookie
+ *  form            true      color=  color=blue    color=blue&color=black&color=brown    R=100&G=200&B=150                       query, cookie
+ *  simple          false     n/a     blue          blue,black,brown                      R,100,G,200,B,150                       path, header
+ *  simple          true      n/a     blue          blue,black,brown                      R=100,G=200,B=150                       path, header
+ *  spaceDelimited  false     n/a     n/a           blue%20black%20brown                  R%20100%20G%20200%20B%20150             query
+ *  pipeDelimited   false     n/a     n/a           blue|black|brown                      R|100|G|200|B|150                       query
+ *  deepObject      true      n/a     n/a           n/a                                   color[R]=100&color[G]=200&color[B]=150  query
  */
 
 // This should work for matrix(empty, primitive, array, object)*(explode:t/f), label(empty, primitive, array, object)*(explode:t/f), simple(primitive, array, object)*(explode:t/f)
