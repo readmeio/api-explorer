@@ -1,0 +1,247 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "This oas file demonstrates all of the different query parameter styles",
+      "version": "1.0.0",
+      "title": "Parameter Styles",
+      "contact": {
+        "email": "aaron@readme.io"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "paths": {
+        "/nonExplodedFormQueries": {
+            "get": {
+                "summary": "Demonstrate all non-exploded form query styles",
+                "operationId": "demonstrateNonExplodedFormQueries",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "query",
+                    "description": "Form style primitive",
+                    "required": true,
+                    "style": "form",
+                    "explode": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "query",
+                    "description": "Form style array",
+                    "required": true,
+                    "style": "form",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "query",
+                    "description": "Form style object",
+                    "required": true,
+                    "style": "form",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/explodedFormQueries": {
+            "get": {
+                "summary": "Demonstrate all exploded form query styles",
+                "operationId": "demonstrateExplodedFormQueries",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "query",
+                    "description": "Form style primitive",
+                    "required": true,
+                    "style": "form",
+                    "explode": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "query",
+                    "description": "Form style array",
+                    "required": true,
+                    "style": "form",
+                    "explode": true,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "query",
+                    "description": "Form style object",
+                    "required": true,
+                    "style": "form",
+                    "explode": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/nonExplodedSpaceDelimitedQueries": {
+            "get": {
+                "summary": "Demonstrate all non-exploded spaceDelimited query styles",
+                "operationId": "demonstrateNonExplodedSpaceDelimitedQueries",
+                "parameters": [{
+                    "name": "array",
+                    "in": "query",
+                    "description": "spaceDelimited style array",
+                    "required": true,
+                    "style": "spaceDelimited",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "query",
+                    "description": "spaceDelimited style object. Note: This does not currently work. See associated test.",
+                    "required": true,
+                    "style": "spaceDelimited",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/nonExplodedPipeDelimitedQueries": {
+            "get": {
+                "summary": "Demonstrate all non-exploded pipeDelimited query styles",
+                "operationId": "demonstrateNonExplodedPipeDelimitedQueries",
+                "parameters": [{
+                    "name": "array",
+                    "in": "query",
+                    "description": "pipeDelimited style array",
+                    "required": true,
+                    "style": "pipeDelimited",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "query",
+                    "description": "pipeDelimited style object. Note: This does not currently work. See associated test.",
+                    "required": true,
+                    "style": "pipeDelimited",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/explodedDeepObjectQueries": {
+            "get": {
+                "summary": "Demonstrate all exploded deep object query styles",
+                "operationId": "demonstrateExplodedDeepObjectQueries",
+                "parameters": [{
+                    "name": "object",
+                    "in": "query",
+                    "description": "simple style object",
+                    "required": true,
+                    "style": "deepObject",
+                    "explode": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+      "requestBodies": {
+      },
+      "securitySchemes": {
+      },
+      "schemas": {
+      }
+    }
+}

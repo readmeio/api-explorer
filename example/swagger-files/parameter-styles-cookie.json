@@ -1,0 +1,131 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "This oas file demonstrates all of the different cookie parameter styles",
+      "version": "1.0.0",
+      "title": "Parameter Styles",
+      "contact": {
+        "email": "aaron@readme.io"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "paths": {
+        "/nonExplodedFormCookies": {
+            "get": {
+                "summary": "Demonstrate all non-exploded form cookie styles",
+                "operationId": "demonstrateNonExplodedFormCookies",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "cookie",
+                    "description": "Form style primitive",
+                    "required": true,
+                    "style": "form",
+                    "explode": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "cookie",
+                    "description": "Form style array. Note: this is encoded in https://github.com/readmeio/httpsnippet/blob/master/src/index.js#L94, it's unclear whether this encoding is the correct behavior because the cookie header deviates from all other headers.",
+                    "required": true,
+                    "style": "form",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "cookie",
+                    "description": "Form style object. Note: this is encoded in https://github.com/readmeio/httpsnippet/blob/master/src/index.js#L94, it's unclear whether this encoding is the correct behavior because the cookie header deviates from all other headers.",
+                    "required": true,
+                    "style": "form",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/explodedFormCookies": {
+            "get": {
+                "summary": "Demonstrate all exploded form cookie styles",
+                "operationId": "demonstrateExplodedFormCookies",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "cookie",
+                    "description": "Form style primitive",
+                    "required": true,
+                    "style": "form",
+                    "explode": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "cookie",
+                    "description": "Form style array. Note: this is encoded in https://github.com/readmeio/httpsnippet/blob/master/src/index.js#L94, it's unclear whether this encoding is the correct behavior because the cookie header deviates from all other headers.",
+                    "required": true,
+                    "style": "form",
+                    "explode": true,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "cookie",
+                    "description": "Form style object. Note: this is encoded in https://github.com/readmeio/httpsnippet/blob/master/src/index.js#L94, it's unclear whether this encoding is the correct behavior because the cookie header deviates from all other headers.",
+                    "required": true,
+                    "style": "form",
+                    "explode": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+      "requestBodies": {
+      },
+      "securitySchemes": {
+      },
+      "schemas": {
+      }
+    }
+}
