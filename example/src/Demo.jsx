@@ -73,7 +73,7 @@ class Demo extends React.Component {
   }
 
   render() {
-    const { fetchSwagger, status, docs, oas, oasUrl, oauth } = this.props;
+    const { appearance, docs, fetchSwagger, flags, status, oas, oasFiles, oasUrl, oasUrls, oauth } = this.props;
     const {
       brokenExplorerState,
       enableJsonEditor,
@@ -82,59 +82,116 @@ class Demo extends React.Component {
       useNewMarkdownEngine,
     } = this.state;
 
-    const additionalProps = {
-      oasFiles: {
-        'demo-api-setting': Object.assign(extensions.defaults, oas),
+    const props = {
+      appearance: {
+        // Uncomment this in for column layout
+        // referenceLayout: 'column'
+        referenceLayout: 'row',
       },
-      oasUrls: {
-        'demo-api-setting': oasUrl,
+
+      // Uncomment this if you want to test enterprise-structured URLs
+      // baseUrl: '/child/v1.0',
+      baseUrl: '/',
+
+      // To test the top level error boundary, uncomment this
+      // docs: [null, null],
+      docs,
+
+      // We only really set this to `true` for testing sites for errors using puppeteer
+      dontLazyLoad: false,
+
+      flags: {
+        correctnewlines: false,
+      },
+
+      enableRequestBodyJsonEditor: enableJsonEditor,
+      glossaryTerms: [{ term: 'apiKey', definition: 'This is a definition' }],
+      Logs,
+      maskErrorMessages,
+      oasFiles: { 'demo-api-setting': Object.assign(extensions.defaults, oas) },
+      oasUrls: { 'demo-api-setting': oasUrl },
+      oauth,
+      suggestedEdits: true,
+      useNewMarkdownEngine,
+
+      variables: {
+        // Uncomment this to test without logs
+        // user: {}
+        // Uncomment this to test with logs
+        // user: {
+        //   keys: [
+        //     { id: 'someid', name: 'project1', apiKey: '123' },
+        //     { id: 'anotherid', name: 'project2', apiKey: '456' },
+        //   ],
+        // },
+        // Uncomment this to test without keys array
+        // user: { user: '123456', pass: 'abc', apiKey: '123456' },
+        user: {
+          keys: [
+            { id: 'asdfghjkl', name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' },
+            { id: 'zxcvbnm', name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' },
+          ],
+        },
+        defaults: [],
       },
     };
 
+    const propOverrides = {
+      appearance: Object.keys(appearance).length ? appearance : props.appearance,
+      flags: Object.keys(flags).length ? flags : props.flags,
+      oasFiles: Object.keys(oasFiles).length ? oasFiles : props.oasFiles,
+      oasUrls: Object.keys(oasUrls).length ? oasUrls : props.oasUrls,
+    };
+
     if (brokenExplorerState) {
-      delete additionalProps.oasFiles;
+      delete props.oasFiles;
     }
 
     if (enableTutorials) {
       docs.forEach((doc, i) => {
-        docs[i].tutorials = [
-          {
-            title: 'Test Tutorial',
-            description: 'Tutorial description',
-            slug: 'test-tutorial',
-            backgroundColor: '#018FF4',
-            emoji: '🦉',
-            _id: '123',
-            response: '',
-            steps: [
-              {
-                title: 'Step One',
-                body: 'Step one description',
-                lineNumbers: ['1'],
-              },
-              {
-                title: 'Step Two',
-                body: 'Step one description',
-                lineNumbers: [],
-              },
-            ],
-            snippet: {
-              endpoint: {},
-              codeOptions: [
+        // Only add our mock tutorials if we don't have them present.
+        if (!('tutorials' in doc)) {
+          docs[i].tutorials = [
+            {
+              title: 'Test Tutorial',
+              description: 'Tutorial description',
+              slug: 'test-tutorial',
+              backgroundColor: '#018FF4',
+              emoji: '🦉',
+              _id: '123',
+              response: '',
+              steps: [
                 {
-                  code: 'const r = "hello world";',
-                  language: 'node',
-                  highlightedSyntax: 'javascript',
-                  name: 'Node',
+                  title: 'Step One',
+                  body: 'Step one description',
+                  lineNumbers: ['1'],
+                },
+                {
+                  title: 'Step Two',
+                  body: 'Step one description',
+                  lineNumbers: [],
                 },
               ],
+              snippet: {
+                endpoint: {},
+                codeOptions: [
+                  {
+                    code: 'const r = "hello world";',
+                    language: 'node',
+                    highlightedSyntax: 'javascript',
+                    name: 'Node',
+                  },
+                ],
+              },
             },
-          },
-        ];
+          ];
+        }
       });
     } else {
       docs.forEach((doc, i) => {
-        docs[i].tutorials = [];
+        if (!('tutorials' in doc)) {
+          docs[i].tutorials = [];
+        }
       });
     }
 
@@ -146,60 +203,27 @@ class Demo extends React.Component {
           {status.length > 0 ? <pre>{status.join('\n')}</pre> : this.experimentToggles()}
         </div>
 
-        {status.length === 0 && (
-          <ApiExplorer
-            {...additionalProps}
-            // Uncomment this in for column layout
-            // appearance={{ referenceLayout: 'column' }}
-            appearance={{ referenceLayout: 'row' }}
-            // Uncomment this if you want to test enterprise-structured URLs
-            // baseUrl={'/child/v1.0'}
-            baseUrl="/"
-            // To test the top level error boundary, uncomment this
-            // docs={[null, null]}
-            docs={docs}
-            // We only really set this to `true` for testing sites for errors using puppeteer
-            dontLazyLoad={false}
-            enableRequestBodyJsonEditor={enableJsonEditor}
-            flags={{ correctnewlines: false }}
-            glossaryTerms={[{ term: 'apiKey', definition: 'This is a definition' }]}
-            Logs={Logs}
-            maskErrorMessages={maskErrorMessages}
-            oauth={oauth}
-            suggestedEdits
-            useNewMarkdownEngine={useNewMarkdownEngine}
-            variables={{
-              // Uncomment this to test without logs
-              // user: {}
-              // Uncomment this to test with logs
-              // user: {
-              //   keys: [
-              //     { id: 'someid', name: 'project1', apiKey: '123' },
-              //     { id: 'anotherid', name: 'project2', apiKey: '456' },
-              //   ],
-              // },
-              // Uncomment this to test without keys array
-              // user: { user: '123456', pass: 'abc', apiKey: '123456' },
-              user: {
-                keys: [
-                  { id: 'asdfghjkl', name: 'project1', apiKey: '123', user: 'user1', pass: 'pass1' },
-                  { id: 'zxcvbnm', name: 'project2', apiKey: '456', user: 'user2', pass: 'pass2' },
-                ],
-              },
-              defaults: [],
-            }}
-          />
-        )}
+        <div id="api-explorer">{status.length === 0 && <ApiExplorer {...props} {...propOverrides} />}</div>
       </div>
     );
   }
 }
 
 Demo.propTypes = {
+  appearance: PropTypes.shape({
+    referenceLayout: PropTypes.string,
+    splitReferenceDocs: PropTypes.bool,
+  }).isRequired,
   docs: PropTypes.arrayOf(PropTypes.shape).isRequired,
   fetchSwagger: PropTypes.func.isRequired,
+  flags: PropTypes.shape({
+    correctnewlines: PropTypes.bool,
+    rdmdCompatibilityMode: PropTypes.bool,
+  }),
   oas: PropTypes.shape({}).isRequired,
+  oasFiles: PropTypes.shape({}).isRequired,
   oasUrl: PropTypes.string.isRequired,
+  oasUrls: PropTypes.shape({}).isRequired,
   oauth: PropTypes.bool,
   status: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

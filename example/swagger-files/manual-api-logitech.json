@@ -1,0 +1,914 @@
+{
+  "readmeManual": true,
+  "appearance": {
+    "referenceLayout": "column",
+    "splitReferenceDocs": true
+  },
+  "flags": {
+    "correctnewlines": false,
+    "rdmdCompatibilityMode": true
+  },
+  "docs": [
+    {
+      "_id": "545fb728-cf3c-4c3c-a0ac-b8e12801c0b2",
+      "api": {
+        "results": {
+          "codes": [
+            {
+              "status": 200,
+              "language": "json",
+              "code": "{}",
+              "name": ""
+            },
+            {
+              "status": 400,
+              "language": "json",
+              "code": "{}",
+              "name": ""
+            }
+          ]
+        },
+        "auth": "required",
+        "params": [],
+        "url": "",
+        "method": "get"
+      },
+      "body": "The Notification Events subsystem is responsible for pushing data out to clients when events occur.\n\nThe following calls are related to subscription of events\n* [Register for Client Notifications](ref:register-for-client-notifications) \n* [Register for Server Notifications](ref:register-for-server-notifications) \n* [Get WebPush Service Options](ref:get-webpush-service-options) \n* [Register for WebPush Notifications](ref:register-for-webpush-notifications) \n* [Unregister WebPush Notifications](ref:unregister-webpush-notifications)\n\nNotification content is always JSON.\n[block:api-header]\n{\n  \"title\": \"JSON Event Body\"\n}\n[/block]\n\n[block:parameters]\n{\n  \"data\": {\n    \"h-0\": \"Name\",\n    \"h-1\": \"Type\",\n    \"h-2\": \"Description\",\n    \"0-0\": \"accountId\",\n    \"0-1\": \"string\",\n    \"1-1\": \"string\",\n    \"2-1\": \"object\",\n    \"3-1\": \"any\",\n    \"3-0\": \"userData\",\n    \"2-0\": \"eventData\",\n    \"1-0\": \"eventType\",\n    \"0-2\": \"The <<glossary:Account Id>> involved.\",\n    \"1-2\": \"Which event payload is contained in the eventData field. One of:\\n\\n- `activity_created`\\n- `activity_updated`\\n- `activity_finished`\\n- `activity_deleted`\\n- `motion_started`\\n- `motion_ended`\\n- `accessory_added`\\n- `accessory_deleted`\\n- `accessory_settings_changed`\\n- `service_plan_changed`\\n- `summary_created`\\n- `firmware_update_started`\\n- `firmware_update_progress`\\n- `firmware_update_completed`\\n- `account_deleted`\",\n    \"2-2\": \"The event specific data payload defined below.\",\n    \"3-2\": \"The `userData` supplied in the  [Register for Server Notifications](ref:register-for-server-notifications) call. If no `userData` was supplied this field will not be present.\"\n  },\n  \"cols\": 3,\n  \"rows\": 4\n}\n[/block]\n\n[block:api-header]\n{\n  \"title\": \"Event Data Payloads\"\n}\n[/block]\nEach *eventType* has a specific payload format in the *eventData* field.\n\n## activity_created, activity_updated, and activity_finished\n\nThese events all contain the same object as you get from [Get Activity by Id](ref:get-activity-by-id) with the addition of an *accessoryId* field for the [Accessory](ref:Accessory) involved. All of these events are propagated in near real-time with a delay between occurrence and transmission ranging from several seconds to one minute. When receiving these events, there is no need to call [Get Activity by Id](ref:get-activity-by-id), as the same data is present already in the *eventData* field.\n\n-   `activity_created` - Sent once after the initial [Activity](ref:Activity) is created and the first analysis for [Classifiers](ref:Classifiers) has been completed. The initial [Activity](ref:Activity) meta-data is included in the notification.\n-   `activity_updated` - Sent zero or more times depending on the length of the [Activity](ref:Activity). The [Classifier](ref:Classifiers) meta-data can change and is cumulative for items detected. [Relevance Level](ref:Relevance_Level) can change from the initial activity_created event.\n-   `activity_finished` - Sent once and indicates that no further *activity_updated* events will happen. The meta-data is now finalized and calls to the [Activities API](ref:Activities_API) functions such as [Get Activity by Id](ref:get-activity-by-id), [Get Activity DASH](ref:get-activity-dash), [Get Activity JPG File](ref:get-activity-jpg-file) and [Get Activity MP4 File](ref:get-activity-mp4-file) are now idempotent.\n\n## activity_deleted\n\nThis event indicates that the user has performed an early delete of an <<glossary:Activity>> . After this event is received, calls to the [Activities API](ref:Activities-API) will fail with a [404 - Not Found](doc:404-not-found). Media related to the [Activity](ref:Activity) has already been purged when this event gets propagated.\n[block:parameters]\n{\n  \"data\": {\n    \"h-0\": \"Name\",\n    \"h-1\": \"Type\",\n    \"h-2\": \"Description\",\n    \"0-0\": \"accessoryId\",\n    \"0-1\": \"string\",\n    \"0-2\": \"The <<glossary:Accessory Id>>  involved.\",\n    \"1-0\": \"activityId\",\n    \"1-1\": \"string\",\n    \"1-2\": \"The <<glossary:Activity Id>>  involved.\"\n  },\n  \"cols\": 3,\n  \"rows\": 2\n}\n[/block]\n## motion_started and motion_stopped\n\nThese events require the rarely granted [Permissions](doc:permissions) scope of [circle:notifications_motion](doc:permissions-notifications_motion).\n\nThese are raw, unfiltered and possibly high frequency events indicating that the camera has detected some kind of motion is in progress. Since motion events are unprocessed, an <<glossary:Activity>>  may not be created if the [Classifiers](doc:classifiers) engine later determines there is no [Relevance Level](doc:classifiers-relevance_level) for it. These events are propagated in real-time with a delay of 0 to 4 seconds from actual occurrence. A single motion_stopped event will always be sent if a motion_started event has occurred regardless if an <<glossary:Activity>> was created. The payload for these events is an object containing the following keys:\n[block:parameters]\n{\n  \"data\": {\n    \"h-0\": \"Name\",\n    \"h-1\": \"Type\",\n    \"h-2\": \"Description\",\n    \"0-0\": \"accessoryId\",\n    \"0-1\": \"string\",\n    \"0-2\": \"The <<glossary:Accessory Id>>  involved.\",\n    \"1-0\": \"timestamp\",\n    \"1-1\": \"string\",\n    \"1-2\": \"The originating UTC <<glossary:Timestamp>> at the <<glossary:Accessory>> that the event occurred. The offset from wall-clock time can be used to determine overall event propagation delay if needed.\"\n  },\n  \"cols\": 3,\n  \"rows\": 2\n}\n[/block]\n## accessory_added\n\nThis event contains the same object as you get from [Get Accessory by Id](ref:get-accessory-by-id) and is triggered from an invocation of [Create Accessory](ref:create-accessory). Since the process of creating an Accessory is asynchronous and involves BLE setup, only the <<glossary:Accessory Id>> in the return set is considered valid. As the camera completes its WiFi setup and configuration, you will receive `accessory_settings_changed` events with valid contents. An accessory is not considered fully setup until the *firmwareVersion* field is populated with a non-empty value.\n\n## accessory_deleted\n\nThis event contains the following object with just an \"accessoryId\" field for the <<glossary:Accessory>> involved. This event is triggered from an invocation of [Delete Accessory by Id](ref:delete-accessory-by-id).\n[block:parameters]\n{\n  \"data\": {\n    \"h-0\": \"Name\",\n    \"h-1\": \"Type\",\n    \"h-2\": \"Description\",\n    \"0-0\": \"accessoryId\",\n    \"0-1\": \"string\",\n    \"0-2\": \"The <<glossary:Accessory Id>>  involved.\"\n  },\n  \"cols\": 3,\n  \"rows\": 1\n}\n[/block]\n## accessory_settings_changed\n\nThis event means that a client (including yours) has changed a setting on the <<glossary:Accessory>> via the [Set Accessory Config by Id](ref:set-accessory-config_by-d) call. This event contains the same object as you get from [Get Accessory by Id](ref:get-accessory-by-id).\n\n## service_plan_changed\n\nThis event contains the same object as you get from [Get Accessory by Id](ref:get-accessory-by-id) and indicates that the [Service Plan Features](ref:Service_Plan_Features) are now different.\n\n## summary_created\n\nThis event contains the `bare` summary object as defined in [Get Summary by Id](ref:get-summary-by-id). When this event is received the <<glossary:Summary>> state is now `processed` and ready to be viewed or downloaded.\n\n## firmware_update_started, firmware_update_progress, firmware_update_completed\n\nIf these events are received, but were initiated by your client, it means another party initiated the firmware update. You can then track the progress\n\n-   `firmware_update_started` - This indicates the firmware update process has begun.\n-   `firmware_update_progress` - This reports a change in the firmware download percentage progress. You may not receive this event if the download goes very fast. You must handle the race condition between this event and `accessory_settings_changed` when the <<glossary:Accessory>> goes offline to reboot and finish the update.\n-   `firmware_update_completed` - Sent once and indicates that the firmware update has ended. If the process goes fast, this may be the only event received. You must handle the race condition between this event and `accessory_settings_changed` when the <<glossary:Accessory>> comes back online after its reboot.\n[block:parameters]\n{\n  \"data\": {\n    \"h-0\": \"Name\",\n    \"h-1\": \"Type\",\n    \"h-2\": \"Description\",\n    \"0-0\": \"accessoryId\",\n    \"0-1\": \"string\",\n    \"1-0\": \"completionStatus\",\n    \"1-1\": \"string\",\n    \"3-1\": \"string\",\n    \"4-1\": \"string\",\n    \"2-1\": \"integer\",\n    \"2-0\": \"downloadProgress\",\n    \"3-0\": \"firmwareId\",\n    \"4-0\": \"version\",\n    \"0-2\": \"The <<glossary:Activity Id>> involved.\",\n    \"1-2\": \"One of the following which indicates success or failure:\\n\\n`InProgress` - The process is still going on. This is the value during `firmware_update_started` and `firmware_update_progress` events.\\n`OK` - The update completed successfully.\\n`BatteryLow` - The battery was too low after the download completed to finish.\\n`Cancelled` - The camera cancelled the update most likely because something else caused a reboot of the camera.\\n`DownloadTimeout` - The download timed out due to taking too long and the operation aborted\\n`DownloadError` - The download failed or the file was corrupted after downloading. This is likely caused by a proxy or other network issue.\\n`InstallError` - The firmware was not able to be installed on the device, and the device has come back online.\\n`InstallTimeout` - The Accessory never returned online after rebooting to complete the update.\\n`Offline` - The Accessory went offline before the download/install completed and the update has failed. This typically occurs if the power is removed during the download or install phase. This state can take several minutes to propagate depending on how uncleanly the camera went away.\",\n    \"2-2\": \"This is a value from `0` to `100`. This field is only valid in the `firmware_update_started` and `firmware_update_progress` events.\",\n    \"3-2\": \"The Firmware Version Id being installed. You can match this to data from [Get Firmware by Model Number](ref:get-firmware-by-model-numb).\",\n    \"4-2\": \"The user visible firmware version being installed. This is the same as the version field returned in [Get Firmware by Model Number]().\"\n  },\n  \"cols\": 3,\n  \"rows\": 5\n}\n[/block]\n## account_deleted\n\nThis event is sent when an account is deleted from the Circle system. This is a rare event, but typically occurs due to the GDPR deletion requests. This event is propagated to all receivers even if it wasn't specified in the eventFilter for your registration. You will receive this event after receiving individual `accessory_deleted` events. After the Circle servers propagate this event, all Notification registration will be automatically deleted and active WebSockets connections will be closed. There is no need for your client to invoke [Unregister Server Notifications](ref:unregister-server-notifications) or [Unregister WebPush Notifications](ref:unregister-webpush-notifications). There is no additional payload in this event as the main payload already contains `accountId`.\n[block:api-header]\n{\n  \"title\": \"Examples\"\n}\n[/block]\n\n[block:code]\n{\n  \"codes\": [\n    {\n      \"code\": \"{\\n    \\\"accountId\\\": \\\"9385e6f9-70c3-45b2-62e4-ace3d027988a\\\",\\n    \\\"eventType\\\": \\\"activity_created\\\",\\n    \\\"eventData\\\": { ... }\\n}\",\n      \"language\": \"json\",\n      \"name\": \"Notification for Activity Created with no userData originally supplied\"\n    },\n    {\n      \"code\": \"{\\n    \\\"accountId\\\": \\\"9385e6f9-70c3-45b2-62e4-ace3d027988a\\\",\\n    \\\"eventType\\\": \\\"activity_created\\\",\\n    \\\"eventData\\\": { ... }\\n    \\\"userData\\\": {\\n        \\\"foo\\\": \\\"bar\\\"\\n    }\\n}\",\n      \"language\": \"json\",\n      \"name\": \"Notification for Activity Created with userData originally supplied\"\n    },\n    {\n      \"code\": \"{\\n    \\\"accountId\\\": \\\"9385e6f9-70c3-45b2-62e4-ace3d027988a\\\",\\n    \\\"eventType\\\": \\\"account_deleted\\\",\\n    \\\"eventData\\\": {}\\n    \\\"userData\\\": {\\n        \\\"foo\\\": \\\"bar\\\"\\n    }\\n}\",\n      \"language\": \"text\",\n      \"name\": \"Account Deleted\"\n    }\n  ]\n}\n[/block]",
+      "excerpt": "",
+      "slug": "notification-events",
+      "type": "basic",
+      "title": "Notification Events"
+    },
+    {
+      "_id": "29639889-0d46-469e-bbaf-53c3dab18527",
+      "api": {
+        "results": {
+          "codes": [
+            {
+              "name": "Redirect",
+              "code": "HTTP/1.1 301 Moved\nLocation: wss://<opaque_single_use_url>",
+              "language": "http",
+              "status": 301
+            },
+            {
+              "status": 201,
+              "language": "http",
+              "code": "HTTP/1.1 201 Created\nX-Logi-WebSocket-Url: wss://<opaque_single_use_url>"
+            },
+            {
+              "status": 400,
+              "language": "javascript",
+              "code": "// Invalid parameters were requested"
+            },
+            {
+              "status": 403,
+              "language": "javascript",
+              "code": "// You don't have permissions scope to receive notifications"
+            }
+          ]
+        },
+        "auth": "required",
+        "params": [
+          {
+            "ref": "",
+            "in": "header",
+            "required": false,
+            "desc": "Set to `true` to disable the automatic 301 Redirect behavior. This will add a `X-Logi-WebSocket-Url` response header containing the WebSockets URL.",
+            "default": "false",
+            "type": "boolean",
+            "name": "X-Logi-NoRedirect"
+          },
+          {
+            "ref": "",
+            "in": "body",
+            "required": true,
+            "desc": "Which event types to receive notifications for. One or more of the values from [Notification Events](notification-events). Only request what you need.",
+            "default": "",
+            "type": "array_string",
+            "name": "eventTypes"
+          },
+          {
+            "ref": "",
+            "in": "body",
+            "required": false,
+            "desc": "An array of <<glossary:Accessory Id>> that you want receive notifications about. If not passed, all accessories on the account including ones added in the future will be used.",
+            "default": "",
+            "type": "array_string",
+            "name": "accessories"
+          },
+          {
+            "ref": "ExtraFields",
+            "in": "body",
+            "required": false,
+            "desc": "An object containing a map of the extra fields that should be included when a notification containing that entity type is sent.",
+            "default": "",
+            "type": "object",
+            "name": "extraFields"
+          }
+        ],
+        "url": "/api/accounts/self/notifications",
+        "method": "post",
+        "apiSetting": "5c2e346b-50f9-4192-9e97-88e3155b24e4",
+        "examples": {
+          "codes": [
+            {
+              "name": "Register for Activity Created and Activity Finished with Redirect",
+              "language": "http",
+              "code": "// 1. Initial Request\nPOST /api/account/self/notifications\nContent-Type: application/json\n{\n    \"eventTypes\": [ \"activity_created\", \"activity_finished\" ],\n    \"extraFields\": { \"activity\" : [\"objectTypes\", \"objectColors\"] }\n}\n \n// 2. Initial Response\nHTTP/1.1 301 Moved\nLocation: wss://<opaque_single_use_url>\n  \n// 3. Your WebSockets Client\nGET wss://<opaque_single_use_url> HTTP/1.1\nOrigin: https://<opaque domain>\nConnection: Upgrade\nHost: <opaque server hostname>\nUpgrade: websocket\n  \n// 4. WebSockets Upgrade from our Server\nHTTP/1.1 101 WebSocket Protocol Handshake\nConnection: Upgrade\nUpgrade: WebSocket"
+            },
+            {
+              "name": "Register for Activity Created and Activity Finished without Redirect",
+              "language": "http",
+              "code": "// 1. Initial Request\nPOST /api/account/self/notifications\nX-Logi-NoRedirect: true\nContent-Type: application/json\n{\n    \"eventTypes\": [ \"activity_created\", \"activity_finished\" ]\n}\n \n// 2. Initial Response\nHTTP/1.1 201 Created\nX-Logi-WebSocket-Url: wss://<opaque_single_use_url>\n  \n// 3. New Request\nGET wss://<opaque_single_use_url> HTTP/1.1\nConnection: Upgrade\nHost: <opaque server hostname>\nUpgrade: websocket\n  \n// 4. WebSockets Upgrade from our Server\nHTTP/1.1 101 WebSocket Protocol Handshake\nConnection: Upgrade\nUpgrade: WebSocket"
+            }
+          ]
+        }
+      },
+      "body": "This API call allows for requesting an encrypted [WebSockets](https://tools.ietf.org/html/rfc6455) URL which will receive the events requested. See [Notification Events](ref:notification-events) for full details of each events payload type. This API call will 301 redirect to a one-time use WebSockets URL. When following the redirect you MUST NOT set the *Authorization* header and you MUST NOT cache the resulting URL. The returned URL will have a different hostname than the main API Server, is valid once, and only for 30 seconds after issuance.\n\nIf you don't want the automatic redirect behavior, then add a header called *X-Logi-NoRedirect* and set the value to \"true\". This will return the one-time use WebSockets URL in a response header called *X-Logi-WebSocket-Url.*\n[block:api-header]\n{\n  \"title\": \"Important Notes\"\n}\n[/block]\n-   Your [WebSockets](https://tools.ietf.org/html/rfc6455) client MUST send *[Ping](https://tools.ietf.org/html/rfc6455#section-5.5.2)* frames once an hour or the connection may drop due to the Firewall or NATs.\n-   If the WebSockets connection drops, timeouts or is disconnected by the server, you must reinitiate via this main API call, not the redirected URL previously used.\n-   New registrations take a few seconds to a minute to propagate internally. You must handle <<glossary:Activity>> race conditions that will occur during this period.\n-   You must handle missing events, such as receiving `activity_updated`, `activity_finished`, or `motion_ended` without the previous states.\n-   **Only register for event types that your system intends to use.** Over registration will cause your client application to be shut-off and removed. This is especially true for high frequency events such as `motion_started` and `motion_ended`. You will always receive the `account_deleted` event if its not included in your `eventTypes`.\n[block:api-header]\n{\n  \"title\": \"Permissions\"\n}\n[/block]\nRequires a [Permissions](doc:permissions) scope of: [circle:notifications](doc:permissions-notifications) or [circle:notifications_motion](doc:permissions-notifications_motion)\n[block:api-header]\n{\n  \"title\": \"Event Notification\"\n}\n[/block]\nSee [Notification Events](ref:notification-events) for the body of events.\n[block:code]\n{\n  \"codes\": [\n    {\n      \"code\": \"{\\n    \\\"accountId\\\": \\\"9385e6f9-70c3-45b2-62e4-ace3d027988a\\\",\\n    \\\"eventType\\\": \\\"activity_created\\\",\\n    \\\"eventData\\\": { ... }\\n}\",\n      \"language\": \"json\",\n      \"name\": \"WebSocket Frame Example\"\n    }\n  ]\n}\n[/block]",
+      "excerpt": "",
+      "slug": "register-for-client-notifications",
+      "type": "endpoint",
+      "title": "Register for Client Notifications",
+      "swagger": {
+        "path": "/api/accounts/self/notifications"
+      }
+    },
+    {
+      "_id": "49e1c25b-5643-4012-90aa-fa89b05f9036",
+      "api": {
+        "apiSetting": "872e3bac-4172-42fe-b78d-95be254b25ff",
+        "examples": {
+          "codes": [
+            {
+              "name": "Register for Activity Created and Activity Finished",
+              "language": "http",
+              "code": "PUT /api/account/self/notifications/36eebb2d-c549-48fc-bb0c-e64b2c349301\n{\n    \"url\": \"https://server1.example.com/incoming/circle/notifications\",\n    \"authKey\": \"dau58agbnangha8578qngnafsfg\",\n    \"eventTypes\": [ \"activity_created\", \"activity_finished\" ],\n    \"extraFields\": { \"activity\" : [\"objectTypes\", \"objectColors\"] }\n}"
+            },
+            {
+              "name": "Register for Activity Created and Activity Finished with User Data for only one Accessory",
+              "language": "http",
+              "code": "PUT /api/account/self/notifications/36eebb2d-c549-48fc-bb0c-e64b2c349301\n{\n    \"url\": \"https://server1.example.com/incoming/circle/notifications\",\n    \"authKey\": \"dau58agbnangha8578qngnafsfg\",\n    \"eventTypes\": [ \"activity_created\", \"activity_finished\" ],\n    \"accessories\" : [\"70e3e6f9-70c3-45b2-62e4-ace3d027988a\"],\n    \"userData\": { \"myInternalId\": \"alkjfgkjhasdkjna\" }\n}"
+            }
+          ]
+        },
+        "results": {
+          "codes": [
+            {
+              "name": "",
+              "code": "// The request was received and your notification URL will be invoked as new events occur. There may be a small delay while the request propagates.",
+              "language": "javascript",
+              "status": 200
+            },
+            {
+              "name": "",
+              "code": "// Invalid parameters were requested",
+              "language": "javascript",
+              "status": 400
+            },
+            {
+              "code": "// You don't have permissions scope to receive notifications",
+              "language": "javascript",
+              "status": 403
+            }
+          ]
+        },
+        "auth": "required",
+        "params": [
+          {
+            "name": "oauth2_client_id",
+            "type": "string",
+            "default": "",
+            "desc": "Your OAuth2 Client Id",
+            "required": false,
+            "in": "path",
+            "ref": ""
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "default": "",
+            "desc": "The full https URL which will be called. Only https URL's are supported. Your server must present a valid certificate signed by a valid CA",
+            "required": true,
+            "in": "body",
+            "ref": ""
+          },
+          {
+            "name": "authKey",
+            "type": "string",
+            "default": "",
+            "desc": "The key our system will use to sign the outbound notification. This must be 8 to 32 bytes in length and must be limited to printable ASCII characters. See Event Verification below for full details.",
+            "required": true,
+            "in": "body",
+            "ref": ""
+          },
+          {
+            "name": "eventTypes",
+            "type": "array_string",
+            "default": "",
+            "desc": "Which event types to receive notifications for. One or more of the values from [Notification Events](notification-events). Only request what you need.",
+            "required": true,
+            "in": "body",
+            "ref": ""
+          },
+          {
+            "name": "accessories",
+            "type": "array_string",
+            "default": "",
+            "desc": "An array of <<glossary:Accessory Id>> that you want receive notifications about. If not passed, all accessories on the account including ones added in the future will be used.",
+            "required": false,
+            "in": "body",
+            "ref": ""
+          },
+          {
+            "name": "extraFields",
+            "type": "object",
+            "default": "",
+            "desc": "An object containing a map of the extra fields that should be included when a notification containing that entity type is sent. Acceptable fields in this object are:",
+            "required": false,
+            "in": "body",
+            "ref": "ExtraFields"
+          },
+          {
+            "name": "userData",
+            "type": "json",
+            "default": "",
+            "desc": "Caller supplied JSON Type (string, array, object, int, etc) that is passed back in each notification. This must be 128 bytes or less in size when encoded in JSON.",
+            "required": false,
+            "in": "body",
+            "ref": ""
+          }
+        ],
+        "url": "/api/accounts/self/notifications/{oauth2_client_id}",
+        "method": "put"
+      },
+      "body": "This API call allows for registering or updating of an account for transmission of server to server notifications. The URL provided will be called as a POST method with a body of type \"application/json\". See [Notification Events](Notification_Events) for full details of each events payload type. Each OAuth2 client may only register a single notification URL per [Account Id](Account_Id). If this method is called again any existing settings will be overwritten. To remove the notifications registered use [Unregister Server Notifications](ref:unregister-server-notifications).\n[block:api-header]\n{\n  \"title\": \"Important Notes\"\n}\n[/block]\n- New or changed registrations take a few seconds to a minute to propagate internally. You must handle [Activity](Activity) race conditions that may occur.\n- You must handle missing events, such as receiving `activity_updated`, `activity_finished`, or `motion_ended` without the previous states.\n- Circle servers enforce a 5 second maximum time per [Notification Event](ref:notification-events). Included in the 5 seconds is the time required for the Circle Servers to perform DNS lookup and HTTPS connection establishment.\n- **Only register for event types that your system intends to use.** Over registration will cause your client application to be shut-off and removed. This is especially true for high frequency events such as *motion_started* and *motion_ended*. You will always receive the `account_deleted` event if its not included in your `eventTypes`.\n[block:api-header]\n{\n  \"title\": \"Permissions\"\n}\n[/block]\nRequires a [Permissions](doc:permissions) scope of: [circle:notifications](doc:permissions-notifications) or [circle:notifications_motion](doc:permissions-notifications_motion)\n[block:api-header]\n{\n  \"title\": \"Event Verification\"\n}\n[/block]\nAll event notification calls include a `X-Logi-Verify` header which is an [HMAC-SHA256](https://tools.ietf.org/html/rfc4868) of the entire body, where the HMAC key was provided via the `authKey` parameter in the register call. Receivers must verify this value to ensure that the call properly originated from the Circle servers. We can not provide a list of valid IP addresses of our servers. This value is returned as a [base64 encoded](https://tools.ietf.org/html/rfc4648) string.\n[block:api-header]\n{\n  \"title\": \"Event Body\"\n}\n[/block]\nSee [Notification Events](ref:notification-events) for the body structure.\n[block:api-header]\n{\n  \"title\": \"Your Server Response\"\n}\n[/block]\n- [200 - Ok](doc:200-ok) or any 2XX: Your service received the call and accepted it.\n- [410 - Gone](doc:410-gone): Your service requests that we remove this specific registration for this <<glossary:Account Id>>. You MUST handle receiving more Notifications while this propagates internally. This has the same result as calling [Unregister Server Notifications](ref:unregister-server-notifications).\n- All other response codes, DNS failures, or connection timeouts: Circle servers will retry sending the a notification two more times in quick succession and then discard it.\n- 3XX redirects will NOT be followed.\n[block:api-header]\n{\n  \"title\": \"Event Examples\"\n}\n[/block]\n\n[block:code]\n{\n  \"codes\": [\n    {\n      \"code\": \"POST <URL provided in Register Call>\\nX-Logi-Verify: <Event Verification String>\\nContent-Type: application/json\\n{\\n\\t<event body>...\\n}\",\n      \"language\": \"http\",\n      \"name\": \"Generic Notification\"\n    },\n    {\n      \"code\": \"POST https://server1.example.com/incoming/circle/notifications\\nX-Logi-Verify: askjhaTGWADScnsdnb...\\nContent-Type: application/json; charset=utf-8\\nContent-Length: <value>\\n{\\n    \\\"accountId\\\": \\\"9385e6f9-70c3-45b2-62e4-ace3d027988a\\\",\\n    \\\"eventType\\\": \\\"activity_created\\\",\\n    \\\"eventData\\\": { ... }\\n    \\\"userData\\\": {\\n        \\\"foo\\\": \\\"bar\\\"\\n    }\\n}\\n  \\n// Your Server Response\\nHTTP/1.1 200 Ok\",\n      \"language\": \"http\",\n      \"name\": \"Notification for Activity Created with userData originally supplied\"\n    },\n    {\n      \"code\": \"POST https://server1.example.com/incoming/circle/notifications\\nX-Logi-Verify: askjhaTGWADScnsdnb...\\nContent-Type: application/json; charset=utf-8\\nContent-Length: <value>\\n{\\n    \\\"accountId\\\": \\\"9385e6f9-70c3-45b2-62e4-ace3d027988a\\\",\\n    \\\"eventType\\\": \\\"activity_created\\\",\\n    \\\"eventData\\\": { ... }\\n}\\n \\n// Your Server Response\\nHTTP/1.1 200 Ok\",\n      \"language\": \"http\",\n      \"name\": \"Notification for Activity Created with no userData originally supplied\"\n    }\n  ]\n}\n[/block]",
+      "excerpt": "",
+      "slug": "register-for-server-notifications",
+      "type": "endpoint",
+      "title": "Register for Server Notifications",
+      "swagger": {
+        "path": "/api/accounts/self/notifications/{oauth2_client_id}"
+      }
+    },
+    {
+      "_id": "fe99d6f3-f0b2-4fcd-a9df-181f5b27a674",
+      "api": {
+        "apiSetting": "5c2e346b-50f9-4192-9e97-88e3155b24e4",
+        "examples": {
+          "codes": [
+            {
+              "name": "Delete Registation Example",
+              "language": "http",
+              "code": "DELETE /api/account/self/notifications/36EEBB2D-C549-48FC-BB0C-E64B2C349301"
+            }
+          ]
+        },
+        "results": {
+          "codes": [
+            {
+              "name": "",
+              "code": "// The request was received and your notification URL has been removed. You may receive events for a short time while the unregister propagates and it is safe to return either 200 - Ok or 410 - Gone during this period.",
+              "language": "javascript",
+              "status": 204
+            },
+            {
+              "status": 403,
+              "language": "javascript",
+              "code": "// You don't have permissions scope to unregister notifications"
+            }
+          ]
+        },
+        "auth": "required",
+        "params": [
+          {
+            "name": "oauth2_client_id",
+            "type": "string",
+            "default": "",
+            "desc": "Your OAuth2 Client Id",
+            "required": false,
+            "in": "path",
+            "ref": ""
+          }
+        ],
+        "url": "/api/accounts/self/notifications/{oauth2_client_id}",
+        "method": "delete"
+      },
+      "body": "This API call will remove and stop the notifications requested in [Register for Server Notifications](ref:register-for-server-notifications) for a given <<glossary:Account Id>>. If you want to change the types of notifications just call [Register for Server Notifications](ref:register-for-server-notifications) with the new types rather than calling this.\n[block:api-header]\n{\n  \"title\": \"Permissions\"\n}\n[/block]\nRequires a [Permissions](doc:permissions) scope of: [circle:notifications](doc:permissions-notifications) or [circle:notifications_motion](doc:permissions-notifications_motion)",
+      "excerpt": "",
+      "slug": "unregister-server-notifications",
+      "type": "endpoint",
+      "title": "Unregister Server Notifications",
+      "swagger": {
+        "path": "/api/accounts/self/notifications/{oauth2_client_id}"
+      }
+    },
+    {
+      "_id": "88cb3c6c-4173-468e-8677-1302d3b22960",
+      "api": {
+        "apiSetting": "5c2e346b-50f9-4192-9e97-88e3155b24e4",
+        "examples": {
+          "codes": []
+        },
+        "results": {
+          "codes": [
+            {
+              "name": "",
+              "code": "{\n  \"applicationServerKey\": \"<base64 encoded value>\",\n  \"userVisibleOnly\": false\n}",
+              "language": "json",
+              "status": 200
+            },
+            {
+              "status": 403,
+              "language": "javascript",
+              "code": "// You don't have the right permissions scope to do WebPush"
+            }
+          ]
+        },
+        "auth": "required",
+        "params": [],
+        "url": "/api/webpush/service",
+        "method": "get"
+      },
+      "body": "This API will retrieve the WebPush service options ([W3C WebPush](https://www.w3.org/TR/push-api/), [IETF RFC 8030](https://tools.ietf.org/html/rfc8030)) for use with the HTML5/Javascript function *[PushManager.subscribe(options)](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe#Parameters)*. This includes the [VAPID (RFC 8292)](https://tools.ietf.org/html/rfc8292) authentication keys which allow for server-to-server authentication. The returned object is utilized to generate the values needed for invoking [Register for WebPush Notifications](ref:register-for-webpush-notifications).\n[block:api-header]\n{\n  \"title\": \"Permissions\"\n}\n[/block]\nRequires a [Permissions](doc:permissions) scope of: [circle:notifications](doc:permissions-notifications) or [circle:notifications_motion](doc:permissions-notifications_motion)\n[block:api-header]\n{\n  \"title\": \"Response Body\"\n}\n[/block]\n\n[block:parameters]\n{\n  \"data\": {\n    \"h-0\": \"Name\",\n    \"h-1\": \"Type\",\n    \"h-2\": \"Description\",\n    \"0-0\": \"applicationServerKey\",\n    \"0-1\": \"string\",\n    \"1-0\": \"userVisibleOnly\",\n    \"1-1\": \"boolean\",\n    \"0-2\": \"The base64 encoded [Elliptic curve Diffie–Hellman](https://en.wikipedia.org/wiki/Elliptic_curve_Diffie%E2%80%93Hellman) public key on the P-256 curve used by the Circle servers for [VAPID](https://tools.ietf.org/html/rfc8292).\",\n    \"1-2\": \"A boolean indicating that the returned push subscription will only be used for messages whose effect is made visible to the user. In Circle this is always false.\"\n  },\n  \"cols\": 3,\n  \"rows\": 2\n}\n[/block]",
+      "excerpt": "",
+      "slug": "get-webpush-service-options",
+      "type": "endpoint",
+      "title": "Get WebPush Service Options",
+      "swagger": {
+        "path": "/api/webpush/service"
+      }
+    },
+    {
+      "_id": "70fec133-c5d8-4d56-a7d6-54aa813a9f86",
+      "api": {
+        "apiSetting": "5c2e346b-50f9-4192-9e97-88e3155b24e4",
+        "examples": {
+          "codes": [
+            {
+              "name": "Register for Activity Created and Activity Finished",
+              "language": "http",
+              "code": "POST /api/account/self/notifications/webpush\n{\n    \"pushSubscription\": {\n        \"endpoint\": \"https://server1.example.com/incoming/1234567890/notifications\",\n        \"expirationTime\": 471762645,\n        \"keys\": {\n            \"p256dh\": \"<string form of key>\",\n            \"auth\": \"<the authentication secret>\"\n        },\n    }\n    \"eventTypes\": [ \"activity_created\", \"activity_finished\" ],\n    \"extraFields\": { \"activity\" : [\"objectTypes\", \"objectColors\"] }\n}"
+            },
+            {
+              "name": "Register for Activity Created and Activity Finished with User Data for only one Accessory",
+              "language": "http",
+              "code": "POST /api/account/self/notifications/webpush\n{\n    \"pushSubscription\": {\n        \"endpoint\": \"https://server1.example.com/incoming/1234567890/notifications\",\n        \"expirationTime\": 471762645,\n        \"keys\": {\n            \"p256dh\": \"<string form of key>\",\n            \"auth\": \"<the authentication secret>\"\n        },\n    },\n    \"eventTypes\": [ \"activity_created\", \"activity_finished\" ],\n    \"accessories\" : [\"70e3e6f9-70c3-45b2-62e4-ace3d027988a\"]\n}"
+            }
+          ]
+        },
+        "results": {
+          "codes": [
+            {
+              "status": 200,
+              "language": "javascript",
+              "code": "// The request was received and your WebPush URL will be invoked as new events occur. There may be a small delay while the request propagates.",
+              "name": ""
+            },
+            {
+              "status": 400,
+              "language": "javascript",
+              "code": "// Bad parameters were requested.",
+              "name": ""
+            },
+            {
+              "status": 403,
+              "language": "text",
+              "code": "// You don't have the notifications permission scope."
+            }
+          ]
+        },
+        "auth": "required",
+        "params": [
+          {
+            "ref": "",
+            "in": "body",
+            "required": true,
+            "desc": "The [PushSubscription](https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription) object returned by the HTML5 [PushManager::subscribe()](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe) function in JSON form.",
+            "default": "",
+            "type": "object",
+            "name": "pushSubscription"
+          },
+          {
+            "ref": "",
+            "in": "body",
+            "required": true,
+            "desc": "Which event types to receive notifications for. One or more of the values from [Notification Events](notification-events). Only request what you need.",
+            "default": "",
+            "type": "array_string",
+            "name": "eventTypes"
+          },
+          {
+            "ref": "",
+            "in": "body",
+            "required": false,
+            "desc": "An array of <<glossary:Accessory Id>> that you want receive notifications about. If not passed, all accessories on the account including ones added in the future will be used.",
+            "default": "",
+            "type": "array_string",
+            "name": "accessories"
+          },
+          {
+            "ref": "ExtraFields",
+            "in": "body",
+            "required": false,
+            "desc": "An object containing a map of the extra fields that should be included when a notification containing that entity type is sent. Acceptable fields in this object are:",
+            "default": "",
+            "type": "object",
+            "name": "extraFields"
+          }
+        ],
+        "url": "/api/accounts/self/notifications/webpush",
+        "method": "post"
+      },
+      "body": "This API call allows for registering or updating of an account for transmission of standardized WebPush notifications ([W3C WebPush](https://www.w3.org/TR/push-api/), [IETF RFC 8030](https://tools.ietf.org/html/rfc8030)). The URL provided will be called as a POST method with a body of type \"application/json\". See [Notification Events](ref:notification-events) for full details of each events payload type. If this method is called again for the given unique endpoint, any existing settings will be overwritten. To remove the notifications registered use [Unregister WebPush Notifications](ref:unregister-webpush-notifications).\n[block:api-header]\n{\n  \"title\": \"Important Notes\"\n}\n[/block]\n- [Web Push Data encryption](https://tools.ietf.org/html/rfc8291) (RFC 8291) can be utilized for encrypting the message bodies.\n- To utilize [VAPID](https://tools.ietf.org/html/rfc8292) (RFC 8292) authentication, retrieve the public key from the [Get WebPush Service Options](ref:get-webpush-service-options) endpoint and provide the data to your invocation of [PushManager::subscribe()](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe) call via the [options::applicationServerKey](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe#Parameters) value.\n- New or changed registrations take a few seconds to a minute to propagate internally. You must handle [Activity](Activity) race conditions that may occur.\n- You must handle missing events, such as receiving `activity_updated`, `activity_finished`, or `motion_ended` without the previous states.\n- Circle servers enforce a 5 second maximum time per [notification event](ref:notification-events). Included in the 5 seconds is the time required for the Circle Servers to perform DNS lookup and HTTPS connection establishment.\n- **Only register for event types that your system intends to use. **Over registration will cause your client application to be shut-off and removed. This is especially true for high frequency events such as *motion_started* and *motion_ended*.\n- To change the types of notifications just invoke this call again with the [PushSubscription](https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription) object retrieved by the HTML5 [PushManager::getSubscription()](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/getSubscription) function.\n[block:api-header]\n{\n  \"title\": \"Permissions\"\n}\n[/block]\nRequires a [Permissions](doc:permissions) scope of: [circle:notifications](doc:permissions-notifications) or [circle:notifications_motion](doc:permissions-notifications_motion)\n[block:api-header]\n{\n  \"title\": \"Event Verification\"\n}\n[/block]\nAll event notification calls are signed using [VAPID](https://tools.ietf.org/html/rfc8292) (RFC 8292) for the server-to-server leg. VAPID signature is passed in the `Authorization` and `Crypto-Key` headers. The content is encrypted according to [Web Push Data encryption](https://tools.ietf.org/html/rfc8291) (RFC 8291).\n[block:api-header]\n{\n  \"title\": \"Event Body\"\n}\n[/block]\nThe outer body uses [RFC 8030 Payload Format](https://tools.ietf.org/html/rfc8030). The inner body uses the regular [Notification Events](ref:notification-events) structure.",
+      "excerpt": "",
+      "slug": "register-for-webpush-notifications",
+      "type": "endpoint",
+      "title": "Register for WebPush Notifications",
+      "swagger": {
+        "path": "/api/accounts/self/notifications/webpush"
+      }
+    },
+    {
+      "_id": "73f62e3b-2e1b-487a-9962-c91e09e51db1",
+      "api": {
+        "apiSetting": "5c2e346b-50f9-4192-9e97-88e3155b24e4",
+        "examples": {
+          "codes": [
+            {
+              "name": "Unregister Example",
+              "language": "http",
+              "code": "DELETE /api/account/self/notifications/webpush\n{\n    \"pushSubscription\": {\n        \"endpoint\": \"https://server1.example.com/incoming/1234567890/notifications\",\n        \"expirationTime\": 471762645,\n        \"keys\": {\n            \"p256dh\": \"<string form of key>\",\n            \"auth\": \"<the authentication secret>\"\n        },\n    }\n}"
+            }
+          ]
+        },
+        "results": {
+          "codes": [
+            {
+              "status": 204,
+              "language": "javascript",
+              "code": "// The request was received and your notification URL has been removed. You may receive events for a short time while the unregister propagates and it is safe to return either 200 - Ok or 410 - Gone during this period.",
+              "name": ""
+            },
+            {
+              "status": 400,
+              "language": "json",
+              "code": "{}",
+              "name": ""
+            }
+          ]
+        },
+        "auth": "required",
+        "params": [
+          {
+            "ref": "",
+            "in": "body",
+            "required": false,
+            "desc": "The [PushSubscription](https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription) object returned by the HTML5 [PushManager::subscribe()](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe) function in JSON form.",
+            "default": "",
+            "type": "object",
+            "name": "pushSubscription"
+          }
+        ],
+        "url": "/api/accounts/self/notifications/webpush",
+        "method": "delete"
+      },
+      "body": "This API call will remove and stop the notifications requested in [Register for WebPush Notifications](ref:register-for-webpush-notifications). This call requires the [PushSubscription](https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription) object retrieved by the HTML5 PushManager::getSubscription().\n\nNote: If you want to change the types of notifications, instead call [Register for WebPush Notifications](ref:register-for-webpush-notifications).\n[block:api-header]\n{\n  \"title\": \"Permissions\"\n}\n[/block]\nRequires a [Permissions](doc:permissions) scope of: [circle:notifications](doc:permissions-notifications) or [circle:notifications_motion](doc:permissions-notifications_motion)",
+      "excerpt": "",
+      "slug": "unregister-webpush-notifications",
+      "type": "endpoint",
+      "title": "Unregister WebPush Notifications",
+      "swagger": {
+        "path": "/api/accounts/self/notifications/webpush"
+      }
+    }
+  ],
+  "oasFiles": {
+    "5c2e346b-50f9-4192-9e97-88e3155b24e4": {
+      "openapi": "3.0.3",
+      "info": {
+        "title": "Account API",
+        "version": "1.0"
+      },
+      "servers": [
+        {
+          "url": "https://api.circle.logi.com"
+        }
+      ],
+      "components": {
+        "securitySchemes": {
+          "sec0": {
+            "type": "oauth2",
+            "in": "query"
+          }
+        },
+        "schemas": {
+          "ExtraFields": {
+            "type": "object",
+            "properties": {
+              "accessory": {
+                "type": "array_string"
+              },
+              "activity": {
+                "type": "array_string"
+              },
+              "summary": {
+                "type": "array_string"
+              }
+            },
+            "required": []
+          },
+          "Location": {
+            "type": "object",
+            "properties": {
+              "longitude": {
+                "type": "float"
+              },
+              "latitude": {
+                "type": "float"
+              }
+            },
+            "required": []
+          },
+          "Address": {
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "country"
+            ]
+          }
+        }
+      },
+      "security": [
+        {
+          "sec0": []
+        }
+      ],
+      "paths": {
+        "/api/accounts/self/notifications": {
+          "post": {
+            "tags": [],
+            "summary": "Register for Client Notifications",
+            "description": "",
+            "operationId": "register-for-client-notifications",
+            "parameters": [
+              {
+                "name": "X-Logi-NoRedirect",
+                "in": "header",
+                "description": "Set to `true` to disable the automatic 301 Redirect behavior. This will add a `X-Logi-WebSocket-Url` response header containing the WebSockets URL.",
+                "required": false,
+                "schema": {
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            ],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "eventTypes"
+                    ],
+                    "properties": {
+                      "eventTypes": {
+                        "type": "array",
+                        "description": "Which event types to receive notifications for. One or more of the values from [Notification Events](notification-events). Only request what you need.",
+                        "default": [
+                          null
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "accessories": {
+                        "type": "array",
+                        "description": "An array of <<glossary:Accessory Id>> that you want receive notifications about. If not passed, all accessories on the account including ones added in the future will be used.",
+                        "default": [
+                          null
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "extraFields": {
+                        "type": "object",
+                        "description": "An object containing a map of the extra fields that should be included when a notification containing that entity type is sent.",
+                        "properties": {
+                          "accessory": {
+                            "type": "array",
+                            "description": "See extraFields in [Get Accessory by Id](ref:get-accessory-by-id).",
+                            "default": [],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "activity": {
+                            "type": "array",
+                            "description": "See extraFields in [Get Activity by Id](ref:get-activity-by-id).",
+                            "default": [],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "summary": {
+                            "type": "array",
+                            "description": "See extraFields in [Get Summary by Id](ref:get-summary-by-id).",
+                            "default": [],
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "deprecated": false
+          }
+        },
+        "/api/accounts/self/notifications/webpush": {
+          "post": {
+            "tags": [],
+            "summary": "Register for WebPush Notifications",
+            "description": "",
+            "operationId": "register-for-webpush-notifications",
+            "parameters": [],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "pushSubscription",
+                      "eventTypes"
+                    ],
+                    "properties": {
+                      "pushSubscription": {
+                        "type": "object",
+                        "description": "The [PushSubscription](https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription) object returned by the HTML5 [PushManager::subscribe()](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe) function in JSON form.",
+                        "properties": {}
+                      },
+                      "eventTypes": {
+                        "type": "array",
+                        "description": "Which event types to receive notifications for. One or more of the values from [Notification Events](notification-events). Only request what you need.",
+                        "default": [
+                          null
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "accessories": {
+                        "type": "array",
+                        "description": "An array of <<glossary:Accessory Id>> that you want receive notifications about. If not passed, all accessories on the account including ones added in the future will be used.",
+                        "default": [
+                          null
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "extraFields": {
+                        "type": "object",
+                        "description": "An object containing a map of the extra fields that should be included when a notification containing that entity type is sent. Acceptable fields in this object are:",
+                        "properties": {
+                          "accessory": {
+                            "type": "array",
+                            "description": "See extraFields in [Get Accessory by Id](ref:get-accessory-by-id).",
+                            "default": [],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "activity": {
+                            "type": "array",
+                            "description": "See extraFields in [Get Activity by Id](ref:get-activity-by-id).",
+                            "default": [],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "summary": {
+                            "type": "array",
+                            "description": "See extraFields in [Get Summary by Id](ref:get-summary-by-id).",
+                            "default": [],
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "deprecated": false
+          },
+          "delete": {
+            "tags": [],
+            "summary": "Unregister WebPush Notifications",
+            "description": "",
+            "operationId": "unregister-webpush-notifications",
+            "parameters": [],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "pushSubscription": {
+                        "type": "object",
+                        "description": "The [PushSubscription](https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription) object returned by the HTML5 [PushManager::subscribe()](https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe) function in JSON form.",
+                        "properties": {}
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "deprecated": false
+          }
+        },
+        "/api/accounts/self/notifications/{oauth2_client_id}": {
+          "delete": {
+            "tags": [],
+            "summary": "Unregister Server Notifications",
+            "description": "",
+            "operationId": "unregister-server-notifications",
+            "parameters": [
+              {
+                "name": "oauth2_client_id",
+                "in": "path",
+                "description": "Your OAuth2 Client Id",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": null,
+            "deprecated": false
+          }
+        },
+        "/api/webpush/service": {
+          "get": {
+            "tags": [],
+            "summary": "Get WebPush Service Options",
+            "description": "",
+            "operationId": "get-webpush-service-options",
+            "parameters": [],
+            "requestBody": null,
+            "deprecated": false
+          }
+        }
+      },
+      "x-headers": [
+        {
+          "key": "X-API-Key",
+          "value": "abc123"
+        }
+      ],
+      "x-explorer-enabled": false,
+      "x-proxy-enabled": false,
+      "x-samples-enabled": false,
+      "x-samples-languages": [
+        "curl",
+        "node",
+        "ruby",
+        "javascript",
+        "python"
+      ]
+    },
+    "872e3bac-4172-42fe-b78d-95be254b25ff": {
+      "openapi": "3.0.3",
+      "info": {
+        "title": "Notification API",
+        "version": "1.0"
+      },
+      "servers": [
+        {
+          "url": "https://api.circle.logi.com"
+        }
+      ],
+      "components": {
+        "securitySchemes": {
+          "sec0": {
+            "type": "oauth2",
+            "in": "query"
+          }
+        },
+        "schemas": {}
+      },
+      "security": [
+        {
+          "sec0": []
+        }
+      ],
+      "paths": {
+        "/api/accounts/self/notifications/{oauth2_client_id}": {
+          "put": {
+            "tags": [],
+            "summary": "Register for Server Notifications",
+            "description": "",
+            "operationId": "register-for-server-notifications",
+            "parameters": [
+              {
+                "name": "oauth2_client_id",
+                "in": "path",
+                "description": "Your OAuth2 Client Id",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "url",
+                      "authKey",
+                      "eventTypes"
+                    ],
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "description": "The full https URL which will be called. Only https URL's are supported. Your server must present a valid certificate signed by a valid CA"
+                      },
+                      "authKey": {
+                        "type": "string",
+                        "description": "The key our system will use to sign the outbound notification. This must be 8 to 32 bytes in length and must be limited to printable ASCII characters. See Event Verification below for full details."
+                      },
+                      "eventTypes": {
+                        "type": "array",
+                        "description": "Which event types to receive notifications for. One or more of the values from [Notification Events](notification-events). Only request what you need.",
+                        "default": [
+                          null
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "accessories": {
+                        "type": "array",
+                        "description": "An array of <<glossary:Accessory Id>> that you want receive notifications about. If not passed, all accessories on the account including ones added in the future will be used.",
+                        "default": [
+                          null
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "extraFields": {
+                        "type": "object",
+                        "description": "An object containing a map of the extra fields that should be included when a notification containing that entity type is sent. Acceptable fields in this object are:",
+                        "properties": {}
+                      },
+                      "userData": {
+                        "type": "string",
+                        "description": "Caller supplied JSON Type (string, array, object, int, etc) that is passed back in each notification. This must be 128 bytes or less in size when encoded in JSON.",
+                        "default": "",
+                        "format": "json"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "deprecated": false
+          }
+        }
+      },
+      "x-headers": [
+        {
+          "key": "X-API-Key",
+          "value": "abcd1234"
+        }
+      ],
+      "x-explorer-enabled": false,
+      "x-proxy-enabled": false,
+      "x-samples-enabled": true,
+      "x-samples-languages": [
+        "curl",
+        "node",
+        "ruby",
+        "javascript",
+        "python"
+      ]
+    }
+  },
+  "oasUrls": {
+    "5c2e346b-50f9-4192-9e97-88e3155b24e4": "https://example.com/openapi/5c2e346b-50f9-4192-9e97-88e3155b24e4",
+    "872e3bac-4172-42fe-b78d-95be254b25ff": "https://example.com/openapi/872e3bac-4172-42fe-b78d-95be254b25ff"
+  }
+}
