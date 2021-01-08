@@ -1,7 +1,7 @@
 {
   "name": "@readme/oas-to-har",
   "description": "Utility to transform an OAS operation into a HAR representation",
-  "version": "10.0.9",
+  "version": "10.1.0",
   "main": "src/index.js",
   "author": "Jon Ursenbach <jon@ursenba.ch>",
   "license": "ISC",
