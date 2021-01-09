@@ -25,6 +25,9 @@ updates:
       prefix: chore(deps)
       prefix-development: chore(deps-dev)
     ignore:
+      - dependency-name: webpack
+        versions:
+          - ">= 5"
       - dependency-name: webpack-cli
         versions:
-          - ">= 3"
+          - ">= 4"
