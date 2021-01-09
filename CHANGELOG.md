@@ -1,3 +1,16 @@
+## 11.0.0 (2021-01-09)
+
+* feat: oas dereferencing and performance improvements (#1110) ([3633b1b](https://github.com/readmeio/api-explorer/commit/3633b1b)), closes [#1110](https://github.com/readmeio/api-explorer/issues/1110)
+* chore(deps-dev): bump @babel/plugin-transform-react-jsx (#1132) ([5d156e8](https://github.com/readmeio/api-explorer/commit/5d156e8)), closes [#1132](https://github.com/readmeio/api-explorer/issues/1132)
+* chore(deps-dev): bump @babel/preset-env from 7.12.7 to 7.12.11 (#1137) ([af62f11](https://github.com/readmeio/api-explorer/commit/af62f11)), closes [#1137](https://github.com/readmeio/api-explorer/issues/1137)
+* chore(deps-dev): bump @babel/preset-react from 7.10.4 to 7.12.10 (#1136) ([1f24596](https://github.com/readmeio/api-explorer/commit/1f24596)), closes [#1136](https://github.com/readmeio/api-explorer/issues/1136)
+* chore(deps-dev): bump @readme/eslint-config from 4.0.0 to 4.1.0 (#1133) ([b60004b](https://github.com/readmeio/api-explorer/commit/b60004b)), closes [#1133](https://github.com/readmeio/api-explorer/issues/1133)
+* chore(deps-dev): bump husky from 4.3.6 to 4.3.7 (#1135) ([902ecbf](https://github.com/readmeio/api-explorer/commit/902ecbf)), closes [#1135](https://github.com/readmeio/api-explorer/issues/1135)
+* chore(deps-dev): bump sinon from 7.5.0 to 9.2.3 (#1139) ([153392f](https://github.com/readmeio/api-explorer/commit/153392f)), closes [#1139](https://github.com/readmeio/api-explorer/issues/1139)
+* ci: stop dependabot from trying to upgrade us to webpack@5 ([082b2e7](https://github.com/readmeio/api-explorer/commit/082b2e7))
+
+
+
 ## 10.1.0 (2021-01-08)
 
 * ci: ignoring webpack-cli@4 ([51f5e82](https://github.com/readmeio/api-explorer/commit/51f5e82))
