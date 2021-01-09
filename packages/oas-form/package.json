@@ -1,6 +1,6 @@
 {
   "name": "@readme/oas-form",
-  "version": "10.0.9",
+  "version": "10.1.0",
   "description": "A simple React component capable of building HTML forms out of an OpenAPI definition.",
   "main": "src/index.js",
   "license": "Apache-2.0",
@@ -78,7 +78,7 @@
     "rimraf": "^2.5.4",
     "sinon": "^7.5.0",
     "style-loader": "^0.13.1",
-    "webpack": "^4.20.2",
+    "webpack": "^5.12.1",
     "webpack-cli": "^3.1.2"
   },
   "prettier": "@readme/eslint-config/prettier"

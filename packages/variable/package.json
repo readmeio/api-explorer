@@ -34,7 +34,7 @@
     "prettier": "^2.0.1",
     "react": "^16.14.0",
     "terser-webpack-plugin": "^4.1.0",
-    "webpack": "^4.44.1",
+    "webpack": "^5.12.1",
     "webpack-cli": "^3.3.12"
   },
   "prettier": "@readme/eslint-config/prettier"
