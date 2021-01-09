@@ -124,7 +124,7 @@ class ApiExplorer extends React.Component {
     //
     // This will return undefined if apiSetting is not set
     return (
-      doc.category.apiSetting ||
+      (doc.category && doc.category.apiSetting) ||
       (typeof doc.api.apiSetting === 'string' && doc.api.apiSetting) ||
       (typeof doc.api.apiSetting === 'object' && doc.api.apiSetting && doc.api.apiSetting._id)
     );

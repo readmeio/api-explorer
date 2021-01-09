@@ -1,0 +1,343 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "This oas file demonstrates all of the different path parameter styles",
+      "version": "1.0.0",
+      "title": "Parameter Styles",
+      "contact": {
+        "email": "aaron@readme.io"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "paths": {
+        "/nonExplodedMatrixPaths/{primitive}/{array}/{object}": {
+            "get": {
+                "summary": "Demonstrate all non-exploded matrix path styles",
+                "operationId": "demonstrateNonExplodedMatrixPaths",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "path",
+                    "description": "Matrix style primitive",
+                    "required": true,
+                    "style": "matrix",
+                    "explode": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "path",
+                    "description": "Matrix style array",
+                    "required": true,
+                    "style": "matrix",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "path",
+                    "description": "Matrix style object",
+                    "required": true,
+                    "style": "matrix",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/explodedMatrixPaths/{primitive}/{array}/{object}": {
+            "get": {
+                "summary": "Demonstrate all exploded matrix path styles",
+                "operationId": "demonstrateExplodedMatrixPaths",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "path",
+                    "description": "Matrix style primitive",
+                    "required": true,
+                    "style": "matrix",
+                    "explode": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "path",
+                    "description": "Matrix style array",
+                    "required": true,
+                    "style": "matrix",
+                    "explode": true,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "path",
+                    "description": "Matrix style object",
+                    "required": true,
+                    "style": "matrix",
+                    "explode": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/nonExplodedLabelPaths/{primitive}/{array}/{object}": {
+            "get": {
+                "summary": "Demonstrate all non-exploded label path styles",
+                "operationId": "demonstrateNonExplodedLabelPaths",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "path",
+                    "description": "label style primitive",
+                    "required": true,
+                    "style": "label",
+                    "explode": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "path",
+                    "description": "label style array",
+                    "required": true,
+                    "style": "label",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "path",
+                    "description": "label style object",
+                    "required": true,
+                    "style": "label",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/explodedLabelPaths/{primitive}/{array}/{object}": {
+            "get": {
+                "summary": "Demonstrate all exploded label path styles",
+                "operationId": "demonstrateExplodedLabelPaths",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "path",
+                    "description": "label style primitive",
+                    "required": true,
+                    "style": "label",
+                    "explode": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "path",
+                    "description": "label style array",
+                    "required": true,
+                    "style": "label",
+                    "explode": true,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "path",
+                    "description": "label style object",
+                    "required": true,
+                    "style": "label",
+                    "explode": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/nonExplodedSimplePaths/{primitive}/{array}/{object}": {
+            "get": {
+                "summary": "Demonstrate all non-exploded simple path styles",
+                "operationId": "demonstrateNonExplodedSimplePaths",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "path",
+                    "description": "simple style primitive",
+                    "required": true,
+                    "style": "simple",
+                    "explode": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "path",
+                    "description": "simple style array",
+                    "required": true,
+                    "style": "simple",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "path",
+                    "description": "simple style object",
+                    "required": true,
+                    "style": "simple",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/explodedSimplePaths/{primitive}/{array}/{object}": {
+            "get": {
+                "summary": "Demonstrate all exploded simple path styles",
+                "operationId": "demonstrateExplodedSimplePaths",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "path",
+                    "description": "simple style primitive",
+                    "required": true,
+                    "style": "simple",
+                    "explode": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "path",
+                    "description": "simple style array",
+                    "required": true,
+                    "style": "simple",
+                    "explode": true,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "path",
+                    "description": "simple style object",
+                    "required": true,
+                    "style": "simple",
+                    "explode": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+      "requestBodies": {
+      },
+      "securitySchemes": {
+      },
+      "schemas": {
+      }
+    }
+  }

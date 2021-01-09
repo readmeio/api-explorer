@@ -1,3 +1,23 @@
+## 10.1.0 (2021-01-08)
+
+* ci: ignoring webpack-cli@4 ([51f5e82](https://github.com/readmeio/api-explorer/commit/51f5e82))
+* Revert "chore(deps-dev): bump webpack-cli from 3.3.12 to 4.3.0 (#1125)" (#1130) ([cdd5141](https://github.com/readmeio/api-explorer/commit/cdd5141)), closes [#1125](https://github.com/readmeio/api-explorer/issues/1125) [#1130](https://github.com/readmeio/api-explorer/issues/1130)
+* test: building out a framework for testing readme manual apis (#1124) ([f4b1005](https://github.com/readmeio/api-explorer/commit/f4b1005)), closes [#1124](https://github.com/readmeio/api-explorer/issues/1124)
+* chore(deps-dev): bump @babel/plugin-transform-react-jsx (#1117) ([484d4e9](https://github.com/readmeio/api-explorer/commit/484d4e9)), closes [#1117](https://github.com/readmeio/api-explorer/issues/1117)
+* chore(deps-dev): bump husky from 4.3.0 to 4.3.6 (#1119) ([1439aea](https://github.com/readmeio/api-explorer/commit/1439aea)), closes [#1119](https://github.com/readmeio/api-explorer/issues/1119)
+* chore(deps-dev): bump webpack-cli from 3.3.12 to 4.3.0 (#1125) ([966b05c](https://github.com/readmeio/api-explorer/commit/966b05c)), closes [#1125](https://github.com/readmeio/api-explorer/issues/1125)
+* chore(deps): bump actions/setup-node from v2.1.3 to v2.1.4 (#1115) ([71f6f95](https://github.com/readmeio/api-explorer/commit/71f6f95)), closes [#1115](https://github.com/readmeio/api-explorer/issues/1115)
+* chore(deps): bump node-notifier in /packages/api-logs (#1121) ([bbbce3a](https://github.com/readmeio/api-explorer/commit/bbbce3a)), closes [#1121](https://github.com/readmeio/api-explorer/issues/1121)
+* chore(deps): bump node-notifier in /packages/oas-to-har (#1122) ([036565d](https://github.com/readmeio/api-explorer/commit/036565d)), closes [#1122](https://github.com/readmeio/api-explorer/issues/1122)
+* chore(deps): bump node-notifier in /packages/oas-to-snippet (#1123) ([ea6c0aa](https://github.com/readmeio/api-explorer/commit/ea6c0aa)), closes [#1123](https://github.com/readmeio/api-explorer/issues/1123)
+* chore(deps): bump swagger2openapi from 7.0.3 to 7.0.4 (#1118) ([5c869a2](https://github.com/readmeio/api-explorer/commit/5c869a2)), closes [#1118](https://github.com/readmeio/api-explorer/issues/1118)
+* chore(deps): bump ui to 1.17.6 (#1129) ([f250e67](https://github.com/readmeio/api-explorer/commit/f250e67)), closes [#1129](https://github.com/readmeio/api-explorer/issues/1129)
+* chore(deps): bump whatwg-fetch from 3.4.1 to 3.5.0 (#1088) ([9c583de](https://github.com/readmeio/api-explorer/commit/9c583de)), closes [#1088](https://github.com/readmeio/api-explorer/issues/1088)
+* feat: add support for parameter serialization (#1128) ([91afd74](https://github.com/readmeio/api-explorer/commit/91afd74)), closes [#1128](https://github.com/readmeio/api-explorer/issues/1128)
+* fix: making the json editor only be present on body parameters (#1114) ([3d5c4ea](https://github.com/readmeio/api-explorer/commit/3d5c4ea)), closes [#1114](https://github.com/readmeio/api-explorer/issues/1114)
+
+
+
 ## <small>10.0.9 (2020-12-17)</small>
 
 * chore: updating lock files ([5d12eae](https://github.com/readmeio/api-explorer/commit/5d12eae))

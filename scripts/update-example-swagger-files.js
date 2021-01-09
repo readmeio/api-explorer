@@ -8,13 +8,26 @@ const directory = files
   .filter(file => file !== 'directory.json' && !file.startsWith('.'))
   .map(file => {
     // eslint-disable-next-line import/no-dynamic-require, global-require
-    const swagger = require(path.join(dir, file));
+    const definition = require(path.join(dir, file));
+
+    if ('readmeManual' in definition) {
+      return {
+        [path.basename(file)]: {
+          preferred: 'manual',
+          versions: {
+            manual: {
+              swaggerUrl: path.join('swagger-files', file),
+            },
+          },
+        },
+      };
+    }
 
     return {
       [path.basename(file)]: {
-        preferred: swagger.info.version,
+        preferred: definition.info.version,
         versions: {
-          [swagger.info.version]: {
+          [definition.info.version]: {
             swaggerUrl: path.join('swagger-files', file),
           },
         },

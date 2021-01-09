@@ -1,0 +1,131 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "This oas file demonstrates all of the different header parameter styles",
+      "version": "1.0.0",
+      "title": "Parameter Styles",
+      "contact": {
+        "email": "aaron@readme.io"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "paths": {
+        "/nonExplodedSimpleHeaders": {
+            "get": {
+                "summary": "Demonstrate all non-exploded simple header styles",
+                "operationId": "demonstrateNonExplodedSimpleHeaders",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "header",
+                    "description": "simple style primitive",
+                    "required": true,
+                    "style": "simple",
+                    "explode": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "header",
+                    "description": "simple style array",
+                    "required": true,
+                    "style": "simple",
+                    "explode": false,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "header",
+                    "description": "simple style object",
+                    "required": true,
+                    "style": "simple",
+                    "explode": false,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/explodedSimpleHeaders": {
+            "get": {
+                "summary": "Demonstrate all exploded simple header styles",
+                "operationId": "demonstrateExplodedSimpleHeaders",
+                "parameters": [{
+                    "name": "primitive",
+                    "in": "header",
+                    "description": "simple style primitive",
+                    "required": true,
+                    "style": "simple",
+                    "explode": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "array",
+                    "in": "header",
+                    "description": "simple style array",
+                    "required": true,
+                    "style": "simple",
+                    "explode": true,
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }, {
+                    "name": "object",
+                    "in": "header",
+                    "description": "simple style object",
+                    "required": true,
+                    "style": "simple",
+                    "explode": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+      "requestBodies": {
+      },
+      "securitySchemes": {
+      },
+      "schemas": {
+      }
+    }
+  }
