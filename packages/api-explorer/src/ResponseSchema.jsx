@@ -112,7 +112,6 @@ class ResponseSchema extends React.Component {
           {schema && (
             <ResponseSchemaBody
               key={`statusCode-${selectedStatus}`}
-              oas={oas}
               schema={schema}
               useNewMarkdownEngine={useNewMarkdownEngine}
             />

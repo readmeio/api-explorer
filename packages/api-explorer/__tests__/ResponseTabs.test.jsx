@@ -1,6 +1,5 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
-const { waitFor } = require('@testing-library/react');
 const FetchResponse = require('node-fetch').Response;
 const Oas = require('oas/tooling');
 
@@ -12,12 +11,16 @@ const ResponseTabs = require('../src/ResponseTabs');
 const oas = new Oas(petstore);
 const props = {
   hideResults: () => {},
-  operation: oas.operation('/pet', 'post'),
   responseTab: 'result',
   setTab: () => {},
 };
 
-beforeEach(async () => {
+beforeAll(async () => {
+  await oas.dereference();
+
+  const operation = oas.operation('/pet/findByStatus', 'get');
+  props.examples = operation.getResponseExamples();
+
   props.result = await parseResponse(
     {
       log: {
@@ -42,10 +45,18 @@ test('should select matching tab by name', () => {
   expect(comp.find('a').at(0).hasClass('selected')).toBe(true);
 });
 
-test('should not have a "back to examples" button if no examples', () => {
-  const comp = shallow(<ResponseTabs {...props} />);
+describe('"back to examples" button', () => {
+  it('should have the button if there are examples', () => {
+    const comp = shallow(<ResponseTabs {...props} />);
 
-  expect(comp.find('a.pull-right')).toHaveLength(0);
+    expect(comp.find('a.pull-right')).toHaveLength(1);
+  });
+
+  it('should not the button if there are no examples', () => {
+    const comp = shallow(<ResponseTabs {...props} examples={[]} />);
+
+    expect(comp.find('a.pull-right')).toHaveLength(0);
+  });
 });
 
 test('should call setTab() on click', () => {
@@ -64,13 +75,9 @@ test('should call hideResults() on click', () => {
   const hideResults = jest.fn();
   const comp = shallow(<ResponseTabs {...props} hideResults={hideResults} />);
 
-  return waitFor(() => {
-    comp.update();
+  comp.find('a.pull-right').simulate('click', { preventDefault() {} });
 
-    comp.find('a.pull-right').simulate('click', { preventDefault() {} });
-
-    expect(hideResults).toHaveBeenCalled();
-  });
+  expect(hideResults).toHaveBeenCalled();
 });
 
 test('should display status code for response', () => {

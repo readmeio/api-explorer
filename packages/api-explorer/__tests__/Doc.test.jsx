@@ -1,11 +1,11 @@
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
+const Oas = require('oas/tooling');
 
 global.Request = Request;
 
 const React = require('react');
 const { shallow, mount } = require('enzyme');
-const { waitFor } = require('@testing-library/react');
 const Doc = require('../src/Doc');
 const ErrorBoundary = require('../src/ErrorBoundary');
 
@@ -14,6 +14,7 @@ const uspto = require('@readme/oas-examples/3.0/json/uspto.json');
 const petstoreWithAuth = require('./__fixtures__/petstore/oas.json');
 const multipleSecurities = require('./__fixtures__/multiple-securities/oas.json');
 
+const oas = new Oas(petstore);
 const props = {
   auth: {},
   doc: {
@@ -26,7 +27,7 @@ const props = {
   },
   language: 'node',
   lazy: false,
-  oas: petstore,
+  oas,
   oauth: false,
   onAuthChange: () => {},
   onAuthGroupChange: () => {},
@@ -56,6 +57,10 @@ function assertDocElements(component, doc) {
   expect(component.find('a.anchor-page-title')).toHaveLength(1);
   expect(component.find('h2').text()).toBe(doc.title);
 }
+
+beforeAll(async () => {
+  await oas.dereference();
+});
 
 test('should output a div', () => {
   const doc = shallow(<Doc {...props} />);
@@ -87,39 +92,38 @@ test('should render straight away if `appearance.splitReferenceDocs` is true', (
 });
 
 test('should render a manual endpoint', () => {
-  // Transforming `props` like this is weird, but without it some auth timer tests will break. 🤷‍♂️
-  const manualProps = JSON.parse(JSON.stringify(props));
-  manualProps.onAuthChange = () => {};
-  manualProps.onAuthGroupChange = () => {};
-  manualProps.setLanguage = () => {};
-  manualProps.tryItMetrics = () => {};
-
-  manualProps.doc.api.examples = {
-    codes: [],
-  };
-  manualProps.doc.api.params = [
-    {
-      default: 'test',
-      desc: 'test',
-      in: 'path',
-      name: 'test',
-      ref: '',
-      required: false,
-      type: 'string',
+  const doc = JSON.parse(JSON.stringify(props.doc));
+  doc.api = {
+    ...doc.api,
+    examples: {
+      codes: [],
     },
-  ];
+    params: [
+      {
+        default: 'test',
+        desc: 'test',
+        in: 'path',
+        name: 'test',
+        ref: '',
+        required: false,
+        type: 'string',
+      },
+    ],
+  };
 
-  const doc = mount(
+  const node = mount(
     <Doc
-      {...manualProps}
+      {...props}
       appearance={{
         splitReferenceDocs: true,
       }}
+      doc={doc}
+      oas={props.oas}
     />
   );
 
-  assertDocElements(doc, props.doc);
-  expect(doc.find('Params')).toHaveLength(1);
+  assertDocElements(node, doc);
+  expect(node.find('Params')).toHaveLength(1);
 });
 
 test('should work without a doc.swagger/doc.path/oas', () => {
@@ -129,6 +133,7 @@ test('should work without a doc.swagger/doc.path/oas', () => {
       auth={{}}
       doc={doc}
       language="node"
+      oas={new Oas()}
       oauth={false}
       onAuthChange={() => {}}
       onAuthGroupChange={() => {}}
@@ -153,6 +158,7 @@ test('should still display `Content` with column-style layout', () => {
       auth={{}}
       doc={doc}
       language="node"
+      oas={new Oas()}
       oauth={false}
       onAuthChange={() => {}}
       onAuthGroupChange={() => {}}
@@ -193,7 +199,8 @@ describe('onSubmit', () => {
   it('should display authentication warning if auth is required for endpoint', () => {
     jest.useFakeTimers();
 
-    const doc = mount(<Doc {...props} oas={petstoreWithAuth} />);
+    const petstoreWithAuthOas = new Oas(petstoreWithAuth);
+    const doc = mount(<Doc {...props} oas={petstoreWithAuthOas} />);
 
     doc.instance().onSubmit();
     expect(doc.state('showAuthBox')).toBe(true);
@@ -203,8 +210,12 @@ describe('onSubmit', () => {
     expect(doc.state('needsAuth')).toBe(true);
   });
 
-  it('should make request on Submit', () => {
+  it('should make request on Submit', async () => {
     expect.assertions(3);
+
+    const petstoreWithAuthOas = new Oas(petstoreWithAuth);
+    await petstoreWithAuthOas.dereference();
+
     const props2 = {
       auth: { petstore_auth: 'api-key' },
       doc: {
@@ -222,13 +233,13 @@ describe('onSubmit', () => {
         onSubmit: () => {},
       },
       language: 'node',
-      oas: petstoreWithAuth,
+      oas: petstoreWithAuthOas,
       oauth: false,
       setLanguage: () => {},
     };
 
     window.fetch = request => {
-      expect(request.url).toContain(petstoreWithAuth.servers[0].url);
+      expect(request.url).toContain(petstoreWithAuthOas.servers[0].url);
       return Promise.resolve(
         new Response(JSON.stringify({ id: 1 }), {
           headers: { 'content-type': 'application/json' },
@@ -248,7 +259,9 @@ describe('onSubmit', () => {
   });
 
   it('should make request to the proxy url if necessary', () => {
-    const proxyOas = {
+    expect.assertions(1);
+
+    const proxyOas = new Oas({
       servers: [{ url: 'http://example.com' }],
       [extensions.PROXY_ENABLED]: true,
       paths: {
@@ -262,7 +275,7 @@ describe('onSubmit', () => {
           },
         },
       },
-    };
+    });
 
     const doc = mount(<Doc {...props} oas={proxyOas} />);
 
@@ -271,28 +284,20 @@ describe('onSubmit', () => {
       return Promise.resolve(new Response());
     };
 
-    doc.instance().onSubmit();
+    return doc.instance().onSubmit();
   });
 
   it('should call `tryItMetrics` on success', async () => {
-    let called = false;
+    const tryItMetrics = jest.fn();
 
-    const doc = mount(
-      <Doc
-        {...props}
-        auth={{ api_key: 'api-key' }}
-        tryItMetrics={() => {
-          called = true;
-        }}
-      />
-    );
+    const doc = mount(<Doc {...props} auth={{ api_key: 'api-key' }} tryItMetrics={tryItMetrics} />);
 
     window.fetch = () => {
       return Promise.resolve(new Response());
     };
 
     await doc.instance().onSubmit();
-    expect(called).toBe(true);
+    expect(tryItMetrics).toHaveBeenCalled();
   });
 });
 
@@ -338,13 +343,19 @@ describe('suggest edits', () => {
 });
 
 describe('ResponseSchema', () => {
-  it('should render ResponseSchema if endpoint does have a response', () => {
-    const doc = shallow(<Doc {...props} oas={petstoreWithAuth} />);
+  it('should render ResponseSchema if endpoint does have a response', async () => {
+    const petstoreWithAuthOas = new Oas(petstoreWithAuth);
+    await petstoreWithAuthOas.dereference();
+
+    const doc = shallow(<Doc {...props} oas={petstoreWithAuthOas} />);
     doc.setState({ showEndpoint: true });
     expect(doc.find('ResponseSchema')).toHaveLength(1);
   });
 
-  it('should not render ResponseSchema if endpoint does not have a response', () => {
+  it('should not render ResponseSchema if endpoint does not have a response', async () => {
+    const multipleSecuritiesOas = new Oas(multipleSecurities);
+    await multipleSecuritiesOas.dereference();
+
     const doc = shallow(
       <Doc
         {...props}
@@ -355,7 +366,7 @@ describe('ResponseSchema', () => {
           swagger: { path: '/unknown-scheme' },
           api: { method: 'post' },
         }}
-        oas={multipleSecurities}
+        oas={multipleSecuritiesOas}
       />
     );
 
@@ -382,7 +393,7 @@ describe('themes', () => {
 });
 
 describe('error handling', () => {
-  const brokenOas = {
+  const brokenOas = new Oas({
     paths: {
       '/path': {
         post: {
@@ -392,7 +403,7 @@ describe('error handling', () => {
         },
       },
     },
-  };
+  });
 
   const docProps = {
     title: 'title',
@@ -465,7 +476,10 @@ describe('#enableRequestBodyJsonEditor', () => {
     expect(doc.find('Tabs')).toHaveLength(0);
   });
 
-  it('should not show the editor on an operation with a non-json request body', () => {
+  it('should not show the editor on an operation with a non-json request body', async () => {
+    const usptoOas = new Oas(uspto);
+    await usptoOas.dereference();
+
     const doc = mount(
       <Doc
         {...props}
@@ -475,7 +489,7 @@ describe('#enableRequestBodyJsonEditor', () => {
           swagger: { path: '/{dataset}/{version}/records' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={uspto}
+        oas={usptoOas}
       />
     );
 
@@ -492,7 +506,7 @@ describe('#enableRequestBodyJsonEditor', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
+        oas={oas}
       />
     );
 
@@ -510,15 +524,13 @@ describe('#enableRequestBodyJsonEditor', () => {
             swagger: { path: '/pet' },
           }}
           enableRequestBodyJsonEditor={true}
-          oas={petstore}
+          oas={oas}
         />
       );
 
-      return waitFor(() => {
-        expect(doc.state('formDataJson')).toStrictEqual(petExample);
-        expect(doc.state('formDataJsonOriginal')).toStrictEqual(doc.state('formDataJson'));
-        expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
-      });
+      expect(doc.state('formDataJson')).toStrictEqual(petExample);
+      expect(doc.state('formDataJsonOriginal')).toStrictEqual(doc.state('formDataJson'));
+      expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
     });
   });
 });
@@ -534,22 +546,20 @@ describe('#resetForm()', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
+        oas={oas}
       />
     );
 
-    return waitFor(() => {
-      expect(doc.state('formDataJson')).toStrictEqual(petExample);
+    expect(doc.state('formDataJson')).toStrictEqual(petExample);
 
-      doc.setState({ formDataJson: { name: 'buster' } });
+    doc.setState({ formDataJson: { name: 'buster' } });
 
-      doc.instance().resetForm();
+    doc.instance().resetForm();
 
-      expect(doc.state('formDataJson')).toStrictEqual(petExample);
-      expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
-      expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
-      expect(doc.state('dirty')).toStrictEqual({ form: true, json: false });
-    });
+    expect(doc.state('formDataJson')).toStrictEqual(petExample);
+    expect(doc.state('formDataJsonRaw')).toMatch('"status": "available"');
+    expect(doc.state('validationErrors')).toStrictEqual({ form: false, json: false });
+    expect(doc.state('dirty')).toStrictEqual({ form: true, json: false });
   });
 });
 
@@ -564,7 +574,7 @@ describe('#onJsonChange()', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
+        oas={oas}
       />
     );
 
@@ -586,7 +596,7 @@ describe('#onJsonChange()', () => {
           swagger: { path: '/pet' },
         }}
         enableRequestBodyJsonEditor={true}
-        oas={petstore}
+        oas={oas}
       />
     );
 

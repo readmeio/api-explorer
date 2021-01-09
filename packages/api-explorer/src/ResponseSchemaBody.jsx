@@ -26,19 +26,11 @@ class ResponseSchemaBody extends React.Component {
   constructor(props) {
     super(props);
 
+    const flattened = flattenSchema(props.schema);
+
     this.state = {
-      flattenedSchema: null,
+      flattenedSchema: flattenArray(flattened),
     };
-  }
-
-  componentDidMount() {
-    const { schema, oas } = this.props;
-
-    flattenSchema(schema, oas).then(flattened => {
-      this.setState({
-        flattenedSchema: flattenArray(flattened),
-      });
-    });
   }
 
   render() {
@@ -92,7 +84,6 @@ class ResponseSchemaBody extends React.Component {
 }
 
 ResponseSchemaBody.propTypes = {
-  oas: PropTypes.shape({}).isRequired,
   schema: PropTypes.shape({
     items: PropTypes.object,
     properties: PropTypes.object,

@@ -6,8 +6,6 @@ const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 const { matchesMimeType } = require('oas/tooling/utils');
 
-const upgradeLegacyResponses = require('./lib/upgrade-legacy-responses');
-
 const ExampleTabs = require('./ExampleTabs');
 
 const { Operation } = Oas;
@@ -43,27 +41,17 @@ function getReactJson(example, current) {
 class ResponseExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentExample: null,
-      currentTab: 0,
-      responseExamples: [],
-      responseMediaType: null,
-      responseMediaTypeExample: null,
-    };
 
     this.setCurrentTab = this.setCurrentTab.bind(this);
     this.setResponseExample = this.setResponseExample.bind(this);
     this.setResponseMediaType = this.setResponseMediaType.bind(this);
-  }
 
-  componentDidMount() {
-    const { operation } = this.props;
-
-    operation.getResponseExamples().then(examples => {
-      this.setState({
-        responseExamples: examples || [],
-      });
-    });
+    this.state = {
+      currentExample: null,
+      currentTab: 0,
+      responseMediaType: null,
+      responseMediaTypeExample: null,
+    };
   }
 
   setCurrentTab(index) {
@@ -189,19 +177,9 @@ class ResponseExample extends React.Component {
   }
 
   render() {
-    const { operation, result, oas, exampleResponses } = this.props;
-    const { currentTab, responseExamples, responseMediaType, responseMediaTypeExample } = this.state;
+    const { examples, oas, operation, result } = this.props;
+    const { currentTab, responseMediaType, responseMediaTypeExample } = this.state;
     const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
-
-    let examples;
-    if (exampleResponses.length) {
-      // With https://github.com/readmeio/api-explorer/pull/312 we changed the shape of response
-      // examples, but unfortunately APIs that are manually documented in ReadMe are still in the
-      // legacy shape so we need to adhoc rewrite them to fit this new work.
-      examples = upgradeLegacyResponses(exampleResponses);
-    } else {
-      examples = responseExamples;
-    }
 
     const hasExamples = examples.find(e => {
       return e.languages.find(ee => (ee.code && ee.code !== '{}') || 'multipleExamples' in ee);
@@ -291,7 +269,7 @@ class ResponseExample extends React.Component {
 }
 
 ResponseExample.propTypes = {
-  exampleResponses: PropTypes.arrayOf(PropTypes.shape({})),
+  examples: PropTypes.arrayOf(PropTypes.shape({})),
   explorerEnabled: PropTypes.bool,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,

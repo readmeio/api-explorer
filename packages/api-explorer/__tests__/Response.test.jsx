@@ -18,9 +18,9 @@ const props = {
 
 describe('no result', () => {
   it('nothing should render', () => {
-    const codeSampleResponseTabs = shallow(<Response {...props} />);
+    const node = shallow(<Response {...props} />);
 
-    expect(codeSampleResponseTabs.find('span')).toHaveLength(0);
+    expect(node.find('span')).toHaveLength(0);
   });
 });
 
@@ -64,4 +64,38 @@ test('should show different component tabs based on state', () => {
 
   // Should include request body in HTML
   expect(doc.html()).toContain(JSON.stringify({ b: 2 }));
+});
+
+test('should correctly handle non-json legacy manual api examples', () => {
+  const exampleResponses = [
+    {
+      status: 200,
+      language: 'xml',
+      code: '<?xml version="1.0" encoding="UTF-8"?><message>OK</message>',
+      name: '',
+    },
+    {
+      name: 'Invalid Credentials',
+      status: 200,
+      language: 'xml',
+      code: '<?xml version="1.0" encoding="UTF-8"?><message>Invalid Credentials</message>',
+    },
+    {
+      status: 404,
+      language: 'xml',
+      code: '<?xml version="1.0" encoding="UTF-8"?><detail>404 Erroror</detail>',
+    },
+  ];
+
+  const node = mount(<Response {...props} exampleResponses={exampleResponses} />);
+
+  expect(node.find('ul a')).toHaveLength(2);
+  expect(node.find('ul a').at(0).text()).toContain('200 OK');
+  expect(node.find('ul a').at(1).text()).toContain('404 Not Found');
+
+  expect(node.find('div.code-sample-body pre')).toHaveLength(2);
+
+  expect(node.find('div.code-sample-body pre').at(0).text()).toContain(exampleResponses[0].code);
+  expect(node.find('div.code-sample-body pre').at(0).text()).toContain(exampleResponses[1].code);
+  expect(node.find('div.code-sample-body pre').at(1).text()).toContain(exampleResponses[2].code);
 });

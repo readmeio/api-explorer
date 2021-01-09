@@ -111,6 +111,12 @@ class Demo extends React.Component {
       oasFiles: { 'demo-api-setting': Object.assign(extensions.defaults, oas) },
       oasUrls: { 'demo-api-setting': oasUrl },
       oauth,
+
+      onError: err => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      },
+
       suggestedEdits: true,
       useNewMarkdownEngine,
 
