@@ -67,7 +67,7 @@ function appendHarValue(harParam, name, value) {
     value.forEach(singleValue => {
       appendHarValue(harParam, name, singleValue);
     });
-  } else if (typeof value === 'object') {
+  } else if (typeof value === 'object' && value !== null) {
     // If the formatter gives us an object, we're expected to add each property value as a new parameter item, each with the name of the property
     Object.keys(value).forEach(key => {
       appendHarValue(harParam, key, value[key]);
