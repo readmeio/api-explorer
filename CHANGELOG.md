@@ -1,3 +1,10 @@
+## <small>10.1.1 (2021-01-15)</small>
+
+* fix(api-explorer): prevent nulls from breaking rendered operations (#1146) ([0bb653c](https://github.com/readmeio/api-explorer/commit/0bb653c)), closes [#1146](https://github.com/readmeio/api-explorer/issues/1146)
+* fix(api-explorer): stop x-readme-api-explorer header from breaking non-proxy cors (#1147) ([3080369](https://github.com/readmeio/api-explorer/commit/3080369)), closes [#1147](https://github.com/readmeio/api-explorer/issues/1147)
+
+
+
 ## 10.1.0 (2021-01-08)
 
 * ci: ignoring webpack-cli@4 ([51f5e82](https://github.com/readmeio/api-explorer/commit/51f5e82))
