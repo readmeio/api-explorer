@@ -25,8 +25,6 @@ const { Operation } = Oas;
 const parseResponse = require('./lib/parse-response');
 const Content = require('./block-types/Content');
 
-const { version: packageVersion } = require('../package.json');
-
 const stringifyPretty = data => JSON.stringify(data, undefined, 2);
 
 class Doc extends React.Component {
@@ -213,13 +211,6 @@ class Doc extends React.Component {
     });
 
     const request = constructRequest(har);
-
-    // There's a bug in Firefox and Chrome where they don't respect setting a custom User-Agent on fetch() requests,
-    // so instead to let API metrics know that this request came from the Explorer, we're setting a vendor header
-    // instead.
-    //
-    // https://stackoverflow.com/questions/42815087/sending-a-custom-user-agent-string-along-with-my-headers-fetch
-    request.headers.append('x-readme-api-explorer', packageVersion);
 
     return fetch(request).then(async res => {
       this.props.tryItMetrics(har, res);
