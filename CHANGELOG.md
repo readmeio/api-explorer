@@ -1,3 +1,11 @@
+## <small>11.0.1 (2021-01-15)</small>
+
+* docs: 10.1.1 hotfix changelog ([b23024d](https://github.com/readmeio/api-explorer/commit/b23024d))
+* fix(api-explorer): prevent nulls from breaking rendered operations (#1146) ([1cfdf86](https://github.com/readmeio/api-explorer/commit/1cfdf86)), closes [#1146](https://github.com/readmeio/api-explorer/issues/1146)
+* fix(api-explorer): stop x-readme-api-explorer header from breaking non-proxy cors (#1147) ([cae37ad](https://github.com/readmeio/api-explorer/commit/cae37ad)), closes [#1147](https://github.com/readmeio/api-explorer/issues/1147)
+
+
+
 ## <small>10.1.1 (2021-01-15)</small>
 
 * fix(api-explorer): prevent nulls from breaking rendered operations (#1146) ([0bb653c](https://github.com/readmeio/api-explorer/commit/0bb653c)), closes [#1146](https://github.com/readmeio/api-explorer/issues/1146)
