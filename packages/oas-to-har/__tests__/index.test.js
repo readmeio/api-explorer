@@ -182,6 +182,49 @@ describe('parameters', () => {
         { query: { id: 0 } },
         [{ name: 'id', value: '0' }],
       ],
+      [
+        'should handle null array values',
+        {
+          parameters: [{ name: 'id', in: 'query' }],
+        },
+        { query: { id: [null, null] } },
+        [
+          { name: 'id', value: 'null' },
+          { name: 'id', value: 'null' },
+        ],
+      ],
+      [
+        'should handle null values',
+        {
+          parameters: [{ name: 'id', in: 'query' }],
+        },
+        { query: { id: null } },
+        [{ name: 'id', value: 'null' }],
+      ],
+      [
+        'should handle null default values',
+        {
+          parameters: [
+            {
+              name: 'id',
+              in: 'query',
+              required: true,
+              schema: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                },
+                default: [null, null],
+              },
+            },
+          ],
+        },
+        { query: {} },
+        [
+          { name: 'id', value: 'null' },
+          { name: 'id', value: 'null' },
+        ],
+      ],
     ])('%s', async (testCase, operation = {}, values = {}, expectedQueryString = []) => {
       const har = oasToHar(
         oas,
