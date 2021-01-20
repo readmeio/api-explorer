@@ -44,7 +44,7 @@ const props = {
 };
 
 beforeAll(async () => {
-  // Tests for this component default to not do async dereferencing with the `DocAsync` component so instead we're
+  // Tests for this component default to not do async dereferencing with the `EndpointAsync` component so instead we're
   // supplying the `oasFiles` prop with dereferenced definitions.
   const oas = new Oas({ ...petstore, [extensions.SAMPLES_LANGUAGES]: languages });
   await oas.dereference();
@@ -62,7 +62,7 @@ test('ApiExplorer renders a doc for each', () => {
   expect(explorer.find('Doc')).toHaveLength(docs.length);
 });
 
-test('DocAsync should do OAS dereferencing', async () => {
+test('EndpointAsync should do OAS dereferencing', async () => {
   const docsAsync = createDocs(polymorphism, 'test-api-setting');
 
   const propsAsync = {
@@ -79,7 +79,7 @@ test('DocAsync should do OAS dereferencing', async () => {
   // Enzyme doesn't automatically wrap our mounted component in `act()` so we need to do some hocus pocus here to get
   // ReactDOM from throwing the following error:
   //
-  //    Warning: An update to DocAsync inside a test was not wrapped in act(...).
+  //    Warning: An update to EndpointAsync inside a test was not wrapped in act(...).
   //
   // https://github.com/enzymejs/enzyme/issues/2073#issuecomment-531488981
   await actWait();

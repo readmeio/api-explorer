@@ -11,7 +11,6 @@ const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bund
 
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
-const DocAsync = require('./DocAsync');
 const { TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
 const getAuth = require('./lib/get-auth');
@@ -51,30 +50,9 @@ class ApiExplorer extends React.Component {
         name: key.name,
       }));
 
-    this.DocComponent = this.createDoc();
-
     this.lazyHash = this.buildLazyHash();
 
     this.oasInstances = {};
-  }
-
-  createDoc() {
-    const { shouldDereferenceOas } = this.props;
-
-    // Creating a stable test environment to be able to test the DocAsync component on this root Explorer component is
-    // extremely challenging with our current adhoc setup of `enzyme` and `@testing-library/react` so instead of futzing
-    // with it, we have a `shouldDereferenceOas` prop on this component that dictates if we should wrap `Doc` with
-    // `DocAsync`.
-    //
-    // It's messy, but it at least lets us code tests for this component to be supplied dereferenced OAS definitions
-    // while also having a functional server environment where async dereferencing is always enabled.
-    return props => {
-      if (shouldDereferenceOas) {
-        return <DocAsync {...props} />;
-      }
-
-      return <Doc {...props} />;
-    };
   }
 
   onAuthChange(auth) {
@@ -291,7 +269,7 @@ class ApiExplorer extends React.Component {
                         <BaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
                           <NewBaseUrlContext.Provider value={this.props.baseUrl.replace(/\/$/, '')}>
                             <SelectedAppContext.Provider value={this.state.selectedApp}>
-                              <this.DocComponent
+                              <Doc
                                 key={doc._id}
                                 appearance={this.props.appearance}
                                 auth={this.state.auth}
@@ -314,6 +292,7 @@ class ApiExplorer extends React.Component {
                                 onError={this.props.onError}
                                 openTutorialModal={this.openTutorialModal}
                                 setLanguage={this.setLanguage}
+                                shouldDereferenceOas={this.props.shouldDereferenceOas}
                                 suggestedEdits={this.props.suggestedEdits}
                                 tryItMetrics={this.props.tryItMetrics}
                                 useNewMarkdownEngine={this.props.useNewMarkdownEngine}

@@ -2,10 +2,10 @@ const React = require('react');
 const { useEffect, useState } = require('react');
 const PropTypes = require('prop-types');
 
-const Doc = require('./Doc');
+const Endpoint = require('./Endpoint');
 const ErrorBoundary = require('./ErrorBoundary');
 
-const DocAsync = props => {
+const EndpointAsync = props => {
   const { maskErrorMessages, oas, onError, ...docProps } = props;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
@@ -37,19 +37,19 @@ const DocAsync = props => {
     return null;
   }
 
-  return <Doc {...docProps} oas={oas} />;
+  return <Endpoint {...docProps} oas={oas} />;
 };
 
-DocAsync.propTypes = {
-  ...Doc.propTypes,
+EndpointAsync.propTypes = {
+  ...Endpoint.propTypes,
   maskErrorMessages: PropTypes.bool,
   onError: PropTypes.func,
 };
 
-DocAsync.defaultProps = {
-  ...Doc.defaultProps,
+EndpointAsync.defaultProps = {
+  ...Endpoint.defaultProps,
   maskErrorMessages: true,
   onError: () => {},
 };
 
-module.exports = DocAsync;
+module.exports = EndpointAsync;
