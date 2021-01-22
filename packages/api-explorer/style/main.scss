@@ -961,3 +961,25 @@ form.rjsf {
     margin-bottom: 15px;
   }
 }
+
+// spinner
+.hub-spinner {
+  animation: spin 1s infinite linear;
+  bottom: 15px;
+  fill: none;
+  height: 15px;
+  position: fixed;
+  left: 15px;
+  stroke: var(--project-color-primary, #118cfd);
+  width: 15px;
+  z-index: 1;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -65,7 +65,8 @@ class Doc extends React.Component {
         <a className="anchor-page-title" id={doc.slug} />
 
         <div className="hub-reference-section hub-reference-section-top">
-          <div className="hub-reference-left">
+          {/* todo: replace this.state.showEndpoint */}
+          <div className="hub-reference-left" style={{ visibility: this.state.showEndpoint ? '' : 'hidden' }}>
             <header>
               {this.props.suggestedEdits && (
                 <a className="hub-reference-edit pull-right" href={`${this.props.baseUrl}/reference-edit/${doc.slug}`}>
@@ -89,7 +90,10 @@ class Doc extends React.Component {
               </div>
             )}
           </div>
-          <div className="hub-reference-right">&nbsp;</div>
+          {/* todo: replace this.state.showEndpoint */}
+          <div className="hub-reference-right" style={{ borderTopColor: this.state.showEndpoint ? '' : 'transparent' }}>
+            &nbsp;
+          </div>
         </div>
 
         {renderEndpoint()}
@@ -149,6 +153,7 @@ Doc.propTypes = {
   ),
   language: PropTypes.string.isRequired,
   lazy: PropTypes.bool,
+  loading: PropTypes.bool,
   loginUrl: PropTypes.string,
   Logs: PropTypes.func,
   maskErrorMessages: PropTypes.bool,
@@ -180,6 +185,7 @@ Doc.defaultProps = {
   group: '',
   groups: [],
   lazy: true,
+  loading: true,
   Logs: undefined,
   maskErrorMessages: true,
   oasUrl: '',
