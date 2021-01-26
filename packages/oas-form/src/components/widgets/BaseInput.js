@@ -57,6 +57,14 @@ function BaseInput(props) {
     inputProps.max = schema.maximum;
   }
 
+  if (typeof schema.minLength !== 'undefined') {
+    inputProps.minLength = schema.minLength;
+  }
+
+  if (typeof schema.maxLength !== 'undefined') {
+    inputProps.maxLength = schema.maxLength;
+  }
+
   // If we have examples present, let's pull the first out as a placeholder if it's a primitive value.
   if (typeof schema.examples !== 'undefined') {
     if (Array.isArray(schema.examples)) {
