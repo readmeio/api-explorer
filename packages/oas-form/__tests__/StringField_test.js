@@ -76,6 +76,7 @@ describe('StringField', () => {
       expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
       const datalistId = node.querySelector('.field datalist').id;
       expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
+      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Firefox');
     });
 
     it('should render a string with examples that includes the default value', () => {
@@ -89,6 +90,7 @@ describe('StringField', () => {
       expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
       const datalistId = node.querySelector('.field datalist').id;
       expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
+      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Chrome');
     });
 
     it('should render a string with examples that overlaps with the default value', () => {
@@ -102,6 +104,7 @@ describe('StringField', () => {
       expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
       const datalistId = node.querySelector('.field datalist').id;
       expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
+      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Firefox');
     });
 
     it('should default submit value to undefined', () => {

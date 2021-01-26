@@ -57,6 +57,16 @@ function BaseInput(props) {
     inputProps.max = schema.maximum;
   }
 
+  // If we have examples present, let's pull the first out as a placeholder if it's a primitive value.
+  if (typeof schema.examples !== 'undefined') {
+    if (Array.isArray(schema.examples)) {
+      const example = schema.examples[0];
+      if (typeof example === 'string' || typeof example === 'number' || typeof example === 'boolean') {
+        inputProps.placeholder = example;
+      }
+    }
+  }
+
   const _onChange = ({ target: { value } }) => {
     return props.onChange(value === '' ? options.emptyValue : value);
   };
@@ -76,7 +86,7 @@ function BaseInput(props) {
       onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
     />,
     schema.examples ? (
-      <datalist id={`examples_${inputProps.id}`}>
+      <datalist key={`datalist_${inputProps.id}`} id={`examples_${inputProps.id}`}>
         {[...new Set(schema.examples.concat(schema.default ? [schema.default] : []))].map(example => (
           <option key={example} value={example} />
         ))}
