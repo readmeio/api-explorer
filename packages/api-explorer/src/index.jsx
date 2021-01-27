@@ -281,6 +281,12 @@ class ApiExplorer extends React.Component {
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
           id="hub-reference"
         >
+          {/* todo: hide this on load */}
+          {/* note: not using our font-based spinner b/c it loads after the page finishes loading */}
+          <svg className="hub-spinner" viewBox="0 0 16 16">
+            <circle cx="8" cy="8" r="7" strokeDasharray="30, 6" strokeLinecap="round" strokeWidth="2" />
+          </svg>
+
           {docs.map((doc, index) => (
             <VariablesContext.Provider key={index} value={this.props.variables}>
               <NewVariablesContext.Provider key={index} value={this.props.variables}>

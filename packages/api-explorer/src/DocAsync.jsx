@@ -34,7 +34,16 @@ const DocAsync = props => {
   }
 
   if (loading) {
-    return null;
+    return (
+      <div className="hub-reference">
+        <div className="hub-reference-section hub-reference-section-top">
+          <div className="hub-reference-left" style={{ visibility: 'hidden' }}></div>
+          <div className="hub-reference-right" style={{ borderTopColor: 'transparent' }}>
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return <Doc {...docProps} oas={oas} />;
