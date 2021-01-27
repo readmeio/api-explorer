@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "11.0.1",
+  "version": "11.0.2",
   "main": "dist/index.js",
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
@@ -22,7 +22,7 @@
     "@readme/http-status-codes": "^7.1.0",
     "@readme/markdown-magic": "^11.0.0",
     "@readme/oas-extensions": "^11.0.0",
-    "@readme/oas-form": "^11.0.0",
+    "@readme/oas-form": "^11.0.2",
     "@readme/oas-to-har": "^11.0.1",
     "@readme/oas-to-snippet": "^11.0.1",
     "@readme/syntax-highlighter": "^10.4.1",

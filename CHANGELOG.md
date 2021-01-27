@@ -1,3 +1,12 @@
+## <small>11.0.2 (2021-01-27)</small>
+
+* feat: introducing an interim loading screen in DocAsync (#1156) ([eb96abd](https://github.com/readmeio/api-explorer/commit/eb96abd)), closes [#1156](https://github.com/readmeio/api-explorer/issues/1156)
+* chore: fixing a typo in the pr template ([5fd9906](https://github.com/readmeio/api-explorer/commit/5fd9906))
+* chore(deps-dev): bump husky from 4.3.7 to 4.3.8 (#1154) ([e221673](https://github.com/readmeio/api-explorer/commit/e221673)), closes [#1154](https://github.com/readmeio/api-explorer/issues/1154)
+* docs: slight modifications to the pr template ([274194e](https://github.com/readmeio/api-explorer/commit/274194e))
+
+
+
 ## <small>11.0.1 (2021-01-15)</small>
 
 * docs: 10.1.1 hotfix changelog ([b23024d](https://github.com/readmeio/api-explorer/commit/b23024d))
