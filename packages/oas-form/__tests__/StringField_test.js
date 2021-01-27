@@ -76,7 +76,6 @@ describe('StringField', () => {
       expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
       const datalistId = node.querySelector('.field datalist').id;
       expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
-      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Firefox');
     });
 
     it('should render a string with examples that includes the default value', () => {
@@ -90,7 +89,6 @@ describe('StringField', () => {
       expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
       const datalistId = node.querySelector('.field datalist').id;
       expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
-      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Chrome');
     });
 
     it('should render a string with examples that overlaps with the default value', () => {
@@ -104,7 +102,6 @@ describe('StringField', () => {
       expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
       const datalistId = node.querySelector('.field datalist').id;
       expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
-      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Firefox');
     });
 
     it('should default submit value to undefined', () => {
@@ -298,7 +295,11 @@ describe('StringField', () => {
         schema: {
           type: 'string',
           enum: ['foo', 'bar'],
-          examples: ['Test'],
+        },
+        uiSchema: {
+          'ui:options': {
+            placeholder: 'Test',
+          },
         },
       });
 
@@ -535,20 +536,6 @@ describe('StringField', () => {
       });
 
       expect(node.querySelector('textarea').getAttribute('rows')).eql('20');
-    });
-
-    it('should render a textarea with a placeholder', () => {
-      const { node } = createFormComponent({
-        schema: {
-          type: 'string',
-          examples: ['placeholder content'],
-        },
-        uiSchema: {
-          'ui:widget': 'textarea',
-        },
-      });
-
-      expect(node.querySelector('textarea').getAttribute('placeholder')).eql('placeholder content');
     });
   });
 
@@ -1463,7 +1450,7 @@ describe('StringField', () => {
       expect(node.querySelector('.field label').textContent).eql('foo');
     });
 
-    it('should render a select field with a description', () => {
+    it('should render a select field with a placeholder', () => {
       const { node } = createFormComponent({
         schema: {
           type: 'string',

@@ -56,6 +56,28 @@ function DefaultArrayItem(props) {
               justifyContent: 'space-around',
             }}
           >
+            {(props.hasMoveUp || props.hasMoveDown) && (
+              <IconButton
+                className="array-item-move-up"
+                disabled={props.disabled || props.readonly || !props.hasMoveUp}
+                icon="arrow-up"
+                onClick={props.onReorderClick(props.index, props.index - 1)}
+                style={btnStyle}
+                tabIndex="-1"
+              />
+            )}
+
+            {(props.hasMoveUp || props.hasMoveDown) && (
+              <IconButton
+                className="array-item-move-down"
+                disabled={props.disabled || props.readonly || !props.hasMoveDown}
+                icon="arrow-down"
+                onClick={props.onReorderClick(props.index, props.index + 1)}
+                style={btnStyle}
+                tabIndex="-1"
+              />
+            )}
+
             {props.hasRemove && (
               <IconButton
                 className="array-item-remove"
@@ -310,6 +332,49 @@ class ArrayField extends Component {
     };
   };
 
+  onReorderClick = (index, newIndex) => {
+    return event => {
+      if (event) {
+        event.preventDefault();
+        event.target.blur();
+      }
+      const { onChange } = this.props;
+      let newErrorSchema;
+      if (this.props.errorSchema) {
+        newErrorSchema = {};
+        const errorSchema = this.props.errorSchema;
+        for (const i in errorSchema) {
+          if (i === index) {
+            newErrorSchema[newIndex] = errorSchema[index];
+          } else if (i === newIndex) {
+            newErrorSchema[index] = errorSchema[newIndex];
+          } else {
+            newErrorSchema[i] = errorSchema[i];
+          }
+        }
+      }
+
+      const { keyedFormData } = this.state;
+      function reOrderArray() {
+        // Copy item
+        const _newKeyedFormData = keyedFormData.slice();
+
+        // Moves item from index to newIndex
+        _newKeyedFormData.splice(index, 1);
+        _newKeyedFormData.splice(newIndex, 0, keyedFormData[index]);
+
+        return _newKeyedFormData;
+      }
+      const newKeyedFormData = reOrderArray();
+      this.setState(
+        {
+          keyedFormData: newKeyedFormData,
+        },
+        () => onChange(keyedToPlainFormData(newKeyedFormData), newErrorSchema)
+      );
+    };
+  };
+
   onChangeForIndex = index => {
     return (value, errorSchema) => {
       const { formData, onChange } = this.props;
@@ -388,6 +453,8 @@ class ArrayField extends Component {
         return this.renderArrayFieldItem({
           key,
           index,
+          canMoveUp: index > 0,
+          canMoveDown: index < formData.length - 1,
           itemSchema,
           itemIdSchema,
           itemErrorSchema,
@@ -565,6 +632,8 @@ class ArrayField extends Component {
           key,
           index,
           canRemove: additional,
+          canMoveUp: index >= itemSchemas.length + 1,
+          canMoveDown: additional && index < items.length - 1,
           itemSchema,
           itemData: item,
           itemUiSchema,
@@ -597,6 +666,8 @@ class ArrayField extends Component {
       key,
       index,
       canRemove = true,
+      canMoveUp = true,
+      canMoveDown = true,
       itemData,
       itemUiSchema,
       itemIdSchema,
@@ -610,11 +681,14 @@ class ArrayField extends Component {
     const {
       fields: { SchemaField },
     } = registry;
-    const { removable } = {
+    const { orderable, removable } = {
+      orderable: true,
       removable: true,
       ...uiSchema['ui:options'],
     };
     const has = {
+      moveUp: orderable && canMoveUp,
+      moveDown: orderable && canMoveDown,
       remove: removable && canRemove,
     };
     has.toolbar = Object.keys(has).some(k => has[k]);
@@ -650,11 +724,14 @@ class ArrayField extends Component {
       className: 'array-item',
       disabled,
       hasToolbar: has.toolbar,
+      hasMoveUp: has.moveUp,
+      hasMoveDown: has.moveDown,
       hasRemove: has.remove,
       index,
       key,
       onAddIndexClick: this.onAddIndexClick,
       onDropIndexClick: this.onDropIndexClick,
+      onReorderClick: this.onReorderClick,
       readonly,
     };
   }
