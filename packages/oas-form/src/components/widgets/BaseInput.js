@@ -57,6 +57,14 @@ function BaseInput(props) {
     inputProps.max = schema.maximum;
   }
 
+  if (typeof schema.minLength !== 'undefined') {
+    inputProps.minLength = schema.minLength;
+  }
+
+  if (typeof schema.maxLength !== 'undefined') {
+    inputProps.maxLength = schema.maxLength;
+  }
+
   const _onChange = ({ target: { value } }) => {
     return props.onChange(value === '' ? options.emptyValue : value);
   };
@@ -76,7 +84,7 @@ function BaseInput(props) {
       onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
     />,
     schema.examples ? (
-      <datalist id={`examples_${inputProps.id}`}>
+      <datalist key={`datalist_${inputProps.id}`} id={`examples_${inputProps.id}`}>
         {[...new Set(schema.examples.concat(schema.default ? [schema.default] : []))].map(example => (
           <option key={example} value={example} />
         ))}

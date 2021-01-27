@@ -27,8 +27,20 @@ function StringField(props) {
   if (format && hasWidget(schema, format, widgets)) {
     defaultWidget = format;
   }
-  const { widget = defaultWidget, placeholder = '', ...options } = getUiOptions(uiSchema);
+  const { widget = defaultWidget, ...options } = getUiOptions(uiSchema);
   const Widget = getWidget(schema, widget, widgets);
+
+  // If we have examples present, let's pull the first out as a placeholder if it's a primitive value.
+  let placeholder = '';
+  if (typeof schema.examples !== 'undefined') {
+    if (Array.isArray(schema.examples)) {
+      const example = schema.examples[0];
+      if (typeof example === 'string' || typeof example === 'number' || typeof example === 'boolean') {
+        placeholder = example;
+      }
+    }
+  }
+
   return (
     <Widget
       autofocus={autofocus}
