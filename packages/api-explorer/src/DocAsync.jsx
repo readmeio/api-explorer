@@ -6,7 +6,7 @@ const Doc = require('./Doc');
 const ErrorBoundary = require('./ErrorBoundary');
 
 const DocAsync = props => {
-  const { maskErrorMessages, oas, onError, ...docProps } = props;
+  const { maskErrorMessages, oas, onDereferenceCompletion, onError, ...docProps } = props;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
@@ -16,11 +16,12 @@ const DocAsync = props => {
         await oas.dereference();
 
         setLoading(false);
+        onDereferenceCompletion();
       } catch (err) {
         setError(err);
       }
     })();
-  }, [oas]);
+  }, [oas, onDereferenceCompletion]);
 
   if (error) {
     // We're passing in `error.message` into the error boundary because it expects a child node to be present. It's fine
@@ -52,12 +53,14 @@ const DocAsync = props => {
 DocAsync.propTypes = {
   ...Doc.propTypes,
   maskErrorMessages: PropTypes.bool,
+  onDereferenceCompletion: PropTypes.func,
   onError: PropTypes.func,
 };
 
 DocAsync.defaultProps = {
   ...Doc.defaultProps,
   maskErrorMessages: true,
+  onDereferenceCompletion: () => {},
   onError: () => {},
 };
 

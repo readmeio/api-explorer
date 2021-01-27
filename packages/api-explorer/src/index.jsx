@@ -28,12 +28,14 @@ class ApiExplorer extends React.Component {
     this.getDefaultLanguage = this.getDefaultLanguage.bind(this);
     this.onAuthChange = this.onAuthChange.bind(this);
     this.onAuthGroupChange = this.onAuthGroupChange.bind(this);
+    this.onDereferenceCompletion = this.onDereferenceCompletion.bind(this);
     this.openTutorialModal = this.openTutorialModal.bind(this);
     this.setLanguage = this.setLanguage.bind(this);
 
     this.state = {
       auth: getAuth(this.props.variables.user, this.props.oasFiles),
       group: this.getGroup(),
+      isLoading: true,
       language: Cookie.get('readme_language') || this.getDefaultLanguage(),
       selectedApp: {
         selected: '',
@@ -83,6 +85,15 @@ class ApiExplorer extends React.Component {
         auth: { ...previousState.auth, ...auth },
       };
     });
+  }
+
+  onDereferenceCompletion() {
+    // Don't bother to mark as no longer loading if we are already in that state.
+    if (this.state.isLoading) {
+      this.setState({
+        isLoading: false,
+      });
+    }
   }
 
   getGroup() {
@@ -281,11 +292,11 @@ class ApiExplorer extends React.Component {
           className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
           id="hub-reference"
         >
-          {/* todo: hide this on load */}
-          {/* note: not using our font-based spinner b/c it loads after the page finishes loading */}
-          <svg className="hub-spinner" viewBox="0 0 16 16">
-            <circle cx="8" cy="8" r="7" strokeDasharray="30, 6" strokeLinecap="round" strokeWidth="2" />
-          </svg>
+          {this.state.isLoading && (
+            <svg className="hub-spinner" viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="7" strokeDasharray="30, 6" strokeLinecap="round" strokeWidth="2" />
+            </svg>
+          )}
 
           {docs.map((doc, index) => (
             <VariablesContext.Provider key={index} value={this.props.variables}>
@@ -317,6 +328,7 @@ class ApiExplorer extends React.Component {
                                 oauth={this.props.oauth}
                                 onAuthChange={this.onAuthChange}
                                 onAuthGroupChange={this.onAuthGroupChange}
+                                onDereferenceCompletion={this.onDereferenceCompletion}
                                 onError={this.props.onError}
                                 openTutorialModal={this.openTutorialModal}
                                 setLanguage={this.setLanguage}
