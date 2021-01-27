@@ -1,4 +1,4 @@
-| [☁️ &nbsp; CI App](demo) |
+| [☁️ &nbsp; CI App][demo] |
 | --- |
 
 ## 🧰 What's being changed?
