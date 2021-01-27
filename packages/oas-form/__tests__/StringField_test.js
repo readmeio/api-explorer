@@ -298,11 +298,7 @@ describe('StringField', () => {
         schema: {
           type: 'string',
           enum: ['foo', 'bar'],
-        },
-        uiSchema: {
-          'ui:options': {
-            placeholder: 'Test',
-          },
+          examples: ['Test'],
         },
       });
 
@@ -539,6 +535,20 @@ describe('StringField', () => {
       });
 
       expect(node.querySelector('textarea').getAttribute('rows')).eql('20');
+    });
+
+    it('should render a textarea with a placeholder', () => {
+      const { node } = createFormComponent({
+        schema: {
+          type: 'string',
+          examples: ['placeholder content'],
+        },
+        uiSchema: {
+          'ui:widget': 'textarea',
+        },
+      });
+
+      expect(node.querySelector('textarea').getAttribute('placeholder')).eql('placeholder content');
     });
   });
 
@@ -1453,7 +1463,7 @@ describe('StringField', () => {
       expect(node.querySelector('.field label').textContent).eql('foo');
     });
 
-    it('should render a select field with a placeholder', () => {
+    it('should render a select field with a description', () => {
       const { node } = createFormComponent({
         schema: {
           type: 'string',
