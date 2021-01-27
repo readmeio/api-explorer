@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.0.1",
-    "@readme/emojis": "^2.1.0",
+    "@readme/emojis": "^3.0.0",
     "@readme/ui": "^1.17.6",
     "babel-polyfill": "^6.26.0",
     "oas": "^10.0.0",
