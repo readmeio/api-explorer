@@ -77,8 +77,7 @@
                     "description": "This is a string with a **markdown** description: [link](ref:action-object)"
                   },
                   "string without description": {
-                    "type": "string",
-                    "example": "Example content"
+                    "type": "string"
                   },
                   "string with default value": {
                     "type": "string",
@@ -91,8 +90,7 @@
                   "string (format: blob)": {
                     "description": "Strings with `format: blob` should render a `<textarea>`.",
                     "type": "string",
-                    "format": "blob",
-                    "example": "This is some example content for this parameter."
+                    "format": "blob"
                   },
                   "string (format: date)": {
                     "type": "string",
@@ -310,14 +308,6 @@
                   },
                   "object without `properties`": {
                     "type": "object"
-                  }
-                }
-              },
-              "examples": {
-                "distinctName": {
-                  "value": {
-                    "string": "Example content",
-                    "array (of strings)": ["https://example.com/image.png"]
                   }
                 }
               }

@@ -25,6 +25,9 @@ describe('ArrayFieldTemplate', () => {
           {props.items.map(element => {
             return (
               <div key={element.index} className="custom-array-item">
+                {element.hasMoveUp && <button className="custom-array-item-move-up" />}
+                {element.hasMoveDown && <button className="custom-array-item-move-down" />}
+
                 {element.children}
               </div>
             );
@@ -163,6 +166,14 @@ describe('ArrayFieldTemplate', () => {
             formData.length
           );
         });
+
+        it('should render move up button for all but one array items', () => {
+          expect(node.querySelectorAll('.custom-array-item-move-up')).to.have.length.of(formData.length - 1);
+        });
+
+        it('should render move down button for all but one array items', () => {
+          expect(node.querySelectorAll('.custom-array-item-move-down')).to.have.length.of(formData.length - 1);
+        });
       }
     });
 
@@ -238,6 +249,14 @@ describe('ArrayFieldTemplate', () => {
           expect(node.querySelectorAll('.custom-array-item .field input[type=text]')).to.have.length.of(
             formData.length
           );
+        });
+
+        it('should not render any move up buttons', () => {
+          expect(node.querySelectorAll('.custom-array-item-move-up')).to.have.length.of(0);
+        });
+
+        it('should not render any move down buttons', () => {
+          expect(node.querySelectorAll('.custom-array-item-move-down')).to.have.length.of(0);
         });
       }
     });

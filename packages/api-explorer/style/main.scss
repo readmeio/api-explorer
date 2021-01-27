@@ -374,6 +374,14 @@ form.rjsf .btn.btn-add::after {
   font-weight: bold;
 }
 
+form.rjsf .btn.array-item-move-up::after {
+  content: '↑';
+}
+
+form.rjsf .btn.array-item-move-down::after {
+  content: '↓';
+}
+
 form.rjsf .btn.array-item-remove::after {
   content: '✕';
 }
