@@ -1,3 +1,9 @@
+## 11.1.0 (2021-01-27)
+
+* feat: adding support for request examples (#1155) ([d5e1231](https://github.com/readmeio/api-explorer/commit/d5e1231)), closes [#1155](https://github.com/readmeio/api-explorer/issues/1155)
+
+
+
 ## <small>11.0.2 (2021-01-27)</small>
 
 * feat: introducing an interim loading screen in DocAsync (#1156) ([eb96abd](https://github.com/readmeio/api-explorer/commit/eb96abd)), closes [#1156](https://github.com/readmeio/api-explorer/issues/1156)
