@@ -1,3 +1,9 @@
+## 11.1.1 (2021-01-28)
+
+Republish of 11.1.0 as `@readme/api-explorer` was shipped with a corrupted dist.
+
+
+
 ## 11.1.0 (2021-01-27)
 
 * feat: adding support for request examples (#1155) ([d5e1231](https://github.com/readmeio/api-explorer/commit/d5e1231)), closes [#1155](https://github.com/readmeio/api-explorer/issues/1155)
