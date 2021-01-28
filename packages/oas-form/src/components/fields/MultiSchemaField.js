@@ -90,8 +90,6 @@ class AnyOfField extends Component {
     const {
       baseType,
       disabled,
-      discriminatorField,
-      discriminatorMapping,
       errorSchema,
       formData,
       idPrefix,
@@ -128,19 +126,16 @@ class AnyOfField extends Component {
     return (
       <div className="panel panel-default panel-body">
         <div className="form-group">
-          {!discriminatorField && (
-            <Widget
-              id={`${idSchema.$id}${schema.oneOf ? '__oneof_select' : '__anyof_select'}`}
-              onBlur={onBlur}
-              onChange={this.onOptionChange}
-              onFocus={onFocus}
-              options={{ enumOptions }}
-              schema={{ type: 'number', default: 0 }}
-              value={selectedOption}
-              {...uiOptions}
-            />
-          )}
-          {discriminatorField}
+          <Widget
+            id={`${idSchema.$id}${schema.oneOf ? '__oneof_select' : '__anyof_select'}`}
+            onBlur={onBlur}
+            onChange={this.onOptionChange}
+            onFocus={onFocus}
+            options={{ enumOptions }}
+            schema={{ type: 'number', default: 0 }}
+            value={selectedOption}
+            {...uiOptions}
+          />
         </div>
 
         {option !== null && (
@@ -173,8 +168,6 @@ AnyOfField.defaultProps = {
 if (process.env.NODE_ENV !== 'production') {
   AnyOfField.propTypes = {
     baseType: PropTypes.string,
-    discriminatorField: PropTypes.function,
-    discriminatorMapping: PropTypes.object,
     errorSchema: PropTypes.object,
     formData: PropTypes.any,
     idSchema: PropTypes.object,

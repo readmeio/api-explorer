@@ -22,12 +22,16 @@ function StringField(props) {
   } = props;
   const { title, format } = schema;
   const { widgets, formContext } = registry;
-  const enumOptions = isSelect(schema) && optionsList(schema);
+  let enumOptions = isSelect(schema) && optionsList(schema);
   let defaultWidget = enumOptions ? 'select' : 'text';
   if (format && hasWidget(schema, format, widgets)) {
     defaultWidget = format;
   }
   const { widget = defaultWidget, placeholder = '', ...options } = getUiOptions(uiSchema);
+  // Allow the parent to override the options to provide custom keys via uiSchema:{ui:options: options}
+  if (options.enumOptions) {
+    enumOptions = options.enumOptions;
+  }
   const Widget = getWidget(schema, widget, widgets);
   return (
     <Widget
