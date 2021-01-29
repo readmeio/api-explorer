@@ -1,3 +1,9 @@
+## <small>11.1.2 (2021-01-29)</small>
+
+* fix: upgrade oas to fix a jsonpointer usage error (#1159) ([faddc01](https://github.com/readmeio/api-explorer/commit/faddc01)), closes [#1159](https://github.com/readmeio/api-explorer/issues/1159)
+
+
+
 ## 11.1.1 (2021-01-28)
 
 Republish of 11.1.0 as `@readme/api-explorer` was shipped with a corrupted dist.
