@@ -1,20 +1,15 @@
 const React = require('react');
 const Component = React.Component;
 
-const PropTypes = require('prop-types');
-
 const BaseMultiSchemaField = require('@readme/oas-form/src/components/fields/MultiSchemaField').default;
 const fieldProps = require('@readme/oas-form/src/types').fieldProps;
 const {
-  getUiOptions,
-  getWidget,
   guessType,
   retrieveSchema,
   getDefaultFormState,
   getMatchingOption,
   // deepEquals,
 } = require('@readme/oas-form/src/utils');
-
 
 function extractDiscriminatorField(schema, property) {
   if (schema.properties?.[property]) {
@@ -45,21 +40,17 @@ function extractDiscriminatorField(schema, property) {
  * Navigates a schema, trying to find the discriminator that describes this schema.
  */
 function findDiscriminatorSchema(schema) {
-  console.log('finding discrim', schema);
   if (schema.discriminator) {
-      console.log('discr 1', schema.discriminator);
       return schema.discriminator;
   }
 
   // Sometimes discriminators are within each of the oneOf schemas, and not top level.
   if (schema.properties?.oneOf?.[0]?.discriminator) {
-      console.log('discr 2', schema.properties?.oneOf?.[0]?.discriminator);
       return schema.properties?.oneOf?.[0]?.discriminator;
   }
 
   // Sometimes discriminators are within each of the anyOf schemas, and not top level.
   if (schema.properties?.anyOf?.[0]?.discriminator) {
-      console.log('discr 3', schema.properties?.anyOf?.[0]?.discriminator);
       return schema.properties?.anyOf?.[0]?.discriminator;
   }
 
@@ -69,7 +60,6 @@ function findDiscriminatorSchema(schema) {
 class MultiSchemaField extends Component {
   constructor(props) {
     super(props);
-
     const { formData, options } = this.props;
 
     this.state = {
@@ -77,12 +67,11 @@ class MultiSchemaField extends Component {
     };
   }
 
-  onOptionChange (option) {
-    console.log('OPTION CHANGE FIRED', option);
+  onOptionChange = (option) => {
     const selectedOption = parseInt(option, 10);
     const { formData, onChange, options, registry } = this.props;
     const { rootSchema } = registry;
-    const newOption = retrieveSchema(options[selectedOption], rootSchema, formData);
+    const newOption = retrieveSchema(options[selectedOption], this.schema, formData);
 
     // If the new option is of type object and the current data is an object,
     // discard properties added using the old option.
@@ -104,6 +93,7 @@ class MultiSchemaField extends Component {
         }
       }
     }
+
     // Call getDefaultFormState to make sure defaults are populated on change.
     onChange(getDefaultFormState(options[selectedOption], newFormData, rootSchema));
 
@@ -141,15 +131,8 @@ class MultiSchemaField extends Component {
 
     const _SchemaField = registry.fields.SchemaField;
     const { selectedOption } = this.state;
-    console.log('multi schema', schema);
     const discriminatorSchema = findDiscriminatorSchema(schema);
-    console.log('disc schema', discriminatorSchema);
 
-    // TODO:
-    // 1. Get the discriminator field looking good (fix the options, maybe via the enum? See the TODO: Test below and use util.optionsList on schema)
-    // 2. Get the mapping working (see TODO: Test below)
-    // 3. Ensure the switching is working (examine the existing multischemafield's onchange logic)
-    // 4. Tests
     if (discriminatorSchema) {
       const option = options[selectedOption] || null;
       let optionSchema;
@@ -160,23 +143,22 @@ class MultiSchemaField extends Component {
         optionSchema = option.type ? option : { ...option, type: baseType };
       }
 
-      const discriminatorFieldSchema = extractDiscriminatorField(schema, discriminatorSchema.propertyName);
+      // Pull the field out of the schema and store it locally. We extract so it's not rendered twice, we
+      // store locally so that when you change the select element we can still find it.
+      if (!this.discriminatorFieldSchema) {
+        this.discriminatorFieldSchema = extractDiscriminatorField(schema, discriminatorSchema.propertyName);
+      }
 
       const enumOptions = (schema.oneOf || schema.anyOf).map((opt, index) => ({
         label: opt.title || `Option ${index + 1}`,
         value: index,
       }));
 
-      // discriminatorFieldSchema.enum = enumOptions;
-
       if (discriminatorSchema.mapping) {
-        // merge enum with discriminatorSchema.mapping;
-        discriminatorFieldSchema.enum.push({label:'TODO: mapping', value: 'TODO: mapping'});
+        // merge options with discriminatorSchema.mapping;
+        enumOptions.push({label:'TODO: mapping', value: 'TODO: mapping'});
       }
 
-      console.log('prop name', discriminatorSchema.propertyName);
-      console.log('formData', formData);
-      console.log('enumOptions', enumOptions);
       let selectUiSchema = {'ui:widget': 'select', ...uiSchema}
       return (
         <div className="panel panel-default panel-body">
@@ -193,7 +175,7 @@ class MultiSchemaField extends Component {
               onChange={this.onOptionChange}
               onFocus={onFocus}
               registry={registry}
-              schema={discriminatorFieldSchema}
+              schema={this.discriminatorFieldSchema}
               uiSchema={{'ui:options': {'enumOptions': enumOptions}, ...selectUiSchema}}
             />
           </div>
@@ -216,7 +198,7 @@ class MultiSchemaField extends Component {
         </div>
       );
     }
-    console.log('multi schema props', this.props);
+
     return <BaseMultiSchemaField {...this.props} />;
   }
 }
