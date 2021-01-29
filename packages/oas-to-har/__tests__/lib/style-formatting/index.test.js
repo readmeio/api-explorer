@@ -945,4 +945,40 @@ describe('header values', () => {
 
     expect(har.log.entries[0].request.headers).toStrictEqual(expectedHeaders);
   });
+
+  // Eventhough `Accept`, `Authorization`, and `Content-Type` headers can be defined as path parameters, they should
+  // be completely ignored when it comes to serialization.
+  //
+  //  > If in is "header" and the name field is "Accept", "Content-Type" or "Authorization", the parameter definition
+  //  > SHALL be ignored.
+  //
+  // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#fixed-fields-10
+  describe('should ignore styling definitions on OAS-level handled headers', () => {
+    it.each([
+      ['`accept`', 'accept', 'application/json'],
+      ['`content-type`', 'content-type', 'application/json'],
+      ['`authorization`', 'authorization', 'scheme d9b23eb/0df'],
+    ])('%s', async (testCase, headerName, value) => {
+      const har = oasToHar(
+        oas,
+        {
+          path: '/header',
+          method: 'get',
+          parameters: [
+            {
+              name: headerName,
+              in: 'header',
+              style: 'simple',
+              explode: false,
+            },
+          ],
+        },
+        { header: { [headerName]: value } }
+      );
+
+      await expect(har).toBeAValidHAR();
+
+      expect(har.log.entries[0].request.headers).toStrictEqual([{ name: headerName, value }]);
+    });
+  });
 });
