@@ -147,6 +147,7 @@ class MultiSchemaField extends Component {
       // store locally so that when you change the select element we can still find it.
       if (!this.discriminatorFieldSchema) {
         this.discriminatorFieldSchema = extractDiscriminatorField(schema, discriminatorSchema.propertyName);
+        this.discriminatorFieldSchema.default = Object.keys(options[0]);
       }
 
       const enumOptions = (schema.oneOf || schema.anyOf).map((opt, index) => ({
@@ -166,7 +167,7 @@ class MultiSchemaField extends Component {
             <_SchemaField
               disabled={disabled}
               errorSchema={errorSchema}
-              formData={formData}
+              formData={selectedOption}
               idPrefix={idPrefix}
               idSchema={idSchema}
               label={discriminatorSchema.propertyName}
