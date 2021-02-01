@@ -156,7 +156,7 @@ class Demo extends React.Component {
     if (enableTutorials) {
       docs.forEach((doc, i) => {
         // Only add our mock tutorials if we don't have them present.
-        if (!('tutorials' in doc)) {
+        if ('tutorials' in doc) {
           docs[i].tutorials = [
             {
               title: 'Test Recipe',
@@ -195,9 +195,7 @@ class Demo extends React.Component {
       });
     } else {
       docs.forEach((doc, i) => {
-        if (!('tutorials' in doc)) {
-          docs[i].tutorials = [];
-        }
+        docs[i].tutorials = [];
       });
     }
 
