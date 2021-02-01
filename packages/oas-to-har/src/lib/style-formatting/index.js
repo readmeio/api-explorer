@@ -55,11 +55,9 @@ function stylizeValue(value, parameter) {
     key: parameter.name,
     style: parameter.style,
     explode: parameter.explode,
-    /*
-      TODO: this parameter is optional to stylize. It defaults to false, and can accept falsy, truthy, or "unsafe".
-      I do not know if it is correct for query to use this. See style-serializer for more info
-    */
-    escape: true,
+    // We do not want to encode query parameters, cookies or headers because our httpsnippet library does that for us.
+    // We do want to encode path parameters because the httpsnippet library does not handle any encoding there
+    escape: parameter.in === 'path',
   });
 }
 
