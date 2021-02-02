@@ -5,6 +5,10 @@ function shouldNotStyleEmptyValues(parameter) {
   return ['simple', 'spaceDelimited', 'pipeDelimited', 'deepObject'].includes(parameter.style);
 }
 
+function shouldNotStyleReservedHeader(parameter) {
+  return ['accept', 'authorization', 'content-type'].includes(parameter.name.toLowerCase());
+}
+
 // Note: This isn't necessarily part of the spec. Behavior for the value 'undefined' is, well, undefined.
 //   This code makes our system look better. If we wanted to be more accurate, we might want to remove this,
 //   restore the un-fixed behavior for undefined and have our UI pass in empty string instead of undefined.
@@ -48,6 +52,17 @@ function stylizeValue(value, parameter) {
   // Every style that adds their style to empty values should use emptystring for path parameters instead of undefined to avoid the string 'undefined'
   if (parameter.in === 'path') {
     finalValue = removeUndefinedForPath(finalValue);
+  }
+
+  // Eventhough `Accept`, `Authorization`, and `Content-Type` headers can be defined as parameters, they should be
+  // completely ignored when it comes to serialization.
+  //
+  //  > If in is "header" and the name field is "Accept", "Content-Type" or "Authorization", the parameter definition
+  //  > SHALL be ignored.
+  //
+  // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#fixed-fields-10
+  if (parameter.in === 'header' && shouldNotStyleReservedHeader(parameter)) {
+    return value;
   }
 
   return stylize({

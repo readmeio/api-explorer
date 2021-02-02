@@ -10,7 +10,7 @@
 const { Buffer } = require('buffer');
 
 const isRfc3986Reserved = char => ":/?#[]@!$&'()*+,;=".indexOf(char) > -1;
-const isRrc3986Unreserved = char => /^[a-z0-9\-._~]+$/i.test(char);
+const isRfc3986Unreserved = char => /^[a-z0-9\-._~]+$/i.test(char);
 
 module.exports = function stylize(config) {
   const { value } = config;
@@ -46,7 +46,7 @@ module.exports.encodeDisallowedCharacters = function encodeDisallowedCharacters(
   // code points rather than UCS-2/UTF-16 code units.
   return [...str]
     .map(char => {
-      if (isRrc3986Unreserved(char)) {
+      if (isRfc3986Unreserved(char)) {
         return char;
       }
 
