@@ -126,29 +126,6 @@ test('should return with unhighlighted code', () => {
   expect(code).not.toMatch(/cm-s-tomorrow-night/);
 });
 
-test('should not double-encode query strings', () => {
-  const woofEncoded = encodeURIComponent('woof:woof');
-  const barkEncoded = encodeURIComponent('bark:bark');
-
-  const petstoreOas = new Oas(petstore);
-  const snippet = generateCodeSnippet(
-    petstoreOas,
-    petstoreOas.operation('/user/login', 'get'),
-    {
-      query: {
-        username: woofEncoded,
-        password: barkEncoded,
-      },
-    },
-    {},
-    'javascript',
-    oasUrl
-  );
-
-  expect(snippet.code).not.toContain(encodeURIComponent(woofEncoded));
-  expect(snippet.code).not.toContain(encodeURIComponent(barkEncoded));
-});
-
 test('should support node-simple', () => {
   const petstoreOas = new Oas(petstore);
   const snippet = generateCodeSnippet(
@@ -247,6 +224,48 @@ describe('multipart/form-data handlings', () => {
 
     expect(snippet).toMatchSnapshot();
   });
+});
+
+test('should not double-encode query strings', () => {
+  const startTime = '2019-06-13T19:08:25.455Z';
+  const endTime = '2015-09-15T14:00:12-04:00';
+
+  const snippet = generateCodeSnippet(
+    oas,
+    {
+      path: '/',
+      method: 'get',
+      parameters: [
+        {
+          explode: true,
+          in: 'query',
+          name: 'startTime',
+          schema: {
+            type: 'string',
+          },
+          style: 'form',
+        },
+        {
+          explode: true,
+          in: 'query',
+          name: 'endTime',
+          schema: {
+            type: 'string',
+          },
+          style: 'form',
+        },
+      ],
+    },
+    { query: { startTime, endTime } },
+    {},
+    'javascript',
+    oasUrl
+  );
+
+  expect(snippet.code).toContain(encodeURIComponent(startTime));
+  expect(snippet.code).toContain(encodeURIComponent(endTime));
+  expect(snippet.code).not.toContain(encodeURIComponent(encodeURIComponent(startTime)));
+  expect(snippet.code).not.toContain(encodeURIComponent(encodeURIComponent(endTime)));
 });
 
 describe('#getLangName()', () => {
