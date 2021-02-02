@@ -104,6 +104,15 @@
 .hub-reference .logs .logs-list table th.time {
   width: 15%;
 }
+.hub-reference .logs .logs-list table td .useragent {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+}
+.hub-reference .logs .logs-list table td .useragent svg {
+  height: 20px;
+  margin-right: 0.25rem;
+}
 .hub-reference .logs .logs-list table tr th:last-child,
 .hub-reference .logs .logs-list table tr td:last-child {
   padding-right: 3.55%;
