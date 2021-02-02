@@ -126,6 +126,29 @@ test('should return with unhighlighted code', () => {
   expect(code).not.toMatch(/cm-s-tomorrow-night/);
 });
 
+test('should not double-encode query strings', () => {
+  const woofEncoded = encodeURIComponent('woof:woof');
+  const barkEncoded = encodeURIComponent('bark:bark');
+
+  const petstoreOas = new Oas(petstore);
+  const snippet = generateCodeSnippet(
+    petstoreOas,
+    petstoreOas.operation('/user/login', 'get'),
+    {
+      query: {
+        username: woofEncoded,
+        password: barkEncoded,
+      },
+    },
+    {},
+    'javascript',
+    oasUrl
+  );
+
+  expect(snippet.code).not.toContain(encodeURIComponent(woofEncoded));
+  expect(snippet.code).not.toContain(encodeURIComponent(barkEncoded));
+});
+
 test('should support node-simple', () => {
   const petstoreOas = new Oas(petstore);
   const snippet = generateCodeSnippet(

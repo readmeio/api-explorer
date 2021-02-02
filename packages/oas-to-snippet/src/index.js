@@ -27,7 +27,7 @@ module.exports = (oas, operation, values, auth, lang, oasUrl) => {
     }
   }
 
-  const snippet = new HTTPSnippet(har);
+  const snippet = new HTTPSnippet(har, { escapeQueryStrings: false });
 
   const language = supportedLanguages[lang];
 
