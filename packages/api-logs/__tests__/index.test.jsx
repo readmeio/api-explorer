@@ -200,24 +200,51 @@ describe('Logs', () => {
     const comp = shallow(<LogTest {...props} />);
     requestmodel.requestHeaders[0].value = 'IE4.0';
     comp.setState({ logs: [requestmodel] });
-    const tableData = comp.find('td.useragent').first();
+    const tableData = comp.find('td .useragent').first();
     expect(tableData.contains('IE4.0')).toBe(true);
   });
 
-  it('should render certain userAgents in a simplified way with svg icons', () => {
+  it('should render node in a simplified way with svg icons', () => {
     const comp = shallow(<LogTest {...props} />);
     requestmodel.requestHeaders[0].value = 'node-fetch/x.x.x';
     comp.setState({ logs: [requestmodel] });
-    const tableData = comp.find('td.useragent').first();
+    const tableData = comp.find('td .useragent').first();
     expect(tableData.exists('SvgrURL')).toBe(true);
     expect(tableData.contains('node')).toBe(true);
+  });
+
+  it('should render ruby in a simplified way with svg icons', () => {
+    const comp = shallow(<LogTest {...props} />);
+    requestmodel.requestHeaders[0].value = 'Ruby';
+    comp.setState({ logs: [requestmodel] });
+    const tableData = comp.find('td .useragent').first();
+    expect(tableData.exists('SvgrURL')).toBe(true);
+    expect(tableData.contains('ruby')).toBe(true);
+  });
+
+  it('should render python in a simplified way with svg icons', () => {
+    const comp = shallow(<LogTest {...props} />);
+    requestmodel.requestHeaders[0].value = 'python-requests/x.x.x';
+    comp.setState({ logs: [requestmodel] });
+    const tableData = comp.find('td .useragent').first();
+    expect(tableData.exists('SvgrURL')).toBe(true);
+    expect(tableData.contains('python')).toBe(true);
+  });
+
+  it('should render php in a simplified way with svg icons', () => {
+    const comp = shallow(<LogTest {...props} />);
+    requestmodel.requestHeaders[0].value = 'php-package/x.x.x';
+    comp.setState({ logs: [requestmodel] });
+    const tableData = comp.find('td .useragent').first();
+    expect(tableData.exists('SvgrURL')).toBe(true);
+    expect(tableData.contains('php')).toBe(true);
   });
 
   it('should render other userAgents without svg icons', () => {
     const comp = shallow(<LogTest {...props} />);
     requestmodel.requestHeaders[0].value = 'curl/x.x.x';
     comp.setState({ logs: [requestmodel] });
-    const tableData = comp.find('td.useragent').first();
+    const tableData = comp.find('td .useragent').first();
     expect(tableData.exists('SvgrURL')).toBe(false);
     expect(tableData.contains('curl/x.x.x')).toBe(true);
   });
