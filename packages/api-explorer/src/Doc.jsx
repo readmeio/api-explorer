@@ -10,7 +10,6 @@ const Oas = require('oas/tooling');
 const { getPath, matchesMimeType } = require('oas/tooling/utils');
 
 const { TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
-require('@readme/ui/.bundles/umd/main.css');
 
 const isAuthReady = require('./lib/is-auth-ready');
 
