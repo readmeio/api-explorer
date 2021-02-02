@@ -4,7 +4,8 @@ const React = require('react');
 const { shallow } = require('enzyme');
 const nock = require('nock');
 
-const { Logs, checkFreshness, handleResponse } = require('../index.jsx');
+const { Logs } = require('../index.jsx');
+const { checkFreshness, handleResponse } = require('../utils');
 const requestmodel = require('./fixtures/requestmodel.json');
 const oas = require('./fixtures/oas.json');
 const operation = require('./fixtures/operation.json');
@@ -199,7 +200,26 @@ describe('Logs', () => {
     const comp = shallow(<LogTest {...props} />);
     requestmodel.requestHeaders[0].value = 'IE4.0';
     comp.setState({ logs: [requestmodel] });
-    expect(comp.contains(<td>IE4.0</td>)).toBe(true);
+    const tableData = comp.find('td.useragent').first();
+    expect(tableData.contains('IE4.0')).toBe(true);
+  });
+
+  it('should render certain userAgents in a simplified way with svg icons', () => {
+    const comp = shallow(<LogTest {...props} />);
+    requestmodel.requestHeaders[0].value = 'node-fetch/x.x.x';
+    comp.setState({ logs: [requestmodel] });
+    const tableData = comp.find('td.useragent').first();
+    expect(tableData.exists('SvgrURL')).toBe(true);
+    expect(tableData.contains('node')).toBe(true);
+  });
+
+  it('should render other userAgents without svg icons', () => {
+    const comp = shallow(<LogTest {...props} />);
+    requestmodel.requestHeaders[0].value = 'curl/x.x.x';
+    comp.setState({ logs: [requestmodel] });
+    const tableData = comp.find('td.useragent').first();
+    expect(tableData.exists('SvgrURL')).toBe(false);
+    expect(tableData.contains('curl/x.x.x')).toBe(true);
   });
 
   it('should always return a absolute url', async () => {
