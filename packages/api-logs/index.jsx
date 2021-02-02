@@ -8,7 +8,6 @@ const { default: NodeSvg } = require('./assets/node-logo.svg');
 const { default: PythonSvg } = require('./assets/python-logo.svg');
 const { default: RubySvg } = require('./assets/ruby-logo.svg');
 const { default: PhpSvg } = require('./assets/php-logo.svg');
-const { default: ReadmeSvg } = require('./assets/readme-logo.svg');
 
 const IconSvg = () => (
   <svg height="19" viewBox="0 0 24 19" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -186,8 +185,6 @@ class Logs extends React.Component {
         return <PhpSvg />;
       case 'ruby':
         return <RubySvg />;
-      case 'ReadMe API Explorer':
-        return <ReadmeSvg />;
       default:
         return null;
     }
