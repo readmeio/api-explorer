@@ -121,6 +121,20 @@ module.exports = (
     });
   }
 
+  // Add custom query params
+  const {query} = formData
+  if (query && Object.keys(query).length > har.queryString.length) {
+    const keys = Object.keys(query)
+    const alreadyKeys = har.queryString.map(queryParam => queryParam.name)
+    const missingKeys = keys.filter( key => !alreadyKeys.includes(key))
+    missingKeys.forEach(key => {
+      har.queryString.push({
+        name: key,
+        value: String(query[key])
+      })
+    })
+  }
+
   const headers =
     pathOperation &&
     pathOperation.parameters &&
@@ -240,5 +254,6 @@ module.exports = (
       });
     });
   }
+
   return { log: { entries: [{ request: har }] } };
 };
