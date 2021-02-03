@@ -208,3 +208,13 @@ test('should not error if invalid json is returned', async () => {
 
   expect((await parseResponse(har, invalidJsonResponse)).responseBody).toBe('plain text');
 });
+
+test('should default to JSON with wildcard content-type', async () => {
+  const wildcardResponse = new Response(responseBody, {
+    headers: {
+      'Content-Type': '*/*',
+    },
+  });
+
+  expect((await parseResponse(har, wildcardResponse)).responseBody).toStrictEqual(JSON.parse(responseBody));
+});
