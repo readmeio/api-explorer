@@ -1,3 +1,14 @@
+## <small>11.1.3 (2021-02-03)</small>
+
+* fix: ignore styling definitions on oas-reserved headers (#1160) ([9e6be79](https://github.com/readmeio/api-explorer/commit/9e6be79)), closes [#1160](https://github.com/readmeio/api-explorer/issues/1160)
+* fix: prevent code snippets from double encoding querystrings (#1166) ([ae998e0](https://github.com/readmeio/api-explorer/commit/ae998e0)), closes [#1166](https://github.com/readmeio/api-explorer/issues/1166)
+* fix: remove readme icon from public-facing docs ([3dae4f2](https://github.com/readmeio/api-explorer/commit/3dae4f2))
+* fix: tests ([7a7cb9c](https://github.com/readmeio/api-explorer/commit/7a7cb9c))
+* fix(ui components): remove a stylesheet import that's now redundant (#1164) ([5578d40](https://github.com/readmeio/api-explorer/commit/5578d40)), closes [#1164](https://github.com/readmeio/api-explorer/issues/1164)
+* feat: rm-122 format useragent in simple terms ([9f6d03f](https://github.com/readmeio/api-explorer/commit/9f6d03f))
+
+
+
 ## <small>11.1.2 (2021-01-29)</small>
 
 * fix: upgrade oas to fix a jsonpointer usage error (#1159) ([faddc01](https://github.com/readmeio/api-explorer/commit/faddc01)), closes [#1159](https://github.com/readmeio/api-explorer/issues/1159)
