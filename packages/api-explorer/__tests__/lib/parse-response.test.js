@@ -218,3 +218,13 @@ test('should default to JSON with wildcard content-type', async () => {
 
   expect((await parseResponse(har, wildcardResponse)).responseBody).toStrictEqual(JSON.parse(responseBody));
 });
+
+test('should return with empty string if there is no response', async () => {
+  const emptyResponse = new Response(null, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  expect((await parseResponse(har, emptyResponse)).responseBody).toStrictEqual('');
+});
