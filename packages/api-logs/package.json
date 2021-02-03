@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "@readme/eslint-config": "^4.0.0",
-    "@svgr/webpack": "^5.5.0",
     "eslint": "^7.0.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^26.0.1",

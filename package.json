@@ -50,7 +50,6 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@readme/eslint-config": "^4.0.0",
-    "@svgr/webpack": "^5.5.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^26.0.1",
@@ -85,7 +84,7 @@
       },
       {
         "path": "packages/api-logs/dist/index.js",
-        "maxSize": "15KB"
+        "maxSize": "10KB"
       },
       {
         "path": "packages/variable/dist/index.js",

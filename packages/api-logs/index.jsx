@@ -3,12 +3,6 @@ const PropTypes = require('prop-types');
 const querystring = require('querystring');
 const retry = require('async-retry');
 
-const { getHeaderValue, checkFreshness, handleResponse, getFormattedUserAgent } = require('./utils');
-const { default: NodeSvg } = require('./assets/node-logo.svg');
-const { default: PythonSvg } = require('./assets/python-logo.svg');
-const { default: RubySvg } = require('./assets/ruby-logo.svg');
-const { default: PhpSvg } = require('./assets/php-logo.svg');
-
 const IconSvg = () => (
   <svg height="19" viewBox="0 0 24 19" width="24" xmlns="http://www.w3.org/2000/svg">
     <path d="M3.29102 8.82048C3.29102 8.43813 3.59388 8.12817 3.96749 8.12817H12.0851C12.4587 8.12817 12.7616 8.43813 12.7616 8.82048C12.7616 9.20283 12.4587 9.51279 12.0851 9.51279H3.96749C3.59388 9.51279 3.29102 9.20283 3.29102 8.82048Z" />
@@ -49,6 +43,29 @@ const LoadingSvg = props => (
     </g>
   </svg>
 );
+
+function getLanguage(log) {
+  const header = log.requestHeaders.find(e => e.name.toLowerCase() === 'user-agent');
+  if (header) return header.value;
+  return '-';
+}
+
+function checkFreshness(existingLogs, incomingLogs) {
+  if (
+    (!existingLogs.length && incomingLogs.length) ||
+    (existingLogs.length && incomingLogs.length && existingLogs[0]._id !== incomingLogs[0]._id)
+  ) {
+    return incomingLogs;
+  }
+  throw new Error('Requested logs are not up-to-date.');
+}
+
+function handleResponse(res) {
+  if (res.status === 200) {
+    return res.json();
+  }
+  throw new Error('Failed to fetch logs');
+}
 
 class Logs extends React.Component {
   constructor(props) {
@@ -152,42 +169,17 @@ class Logs extends React.Component {
     const { logs } = this.state;
 
     return logs.map(log => {
-      const userAgent = getHeaderValue(log.requestHeaders, 'user-agent');
-      const formattedUserAgent = getFormattedUserAgent(userAgent) || '-';
-      const userAgentIcon = Logs.getUserAgentIcon(formattedUserAgent);
-      const timestamp = new Date(log.createdAt).toLocaleString();
-
       return (
         <tr key={log._id} onClick={this.visitLogItem.bind(this, log)}>
           <td>{log.method}</td>
           <td>{log.status}</td>
           <td>{log.url}</td>
           <td>{log.group.label}</td>
-          <td>
-            <span className="useragent">
-              {userAgentIcon}
-              {formattedUserAgent}
-            </span>
-          </td>
-          <td>{timestamp}</td>
+          <td>{getLanguage(log)}</td>
+          <td>{new Date(log.createdAt).toLocaleString()}</td>
         </tr>
       );
     });
-  }
-
-  static getUserAgentIcon(name) {
-    switch (name) {
-      case 'node':
-        return <NodeSvg />;
-      case 'python':
-        return <PythonSvg />;
-      case 'php':
-        return <PhpSvg />;
-      case 'ruby':
-        return <RubySvg />;
-      default:
-        return null;
-    }
   }
 
   static renderOption(item) {
@@ -313,3 +305,5 @@ Logs.defaultProps = {
 
 module.exports = Logs;
 module.exports.Logs = Logs;
+module.exports.checkFreshness = checkFreshness;
+module.exports.handleResponse = handleResponse;
