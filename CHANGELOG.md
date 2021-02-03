@@ -1,3 +1,9 @@
+## <small>11.1.4 (2021-02-03)</small>
+
+* revert: pulling #1165 out of master after an accidental merge ([2715706](https://github.com/readmeio/api-explorer/commit/2715706)), closes [#1165](https://github.com/readmeio/api-explorer/issues/1165)
+
+
+
 ## <small>11.1.3 (2021-02-03)</small>
 
 * fix: ignore styling definitions on oas-reserved headers (#1160) ([9e6be79](https://github.com/readmeio/api-explorer/commit/9e6be79)), closes [#1160](https://github.com/readmeio/api-explorer/issues/1160)
