@@ -35,7 +35,7 @@
     "@babel/runtime-corejs2": "^7.4.5",
     "ajv": "^6.7.0",
     "core-js": "^2.5.7",
-    "json-schema-merge-allof": "^0.6.0",
+    "json-schema-merge-allof": "^0.7.0",
     "jsonpointer": "^4.0.1",
     "lodash": "^4.17.15",
     "nanoid": "^3.1.20",
