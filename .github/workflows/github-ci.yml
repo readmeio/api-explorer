@@ -1,0 +1,63 @@
+name: github ci
+
+on: 
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs: 
+  node-testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: v1-npm-deps-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: v1-npm-deps-
+      - name: Launch test
+        run: |
+          npm i
+          npx lerna bootstrap
+          npm run test
+      - name: Coverall api-explorer
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./packages/api-explorer/coverage/lcov.info
+          parallel: true
+          flag-name: coverall-api-explorer
+      - name: Coverall api-logs
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./packages/api-logs/coverage/lcov.info
+          parallel: true
+          flag-name: coverall-api-logs
+      - name: Coverall markdown
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./packages/markdown/coverage/lcov.info
+          parallel: true
+          flag-name: coverall-api-markdown
+      - name: Coverall syntax-highlighter
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./packages/syntax-highlighter/coverage/lcov.info
+          parallel: true
+          flag-name: coverall-syntax-highlighter
+      - name: Coverall variable
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          path-to-lcov: ./packages/variable/coverage/lcov.info
+          parallel: true
+          flag-name: coverall-variable
+              

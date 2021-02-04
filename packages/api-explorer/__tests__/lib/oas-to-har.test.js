@@ -230,6 +230,25 @@ describe('query values', () => {
       ).log.entries[0].request.queryString,
     ).toEqual([{ name: 'id', value: '0' }]);
   });
+
+  test('should add custom params to queryString', () => {
+    expect(
+      oasToHar(
+        oas,
+        {
+          path: '/param-path',
+          method: 'get',
+          parameters: [
+            {
+              name: 'id',
+              in: 'query',
+            },
+          ],
+        },
+        { query: { custom: 0 } },
+      ).log.entries[0].request.queryString,
+    ).toEqual([{ name: 'custom', value: '0' }]);
+  });
 });
 
 describe('header values', () => {
@@ -1352,7 +1371,6 @@ describe('content-type & accept header', () => {
   })
 
 })
-
 
 describe('x-headers', () => {
   it('should append any static headers to the request', () => {
