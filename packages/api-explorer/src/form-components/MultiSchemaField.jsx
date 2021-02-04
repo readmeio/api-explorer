@@ -58,31 +58,111 @@ function findDiscriminatorSchema(schema) {
 class MultiSchemaField extends Component {
   constructor(props) {
     super(props);
-    const { formData, options, schema } = this.props;
+    const { formData, options, schema, registry } = this.props;
+    const { rootSchema } = registry;
+
     let discriminatorSchema = findDiscriminatorSchema(schema);
+    let enumOptions = null;
+
+    if (discriminatorSchema.mapping) {
+      enumOptions = this.getMappingOptions(discriminatorSchema.mapping, options, rootSchema.components?.schemas);
+    } else {
+      let componentSchemas = rootSchema.components?.schemas;
+
+      if (componentSchemas) {
+        enumOptions = this.getSchemaOptions(options, componentSchemas);
+      }
+    }
 
     this.state = {
       selectedOption: this.getMatchingOption(formData, options),
       discriminatorSchema,
-      discriminatorFieldSchema: discriminatorSchema ? extractDiscriminatorField(schema, discriminatorSchema.propertyName) : null
+      discriminatorFieldSchema: discriminatorSchema ? extractDiscriminatorField(schema, discriminatorSchema.propertyName) : null,
+      enumOptions
     };
   }
 
-  getOptionIndex(value, options) {
-    return options.findIndex((item) => item.title === value);
+  /**
+   * See getSchemaOptions for more thorough details. This basicaly does that, but uses the aliases in the mapping as values instead of the
+   * schema keys
+   */
+  getMappingOptions(mapping, discriminatorSchemas, componentSchemas) {
+    const validSchemas = {};
+
+    // Get a list of valid schemas listed in the mapping and format it to look like its own component schema object, but with the mapping keys instead of real keys
+    //   so we can reuse getSchemaOptions.
+    for(const key in mapping) {
+      const match = mapping[key].match(/#\/components\/schemas\/([^/]+)/);
+      if (match && componentSchemas[match[1]]) {
+        validSchemas[key] = componentSchemas[match[1]];
+      }
+    }
+
+    return this.getSchemaOptions(discriminatorSchemas, validSchemas);
   }
 
+  /**
+   * rjsf/oas-form adds an empty format field to the schema if there isn't one. We don't want that, to ensure we can identify equality with the schema component
+   */
+  cleanDiscriminatorSchema(schema) {
+    let copy = {...schema};
+    if (copy.format === '') {
+      delete copy.format;
+    }
+    return copy;
+  }
+
+  /**
+   * This is a fun one. So here we go.
+   *
+   * If we want to generate a list of options for the discriminator drop down, we look at the schemas in the oneOf/anyOf. Unfortunately the "value" of the discriminator
+   * is the name of that schema as referenced in the components/schemas list. This is unfortunate because by the time we recieve the schema in this code it has already been
+   * dereferenced and we've lost the json pointer.
+   *
+   * The solution is to compare the schema objects in the oneOf/anyOf to everything in the components/schemas list and use that to identify the names we should use.
+   *
+   * The final order of this is SUPER IMPORTANT, because the existing multischema component renders the options in the numeric order of the schemas in the oneOf/anyOf.
+   * So we need the values to appear in that same order, otherwise you might have a name render the wrong schema.
+   *
+   * If we wanted to drop the order requirement, we would need to investigate further the mix between the incoming options, and the list of schemas we generate. Maybe
+   * we could store a key value pair of name=>schema, of valid options, and rely exclusively on that for this entire file. It would probably clean this code up a little bit.
+   */
+  getSchemaOptions(discriminatorSchemas, componentSchemas) {
+    let options = [];
+
+
+    for (const discSchema of discriminatorSchemas) {
+      for (const componentKey in componentSchemas) {
+        if (JSON.stringify(this.cleanDiscriminatorSchema(discSchema)) === JSON.stringify(componentSchemas[componentKey])) {
+          options.push({
+            label: componentKey,
+            value: componentKey
+          });
+        }
+      }
+    }
+
+    return options;
+  }
+
+  /**
+   * Handles the dropdown selection of your schema.
+   *
+   * The incoming option is the selection value
+   *
+   */
   onOptionChange = (option) => {
     const { formData, onChange, options, registry } = this.props;
-    const { discriminatorSchema } = this.state;
-    const selectedOption = this.getOptionIndex(option, options);
+    const { discriminatorSchema, enumOptions } = this.state;
+    const selectedOption = enumOptions.findIndex((item) => item.value === option);
     const { rootSchema } = registry;
 
     if (discriminatorSchema) {
       formData[discriminatorSchema.propertyName] = option;
     }
 
-    // Call getDefaultFormState to make sure defaults are populated on change.
+    // Update the formData so the example code is properly rendered and ensure defaults are applied if applicable
+    // Note: defaults might not be applicable, this line largely from the original multischema code!
     onChange(getDefaultFormState(options[selectedOption], formData, rootSchema));
 
     this.setState({
@@ -116,14 +196,16 @@ class MultiSchemaField extends Component {
       options,
       registry,
       uiSchema,
-      schema,
-
     } = this.props;
 
     const _SchemaField = registry.fields.SchemaField;
-    const { selectedOption, selectedValue, discriminatorSchema, discriminatorFieldSchema } = this.state;
+    const { selectedOption, selectedValue, discriminatorSchema, discriminatorFieldSchema, enumOptions } = this.state;
+    const { rootSchema } = registry;
 
+    // We've got a custom path if there's a discriminator, otherwise we fall back ot the old multischema field
     if (discriminatorSchema) {
+      // Find which schema we wnat to render by looking at the options prop. The index of the schema we want to render there matches
+      // the schema we want in
       const option = options[selectedOption] || null;
       let optionSchema;
 
@@ -132,20 +214,6 @@ class MultiSchemaField extends Component {
         // If the subschema doesn't declare a type, infer the type from the
         // parent schema
         optionSchema = option.type ? option : { ...option, type: baseType };
-      }
-
-      const enumOptions = (schema.oneOf || schema.anyOf).map((opt, index) => {
-        const option = opt.title;
-
-        return {
-          label: option,
-          value: option,
-        };
-      });
-
-      if (discriminatorSchema.mapping) {
-        // merge options with discriminatorSchema.mapping;
-        enumOptions.push({label:'TODO: mapping', value: 'TODO: mapping'});
       }
 
       // Define the values, force a selecte element and forward the remaining uiSchema object.
