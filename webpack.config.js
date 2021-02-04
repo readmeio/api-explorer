@@ -1,8 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
+const { cloneDeep } = require('lodash');
 const common = require('./webpack.common');
 const log = require('./example/fixtures/requestmodel.json');
+
+const userAgents = ['node-fetch/x.x.x', 'Ruby', 'python-requests/x.x.x', 'php/x.x.x'];
 
 module.exports = merge(common, {
   devServer: {
@@ -16,8 +19,14 @@ module.exports = merge(common, {
       app.get('/api/logs', (req, res) => {
         // Simulate some loading time
         setTimeout(() => {
-          // res.json([]); // no data state
-          res.json([...new Array(5).keys()].map(() => ({ ...log, _id: Math.random().toString(5) })));
+          const seedData = [...new Array(5).keys()].map(() => ({ ...cloneDeep(log), _id: Math.random().toString(5) }));
+          const seedDataWithModifiedRequestHeaders = userAgents.reduce((acc, userAgent, i) => {
+            if (acc[i]) {
+              acc[i].requestHeaders[0].value = userAgent;
+            }
+            return acc;
+          }, seedData);
+          res.json(seedDataWithModifiedRequestHeaders);
         }, 500);
       });
     },

@@ -17,6 +17,7 @@ module.exports = {
   },
   moduleNameMapper: {
     '.+\\.(css|styl|less|sass|scss)$': 'identity-obj-proxy',
+    '\\.svg$': path.join(__dirname, '/lib/svgr-mock.js'),
   },
   setupFiles: [path.join(__dirname, '/lib/enzyme')],
   testMatch: ['**/__tests__/**/(*.)+test.[jt]s?(x)'],
