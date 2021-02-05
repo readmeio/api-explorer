@@ -240,7 +240,7 @@ describe('oneOf/anyOf', () => {
 
 describe('schema handling', () => {
   describe('minLength / maxLength', () => {
-    it('should put a `min` and `max` attribute on an input', () => {
+    it('should put a `minLength` and `maxLength` attribute on an input', () => {
       const params = mount(
         <div>
           <Params {...props} operation={stringOas.operation('/format-password', 'get')} />
@@ -248,8 +248,8 @@ describe('schema handling', () => {
       );
 
       expect(params.find('input')).toHaveLength(1);
-      expect(params.find('input').props()).toHaveProperty('min', 5);
-      expect(params.find('input').props()).toHaveProperty('max', 20);
+      expect(params.find('input').props()).toHaveProperty('minLength', 5);
+      expect(params.find('input').props()).toHaveProperty('maxLength', 20);
     });
   });
 

@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-logs",
   "description": "React component for Api Logs",
-  "version": "11.0.0",
+  "version": "11.1.4",
   "main": "dist/index.js",
   "author": "sean dokko <github.com/dok>",
   "license": "ISC",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@readme/eslint-config": "^4.0.0",
+    "@svgr/webpack": "^5.5.0",
     "eslint": "^7.0.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^26.0.1",

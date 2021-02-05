@@ -28,7 +28,6 @@ export const fieldProps = {
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
       addable: PropTypes.bool,
-      orderable: PropTypes.bool,
       removable: PropTypes.bool,
     }),
   }),

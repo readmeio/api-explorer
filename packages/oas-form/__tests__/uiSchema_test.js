@@ -835,7 +835,6 @@ describe('uiSchema', () => {
       const uiSchema = {
         foo: {
           'ui:widget': 'textarea',
-          'ui:placeholder': 'sample',
         },
       };
 
@@ -876,19 +875,12 @@ describe('uiSchema', () => {
           formData: { foo: 'b' },
         });
       });
-
-      it('should set a placeholder value', () => {
-        const { node } = createFormComponent({ schema, uiSchema });
-
-        expect(node.querySelector('textarea').placeholder).eql('sample');
-      });
     });
 
     describe('password', () => {
       const uiSchema = {
         foo: {
           'ui:widget': 'password',
-          'ui:placeholder': 'sample',
         },
       };
 
@@ -928,12 +920,6 @@ describe('uiSchema', () => {
         sinon.assert.calledWithMatch(onChange.lastCall, {
           formData: { foo: 'b' },
         });
-      });
-
-      it('should set a placeholder value', () => {
-        const { node } = createFormComponent({ schema, uiSchema });
-
-        expect(node.querySelector('[type=password]').placeholder).eql('sample');
       });
     });
 

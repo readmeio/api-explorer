@@ -42,8 +42,8 @@ class Demo extends React.Component {
         description: 'Enable our request body JSON editor.',
         stateProp: 'enableJsonEditor',
       },
-      'Enable tutorials (beta)': {
-        description: 'Enable our tutorials beta.',
+      'Enable recipes (beta)': {
+        description: 'Enable our recipes beta.',
         stateProp: 'enableTutorials',
       },
     };
@@ -156,12 +156,12 @@ class Demo extends React.Component {
     if (enableTutorials) {
       docs.forEach((doc, i) => {
         // Only add our mock tutorials if we don't have them present.
-        if (!('tutorials' in doc)) {
+        if ('tutorials' in doc) {
           docs[i].tutorials = [
             {
-              title: 'Test Tutorial',
-              description: 'Tutorial description',
-              slug: 'test-tutorial',
+              title: 'Test Recipe',
+              description: 'Recipe description',
+              slug: 'test-recipe',
               backgroundColor: '#018FF4',
               emoji: '🦉',
               _id: '123',
@@ -195,9 +195,7 @@ class Demo extends React.Component {
       });
     } else {
       docs.forEach((doc, i) => {
-        if (!('tutorials' in doc)) {
-          docs[i].tutorials = [];
-        }
+        docs[i].tutorials = [];
       });
     }
 

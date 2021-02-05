@@ -222,8 +222,14 @@ module.exports = (
     });
   }
 
-  const schema = getSchema(operation.schema, oas) || { schema: {} };
-  if (schema.schema && Object.keys(schema.schema).length) {
+  let requestBody = getSchema(operation.schema, oas);
+  if (requestBody) {
+    requestBody = requestBody.schema;
+  } else {
+    requestBody = { schema: {} };
+  }
+
+  if (requestBody.schema && Object.keys(requestBody.schema).length) {
     if (operation.isFormUrlEncoded()) {
       if (Object.keys(formData.formData).length) {
         har.postData.params = [];
@@ -254,8 +260,8 @@ module.exports = (
 
             // Discover all `{ type: string, format: binary }` properties the schema. If there are any, then that means
             // that we're dealing with a `multipart/form-data` request and need to treat the payload as `postData.params`.
-            const binaryTypes = Object.keys(schema.schema.properties).filter(
-              key => schema.schema.properties[key].format === 'binary'
+            const binaryTypes = Object.keys(requestBody.schema.properties).filter(
+              key => requestBody.schema.properties[key].format === 'binary'
             );
 
             if (cleanBody !== undefined) {
@@ -299,8 +305,8 @@ module.exports = (
 
             // Find all `{ type: string, format: json }` properties in the schema because we need to manually JSON.parse
             // them before submit, otherwise they'll be escaped instead of actual objects.
-            const jsonTypes = Object.keys(schema.schema.properties).filter(
-              key => schema.schema.properties[key].format === 'json'
+            const jsonTypes = Object.keys(requestBody.schema.properties).filter(
+              key => requestBody.schema.properties[key].format === 'json'
             );
 
             if (jsonTypes.length) {
@@ -341,7 +347,7 @@ module.exports = (
 
   // Add a `Content-Type` header if there are any body values setup above or if there is a schema defined, but only do
   // so if we don't already have a `Content-Type` present as it's impossible for a request to have multiple.
-  if ((har.postData.text || Object.keys(schema.schema).length) && !hasContentType) {
+  if ((har.postData.text || Object.keys(requestBody.schema).length) && !hasContentType) {
     har.headers.push({
       name: 'Content-Type',
       value: contentType,

@@ -1,3 +1,47 @@
+## <small>11.1.4 (2021-02-03)</small>
+
+* revert: pulling #1165 out of master after an accidental merge ([2715706](https://github.com/readmeio/api-explorer/commit/2715706)), closes [#1165](https://github.com/readmeio/api-explorer/issues/1165)
+
+
+
+## <small>11.1.3 (2021-02-03)</small>
+
+* fix: ignore styling definitions on oas-reserved headers (#1160) ([9e6be79](https://github.com/readmeio/api-explorer/commit/9e6be79)), closes [#1160](https://github.com/readmeio/api-explorer/issues/1160)
+* fix: prevent code snippets from double encoding querystrings (#1166) ([ae998e0](https://github.com/readmeio/api-explorer/commit/ae998e0)), closes [#1166](https://github.com/readmeio/api-explorer/issues/1166)
+* fix: remove readme icon from public-facing docs ([3dae4f2](https://github.com/readmeio/api-explorer/commit/3dae4f2))
+* fix: tests ([7a7cb9c](https://github.com/readmeio/api-explorer/commit/7a7cb9c))
+* fix(ui components): remove a stylesheet import that's now redundant (#1164) ([5578d40](https://github.com/readmeio/api-explorer/commit/5578d40)), closes [#1164](https://github.com/readmeio/api-explorer/issues/1164)
+* feat: rm-122 format useragent in simple terms ([9f6d03f](https://github.com/readmeio/api-explorer/commit/9f6d03f))
+
+
+
+## <small>11.1.2 (2021-01-29)</small>
+
+* fix: upgrade oas to fix a jsonpointer usage error (#1159) ([faddc01](https://github.com/readmeio/api-explorer/commit/faddc01)), closes [#1159](https://github.com/readmeio/api-explorer/issues/1159)
+
+
+
+## 11.1.1 (2021-01-28)
+
+Republish of 11.1.0 as `@readme/api-explorer` was shipped with a corrupted dist.
+
+
+
+## 11.1.0 (2021-01-27)
+
+* feat: adding support for request examples (#1155) ([d5e1231](https://github.com/readmeio/api-explorer/commit/d5e1231)), closes [#1155](https://github.com/readmeio/api-explorer/issues/1155)
+
+
+
+## <small>11.0.2 (2021-01-27)</small>
+
+* feat: introducing an interim loading screen in DocAsync (#1156) ([eb96abd](https://github.com/readmeio/api-explorer/commit/eb96abd)), closes [#1156](https://github.com/readmeio/api-explorer/issues/1156)
+* chore: fixing a typo in the pr template ([5fd9906](https://github.com/readmeio/api-explorer/commit/5fd9906))
+* chore(deps-dev): bump husky from 4.3.7 to 4.3.8 (#1154) ([e221673](https://github.com/readmeio/api-explorer/commit/e221673)), closes [#1154](https://github.com/readmeio/api-explorer/issues/1154)
+* docs: slight modifications to the pr template ([274194e](https://github.com/readmeio/api-explorer/commit/274194e))
+
+
+
 ## <small>11.0.1 (2021-01-15)</small>
 
 * docs: 10.1.1 hotfix changelog ([b23024d](https://github.com/readmeio/api-explorer/commit/b23024d))

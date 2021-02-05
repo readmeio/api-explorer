@@ -10,7 +10,6 @@ const Oas = require('oas/tooling');
 const { getPath, matchesMimeType } = require('oas/tooling/utils');
 
 const { TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
-require('@readme/ui/.bundles/umd/main.css');
 
 const isAuthReady = require('./lib/is-auth-ready');
 
@@ -626,6 +625,7 @@ Doc.propTypes = {
   oauth: PropTypes.bool.isRequired,
   onAuthChange: PropTypes.func.isRequired,
   onAuthGroupChange: PropTypes.func.isRequired,
+  onDereferenceCompletion: PropTypes.func,
   onError: PropTypes.func,
   openTutorialModal: PropTypes.func,
   setLanguage: PropTypes.func.isRequired,
@@ -651,6 +651,7 @@ Doc.defaultProps = {
   Logs: undefined,
   maskErrorMessages: true,
   oasUrl: '',
+  onDereferenceCompletion: () => {},
   onError: () => {},
   openTutorialModal: () => {},
   useNewMarkdownEngine: false,

@@ -28,10 +28,10 @@
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.0.1",
-    "@readme/emojis": "^2.1.0",
+    "@readme/emojis": "^3.0.0",
     "@readme/ui": "^1.17.6",
     "babel-polyfill": "^6.26.0",
-    "oas": "^9.0.0",
+    "oas": "^10.0.1",
     "prop-types": "^15.7.2",
     "react-hot-loader": "^4.12.16",
     "swagger2openapi": "^7.0.0",
@@ -50,6 +50,7 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@readme/eslint-config": "^4.0.0",
+    "@svgr/webpack": "^5.5.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^26.0.1",
@@ -63,6 +64,7 @@
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
     "lerna": "^3.14.1",
+    "lodash": "^4.17.20",
     "node-sass": "^4.12.0",
     "prettier": "^2.0.1",
     "react": "^16.14.0",
@@ -84,7 +86,7 @@
       },
       {
         "path": "packages/api-logs/dist/index.js",
-        "maxSize": "10KB"
+        "maxSize": "15KB"
       },
       {
         "path": "packages/variable/dist/index.js",

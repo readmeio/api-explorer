@@ -678,7 +678,7 @@ export function retrieveSchema(schema, rootSchema = {}, formData = {}) {
         }
       );
     } catch (e) {
-      console.warn(`could not merge subschemas in allOf:\n${e}`);
+      // console.warn(`could not merge subschemas in allOf:\n${e}`);
       const { allOf, ...resolvedSchemaWithoutAllOf } = resolvedSchema;
       return resolvedSchemaWithoutAllOf;
     }

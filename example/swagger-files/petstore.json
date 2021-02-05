@@ -1014,7 +1014,9 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "default": 40,
+            "example": [20, 25]
           },
           "category": {
             "$ref": "#/components/schemas/Category"
@@ -1030,7 +1032,8 @@
               "wrapped": true
             },
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": "https://example.com/photo.png"
             }
           },
           "tags": {
