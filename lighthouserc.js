@@ -3,7 +3,7 @@ module.exports = {
     collect: {
       url: ['http://localhost:9966/'],
       startServerCommand: 'npm start',
-      startServerReadyPattern: 'started',
+      startServerReadyPattern: 'Compiled successfully.',
       // settings: {
       //   emulatedFormFactor: 'desktop',
       //   disableDeviceEmulation: true,

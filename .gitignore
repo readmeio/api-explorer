@@ -1,5 +1,6 @@
-node_modules
-coverage
+.lighthouseci/
+coverage/
+node_modules/
 .nyc_output
 .yo-rc.json
 .idea/*
