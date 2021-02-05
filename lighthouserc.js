@@ -14,11 +14,11 @@ module.exports = {
     },
     upload: {
       target: 'lhci',
-      serverBaseUrl: 'LHCI_URL',
-      token: 'LHCI_TOKEN',
+      serverBaseUrl: process.env.LHCI_URL,
+      token: process.env.LHCI_TOKEN,
       basicAuth: {
-        username: 'LHCI_USERNAME',
-        password: 'LHCI_PASSWORD',
+        username: process.env.LHCI_USERNAME,
+        password: process.env.LHCI_PASSWORD,
       },
     },
   },
