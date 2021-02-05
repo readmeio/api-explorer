@@ -1,3 +1,11 @@
+## <small>11.1.5 (2021-02-05)</small>
+
+* fix: bug where we'd crash if `examples` was an empty object (#1170) ([190945f](https://github.com/readmeio/api-explorer/commit/190945f)), closes [#1170](https://github.com/readmeio/api-explorer/issues/1170)
+* chore: add missing test for the wildcard response type branch (#1168) ([75f3b3f](https://github.com/readmeio/api-explorer/commit/75f3b3f)), closes [#1168](https://github.com/readmeio/api-explorer/issues/1168) [/github.com/readmeio/api-explorer/blob/77b90ebed4673f168354cdcd730e34b7ee016360/packages/api-explorer/src/lib/parse-response.js#L15](https://github.com//github.com/readmeio/api-explorer/blob/77b90ebed4673f168354cdcd730e34b7ee016360/packages/api-explorer/src/lib/parse-response.js/issues/L15)
+* Format useragent in simple terms (#1165) ([678c541](https://github.com/readmeio/api-explorer/commit/678c541)), closes [#1165](https://github.com/readmeio/api-explorer/issues/1165)
+
+
+
 ## <small>11.1.4 (2021-02-03)</small>
 
 * revert: pulling #1165 out of master after an accidental merge ([2715706](https://github.com/readmeio/api-explorer/commit/2715706)), closes [#1165](https://github.com/readmeio/api-explorer/issues/1165)
