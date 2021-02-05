@@ -17,15 +17,14 @@ jobs:
       - name: Consolidate dependencies
         run: npx lerna bootstrap --hoist
 
-      #- name: Build server
-        #run: npm run build
+      - name: Build server
+        run: npm run build
 
-      - name: run Lighthouse CI
+      - name: Run Lighthouse
         run: |
-          npm install -g @lhci/cli@0.7.x
+          npm install -g http-server @lhci/cli@0.7.x
           lhci autorun
         env:
           LHCI_URL: ${{ secrets.LHCI_URL }}
-          LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }}
           LHCI_USERNAME: ${{ secrets.LHCI_USERNAME }}
           LHCI_PASSWORD: ${{ secrets.LHCI_PASSWORD }}

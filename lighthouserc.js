@@ -1,9 +1,9 @@
 module.exports = {
   ci: {
     collect: {
-      url: ['http://localhost:9966/'],
-      startServerCommand: 'npm start',
-      startServerReadyPattern: 'Compiled successfully.',
+      url: ['http://127.0.0.1:8080'],
+      startServerCommand: 'npx http-server example/dist',
+      startServerReadyPattern: 'Available',
       startServerReadyTimeout: 20000,
       // settings: {
       //   emulatedFormFactor: 'desktop',
