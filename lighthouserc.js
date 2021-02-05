@@ -1,10 +1,11 @@
 module.exports = {
   ci: {
     collect: {
-      url: ['http://127.0.0.1:8080'],
+      url: ['http://localhost:8080'],
       startServerCommand: 'npx http-server example/dist',
       startServerReadyPattern: 'Available',
       startServerReadyTimeout: 20000,
+      staticDistDir: './example/dist',
       // settings: {
       //   emulatedFormFactor: 'desktop',
       //   disableDeviceEmulation: true,
