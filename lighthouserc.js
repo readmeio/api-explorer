@@ -1,11 +1,12 @@
 module.exports = {
   ci: {
     collect: {
-      url: ['http://localhost:3000'],
-      startServerCommand: 'npx http-server example/dist --port=3000',
-      startServerReadyPattern: 'Available',
-      startServerReadyTimeout: 20000,
+      url: ['http://localhost'],
+      // startServerCommand: 'npx http-server example/dist --port=3000',
+      // startServerReadyPattern: 'Available',
+      // startServerReadyTimeout: 20000,
       staticDistDir: './example/dist',
+      numberOfRuns: 1,
       // settings: {
       //   emulatedFormFactor: 'desktop',
       //   disableDeviceEmulation: true,
