@@ -7,13 +7,14 @@ module.exports = {
       // startServerReadyTimeout: 20000,
       staticDistDir: './example/dist',
       numberOfRuns: 1,
-      // settings: {
-      //   emulatedFormFactor: 'desktop',
-      //   disableDeviceEmulation: true,
-      //   disableCpuThrottling: true,
-      //   disableNetworkThrottling: true,
-      //   throttlingMethod: 'provided',
-      // },
+      settings: {
+        disableStorageReset: true,
+        // emulatedFormFactor: 'desktop',
+        // disableDeviceEmulation: true,
+        // disableCpuThrottling: true,
+        // disableNetworkThrottling: true,
+        throttlingMethod: 'provided',
+      },
     },
     upload: {
       target: 'lhci',
