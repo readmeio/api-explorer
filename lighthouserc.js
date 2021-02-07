@@ -12,11 +12,11 @@ module.exports = {
       numberOfRuns: 1,
       settings: {
         disableStorageReset: true,
-        disableDeviceEmulation: true,
-        disableCpuThrottling: true,
+        // emulatedFormFactor: 'desktop',
+        // disableDeviceEmulation: true,
+        // disableCpuThrottling: true,
         disableNetworkThrottling: true,
-        formFactor: 'desktop',
-        throttlingMethod: 'provided',
+        // throttlingMethod: 'provided',
       },
     },
     upload: {
