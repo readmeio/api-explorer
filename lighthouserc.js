@@ -1,5 +1,8 @@
 module.exports = {
   ci: {
+    assert: {
+      preset: 'lighthouse:recommended',
+    },
     collect: {
       url: ['http://localhost'],
       // startServerCommand: 'npx http-server example/dist --port=3000',
@@ -9,10 +12,10 @@ module.exports = {
       numberOfRuns: 1,
       settings: {
         disableStorageReset: true,
-        emulatedFormFactor: 'desktop',
         disableDeviceEmulation: true,
         disableCpuThrottling: true,
         disableNetworkThrottling: true,
+        formFactor: 'desktop',
         throttlingMethod: 'provided',
       },
     },
