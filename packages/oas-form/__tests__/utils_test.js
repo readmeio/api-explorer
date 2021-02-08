@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import React from 'react';
 
 import {
@@ -27,19 +26,8 @@ import {
   guessType,
   mergeSchemas,
 } from '../src/utils';
-import { createSandbox } from './test_utils';
 
 describe('utils', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('getDefaultFormState()', () => {
     describe('root default', () => {
       it('should map root schema default to form state, if any', () => {
@@ -48,7 +36,7 @@ describe('utils', () => {
             type: 'string',
             default: 'foo',
           })
-        ).to.eql('foo');
+        ).toBe('foo');
       });
 
       it('should keep existing form data that is equal to 0', () => {
@@ -60,7 +48,7 @@ describe('utils', () => {
             },
             0
           )
-        ).to.eql(0);
+        ).toBe(0);
       });
 
       it('should keep existing form data that is equal to false', () => {
@@ -71,7 +59,7 @@ describe('utils', () => {
             },
             false
           )
-        ).to.eql(false);
+        ).toBe(false);
       });
 
       const noneValues = [null, undefined, NaN];
@@ -85,7 +73,7 @@ describe('utils', () => {
               },
               noneValue
             )
-          ).to.eql(1);
+          ).toBe(1);
         });
       });
     });
@@ -102,7 +90,7 @@ describe('utils', () => {
               },
             },
           })
-        ).to.eql({ string: 'foo' });
+        ).toStrictEqual({ string: 'foo' });
       });
 
       it('should default to empty object if no properties are defined', () => {
@@ -110,7 +98,7 @@ describe('utils', () => {
           getDefaultFormState({
             type: 'object',
           })
-        ).to.eql({});
+        ).toStrictEqual({});
       });
 
       it('should recursively map schema object default to form state', () => {
@@ -129,7 +117,7 @@ describe('utils', () => {
               },
             },
           })
-        ).to.eql({ object: { string: 'foo' } });
+        ).toStrictEqual({ object: { string: 'foo' } });
       });
 
       it('should map schema array default to form state', () => {
@@ -146,7 +134,7 @@ describe('utils', () => {
               },
             },
           })
-        ).to.eql({ array: ['foo', 'bar'] });
+        ).toStrictEqual({ array: ['foo', 'bar'] });
       });
 
       it('should recursively map schema array default to form state', () => {
@@ -168,7 +156,7 @@ describe('utils', () => {
               },
             },
           })
-        ).to.eql({ object: { array: ['foo', 'bar'] } });
+        ).toStrictEqual({ object: { array: ['foo', 'bar'] } });
       });
 
       it('should propagate nested defaults to resulting formData by default', () => {
@@ -193,7 +181,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           object: { array: ['foo', 'bar'], bool: true },
         });
       });
@@ -235,7 +223,7 @@ describe('utils', () => {
           getDefaultFormState(schema, {
             level1: { level2: { leaf4: 4 } },
           })
-        ).eql({
+        ).toStrictEqual({
           level1: {
             level2: { leaf1: 1, leaf2: 2, leaf3: 3, leaf4: 4 },
           },
@@ -272,7 +260,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, formData)).eql({
+        expect(getDefaultFormState(schema, formData)).toStrictEqual({
           level1: { level2: { leaf1: 'a' } },
         });
       });
@@ -288,7 +276,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           level1: [1, 2, 3],
         });
       });
@@ -304,7 +292,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           level1: [1, 2, 3],
         });
       });
@@ -327,7 +315,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           array: ['foo', undefined],
         });
       });
@@ -359,7 +347,7 @@ describe('utils', () => {
           },
         };
 
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           level1: { level2: ['child-default-1', 'root-default-2'] },
         });
       });
@@ -393,7 +381,7 @@ describe('utils', () => {
           },
         };
 
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           level1: { level2: [{ item: 'parent-default-1' }, {}] },
         });
       });
@@ -418,7 +406,7 @@ describe('utils', () => {
           },
         };
 
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           level1: ['child-default-1', 'property-default-2'],
         });
       });
@@ -458,7 +446,7 @@ describe('utils', () => {
           },
         };
 
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           level1: [{ item: 'property-default-1' }, { item: 'additional-default' }],
         });
       });
@@ -524,7 +512,7 @@ describe('utils', () => {
           },
         };
 
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           level1: [{ item: 'property-default-1' }, { item: 'child-default-2' }, { item: 'additional-default' }],
         });
       });
@@ -543,7 +531,7 @@ describe('utils', () => {
           default: { foo: 42 },
         };
 
-        expect(getDefaultFormState(schema, undefined, schema)).eql({
+        expect(getDefaultFormState(schema, undefined, schema)).toStrictEqual({
           foo: 42,
         });
       });
@@ -563,7 +551,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           array: ['foo'],
         });
       });
@@ -583,7 +571,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, { array: ['bar'] })).eql({
+        expect(getDefaultFormState(schema, { array: ['bar'] })).toStrictEqual({
           array: ['bar'],
         });
       });
@@ -602,7 +590,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, [{}])).eql([{ item: 'foo' }]);
+        expect(getDefaultFormState(schema, [{}])).toStrictEqual([{ item: 'foo' }]);
       });
 
       it('defaults passed along for multiselect arrays when minItems is present', () => {
@@ -621,7 +609,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           array: ['foo', 'qux'],
         });
       });
@@ -641,7 +629,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           name: 'a',
         });
       });
@@ -658,7 +646,7 @@ describe('utils', () => {
             },
           ],
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           name: 'a',
         });
       });
@@ -681,7 +669,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           name: {
             first: 'First Name',
           },
@@ -717,7 +705,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, { name: 'Name' })).eql({
+        expect(getDefaultFormState(schema, { name: 'Name' })).toStrictEqual({
           name: 'Name',
           grade: 'A',
         });
@@ -738,7 +726,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           name: 'a',
         });
       });
@@ -761,7 +749,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, {})).eql({
+        expect(getDefaultFormState(schema, {})).toStrictEqual({
           name: {
             first: 'First Name',
           },
@@ -798,7 +786,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, { name: 'Name' })).eql({
+        expect(getDefaultFormState(schema, { name: 'Name' })).toStrictEqual({
           name: 'Name',
           grade: 'A',
         });
@@ -832,7 +820,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, { name: 'Name' })).eql({
+        expect(getDefaultFormState(schema, { name: 'Name' })).toStrictEqual({
           name: 'Name',
           grade: 'A',
         });
@@ -869,7 +857,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, { foo: { name: 'Name' } })).eql({
+        expect(getDefaultFormState(schema, { foo: { name: 'Name' } })).toStrictEqual({
           foo: {
             name: 'Name',
             grade: 'A',
@@ -910,7 +898,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, [{ foo: { name: 'Name' } }])).eql([
+        expect(getDefaultFormState(schema, [{ foo: { name: 'Name' } }])).toStrictEqual([
           {
             foo: {
               name: 'Name',
@@ -970,7 +958,7 @@ describe('utils', () => {
             { foo: { name: 'second' } },
             { foo: { name: 'third' } },
           ])
-        ).eql([
+        ).toStrictEqual([
           {
             foo: {
               name: 'first',
@@ -1026,7 +1014,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, { foo: { name: 'Name' } })).eql({
+        expect(getDefaultFormState(schema, { foo: { name: 'Name' } })).toStrictEqual({
           foo: {
             name: 'Name',
             grade: 'A',
@@ -1071,7 +1059,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, undefined)).eql({
+        expect(getDefaultFormState(schema, undefined)).toStrictEqual({
           can_1: {
             phy: {
               bit_rate_cfg_mode: 0,
@@ -1117,7 +1105,7 @@ describe('utils', () => {
             },
           },
         };
-        expect(getDefaultFormState(schema, { can_1: { phy: null } })).eql({
+        expect(getDefaultFormState(schema, { can_1: { phy: null } })).toStrictEqual({
           can_1: {
             phy: null,
           },
@@ -1142,39 +1130,39 @@ describe('utils', () => {
           foo: 'foo',
           baz: 'baz',
         };
-        expect(getDefaultFormState(schema, formData)).to.eql(result);
+        expect(getDefaultFormState(schema, formData)).toStrictEqual(result);
       });
     });
   });
 
   describe('asNumber()', () => {
     it('should return a number out of a string representing a number', () => {
-      expect(asNumber('3')).eql(3);
+      expect(asNumber('3')).toBe(3);
     });
 
     it('should return a float out of a string representing a float', () => {
-      expect(asNumber('3.14')).eql(3.14);
+      expect(asNumber('3.14')).toBe(3.14);
     });
 
     it('should return the raw value if the input ends with a dot', () => {
-      expect(asNumber('3.')).eql('3.');
+      expect(asNumber('3.')).toBe('3.');
     });
 
     it('should not convert the value to an integer if the input ends with a 0', () => {
       // this is to allow users to input 3.07
-      expect(asNumber('3.0')).eql('3.0');
+      expect(asNumber('3.0')).toBe('3.0');
     });
 
     it('should allow numbers with a 0 in the first decimal place', () => {
-      expect(asNumber('3.07')).eql(3.07);
+      expect(asNumber('3.07')).toBe(3.07);
     });
 
     it('should return undefined if the input is empty', () => {
-      expect(asNumber('')).eql(undefined);
+      expect(asNumber('')).toBeUndefined();
     });
 
     it('should return null if the input is null', () => {
-      expect(asNumber(null)).eql(null);
+      expect(asNumber(null)).toBeNull();
     });
   });
 
@@ -1182,47 +1170,47 @@ describe('utils', () => {
     it('should remove from order elements that are not in properties', () => {
       const properties = ['foo', 'baz'];
       const order = ['foo', 'bar', 'baz', 'qux'];
-      expect(orderProperties(properties, order)).eql(['foo', 'baz']);
+      expect(orderProperties(properties, order)).toStrictEqual(['foo', 'baz']);
     });
 
     it('should order properties according to the order', () => {
       const properties = ['bar', 'foo'];
       const order = ['foo', 'bar'];
-      expect(orderProperties(properties, order)).eql(['foo', 'bar']);
+      expect(orderProperties(properties, order)).toStrictEqual(['foo', 'bar']);
     });
 
     it('should replace * with properties that are absent in order', () => {
       const properties = ['foo', 'bar', 'baz'];
       const order = ['*', 'foo'];
-      expect(orderProperties(properties, order)).eql(['bar', 'baz', 'foo']);
+      expect(orderProperties(properties, order)).toStrictEqual(['bar', 'baz', 'foo']);
     });
 
     it('should handle more complex ordering case correctly', () => {
       const properties = ['foo', 'baz', 'qux', 'bar'];
       const order = ['quux', 'foo', '*', 'corge', 'baz'];
-      expect(orderProperties(properties, order)).eql(['foo', 'qux', 'bar', 'baz']);
+      expect(orderProperties(properties, order)).toStrictEqual(['foo', 'qux', 'bar', 'baz']);
     });
   });
 
   describe('isConstant', () => {
     it('should return false when neither enum nor const is defined', () => {
       const schema = {};
-      expect(isConstant(schema)).to.be.false;
+      expect(isConstant(schema)).toBe(false);
     });
 
     it('should return true when schema enum is an array of one item', () => {
       const schema = { enum: ['foo'] };
-      expect(isConstant(schema)).to.be.true;
+      expect(isConstant(schema)).toBe(true);
     });
 
     it('should return false when schema enum contains several items', () => {
       const schema = { enum: ['foo', 'bar', 'baz'] };
-      expect(isConstant(schema)).to.be.false;
+      expect(isConstant(schema)).toBe(false);
     });
 
     it('should return true when schema const is defined', () => {
       const schema = { const: 'foo' };
-      expect(isConstant(schema)).to.be.true;
+      expect(isConstant(schema)).toBe(true);
     });
   });
 
@@ -1230,19 +1218,19 @@ describe('utils', () => {
     describe('schema contains an enum array', () => {
       it('should return its first value when it contains a unique element', () => {
         const schema = { enum: ['foo'] };
-        expect(toConstant(schema)).eql('foo');
+        expect(toConstant(schema)).toBe('foo');
       });
 
       it('should return schema const value when it exists', () => {
         const schema = { const: 'bar' };
-        expect(toConstant(schema)).eql('bar');
+        expect(toConstant(schema)).toBe('bar');
       });
 
       it('should throw when it contains more than one element', () => {
         const schema = { enum: ['foo', 'bar'] };
         expect(() => {
           toConstant(schema);
-        }).to.Throw(Error, 'cannot be inferred');
+        }).toThrow('cannot be inferred');
       });
     });
   });
@@ -1255,13 +1243,13 @@ describe('utils', () => {
             items: { enum: ['foo', 'bar'] },
             uniqueItems: true,
           };
-          expect(isMultiSelect(schema)).to.be.true;
+          expect(isMultiSelect(schema)).toBe(true);
         });
       });
 
       it('should be false if items is undefined', () => {
         const schema = {};
-        expect(isMultiSelect(schema)).to.be.false;
+        expect(isMultiSelect(schema)).toBe(false);
       });
 
       describe('schema items enum is not an array', () => {
@@ -1270,7 +1258,7 @@ describe('utils', () => {
 
         it('should be false if oneOf/anyOf is not in items schema', () => {
           const schema = { items: {}, uniqueItems: true };
-          expect(isMultiSelect(schema)).to.be.false;
+          expect(isMultiSelect(schema)).toBe(false);
         });
 
         it('should be false if oneOf/anyOf schemas are not all constants', () => {
@@ -1278,7 +1266,7 @@ describe('utils', () => {
             items: { oneOf: [constantSchema, notConstantSchema] },
             uniqueItems: true,
           };
-          expect(isMultiSelect(schema)).to.be.false;
+          expect(isMultiSelect(schema)).toBe(false);
         });
 
         it('should be true if oneOf/anyOf schemas are all constants', () => {
@@ -1286,7 +1274,7 @@ describe('utils', () => {
             items: { oneOf: [constantSchema, constantSchema] },
             uniqueItems: true,
           };
-          expect(isMultiSelect(schema)).to.be.true;
+          expect(isMultiSelect(schema)).toBe(true);
         });
       });
 
@@ -1298,7 +1286,7 @@ describe('utils', () => {
         const definitions = {
           FooItem: { type: 'string', enum: ['foo'] },
         };
-        expect(isMultiSelect(schema, { definitions })).to.be.true;
+        expect(isMultiSelect(schema, { definitions })).toBe(true);
       });
     });
 
@@ -1307,7 +1295,7 @@ describe('utils', () => {
         items: { enum: ['foo', 'bar'] },
         uniqueItems: false,
       };
-      expect(isMultiSelect(schema)).to.be.false;
+      expect(isMultiSelect(schema)).toBe(false);
     });
   });
 
@@ -1315,13 +1303,13 @@ describe('utils', () => {
     it('should be true if items have data-url format', () => {
       const schema = { items: { type: 'string', format: 'data-url' } };
       const uiSchema = {};
-      expect(isFilesArray(schema, uiSchema)).to.be.true;
+      expect(isFilesArray(schema, uiSchema)).toBe(true);
     });
 
     it('should be false if items is undefined', () => {
       const schema = {};
       const uiSchema = {};
-      expect(isFilesArray(schema, uiSchema)).to.be.false;
+      expect(isFilesArray(schema, uiSchema)).toBe(false);
     });
   });
 
@@ -1329,33 +1317,35 @@ describe('utils', () => {
     it("shouldn't mutate the provided objects", () => {
       const obj1 = { a: 1 };
       mergeDefaultsWithFormData(obj1, { b: 2 });
-      expect(obj1).eql({ a: 1 });
+      expect(obj1).toStrictEqual({ a: 1 });
     });
 
     it("shouldn't mutate the provided arrays", () => {
       const array1 = [1];
       mergeDefaultsWithFormData(array1, [2]);
-      expect(array1).eql([1]);
+      expect(array1).toStrictEqual([1]);
     });
 
     it('should merge two one-level deep objects', () => {
-      expect(mergeDefaultsWithFormData({ a: 1 }, { b: 2 })).eql({ a: 1, b: 2 });
+      expect(mergeDefaultsWithFormData({ a: 1 }, { b: 2 })).toStrictEqual({ a: 1, b: 2 });
     });
 
     it('should override the first object with the values from the second', () => {
-      expect(mergeDefaultsWithFormData({ a: 1 }, { a: 2 })).eql({ a: 2 });
+      expect(mergeDefaultsWithFormData({ a: 1 }, { a: 2 })).toStrictEqual({ a: 2 });
     });
 
     it('should override non-existing values of the first object with the values from the second', () => {
-      expect(mergeDefaultsWithFormData({ a: { b: undefined } }, { a: { b: { c: 1 } } })).eql({ a: { b: { c: 1 } } });
+      expect(mergeDefaultsWithFormData({ a: { b: undefined } }, { a: { b: { c: 1 } } })).toStrictEqual({
+        a: { b: { c: 1 } },
+      });
     });
 
     it('should merge arrays using entries from second', () => {
-      expect(mergeDefaultsWithFormData([1, 2, 3], [4, 5])).eql([4, 5]);
+      expect(mergeDefaultsWithFormData([1, 2, 3], [4, 5])).toStrictEqual([4, 5]);
     });
 
     it('should deeply merge arrays with overlapping entries', () => {
-      expect(mergeDefaultsWithFormData([{ a: 1 }], [{ b: 2 }])).eql([{ a: 1, b: 2 }]);
+      expect(mergeDefaultsWithFormData([{ a: 1 }], [{ b: 2 }])).toStrictEqual([{ a: 1, b: 2 }]);
     });
 
     it('should recursively merge deeply nested objects', () => {
@@ -1390,7 +1380,7 @@ describe('utils', () => {
         },
         c: 3,
       };
-      expect(mergeDefaultsWithFormData(obj1, obj2)).eql(expected);
+      expect(mergeDefaultsWithFormData(obj1, obj2)).toStrictEqual(expected);
     });
 
     it('should recursively merge File objects', () => {
@@ -1401,7 +1391,7 @@ describe('utils', () => {
       const obj2 = {
         a: file,
       };
-      expect(mergeDefaultsWithFormData(obj1, obj2).a).instanceOf(File);
+      expect(mergeDefaultsWithFormData(obj1, obj2).a).toBeInstanceOf(File);
     });
   });
 
@@ -1409,19 +1399,19 @@ describe('utils', () => {
     it("shouldn't mutate the provided objects", () => {
       const obj1 = { a: 1 };
       mergeObjects(obj1, { b: 2 });
-      expect(obj1).eql({ a: 1 });
+      expect(obj1).toStrictEqual({ a: 1 });
     });
 
     it('should merge two one-level deep objects', () => {
-      expect(mergeObjects({ a: 1 }, { b: 2 })).eql({ a: 1, b: 2 });
+      expect(mergeObjects({ a: 1 }, { b: 2 })).toStrictEqual({ a: 1, b: 2 });
     });
 
     it('should override the first object with the values from the second', () => {
-      expect(mergeObjects({ a: 1 }, { a: 2 })).eql({ a: 2 });
+      expect(mergeObjects({ a: 1 }, { a: 2 })).toStrictEqual({ a: 2 });
     });
 
     it('should override non-existing values of the first object with the values from the second', () => {
-      expect(mergeObjects({ a: { b: undefined } }, { a: { b: { c: 1 } } })).eql({ a: { b: { c: 1 } } });
+      expect(mergeObjects({ a: { b: undefined } }, { a: { b: { c: 1 } } })).toStrictEqual({ a: { b: { c: 1 } } });
     });
 
     it('should recursively merge deeply nested objects', () => {
@@ -1453,7 +1443,7 @@ describe('utils', () => {
         },
         c: 3,
       };
-      expect(mergeObjects(obj1, obj2)).eql(expected);
+      expect(mergeObjects(obj1, obj2)).toStrictEqual(expected);
     });
 
     it('should recursively merge File objects', () => {
@@ -1464,7 +1454,7 @@ describe('utils', () => {
       const obj2 = {
         a: file,
       };
-      expect(mergeObjects(obj1, obj2).a).instanceOf(File);
+      expect(mergeObjects(obj1, obj2).a).toBeInstanceOf(File);
     });
 
     describe('concatArrays option', () => {
@@ -1472,21 +1462,21 @@ describe('utils', () => {
         const obj1 = { a: [1] };
         const obj2 = { a: [2] };
 
-        expect(mergeObjects(obj1, obj2)).eql({ a: [2] });
+        expect(mergeObjects(obj1, obj2)).toStrictEqual({ a: [2] });
       });
 
       it('should concat arrays when concatArrays is true', () => {
         const obj1 = { a: [1] };
         const obj2 = { a: [2] };
 
-        expect(mergeObjects(obj1, obj2, true)).eql({ a: [1, 2] });
+        expect(mergeObjects(obj1, obj2, true)).toStrictEqual({ a: [1, 2] });
       });
 
       it('should concat nested arrays when concatArrays is true', () => {
         const obj1 = { a: { b: [1] } };
         const obj2 = { a: { b: [2] } };
 
-        expect(mergeObjects(obj1, obj2, true)).eql({
+        expect(mergeObjects(obj1, obj2, true)).toStrictEqual({
           a: { b: [1, 2] },
         });
       });
@@ -1497,19 +1487,19 @@ describe('utils', () => {
     it("shouldn't mutate the provided objects", () => {
       const obj1 = { a: 1 };
       mergeSchemas(obj1, { b: 2 });
-      expect(obj1).eql({ a: 1 });
+      expect(obj1).toStrictEqual({ a: 1 });
     });
 
     it('should merge two one-level deep objects', () => {
-      expect(mergeSchemas({ a: 1 }, { b: 2 })).eql({ a: 1, b: 2 });
+      expect(mergeSchemas({ a: 1 }, { b: 2 })).toStrictEqual({ a: 1, b: 2 });
     });
 
     it('should override the first object with the values from the second', () => {
-      expect(mergeSchemas({ a: 1 }, { a: 2 })).eql({ a: 2 });
+      expect(mergeSchemas({ a: 1 }, { a: 2 })).toStrictEqual({ a: 2 });
     });
 
     it('should override non-existing values of the first object with the values from the second', () => {
-      expect(mergeSchemas({ a: { b: undefined } }, { a: { b: { c: 1 } } })).eql({ a: { b: { c: 1 } } });
+      expect(mergeSchemas({ a: { b: undefined } }, { a: { b: { c: 1 } } })).toStrictEqual({ a: { b: { c: 1 } } });
     });
 
     it('should recursively merge deeply nested objects', () => {
@@ -1541,7 +1531,7 @@ describe('utils', () => {
         },
         c: 3,
       };
-      expect(mergeSchemas(obj1, obj2)).eql(expected);
+      expect(mergeSchemas(obj1, obj2)).toStrictEqual(expected);
     });
 
     it('should recursively merge File objects', () => {
@@ -1552,7 +1542,7 @@ describe('utils', () => {
       const obj2 = {
         a: file,
       };
-      expect(mergeSchemas(obj1, obj2).a).instanceOf(File);
+      expect(mergeSchemas(obj1, obj2).a).toBeInstanceOf(File);
     });
 
     describe('arrays', () => {
@@ -1560,14 +1550,14 @@ describe('utils', () => {
         const obj1 = { a: [1] };
         const obj2 = { a: [2] };
 
-        expect(mergeSchemas(obj1, obj2)).eql({ a: [2] });
+        expect(mergeSchemas(obj1, obj2)).toStrictEqual({ a: [2] });
       });
 
       it("should concat arrays under 'required' keyword", () => {
         const obj1 = { type: 'object', required: [1] };
         const obj2 = { type: 'object', required: [2] };
 
-        expect(mergeSchemas(obj1, obj2)).eql({
+        expect(mergeSchemas(obj1, obj2)).toStrictEqual({
           type: 'object',
           required: [1, 2],
         });
@@ -1577,7 +1567,7 @@ describe('utils', () => {
         const obj1 = { type: 'object', required: [1] };
         const obj2 = { required: [2] };
 
-        expect(mergeSchemas(obj1, obj2)).eql({
+        expect(mergeSchemas(obj1, obj2)).toStrictEqual({
           type: 'object',
           required: [1, 2],
         });
@@ -1587,7 +1577,7 @@ describe('utils', () => {
         const obj1 = { a: { type: 'object', required: [1] } };
         const obj2 = { a: { type: 'object', required: [2] } };
 
-        expect(mergeSchemas(obj1, obj2)).eql({
+        expect(mergeSchemas(obj1, obj2)).toStrictEqual({
           a: { type: 'object', required: [1, 2] },
         });
       });
@@ -1596,14 +1586,14 @@ describe('utils', () => {
         const obj1 = { type: 'object', required: [1] };
         const obj2 = { type: 'object', required: [1] };
 
-        expect(mergeSchemas(obj1, obj2)).eql({ type: 'object', required: [1] });
+        expect(mergeSchemas(obj1, obj2)).toStrictEqual({ type: 'object', required: [1] });
       });
 
       it("should not concat arrays under 'required' keyword that are not under an object type", () => {
         const obj1 = { required: [1] };
         const obj2 = { required: [2] };
 
-        expect(mergeSchemas(obj1, obj2)).eql({ required: [2] });
+        expect(mergeSchemas(obj1, obj2)).toStrictEqual({ required: [2] });
       });
     });
   });
@@ -1622,7 +1612,7 @@ describe('utils', () => {
       };
       const definitions = { address };
 
-      expect(retrieveSchema(schema, { definitions })).eql(address);
+      expect(retrieveSchema(schema, { definitions })).toStrictEqual(address);
     });
 
     it("should 'resolve' a schema which contains definitions not in `#/definitions`", () => {
@@ -1640,7 +1630,7 @@ describe('utils', () => {
         components: { schemas: { address } },
       };
 
-      expect(retrieveSchema(schema, schema)).eql({
+      expect(retrieveSchema(schema, schema)).toStrictEqual({
         components: { schemas: { address } },
         ...address,
       });
@@ -1661,7 +1651,7 @@ describe('utils', () => {
         components: { schemas: { address } },
       };
 
-      expect(() => retrieveSchema(schema, schema)).to.throw('Could not find a definition');
+      expect(() => retrieveSchema(schema, schema)).toThrow('Could not find a definition');
     });
 
     it('should give an error when JSON pointer does not point to anything', () => {
@@ -1670,7 +1660,7 @@ describe('utils', () => {
         components: { schemas: {} },
       };
 
-      expect(() => retrieveSchema(schema, schema)).to.throw('Could not find a definition');
+      expect(() => retrieveSchema(schema, schema)).toThrow('Could not find a definition');
     });
 
     it("should 'resolve' escaped JSON Pointers", () => {
@@ -1678,7 +1668,7 @@ describe('utils', () => {
       const address = { type: 'string' };
       const definitions = { 'a~complex/name': address };
 
-      expect(retrieveSchema(schema, { definitions })).eql(address);
+      expect(retrieveSchema(schema, { definitions })).toStrictEqual(address);
     });
 
     it("should 'resolve' and stub out a schema which contains an `additionalProperties` with a definition", () => {
@@ -1702,7 +1692,7 @@ describe('utils', () => {
       const definitions = { components: { schemas: { address } } };
       const formData = { newKey: {} };
 
-      expect(retrieveSchema(schema, { definitions }, formData)).eql({
+      expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
         ...schema,
         properties: {
           newKey: {
@@ -1728,7 +1718,7 @@ describe('utils', () => {
       const definitions = { number };
       const formData = { newKey: {} };
 
-      expect(retrieveSchema(schema, { definitions }, formData)).eql({
+      expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
         ...schema,
         properties: {
           newKey: {
@@ -1750,7 +1740,7 @@ describe('utils', () => {
       };
       const definitions = { address };
 
-      expect(retrieveSchema(schema, { definitions })).eql({
+      expect(retrieveSchema(schema, { definitions })).toStrictEqual({
         ...address,
         title: 'foo',
       });
@@ -1772,7 +1762,7 @@ describe('utils', () => {
           };
           const definitions = {};
           const formData = {};
-          expect(retrieveSchema(schema, { definitions }, formData)).eql({
+          expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
             type: 'object',
             properties: {
               a: { type: 'string' },
@@ -1798,7 +1788,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = { a: '1' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string' },
@@ -1824,7 +1814,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = { a: '1' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string' },
@@ -1856,7 +1846,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = {};
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string' },
@@ -1882,7 +1872,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = { a: '1' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string' },
@@ -1890,6 +1880,7 @@ describe('utils', () => {
               },
             });
           });
+
           it('should concat required properties', () => {
             const schema = {
               type: 'object',
@@ -1909,7 +1900,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = { a: '1' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string' },
@@ -1918,6 +1909,7 @@ describe('utils', () => {
               required: ['a', 'b'],
             });
           });
+
           it("should not concat enum properties, but should concat 'required' properties", () => {
             const schema = {
               type: 'object',
@@ -1938,7 +1930,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = { a: 'FOO' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string', enum: ['FOO'] },
@@ -1970,7 +1962,7 @@ describe('utils', () => {
               },
             };
             const formData = { a: '1' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string' },
@@ -2008,7 +2000,7 @@ describe('utils', () => {
               },
             };
             const formData = { a: 'typeB' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { enum: ['typeA', 'typeB'] },
@@ -2048,7 +2040,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = {};
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string' },
@@ -2085,7 +2077,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = { a: 'int' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string', enum: ['int', 'bool'] },
@@ -2121,7 +2113,7 @@ describe('utils', () => {
             };
             const definitions = {};
             const formData = { a: 'bool' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string', enum: ['int', 'bool'] },
@@ -2207,7 +2199,7 @@ describe('utils', () => {
                 employee_accounts: false,
                 update_absences: 'BOTH',
               };
-              expect(retrieveSchema(schema, { definitions }, formData)).eql({
+              expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
                 type: 'object',
                 properties: {
                   employee_accounts: {
@@ -2223,7 +2215,7 @@ describe('utils', () => {
                 employee_accounts: true,
                 update_absences: 'BOTH',
               };
-              expect(retrieveSchema(schema, { definitions }, formData)).eql({
+              expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
                 type: 'object',
                 properties: {
                   employee_accounts: {
@@ -2282,7 +2274,7 @@ describe('utils', () => {
               },
             };
             const formData = { a: 'bool' };
-            expect(retrieveSchema(schema, { definitions }, formData)).eql({
+            expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
               type: 'object',
               properties: {
                 a: { type: 'string', enum: ['int', 'bool'] },
@@ -2301,20 +2293,22 @@ describe('utils', () => {
         };
         const definitions = {};
         const formData = {};
-        expect(retrieveSchema(schema, { definitions }, formData)).eql({
+        expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
           type: 'string',
         });
       });
+
       it('should not merge incompatible types', () => {
-        sandbox.stub(console, 'warn');
+        jest.spyOn(console, 'warn');
         const schema = {
           allOf: [{ type: 'string' }, { type: 'boolean' }],
         };
         const definitions = {};
         const formData = {};
-        expect(retrieveSchema(schema, { definitions }, formData)).eql({});
-        // expect(console.warn.calledWithMatch(/could not merge subschemas in allOf/)).to.be.true;
+        expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({});
+        // expect(console.warn.calledWithMatch(/could not merge subschemas in allOf/)).toBe(true);
       });
+
       it('should merge types with $ref in them', () => {
         const schema = {
           allOf: [{ $ref: '#/definitions/1' }, { $ref: '#/definitions/2' }],
@@ -2324,11 +2318,12 @@ describe('utils', () => {
           2: { minLength: 5 },
         };
         const formData = {};
-        expect(retrieveSchema(schema, { definitions }, formData)).eql({
+        expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
           type: 'string',
           minLength: 5,
         });
       });
+
       it("should properly merge schemas with nested allOf's", () => {
         const schema = {
           allOf: [
@@ -2344,7 +2339,7 @@ describe('utils', () => {
         };
         const definitions = {};
         const formData = {};
-        expect(retrieveSchema(schema, { definitions }, formData)).eql({
+        expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
           type: 'string',
           minLength: 4,
           maxLength: 5,
@@ -2365,7 +2360,7 @@ describe('utils', () => {
         };
         const definitions = {};
         const formData = {};
-        expect(retrieveSchema(schema, { definitions }, formData)).eql({
+        expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
           example: {
             tktk: 'tktk',
           },
@@ -2387,7 +2382,7 @@ describe('utils', () => {
         };
         const definitions = {};
         const formData = {};
-        expect(retrieveSchema(schema, { definitions }, formData)).eql({
+        expect(retrieveSchema(schema, { definitions }, formData)).toStrictEqual({
           type: 'integer',
           format: 'int32',
         });
@@ -2400,20 +2395,20 @@ describe('utils', () => {
       const initial = { props: { myProp: 1 }, state: { myState: 1 } };
 
       it('should detect equivalent props and state', () => {
-        expect(shouldRender(initial, { myProp: 1 }, { myState: 1 })).eql(false);
+        expect(shouldRender(initial, { myProp: 1 }, { myState: 1 })).toBe(false);
       });
 
       it('should detect diffing props', () => {
-        expect(shouldRender(initial, { myProp: 2 }, { myState: 1 })).eql(true);
+        expect(shouldRender(initial, { myProp: 2 }, { myState: 1 })).toBe(true);
       });
 
       it('should detect diffing state', () => {
-        expect(shouldRender(initial, { myProp: 1 }, { myState: 2 })).eql(true);
+        expect(shouldRender(initial, { myProp: 1 }, { myState: 2 })).toBe(true);
       });
 
       it('should handle equivalent function prop', () => {
         const fn = () => {};
-        expect(shouldRender({ props: { myProp: fn }, state: { myState: 1 } }, { myProp: fn }, { myState: 1 })).eql(
+        expect(shouldRender({ props: { myProp: fn }, state: { myState: 1 } }, { myProp: fn }, { myState: 1 })).toBe(
           false
         );
       });
@@ -2426,15 +2421,15 @@ describe('utils', () => {
       };
 
       it('should detect equivalent props and state', () => {
-        expect(shouldRender(initial, { myProp: { mySubProp: 1 } }, { myState: { mySubState: 1 } })).eql(false);
+        expect(shouldRender(initial, { myProp: { mySubProp: 1 } }, { myState: { mySubState: 1 } })).toBe(false);
       });
 
       it('should detect diffing props', () => {
-        expect(shouldRender(initial, { myProp: { mySubProp: 2 } }, { myState: { mySubState: 1 } })).eql(true);
+        expect(shouldRender(initial, { myProp: { mySubProp: 2 } }, { myState: { mySubState: 1 } })).toBe(true);
       });
 
       it('should detect diffing state', () => {
-        expect(shouldRender(initial, { myProp: { mySubProp: 1 } }, { myState: { mySubState: 2 } })).eql(true);
+        expect(shouldRender(initial, { myProp: { mySubProp: 1 } }, { myState: { mySubState: 2 } })).toBe(true);
       });
 
       it('should handle equivalent function prop', () => {
@@ -2448,7 +2443,7 @@ describe('utils', () => {
             { myProp: { mySubProp: fn } },
             { myState: { mySubState: fn } }
           )
-        ).eql(false);
+        ).toBe(false);
       });
     });
   });
@@ -2457,7 +2452,7 @@ describe('utils', () => {
     it('should return an idSchema for root field', () => {
       const schema = { type: 'string' };
 
-      expect(toIdSchema(schema)).eql({ $id: 'root' });
+      expect(toIdSchema(schema)).toStrictEqual({ $id: 'root' });
     });
 
     it('should return an idSchema for nested objects', () => {
@@ -2473,7 +2468,7 @@ describe('utils', () => {
         },
       };
 
-      expect(toIdSchema(schema)).eql({
+      expect(toIdSchema(schema)).toStrictEqual({
         $id: 'root',
         level1: {
           $id: 'root_level1',
@@ -2503,7 +2498,7 @@ describe('utils', () => {
         },
       };
 
-      expect(toIdSchema(schema)).eql({
+      expect(toIdSchema(schema)).toStrictEqual({
         $id: 'root',
         level1a: {
           $id: 'root_level1a',
@@ -2533,7 +2528,7 @@ describe('utils', () => {
           },
         },
       };
-      expect(toIdSchema(schema)).eql({
+      expect(toIdSchema(schema)).toStrictEqual({
         $id: 'root',
         metadata: {
           $id: 'root_metadata',
@@ -2553,7 +2548,7 @@ describe('utils', () => {
         },
       };
 
-      expect(toIdSchema(schema)).eql({
+      expect(toIdSchema(schema)).toStrictEqual({
         $id: 'root',
         foo: { $id: 'root_foo' },
       });
@@ -2573,7 +2568,7 @@ describe('utils', () => {
         $ref: '#/definitions/testdef',
       };
 
-      expect(toIdSchema(schema, undefined, schema)).eql({
+      expect(toIdSchema(schema, undefined, schema)).toStrictEqual({
         $id: 'root',
         foo: { $id: 'root_foo' },
         bar: { $id: 'root_bar' },
@@ -2598,7 +2593,7 @@ describe('utils', () => {
         foo: 'test',
       };
 
-      expect(toIdSchema(schema, undefined, schema, formData)).eql({
+      expect(toIdSchema(schema, undefined, schema, formData)).toStrictEqual({
         $id: 'root',
         foo: { $id: 'root_foo' },
         bar: { $id: 'root_bar' },
@@ -2630,7 +2625,7 @@ describe('utils', () => {
         },
       };
 
-      expect(toIdSchema(schema, undefined, schema, formData)).eql({
+      expect(toIdSchema(schema, undefined, schema, formData)).toStrictEqual({
         $id: 'root',
         obj: {
           $id: 'root_obj',
@@ -2657,7 +2652,7 @@ describe('utils', () => {
 
       const formData = {};
 
-      expect(toIdSchema(schema, undefined, schema, formData)).eql({
+      expect(toIdSchema(schema, undefined, schema, formData)).toStrictEqual({
         $id: 'root',
         foo: { $id: 'root_foo' },
       });
@@ -2677,7 +2672,7 @@ describe('utils', () => {
         $ref: '#/definitions/testdef',
       };
 
-      expect(toIdSchema(schema, undefined, schema, {}, 'rjsf')).eql({
+      expect(toIdSchema(schema, undefined, schema, {}, 'rjsf')).toStrictEqual({
         $id: 'rjsf',
         foo: { $id: 'rjsf_foo' },
         bar: { $id: 'rjsf_bar' },
@@ -2695,7 +2690,7 @@ describe('utils', () => {
       const formData = null;
       const result = toIdSchema(schema, null, {}, formData, 'rjsf');
 
-      expect(result).eql({
+      expect(result).toStrictEqual({
         $id: 'rjsf',
         foo: { $id: 'rjsf_foo' },
         bar: { $id: 'rjsf_bar' },
@@ -2717,7 +2712,7 @@ describe('utils', () => {
 
       const result = toIdSchema(treeSchema, null, rootSchema);
 
-      expect(result).eql({
+      expect(result).toStrictEqual({
         $id: 'root',
       });
     });
@@ -2727,7 +2722,7 @@ describe('utils', () => {
     it('should return a pathSchema for root field', () => {
       const schema = { type: 'string' };
 
-      expect(toPathSchema(schema)).eql({ $name: '' });
+      expect(toPathSchema(schema)).toStrictEqual({ $name: '' });
     });
 
     it('should return a pathSchema for nested objects', () => {
@@ -2743,7 +2738,7 @@ describe('utils', () => {
         },
       };
 
-      expect(toPathSchema(schema)).eql({
+      expect(toPathSchema(schema)).toStrictEqual({
         $name: '',
         level1: {
           $name: 'level1',
@@ -2796,7 +2791,7 @@ describe('utils', () => {
         ],
       };
 
-      expect(toPathSchema(schema, '', schema, formData)).eql({
+      expect(toPathSchema(schema, '', schema, formData)).toStrictEqual({
         $name: '',
         list: {
           $name: 'list',
@@ -2870,7 +2865,7 @@ describe('utils', () => {
         },
       };
 
-      expect(toPathSchema(schema, '', schema, formData)).eql({
+      expect(toPathSchema(schema, '', schema, formData)).toStrictEqual({
         $name: '',
         billing_address: {
           $name: 'billing_address',
@@ -2933,7 +2928,7 @@ describe('utils', () => {
         ],
       };
 
-      expect(toPathSchema(schema, '', schema, formData)).eql({
+      expect(toPathSchema(schema, '', schema, formData)).toStrictEqual({
         $name: '',
         address_list: {
           $name: 'address_list',
@@ -3136,7 +3131,7 @@ describe('utils', () => {
         fixedNoToolbar: [42, true, 'additional item one', 'additional item two'],
       };
 
-      expect(toPathSchema(schema, '', schema, formData)).eql({
+      expect(toPathSchema(schema, '', schema, formData)).toStrictEqual({
         $name: '',
         defaultsAndMinItems: {
           $name: 'defaultsAndMinItems',
@@ -3303,11 +3298,11 @@ describe('utils', () => {
 
   describe('parseDateString()', () => {
     it('should raise on invalid JSON datetime', () => {
-      expect(() => parseDateString('plop')).to.Throw(Error, 'Unable to parse');
+      expect(() => parseDateString('plop')).toThrow('Unable to parse');
     });
 
     it('should return a default object when no datetime is passed', () => {
-      expect(parseDateString()).eql({
+      expect(parseDateString()).toStrictEqual({
         year: -1,
         month: -1,
         day: -1,
@@ -3318,7 +3313,7 @@ describe('utils', () => {
     });
 
     it('should return a default object when time should not be included', () => {
-      expect(parseDateString(undefined, false)).eql({
+      expect(parseDateString(undefined, false)).toStrictEqual({
         year: -1,
         month: -1,
         day: -1,
@@ -3329,7 +3324,7 @@ describe('utils', () => {
     });
 
     it('should parse a valid JSON datetime string', () => {
-      expect(parseDateString('2016-04-05T14:01:30.182Z')).eql({
+      expect(parseDateString('2016-04-05T14:01:30.182Z')).toStrictEqual({
         year: 2016,
         month: 4,
         day: 5,
@@ -3340,7 +3335,7 @@ describe('utils', () => {
     });
 
     it('should exclude time when includeTime is false', () => {
-      expect(parseDateString('2016-04-05T14:01:30.182Z', false)).eql({
+      expect(parseDateString('2016-04-05T14:01:30.182Z', false)).toStrictEqual({
         year: 2016,
         month: 4,
         day: 5,
@@ -3362,7 +3357,7 @@ describe('utils', () => {
           minute: 1,
           second: 30,
         })
-      ).eql('2016-04-05T14:01:30.000Z');
+      ).toBe('2016-04-05T14:01:30.000Z');
     });
 
     it('should transform an object to a valid date string if time=false', () => {
@@ -3375,36 +3370,36 @@ describe('utils', () => {
           },
           false
         )
-      ).eql('2016-04-05');
+      ).toBe('2016-04-05');
     });
   });
 
   describe('pad()', () => {
     it('should pad a string with 0s', () => {
-      expect(pad(4, 3)).eql('004');
+      expect(pad(4, 3)).toBe('004');
     });
   });
 
   describe('dataURItoBlob()', () => {
     it('should return the name of the file if present', () => {
       const { blob, name } = dataURItoBlob('data:image/png;name=test.png;base64,VGVzdC5wbmc=');
-      expect(name).eql('test.png');
-      expect(blob).to.have.property('size').eql(8);
-      expect(blob).to.have.property('type').eql('image/png');
+      expect(name).toBe('test.png');
+      expect(blob).toHaveProperty('size', 8);
+      expect(blob).toHaveProperty('type', 'image/png');
     });
 
     it('should return unknown if name is not provided', () => {
       const { blob, name } = dataURItoBlob('data:image/png;base64,VGVzdC5wbmc=');
-      expect(name).eql('unknown');
-      expect(blob).to.have.property('size').eql(8);
-      expect(blob).to.have.property('type').eql('image/png');
+      expect(name).toBe('unknown');
+      expect(blob).toHaveProperty('size', 8);
+      expect(blob).toHaveProperty('type', 'image/png');
     });
 
     it('should return ignore unsupported parameters', () => {
       const { blob, name } = dataURItoBlob('data:image/png;unknown=foobar;name=test.png;base64,VGVzdC5wbmc=');
-      expect(name).eql('test.png');
-      expect(blob).to.have.property('size').eql(8);
-      expect(blob).to.have.property('type').eql('image/png');
+      expect(name).toBe('test.png');
+      expect(blob).toHaveProperty('size', 8);
+      expect(blob).toHaveProperty('type', 'image/png');
     });
   });
 
@@ -3418,105 +3413,56 @@ describe('utils', () => {
           () => {},
           () => {}
         )
-      ).eql(true);
-      expect(deepEquals({ foo() {} }, { foo() {} })).eql(true);
-      expect(deepEquals({ foo: { bar() {} } }, { foo: { bar() {} } })).eql(true);
+      ).toBe(true);
+      expect(deepEquals({ foo() {} }, { foo() {} })).toBe(true);
+      expect(deepEquals({ foo: { bar() {} } }, { foo: { bar() {} } })).toBe(true);
     });
   });
 
   describe('guessType()', () => {
     it('should guess the type of array values', () => {
-      expect(guessType([1, 2, 3])).eql('array');
+      expect(guessType([1, 2, 3])).toBe('array');
     });
 
     it('should guess the type of string values', () => {
-      expect(guessType('foobar')).eql('string');
+      expect(guessType('foobar')).toBe('string');
     });
 
     it('should guess the type of null values', () => {
-      expect(guessType(null)).eql('null');
+      expect(guessType(null)).toBe('null');
     });
 
     it('should treat undefined values as null values', () => {
-      expect(guessType()).eql('null');
+      expect(guessType()).toBe('null');
     });
 
     it('should guess the type of boolean values', () => {
-      expect(guessType(true)).eql('boolean');
+      expect(guessType(true)).toBe('boolean');
     });
 
     it('should guess the type of object values', () => {
-      expect(guessType({})).eql('object');
+      expect(guessType({})).toBe('object');
     });
   });
 
   describe('getSchemaType()', () => {
-    const cases = [
-      {
-        schema: { type: 'string' },
-        expected: 'string',
-      },
-      {
-        schema: { type: 'number' },
-        expected: 'number',
-      },
-      {
-        schema: { type: 'integer' },
-        expected: 'integer',
-      },
-      {
-        schema: { type: 'object' },
-        expected: 'object',
-      },
-      {
-        schema: { type: 'array' },
-        expected: 'array',
-      },
-      {
-        schema: { type: 'boolean' },
-        expected: 'boolean',
-      },
-      {
-        schema: { type: 'null' },
-        expected: 'null',
-      },
-      {
-        schema: { const: 'foo' },
-        expected: 'string',
-      },
-      {
-        schema: { const: 1 },
-        expected: 'number',
-      },
-      {
-        schema: { type: ['string', 'null'] },
-        expected: 'string',
-      },
-      {
-        schema: { type: ['null', 'number'] },
-        expected: 'number',
-      },
-      {
-        schema: { type: ['integer', 'null'] },
-        expected: 'integer',
-      },
-      {
-        schema: { properties: {} },
-        expected: 'object',
-      },
-      {
-        schema: { additionalProperties: {} },
-        expected: 'object',
-      },
-    ];
-
-    it('should correctly guess the type of a schema', () => {
-      for (const test of cases) {
-        expect(getSchemaType(test.schema)).eql(
-          test.expected,
-          `${JSON.stringify(test.schema)} should guess type of ${test.expected}`
-        );
-      }
+    it.each([
+      [{ type: 'string' }, 'string'],
+      [{ type: 'number' }, 'number'],
+      [{ type: 'integer' }, 'integer'],
+      [{ type: 'object' }, 'object'],
+      [{ type: 'array' }, 'array'],
+      [{ type: 'boolean' }, 'boolean'],
+      [{ type: 'null' }, 'null'],
+      [{ const: 'foo' }, 'string'],
+      [{ const: 1 }, 'number'],
+      [{ type: ['string', 'null'] }, 'string'],
+      [{ type: ['null', 'number'] }, 'number'],
+      [{ type: ['integer', 'null'] }, 'integer'],
+      [{ properties: {} }, 'object'],
+      [{ additionalProperties: {} }, 'object'],
+    ])('should correctly guess the type of a schema: %s', (schema, expected) => {
+      expect(getSchemaType(schema)).toBe(expected);
     });
   });
 
@@ -3546,27 +3492,27 @@ describe('utils', () => {
     it('should fail if widget has incorrect type', () => {
       // eslint-disable-next-line no-new-wrappers, unicorn/new-for-builtins
       const Widget = new Number(1);
-      expect(() => getWidget(schema, Widget)).to.Throw(Error, `Unsupported widget definition: object`);
+      expect(() => getWidget(schema, Widget)).toThrow('Unsupported widget definition: object');
     });
 
     it('should fail if widget has no type property', () => {
       const Widget = 'blabla';
-      expect(() => getWidget(schema, Widget)).to.Throw(Error, `No widget for type "object"`);
+      expect(() => getWidget(schema, Widget)).toThrow('No widget for type "object"');
     });
 
     it('should not fail on correct component', () => {
       const Widget = props => <div {...props} />;
-      expect(getWidget(schema, Widget)({})).eql(<Widget options={{}} />);
+      expect(getWidget(schema, Widget)({})).toStrictEqual(<Widget options={{}} />);
     });
 
     it('should not fail on forwarded ref component', () => {
       const Widget = React.forwardRef((props, ref) => <div {...props} ref={ref} />);
-      expect(getWidget(schema, Widget)({})).eql(<Widget options={{}} />);
+      expect(getWidget(schema, Widget)({})).toStrictEqual(<Widget options={{}} />);
     });
 
     it.skip('should not fail on memo component', () => {
       const Widget = React.memo(props => <div {...props} />);
-      expect(getWidget(schema, Widget)({})).eql(<Widget options={{}} />);
+      expect(getWidget(schema, Widget)({})).toStrictEqual(<Widget options={{}} />);
     });
   });
 });
@@ -3583,7 +3529,7 @@ describe('Utils.isCyclic', () => {
     };
     schema.properties.foo.properties.foo = schema.properties.foo;
     const result = isCyclic(schema.properties.foo, undefined);
-    expect(result).eql(true);
+    expect(result).toBe(true);
   });
 
   it('should catch infinite recursion via $ref', () => {
@@ -3607,7 +3553,7 @@ describe('Utils.isCyclic', () => {
       },
     };
     const result = isCyclic(schema, schema);
-    expect(result).eql(true);
+    expect(result).toBe(true);
   });
 
   it('should return false for non-circular schemas', () => {
@@ -3627,7 +3573,7 @@ describe('Utils.isCyclic', () => {
       },
     };
     const result = isCyclic(schema, schema);
-    expect(result).eql(false);
+    expect(result).toBe(false);
   });
 
   it('should handle multiple references to the same definition', () => {
@@ -3642,7 +3588,7 @@ describe('Utils.isCyclic', () => {
       },
     };
     const result = isCyclic(schema, schema);
-    expect(result).eql(false);
+    expect(result).toBe(false);
   });
 
   it('should check type array where array = [{}]', () => {
@@ -3666,7 +3612,7 @@ describe('Utils.isCyclic', () => {
       },
     };
     const result = isCyclic(schema, schema);
-    expect(result).eql(true);
+    expect(result).toBe(true);
   });
 
   it('should add an option for omitting running for arrays', () => {
@@ -3700,7 +3646,7 @@ describe('Utils.isCyclic', () => {
       },
     };
     const result = isCyclic(schema, schema, { array: false });
-    expect(result).eql(false);
+    expect(result).toBe(false);
   });
 
   it('should pass on a schema that is cyclical, but not in a way that will recurse against itself', () => {
@@ -3754,7 +3700,7 @@ describe('Utils.isCyclic', () => {
     };
 
     const result = isCyclic(schema, rootSchema, { array: false });
-    expect(result).eql(false);
+    expect(result).toBe(false);
   });
 
   it('should check type array where array = {}', () => {
@@ -3776,7 +3722,7 @@ describe('Utils.isCyclic', () => {
       },
     };
     const result = isCyclic(schema, schema);
-    expect(result).eql(true);
+    expect(result).toBe(true);
   });
 
   describe('anyOf, allOf, oneOf', () => {
@@ -3794,7 +3740,7 @@ describe('Utils.isCyclic', () => {
       };
 
       const result = isCyclic(schema, schema);
-      expect(result).eql(true);
+      expect(result).toBe(true);
     });
 
     it('should support allOf', () => {
@@ -3811,7 +3757,7 @@ describe('Utils.isCyclic', () => {
       };
 
       const result = isCyclic(schema, schema);
-      expect(result).eql(true);
+      expect(result).toBe(true);
     });
 
     it('should support oneOf', () => {
@@ -3828,7 +3774,7 @@ describe('Utils.isCyclic', () => {
       };
 
       const result = isCyclic(schema, schema);
-      expect(result).eql(true);
+      expect(result).toBe(true);
     });
 
     it('should support the nesting of anyOf', () => {
@@ -3849,7 +3795,7 @@ describe('Utils.isCyclic', () => {
       };
 
       const result = isCyclic(schema, schema);
-      expect(result).eql(true);
+      expect(result).toBe(true);
     });
   });
 });

@@ -1,18 +1,6 @@
-import { expect } from 'chai';
-
-import { createFormComponent, createSandbox } from './test_utils';
+import { createFormComponent } from './test_utils';
 
 describe('const', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   it('should render a schema that uses const with a string value', () => {
     const schema = {
       type: 'object',
@@ -25,7 +13,7 @@ describe('const', () => {
       schema,
     });
 
-    expect(node.querySelector('input#root_foo')).not.eql(null);
+    expect(node.querySelector('input#root_foo')).not.toBeNull();
   });
 
   it('should render a schema that uses const with a number value', () => {
@@ -40,7 +28,7 @@ describe('const', () => {
       schema,
     });
 
-    expect(node.querySelector('input#root_foo')).not.eql(null);
+    expect(node.querySelector('input#root_foo')).not.toBeNull();
   });
 
   it('should render a schema that uses const with a boolean value', () => {
@@ -55,6 +43,6 @@ describe('const', () => {
       schema,
     });
 
-    expect(node.querySelector("input#root_foo[type='checkbox']")).not.eql(null);
+    expect(node.querySelector("input#root_foo[type='checkbox']")).not.toBeNull();
   });
 });

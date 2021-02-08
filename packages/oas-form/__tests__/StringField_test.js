@@ -1,24 +1,12 @@
 import React from 'react';
-import { expect } from 'chai';
 import { Simulate } from 'react-dom/test-utils';
-import sinon from 'sinon';
 
 import { parseDateString, toDateString } from '../src/utils';
 import { utcToLocal } from '../src/components/widgets/DateTimeWidget';
-import { createFormComponent, createSandbox, submitForm } from './test_utils';
+import { createFormComponent, submitForm } from './test_utils';
 
 describe('StringField', () => {
-  let sandbox;
-
   const CustomWidget = () => <div id="custom" />;
-
-  beforeEach(() => {
-    sandbox = createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   describe('TextWidget', () => {
     it('should render a string field', () => {
@@ -28,7 +16,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field input[type=text]')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field input[type=text]')).toHaveLength(1);
     });
 
     it('should render a string field with a label', () => {
@@ -39,7 +27,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field label').textContent).eql('foo');
+      expect(node.querySelector('.field label')).toHaveTextContent('foo');
     });
 
     it('should render a string field with a description', () => {
@@ -50,7 +38,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field-description').textContent).eql('bar');
+      expect(node.querySelector('.field-description')).toHaveTextContent('bar');
     });
 
     it('should assign a default value', () => {
@@ -61,8 +49,8 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field input').value).eql('plop');
-      expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(0);
+      expect(node.querySelector('.field input').value).toBe('plop');
+      expect(node.querySelectorAll('.field datalist > option')).toHaveLength(0);
     });
 
     it('should render a string field with examples', () => {
@@ -73,10 +61,10 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
+      expect(node.querySelectorAll('.field datalist > option')).toHaveLength(3);
       const datalistId = node.querySelector('.field datalist').id;
-      expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
-      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Firefox');
+      expect(node.querySelector('.field input')).toHaveAttribute('list', datalistId);
+      expect(node.querySelector('.field input')).toHaveAttribute('placeholder', 'Firefox');
     });
 
     it('should render a string with examples that includes the default value', () => {
@@ -87,10 +75,10 @@ describe('StringField', () => {
           examples: ['Chrome', 'Vivaldi'],
         },
       });
-      expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
+      expect(node.querySelectorAll('.field datalist > option')).toHaveLength(3);
       const datalistId = node.querySelector('.field datalist').id;
-      expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
-      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Chrome');
+      expect(node.querySelector('.field input')).toHaveAttribute('list', datalistId);
+      expect(node.querySelector('.field input')).toHaveAttribute('placeholder', 'Chrome');
     });
 
     it('should render a string with examples that overlaps with the default value', () => {
@@ -101,10 +89,10 @@ describe('StringField', () => {
           examples: ['Firefox', 'Chrome', 'Vivaldi'],
         },
       });
-      expect(node.querySelectorAll('.field datalist > option')).to.have.length.of(3);
+      expect(node.querySelectorAll('.field datalist > option')).toHaveLength(3);
       const datalistId = node.querySelector('.field datalist').id;
-      expect(node.querySelector('.field input').getAttribute('list')).eql(datalistId);
-      expect(node.querySelector('.field input').getAttribute('placeholder')).eql('Firefox');
+      expect(node.querySelector('.field input')).toHaveAttribute('list', datalistId);
+      expect(node.querySelector('.field input')).toHaveAttribute('placeholder', 'Firefox');
     });
 
     it('should default submit value to undefined', () => {
@@ -114,9 +102,12 @@ describe('StringField', () => {
       });
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: undefined,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: undefined,
+        }),
+        expect.anything()
+      );
     });
 
     it('should handle a change event', () => {
@@ -130,13 +121,13 @@ describe('StringField', () => {
         target: { value: 'yo' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: 'yo',
       });
     });
 
     it('should handle a blur event', () => {
-      const onBlur = sandbox.spy();
+      const onBlur = jest.fn();
       const { node } = createFormComponent({
         schema: {
           type: 'string',
@@ -148,11 +139,11 @@ describe('StringField', () => {
         target: { value: 'yo' },
       });
 
-      expect(onBlur.calledWith(input.id, 'yo')).to.be.true;
+      expect(onBlur).toHaveBeenCalledWith(input.id, 'yo');
     });
 
     it('should handle a focus event', () => {
-      const onFocus = sandbox.spy();
+      const onFocus = jest.fn();
       const { node } = createFormComponent({
         schema: {
           type: 'string',
@@ -164,7 +155,7 @@ describe('StringField', () => {
         target: { value: 'yo' },
       });
 
-      expect(onFocus.calledWith(input.id, 'yo')).to.be.true;
+      expect(onFocus).toHaveBeenCalledWith(input.id, 'yo');
     });
 
     it('should handle an empty string change event', () => {
@@ -177,7 +168,7 @@ describe('StringField', () => {
         target: { value: '' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, { formData: undefined });
+      expect(onChange).toHaveBeenLastCalledWith({ formData: undefined });
     });
 
     it('should handle an empty string change event with custom ui:emptyValue', () => {
@@ -191,7 +182,7 @@ describe('StringField', () => {
         target: { value: '' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: 'default',
       });
     });
@@ -208,7 +199,7 @@ describe('StringField', () => {
         target: { value: '' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: undefined,
       });
     });
@@ -221,7 +212,7 @@ describe('StringField', () => {
         formData: 'plip',
       });
 
-      expect(node.querySelector('.field input').value).eql('plip');
+      expect(node.querySelector('.field input').value).toBe('plip');
     });
 
     it('should render the widget with the expected id', () => {
@@ -231,7 +222,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('input[type=text]').id).eql('root');
+      expect(node.querySelector('input[type=text]').id).toBe('root');
     });
 
     it('should render customized TextWidget', () => {
@@ -244,7 +235,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -257,7 +248,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field select')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field select')).toHaveLength(1);
     });
 
     it('should render a string field for an enum without a type', () => {
@@ -267,7 +258,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field select')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field select')).toHaveLength(1);
     });
 
     it('should render a string field with a label', () => {
@@ -279,7 +270,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field label').textContent).eql('foo');
+      expect(node.querySelector('.field label')).toHaveTextContent('foo');
     });
 
     it('should render empty option', () => {
@@ -290,7 +281,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field option')[0].value).eql('');
+      expect(node.querySelectorAll('.field option')[0].value).toBe('');
     });
 
     it('should render empty option with placeholder text', () => {
@@ -302,7 +293,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field option')[0].textContent).eql('Test');
+      expect(node.querySelectorAll('.field option')[0]).toHaveTextContent('Test');
     });
 
     it('should assign a default value', () => {
@@ -316,9 +307,12 @@ describe('StringField', () => {
 
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: 'bar',
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: 'bar',
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change in the change event', () => {
@@ -332,7 +326,7 @@ describe('StringField', () => {
       Simulate.change(node.querySelector('select'), {
         target: { value: 'foo' },
       });
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: 'foo',
       });
     });
@@ -349,7 +343,7 @@ describe('StringField', () => {
         target: { value: '' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: undefined,
       });
     });
@@ -366,7 +360,7 @@ describe('StringField', () => {
         target: { value: 'foo' },
       });
 
-      expect(node.querySelector('select').value).eql('foo');
+      expect(node.querySelector('select').value).toBe('foo');
     });
 
     it('should reflect undefined value into the dom as empty option', () => {
@@ -381,7 +375,7 @@ describe('StringField', () => {
         target: { value: '' },
       });
 
-      expect(node.querySelector('select').value).eql('');
+      expect(node.querySelector('select').value).toBe('');
     });
 
     it('should fill field with data', () => {
@@ -394,9 +388,12 @@ describe('StringField', () => {
       });
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: 'bar',
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: 'bar',
+        }),
+        expect.anything()
+      );
     });
 
     it('should render the widget with the expected id', () => {
@@ -407,7 +404,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('select').id).eql('root');
+      expect(node.querySelector('select').id).toBe('root');
     });
 
     it('should render customized SelectWidget', () => {
@@ -421,7 +418,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
 
     it("should render a select element with first option 'false' if the default value is false", () => {
@@ -441,8 +438,8 @@ describe('StringField', () => {
       });
 
       const options = node.querySelectorAll('option');
-      expect(options[0].innerHTML).eql('false');
-      expect(options.length).eql(2);
+      expect(options[0].innerHTML).toBe('false');
+      expect(options).toHaveLength(2);
     });
 
     it("should render a select element and the option's length is equal the enum's length, if set the enum and the default value is empty.", () => {
@@ -462,8 +459,8 @@ describe('StringField', () => {
       });
 
       const options = node.querySelectorAll('option');
-      expect(options[0].innerHTML).eql('');
-      expect(options.length).eql(2);
+      expect(options[0]).toBeEmptyDOMElement();
+      expect(options).toHaveLength(2);
     });
 
     it('should render only one empty option when the default value is empty.', () => {
@@ -483,8 +480,8 @@ describe('StringField', () => {
       });
 
       const options = node.querySelectorAll('option');
-      expect(options[0].innerHTML).eql('');
-      expect(options.length).eql(1);
+      expect(options[0]).toBeEmptyDOMElement();
+      expect(options).toHaveLength(1);
     });
   });
 
@@ -500,7 +497,7 @@ describe('StringField', () => {
         target: { value: '' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: undefined,
       });
     });
@@ -519,7 +516,7 @@ describe('StringField', () => {
         target: { value: '' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: 'default',
       });
     });
@@ -534,7 +531,7 @@ describe('StringField', () => {
         formData: 'x',
       });
 
-      expect(node.querySelector('textarea').getAttribute('rows')).eql('20');
+      expect(node.querySelector('textarea')).toHaveAttribute('rows', '20');
     });
 
     it('should render a textarea with a placeholder', () => {
@@ -548,7 +545,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('textarea').getAttribute('placeholder')).eql('placeholder content');
+      expect(node.querySelector('textarea')).toHaveAttribute('placeholder', 'placeholder content');
     });
   });
 
@@ -561,7 +558,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field [type=datetime-local]')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field [type=datetime-local]')).toHaveLength(1);
     });
 
     it('should assign a default value', () => {
@@ -574,9 +571,12 @@ describe('StringField', () => {
         },
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change into the dom', () => {
@@ -593,7 +593,7 @@ describe('StringField', () => {
         target: { value: newDatetime },
       });
 
-      expect(node.querySelector('[type=datetime-local]').value).eql(utcToLocal(newDatetime));
+      expect(node.querySelector('[type=datetime-local]').value).toBe(utcToLocal(newDatetime));
     });
 
     it('should fill field with data', () => {
@@ -606,9 +606,12 @@ describe('StringField', () => {
         formData: datetime,
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should render the widget with the expected id', () => {
@@ -619,7 +622,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('[type=datetime-local]').id).eql('root');
+      expect(node.querySelector('[type=datetime-local]').id).toBe('root');
     });
 
     it('should reject an invalid entered datetime', () => {
@@ -635,19 +638,21 @@ describe('StringField', () => {
         target: { value: 'invalid' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
-        errorSchema: { __errors: ['should be string'] },
-        errors: [
-          {
-            message: 'should be string',
-            name: 'type',
-            params: { type: 'string' },
-            property: '',
-            schemaPath: '#/type',
-            stack: 'should be string',
-          },
-        ],
-      });
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          errorSchema: { __errors: ['should be string'] },
+          errors: [
+            {
+              message: 'should be string',
+              name: 'type',
+              params: { type: 'string' },
+              property: '',
+              schemaPath: '#/type',
+              stack: 'should be string',
+            },
+          ],
+        })
+      );
     });
 
     it('should render customized DateTimeWidget', () => {
@@ -661,7 +666,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
 
     it('should allow overriding of BaseInput', () => {
@@ -675,7 +680,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -691,7 +696,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelectorAll('.field [type=date]')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field [type=date]')).toHaveLength(1);
     });
 
     it('should assign a default value', () => {
@@ -706,9 +711,12 @@ describe('StringField', () => {
         noValidate: true,
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change into the dom', () => {
@@ -726,9 +734,8 @@ describe('StringField', () => {
         target: { value: newDatetime },
       });
 
-      expect(node.querySelector('[type=date]').value)
-        // XXX import and use conversion helper
-        .eql(newDatetime.slice(0, 10));
+      // XXX import and use conversion helper
+      expect(node.querySelector('[type=date]').value).toBe(newDatetime.slice(0, 10));
     });
 
     it('should fill field with data', () => {
@@ -742,9 +749,12 @@ describe('StringField', () => {
         noValidate: true,
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should render the widget with the expected id', () => {
@@ -756,7 +766,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelector('[type=date]').id).eql('root');
+      expect(node.querySelector('[type=date]').id).toBe('root');
     });
 
     it('should accept a valid entered date', () => {
@@ -773,11 +783,13 @@ describe('StringField', () => {
         target: { value: '2012-12-12' },
       });
 
-      sinon.assert.notCalled(onError);
+      expect(onError).not.toHaveBeenCalled();
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
-        formData: '2012-12-12',
-      });
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: '2012-12-12',
+        })
+      );
     });
 
     it('should reject an invalid entered date', () => {
@@ -794,19 +806,21 @@ describe('StringField', () => {
         target: { value: 'invalid' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
-        errorSchema: { __errors: ['should match format "date"'] },
-        errors: [
-          {
-            message: 'should match format "date"',
-            name: 'format',
-            params: { format: 'date' },
-            property: '',
-            schemaPath: '#/format',
-            stack: 'should match format "date"',
-          },
-        ],
-      });
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          errorSchema: { __errors: ['should match format "date"'] },
+          errors: [
+            {
+              message: 'should match format "date"',
+              name: 'format',
+              params: { format: 'date' },
+              property: '',
+              schemaPath: '#/format',
+              stack: 'should match format "date"',
+            },
+          ],
+        })
+      );
     });
 
     it('should render customized DateWidget', () => {
@@ -820,7 +834,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
 
     it('should allow overriding of BaseInput', () => {
@@ -834,7 +848,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -850,7 +864,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelectorAll('.field select')).to.have.length.of(6);
+      expect(node.querySelectorAll('.field select')).toHaveLength(6);
     });
 
     it('should render a string field with a main label', () => {
@@ -863,7 +877,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelector('.field label').textContent).eql('foo');
+      expect(node.querySelector('.field label')).toHaveTextContent('foo');
     });
 
     it('should assign a default value', () => {
@@ -877,9 +891,12 @@ describe('StringField', () => {
         uiSchema,
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change into the dom', () => {
@@ -910,7 +927,7 @@ describe('StringField', () => {
         target: { value: 3 },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: '2012-10-02T01:02:03.000Z',
       });
     });
@@ -925,9 +942,12 @@ describe('StringField', () => {
         formData: datetime,
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should render the widgets with the expected ids', () => {
@@ -941,7 +961,7 @@ describe('StringField', () => {
 
       const ids = [].map.call(node.querySelectorAll('select'), node => node.id);
 
-      expect(ids).eql(['root_year', 'root_month', 'root_day', 'root_hour', 'root_minute', 'root_second']);
+      expect(ids).toStrictEqual(['root_year', 'root_month', 'root_day', 'root_hour', 'root_minute', 'root_second']);
     });
 
     it("should render the widgets with the expected options' values", () => {
@@ -955,7 +975,7 @@ describe('StringField', () => {
 
       const lengths = [].map.call(node.querySelectorAll('select'), node => node.length);
 
-      expect(lengths).eql([
+      expect(lengths).toStrictEqual([
         // from 1900 to current year + 2 (inclusive) + 1 undefined option
         new Date().getFullYear() - 1900 + 3 + 1,
         12 + 1,
@@ -966,7 +986,7 @@ describe('StringField', () => {
       ]);
       const monthOptions = node.querySelectorAll('select#root_month option');
       const monthOptionsValues = [].map.call(monthOptions, o => o.value);
-      expect(monthOptionsValues).eql(['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
+      expect(monthOptionsValues).toStrictEqual(['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
     });
 
     it("should render the widgets with the expected options' labels", () => {
@@ -980,7 +1000,21 @@ describe('StringField', () => {
 
       const monthOptions = node.querySelectorAll('select#root_month option');
       const monthOptionsLabels = [].map.call(monthOptions, o => o.text);
-      expect(monthOptionsLabels).eql(['month', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']);
+      expect(monthOptionsLabels).toStrictEqual([
+        'month',
+        '01',
+        '02',
+        '03',
+        '04',
+        '05',
+        '06',
+        '07',
+        '08',
+        '09',
+        '10',
+        '11',
+        '12',
+      ]);
     });
 
     describe('Action buttons', () => {
@@ -994,7 +1028,7 @@ describe('StringField', () => {
         });
 
         const buttonLabels = [].map.call(node.querySelectorAll('a.btn'), x => x.textContent);
-        expect(buttonLabels).eql(['Now', 'Clear']);
+        expect(buttonLabels).toStrictEqual(['Now', 'Clear']);
       });
 
       it('should set current date when pressing the Now button', () => {
@@ -1007,11 +1041,11 @@ describe('StringField', () => {
         });
 
         Simulate.click(node.querySelector('a.btn-now'));
-        const formValue = onChange.lastCall.args[0].formData;
+        const formValue = onChange.mock.calls[0][0].formData;
         // Test that the two DATETIMEs are within 5 seconds of each other.
         const now = new Date().getTime();
         const timeDiff = now - new Date(formValue).getTime();
-        expect(timeDiff).to.be.at.most(5000);
+        expect(timeDiff).toBeLessThanOrEqual(5000);
       });
 
       it('should clear current date when pressing the Clear button', () => {
@@ -1026,7 +1060,7 @@ describe('StringField', () => {
         Simulate.click(node.querySelector('a.btn-now'));
         Simulate.click(node.querySelector('a.btn-clear'));
 
-        sinon.assert.calledWithMatch(onChange.lastCall, {
+        expect(onChange).toHaveBeenLastCalledWith({
           formData: undefined,
         });
       });
@@ -1046,7 +1080,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
 
     it('should render customized AltDateTimeWidget', () => {
@@ -1063,7 +1097,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -1079,7 +1113,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelectorAll('.field select')).to.have.length.of(3);
+      expect(node.querySelectorAll('.field select')).toHaveLength(3);
     });
 
     it('should render a string field with a main label', () => {
@@ -1092,7 +1126,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelector('.field label').textContent).eql('foo');
+      expect(node.querySelector('.field label')).toHaveTextContent('foo');
     });
 
     it('should assign a default value', () => {
@@ -1106,9 +1140,12 @@ describe('StringField', () => {
         uiSchema,
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change into the dom', () => {
@@ -1130,7 +1167,7 @@ describe('StringField', () => {
         target: { value: 2 },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: '2012-10-02',
       });
     });
@@ -1146,9 +1183,12 @@ describe('StringField', () => {
         formData: datetime,
       });
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: datetime,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: datetime,
+        }),
+        expect.anything()
+      );
     });
 
     it('should render the widgets with the expected ids', () => {
@@ -1162,7 +1202,7 @@ describe('StringField', () => {
 
       const ids = [].map.call(node.querySelectorAll('select'), node => node.id);
 
-      expect(ids).eql(['root_year', 'root_month', 'root_day']);
+      expect(ids).toStrictEqual(['root_year', 'root_month', 'root_day']);
     });
 
     it("should render the widgets with the expected options' values", () => {
@@ -1176,7 +1216,7 @@ describe('StringField', () => {
 
       const lengths = [].map.call(node.querySelectorAll('select'), node => node.length);
 
-      expect(lengths).eql([
+      expect(lengths).toStrictEqual([
         // from 1900 to current year + 2 (inclusive) + 1 undefined option
         new Date().getFullYear() - 1900 + 3 + 1,
         12 + 1,
@@ -1184,7 +1224,7 @@ describe('StringField', () => {
       ]);
       const monthOptions = node.querySelectorAll('select#root_month option');
       const monthOptionsValues = [].map.call(monthOptions, o => o.value);
-      expect(monthOptionsValues).eql(['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
+      expect(monthOptionsValues).toStrictEqual(['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
     });
 
     it("should render the widgets with the expected options' labels", () => {
@@ -1198,7 +1238,21 @@ describe('StringField', () => {
 
       const monthOptions = node.querySelectorAll('select#root_month option');
       const monthOptionsLabels = [].map.call(monthOptions, o => o.text);
-      expect(monthOptionsLabels).eql(['month', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']);
+      expect(monthOptionsLabels).toStrictEqual([
+        'month',
+        '01',
+        '02',
+        '03',
+        '04',
+        '05',
+        '06',
+        '07',
+        '08',
+        '09',
+        '10',
+        '11',
+        '12',
+      ]);
     });
 
     it('should accept a valid date', () => {
@@ -1212,11 +1266,11 @@ describe('StringField', () => {
         formData: '2012-12-12',
       });
 
-      sinon.assert.notCalled(onError);
+      expect(onError).not.toHaveBeenCalled();
     });
 
     it('should throw on invalid date', () => {
-      try {
+      expect(() => {
         createFormComponent({
           schema: {
             type: 'string',
@@ -1226,9 +1280,7 @@ describe('StringField', () => {
           liveValidate: true,
           formData: '2012-1212',
         });
-      } catch (err) {
-        expect(err.message).eql('Unable to parse date 2012-1212');
-      }
+      }).toThrow('Unable to parse date 2012-1212');
     });
 
     describe('Action buttons', () => {
@@ -1242,7 +1294,7 @@ describe('StringField', () => {
         });
 
         const buttonLabels = [].map.call(node.querySelectorAll('a.btn'), x => x.textContent);
-        expect(buttonLabels).eql(['Now', 'Clear']);
+        expect(buttonLabels).toStrictEqual(['Now', 'Clear']);
       });
 
       it('should set current date when pressing the Now button', () => {
@@ -1258,7 +1310,7 @@ describe('StringField', () => {
 
         const expected = toDateString(parseDateString(new Date().toJSON()), false);
 
-        sinon.assert.calledWithMatch(onChange.lastCall, {
+        expect(onChange).toHaveBeenLastCalledWith({
           formData: expected,
         });
       });
@@ -1275,7 +1327,7 @@ describe('StringField', () => {
         Simulate.click(node.querySelector('a.btn-now'));
         Simulate.click(node.querySelector('a.btn-clear'));
 
-        sinon.assert.calledWithMatch(onChange.lastCall, {
+        expect(onChange).toHaveBeenLastCalledWith({
           formData: undefined,
         });
       });
@@ -1295,7 +1347,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -1308,7 +1360,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field [type=email]')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field [type=email]')).toHaveLength(1);
     });
 
     it('should render a string field with a label', () => {
@@ -1320,7 +1372,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field label').textContent).eql('foo');
+      expect(node.querySelector('.field label')).toHaveTextContent('foo');
     });
 
     it('should render a select field with a description', () => {
@@ -1332,7 +1384,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field-description').textContent).eql('baz');
+      expect(node.querySelector('.field-description')).toHaveTextContent('baz');
     });
 
     it('should assign a default value', () => {
@@ -1347,9 +1399,12 @@ describe('StringField', () => {
 
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: email,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: email,
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change into the dom', () => {
@@ -1366,7 +1421,7 @@ describe('StringField', () => {
         target: { value: newDatetime },
       });
 
-      expect(node.querySelector('[type=email]').value).eql(newDatetime);
+      expect(node.querySelector('[type=email]').value).toBe(newDatetime);
     });
 
     it('should fill field with data', () => {
@@ -1380,9 +1435,12 @@ describe('StringField', () => {
       });
 
       submitForm(node);
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: email,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: email,
+        }),
+        expect.anything()
+      );
     });
 
     it('should render the widget with the expected id', () => {
@@ -1393,7 +1451,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('[type=email]').id).eql('root');
+      expect(node.querySelector('[type=email]').id).toBe('root');
     });
 
     it('should reject an invalid entered email', () => {
@@ -1409,19 +1467,21 @@ describe('StringField', () => {
         target: { value: 'invalid' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
-        errorSchema: { __errors: ['should match format "email"'] },
-        errors: [
-          {
-            message: 'should match format "email"',
-            name: 'format',
-            params: { format: 'email' },
-            property: '',
-            schemaPath: '#/format',
-            stack: 'should match format "email"',
-          },
-        ],
-      });
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          errorSchema: { __errors: ['should match format "email"'] },
+          errors: [
+            {
+              message: 'should match format "email"',
+              name: 'format',
+              params: { format: 'email' },
+              property: '',
+              schemaPath: '#/format',
+              stack: 'should match format "email"',
+            },
+          ],
+        })
+      );
     });
 
     it('should render customized EmailWidget', () => {
@@ -1435,7 +1495,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -1448,7 +1508,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field [type=url]')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field [type=url]')).toHaveLength(1);
     });
 
     it('should render a string field with a label', () => {
@@ -1460,7 +1520,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field label').textContent).eql('foo');
+      expect(node.querySelector('.field label')).toHaveTextContent('foo');
     });
 
     it('should render a select field with a description', () => {
@@ -1472,7 +1532,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('.field-description').textContent).eql('baz');
+      expect(node.querySelector('.field-description')).toHaveTextContent('baz');
     });
 
     it('should assign a default value', () => {
@@ -1487,9 +1547,12 @@ describe('StringField', () => {
 
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: url,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: url,
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change into the dom', () => {
@@ -1505,7 +1568,7 @@ describe('StringField', () => {
         target: { value: newDatetime },
       });
 
-      expect(node.querySelector('[type=url]').value).eql(newDatetime);
+      expect(node.querySelector('[type=url]').value).toBe(newDatetime);
     });
 
     it('should fill field with data', () => {
@@ -1520,9 +1583,12 @@ describe('StringField', () => {
 
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: url,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: url,
+        }),
+        expect.anything()
+      );
     });
 
     it('should render the widget with the expected id', () => {
@@ -1533,7 +1599,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('[type=url]').id).eql('root');
+      expect(node.querySelector('[type=url]').id).toBe('root');
     });
 
     it('should reject an invalid entered url', () => {
@@ -1549,19 +1615,21 @@ describe('StringField', () => {
         target: { value: 'invalid' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
-        errorSchema: { __errors: ['should match format "uri"'] },
-        errors: [
-          {
-            message: 'should match format "uri"',
-            name: 'format',
-            params: { format: 'uri' },
-            property: '',
-            schemaPath: '#/format',
-            stack: 'should match format "uri"',
-          },
-        ],
-      });
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          errorSchema: { __errors: ['should match format "uri"'] },
+          errors: [
+            {
+              message: 'should match format "uri"',
+              name: 'format',
+              params: { format: 'uri' },
+              property: '',
+              schemaPath: '#/format',
+              stack: 'should match format "uri"',
+            },
+          ],
+        })
+      );
     });
 
     it('should render customized URLWidget', () => {
@@ -1575,7 +1643,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -1592,7 +1660,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelectorAll('.field [type=color]')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field [type=color]')).toHaveLength(1);
     });
 
     it('should assign a default value', () => {
@@ -1606,7 +1674,7 @@ describe('StringField', () => {
       });
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, { formData: color });
+      expect(onSubmit).toHaveBeenLastCalledWith(expect.objectContaining({ formData: color }), expect.anything());
     });
 
     it('should reflect the change into the dom', () => {
@@ -1624,7 +1692,7 @@ describe('StringField', () => {
         target: { value: newColor },
       });
 
-      expect(node.querySelector('[type=color]').value).eql(newColor);
+      expect(node.querySelector('[type=color]').value).toBe(newColor);
     });
 
     it('should fill field with data', () => {
@@ -1637,7 +1705,7 @@ describe('StringField', () => {
       });
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, { formData: color });
+      expect(onSubmit).toHaveBeenLastCalledWith(expect.objectContaining({ formData: color }), expect.anything());
     });
 
     it('should render the widget with the expected id', () => {
@@ -1649,7 +1717,7 @@ describe('StringField', () => {
         uiSchema,
       });
 
-      expect(node.querySelector('[type=color]').id).eql('root');
+      expect(node.querySelector('[type=color]').id).toBe('root');
     });
 
     it('should reject an invalid entered color', () => {
@@ -1666,19 +1734,21 @@ describe('StringField', () => {
         target: { value: 'invalid' },
       });
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
-        errorSchema: { __errors: ['should match format "color"'] },
-        errors: [
-          {
-            message: 'should match format "color"',
-            name: 'format',
-            params: { format: 'color' },
-            property: '',
-            schemaPath: '#/format',
-            stack: 'should match format "color"',
-          },
-        ],
-      });
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          errorSchema: { __errors: ['should match format "color"'] },
+          errors: [
+            {
+              message: 'should match format "color"',
+              name: 'format',
+              params: { format: 'color' },
+              property: '',
+              schemaPath: '#/format',
+              stack: 'should match format "color"',
+            },
+          ],
+        })
+      );
     });
 
     it('should render customized ColorWidget', () => {
@@ -1692,7 +1762,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -1707,7 +1777,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelectorAll('.field [type=file]')).to.have.length.of(1);
+      expect(node.querySelectorAll('.field [type=file]')).toHaveLength(1);
     });
 
     it('should assign a default value', () => {
@@ -1720,18 +1790,21 @@ describe('StringField', () => {
       });
       submitForm(node);
 
-      sinon.assert.calledWithMatch(onSubmit.lastCall, {
-        formData: initialValue,
-      });
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          formData: initialValue,
+        }),
+        expect.anything()
+      );
     });
 
     it('should reflect the change into the dom', async () => {
-      sandbox.stub(window, 'FileReader').returns({
+      jest.spyOn(window, 'FileReader').mockImplementation(() => ({
         set onload(fn) {
           fn({ target: { result: 'data:text/plain;base64,x=' } });
         },
         readAsDataUrl() {},
-      });
+      }));
 
       const { node, onChange } = createFormComponent({
         schema: {
@@ -1748,7 +1821,7 @@ describe('StringField', () => {
 
       await new Promise(setImmediate);
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: 'data:text/plain;name=file1.txt;base64,x=',
       });
     });
@@ -1757,12 +1830,12 @@ describe('StringField', () => {
       const nonUriEncodedValue = 'fileáéí óú1.txt';
       const uriEncodedValue = 'file%C3%A1%C3%A9%C3%AD%20%C3%B3%C3%BA1.txt';
 
-      sandbox.stub(window, 'FileReader').returns({
+      jest.spyOn(window, 'FileReader').mockImplementation(() => ({
         set onload(fn) {
           fn({ target: { result: 'data:text/plain;base64,x=' } });
         },
         readAsDataUrl() {},
-      });
+      }));
 
       const { node, onChange } = createFormComponent({
         schema: {
@@ -1779,7 +1852,7 @@ describe('StringField', () => {
 
       await new Promise(setImmediate);
 
-      sinon.assert.calledWithMatch(onChange.lastCall, {
+      expect(onChange).toHaveBeenLastCalledWith({
         formData: `data:text/plain;name=${uriEncodedValue};base64,x=`,
       });
     });
@@ -1795,7 +1868,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('[type=file]').accept).eql('.pdf');
+      expect(node.querySelector('[type=file]').accept).toBe('.pdf');
     });
 
     it('should render the file widget with accept attribute', () => {
@@ -1806,7 +1879,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('[type=file]').id).eql('root');
+      expect(node.querySelector('[type=file]').id).toBe('root');
     });
 
     it('should render customized FileWidget', () => {
@@ -1820,7 +1893,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -1836,7 +1909,7 @@ describe('StringField', () => {
         },
       });
 
-      expect(node.querySelector('#custom')).to.exist;
+      expect(node.querySelector('#custom')).not.toBeNull();
     });
   });
 
@@ -1861,7 +1934,7 @@ describe('StringField', () => {
       };
 
       const { node } = createFormComponent({ schema, widgets, uiSchema });
-      expect(node.querySelector('#label-string')).to.not.be.null;
+      expect(node.querySelector('#label-string')).not.toBeNull();
     });
 
     it('should pass schema title to widget', () => {
@@ -1874,7 +1947,7 @@ describe('StringField', () => {
       };
 
       const { node } = createFormComponent({ schema, widgets, uiSchema });
-      expect(node.querySelector('#label-test')).to.not.be.null;
+      expect(node.querySelector('#label-test')).not.toBeNull();
     });
 
     it('should pass empty schema title to widget', () => {
@@ -1886,7 +1959,7 @@ describe('StringField', () => {
         'ui:widget': 'Widget',
       };
       const { node } = createFormComponent({ schema, widgets, uiSchema });
-      expect(node.querySelector('#label-')).to.not.be.null;
+      expect(node.querySelector('#label-')).not.toBeNull();
     });
   });
 });
