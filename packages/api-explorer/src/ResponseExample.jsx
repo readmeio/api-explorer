@@ -22,6 +22,7 @@ function getReactJson(example, current) {
       key={example.code}
       collapsed={2}
       collapseStringsAfterLength={100}
+      displayArrayKey={false}
       displayDataTypes={false}
       displayObjectSize={false}
       enableClipboard={false}
