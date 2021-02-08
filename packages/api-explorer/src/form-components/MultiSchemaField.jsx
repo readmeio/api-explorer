@@ -18,11 +18,11 @@ function findDiscriminatorField(schema, options, property) {
 
   for (const option of options) {
     if (option.properties?.[property]) {
-      return schema.properties[property];
+      return option.properties[property];
     }
 
-    if (option.allOf) {
-      return schema.properties[property];
+    if (option.allOf?.[0]?.properties?.[property]) {
+      return option.allOf[0].properties[property];
     }
   }
 
