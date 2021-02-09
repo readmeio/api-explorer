@@ -38,17 +38,29 @@ function findDiscriminatorDetails(schema) {
   }
 
   // Sometimes discriminators are within each of the oneOf schemas, and not top level.
-  if (schema.properties?.oneOf?.[0]?.discriminator) {
-      return schema.properties?.oneOf?.[0]?.discriminator;
+  if (schema?.oneOf) {
+    // If the oneOf schemas has a discriminator, return that
+    if (schema.oneOf?.[0]?.discriminator) {
+      return schema?.oneOf?.[0]?.discriminator;
+    // If the oneOf schema has an allOf for polymorphism, check that too for a discriminator
+    } else if (schema.oneOf?.[0]?.allOf?.[0]?.discriminator) {
+      return schema.oneOf[0].allOf[0].discriminator
+    }
   }
 
   // Sometimes discriminators are within each of the anyOf schemas, and not top level.
-  if (schema.properties?.anyOf?.[0]?.discriminator) {
-      return schema.properties?.anyOf?.[0]?.discriminator;
+  if (schema?.anyOf) {
+    // If the anyOf schemas has a discriminator, return that
+    if (schema.anyOf?.[0]?.discriminator) {
+      return schema?.anyOf?.[0]?.discriminator;
+    // If the anyOf schema has an allOf for polymorphism, check that too for a discriminator
+    } else if (schema.anyOf?.[0]?.allOf?.[0]?.discriminator) {
+      return schema.anyOf[0].allOf[0].discriminator
+    }
   }
 
-  // There is no allOf here becuase discriminators won't apply to allOfs. If an allOf contains a oneOf, you might see a discriminator there, and it will be caught by
-  // the child multischemafield.
+  // There is no allOf top level check because that implies there's no option, it's all the sub schemas.
+  // Yes the subschema might have a discriminator, but multischemafield handles that with a nested multischemafield
 
   return false;
 }
@@ -62,7 +74,7 @@ class MultiSchemaField extends Component {
     let discriminatorSchema = findDiscriminatorDetails(schema);
     let enumOptions = null;
     let initialSelectValue = null;
-    let selectedOption = null;
+    let initialSelectIndex = null;
 
     if (discriminatorSchema) {
       // If there's a mapping that mapping defines the dropdown list
@@ -78,17 +90,20 @@ class MultiSchemaField extends Component {
       }
 
       initialSelectValue = formData[discriminatorSchema.propertyName] || enumOptions[0].value;
-      selectedOption = this.findEnumOptionsIndex(enumOptions, initialSelectValue);
-      this.notifyOptionSelection(selectedOption);
+      initialSelectIndex = this.findEnumOptionsIndex(enumOptions, initialSelectValue);
     }
 
     this.state = {
-      selectedOption: selectedOption,
+      selectedIndex: initialSelectIndex,
       selectedValue: initialSelectValue,
       discriminatorSchema,
       discriminatorFieldSchema: discriminatorSchema ? findDiscriminatorField(schema, options, discriminatorSchema.propertyName) : null,
       enumOptions
     };
+
+    if (discriminatorSchema) {
+      this.notifySelectionValue(initialSelectIndex, initialSelectValue);
+    }
   }
 
   /**
@@ -163,9 +178,14 @@ class MultiSchemaField extends Component {
    *
    * Note that this is the index and not the value
    */
-  notifyOptionSelection = (selectedIndex) => {
+  notifySelectionValue = (selectedIndex, selectedValue) => {
     const { formData, onChange, options, registry } = this.props;
     const { rootSchema } = registry;
+    const { discriminatorSchema } = this.state;
+
+    if (discriminatorSchema) {
+      formData[discriminatorSchema.propertyName] = selectedValue;
+    }
     // Update the formData so the example code is properly rendered and ensure defaults are applied if applicable
     // Note: defaults might not be applicable, this line largely from the original multischema code!
     onChange(getDefaultFormState(options[selectedIndex], formData, rootSchema));
@@ -177,20 +197,15 @@ class MultiSchemaField extends Component {
    * The selectedValue is the selection value not the index.
    */
   onOptionChange = (selectedValue) => {
-    const { formData } = this.props;
-    const { discriminatorSchema, enumOptions } = this.state;
-    const selectedOption = this.findEnumOptionsIndex(enumOptions, selectedValue);
-
-    if (discriminatorSchema) {
-      formData[discriminatorSchema.propertyName] = selectedValue;
-    }
-
-    this.notifyOptionSelection(selectedOption)
+    const { enumOptions } = this.state;
+    const selectedIndex = this.findEnumOptionsIndex(enumOptions, selectedValue);
 
     this.setState({
-      selectedOption,
+      selectedIndex,
       selectedValue
     });
+
+    this.notifySelectionValue(selectedIndex, selectedValue)
   };
 
   render () {
@@ -210,13 +225,13 @@ class MultiSchemaField extends Component {
     } = this.props;
 
     const _SchemaField = registry.fields.SchemaField;
-    const { selectedOption, selectedValue, discriminatorSchema, discriminatorFieldSchema, enumOptions } = this.state;
+    const { selectedIndex, selectedValue, discriminatorSchema, discriminatorFieldSchema, enumOptions } = this.state;
 
     // We've got a custom path if there's a discriminator, otherwise we fall back ot the old multischema field
     if (discriminatorSchema) {
       // Find which schema we wnat to render by looking at the options prop. The order of these options matches the order of the
       // dropdown options, and so we can just stick with matching indicies.
-      const option = options[selectedOption] || null;
+      const option = options[selectedIndex] || null;
       let optionSchema;
 
       // This is from the original multiSchema, not completely sure what edge case it is addressing. Technically the schemafield still should fail with a null optionSchema

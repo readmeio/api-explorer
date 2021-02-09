@@ -10,7 +10,7 @@
       "title": "polymorphism support"
     },
     "paths": {
-      "/oneOfWithTopLevelDiscriminator": {
+      "/oneOfWithTopLevelDiscriminatorAndMapping": {
         "patch": {
           "summary": "oneOf with top level discriminator and mapping",
           "requestBody": {
@@ -43,9 +43,64 @@
           }
         }
       },
+      "/oneOfWithTopLevelDiscriminatorNoMapping": {
+        "patch": {
+          "summary": "oneOf with top level discriminator and NO mapping",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OptionOneNoDisc"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OptionTwoNoDisc"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "discrim"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated"
+            }
+          }
+        }
+      },
       "/pets": {
         "patch": {
-          "summary": "oneOf request with a nested allOf",
+          "summary": "oneOf request with a nested allOf and embedded discriminator",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Cat"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Dog"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated"
+            }
+          }
+        }
+      },
+      "/oneof-allof-top level disc": {
+        "patch": {
+          "summary": "oneOf request with a nested allOf and top level discriminator",
           "requestBody": {
             "content": {
               "application/json": {
@@ -74,6 +129,7 @@
       },
       "/anything/nested-one-of-object-with-nested-one-of": {
         "post": {
+          "summary": "oneOf request with a nested oneOf, and embedded discriminator",
           "requestBody": {
             "content": {
               "application/json": {
@@ -96,10 +152,7 @@
                             {
                               "$ref": "#/components/schemas/Dog"
                             }
-                          ],
-                          "discriminator": {
-                            "propertyName": "pet_type"
-                          }
+                          ]
                         }
                       ]
                     }
@@ -255,6 +308,57 @@
         },
         "string2": {
           "type": "string"
+        },
+        "PetNoDisc": {
+          "type": "object",
+          "required": [
+            "pet_type"
+          ],
+          "properties": {
+            "pet_type": {
+              "type": "string"
+            }
+          }
+        },
+        "DogNoDisc": {
+          "title": "Woof",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/PetNoDisc"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "bark": {
+                  "type": "boolean"
+                },
+                "breed": {
+                  "type": "string",
+                  "enum": ["Dingo", "Husky", "Retriever", "Shepherd"]
+                }
+              }
+            }
+          ]
+        },
+        "CatNoDisc": {
+          "title": "Meow",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/PetNoDisc"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "hunts": {
+                  "type": "boolean"
+                },
+                "age": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
         }
       }
     }
