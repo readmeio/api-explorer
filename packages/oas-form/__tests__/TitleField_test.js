@@ -1,20 +1,9 @@
 import React from 'react';
-import { expect } from 'chai';
 
 import TitleField from '../src/components/fields/TitleField';
-import { createSandbox, createComponent } from './test_utils';
+import { createComponent } from './test_utils';
 
 describe('TitleField', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   // For some reason, stateless components needs to be wrapped into a stateful
   // one to be rendered into the document.
   class TitleFieldWrapper extends React.Component {
@@ -30,7 +19,7 @@ describe('TitleField', () => {
     };
     const { node } = createComponent(TitleFieldWrapper, props);
 
-    expect(node.tagName).to.equal('LEGEND');
+    expect(node.tagName).toBe('LEGEND');
   });
 
   it('should have the expected id', () => {
@@ -41,7 +30,7 @@ describe('TitleField', () => {
     };
     const { node } = createComponent(TitleFieldWrapper, props);
 
-    expect(node.id).to.equal('sample_id');
+    expect(node.id).toBe('sample_id');
   });
 
   it('should include only title, when field is not required', () => {
@@ -51,7 +40,7 @@ describe('TitleField', () => {
     };
     const { node } = createComponent(TitleFieldWrapper, props);
 
-    expect(node.textContent).to.equal(props.title);
+    expect(node).toHaveTextContent(props.title);
   });
 
   it('should add an asterisk to the title, when field is required', () => {
@@ -61,8 +50,8 @@ describe('TitleField', () => {
     };
     const { node } = createComponent(TitleFieldWrapper, props);
 
-    expect(node.textContent).to.equal(`${props.title}*`);
+    expect(node).toHaveTextContent(`${props.title}*`);
 
-    expect(node.querySelector('span.required').textContent).to.equal('*');
+    expect(node.querySelector('span.required')).toHaveTextContent('*');
   });
 });

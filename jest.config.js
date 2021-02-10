@@ -20,7 +20,12 @@ module.exports = {
     '\\.svg$': path.join(__dirname, '/lib/svgr-mock.js'),
   },
   setupFiles: [path.join(__dirname, '/lib/enzyme')],
-  testMatch: ['**/__tests__/**/(*.)+test.[jt]s?(x)'],
+  testMatch: [
+    // Matches:
+    //  - __tests__/*/test.test.js
+    //  - __tests__/*/test_test.js
+    '**/__tests__/**/(*[._])+test.[jt]s?(x)',
+  ],
   testURL: 'http://localhost',
   transform: {
     '^.+\\.jsx?$': path.join(__dirname, '/lib/babel-jest'),

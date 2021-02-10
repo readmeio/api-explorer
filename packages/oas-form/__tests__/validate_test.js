@@ -1,7 +1,5 @@
 /* eslint-disable global-require */
 import React from 'react';
-import { expect } from 'chai';
-import sinon from 'sinon';
 import { Simulate } from 'react-dom/test-utils';
 
 import validateFormData, { isValid, toErrorList } from '../src/validate';
@@ -17,7 +15,7 @@ describe('Validation', () => {
         },
       };
 
-      expect(isValid(schema, { foo: 'bar' })).to.be.true;
+      expect(isValid(schema, { foo: 'bar' })).toBe(true);
     });
 
     it('should return false if the data is not valid against the schema', () => {
@@ -28,13 +26,13 @@ describe('Validation', () => {
         },
       };
 
-      expect(isValid(schema, { foo: 12345 })).to.be.false;
+      expect(isValid(schema, { foo: 12345 })).toBe(false);
     });
 
     it('should return false if the schema is invalid', () => {
       const schema = 'foobarbaz';
 
-      expect(isValid(schema, { foo: 'bar' })).to.be.false;
+      expect(isValid(schema, { foo: 'bar' })).toBe(false);
     });
   });
 
@@ -59,16 +57,16 @@ describe('Validation', () => {
       });
 
       it('should return an error list', () => {
-        expect(errors).to.have.length.of(2);
-        expect(errors[0].message).eql('should be string');
-        expect(errors[1].message).eql('should be string');
+        expect(errors).toHaveLength(2);
+        expect(errors[0].message).toBe('should be string');
+        expect(errors[1].message).toBe('should be string');
       });
 
       it('should return an errorSchema', () => {
-        expect(errorSchema.foo.__errors).to.have.length.of(1);
-        expect(errorSchema.foo.__errors[0]).eql('should be string');
-        expect(errorSchema[illFormedKey].__errors).to.have.length.of(1);
-        expect(errorSchema[illFormedKey].__errors[0]).eql('should be string');
+        expect(errorSchema.foo.__errors).toHaveLength(1);
+        expect(errorSchema.foo.__errors[0]).toBe('should be string');
+        expect(errorSchema[illFormedKey].__errors).toHaveLength(1);
+        expect(errorSchema[illFormedKey].__errors[0]).toBe('should be string');
       });
     });
 
@@ -93,7 +91,7 @@ describe('Validation', () => {
       });
 
       it('should not return an error', () => {
-        expect(errors).to.have.length.of(0);
+        expect(errors).toHaveLength(0);
       });
     });
 
@@ -120,28 +118,30 @@ describe('Validation', () => {
       it('should return a validation error about meta schema when meta schema is not defined', () => {
         const errors = validateFormData({ datasetId: 'some kind of text' }, schema);
         const errMessage = 'no schema with key or ref "http://json-schema.org/draft-04/schema#"';
-        expect(errors.errors[0].stack).to.equal(errMessage);
-        expect(errors.errors).to.eql([
+        expect(errors.errors[0].stack).toBe(errMessage);
+        expect(errors.errors).toStrictEqual([
           {
             stack: errMessage,
           },
         ]);
-        expect(errors.errorSchema).to.eql({
+        expect(errors.errorSchema).toStrictEqual({
           $schema: { __errors: [errMessage] },
         });
       });
+
       it('should return a validation error about formData', () => {
         const errors = validateFormData({ datasetId: 'some kind of text' }, schema, null, null, [metaSchemaDraft4]);
-        expect(errors.errors).to.have.lengthOf(1);
-        expect(errors.errors[0].stack).to.equal('.datasetId should match pattern "\\d+"');
+        expect(errors.errors).toHaveLength(1);
+        expect(errors.errors[0].stack).toBe('.datasetId should match pattern "\\d+"');
       });
+
       it('should return a validation error about formData, when used with multiple meta schemas', () => {
         const errors = validateFormData({ datasetId: 'some kind of text' }, schema, null, null, [
           metaSchemaDraft4,
           metaSchemaDraft6,
         ]);
-        expect(errors.errors).to.have.lengthOf(1);
-        expect(errors.errors[0].stack).to.equal('.datasetId should match pattern "\\d+"');
+        expect(errors.errors).toHaveLength(1);
+        expect(errors.errors[0].stack).toBe('.datasetId should match pattern "\\d+"');
       });
     });
 
@@ -158,7 +158,7 @@ describe('Validation', () => {
 
       it('should not return a validation error if unknown string format is used', () => {
         const result = validateFormData({ phone: '800.555.2368' }, schema);
-        expect(result.errors.length).eql(0);
+        expect(result.errors).toHaveLength(0);
       });
 
       it('should return a validation error about formData', () => {
@@ -166,8 +166,8 @@ describe('Validation', () => {
           'phone-us': /\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{4}$/,
         });
 
-        expect(result.errors).to.have.lengthOf(1);
-        expect(result.errors[0].stack).to.equal('.phone should match format "phone-us"');
+        expect(result.errors).toHaveLength(1);
+        expect(result.errors[0].stack).toBe('.phone should match format "phone-us"');
       });
 
       it('prop updates with new custom formats are accepted', () => {
@@ -188,8 +188,8 @@ describe('Validation', () => {
           { 'area-code': /\d{3}/ }
         );
 
-        expect(result.errors).to.have.lengthOf(1);
-        expect(result.errors[0].stack).to.equal('.phone should match format "area-code"');
+        expect(result.errors).toHaveLength(1);
+        expect(result.errors[0].stack).toBe('.phone should match format "area-code"');
       });
     });
 
@@ -220,13 +220,13 @@ describe('Validation', () => {
       });
 
       it('should return an error list', () => {
-        expect(errors).to.have.length.of(1);
-        expect(errors[0].stack).eql("pass2: passwords don't match.");
+        expect(errors).toHaveLength(1);
+        expect(errors[0].stack).toBe("pass2: passwords don't match.");
       });
 
       it('should return an errorSchema', () => {
-        expect(errorSchema.pass2.__errors).to.have.length.of(1);
-        expect(errorSchema.pass2.__errors[0]).eql("passwords don't match.");
+        expect(errorSchema.pass2.__errors).toHaveLength(1);
+        expect(errorSchema.pass2.__errors[0]).toBe("passwords don't match.");
       });
     });
 
@@ -244,7 +244,7 @@ describe('Validation', () => {
           dataUrlWithName: 'data:text/plain;name=file1.txt;base64,x=',
         };
         const result = validateFormData(formData, schema);
-        expect(result.errors).to.have.length.of(0);
+        expect(result.errors).toHaveLength(0);
       });
 
       it('Data-Url without name is accepted', () => {
@@ -252,7 +252,7 @@ describe('Validation', () => {
           dataUrlWithoutName: 'data:text/plain;base64,x=',
         };
         const result = validateFormData(formData, schema);
-        expect(result.errors).to.have.length.of(0);
+        expect(result.errors).toHaveLength(0);
       });
     });
 
@@ -277,16 +277,16 @@ describe('Validation', () => {
       });
 
       it('should return an error list', () => {
-        expect(errors).to.have.length.of(1);
-        expect(errors[0].name).eql('type');
-        expect(errors[0].property).eql(".properties['foo'].required");
-        expect(errors[0].schemaPath).eql('#/definitions/stringArray/type'); // TODO: This schema path is wrong due to a bug in ajv; change this test when https://github.com/epoberezkin/ajv/issues/512 is fixed.
-        expect(errors[0].message).eql('should be array');
+        expect(errors).toHaveLength(1);
+        expect(errors[0].name).toBe('type');
+        expect(errors[0].property).toBe(".properties['foo'].required");
+        expect(errors[0].schemaPath).toBe('#/definitions/stringArray/type'); // TODO: This schema path is wrong due to a bug in ajv; change this test when https://github.com/epoberezkin/ajv/issues/512 is fixed.
+        expect(errors[0].message).toBe('should be array');
       });
 
       it('should return an errorSchema', () => {
-        expect(errorSchema.properties.foo.required.__errors).to.have.length.of(1);
-        expect(errorSchema.properties.foo.required.__errors[0]).eql('should be array');
+        expect(errorSchema.properties.foo.required.__errors).toHaveLength(1);
+        expect(errorSchema.properties.foo.required.__errors[0]).toBe('should be array');
       });
     });
   });
@@ -305,7 +305,7 @@ describe('Validation', () => {
             __errors: ['err5'],
           },
         })
-      ).eql([
+      ).toStrictEqual([
         { stack: 'root: err1' },
         { stack: 'root: err2' },
         { stack: 'b: err3' },
@@ -337,22 +337,12 @@ describe('Validation', () => {
     });
 
     it('should use transformErrors function', () => {
-      expect(errors).not.to.be.empty;
-      expect(errors[0].message).to.equal(newErrorMessage);
+      expect(errors).not.toHaveLength(0);
+      expect(errors[0].message).toBe(newErrorMessage);
     });
   });
 
   describe('Form integration', () => {
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.createSandbox();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
     describe('JSONSchema validation', () => {
       describe('Required fields', () => {
         const schema = {
@@ -366,6 +356,7 @@ describe('Validation', () => {
 
         let onError;
         let node;
+
         beforeEach(() => {
           const compInfo = createFormComponent({
             schema,
@@ -379,21 +370,23 @@ describe('Validation', () => {
         });
 
         it('should trigger onError call', () => {
-          sinon.assert.calledWithMatch(onError.lastCall, [
-            {
-              message: 'is a required property',
-              name: 'required',
-              params: { missingProperty: 'foo' },
-              property: '.foo',
-              schemaPath: '#/required',
-              stack: '.foo is a required property',
-            },
-          ]);
+          expect(onError).toHaveBeenLastCalledWith(
+            expect.arrayContaining([
+              {
+                message: 'is a required property',
+                name: 'required',
+                params: { missingProperty: 'foo' },
+                property: '.foo',
+                schemaPath: '#/required',
+                stack: '.foo is a required property',
+              },
+            ])
+          );
         });
 
         it('should render errors', () => {
-          expect(node.querySelectorAll('.errors li')).to.have.length.of(1);
-          expect(node.querySelector('.errors li').textContent).eql('.foo is a required property');
+          expect(node.querySelectorAll('.errors li')).toHaveLength(1);
+          expect(node.querySelector('.errors li')).toHaveTextContent('.foo is a required property');
         });
       });
 
@@ -413,7 +406,7 @@ describe('Validation', () => {
         let onError;
 
         beforeEach(() => {
-          onError = sandbox.spy();
+          onError = jest.fn();
           const compInfo = createFormComponent({
             schema,
             formData: {
@@ -427,21 +420,23 @@ describe('Validation', () => {
         });
 
         it('should render errors', () => {
-          expect(node.querySelectorAll('.errors li')).to.have.length.of(1);
-          expect(node.querySelector('.errors li').textContent).eql('.foo should NOT be shorter than 10 characters');
+          expect(node.querySelectorAll('.errors li')).toHaveLength(1);
+          expect(node.querySelector('.errors li')).toHaveTextContent('.foo should NOT be shorter than 10 characters');
         });
 
         it('should trigger the onError handler', () => {
-          sinon.assert.calledWithMatch(onError.lastCall, [
-            {
-              message: 'should NOT be shorter than 10 characters',
-              name: 'minLength',
-              params: { limit: 10 },
-              property: '.foo',
-              schemaPath: '#/properties/foo/minLength',
-              stack: '.foo should NOT be shorter than 10 characters',
-            },
-          ]);
+          expect(onError).toHaveBeenLastCalledWith(
+            expect.arrayContaining([
+              {
+                message: 'should NOT be shorter than 10 characters',
+                name: 'minLength',
+                params: { limit: 10 },
+                property: '.foo',
+                schemaPath: '#/properties/foo/minLength',
+                stack: '.foo should NOT be shorter than 10 characters',
+              },
+            ])
+          );
         });
       });
     });
@@ -465,7 +460,7 @@ describe('Validation', () => {
         });
 
         submitForm(node);
-        sinon.assert.calledWithMatch(onError.lastCall, [{ stack: 'root: Invalid' }]);
+        expect(onError).toHaveBeenLastCalledWith(expect.arrayContaining([{ stack: 'root: Invalid' }]));
       });
 
       it('should live validate a simple string value when liveValidate is set to true', () => {
@@ -489,17 +484,19 @@ describe('Validation', () => {
           target: { value: '1234' },
         });
 
-        sinon.assert.calledWithMatch(onChange.lastCall, {
-          errorSchema: { __errors: ['Invalid'] },
-          errors: [{ stack: 'root: Invalid' }],
-          formData: '1234',
-        });
+        expect(onChange).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            errorSchema: { __errors: ['Invalid'] },
+            errors: [{ stack: 'root: Invalid' }],
+            formData: '1234',
+          })
+        );
       });
 
       it('should submit form on valid data', () => {
         const schema = { type: 'string' };
         const formData = 'hello';
-        const onSubmit = sandbox.spy();
+        const onSubmit = jest.fn();
 
         function validate(formData, errors) {
           if (formData !== 'hello') {
@@ -517,14 +514,14 @@ describe('Validation', () => {
 
         submitForm(node);
 
-        sinon.assert.called(onSubmit);
+        expect(onSubmit).toHaveBeenCalled();
       });
 
       it('should prevent form submission on invalid data', () => {
         const schema = { type: 'string' };
         const formData = 'a';
-        const onSubmit = sandbox.spy();
-        const onError = sandbox.spy();
+        const onSubmit = jest.fn();
+        const onError = jest.fn();
 
         function validate(formData, errors) {
           if (formData !== 'hello') {
@@ -543,8 +540,8 @@ describe('Validation', () => {
 
         submitForm(node);
 
-        sinon.assert.notCalled(onSubmit);
-        sinon.assert.called(onError);
+        expect(onSubmit).not.toHaveBeenCalled();
+        expect(onError).toHaveBeenCalled();
       });
 
       it('should validate a simple object', () => {
@@ -572,10 +569,12 @@ describe('Validation', () => {
           formData,
         });
         submitForm(node);
-        sinon.assert.calledWithMatch(onError.lastCall, [
-          { stack: 'pass2: should NOT be shorter than 3 characters' },
-          { stack: "pass2: Passwords don't match" },
-        ]);
+        expect(onError).toHaveBeenLastCalledWith(
+          expect.arrayContaining([
+            { stack: 'pass2: should NOT be shorter than 3 characters' },
+            { stack: "pass2: Passwords don't match" },
+          ])
+        );
       });
 
       it('should validate an array of object', () => {
@@ -611,7 +610,7 @@ describe('Validation', () => {
         });
 
         submitForm(node);
-        sinon.assert.calledWithMatch(onError.lastCall, [{ stack: "pass2: Passwords don't match" }]);
+        expect(onError).toHaveBeenLastCalledWith(expect.arrayContaining([{ stack: "pass2: Passwords don't match" }]));
       });
 
       it('should validate a simple array', () => {
@@ -637,7 +636,7 @@ describe('Validation', () => {
           formData,
         });
         submitForm(node);
-        sinon.assert.calledWithMatch(onError.lastCall, [{ stack: 'root: Forbidden value: bbb' }]);
+        expect(onError).toHaveBeenLastCalledWith(expect.arrayContaining([{ stack: 'root: Forbidden value: bbb' }]));
       });
     });
 
@@ -654,6 +653,7 @@ describe('Validation', () => {
 
         let node;
         let onError;
+
         beforeEach(() => {
           const compInfo = createFormComponent({
             schema,
@@ -669,20 +669,22 @@ describe('Validation', () => {
         });
 
         it('should not render error list if showErrorList prop true', () => {
-          expect(node.querySelectorAll('.errors li')).to.have.length.of(0);
+          expect(node.querySelectorAll('.errors li')).toHaveLength(0);
         });
 
         it('should trigger onError call', () => {
-          sinon.assert.calledWithMatch(onError.lastCall, [
-            {
-              message: 'is a required property',
-              name: 'required',
-              params: { missingProperty: 'foo' },
-              property: '.foo',
-              schemaPath: '#/required',
-              stack: '.foo is a required property',
-            },
-          ]);
+          expect(onError).toHaveBeenLastCalledWith(
+            expect.arrayContaining([
+              {
+                message: 'is a required property',
+                name: 'required',
+                params: { missingProperty: 'foo' },
+                property: '.foo',
+                schemaPath: '#/required',
+                stack: '.foo is a required property',
+              },
+            ])
+          );
         });
       });
     });
@@ -718,17 +720,18 @@ describe('Validation', () => {
           ErrorList: CustomErrorList,
           formContext: { className: 'foo' },
         });
-        expect(node.querySelectorAll('.CustomErrorList')).to.have.length.of(1);
-        expect(node.querySelector('.CustomErrorList').textContent).eql('1 custom');
-        expect(node.querySelectorAll('.ErrorSchema')).to.have.length.of(1);
-        expect(node.querySelector('.ErrorSchema').textContent).eql('should be string');
-        expect(node.querySelectorAll('.Schema')).to.have.length.of(1);
-        expect(node.querySelector('.Schema').textContent).eql('string');
-        expect(node.querySelectorAll('.UiSchema')).to.have.length.of(1);
-        expect(node.querySelector('.UiSchema').textContent).eql('bar');
-        expect(node.querySelectorAll('.foo')).to.have.length.of(1);
+        expect(node.querySelectorAll('.CustomErrorList')).toHaveLength(1);
+        expect(node.querySelector('.CustomErrorList')).toHaveTextContent('1 custom');
+        expect(node.querySelectorAll('.ErrorSchema')).toHaveLength(1);
+        expect(node.querySelector('.ErrorSchema')).toHaveTextContent('should be string');
+        expect(node.querySelectorAll('.Schema')).toHaveLength(1);
+        expect(node.querySelector('.Schema')).toHaveTextContent('string');
+        expect(node.querySelectorAll('.UiSchema')).toHaveLength(1);
+        expect(node.querySelector('.UiSchema')).toHaveTextContent('bar');
+        expect(node.querySelectorAll('.foo')).toHaveLength(1);
       });
     });
+
     describe('Custom meta schema', () => {
       let onError;
       let node;
@@ -764,25 +767,28 @@ describe('Validation', () => {
         onError = withMetaSchema.onError;
         submitForm(node);
       });
+
       it('should be used to validate schema', () => {
-        expect(node.querySelectorAll('.errors li')).to.have.length.of(1);
-        sinon.assert.calledWithMatch(onError.lastCall, [
-          {
-            message: 'should match pattern "\\d+"',
-            name: 'pattern',
-            params: { pattern: '\\d+' },
-            property: '.datasetId',
-            schemaPath: '#/properties/datasetId/pattern',
-            stack: '.datasetId should match pattern "\\d+"',
-          },
-        ]);
-        onError.resetHistory();
+        expect(node.querySelectorAll('.errors li')).toHaveLength(1);
+        expect(onError).toHaveBeenLastCalledWith(
+          expect.arrayContaining([
+            {
+              message: 'should match pattern "\\d+"',
+              name: 'pattern',
+              params: { pattern: '\\d+' },
+              property: '.datasetId',
+              schemaPath: '#/properties/datasetId/pattern',
+              stack: '.datasetId should match pattern "\\d+"',
+            },
+          ])
+        );
+        onError.mockClear();
 
         Simulate.change(node.querySelector('input'), {
           target: { value: '1234' },
         });
-        expect(node.querySelectorAll('.errors li')).to.have.length.of(0);
-        sinon.assert.notCalled(onError);
+        expect(node.querySelectorAll('.errors li')).toHaveLength(0);
+        expect(onError).not.toHaveBeenCalled();
       });
     });
   });
