@@ -1,3 +1,12 @@
+## <small>11.1.6 (2021-02-10)</small>
+
+* fix: missing operation schema exceptions (#1180) ([cc4daaf](https://github.com/readmeio/api-explorer/commit/cc4daaf)), closes [#1180](https://github.com/readmeio/api-explorer/issues/1180)
+* Revert "chore(deps-dev): bump @readme/eslint-config from 4.1.0 to 4.1.1 (#1174)" (#1175) ([e8f48eb](https://github.com/readmeio/api-explorer/commit/e8f48eb)), closes [#1174](https://github.com/readmeio/api-explorer/issues/1174) [#1175](https://github.com/readmeio/api-explorer/issues/1175)
+* chore(deps-dev): bump @readme/eslint-config from 4.1.0 to 4.1.1 (#1174) ([7563f1c](https://github.com/readmeio/api-explorer/commit/7563f1c)), closes [#1174](https://github.com/readmeio/api-explorer/issues/1174)
+* chore(deps-dev): bump nock from 13.0.5 to 13.0.7 (#1171) ([c115584](https://github.com/readmeio/api-explorer/commit/c115584)), closes [#1171](https://github.com/readmeio/api-explorer/issues/1171)
+
+
+
 ## <small>11.1.5 (2021-02-05)</small>
 
 * fix: bug where we'd crash if `examples` was an empty object (#1170) ([190945f](https://github.com/readmeio/api-explorer/commit/190945f)), closes [#1170](https://github.com/readmeio/api-explorer/issues/1170)
