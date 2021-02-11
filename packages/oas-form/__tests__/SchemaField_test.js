@@ -1,25 +1,14 @@
 import React from 'react';
-import { expect } from 'chai';
 import { Simulate } from 'react-dom/test-utils';
 
 import SchemaField from '../src/components/fields/SchemaField';
 import TitleField from '../src/components/fields/TitleField';
 import DescriptionField from '../src/components/fields/DescriptionField';
 
-import { createFormComponent, createSandbox } from './test_utils';
+import { createFormComponent } from './test_utils';
 import { getDefaultRegistry } from '../src/utils';
 
 describe('SchemaField', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('registry', () => {
     it('should provide expected registry as prop', () => {
       let receivedProps;
@@ -40,7 +29,7 @@ describe('SchemaField', () => {
       });
 
       const { registry } = receivedProps;
-      expect(registry).eql({
+      expect(registry).toStrictEqual({
         widgets: getDefaultRegistry().widgets,
         fields: getDefaultRegistry().fields,
         definitions: schema.definitions,
@@ -51,6 +40,7 @@ describe('SchemaField', () => {
         formContext: {},
       });
     });
+
     it('should set definitions to empty object if it is undefined', () => {
       let receivedProps;
       const schema = {
@@ -67,7 +57,7 @@ describe('SchemaField', () => {
       });
 
       const { registry } = receivedProps;
-      expect(registry).eql({
+      expect(registry).toStrictEqual({
         widgets: getDefaultRegistry().widgets,
         fields: getDefaultRegistry().fields,
         definitions: {},
@@ -86,7 +76,7 @@ describe('SchemaField', () => {
         schema: { type: 'invalid' },
       });
 
-      expect(node.querySelector('.unsupported-field').textContent).to.contain('Unknown field type invalid');
+      expect(node.querySelector('.unsupported-field')).toHaveTextContent('Unknown field type invalid');
     });
 
     it('should be able to be overwritten with a custom UnsupportedField component', () => {
@@ -100,7 +90,7 @@ describe('SchemaField', () => {
         fields,
       });
 
-      expect(node.querySelectorAll('#custom')[0].textContent).to.eql('Custom UnsupportedField');
+      expect(node.querySelectorAll('#custom')[0]).toHaveTextContent('Custom UnsupportedField');
     });
   });
 
@@ -120,7 +110,7 @@ describe('SchemaField', () => {
         fields,
       });
 
-      expect(node.querySelectorAll('#custom > .field input[type=text]')).to.have.length.of(1);
+      expect(node.querySelectorAll('#custom > .field input[type=text]')).toHaveLength(1);
     });
   });
 
@@ -144,9 +134,9 @@ describe('SchemaField', () => {
 
       const { node } = createFormComponent({ schema, uiSchema });
 
-      expect(node.querySelectorAll('#custom')).to.have.length.of(1);
+      expect(node.querySelectorAll('#custom')).toHaveLength(1);
 
-      expect(node.querySelectorAll('label')).to.have.length.of(0);
+      expect(node.querySelectorAll('label')).toHaveLength(0);
     });
 
     it('should use provided direct custom component for specific property', () => {
@@ -156,11 +146,11 @@ describe('SchemaField', () => {
 
       const { node } = createFormComponent({ schema, uiSchema });
 
-      expect(node.querySelectorAll('#custom')).to.have.length.of(1);
+      expect(node.querySelectorAll('#custom')).toHaveLength(1);
 
-      expect(node.querySelectorAll('input')).to.have.length.of(1);
+      expect(node.querySelectorAll('input')).toHaveLength(1);
 
-      expect(node.querySelectorAll('label')).to.have.length.of(1);
+      expect(node.querySelectorAll('label')).toHaveLength(1);
     });
 
     it('should provide custom field the expected fields', () => {
@@ -176,12 +166,12 @@ describe('SchemaField', () => {
       });
 
       const { registry } = receivedProps;
-      expect(registry.widgets).eql(getDefaultRegistry().widgets);
-      expect(registry.rootSchema).eql(schema);
-      expect(registry.fields).to.be.an('object');
-      expect(registry.fields.SchemaField).eql(SchemaField);
-      expect(registry.fields.TitleField).eql(TitleField);
-      expect(registry.fields.DescriptionField).eql(DescriptionField);
+      expect(registry.widgets).toStrictEqual(getDefaultRegistry().widgets);
+      expect(registry.rootSchema).toStrictEqual(schema);
+      expect(typeof registry.fields).toBe('object');
+      expect(registry.fields.SchemaField).toStrictEqual(SchemaField);
+      expect(registry.fields.TitleField).toStrictEqual(TitleField);
+      expect(registry.fields.DescriptionField).toStrictEqual(DescriptionField);
     });
 
     it('should use registered custom component for object', () => {
@@ -190,7 +180,7 @@ describe('SchemaField', () => {
 
       const { node } = createFormComponent({ schema, uiSchema, fields });
 
-      expect(node.querySelectorAll('#custom')).to.have.length.of(1);
+      expect(node.querySelectorAll('#custom')).toHaveLength(1);
     });
 
     it('should handle referenced schema definitions', () => {
@@ -211,7 +201,7 @@ describe('SchemaField', () => {
 
       const { node } = createFormComponent({ schema, uiSchema, fields });
 
-      expect(node.querySelectorAll('#custom')).to.have.length.of(1);
+      expect(node.querySelectorAll('#custom')).toHaveLength(1);
     });
 
     it('should not pass classNames to child component', () => {
@@ -230,7 +220,7 @@ describe('SchemaField', () => {
 
       const { node } = createFormComponent({ schema, uiSchema, fields });
 
-      expect(node.querySelectorAll('.foo')).to.have.length.of(1);
+      expect(node.querySelectorAll('.foo')).toHaveLength(1);
     });
   });
 
@@ -244,7 +234,7 @@ describe('SchemaField', () => {
 
     it('should render label by default', () => {
       const { node } = createFormComponent({ schema });
-      expect(node.querySelectorAll('label')).to.have.length.of(1);
+      expect(node.querySelectorAll('label')).toHaveLength(1);
     });
 
     it('should render label if ui:options label is set to true', () => {
@@ -253,7 +243,7 @@ describe('SchemaField', () => {
       };
 
       const { node } = createFormComponent({ schema, uiSchema });
-      expect(node.querySelectorAll('label')).to.have.length.of(1);
+      expect(node.querySelectorAll('label')).toHaveLength(1);
     });
 
     it('should not render label if ui:options label is set to false', () => {
@@ -262,7 +252,7 @@ describe('SchemaField', () => {
       };
 
       const { node } = createFormComponent({ schema, uiSchema });
-      expect(node.querySelectorAll('label')).to.have.length.of(0);
+      expect(node.querySelectorAll('label')).toHaveLength(0);
     });
   });
 
@@ -278,7 +268,7 @@ describe('SchemaField', () => {
     it('should render description if available from the schema', () => {
       const { node } = createFormComponent({ schema });
 
-      expect(node.querySelectorAll('#root_foo__description')).to.have.length.of(1);
+      expect(node.querySelectorAll('#root_foo__description')).toHaveLength(1);
     });
 
     it('should render description if available from a referenced schema', () => {
@@ -301,14 +291,14 @@ describe('SchemaField', () => {
       });
 
       const matches = node.querySelectorAll('#root_foo__description');
-      expect(matches).to.have.length.of(1);
-      expect(matches[0].textContent).to.equal('A Foo field');
+      expect(matches).toHaveLength(1);
+      expect(matches[0]).toHaveTextContent('A Foo field');
     });
 
     it('should not render description if not available from schema', () => {
       const { node } = createFormComponent({ schema });
 
-      expect(node.querySelectorAll('#root_bar__description')).to.have.length.of(0);
+      expect(node.querySelectorAll('#root_bar__description')).toHaveLength(0);
     });
 
     it('should render a customized description field', () => {
@@ -321,7 +311,7 @@ describe('SchemaField', () => {
         },
       });
 
-      expect(node.querySelector('#custom').textContent).to.eql('A Foo field');
+      expect(node.querySelector('#custom')).toHaveTextContent('A Foo field');
     });
   });
 
@@ -335,7 +325,7 @@ describe('SchemaField', () => {
 
     const uiSchema = {
       'ui:field': props => {
-        const { uiSchema, ...fieldProps } = props; // eslint-disable-line no-unused-vars
+        const { uiSchema, ...fieldProps } = props;
         return <SchemaField {...fieldProps} />;
       },
     };
@@ -355,8 +345,8 @@ describe('SchemaField', () => {
       Simulate.submit(node);
 
       const matches = node.querySelectorAll('form > .form-group > div > .error-detail .text-danger');
-      expect(matches).to.have.length.of(1);
-      expect(matches[0].textContent).to.eql('container');
+      expect(matches).toHaveLength(1);
+      expect(matches[0]).toHaveTextContent('container');
     });
 
     it('should pass errors to child component', () => {
@@ -368,8 +358,8 @@ describe('SchemaField', () => {
       Simulate.submit(node);
 
       const matches = node.querySelectorAll('form .form-group .form-group .text-danger');
-      expect(matches).to.have.length.of(1);
-      expect(matches[0].textContent).to.contain('test');
+      expect(matches).toHaveLength(1);
+      expect(matches[0]).toHaveTextContent('test');
     });
 
     describe('Custom error rendering', () => {
@@ -387,8 +377,8 @@ describe('SchemaField', () => {
         Simulate.submit(node);
 
         const matches = node.querySelectorAll('.custom-text-widget');
-        expect(matches).to.have.length.of(1);
-        expect(matches[0].textContent).to.eql('test');
+        expect(matches).toHaveLength(1);
+        expect(matches[0]).toHaveTextContent('test');
       });
     });
   });

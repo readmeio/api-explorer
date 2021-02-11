@@ -1,21 +1,9 @@
 import React from 'react';
-import { expect } from 'chai';
 import { Simulate } from 'react-dom/test-utils';
-import sinon from 'sinon';
 
-import { createFormComponent, createSandbox /* setProps */ } from './test_utils';
+import { createFormComponent, setProps } from './test_utils';
 
 describe('oneOf', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   it('should not render a select element if the oneOf keyword is not present', () => {
     const schema = {
       type: 'object',
@@ -28,7 +16,7 @@ describe('oneOf', () => {
       schema,
     });
 
-    expect(node.querySelectorAll('select')).to.have.length.of(0);
+    expect(node.querySelectorAll('select')).toHaveLength(0);
   });
 
   it('should render a select element if the oneOf keyword is present', () => {
@@ -52,8 +40,8 @@ describe('oneOf', () => {
       schema,
     });
 
-    expect(node.querySelectorAll('select')).to.have.length.of(1);
-    expect(node.querySelector('select').id).eql('root__oneof_select');
+    expect(node.querySelectorAll('select')).toHaveLength(1);
+    expect(node.querySelector('select').id).toBe('root__oneof_select');
   });
 
   it('should assign a default value and set defaults on option change', () => {
@@ -76,9 +64,11 @@ describe('oneOf', () => {
       },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
-      formData: { foo: 'defaultfoo' },
-    });
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        formData: { foo: 'defaultfoo' },
+      })
+    );
 
     const $select = node.querySelector('select');
 
@@ -86,9 +76,11 @@ describe('oneOf', () => {
       target: { value: $select.options[1].value },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
-      formData: { foo: 'defaultbar' },
-    });
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        formData: { foo: 'defaultbar' },
+      })
+    );
   });
 
   it("should assign a default value and set defaults on option change with 'type': 'object' missing", () => {
@@ -110,9 +102,11 @@ describe('oneOf', () => {
       },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
-      formData: { foo: 'defaultfoo' },
-    });
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        formData: { foo: 'defaultfoo' },
+      })
+    );
 
     const $select = node.querySelector('select');
 
@@ -120,7 +114,7 @@ describe('oneOf', () => {
       target: { value: $select.options[1].value },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
+    expect(onChange).toHaveBeenLastCalledWith({
       formData: { foo: 'defaultbar' },
     });
   });
@@ -152,7 +146,7 @@ describe('oneOf', () => {
       widgets,
     });
 
-    expect(node.querySelector('#CustomSelect')).to.exist;
+    expect(node.querySelector('#CustomSelect')).not.toBeNull();
   });
 
   it('should change the rendered form when the select value is changed', () => {
@@ -176,8 +170,8 @@ describe('oneOf', () => {
       schema,
     });
 
-    expect(node.querySelectorAll('#root_foo')).to.have.length.of(1);
-    expect(node.querySelectorAll('#root_bar')).to.have.length.of(0);
+    expect(node.querySelectorAll('#root_foo')).toHaveLength(1);
+    expect(node.querySelectorAll('#root_bar')).toHaveLength(0);
 
     const $select = node.querySelector('select');
 
@@ -185,8 +179,8 @@ describe('oneOf', () => {
       target: { value: $select.options[1].value },
     });
 
-    expect(node.querySelectorAll('#root_foo')).to.have.length.of(0);
-    expect(node.querySelectorAll('#root_bar')).to.have.length.of(1);
+    expect(node.querySelectorAll('#root_foo')).toHaveLength(0);
+    expect(node.querySelectorAll('#root_bar')).toHaveLength(1);
   });
 
   it('should handle change events', () => {
@@ -214,7 +208,7 @@ describe('oneOf', () => {
       target: { value: 'Lorem ipsum dolor sit amet' },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
+    expect(onChange).toHaveBeenLastCalledWith({
       formData: { foo: 'Lorem ipsum dolor sit amet' },
     });
   });
@@ -251,7 +245,7 @@ describe('oneOf', () => {
       target: { value: 'Consectetur adipiscing elit' },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
+    expect(onChange).toHaveBeenLastCalledWith({
       formData: {
         buzz: 'Lorem ipsum dolor sit amet',
         foo: 'Consectetur adipiscing elit',
@@ -264,7 +258,7 @@ describe('oneOf', () => {
       target: { value: $select.options[1].value },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
+    expect(onChange).toHaveBeenLastCalledWith({
       formData: {
         buzz: 'Lorem ipsum dolor sit amet',
         foo: undefined,
@@ -297,7 +291,7 @@ describe('oneOf', () => {
       target: { value: 12345 },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
+    expect(onChange).toHaveBeenLastCalledWith({
       formData: {
         userId: 12345,
       },
@@ -309,7 +303,7 @@ describe('oneOf', () => {
       target: { value: $select.options[1].value },
     });
 
-    sinon.assert.calledWithMatch(onChange.lastCall, {
+    expect(onChange).toHaveBeenLastCalledWith({
       formData: {
         userId: undefined,
       },
@@ -318,7 +312,8 @@ describe('oneOf', () => {
     Simulate.change(node.querySelector('input#root_userId'), {
       target: { value: 'Lorem ipsum dolor sit amet' },
     });
-    sinon.assert.calledWithMatch(onChange.lastCall, {
+
+    expect(onChange).toHaveBeenLastCalledWith({
       formData: {
         userId: 'Lorem ipsum dolor sit amet',
       },
@@ -353,7 +348,7 @@ describe('oneOf', () => {
       },
     });
 
-    expect(node.querySelectorAll('#custom-oneof-field')).to.have.length(1);
+    expect(node.querySelectorAll('#custom-oneof-field')).toHaveLength(1);
   });
 
   it('should select the correct field when the form is rendered from existing data', () => {
@@ -380,20 +375,20 @@ describe('oneOf', () => {
       },
     });
 
-    expect(node.querySelector('select').value).eql('1');
+    expect(node.querySelector('select').value).toBe('1');
   });
 
-  /* it("should select the correct field when the formData property is updated", () => {
+  it.skip('should select the correct field when the formData property is updated', () => {
     const schema = {
-      type: "object",
+      type: 'object',
       properties: {
         userId: {
           oneOf: [
             {
-              type: "number",
+              type: 'number',
             },
             {
-              type: "string",
+              type: 'string',
             },
           ],
         },
@@ -404,17 +399,17 @@ describe('oneOf', () => {
       schema,
     });
 
-    expect(node.querySelector("select").value).eql("0");
+    expect(node.querySelector('select').value).toBe('0');
 
     setProps(comp, {
       schema,
       formData: {
-        userId: "foobarbaz",
+        userId: 'foobarbaz',
       },
     });
 
-    expect(node.querySelector("select").value).eql("1");
-  }); */
+    expect(node.querySelector('select').value).toBe('1');
+  });
 
   it('should not change the selected option when entering values on a subschema with multiple required options', () => {
     const schema = {
@@ -448,19 +443,19 @@ describe('oneOf', () => {
 
     const $select = node.querySelector('select');
 
-    expect($select.value).eql('0');
+    expect($select.value).toBe('0');
 
     Simulate.change($select, {
       target: { value: $select.options[1].value },
     });
 
-    expect($select.value).eql('1');
+    expect($select.value).toBe('1');
 
     Simulate.change(node.querySelector('input#root_bar'), {
       target: { value: 'Lorem ipsum dolor sit amet' },
     });
 
-    expect($select.value).eql('1');
+    expect($select.value).toBe('1');
   });
 
   it("should empty the form data when switching from an option of type 'object'", () => {
@@ -498,9 +493,9 @@ describe('oneOf', () => {
       target: { value: $select.options[1].value },
     });
 
-    expect($select.value).eql('1');
+    expect($select.value).toBe('1');
 
-    expect(node.querySelector('input#root').value).eql('');
+    expect(node.querySelector('input#root').value).toBe('');
   });
 
   describe('Arrays', () => {
@@ -536,18 +531,18 @@ describe('oneOf', () => {
         schema,
       });
 
-      expect(node.querySelector('.array-item-add button')).not.eql(null);
+      expect(node.querySelector('.array-item-add button')).not.toBeNull();
 
       Simulate.click(node.querySelector('.array-item-add button'));
 
       const $select = node.querySelector('select');
-      expect($select).not.eql(null);
+      expect($select).not.toBeNull();
       Simulate.change($select, {
         target: { value: $select.options[1].value },
       });
 
-      expect(node.querySelectorAll('input#root_foo')).to.have.length.of(1);
-      expect(node.querySelectorAll('input#root_bar')).to.have.length.of(1);
+      expect(node.querySelectorAll('input#root_foo')).toHaveLength(1);
+      expect(node.querySelectorAll('input#root_bar')).toHaveLength(1);
     });
   });
 });
