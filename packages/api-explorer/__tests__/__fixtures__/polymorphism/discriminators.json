@@ -98,7 +98,7 @@
           }
         }
       },
-      "/oneof-allof-top level disc": {
+      "/oneof-allof-top-level-disc": {
         "patch": {
           "summary": "oneOf request with a nested allOf and top level discriminator",
           "requestBody": {
@@ -128,7 +128,7 @@
         }
       },
       "/anything/nested-one-of-object-with-nested-one-of": {
-        "post": {
+        "patch": {
           "summary": "oneOf request with a nested oneOf, and embedded discriminator",
           "requestBody": {
             "content": {
