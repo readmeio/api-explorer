@@ -99,7 +99,8 @@ function CustomTemplate(props) {
 }
 
 function SchemaField(props) {
-  let { schema, uiSchema } = props;
+  let { schema } = props;
+  const { uiSchema } = props;
 
   // If this schema is going to be loaded with a $ref, prefetch it so we'll have a schema type to work with.
   if ('$ref' in schema) {

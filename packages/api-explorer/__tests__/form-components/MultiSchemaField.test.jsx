@@ -146,7 +146,7 @@ describe('discriminator', () => {
     expect(params.text()).not.toContain('bark');
 
     // Switch the select element to option two
-    chooseOption(params.find('select#body-patchoneofalloftopleveldisc'), 1)
+    chooseOption(params.find('select#body-patchoneofalloftopleveldisc'), 1);
 
     // Find the second option's fields but not the first
     expect(params.text()).toContain('pet_type');
