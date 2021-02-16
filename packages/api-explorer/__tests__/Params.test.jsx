@@ -239,18 +239,27 @@ describe('oneOf/anyOf', () => {
 });
 
 describe('schema handling', () => {
-  describe('minLength / maxLength', () => {
-    it('should put a `minLength` and `maxLength` attribute on an input', () => {
-      const params = mount(
-        <div>
-          <Params {...props} operation={stringOas.operation('/format-password', 'get')} />
-        </div>
-      );
+  it('should put a `minLength` and `maxLength` attribute on an input', () => {
+    const params = mount(
+      <div>
+        <Params {...props} operation={stringOas.operation('/format-password', 'get')} />
+      </div>
+    );
 
-      expect(params.find('input')).toHaveLength(1);
-      expect(params.find('input').props()).toHaveProperty('minLength', 5);
-      expect(params.find('input').props()).toHaveProperty('maxLength', 20);
-    });
+    expect(params.find('input')).toHaveLength(1);
+    expect(params.find('input').props()).toHaveProperty('minLength', 5);
+    expect(params.find('input').props()).toHaveProperty('maxLength', 20);
+  });
+
+  it('should put a `pattern` on an input', () => {
+    const params = mount(
+      <div>
+        <Params {...props} operation={stringOas.operation('/format-string-with-pattern', 'get')} />
+      </div>
+    );
+
+    expect(params.find('input')).toHaveLength(1);
+    expect(params.find('input').props()).toHaveProperty('pattern', '(\\d{4})-(\\d{2})-(\\d{2})');
   });
 
   describe('format', () => {
