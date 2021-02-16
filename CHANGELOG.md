@@ -1,3 +1,15 @@
+## 11.2.0 (2021-02-16)
+
+* chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.5 to 1.15.6 (#1183) ([2dfc6dd](https://github.com/readmeio/api-explorer/commit/2dfc6dd)), closes [#1183](https://github.com/readmeio/api-explorer/issues/1183)
+* chore(deps): bump @readme/syntax-highlighter from 10.4.1 to 10.4.4 (#1186) ([880855e](https://github.com/readmeio/api-explorer/commit/880855e)), closes [#1186](https://github.com/readmeio/api-explorer/issues/1186)
+* chore(deps): bump httpsnippet-client-api from 2.7.0 to 2.7.1 (#1184) ([59f5ccf](https://github.com/readmeio/api-explorer/commit/59f5ccf)), closes [#1184](https://github.com/readmeio/api-explorer/issues/1184)
+* chore(deps): upgrading oas to 10.0.4 (#1182) ([366bba6](https://github.com/readmeio/api-explorer/commit/366bba6)), closes [#1182](https://github.com/readmeio/api-explorer/issues/1182)
+* feat: start exposing `pattern` attributes in schemas (#1181) ([e83bbf3](https://github.com/readmeio/api-explorer/commit/e83bbf3)), closes [#1181](https://github.com/readmeio/api-explorer/issues/1181)
+* fix: stop rendering array keys in json content (#1177) ([5384bd3](https://github.com/readmeio/api-explorer/commit/5384bd3)), closes [#1177](https://github.com/readmeio/api-explorer/issues/1177)
+* test: moving oas-form unit tests over to using Jest (#1178) ([4b86ada](https://github.com/readmeio/api-explorer/commit/4b86ada)), closes [#1178](https://github.com/readmeio/api-explorer/issues/1178)
+
+
+
 ## <small>11.1.6 (2021-02-10)</small>
 
 * fix: missing operation schema exceptions (#1180) ([cc4daaf](https://github.com/readmeio/api-explorer/commit/cc4daaf)), closes [#1180](https://github.com/readmeio/api-explorer/issues/1180)
