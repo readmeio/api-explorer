@@ -29,7 +29,8 @@ function findDiscriminatorField(schema, options, property) {
 }
 
 /**
- * rjsf/oas-form adds an empty format field to the schema if there isn't one. We don't want that, to ensure we can identify equality with the schema component
+ * rjsf/oas-form adds an empty format field to the schema if there isn't one. We don't want that, to ensure we can
+ * identify equality with the schema component
  */
 function cleanDiscriminatorSchema(schema) {
   const copy = { ...schema };
@@ -42,17 +43,21 @@ function cleanDiscriminatorSchema(schema) {
 /**
  * This is a fun one. So here we go.
  *
- * If we want to generate a list of options for the discriminator drop down, we look at the schemas in the oneOf/anyOf. Unfortunately the "value" of the discriminator
- * is the name of that schema as referenced in the components/schemas list. This is unfortunate because by the time we recieve the schema in this code it has already been
- * dereferenced and we've lost the json pointer.
+ * If we want to generate a list of options for the discriminator drop down, we look at the schemas in the oneOf/anyOf.
+ * Unfortunately the "value" of the discriminator is the name of that schema as referenced in the components/schemas
+ * list. This is unfortunate because by the time we recieve the schema in this code it has already been dereferenced and
+ * we've lost the json pointer.
  *
- * The solution is to compare the schema objects in the oneOf/anyOf to everything in the components/schemas list and use that to identify the names we should use.
+ * The solution is to compare the schema objects in the oneOf/anyOf to everything in the components/schemas list and use
+ * that to identify the names we should use.
  *
- * The final order of this is SUPER IMPORTANT, because the existing multischema component renders the options in the numeric order of the schemas in the oneOf/anyOf.
- * So we need the values to appear in that same order, otherwise you might have a name render the wrong schema.
+ * The final order of this is SUPER IMPORTANT, because the existing multischema component renders the options in the
+ * numeric order of the schemas in the oneOf/anyOf. So we need the values to appear in that same order, otherwise you
+ * might have a name render the wrong schema.
  *
- * If we wanted to drop the order requirement, we would need to investigate further the mix between the incoming options, and the list of schemas we generate. Maybe
- * we could store a key value pair of name=>schema, of valid options, and rely exclusively on that for this entire file. It would probably clean this code up a little bit.
+ * If we wanted to drop the order requirement, we would need to investigate further the mix between the incoming
+ * options, and the list of schemas we generate. Maybe we could store a key value pair of name=>schema, of valid
+ * options, and rely exclusively on that for this entire file. It would probably clean this code up a little bit.
  */
 function getSchemaOptions(discriminatorSchemas, componentSchemas) {
   const options = [];
@@ -73,14 +78,14 @@ function getSchemaOptions(discriminatorSchemas, componentSchemas) {
 }
 
 /**
- * See getSchemaOptions for more thorough details. This basicaly does that, but uses the aliases in the mapping as values instead of the
- * schema keys
+ * See getSchemaOptions for more thorough details. This basicaly does that, but uses the aliases in the mapping as
+ * values instead of the schema keys
  */
 function getMappingOptions(mapping, discriminatorSchemas, componentSchemas) {
   const validSchemas = {};
 
-  // Get a list of valid schemas listed in the mapping and format it to look like its own component schema object, but with the mapping keys instead of real keys
-  //   so we can reuse getSchemaOptions.
+  // Get a list of valid schemas listed in the mapping and format it to look like its own component schema object, but
+  // with the mapping keys instead of real keys so we can reuse getSchemaOptions.
   Object.keys(mapping).forEach(key => {
     const match = mapping[key].match(/#\/components\/schemas\/([^/]+)/);
     if (match && componentSchemas[match[1]]) {
@@ -239,12 +244,13 @@ class MultiSchemaField extends Component {
 
     // We've got a custom path if there's a discriminator, otherwise we fall back ot the old multischema field
     if (discriminatorSchema) {
-      // Find which schema we wnat to render by looking at the options prop. The order of these options matches the order of the
-      // dropdown options, and so we can just stick with matching indicies.
+      // Find which schema we wnat to render by looking at the options prop. The order of these options matches the
+      // order of the dropdown options, and so we can just stick with matching indicies.
       const option = options[selectedIndex] || null;
       let optionSchema;
 
-      // This is from the original multiSchema, not completely sure what edge case it is addressing. Technically the schemafield still should fail with a null optionSchema
+      // This is from the original multiSchema, not completely sure what edge case it is addressing. Technically the
+      // schemafield still should fail with a null optionSchema
       if (option) {
         // If the subschema doesn't declare a type, infer the type from the
         // parent schema
