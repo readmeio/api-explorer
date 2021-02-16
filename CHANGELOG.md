@@ -1,3 +1,9 @@
+## <small>11.2.1 (2021-02-16)</small>
+
+* chore: bumping up the peer dep on @readme/variable in the explorer ([39ff3d5](https://github.com/readmeio/api-explorer/commit/39ff3d5))
+
+
+
 ## 11.2.0 (2021-02-16)
 
 * chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.5 to 1.15.6 (#1183) ([2dfc6dd](https://github.com/readmeio/api-explorer/commit/2dfc6dd)), closes [#1183](https://github.com/readmeio/api-explorer/issues/1183)
