@@ -1,7 +1,6 @@
 import React from 'react';
 import * as ReactIs from 'react-is';
 import mergeAllOf from 'json-schema-merge-allof';
-import fill from 'core-js/library/fn/array/fill';
 import validateFormData, { isValid } from './validate';
 import union from 'lodash/union';
 import jsonpointer from 'jsonpointer';
@@ -310,8 +309,7 @@ function computeDefaults(_schema, parentDefaults, rootSchema, rawFormData = {}, 
             const defaultEntries = defaults || [];
             // populate the array with the defaults
             const fillerSchema = Array.isArray(schema.items) ? schema.additionalItems : schema.items;
-            const fillerEntries = fill(
-              new Array(schema.minItems - defaultsLength),
+            const fillerEntries = new Array(schema.minItems - defaultsLength).fill(
               computeDefaults(fillerSchema, fillerSchema.defaults, rootSchema)
             );
             // then fill up the rest with either the item default or empty, up to minItems
