@@ -1,3 +1,9 @@
+## <small>11.2.2 (2021-02-16)</small>
+
+* fix: upgrading httpsnippet to fix a ruby ssl exploit (#1187) ([e5732eb](https://github.com/readmeio/api-explorer/commit/e5732eb)), closes [#1187](https://github.com/readmeio/api-explorer/issues/1187)
+
+
+
 ## <small>11.2.1 (2021-02-16)</small>
 
 * chore: bumping up the peer dep on @readme/variable in the explorer ([39ff3d5](https://github.com/readmeio/api-explorer/commit/39ff3d5))
