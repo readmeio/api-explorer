@@ -18,6 +18,7 @@ function Authorized({ result }) {
         <ReactJson
           collapsed={1}
           collapseStringsAfterLength={100}
+          displayArrayKey={false}
           displayDataTypes={false}
           displayObjectSize={false}
           enableClipboard={false}

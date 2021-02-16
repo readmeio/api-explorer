@@ -65,6 +65,10 @@ function BaseInput(props) {
     inputProps.maxLength = schema.maxLength;
   }
 
+  if (typeof schema.pattern !== 'undefined') {
+    inputProps.pattern = schema.pattern;
+  }
+
   const _onChange = ({ target: { value } }) => {
     return props.onChange(value === '' ? options.emptyValue : value);
   };
