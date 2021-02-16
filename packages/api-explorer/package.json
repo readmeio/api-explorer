@@ -42,7 +42,7 @@
   "peerDependencies": {
     "@readme/markdown": "^6.21.0",
     "@readme/ui": "^1.17.0",
-    "@readme/variable": "^10.0.0",
+    "@readme/variable": "^11.0.0",
     "react": "16.x",
     "react-dom": "16.x"
   },
