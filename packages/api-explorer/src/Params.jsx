@@ -12,6 +12,7 @@ const createBaseInput = require('./form-components/BaseInput');
 const createCodeEditor = require('./form-components/CodeEditor');
 const createFileWidget = require('./form-components/FileWidget');
 const createSchemaField = require('./form-components/SchemaField');
+const createMultiSchemaField = require('./form-components/MultiSchemaField');
 const createSelectWidget = require('./form-components/SelectWidget');
 const createTextareaWidget = require('./form-components/TextareaWidget');
 const createURLWidget = require('./form-components/URLWidget');
@@ -38,6 +39,7 @@ class Params extends React.Component {
 
   getForm(schema) {
     const {
+      AnyOfField,
       ArrayField,
       BaseInput,
       FileWidget,
@@ -45,6 +47,7 @@ class Params extends React.Component {
       onChange,
       onSubmit,
       SchemaField,
+      OneOfField,
       SelectWidget,
       TextareaWidget,
       URLWidget,
@@ -55,9 +58,11 @@ class Params extends React.Component {
       <Form
         key={`${schema.type}-form`}
         fields={{
+          AnyOfField,
           ArrayField,
           DescriptionField,
           SchemaField,
+          OneOfField,
           UnsupportedField,
         }}
         formContext={{
@@ -175,6 +180,7 @@ class Params extends React.Component {
 }
 
 Params.propTypes = {
+  AnyOfField: PropTypes.func.isRequired,
   ArrayField: PropTypes.func.isRequired,
   BaseInput: PropTypes.func.isRequired,
   CodeEditor: PropTypes.func.isRequired,
@@ -184,6 +190,7 @@ Params.propTypes = {
   formDataJsonRaw: PropTypes.string,
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
+  OneOfField: PropTypes.func.isRequired,
   onJsonChange: PropTypes.func.isRequired,
   onModeChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -228,6 +235,7 @@ function createParams(oas, operation) {
   const BaseInput = createBaseInput(explorerEnabled);
   const FileWidget = createFileWidget(explorerEnabled);
   const SchemaField = createSchemaField();
+  const MultiSchemaField = createMultiSchemaField();
   const SelectWidget = createSelectWidget(explorerEnabled);
   const TextareaWidget = createTextareaWidget(explorerEnabled);
   const URLWidget = createURLWidget(explorerEnabled);
@@ -239,10 +247,12 @@ function createParams(oas, operation) {
     return (
       <Params
         {...props}
+        AnyOfField={MultiSchemaField}
         ArrayField={ArrayField}
         BaseInput={BaseInput}
         CodeEditor={CodeEditor}
         FileWidget={FileWidget}
+        OneOfField={MultiSchemaField}
         SchemaField={SchemaField}
         SelectWidget={SelectWidget}
         TextareaWidget={TextareaWidget}

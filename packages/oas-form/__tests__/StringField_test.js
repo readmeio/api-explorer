@@ -483,6 +483,52 @@ describe('StringField', () => {
       expect(options[0]).toBeEmptyDOMElement();
       expect(options).toHaveLength(1);
     });
+
+    it('should render select elements with custom enumOptions appropriately.', () => {
+      const enumOptions = [
+        {
+          label: 'label',
+          value: 'value',
+        },
+      ];
+
+      const { node } = createFormComponent({
+        schema: { type: 'string' },
+        uiSchema: {
+          'ui:widget': 'select',
+          'ui:options': { enumOptions },
+        },
+      });
+
+      const options = node.querySelectorAll('option');
+      expect(options[0].innerHTML).toContain('');
+      expect(options[0].value).toContain('');
+      expect(options[1].innerHTML).toContain('label');
+      expect(options[1].value).toContain('value');
+      expect(options).toHaveLength(2);
+    });
+
+    it('should render select elements without the empty field if hideEmpty is true.', () => {
+      const enumOptions = [
+        {
+          label: 'label',
+          value: 'value',
+        },
+      ];
+
+      const { node } = createFormComponent({
+        schema: { type: 'string' },
+        uiSchema: {
+          'ui:widget': 'select',
+          'ui:options': { enumOptions, hideEmpty: true },
+        },
+      });
+
+      const options = node.querySelectorAll('option');
+      expect(options[0].innerHTML).toContain('label');
+      expect(options[0].value).toContain('value');
+      expect(options).toHaveLength(1);
+    });
   });
 
   describe('TextareaWidget', () => {

@@ -62,7 +62,7 @@ function SelectWidget(props) {
     onFocus,
     placeholder,
   } = props;
-  const { enumOptions, enumDisabled } = options;
+  const { enumOptions, enumDisabled, hideEmpty } = options;
   const emptyValue = multiple ? [] : '';
   return (
     <select
@@ -92,7 +92,7 @@ function SelectWidget(props) {
       required={required}
       value={typeof value === 'undefined' ? emptyValue : value}
     >
-      {!multiple && schema.default === undefined && <option value="">{placeholder}</option>}
+      {!multiple && schema.default === undefined && !hideEmpty && <option value="">{placeholder}</option>}
       {enumOptions.map(({ value, label }, i) => {
         const disabled = enumDisabled && enumDisabled.indexOf(value) !== -1;
         return (
@@ -120,6 +120,7 @@ if (process.env.NODE_ENV !== 'production') {
     onFocus: PropTypes.func,
     options: PropTypes.shape({
       enumOptions: PropTypes.array,
+      hideEmpty: PropTypes.bool,
     }).isRequired,
     readonly: PropTypes.bool,
     required: PropTypes.bool,
