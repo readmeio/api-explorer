@@ -1,55 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as types from '../../types';
-import {
-  getUiOptions,
-  getWidget,
-  guessType,
-  retrieveSchema,
-  getDefaultFormState,
-  getMatchingOption,
-  // deepEquals,
-} from '../../utils';
+import { getUiOptions, getWidget, guessType, retrieveSchema, getDefaultFormState } from '../../utils';
 
 class AnyOfField extends Component {
   constructor(props) {
     super(props);
 
-    const { formData, options } = this.props;
-
     this.state = {
-      selectedOption: this.getMatchingOption(formData, options),
+      selectedOption: 0,
     };
-  }
-
-  /* componentDidUpdate(prevProps, prevState) {
-    if (
-      !deepEquals(this.props.formData, prevProps.formData) &&
-      this.props.idSchema.$id === prevProps.idSchema.$id
-    ) {
-      const matchingOption = this.getMatchingOption(
-        this.props.formData,
-        this.props.options
-      );
-
-      if (!prevState || matchingOption === this.state.selectedOption) {
-        return;
-      }
-
-      this.setState({
-        selectedOption: matchingOption,
-      });
-    }
-  } */
-
-  getMatchingOption(formData, options) {
-    const option = getMatchingOption(formData, options);
-    if (option !== 0) {
-      return option;
-    }
-    // If the form data matches none of the options, use the currently selected
-    // option, assuming it's available; otherwise use the first option
-    return this && this.state ? this.state.selectedOption : 0;
   }
 
   onOptionChange = option => {

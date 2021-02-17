@@ -28,7 +28,6 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "ajv": "^6.7.0",
     "json-schema-merge-allof": "^0.6.0",
     "jsonpointer": "^4.0.1",
     "nanoid": "^3.1.20",
