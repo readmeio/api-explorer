@@ -3,7 +3,6 @@ import React from 'react';
 import {
   ADDITIONAL_PROPERTY_FLAG,
   asNumber,
-  orderProperties,
   dataURItoBlob,
   deepEquals,
   getDefaultFormState,
@@ -772,32 +771,6 @@ describe('utils', () => {
 
     it('should return null if the input is null', () => {
       expect(asNumber(null)).toBeNull();
-    });
-  });
-
-  describe('orderProperties()', () => {
-    it('should remove from order elements that are not in properties', () => {
-      const properties = ['foo', 'baz'];
-      const order = ['foo', 'bar', 'baz', 'qux'];
-      expect(orderProperties(properties, order)).toStrictEqual(['foo', 'baz']);
-    });
-
-    it('should order properties according to the order', () => {
-      const properties = ['bar', 'foo'];
-      const order = ['foo', 'bar'];
-      expect(orderProperties(properties, order)).toStrictEqual(['foo', 'bar']);
-    });
-
-    it('should replace * with properties that are absent in order', () => {
-      const properties = ['foo', 'bar', 'baz'];
-      const order = ['*', 'foo'];
-      expect(orderProperties(properties, order)).toStrictEqual(['bar', 'baz', 'foo']);
-    });
-
-    it('should handle more complex ordering case correctly', () => {
-      const properties = ['foo', 'baz', 'qux', 'bar'];
-      const order = ['quux', 'foo', '*', 'corge', 'baz'];
-      expect(orderProperties(properties, order)).toStrictEqual(['foo', 'qux', 'bar', 'baz']);
     });
   });
 

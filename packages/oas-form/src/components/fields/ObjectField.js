@@ -2,13 +2,7 @@ import AddButton from '../AddButton';
 import React, { Component } from 'react';
 import * as types from '../../types';
 
-import {
-  orderProperties,
-  retrieveSchema,
-  getDefaultRegistry,
-  getUiOptions,
-  ADDITIONAL_PROPERTY_FLAG,
-} from '../../utils';
+import { retrieveSchema, getDefaultRegistry, getUiOptions, ADDITIONAL_PROPERTY_FLAG } from '../../utils';
 
 function DefaultObjectFieldTemplate(props) {
   const canExpand = function canExpand() {
@@ -203,21 +197,7 @@ class ObjectField extends Component {
     }
 
     const description = uiSchema['ui:description'] || schema.description;
-    let orderedProperties;
-    try {
-      const properties = Object.keys(schema.properties || {});
-      orderedProperties = orderProperties(properties, uiSchema['ui:order']);
-    } catch (err) {
-      return (
-        <div>
-          <p className="config-error" style={{ color: 'red' }}>
-            Invalid {name || 'root'} object field configuration:
-            <em>{err.message}</em>.
-          </p>
-          <pre>{JSON.stringify(schema)}</pre>
-        </div>
-      );
-    }
+    const properties = Object.keys(schema.properties || {});
 
     const Template = uiSchema['ui:ObjectFieldTemplate'] || registry.ObjectFieldTemplate || DefaultObjectFieldTemplate;
 
@@ -226,7 +206,7 @@ class ObjectField extends Component {
       description,
       TitleField,
       DescriptionField,
-      properties: orderedProperties.map(prop => {
+      properties: properties.map(prop => {
         const addedByAdditionalProperties = schema.properties[prop].hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
         return {
           content: (

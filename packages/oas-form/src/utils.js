@@ -445,38 +445,6 @@ export function asNumber(value) {
   return valid ? n : value;
 }
 
-export function orderProperties(properties, order) {
-  if (!Array.isArray(order)) {
-    return properties;
-  }
-
-  const arrayToHash = arr =>
-    arr.reduce((prev, curr) => {
-      prev[curr] = true;
-      return prev;
-    }, {});
-  const errorPropList = arr => (arr.length > 1 ? `properties '${arr.join("', '")}'` : `property '${arr[0]}'`);
-  const propertyHash = arrayToHash(properties);
-  const orderFiltered = order.filter(prop => prop === '*' || propertyHash[prop]);
-  const orderHash = arrayToHash(orderFiltered);
-
-  const rest = properties.filter(prop => !orderHash[prop]);
-  const restIndex = orderFiltered.indexOf('*');
-  if (restIndex === -1) {
-    if (rest.length) {
-      throw new Error(`uiSchema order list does not contain ${errorPropList(rest)}`);
-    }
-    return orderFiltered;
-  }
-  if (restIndex !== orderFiltered.lastIndexOf('*')) {
-    throw new Error('uiSchema order list contains more than one wildcard item');
-  }
-
-  const complete = [...orderFiltered];
-  complete.splice(restIndex, 1, ...rest);
-  return complete;
-}
-
 /**
  * This function checks if the given schema matches a single
  * constant value.
