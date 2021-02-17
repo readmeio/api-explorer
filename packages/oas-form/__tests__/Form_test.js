@@ -194,14 +194,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
         type: 'object',
         properties: {
           connector: {
-            type: 'string',
-            enum: ['aws', 'gcp'],
-            title: 'Provider',
-            default: 'aws',
-          },
-        },
-        dependencies: {
-          connector: {
             oneOf: [
               {
                 type: 'object',
@@ -1096,62 +1088,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
         })
       );
     });
-
-    it('dependency with array of objects', () => {
-      const schema = {
-        definitions: {},
-        type: 'object',
-        properties: {
-          show: {
-            type: 'boolean',
-          },
-        },
-        dependencies: {
-          show: {
-            oneOf: [
-              {
-                properties: {
-                  show: {
-                    const: true,
-                  },
-                  participants: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      properties: {
-                        name: {
-                          type: 'string',
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            ],
-          },
-        },
-      };
-      const { node, onChange } = createFormComponent({ schema });
-
-      Simulate.change(node.querySelector('[type=checkbox]'), {
-        target: { checked: true },
-      });
-
-      Simulate.click(node.querySelector('.array-item-add button'));
-
-      Simulate.change(node.querySelector('input[type=text]'), {
-        target: { value: 'yo' },
-      });
-
-      expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          formData: {
-            show: true,
-            participants: [{ name: 'yo' }],
-          },
-        })
-      );
-    });
   });
 
   describe('Schema and formData updates', () => {
@@ -1220,124 +1156,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
         expect.objectContaining({
           formData: { foo: 'foo', baz: 'baz' },
         })
-      );
-    });
-  });
-
-  describe('idSchema updates based on formData', () => {
-    const schema = {
-      type: 'object',
-      properties: {
-        a: { type: 'string', enum: ['int', 'bool'] },
-      },
-      dependencies: {
-        a: {
-          oneOf: [
-            {
-              properties: {
-                a: { enum: ['int'] },
-              },
-            },
-            {
-              properties: {
-                a: { enum: ['bool'] },
-                b: { type: 'boolean' },
-              },
-            },
-          ],
-        },
-      },
-    };
-
-    it('should not update idSchema for a falsey value', () => {
-      const formData = { a: 'int' };
-      const { comp, node, onSubmit } = createFormComponent({
-        schema,
-        formData,
-      });
-
-      setProps(comp, {
-        onSubmit,
-        schema: {
-          type: 'object',
-          properties: {
-            a: { type: 'string', enum: ['int', 'bool'] },
-          },
-          dependencies: {
-            a: {
-              oneOf: [
-                {
-                  properties: {
-                    a: { enum: ['int'] },
-                  },
-                },
-                {
-                  properties: {
-                    a: { enum: ['bool'] },
-                    b: { type: 'boolean' },
-                  },
-                },
-              ],
-            },
-          },
-        },
-        formData: { a: 'int' },
-      });
-
-      submitForm(node);
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          idSchema: { $id: 'root', a: { $id: 'root_a' } },
-        }),
-        expect.anything()
-      );
-    });
-
-    it('should update idSchema based on truthy value', () => {
-      const formData = {
-        a: 'int',
-      };
-      const { comp, node, onSubmit } = createFormComponent({
-        schema,
-        formData,
-      });
-      setProps(comp, {
-        onSubmit,
-        schema: {
-          type: 'object',
-          properties: {
-            a: { type: 'string', enum: ['int', 'bool'] },
-          },
-          dependencies: {
-            a: {
-              oneOf: [
-                {
-                  properties: {
-                    a: { enum: ['int'] },
-                  },
-                },
-                {
-                  properties: {
-                    a: { enum: ['bool'] },
-                    b: { type: 'boolean' },
-                  },
-                },
-              ],
-            },
-          },
-        },
-        formData: { a: 'bool' },
-      });
-      submitForm(node);
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          idSchema: {
-            $id: 'root',
-            a: { $id: 'root_a' },
-            b: { $id: 'root_b' },
-          },
-        }),
-        expect.anything()
       );
     });
   });
@@ -1522,30 +1340,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
       arraySubmit.click();
       expect(innerOnSubmit).toHaveBeenCalledTimes(1);
       expect(outerOnSubmit).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Dependencies', () => {
-    it('should show dependency defaults for uncontrolled components', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          firstName: { type: 'string' },
-        },
-        dependencies: {
-          firstName: {
-            properties: {
-              lastName: { type: 'string', default: 'Norris' },
-            },
-          },
-        },
-      };
-      const { node } = createFormComponent({ schema });
-
-      Simulate.change(node.querySelector('#root_firstName'), {
-        target: { value: 'Chuck' },
-      });
-      expect(node.querySelector('#root_lastName').value).toBe('Norris');
     });
   });
 });

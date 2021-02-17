@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ReactIs from 'react-is';
 import mergeAllOf from 'json-schema-merge-allof';
-import validateFormData, { isValid } from './validate';
+import { isValid } from './validate';
 import union from 'lodash/union';
 import jsonpointer from 'jsonpointer';
 
@@ -245,9 +245,6 @@ function computeDefaults(_schema, parentDefaults, rootSchema, rawFormData = {}, 
     }
 
     return computeDefaults(refSchema, defaults, rootSchema, formData, includeUndefinedValues);
-  } else if ('dependencies' in schema) {
-    const resolvedSchema = resolveDependencies(schema, rootSchema, formData);
-    return computeDefaults(resolvedSchema, defaults, rootSchema, formData, includeUndefinedValues);
   } else if (isFixedItems(schema)) {
     defaults = schema.items.map((itemSchema, idx) =>
       computeDefaults(
@@ -627,9 +624,6 @@ export function stubExistingAdditionalProperties(schema, rootSchema = {}, formDa
 export function resolveSchema(schema, rootSchema = {}, formData = {}) {
   if (schema.hasOwnProperty('$ref')) {
     return resolveReference(schema, rootSchema, formData);
-  } else if (schema.hasOwnProperty('dependencies')) {
-    const resolvedSchema = resolveDependencies(schema, rootSchema, formData);
-    return retrieveSchema(resolvedSchema, rootSchema, formData);
   } else if (schema.hasOwnProperty('allOf')) {
     return {
       ...schema,
@@ -637,7 +631,7 @@ export function resolveSchema(schema, rootSchema = {}, formData = {}) {
     };
   }
 
-  // No $ref or dependencies attribute found, returning the original schema.
+  // No $ref or allOf attribute found, returning the original schema.
   return schema;
 }
 
@@ -687,94 +681,6 @@ export function retrieveSchema(schema, rootSchema = {}, formData = {}) {
     return stubExistingAdditionalProperties(resolvedSchema, rootSchema, formData);
   }
   return resolvedSchema;
-}
-
-function resolveDependencies(schema, rootSchema, formData) {
-  // Drop the dependencies from the source schema.
-  // eslint-disable-next-line prefer-const
-  let { dependencies = {}, ...resolvedSchema } = schema;
-  if ('oneOf' in resolvedSchema) {
-    resolvedSchema = resolvedSchema.oneOf[getMatchingOption(formData, resolvedSchema.oneOf)];
-  } else if ('anyOf' in resolvedSchema) {
-    resolvedSchema = resolvedSchema.anyOf[getMatchingOption(formData, resolvedSchema.anyOf)];
-  }
-  return processDependencies(dependencies, resolvedSchema, rootSchema, formData);
-}
-
-function processDependencies(dependencies, resolvedSchema, rootSchema, formData) {
-  // Process dependencies updating the local schema properties as appropriate.
-  for (const dependencyKey in dependencies) {
-    // Skip this dependency if its trigger property is not present.
-    if (formData[dependencyKey] === undefined) {
-      continue; // eslint-disable-line no-continue
-    }
-    // Skip this dependency if it is not included in the schema (such as when dependencyKey is itself a hidden dependency.)
-    if (resolvedSchema.properties && !(dependencyKey in resolvedSchema.properties)) {
-      continue; // eslint-disable-line no-continue
-    }
-    const { [dependencyKey]: dependencyValue, ...remainingDependencies } = dependencies;
-    if (Array.isArray(dependencyValue)) {
-      resolvedSchema = withDependentProperties(resolvedSchema, dependencyValue);
-    } else if (isObject(dependencyValue)) {
-      resolvedSchema = withDependentSchema(resolvedSchema, rootSchema, formData, dependencyKey, dependencyValue);
-    }
-    return processDependencies(remainingDependencies, resolvedSchema, rootSchema, formData);
-  }
-  return resolvedSchema;
-}
-
-function withDependentProperties(schema, additionallyRequired) {
-  if (!additionallyRequired) {
-    return schema;
-  }
-  const required = Array.isArray(schema.required)
-    ? Array.from(new Set([...schema.required, ...additionallyRequired]))
-    : additionallyRequired;
-  return { ...schema, required };
-}
-
-function withDependentSchema(schema, rootSchema, formData, dependencyKey, dependencyValue) {
-  const { oneOf, ...dependentSchema } = retrieveSchema(dependencyValue, rootSchema, formData);
-  schema = mergeSchemas(schema, dependentSchema);
-  // Since it does not contain oneOf, we return the original schema.
-  if (oneOf === undefined) {
-    return schema;
-  } else if (!Array.isArray(oneOf)) {
-    throw new TypeError(`invalid: it is some ${typeof oneOf} instead of an array`);
-  }
-  // Resolve $refs inside oneOf.
-  const resolvedOneOf = oneOf.map(subschema =>
-    subschema.hasOwnProperty('$ref') ? resolveReference(subschema, rootSchema, formData) : subschema
-  );
-  return withExactlyOneSubschema(schema, rootSchema, formData, dependencyKey, resolvedOneOf);
-}
-
-function withExactlyOneSubschema(schema, rootSchema, formData, dependencyKey, oneOf) {
-  // eslint-disable-next-line array-callback-return, consistent-return
-  const validSubschemas = oneOf.filter(subschema => {
-    if (!subschema.properties) {
-      return false;
-    }
-    const { [dependencyKey]: conditionPropertySchema } = subschema.properties;
-    if (conditionPropertySchema) {
-      const conditionSchema = {
-        type: 'object',
-        properties: {
-          [dependencyKey]: conditionPropertySchema,
-        },
-      };
-      const { errors } = validateFormData(formData, conditionSchema);
-      return errors.length === 0;
-    }
-  });
-  if (validSubschemas.length !== 1) {
-    console.warn("ignoring oneOf in dependencies because there isn't exactly one subschema that is valid");
-    return schema;
-  }
-  const subschema = validSubschemas[0];
-  const { [dependencyKey]: conditionPropertySchema, ...dependentSubschema } = subschema.properties;
-  const dependentSchema = { ...subschema, properties: dependentSubschema };
-  return mergeSchemas(schema, retrieveSchema(dependentSchema, rootSchema, formData));
 }
 
 // Recursively merge deeply nested schemas.
@@ -902,7 +808,7 @@ export function toIdSchema(schema, id, rootSchema, formData = {}, idPrefix = 'ro
     return idSchema;
   }
 
-  if ('$ref' in schema || 'dependencies' in schema || 'allOf' in schema) {
+  if ('$ref' in schema || 'allOf' in schema) {
     const _schema = retrieveSchema(schema, rootSchema, formData);
     return toIdSchema(_schema, id, rootSchema, formData, idPrefix);
   }
@@ -932,7 +838,7 @@ export function toPathSchema(schema, name = '', rootSchema, formData = {}) {
   const pathSchema = {
     $name: name.replace(/^\./, ''),
   };
-  if ('$ref' in schema || 'dependencies' in schema || 'allOf' in schema) {
+  if ('$ref' in schema || 'allOf' in schema) {
     const _schema = retrieveSchema(schema, rootSchema, formData);
     return toPathSchema(_schema, name, rootSchema, formData);
   }
