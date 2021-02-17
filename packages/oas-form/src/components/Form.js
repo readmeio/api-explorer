@@ -48,7 +48,6 @@ export default class Form extends Component {
     const rootSchema = schema;
     const formData = getDefaultFormState(schema, inputFormData, rootSchema);
     const retrievedSchema = retrieveSchema(schema, rootSchema, formData);
-    const additionalMetaSchemas = props.additionalMetaSchemas;
     const idSchema = toIdSchema(retrievedSchema, uiSchema['ui:rootFieldId'], rootSchema, formData, props.idPrefix);
     return {
       schema,
@@ -56,7 +55,6 @@ export default class Form extends Component {
       idSchema,
       formData,
       edit,
-      additionalMetaSchemas,
     };
   }
 
@@ -235,11 +233,9 @@ if (process.env.NODE_ENV !== 'production') {
   Form.propTypes = {
     acceptcharset: PropTypes.string,
     action: PropTypes.string,
-    additionalMetaSchemas: PropTypes.arrayOf(PropTypes.object),
     ArrayFieldTemplate: PropTypes.elementType,
     autoComplete: PropTypes.string,
     className: PropTypes.string,
-    customFormats: PropTypes.object,
     enctype: PropTypes.string,
     fields: PropTypes.objectOf(PropTypes.elementType),
     FieldTemplate: PropTypes.elementType,

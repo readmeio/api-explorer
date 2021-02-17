@@ -113,7 +113,6 @@ describe('on component creation', () => {
         edit: true,
         uiSchema: {},
         idSchema: { $id: 'root', count: { $id: 'root_count' } },
-        additionalMetaSchemas: undefined,
       });
     });
   });
@@ -812,7 +811,6 @@ describe('Schema and external formData updates', () => {
     it('should call onChange', () => {
       expect(onChangeProp).toHaveBeenCalledTimes(1);
       expect(onChangeProp).toHaveBeenCalledWith({
-        additionalMetaSchemas: undefined,
         edit: true,
         formData: 'foobar',
         idSchema: { $id: 'root' },
