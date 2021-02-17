@@ -1,5 +1,4 @@
 import React from 'react';
-import * as ReactIs from 'react-is';
 import mergeAllOf from 'json-schema-merge-allof';
 import { isValid } from './validate';
 import union from 'lodash/union';
@@ -186,7 +185,7 @@ export function getWidget(schema, widget, registeredWidgets = {}) {
     return Widget.MergedWidget;
   }
 
-  if (typeof widget === 'function' || ReactIs.isForwardRef(React.createElement(widget)) || ReactIs.isMemo(widget)) {
+  if (typeof widget === 'function') {
     return mergeOptions(widget);
   }
 

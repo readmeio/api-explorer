@@ -2408,16 +2408,6 @@ describe('utils', () => {
       const Widget = props => <div {...props} />;
       expect(getWidget(schema, Widget)({})).toStrictEqual(<Widget options={{}} />);
     });
-
-    it('should not fail on forwarded ref component', () => {
-      const Widget = React.forwardRef((props, ref) => <div {...props} ref={ref} />);
-      expect(getWidget(schema, Widget)({})).toStrictEqual(<Widget options={{}} />);
-    });
-
-    it.skip('should not fail on memo component', () => {
-      const Widget = React.memo(props => <div {...props} />);
-      expect(getWidget(schema, Widget)({})).toStrictEqual(<Widget options={{}} />);
-    });
   });
 });
 
