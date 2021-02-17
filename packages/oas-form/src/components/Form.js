@@ -11,14 +11,12 @@ import {
   toIdSchema,
   getDefaultRegistry,
   deepEquals,
-  toPathSchema,
   isObject,
 } from '../utils';
 
 export default class Form extends Component {
   static defaultProps = {
     disabled: false,
-    omitExtraData: false,
     uiSchema: {},
   };
 
@@ -109,20 +107,8 @@ export default class Form extends Component {
       const newState = this.getStateFromProps(this.props, formData);
       formData = newState.formData;
     }
-    let state = { formData };
-    let newFormData = formData;
 
-    if (this.props.omitExtraData === true && this.props.liveOmit === true) {
-      const retrievedSchema = retrieveSchema(this.state.schema, this.state.schema, formData);
-      const pathSchema = toPathSchema(retrievedSchema, '', this.state.schema, formData);
-
-      const fieldNames = this.getFieldNames(pathSchema, formData);
-
-      newFormData = this.getUsedFormData(formData, fieldNames);
-      state = {
-        formData: newFormData,
-      };
-    }
+    const state = { formData };
 
     this.setState(state, () => this.props.onChange && this.props.onChange(state));
   };
@@ -146,16 +132,7 @@ export default class Form extends Component {
     }
 
     event.persist();
-    let newFormData = this.state.formData;
-
-    if (this.props.omitExtraData === true) {
-      const retrievedSchema = retrieveSchema(this.state.schema, this.state.schema, newFormData);
-      const pathSchema = toPathSchema(retrievedSchema, '', this.state.schema, newFormData);
-
-      const fieldNames = this.getFieldNames(pathSchema, newFormData);
-
-      newFormData = this.getUsedFormData(newFormData, fieldNames);
-    }
+    const newFormData = this.state.formData;
 
     this.setState({ formData: newFormData }, () => {
       if (this.props.onSubmit) {
@@ -272,7 +249,6 @@ if (process.env.NODE_ENV !== 'production') {
     method: PropTypes.string,
     name: PropTypes.string,
     ObjectFieldTemplate: PropTypes.elementType,
-    omitExtraData: PropTypes.bool,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     schema: PropTypes.object.isRequired,

@@ -801,33 +801,6 @@ export function toIdSchema(schema, id, rootSchema, formData = {}, idPrefix = 'ro
   return idSchema;
 }
 
-export function toPathSchema(schema, name = '', rootSchema, formData = {}) {
-  const pathSchema = {
-    $name: name.replace(/^\./, ''),
-  };
-  if ('$ref' in schema || 'allOf' in schema) {
-    const _schema = retrieveSchema(schema, rootSchema, formData);
-    return toPathSchema(_schema, name, rootSchema, formData);
-  }
-  if (schema.hasOwnProperty('items') && Array.isArray(formData)) {
-    formData.forEach((element, i) => {
-      pathSchema[i] = toPathSchema(schema.items, `${name}.${i}`, rootSchema, element);
-    });
-  } else if (schema.hasOwnProperty('properties')) {
-    for (const property in schema.properties) {
-      pathSchema[property] = toPathSchema(
-        schema.properties[property],
-        `${name}.${property}`,
-        rootSchema,
-        // It's possible that formData is not an object -- this can happen if an
-        // array item has just been added, but not populated with data yet
-        (formData || {})[property]
-      );
-    }
-  }
-  return pathSchema;
-}
-
 export function parseDateString(dateString, includeTime = true) {
   if (!dateString) {
     return {
