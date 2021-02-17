@@ -87,6 +87,35 @@ describe('has examples', () => {
       expect(comp.find('pre').at(0).render().find('.react-json-view')).toHaveLength(1);
     });
 
+    it('should not render array keys in json', () => {
+      const exampleOas = new Oas(exampleResults);
+      const operation = exampleOas.operation('/results', 'get');
+
+      const examples = [
+        {
+          status: '200',
+          languages: [
+            {
+              language: 'application/json',
+              code: JSON.stringify([
+                {
+                  user: {
+                    email: 'test@example.com',
+                    name: 'Test user name',
+                  },
+                },
+              ]),
+              multipleExamples: false,
+            },
+          ],
+        },
+      ];
+
+      const comp = shallow(<ResponseExample {...props} examples={examples} oas={exampleOas} operation={operation} />);
+
+      expect(comp.find('pre').at(0).render().find('.react-json-view').text()).toBe('[{"user":{...}}]');
+    });
+
     it('should not fail to parse invalid json and instead show the standard syntax highlighter', () => {
       const exampleOas = new Oas(string);
       const operation = exampleOas.operation('/format-uuid', 'get');

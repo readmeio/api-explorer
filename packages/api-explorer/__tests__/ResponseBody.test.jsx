@@ -56,6 +56,25 @@ describe('Response body', () => {
     expect(responseBody.find('.react-json-view')).toHaveLength(1);
   });
 
+  it('should not display array keys on json responses', async () => {
+    props.result = await parseResponse(
+      {
+        log: {
+          entries: [{ request: { url: 'http://petstore.swagger.io/v2/pet', method: 'POST', headers: [] } }],
+        },
+      },
+      new FetchResponse(JSON.stringify([{ user: { email: 'test@example.com' } }]), {
+        headers: {
+          'content-type': 'application/json; charset=utf-8',
+        },
+      })
+    );
+
+    const responseBody = mount(<ResponseBody {...props} oas={oas} />);
+
+    expect(responseBody.find('.react-json-view').text()).toBe('[{...}]');
+  });
+
   it('should not display json viewer if invalid json', async () => {
     props.result = await parseResponse(
       {

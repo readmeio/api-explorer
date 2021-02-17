@@ -1,8 +1,7 @@
-import { expect } from 'chai';
 import React, { Component, createRef } from 'react';
 
 import { withTheme } from '../src';
-import { createComponent, createSandbox } from './test_utils';
+import { createComponent } from './test_utils';
 
 const WrapperClassComponent = (...args) => {
   return class extends Component {
@@ -14,16 +13,6 @@ const WrapperClassComponent = (...args) => {
 };
 
 describe('withTheme', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('With fields', () => {
     it('should use the withTheme field', () => {
       const fields = {
@@ -47,7 +36,7 @@ describe('withTheme', () => {
         schema,
         uiSchema,
       });
-      expect(node.querySelectorAll('.string-field')).to.have.length.of(2);
+      expect(node.querySelectorAll('.string-field')).toHaveLength(2);
     });
 
     it('should use withTheme field and the user defined field', () => {
@@ -78,8 +67,8 @@ describe('withTheme', () => {
         uiSchema,
         fields: userFields,
       });
-      expect(node.querySelectorAll('.string-field')).to.have.length.of(1);
-      expect(node.querySelectorAll('.number-field')).to.have.length.of(1);
+      expect(node.querySelectorAll('.string-field')).toHaveLength(1);
+      expect(node.querySelectorAll('.number-field')).toHaveLength(1);
     });
 
     it('should use only the user defined field', () => {
@@ -110,8 +99,8 @@ describe('withTheme', () => {
         uiSchema,
         fields: userFields,
       });
-      expect(node.querySelectorAll('.string-field')).to.have.length.of(0);
-      expect(node.querySelectorAll('.form-control')).to.have.length.of(2);
+      expect(node.querySelectorAll('.string-field')).toHaveLength(0);
+      expect(node.querySelectorAll('.form-control')).toHaveLength(2);
     });
   });
 
@@ -128,7 +117,7 @@ describe('withTheme', () => {
         schema,
         uiSchema,
       });
-      expect(node.querySelectorAll('#test')).to.have.length.of(1);
+      expect(node.querySelectorAll('#test')).toHaveLength(1);
     });
 
     it('should use the withTheme widget as well as user defined widget', () => {
@@ -156,8 +145,8 @@ describe('withTheme', () => {
         uiSchema,
         widgets: userWidgets,
       });
-      expect(node.querySelectorAll('#test-theme-widget')).to.have.length.of(1);
-      expect(node.querySelectorAll('#test-user-widget')).to.have.length.of(1);
+      expect(node.querySelectorAll('#test-theme-widget')).toHaveLength(1);
+      expect(node.querySelectorAll('#test-user-widget')).toHaveLength(1);
     });
 
     it('should use only the user defined widget', () => {
@@ -181,8 +170,8 @@ describe('withTheme', () => {
         uiSchema,
         widgets: userWidgets,
       });
-      expect(node.querySelectorAll('#test-theme-widget')).to.have.length.of(0);
-      expect(node.querySelectorAll('#test-user-widget')).to.have.length.of(1);
+      expect(node.querySelectorAll('#test-theme-widget')).toHaveLength(0);
+      expect(node.querySelectorAll('#test-user-widget')).toHaveLength(1);
     });
   });
 
@@ -209,7 +198,7 @@ describe('withTheme', () => {
         schema,
         uiSchema,
       });
-      expect(node.querySelectorAll('.with-theme-field-template')).to.have.length.of(1);
+      expect(node.querySelectorAll('.with-theme-field-template')).toHaveLength(1);
     });
 
     it('should use only the user defined template', () => {
@@ -232,8 +221,8 @@ describe('withTheme', () => {
         schema,
         ...userTemplates,
       });
-      expect(node.querySelectorAll('.with-theme-field-template')).to.have.length.of(0);
-      expect(node.querySelectorAll('.user-field-template')).to.have.length.of(1);
+      expect(node.querySelectorAll('.with-theme-field-template')).toHaveLength(0);
+      expect(node.querySelectorAll('.user-field-template')).toHaveLength(1);
     });
 
     it('should forward the ref', () => {
@@ -247,7 +236,7 @@ describe('withTheme', () => {
         ref,
       });
 
-      expect(ref.current.submit).not.eql(undefined);
+      expect(ref.current.submit).not.toBeUndefined();
     });
   });
 });

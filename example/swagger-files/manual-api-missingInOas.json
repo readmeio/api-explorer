@@ -1,0 +1,54 @@
+{
+  "readmeManual": true,
+  "docs": [
+    {
+      "_id": "7333016a-a191-4722-ba46-be45a19ddf6c",
+      "swagger": {
+        "path": "/",
+        "definition": "{\"tags\":[\"assets\"],\"description\":\"\",\"operationId\":\"removeAssets\",\"consumes\":[\"application/json\"],\"produces\":[\"application/json\"],\"parameters\":[{\"in\":\"body\",\"name\":\"body\",\"required\":false,\"schema\":{\"$ref\":\"#/definitions/BatchDeleteRequest\"}}],\"responses\":{\"200\":{\"description\":\"Operation finished with list of responses specific for particular asset.\",\"schema\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/BatchOperationApiResponse\"}}}},\"_path\":\"/assets\",\"_method\":\"delete\"}"
+      },
+      "api": {
+        "apiSetting": "5c2b025e-16ea-4a07-9c6c-87e0aae7e4fd",
+        "auth": "required",
+        "params": [],
+        "url": "",
+        "method": "delete",
+        "results": { "codes": [] }
+      },
+      "body": "",
+      "excerpt": "",
+      "slug": "removelistofassets",
+      "type": "endpoint",
+      "title": "Bulk delete operation for set of assets."
+    }
+  ],
+  "oasFiles": {
+    "5c2b025e-16ea-4a07-9c6c-87e0aae7e4fd": {
+      "openapi": "3.0.0",
+      "info": {
+        "description": "This is a sample server Petstore server.  You can find out more about\nSwagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net,\n`special-key` to test the authorization filters.",
+        "version": "1.0.0",
+        "title": "Swagger Petstore"
+      },
+      "servers": [
+        {
+          "url": "http://petstore.swagger.io/v2"
+        }
+      ],
+      "paths": {
+        "/": {
+          "get": {
+            "responses": {
+              "200": {
+                "description": "OK"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "oasUrls": {
+    "5c2b025e-16ea-4a07-9c6c-87e0aae7e4fd": "https://example.com/5c2b025e-16ea-4a07-9c6c-87e0aae7e4fd"
+  }
+}
