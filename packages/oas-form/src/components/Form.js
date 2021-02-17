@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _pick from 'lodash/pick';
-import _get from 'lodash/get';
-import _isEmpty from 'lodash/isEmpty';
 
 import {
   getDefaultFormState,
@@ -61,44 +58,6 @@ export default class Form extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
   }
-
-  getUsedFormData = (formData, fields) => {
-    // for the case of a single input form
-    if (fields.length === 0 && typeof formData !== 'object') {
-      return formData;
-    }
-
-    const data = _pick(formData, fields);
-    if (Array.isArray(formData)) {
-      return Object.keys(data).map(key => data[key]);
-    }
-
-    return data;
-  };
-
-  getFieldNames = (pathSchema, formData) => {
-    const getAllPaths = (_obj, acc = [], paths = ['']) => {
-      Object.keys(_obj).forEach(key => {
-        if (typeof _obj[key] === 'object') {
-          const newPaths = paths.map(path => `${path}.${key}`);
-          getAllPaths(_obj[key], acc, newPaths);
-        } else if (key === '$name' && _obj[key] !== '') {
-          paths.forEach(path => {
-            path = path.replace(/^\./, '');
-            const formValue = _get(formData, path);
-            // adds path to fieldNames if it points to a value
-            // or an empty object/array
-            if (typeof formValue !== 'object' || _isEmpty(formValue)) {
-              acc.push(path);
-            }
-          });
-        }
-      });
-      return acc;
-    };
-
-    return getAllPaths(pathSchema);
-  };
 
   onChange = formData => {
     if (isObject(formData) || Array.isArray(formData)) {

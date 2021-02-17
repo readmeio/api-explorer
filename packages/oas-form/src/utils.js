@@ -1,7 +1,6 @@
 import React from 'react';
 import mergeAllOf from 'json-schema-merge-allof';
 import { isValid } from './validate';
-import union from 'lodash/union';
 import jsonpointer from 'jsonpointer';
 
 export const ADDITIONAL_PROPERTY_FLAG = '__additional_property';
@@ -648,36 +647,6 @@ export function retrieveSchema(schema, rootSchema = {}, formData = {}) {
     return stubExistingAdditionalProperties(resolvedSchema, rootSchema, formData);
   }
   return resolvedSchema;
-}
-
-// Recursively merge deeply nested schemas.
-// The difference between mergeSchemas and mergeObjects
-// is that mergeSchemas only concats arrays for
-// values under the "required" keyword, and when it does,
-// it doesn't include duplicate values.
-export function mergeSchemas(obj1, obj2) {
-  const acc = { ...obj1 }; // Prevent mutation of source object.
-  return Object.keys(obj2).reduce((acc2, key) => {
-    const left = obj1 ? obj1[key] : {};
-    const right = obj2[key];
-    if (obj1 && obj1.hasOwnProperty(key) && isObject(right)) {
-      acc2[key] = mergeSchemas(left, right);
-    } else if (
-      obj1 &&
-      obj2 &&
-      (getSchemaType(obj1) === 'object' || getSchemaType(obj2) === 'object') &&
-      key === 'required' &&
-      Array.isArray(left) &&
-      Array.isArray(right)
-    ) {
-      // Don't include duplicate values when merging
-      // "required" fields.
-      acc2[key] = union(left, right);
-    } else {
-      acc2[key] = right;
-    }
-    return acc2;
-  }, acc);
 }
 
 function isArguments(object) {
