@@ -63,19 +63,18 @@ function getTypeLabel(schema) {
 }
 
 function CustomTemplateShell(props) {
-  const { classNames, help, errors, children } = props;
+  const { classNames, help, children } = props;
 
   return (
     <div className={`${classNames} param`}>
       {children}
-      {errors && <div className="errors">{errors}</div>}
       {help && <div className="help">{help}</div>}
     </div>
   );
 }
 
 function CustomTemplate(props) {
-  const { id, classNames, label, help, required, description, errors, children, schema, onKeyChange } = props;
+  const { id, classNames, label, help, required, description, children, schema, onKeyChange } = props;
 
   const EditLabel = (
     <input defaultValue={label} id={`${id}-key`} onBlur={event => onKeyChange(event.target.value)} type="text" />
@@ -92,7 +91,6 @@ function CustomTemplate(props) {
         {description && <div className="description">{description}</div>}
       </span>
       {children && <div className="children">{children}</div>}
-      {errors && <div className="errors">{errors}</div>}
       {help && <div className="help">{help}</div>}
     </div>
   );
@@ -165,7 +163,6 @@ CustomTemplate.propTypes = {
   children: PropTypes.node.isRequired,
   classNames: PropTypes.string.isRequired,
   description: PropTypes.node.isRequired,
-  errors: PropTypes.node.isRequired,
   help: PropTypes.node.isRequired,
   id: PropTypes.node.isRequired,
   label: PropTypes.string,
@@ -181,7 +178,6 @@ CustomTemplate.defaultProps = {
 CustomTemplateShell.propTypes = {
   children: PropTypes.node.isRequired,
   classNames: PropTypes.string.isRequired,
-  errors: PropTypes.node.isRequired,
   help: PropTypes.node.isRequired,
 };
 
