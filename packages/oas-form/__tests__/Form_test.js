@@ -1244,38 +1244,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
     });
   });
 
-  describe('Deprecated autocomplete attribute', () => {
-    it('should set attr autocomplete of form', () => {
-      const formProps = {
-        schema: {},
-        autocomplete: 'off',
-      };
-      const node = createFormComponent(formProps).node;
-      expect(node).toHaveAttribute('autocomplete', formProps.autocomplete);
-    });
-
-    it('should log deprecation warning when it is used', () => {
-      jest.spyOn(console, 'warn').mockImplementation(() => {});
-      createFormComponent({
-        schema: {},
-        autocomplete: 'off',
-      });
-      expect(console.warn).toHaveBeenCalledWith(
-        expect.stringMatching(/Using autocomplete property of Form is deprecated/)
-      );
-    });
-
-    it('should use autoComplete value if both autocomplete and autoComplete are used', () => {
-      const formProps = {
-        schema: {},
-        autocomplete: 'off',
-        autoComplete: 'on',
-      };
-      const node = createFormComponent(formProps).node;
-      expect(node).toHaveAttribute('autocomplete', formProps.autoComplete);
-    });
-  });
-
   describe('Changing the tagName', () => {
     it('should render the component using the custom tag name', () => {
       const tagName = 'span';
