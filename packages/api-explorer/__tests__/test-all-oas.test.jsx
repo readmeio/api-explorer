@@ -1,63 +1,81 @@
 const React = require('react');
 const { mount } = require('enzyme');
+const { act } = require('react-dom/test-utils');
 const Oas = require('oas/tooling');
-const createParams = require('../src/Params');
+// const createParams = require('../src/Params');
+const APIExplorer = require('../src');
+
 const fs = require('fs');
 const path = require('path');
 
 const folderPath = path.join(__dirname, '../../../example/swagger-files');
 // const folderPath = '/Users/aaronhedges/oasFileDump';
 const dir = fs.readdirSync(folderPath);
+const extensions = require('../../oas-extensions');
+const createDocs = require('./__fixtures__/create-docs');
 
-function testOasObject(oas, oasFile) {
-  Object.keys(oasFile.paths).forEach(path => {
-    Object.keys(oasFile.paths[path]).forEach(method => {
-      if (!['get', 'post', 'put', 'patch', 'delete'].includes(method)) {
-        return;
-      }
+function wait(amount = 0) {
+  return new Promise(resolve => setTimeout(resolve, amount));
+}
 
-      console.log('checking ' + path + ' ' + method);
-      const operation = oas.operation(path, method);
-      const props = {
-        oas,
-        onChange: () => {},
-        onJsonChange: () => {},
-        onModeChange: () => {},
-        onSubmit: () => {},
-        operation,
-        resetForm: () => {},
-        onError: e => {
-          console.log('error');
-          throw e;
-        },
-      };
-
-      const Params = createParams(oas, operation);
-      let params;
-
-      params = mount(React.createElement(Params, props));
-      expect(params.html()).not.toContain('currently experiencing difficulties');
-    });
+async function actWait(amount = 0) {
+  await act(async () => {
+    await wait(amount);
   });
 }
 
-test('should load fine', async () => {
-  for (const oasFilename of dir) {
-    console.log('checking ' + oasFilename);
-    const oasFile = JSON.parse(fs.readFileSync(path.join(folderPath, oasFilename)));
-    let oas = null;
+async function getProps(oas) {
+  if (oas.oasFiles) {
+    return oas;
+  }
 
-    if (oasFile.paths) {
-      oas = new Oas(oasFile);
-      await oas.dereference();
-      testOasObject(oas, oasFile);
-    } else if (oasFile.oasFiles) {
-      for (const key of Object.keys(oasFile.oasFiles)) {
-        console.log('checking ' + key);
-        oas = new Oas(oasFile.oasFiles[key]);
-        await oas.dereference();
-        testOasObject(oas, oasFile.oasFiles[key]);
-      }
-    }
+  const languages = ['node', 'curl'];
+  const props = {
+    appearance: {},
+    flags: {},
+    glossaryTerms: [],
+    oasFiles: {},
+    oasUrls: {
+      'test-api-setting': 'https://example.com/openapi.json',
+    },
+    shouldDereferenceOas: false,
+    suggestedEdits: false,
+    variables: { user: {}, defaults: [] },
+    maskErrorMessages: false,
   };
+
+  const oasObject = new Oas({ ...oas, [extensions.SAMPLES_LANGUAGES]: languages });
+  await oasObject.dereference();
+
+  const { user, ...definition } = oasObject;
+
+  props.docs = createDocs(definition, 'test-api-setting');
+  props.oasFiles['test-api-setting'] = definition;
+
+  return props;
+}
+
+async function testOasJSON(oas) {
+  const doc = mount(React.createElement(APIExplorer, await getProps(oas)));
+  // Enzyme doesn't automatically wrap our mounted component in `act()` so we need to do some hocus pocus here to get
+  // ReactDOM from throwing the following error:
+  //
+  //    Warning: An update to DocAsync inside a test was not wrapped in act(...).
+  //
+  // https://github.com/enzymejs/enzyme/issues/2073#issuecomment-531488981
+  await actWait();
+  expect(doc.html()).not.toContain('currently experiencing difficulties');
+}
+
+// eslint-disable-next-line jest/expect-expect
+test('should load fine', async () => {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const oasFilename of dir) {
+    if (oasFilename !== 'manual-api-missingInOas.json') {
+      continue;
+    }
+
+    console.log('checking ' + oasFilename);
+    await testOasJSON(JSON.parse(fs.readFileSync(path.join(folderPath, oasFilename))));
+  }
 });
