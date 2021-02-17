@@ -18,7 +18,6 @@ function StringField(props) {
     onBlur,
     onFocus,
     registry = getDefaultRegistry(),
-    rawErrors,
   } = props;
   const { title, format } = schema;
   const { widgets, formContext } = registry;
@@ -53,7 +52,6 @@ function StringField(props) {
       onFocus={onFocus}
       options={{ ...options, enumOptions }}
       placeholder={placeholder}
-      rawErrors={rawErrors}
       readonly={readonly}
       registry={registry}
       required={required}

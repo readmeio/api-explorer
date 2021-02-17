@@ -4,7 +4,6 @@ import _pick from 'lodash/pick';
 import _get from 'lodash/get';
 import _isEmpty from 'lodash/isEmpty';
 
-import DefaultErrorList from './ErrorList';
 import {
   getDefaultFormState,
   retrieveSchema,
@@ -14,17 +13,11 @@ import {
   deepEquals,
   toPathSchema,
   isObject,
-  mergeObjects,
 } from '../utils';
-import validateFormData, { toErrorList } from '../validate';
 
 export default class Form extends Component {
   static defaultProps = {
     disabled: false,
-    ErrorList: DefaultErrorList,
-    liveValidate: false,
-    noHtml5Validate: false,
-    noValidate: false,
     omitExtraData: false,
     uiSchema: {},
   };
@@ -51,27 +44,13 @@ export default class Form extends Component {
   }
 
   getStateFromProps(props, inputFormData) {
-    const state = this.state || {};
     const schema = 'schema' in props ? props.schema : this.props.schema;
     const uiSchema = 'uiSchema' in props ? props.uiSchema : this.props.uiSchema;
     const edit = typeof inputFormData !== 'undefined';
-    const liveValidate = props.liveValidate || this.props.liveValidate;
-    const mustValidate = edit && !props.noValidate && liveValidate;
     const rootSchema = schema;
     const formData = getDefaultFormState(schema, inputFormData, rootSchema);
     const retrievedSchema = retrieveSchema(schema, rootSchema, formData);
-    const customFormats = props.customFormats;
     const additionalMetaSchemas = props.additionalMetaSchemas;
-    let { errors, errorSchema } = mustValidate
-      ? this.validate(formData, schema, additionalMetaSchemas, customFormats)
-      : {
-          errors: state.errors || [],
-          errorSchema: state.errorSchema || {},
-        };
-    if (props.extraErrors) {
-      errorSchema = mergeObjects(errorSchema, props.extraErrors);
-      errors = toErrorList(errorSchema);
-    }
     const idSchema = toIdSchema(retrievedSchema, uiSchema['ui:rootFieldId'], rootSchema, formData, props.idPrefix);
     return {
       schema,
@@ -79,44 +58,12 @@ export default class Form extends Component {
       idSchema,
       formData,
       edit,
-      errors,
-      errorSchema,
       additionalMetaSchemas,
     };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
-  }
-
-  validate(
-    formData,
-    schema = this.props.schema,
-    additionalMetaSchemas = this.props.additionalMetaSchemas,
-    customFormats = this.props.customFormats
-  ) {
-    const { validate, transformErrors } = this.props;
-    const { rootSchema } = this.getRegistry();
-    const resolvedSchema = retrieveSchema(schema, rootSchema, formData);
-    return validateFormData(formData, resolvedSchema, validate, transformErrors, additionalMetaSchemas, customFormats);
-  }
-
-  renderErrors() {
-    const { errors, errorSchema, schema, uiSchema } = this.state;
-    const { ErrorList, showErrorList, formContext } = this.props;
-
-    if (errors.length && showErrorList !== false) {
-      return (
-        <ErrorList
-          errors={errors}
-          errorSchema={errorSchema}
-          formContext={formContext}
-          schema={schema}
-          uiSchema={uiSchema}
-        />
-      );
-    }
-    return null;
   }
 
   getUsedFormData = (formData, fields) => {
@@ -157,12 +104,11 @@ export default class Form extends Component {
     return getAllPaths(pathSchema);
   };
 
-  onChange = (formData, newErrorSchema) => {
+  onChange = formData => {
     if (isObject(formData) || Array.isArray(formData)) {
       const newState = this.getStateFromProps(this.props, formData);
       formData = newState.formData;
     }
-    const mustValidate = !this.props.noValidate && this.props.liveValidate;
     let state = { formData };
     let newFormData = formData;
 
@@ -178,23 +124,6 @@ export default class Form extends Component {
       };
     }
 
-    if (mustValidate) {
-      let { errors, errorSchema } = this.validate(newFormData);
-      if (this.props.extraErrors) {
-        errorSchema = mergeObjects(errorSchema, this.props.extraErrors);
-        errors = toErrorList(errorSchema);
-      }
-      state = { formData: newFormData, errors, errorSchema };
-    } else if (!this.props.noValidate && newErrorSchema) {
-      const errorSchema = this.props.extraErrors
-        ? mergeObjects(newErrorSchema, this.props.extraErrors)
-        : newErrorSchema;
-      state = {
-        formData: newFormData,
-        errorSchema,
-        errors: toErrorList(errorSchema),
-      };
-    }
     this.setState(state, () => this.props.onChange && this.props.onChange(state));
   };
 
@@ -228,35 +157,7 @@ export default class Form extends Component {
       newFormData = this.getUsedFormData(newFormData, fieldNames);
     }
 
-    if (!this.props.noValidate) {
-      let { errors, errorSchema } = this.validate(newFormData);
-      if (Object.keys(errors).length > 0) {
-        if (this.props.extraErrors) {
-          errorSchema = mergeObjects(errorSchema, this.props.extraErrors);
-          errors = toErrorList(errorSchema);
-        }
-        this.setState({ errors, errorSchema }, () => {
-          if (this.props.onError) {
-            this.props.onError(errors);
-          } else {
-            console.error('Form validation failed', errors);
-          }
-        });
-        return;
-      }
-    }
-
-    let errorSchema;
-    let errors;
-    if (this.props.extraErrors) {
-      errorSchema = this.props.extraErrors;
-      errors = toErrorList(errorSchema);
-    } else {
-      errorSchema = {};
-      errors = [];
-    }
-
-    this.setState({ formData: newFormData, errors, errorSchema }, () => {
+    this.setState({ formData: newFormData }, () => {
       if (this.props.onSubmit) {
         this.props.onSubmit({ ...this.state, formData: newFormData, status: 'submitted' }, event);
       }
@@ -304,12 +205,11 @@ export default class Form extends Component {
       autoComplete: currentAutoComplete,
       enctype,
       acceptcharset,
-      noHtml5Validate,
       disabled,
       formContext,
     } = this.props;
 
-    const { schema, uiSchema, formData, errorSchema, idSchema } = this.state;
+    const { schema, uiSchema, formData, idSchema } = this.state;
     const registry = this.getRegistry();
     const _SchemaField = registry.fields.SchemaField;
     const FormTag = tagName || 'form';
@@ -331,14 +231,11 @@ export default class Form extends Component {
         id={id}
         method={method}
         name={name}
-        noValidate={noHtml5Validate}
         onSubmit={this.onSubmit}
         target={target}
       >
-        {this.renderErrors()}
         <_SchemaField
           disabled={disabled}
-          errorSchema={errorSchema}
           formContext={formContext}
           formData={formData}
           idPrefix={idPrefix}
@@ -373,30 +270,21 @@ if (process.env.NODE_ENV !== 'production') {
     className: PropTypes.string,
     customFormats: PropTypes.object,
     enctype: PropTypes.string,
-    ErrorList: PropTypes.func,
-    extraErrors: PropTypes.object,
     fields: PropTypes.objectOf(PropTypes.elementType),
     FieldTemplate: PropTypes.elementType,
     formContext: PropTypes.object,
     formData: PropTypes.any,
     id: PropTypes.string,
-    liveValidate: PropTypes.bool,
     method: PropTypes.string,
     name: PropTypes.string,
-    noHtml5Validate: PropTypes.bool,
-    noValidate: PropTypes.bool,
     ObjectFieldTemplate: PropTypes.elementType,
     omitExtraData: PropTypes.bool,
     onChange: PropTypes.func,
-    onError: PropTypes.func,
     onSubmit: PropTypes.func,
     schema: PropTypes.object.isRequired,
-    showErrorList: PropTypes.bool,
     tagName: PropTypes.elementType,
     target: PropTypes.string,
-    transformErrors: PropTypes.func,
     uiSchema: PropTypes.object,
-    validate: PropTypes.func,
     widgets: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.func, PropTypes.object])),
   };
 }

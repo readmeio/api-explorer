@@ -98,7 +98,6 @@ describe('StringField', () => {
     it('should default submit value to undefined', () => {
       const { node, onSubmit } = createFormComponent({
         schema: { type: 'string' },
-        noValidate: true,
       });
       submitForm(node);
 
@@ -625,36 +624,6 @@ describe('StringField', () => {
       expect(node.querySelector('[type=datetime-local]').id).toBe('root');
     });
 
-    it('should reject an invalid entered datetime', () => {
-      const { node, onChange } = createFormComponent({
-        schema: {
-          type: 'string',
-          format: 'date-time',
-        },
-        liveValidate: true,
-      });
-
-      Simulate.change(node.querySelector('[type=datetime-local]'), {
-        target: { value: 'invalid' },
-      });
-
-      expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          errorSchema: { __errors: ['should be string'] },
-          errors: [
-            {
-              message: 'should be string',
-              name: 'type',
-              params: { type: 'string' },
-              property: '',
-              schemaPath: '#/type',
-              stack: 'should be string',
-            },
-          ],
-        })
-      );
-    });
-
     it('should render customized DateTimeWidget', () => {
       const { node } = createFormComponent({
         schema: {
@@ -708,7 +677,6 @@ describe('StringField', () => {
           default: datetime,
         },
         uiSchema,
-        noValidate: true,
       });
       submitForm(node);
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -746,7 +714,6 @@ describe('StringField', () => {
           format: 'date',
         },
         formData: datetime,
-        noValidate: true,
       });
       submitForm(node);
       expect(onSubmit).toHaveBeenLastCalledWith(
@@ -770,55 +737,21 @@ describe('StringField', () => {
     });
 
     it('should accept a valid entered date', () => {
-      const { node, onError, onChange } = createFormComponent({
-        schema: {
-          type: 'string',
-          format: 'date',
-        },
-        uiSchema,
-        liveValidate: true,
-      });
-
-      Simulate.change(node.querySelector('[type=date]'), {
-        target: { value: '2012-12-12' },
-      });
-
-      expect(onError).not.toHaveBeenCalled();
-
-      expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          formData: '2012-12-12',
-        })
-      );
-    });
-
-    it('should reject an invalid entered date', () => {
       const { node, onChange } = createFormComponent({
         schema: {
           type: 'string',
           format: 'date',
         },
         uiSchema,
-        liveValidate: true,
       });
 
       Simulate.change(node.querySelector('[type=date]'), {
-        target: { value: 'invalid' },
+        target: { value: '2012-12-12' },
       });
 
       expect(onChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          errorSchema: { __errors: ['should match format "date"'] },
-          errors: [
-            {
-              message: 'should match format "date"',
-              name: 'format',
-              params: { format: 'date' },
-              property: '',
-              schemaPath: '#/format',
-              stack: 'should match format "date"',
-            },
-          ],
+          formData: '2012-12-12',
         })
       );
     });
@@ -1255,20 +1188,6 @@ describe('StringField', () => {
       ]);
     });
 
-    it('should accept a valid date', () => {
-      const { onError } = createFormComponent({
-        schema: {
-          type: 'string',
-          format: 'date',
-        },
-        uiSchema,
-        liveValidate: true,
-        formData: '2012-12-12',
-      });
-
-      expect(onError).not.toHaveBeenCalled();
-    });
-
     it('should throw on invalid date', () => {
       expect(() => {
         createFormComponent({
@@ -1277,7 +1196,6 @@ describe('StringField', () => {
             format: 'date',
           },
           uiSchema,
-          liveValidate: true,
           formData: '2012-1212',
         });
       }).toThrow('Unable to parse date 2012-1212');
@@ -1454,36 +1372,6 @@ describe('StringField', () => {
       expect(node.querySelector('[type=email]').id).toBe('root');
     });
 
-    it('should reject an invalid entered email', () => {
-      const { node, onChange } = createFormComponent({
-        schema: {
-          type: 'string',
-          format: 'email',
-        },
-        liveValidate: true,
-      });
-
-      Simulate.change(node.querySelector('[type=email]'), {
-        target: { value: 'invalid' },
-      });
-
-      expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          errorSchema: { __errors: ['should match format "email"'] },
-          errors: [
-            {
-              message: 'should match format "email"',
-              name: 'format',
-              params: { format: 'email' },
-              property: '',
-              schemaPath: '#/format',
-              stack: 'should match format "email"',
-            },
-          ],
-        })
-      );
-    });
-
     it('should render customized EmailWidget', () => {
       const { node } = createFormComponent({
         schema: {
@@ -1602,36 +1490,6 @@ describe('StringField', () => {
       expect(node.querySelector('[type=url]').id).toBe('root');
     });
 
-    it('should reject an invalid entered url', () => {
-      const { node, onChange } = createFormComponent({
-        schema: {
-          type: 'string',
-          format: 'uri',
-        },
-        liveValidate: true,
-      });
-
-      Simulate.change(node.querySelector('[type=url]'), {
-        target: { value: 'invalid' },
-      });
-
-      expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          errorSchema: { __errors: ['should match format "uri"'] },
-          errors: [
-            {
-              message: 'should match format "uri"',
-              name: 'format',
-              params: { format: 'uri' },
-              property: '',
-              schemaPath: '#/format',
-              stack: 'should match format "uri"',
-            },
-          ],
-        })
-      );
-    });
-
     it('should render customized URLWidget', () => {
       const { node } = createFormComponent({
         schema: {
@@ -1718,37 +1576,6 @@ describe('StringField', () => {
       });
 
       expect(node.querySelector('[type=color]').id).toBe('root');
-    });
-
-    it('should reject an invalid entered color', () => {
-      const { node, onChange } = createFormComponent({
-        schema: {
-          type: 'string',
-          format: 'color',
-        },
-        uiSchema,
-        liveValidate: true,
-      });
-
-      Simulate.change(node.querySelector('[type=color]'), {
-        target: { value: 'invalid' },
-      });
-
-      expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          errorSchema: { __errors: ['should match format "color"'] },
-          errors: [
-            {
-              message: 'should match format "color"',
-              name: 'format',
-              params: { format: 'color' },
-              property: '',
-              schemaPath: '#/format',
-              stack: 'should match format "color"',
-            },
-          ],
-        })
-      );
     });
 
     it('should render customized ColorWidget', () => {

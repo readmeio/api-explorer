@@ -61,7 +61,6 @@ function DefaultObjectFieldTemplate(props) {
 class ObjectField extends Component {
   static defaultProps = {
     disabled: false,
-    errorSchema: {},
     formData: {},
     idSchema: {},
     readonly: false,
@@ -80,7 +79,7 @@ class ObjectField extends Component {
   }
 
   onPropertyChange = (name, addedByAdditionalProperties = false) => {
-    return (value, errorSchema) => {
+    return value => {
       if (!value && addedByAdditionalProperties) {
         // Don't set value = undefined for fields added by
         // additionalProperties. Doing so removes them from the
@@ -92,14 +91,7 @@ class ObjectField extends Component {
         value = '';
       }
       const newFormData = { ...this.props.formData, [name]: value };
-      this.props.onChange(
-        newFormData,
-        errorSchema &&
-          this.props.errorSchema && {
-            ...this.props.errorSchema,
-            [name]: errorSchema,
-          }
-      );
+      this.props.onChange(newFormData);
     };
   };
 
@@ -123,7 +115,7 @@ class ObjectField extends Component {
   };
 
   onKeyChange = oldValue => {
-    return (value, errorSchema) => {
+    return value => {
       if (oldValue === value) {
         return;
       }
@@ -139,14 +131,7 @@ class ObjectField extends Component {
 
       this.setState({ wasPropertyKeyModified: true });
 
-      this.props.onChange(
-        renamedObj,
-        errorSchema &&
-          this.props.errorSchema && {
-            ...this.props.errorSchema,
-            [value]: errorSchema,
-          }
-      );
+      this.props.onChange(renamedObj);
     };
   };
 
@@ -194,7 +179,6 @@ class ObjectField extends Component {
     const {
       uiSchema,
       formData,
-      errorSchema,
       idSchema,
       name,
       required,
@@ -249,7 +233,6 @@ class ObjectField extends Component {
             <SchemaField
               key={prop}
               disabled={disabled}
-              errorSchema={errorSchema[prop]}
               formData={(formData || {})[prop]}
               idPrefix={idPrefix}
               idSchema={idSchema[prop]}

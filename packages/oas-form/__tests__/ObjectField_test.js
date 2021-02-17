@@ -1,7 +1,7 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 
-import { createFormComponent, submitForm } from './test_utils';
+import { createFormComponent } from './test_utils';
 
 describe('ObjectField', () => {
   describe('schema', () => {
@@ -382,53 +382,6 @@ describe('ObjectField', () => {
       const labels = node.querySelectorAll('label.control-label');
       expect(labels[0]).toHaveTextContent('CustomName Key');
       expect(labels[1]).toHaveTextContent('CustomName');
-    });
-
-    it('should not throw validation errors if additionalProperties is undefined', () => {
-      const undefinedAPSchema = {
-        ...schema,
-        properties: { second: { type: 'string' } },
-      };
-      delete undefinedAPSchema.additionalProperties;
-      const { node, onSubmit, onError } = createFormComponent({
-        schema: undefinedAPSchema,
-        formData: { nonschema: 1 },
-      });
-
-      submitForm(node);
-      expect(onSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          formData: { nonschema: 1 },
-        }),
-        expect.anything()
-      );
-
-      expect(onError).not.toHaveBeenCalled();
-    });
-
-    it('should throw a validation error if additionalProperties is false', () => {
-      const { node, onSubmit, onError } = createFormComponent({
-        schema: {
-          ...schema,
-          additionalProperties: false,
-          properties: { second: { type: 'string' } },
-        },
-        formData: { nonschema: 1 },
-      });
-      submitForm(node);
-      expect(onSubmit).not.toHaveBeenCalled();
-      expect(onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            message: 'is an invalid additional property',
-            name: 'additionalProperties',
-            params: { additionalProperty: 'nonschema' },
-            property: "['nonschema']",
-            schemaPath: '#/additionalProperties',
-            stack: "['nonschema'] is an invalid additional property",
-          },
-        ])
-      );
     });
 
     it('should still obey properties if additionalProperties is defined', () => {

@@ -90,7 +90,6 @@ class AnyOfField extends Component {
     const {
       baseType,
       disabled,
-      errorSchema,
       formData,
       idPrefix,
       idSchema,
@@ -141,7 +140,6 @@ class AnyOfField extends Component {
         {option !== null && (
           <_SchemaField
             disabled={disabled}
-            errorSchema={errorSchema}
             formData={formData}
             idPrefix={idPrefix}
             idSchema={idSchema}
@@ -160,7 +158,6 @@ class AnyOfField extends Component {
 
 AnyOfField.defaultProps = {
   disabled: false,
-  errorSchema: {},
   idSchema: {},
   uiSchema: {},
 };
@@ -168,7 +165,6 @@ AnyOfField.defaultProps = {
 if (process.env.NODE_ENV !== 'production') {
   AnyOfField.propTypes = {
     baseType: PropTypes.string,
-    errorSchema: PropTypes.object,
     formData: PropTypes.any,
     idSchema: PropTypes.object,
     options: PropTypes.arrayOf(PropTypes.object).isRequired,

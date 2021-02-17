@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /* eslint-disable react/no-find-dom-node */
 /* eslint-disable max-classes-per-file */
 import React from 'react';
@@ -48,7 +47,7 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
       expect(node.querySelectorAll('button[type=submit]')).toHaveLength(2);
     });
 
-    it("should render errors if schema isn't object", () => {
+    it("should render an UnsupportedField error if schema isn't object", () => {
       const props = {
         schema: {
           type: 'object',
@@ -118,8 +117,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
         expect(onChangeProp).toHaveBeenCalledWith({
           formData: { ...formData, count: 789 },
           schema,
-          errorSchema: {},
-          errors: [],
           edit: true,
           uiSchema: {},
           idSchema: { $id: 'root', count: { $id: 'root_count' } },
@@ -270,19 +267,7 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
     const formData = { foo: 'invalid' };
 
     function FieldTemplate(props) {
-      const {
-        id,
-        classNames,
-        label,
-        help,
-        rawHelp,
-        required,
-        description,
-        rawDescription,
-        errors,
-        rawErrors,
-        children,
-      } = props;
+      const { id, classNames, label, help, rawHelp, required, description, rawDescription, children } = props;
       return (
         <div className={`my-template ${classNames}`}>
           <label htmlFor={id}>
@@ -291,19 +276,9 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
           </label>
           {description}
           {children}
-          {errors}
           {help}
           <span className="raw-help">{`${rawHelp} rendered from the raw format`}</span>
           <span className="raw-description">{`${rawDescription} rendered from the raw format`}</span>
-          {rawErrors ? (
-            <ul>
-              {rawErrors.map((error, i) => (
-                <li key={i} className="raw-error">
-                  {error}
-                </li>
-              ))}
-            </ul>
-          ) : null}
         </div>
       );
     }
@@ -316,7 +291,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
         uiSchema,
         formData,
         FieldTemplate,
-        liveValidate: true,
       }).node;
     });
 
@@ -337,14 +311,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
       expect(node.querySelector('.raw-description')).toHaveTextContent(
         'this is description rendered from the raw format'
       );
-    });
-
-    it('should pass errors as the provided React component', () => {
-      expect(node.querySelectorAll('.error-detail li')).toHaveLength(1);
-    });
-
-    it('should pass rawErrors as an array of strings', () => {
-      expect(node.querySelectorAll('.raw-error')).toHaveLength(1);
     });
 
     it('should pass help as a the provided React element', () => {
@@ -746,33 +712,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
         expect.objectContaining(event)
       );
     });
-
-    it('should not call provided submit handler on validation errors', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          foo: {
-            type: 'string',
-            minLength: 1,
-          },
-        },
-      };
-      const formData = {
-        foo: '',
-      };
-      const onSubmit = jest.fn();
-      const onError = jest.fn();
-      const { node } = createFormComponent({
-        schema,
-        formData,
-        onSubmit,
-        onError,
-      });
-
-      Simulate.submit(node);
-
-      expect(onSubmit).not.toHaveBeenCalled();
-    });
   });
 
   describe('Change handler', () => {
@@ -859,29 +798,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
     });
   });
 
-  describe('Error handler', () => {
-    it('should call provided error handler on validation errors', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          foo: {
-            type: 'string',
-            minLength: 1,
-          },
-        },
-      };
-      const formData = {
-        foo: '',
-      };
-      const onError = jest.fn();
-      const { node } = createFormComponent({ schema, formData, onError });
-
-      Simulate.submit(node);
-
-      expect(onError).toHaveBeenCalledTimes(1);
-    });
-  });
-
   describe('Schema and external formData updates', () => {
     let comp;
     let onChangeProp;
@@ -913,8 +829,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
         expect(onChangeProp).toHaveBeenCalledWith({
           additionalMetaSchemas: undefined,
           edit: true,
-          errorSchema: {},
-          errors: [],
           formData: 'foobar',
           idSchema: { $id: 'root' },
           schema: formProps.schema,
@@ -1030,7 +944,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
     describe('root level', () => {
       const formProps = {
         schema: { type: 'string' },
-        liveValidate: true,
       };
 
       it('should call submit handler with new formData prop value', () => {
@@ -1047,30 +960,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
             formData: 'yo',
           }),
           expect.anything()
-        );
-      });
-
-      it('should validate formData when the schema is updated', () => {
-        const { comp, node, onError } = createFormComponent(formProps);
-
-        setProps(comp, {
-          ...formProps,
-          onError,
-          formData: 'yo',
-          schema: { type: 'number' },
-        });
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should be number',
-              name: 'type',
-              params: { type: 'number' },
-              property: '',
-              schemaPath: '#/type',
-              stack: 'should be number',
-            },
-          ])
         );
       });
     });
@@ -1125,7 +1014,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
     it('root', () => {
       const formProps = {
         schema: { type: 'string' },
-        liveValidate: true,
       };
       const { node, onChange } = createFormComponent(formProps);
 
@@ -1263,688 +1151,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
           },
         })
       );
-    });
-  });
-
-  describe('Error contextualization', () => {
-    describe('on form state updated', () => {
-      const schema = {
-        type: 'string',
-        minLength: 8,
-      };
-
-      describe('Lazy validation', () => {
-        it('should not update the errorSchema when the formData changes', () => {
-          const { node, onChange } = createFormComponent({ schema });
-
-          Simulate.change(node.querySelector('input[type=text]'), {
-            target: { value: 'short' },
-          });
-
-          expect(onChange).toHaveBeenLastCalledWith(
-            expect.not.objectContaining({
-              errorSchema: undefined,
-            })
-          );
-        });
-
-        it('should not denote an error in the field', () => {
-          const { node } = createFormComponent({ schema });
-
-          Simulate.change(node.querySelector('input[type=text]'), {
-            target: { value: 'short' },
-          });
-
-          expect(node.querySelectorAll('.field-error')).toHaveLength(0);
-        });
-
-        it("should clean contextualized errors up when they're fixed", () => {
-          const altSchema = {
-            type: 'object',
-            properties: {
-              field1: { type: 'string', minLength: 8 },
-              field2: { type: 'string', minLength: 8 },
-            },
-          };
-          const { node } = createFormComponent({
-            schema: altSchema,
-            formData: {
-              field1: 'short',
-              field2: 'short',
-            },
-          });
-
-          Simulate.submit(node);
-
-          // Fix the first field
-          Simulate.change(node.querySelectorAll('input[type=text]')[0], {
-            target: { value: 'fixed error' },
-          });
-          Simulate.submit(node);
-
-          expect(node.querySelectorAll('.field-error')).toHaveLength(1);
-
-          // Fix the second field
-          Simulate.change(node.querySelectorAll('input[type=text]')[1], {
-            target: { value: 'fixed error too' },
-          });
-          Simulate.submit(node);
-
-          // No error remaining, shouldn't throw.
-          Simulate.submit(node);
-
-          expect(node.querySelectorAll('.field-error')).toHaveLength(0);
-        });
-      });
-
-      describe('Live validation', () => {
-        it('should update the errorSchema when the formData changes', () => {
-          const { node, onChange } = createFormComponent({
-            schema,
-            liveValidate: true,
-          });
-
-          Simulate.change(node.querySelector('input[type=text]'), {
-            target: { value: 'short' },
-          });
-
-          expect(onChange).toHaveBeenLastCalledWith(
-            expect.objectContaining({
-              errorSchema: {
-                __errors: ['should NOT be shorter than 8 characters'],
-              },
-            })
-          );
-        });
-
-        it('should denote the new error in the field', () => {
-          const { node } = createFormComponent({
-            schema,
-            liveValidate: true,
-          });
-
-          Simulate.change(node.querySelector('input[type=text]'), {
-            target: { value: 'short' },
-          });
-
-          expect(node.querySelectorAll('.field-error')).toHaveLength(1);
-          expect(node.querySelector('.field-string .error-detail')).toHaveTextContent(
-            'should NOT be shorter than 8 characters'
-          );
-        });
-      });
-
-      describe('Disable validation onChange event', () => {
-        it('should not update errorSchema when the formData changes', () => {
-          const { node, onChange } = createFormComponent({
-            schema,
-            noValidate: true,
-            liveValidate: true,
-          });
-
-          Simulate.change(node.querySelector('input[type=text]'), {
-            target: { value: 'short' },
-          });
-
-          expect(onChange).toHaveBeenLastCalledWith(
-            expect.not.objectContaining({
-              errorSchema: undefined,
-            })
-          );
-        });
-      });
-
-      describe('Disable validation onSubmit event', () => {
-        it('should not update errorSchema when the formData changes', () => {
-          const { node, onSubmit } = createFormComponent({
-            schema,
-            noValidate: true,
-          });
-
-          Simulate.change(node.querySelector('input[type=text]'), {
-            target: { value: 'short' },
-          });
-          Simulate.submit(node);
-
-          expect(onSubmit).toHaveBeenLastCalledWith(
-            expect.objectContaining({
-              errorSchema: {},
-            }),
-            expect.anything()
-          );
-        });
-      });
-    });
-
-    describe('on form submitted', () => {
-      const schema = {
-        type: 'string',
-        minLength: 8,
-      };
-
-      it('should call the onError handler', () => {
-        const onError = jest.fn();
-        const { node } = createFormComponent({ schema, onError });
-
-        Simulate.change(node.querySelector('input[type=text]'), {
-          target: { value: 'short' },
-        });
-        Simulate.submit(node);
-
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            expect.objectContaining({
-              message: expect.stringContaining('should NOT be shorter than 8 characters'),
-            }),
-          ])
-        );
-      });
-
-      it('should reset errors and errorSchema state to initial state after correction and resubmission', () => {
-        const { node, onError } = createFormComponent({
-          schema,
-        });
-
-        Simulate.change(node.querySelector('input[type=text]'), {
-          target: { value: 'short' },
-        });
-        Simulate.submit(node);
-
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 8 characters',
-              name: 'minLength',
-              params: { limit: 8 },
-              property: '',
-              schemaPath: '#/minLength',
-              stack: 'should NOT be shorter than 8 characters',
-            },
-          ])
-        );
-        expect(onError).toHaveBeenCalledTimes(1);
-        onError.mockClear();
-
-        Simulate.change(node.querySelector('input[type=text]'), {
-          target: { value: 'long enough' },
-        });
-        Simulate.submit(node);
-        expect(onError).not.toHaveBeenCalled();
-      });
-    });
-
-    describe('root level', () => {
-      const formProps = {
-        liveValidate: true,
-        schema: {
-          type: 'string',
-          minLength: 8,
-        },
-        formData: 'short',
-      };
-
-      it('should reflect the contextualized error in state', () => {
-        const { node, onError } = createFormComponent(formProps);
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 8 characters',
-              name: 'minLength',
-              params: { limit: 8 },
-              property: '',
-              schemaPath: '#/minLength',
-              stack: 'should NOT be shorter than 8 characters',
-            },
-          ])
-        );
-      });
-
-      it('should denote the error in the field', () => {
-        const { node } = createFormComponent(formProps);
-
-        expect(node.querySelectorAll('.field-error')).toHaveLength(1);
-        expect(node.querySelector('.field-string .error-detail')).toHaveTextContent(
-          'should NOT be shorter than 8 characters'
-        );
-      });
-    });
-
-    describe('root level with multiple errors', () => {
-      const formProps = {
-        liveValidate: true,
-        schema: {
-          type: 'string',
-          minLength: 8,
-          pattern: 'd+',
-        },
-        formData: 'short',
-      };
-
-      it('should reflect the contextualized error in state', () => {
-        const { node, onError } = createFormComponent(formProps);
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 8 characters',
-              name: 'minLength',
-              params: { limit: 8 },
-              property: '',
-              schemaPath: '#/minLength',
-              stack: 'should NOT be shorter than 8 characters',
-            },
-            {
-              message: 'should match pattern "d+"',
-              name: 'pattern',
-              params: { pattern: 'd+' },
-              property: '',
-              schemaPath: '#/pattern',
-              stack: 'should match pattern "d+"',
-            },
-          ])
-        );
-      });
-
-      it('should denote the error in the field', () => {
-        const { node } = createFormComponent(formProps);
-
-        const liNodes = node.querySelectorAll('.field-string .error-detail li');
-        const errors = [].map.call(liNodes, li => li.textContent);
-
-        expect(errors).toStrictEqual(['should NOT be shorter than 8 characters', 'should match pattern "d+"']);
-      });
-    });
-
-    describe('nested field level', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          level1: {
-            type: 'object',
-            properties: {
-              level2: {
-                type: 'string',
-                minLength: 8,
-              },
-            },
-          },
-        },
-      };
-
-      const formProps = {
-        schema,
-        liveValidate: true,
-        formData: {
-          level1: {
-            level2: 'short',
-          },
-        },
-      };
-
-      it('should reflect the contextualized error in state', () => {
-        const { node, onError } = createFormComponent(formProps);
-
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 8 characters',
-              name: 'minLength',
-              params: { limit: 8 },
-              property: '.level1.level2',
-              schemaPath: '#/properties/level1/properties/level2/minLength',
-              stack: '.level1.level2 should NOT be shorter than 8 characters',
-            },
-          ])
-        );
-      });
-
-      it('should denote the error in the field', () => {
-        const { node } = createFormComponent(formProps);
-        const errorDetail = node.querySelector('.field-object .field-string .error-detail');
-
-        expect(node.querySelectorAll('.field-error')).toHaveLength(1);
-        expect(errorDetail).toHaveTextContent('should NOT be shorter than 8 characters');
-      });
-    });
-
-    describe('array indices', () => {
-      const schema = {
-        type: 'array',
-        items: {
-          type: 'string',
-          minLength: 4,
-        },
-      };
-
-      const formProps = {
-        schema,
-        liveValidate: true,
-        formData: ['good', 'bad', 'good'],
-      };
-
-      it('should contextualize the error for array indices', () => {
-        const { node, onError } = createFormComponent(formProps);
-
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 4 characters',
-              name: 'minLength',
-              params: { limit: 4 },
-              property: '[1]',
-              schemaPath: '#/items/minLength',
-              stack: '[1] should NOT be shorter than 4 characters',
-            },
-          ])
-        );
-      });
-
-      it('should denote the error in the item field in error', () => {
-        const { node } = createFormComponent(formProps);
-        const fieldNodes = node.querySelectorAll('.field-string');
-
-        const liNodes = fieldNodes[1].querySelectorAll('.field-string .error-detail li');
-        const errors = [].map.call(liNodes, li => li.textContent);
-
-        expect(fieldNodes[1]).toHaveClass('field-error');
-        expect(errors).toStrictEqual(['should NOT be shorter than 4 characters']);
-      });
-
-      it('should not denote errors on non impacted fields', () => {
-        const { node } = createFormComponent(formProps);
-        const fieldNodes = node.querySelectorAll('.field-string');
-
-        expect(fieldNodes[0]).not.toHaveClass('field-error');
-        expect(fieldNodes[2]).not.toHaveClass('field-error');
-      });
-    });
-
-    describe('nested array indices', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          level1: {
-            type: 'array',
-            items: {
-              type: 'string',
-              minLength: 4,
-            },
-          },
-        },
-      };
-
-      const formProps = { schema, liveValidate: true };
-
-      it('should contextualize the error for nested array indices', () => {
-        const { node, onError } = createFormComponent({
-          ...formProps,
-          formData: {
-            level1: ['good', 'bad', 'good', 'bad'],
-          },
-        });
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 4 characters',
-              name: 'minLength',
-              params: { limit: 4 },
-              property: '.level1[1]',
-              schemaPath: '#/properties/level1/items/minLength',
-              stack: '.level1[1] should NOT be shorter than 4 characters',
-            },
-            {
-              message: 'should NOT be shorter than 4 characters',
-              name: 'minLength',
-              params: { limit: 4 },
-              property: '.level1[3]',
-              schemaPath: '#/properties/level1/items/minLength',
-              stack: '.level1[3] should NOT be shorter than 4 characters',
-            },
-          ])
-        );
-      });
-
-      it('should denote the error in the nested item field in error', () => {
-        const { node } = createFormComponent({
-          ...formProps,
-          formData: {
-            level1: ['good', 'bad', 'good'],
-          },
-        });
-
-        const liNodes = node.querySelectorAll('.field-string .error-detail li');
-        const errors = [].map.call(liNodes, li => li.textContent);
-
-        expect(errors).toStrictEqual(['should NOT be shorter than 4 characters']);
-      });
-    });
-
-    describe('nested arrays', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          outer: {
-            type: 'array',
-            items: {
-              type: 'array',
-              items: {
-                type: 'string',
-                minLength: 4,
-              },
-            },
-          },
-        },
-      };
-
-      const formData = {
-        outer: [
-          ['good', 'bad'],
-          ['bad', 'good'],
-        ],
-      };
-
-      const formProps = { schema, formData, liveValidate: true };
-
-      it('should contextualize the error for nested array indices', () => {
-        const { node, onError } = createFormComponent(formProps);
-
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 4 characters',
-              name: 'minLength',
-              params: { limit: 4 },
-              property: '.outer[0][1]',
-              schemaPath: '#/properties/outer/items/items/minLength',
-              stack: '.outer[0][1] should NOT be shorter than 4 characters',
-            },
-            {
-              message: 'should NOT be shorter than 4 characters',
-              name: 'minLength',
-              params: { limit: 4 },
-              property: '.outer[1][0]',
-              schemaPath: '#/properties/outer/items/items/minLength',
-              stack: '.outer[1][0] should NOT be shorter than 4 characters',
-            },
-          ])
-        );
-      });
-
-      it('should denote the error in the nested item field in error', () => {
-        const { node } = createFormComponent(formProps);
-        const fields = node.querySelectorAll('.field-string');
-        const errors = [].map.call(fields, field => {
-          const li = field.querySelector('.error-detail li');
-          return li && li.textContent;
-        });
-
-        expect(errors).toStrictEqual([
-          null,
-          'should NOT be shorter than 4 characters',
-          'should NOT be shorter than 4 characters',
-          null,
-        ]);
-      });
-    });
-
-    describe('array nested items', () => {
-      const schema = {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            foo: {
-              type: 'string',
-              minLength: 4,
-            },
-          },
-        },
-      };
-
-      const formProps = {
-        schema,
-        liveValidate: true,
-        formData: [{ foo: 'good' }, { foo: 'bad' }, { foo: 'good' }],
-      };
-
-      it('should contextualize the error for array nested items', () => {
-        const { node, onError } = createFormComponent(formProps);
-
-        submitForm(node);
-        expect(onError).toHaveBeenLastCalledWith(
-          expect.arrayContaining([
-            {
-              message: 'should NOT be shorter than 4 characters',
-              name: 'minLength',
-              params: { limit: 4 },
-              property: '[1].foo',
-              schemaPath: '#/items/properties/foo/minLength',
-              stack: '[1].foo should NOT be shorter than 4 characters',
-            },
-          ])
-        );
-      });
-
-      it('should denote the error in the array nested item', () => {
-        const { node } = createFormComponent(formProps);
-        const fieldNodes = node.querySelectorAll('.field-string');
-
-        const liNodes = fieldNodes[1].querySelectorAll('.field-string .error-detail li');
-        const errors = [].map.call(liNodes, li => li.textContent);
-
-        expect(fieldNodes[1]).toHaveClass('field-error');
-        expect(errors).toStrictEqual(['should NOT be shorter than 4 characters']);
-      });
-    });
-
-    describe('schema dependencies', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          branch: {
-            type: 'number',
-            enum: [1, 2, 3],
-            default: 1,
-          },
-        },
-        required: ['branch'],
-        dependencies: {
-          branch: {
-            oneOf: [
-              {
-                properties: {
-                  branch: {
-                    enum: [1],
-                  },
-                  field1: {
-                    type: 'number',
-                  },
-                },
-                required: ['field1'],
-              },
-              {
-                properties: {
-                  branch: {
-                    enum: [2],
-                  },
-                  field1: {
-                    type: 'number',
-                  },
-                  field2: {
-                    type: 'number',
-                  },
-                },
-                required: ['field1', 'field2'],
-              },
-            ],
-          },
-        },
-      };
-
-      it('should only show error for property in selected branch', () => {
-        const { node, onChange } = createFormComponent({
-          schema,
-          liveValidate: true,
-        });
-
-        Simulate.change(node.querySelector('input[type=number]'), {
-          target: { value: 'not a number' },
-        });
-
-        expect(onChange).toHaveBeenLastCalledWith(
-          expect.objectContaining({
-            errorSchema: { field1: { __errors: ['should be number'] } },
-          })
-        );
-      });
-
-      it('should only show errors for properties in selected branch', () => {
-        const { node, onChange } = createFormComponent({
-          schema,
-          liveValidate: true,
-          formData: { branch: 2 },
-        });
-
-        Simulate.change(node.querySelector('input[type=number]'), {
-          target: { value: 'not a number' },
-        });
-
-        expect(onChange).toHaveBeenLastCalledWith(
-          expect.objectContaining({
-            errorSchema: {
-              field1: {
-                __errors: ['should be number'],
-              },
-              field2: {
-                __errors: ['is a required property'],
-              },
-            },
-          })
-        );
-      });
-
-      it('should not show any errors when branch is empty', () => {
-        const { node, onChange } = createFormComponent({
-          schema,
-          liveValidate: true,
-          formData: { branch: 3 },
-        });
-
-        Simulate.change(node.querySelector('select'), {
-          target: { value: 3 },
-        });
-
-        expect(onChange).toHaveBeenLastCalledWith(
-          expect.objectContaining({
-            errorSchema: {},
-          })
-        );
-      });
     });
   });
 
@@ -2175,7 +1381,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
       autoComplete: 'off',
       enctype: 'multipart/form-data',
       acceptcharset: 'ISO-8859-1',
-      noHtml5Validate: true,
     };
 
     let node;
@@ -2219,10 +1424,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
     it('should set attr acceptcharset of form', () => {
       expect(node).toHaveAttribute('accept-charset', formProps.acceptcharset);
     });
-
-    it('should set attr novalidate of form', () => {
-      expect(node.getAttribute('novalidate')).not.toBeNull();
-    });
   });
 
   describe('Deprecated autocomplete attribute', () => {
@@ -2254,126 +1455,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
       };
       const node = createFormComponent(formProps).node;
       expect(node).toHaveAttribute('autocomplete', formProps.autoComplete);
-    });
-  });
-
-  describe('Custom format updates', () => {
-    it('should update custom formats when customFormats is changed', () => {
-      const formProps = {
-        liveValidate: true,
-        formData: {
-          areaCode: '123455',
-        },
-        schema: {
-          type: 'object',
-          properties: {
-            areaCode: {
-              type: 'string',
-              format: 'area-code',
-            },
-          },
-        },
-        uiSchema: {
-          areaCode: {
-            'ui:widget': 'area-code',
-          },
-        },
-        widgets: {
-          'area-code': () => <div id="custom" />,
-        },
-      };
-
-      const { comp, node, onError } = createFormComponent(formProps);
-
-      submitForm(node);
-      expect(onError).not.toHaveBeenCalled();
-
-      setProps(comp, {
-        ...formProps,
-        onError,
-        customFormats: {
-          'area-code': /^\d{3}$/,
-        },
-      });
-
-      submitForm(node);
-      expect(onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            message: 'should match format "area-code"',
-            name: 'format',
-            params: { format: 'area-code' },
-            property: '.areaCode',
-            schemaPath: '#/properties/areaCode/format',
-            stack: '.areaCode should match format "area-code"',
-          },
-        ])
-      );
-    });
-  });
-
-  describe('Meta schema updates', () => {
-    it('Should update allowed meta schemas when additionalMetaSchemas is changed', () => {
-      const formProps = {
-        liveValidate: true,
-        schema: {
-          $schema: 'http://json-schema.org/draft-04/schema#',
-          type: 'string',
-          minLength: 8,
-          pattern: 'd+',
-        },
-        formData: 'short',
-        additionalMetaSchemas: [],
-      };
-
-      const { comp, node, onError } = createFormComponent(formProps);
-      submitForm(node);
-      expect(onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            stack: 'no schema with key or ref "http://json-schema.org/draft-04/schema#"',
-          },
-        ])
-      );
-
-      setProps(comp, {
-        ...formProps,
-        onError,
-        additionalMetaSchemas: [require('ajv/lib/refs/json-schema-draft-04.json')],
-      });
-
-      submitForm(node);
-      expect(onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            message: 'should NOT be shorter than 8 characters',
-            name: 'minLength',
-            params: { limit: 8 },
-            property: '',
-            schemaPath: '#/minLength',
-            stack: 'should NOT be shorter than 8 characters',
-          },
-          {
-            message: 'should match pattern "d+"',
-            name: 'pattern',
-            params: { pattern: 'd+' },
-            property: '',
-            schemaPath: '#/pattern',
-            stack: 'should match pattern "d+"',
-          },
-        ])
-      );
-
-      setProps(comp, { ...formProps, onError });
-
-      submitForm(node);
-      expect(onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            stack: 'no schema with key or ref "http://json-schema.org/draft-04/schema#"',
-          },
-        ])
-      );
     });
   });
 
@@ -2445,44 +1526,6 @@ describe.each(formExtraPropsList)('Form with props: `%s`', formExtraProps => {
   });
 
   describe('Dependencies', () => {
-    it('should not give a validation error by duplicating enum values in dependencies', () => {
-      const schema = {
-        title: 'A registration form',
-        description: 'A simple form example.',
-        type: 'object',
-        properties: {
-          type1: {
-            type: 'string',
-            title: 'Type 1',
-            enum: ['FOO', 'BAR', 'BAZ'],
-          },
-          type2: {
-            type: 'string',
-            title: 'Type 2',
-            enum: ['GREEN', 'BLUE', 'RED'],
-          },
-        },
-        dependencies: {
-          type1: {
-            properties: {
-              type1: {
-                enum: ['FOO'],
-              },
-              type2: {
-                enum: ['GREEN'],
-              },
-            },
-          },
-        },
-      };
-      const formData = {
-        type1: 'FOO',
-      };
-      const { node, onError } = createFormComponent({ schema, formData });
-      Simulate.submit(node);
-      expect(onError).not.toHaveBeenCalled();
-    });
-
     it('should show dependency defaults for uncontrolled components', () => {
       const schema = {
         type: 'object',
@@ -2588,13 +1631,11 @@ describe('Form omitExtraData and liveOmit', () => {
         foo: '',
       };
       const onSubmit = jest.fn();
-      const onError = jest.fn();
       const omitExtraData = true;
       const { comp, node } = createFormComponent({
         schema,
         formData,
         onSubmit,
-        onError,
         omitExtraData,
       });
 
@@ -2968,57 +2009,5 @@ describe('Form omitExtraData and liveOmit', () => {
         formData: { foo: 'foobar' },
       })
     );
-  });
-
-  describe('Async errors', () => {
-    it('should render the async errors', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          foo: { type: 'string' },
-          candy: {
-            type: 'object',
-            properties: {
-              bar: { type: 'string' },
-            },
-          },
-        },
-      };
-
-      const extraErrors = {
-        foo: {
-          __errors: ['some error that got added as a prop'],
-        },
-        candy: {
-          bar: {
-            __errors: ['some other error that got added as a prop'],
-          },
-        },
-      };
-
-      const { node } = createFormComponent({ schema, extraErrors });
-
-      expect(node.querySelectorAll('.error-detail li')).toHaveLength(2);
-    });
-
-    it('should not block form submission', () => {
-      const onSubmit = jest.fn();
-      const schema = {
-        type: 'object',
-        properties: {
-          foo: { type: 'string' },
-        },
-      };
-
-      const extraErrors = {
-        foo: {
-          __errors: ['some error that got added as a prop'],
-        },
-      };
-
-      const { node } = createFormComponent({ schema, extraErrors, onSubmit });
-      Simulate.submit(node);
-      expect(onSubmit).toHaveBeenCalledTimes(1);
-    });
   });
 });

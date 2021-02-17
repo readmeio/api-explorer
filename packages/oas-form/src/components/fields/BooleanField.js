@@ -18,7 +18,6 @@ function BooleanField(props) {
     onChange,
     onFocus,
     onBlur,
-    rawErrors,
   } = props;
   const { title } = schema;
   const { widgets, formContext, fields } = registry;
@@ -53,7 +52,6 @@ function BooleanField(props) {
       onChange={onChange}
       onFocus={onFocus}
       options={{ ...options, enumOptions }}
-      rawErrors={rawErrors}
       readonly={readonly}
       registry={registry}
       required={required}
