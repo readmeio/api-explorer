@@ -1,3 +1,10 @@
+## 12.0.0 (2021-02-18)
+
+* fix: updating oas to fix a bug with shapeless allOf child schemas (#1190) ([524a788](https://github.com/readmeio/api-explorer/commit/524a788)), closes [#1190](https://github.com/readmeio/api-explorer/issues/1190)
+* feat: add support for discriminators (#1157) ([3c18942](https://github.com/readmeio/api-explorer/commit/3c18942)), closes [#1157](https://github.com/readmeio/api-explorer/issues/1157)
+
+
+
 ## <small>11.2.2 (2021-02-16)</small>
 
 * fix: upgrading httpsnippet to fix a ruby ssl exploit (#1187) ([e5732eb](https://github.com/readmeio/api-explorer/commit/e5732eb)), closes [#1187](https://github.com/readmeio/api-explorer/issues/1187)
