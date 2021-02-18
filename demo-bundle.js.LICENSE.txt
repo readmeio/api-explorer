@@ -47,7 +47,7 @@ object-assign
 
 /*! For license information please see index.js.LICENSE.txt */
 
-/*! algoliasearch-lite.umd.js | 4.8.3 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
+/*! algoliasearch-lite.umd.js | 4.8.5 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
 
 /*! clipboard-copy. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
