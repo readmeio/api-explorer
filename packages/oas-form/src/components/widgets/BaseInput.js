@@ -112,7 +112,7 @@ if (process.env.NODE_ENV !== 'production') {
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     readonly: PropTypes.bool,
     required: PropTypes.bool,
     value: PropTypes.any,
