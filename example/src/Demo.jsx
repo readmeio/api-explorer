@@ -1,6 +1,9 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const { Flex, Toggle } = require('@readme/ui/.bundles/es/ui/components');
+
+const { Button, Flex, Tabs, Toggle, TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/components');
+const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
+const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
 const extensions = require('../../packages/oas-extensions');
 
@@ -119,6 +122,18 @@ class Demo extends React.Component {
 
       suggestedEdits: true,
       useNewMarkdownEngine,
+
+      // API Explorer does not ship with our UI library so we need to give it the components it needs.
+      ui: {
+        Button,
+        Tabs,
+        tutorials: {
+          DEFAULT_TUTORIAL,
+          TutorialModal,
+          TutorialTile,
+          TutorialVariableContext,
+        },
+      },
 
       variables: {
         // Uncomment this to test without logs
