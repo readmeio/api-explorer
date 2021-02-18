@@ -5,7 +5,6 @@ const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
 const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
-const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 
 const createArrayField = require('./form-components/ArrayField');
 const createBaseInput = require('./form-components/BaseInput');
@@ -123,6 +122,7 @@ class Params extends React.Component {
 
   render() {
     const { CodeEditor, enableJsonEditor, formDataJsonRaw, onJsonChange, resetForm, validationErrors } = this.props;
+    const { Button, Tabs } = this.props.ui;
 
     return (
       <div
@@ -199,6 +199,10 @@ Params.propTypes = {
   SchemaField: PropTypes.func.isRequired,
   SelectWidget: PropTypes.func.isRequired,
   TextareaWidget: PropTypes.func.isRequired,
+  ui: PropTypes.shape({
+    Button: PropTypes.func,
+    Tabs: PropTypes.func,
+  }),
   URLWidget: PropTypes.func.isRequired,
   useNewMarkdownEngine: PropTypes.bool,
   validationErrors: PropTypes.shape({
@@ -211,6 +215,10 @@ Params.defaultProps = {
   enableJsonEditor: false,
   formData: {},
   formDataJsonRaw: '{}',
+  ui: {
+    Button: () => {},
+    Tabs: () => {},
+  },
   useNewMarkdownEngine: false,
   validationErrors: {
     form: false,

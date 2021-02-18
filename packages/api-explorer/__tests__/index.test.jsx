@@ -5,6 +5,11 @@ const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 
+const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
+const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
+const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
+const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
+
 const WrappedApiExplorer = require('../src');
 const AuthBox = require('../src/AuthBox');
 const ErrorBoundary = require('../src/ErrorBoundary');
@@ -40,6 +45,16 @@ const props = {
   },
   shouldDereferenceOas: false,
   suggestedEdits: false,
+  ui: {
+    Button,
+    Tabs,
+    tutorials: {
+      DEFAULT_TUTORIAL,
+      TutorialModal,
+      TutorialTile,
+      TutorialVariableContext,
+    },
+  },
   variables: { user: {}, defaults: [] },
 };
 

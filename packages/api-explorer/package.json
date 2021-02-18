@@ -41,7 +41,6 @@
   },
   "peerDependencies": {
     "@readme/markdown": "^6.21.0",
-    "@readme/ui": "^1.17.0",
     "@readme/variable": "^11.0.0",
     "react": "16.x",
     "react-dom": "16.x"
@@ -50,7 +49,7 @@
     "@readme/eslint-config": "^4.0.0",
     "@readme/markdown": "^6.21.0",
     "@readme/oas-examples": "^4.0.0",
-    "@readme/ui": "^1.17.6",
+    "@readme/ui": "^1.17.8",
     "@readme/variable": "^12.0.0",
     "@testing-library/react": "^11.2.2",
     "css-loader": "^4.3.0",
