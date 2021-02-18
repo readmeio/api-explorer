@@ -481,6 +481,7 @@ class Doc extends React.Component {
         onModeChange={this.onModeChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
+        parameters={this.props.user.parameters}
         resetForm={this.resetForm}
         validationErrors={validationErrors}
       />
@@ -632,7 +633,9 @@ Doc.propTypes = {
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
   useNewMarkdownEngine: PropTypes.bool,
-  user: PropTypes.shape({}),
+  user: PropTypes.shape({
+    parameters: PropTypes.object,
+  }),
 };
 
 Doc.defaultProps = {
