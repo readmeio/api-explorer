@@ -55,8 +55,15 @@ async function getProps(oas) {
   return props;
 }
 
+const defaultProps = {
+  glossaryTerms: [],
+  suggestedEdits: false,
+  variables: { user: {}, defaults: [] },
+  maskErrorMessages: false,
+};
+
 async function testOasJSON(oas) {
-  const doc = mount(React.createElement(APIExplorer, await getProps(oas)));
+  const doc = mount(React.createElement(APIExplorer, Object.assign(defaultProps, await getProps(oas))));
   // Enzyme doesn't automatically wrap our mounted component in `act()` so we need to do some hocus pocus here to get
   // ReactDOM from throwing the following error:
   //
@@ -71,7 +78,8 @@ async function testOasJSON(oas) {
 test('should load fine', async () => {
   // eslint-disable-next-line no-restricted-syntax
   for (const oasFilename of dir) {
-    if (oasFilename !== 'manual-api-missingInOas.json') {
+    // eslint-disable-next-line jest/no-if
+    if (oasFilename === 'directory.json') {
       continue;
     }
 
