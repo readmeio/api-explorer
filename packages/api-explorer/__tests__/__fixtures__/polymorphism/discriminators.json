@@ -1,0 +1,365 @@
+{
+    "openapi": "3.0.0",
+    "servers": [
+      {
+        "url": "https://httpbin.org"
+      }
+    ],
+    "info": {
+      "version": "1.0.0",
+      "title": "polymorphism support"
+    },
+    "paths": {
+      "/oneOfWithTopLevelDiscriminatorAndMapping": {
+        "patch": {
+          "summary": "oneOf with top level discriminator and mapping",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OptionOneNoDisc"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OptionTwoNoDisc"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "discrim",
+                    "mapping": {
+                      "Option One": "#/components/schemas/OptionOneNoDisc",
+                      "Option Two": "#/components/schemas/OptionTwoNoDisc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated"
+            }
+          }
+        }
+      },
+      "/oneOfWithTopLevelDiscriminatorNoMapping": {
+        "patch": {
+          "summary": "oneOf with top level discriminator and NO mapping",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OptionOneNoDisc"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OptionTwoNoDisc"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "discrim"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated"
+            }
+          }
+        }
+      },
+      "/pets": {
+        "patch": {
+          "summary": "oneOf request with a nested allOf and embedded discriminator",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Cat"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Dog"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated"
+            }
+          }
+        }
+      },
+      "/oneof-allof-top-level-disc": {
+        "patch": {
+          "summary": "oneOf request with a nested allOf and top level discriminator",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/CatNoDisc"
+                    },
+                    {
+                      "$ref": "#/components/schemas/DogNoDisc"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "pet_type"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated"
+            }
+          }
+        }
+      },
+      "/anything/nested-one-of-object-with-nested-one-of": {
+        "patch": {
+          "summary": "oneOf request with a nested oneOf, and embedded discriminator",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/object1"
+                        },
+                        {
+                          "$ref": "#/components/schemas/object2"
+                        },
+                        {
+                          "oneOf": [
+                            {
+                              "$ref": "#/components/schemas/Cat"
+                            },
+                            {
+                              "$ref": "#/components/schemas/Dog"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "requestBodies": {
+        "nested-one-of-ref": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "config": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/string1"
+                      },
+                      {
+                        "$ref": "#/components/schemas/string2"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "schemas": {
+        "OptionOneNoDisc": {
+          "type": "object",
+          "required": [
+              "discrim"
+          ],
+          "properties": {
+              "discrim": {
+                "type": "string"
+              },
+              "optionone": {
+                "type": "number"
+              }
+          }
+        },
+        "OptionTwoNoDisc": {
+          "type": "object",
+          "required": [
+              "discrim"
+          ],
+          "properties": {
+              "discrim": {
+                "type": "string"
+              },
+              "optiontwo": {
+                "type": "string"
+              }
+          }
+        },
+        "Pet": {
+          "type": "object",
+          "required": [
+            "pet_type"
+          ],
+          "properties": {
+            "pet_type": {
+              "type": "string"
+            }
+          },
+          "discriminator": {
+            "propertyName": "pet_type"
+          }
+        },
+        "Dog": {
+          "title": "Woof",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Pet"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "bark": {
+                  "type": "boolean"
+                },
+                "breed": {
+                  "type": "string",
+                  "enum": ["Dingo", "Husky", "Retriever", "Shepherd"]
+                }
+              }
+            }
+          ]
+        },
+        "Cat": {
+          "title": "Meow",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Pet"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "hunts": {
+                  "type": "boolean"
+                },
+                "age": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
+        },
+        "object1": {
+          "title": "First type of object",
+          "type": "object",
+          "properties": {
+            "a": {
+              "type": "string"
+            },
+            "b": {
+              "type": "string"
+            }
+          }
+        },
+        "object2": {
+          "title": "Second type of object",
+          "type": "object",
+          "properties": {
+            "c": {
+              "type": "string"
+            },
+            "d": {
+              "type": "string"
+            }
+          }
+        },
+        "string1": {
+          "type": "string"
+        },
+        "string2": {
+          "type": "string"
+        },
+        "PetNoDisc": {
+          "type": "object",
+          "required": [
+            "pet_type"
+          ],
+          "properties": {
+            "pet_type": {
+              "type": "string"
+            }
+          }
+        },
+        "DogNoDisc": {
+          "title": "Woof",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/PetNoDisc"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "bark": {
+                  "type": "boolean"
+                },
+                "breed": {
+                  "type": "string",
+                  "enum": ["Dingo", "Husky", "Retriever", "Shepherd"]
+                }
+              }
+            }
+          ]
+        },
+        "CatNoDisc": {
+          "title": "Meow",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/PetNoDisc"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "hunts": {
+                  "type": "boolean"
+                },
+                "age": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
