@@ -4,28 +4,30 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: ['whatwg-fetch', './src/index.jsx'],
-  externals: {
-    '@readme/markdown': '@readme/markdown',
-    '@readme/variable': '@readme/variable',
-    react: {
-      root: 'React',
-      commonjs: 'react',
-      commonjs2: 'react',
-      amd: 'react',
-    },
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs2: 'react-dom',
-      commonjs: 'react-dom',
-      amd: 'react-dom',
-      umd: 'react-dom',
+  externals: [
+    '@readme/markdown',
+    '@readme/variable',
+    {
+      react: {
+        root: 'React',
+        commonjs: 'react',
+        commonjs2: 'react',
+        amd: 'react',
+      },
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs2: 'react-dom',
+        commonjs: 'react-dom',
+        amd: 'react-dom',
+        umd: 'react-dom',
+      },
     },
 
     // `@readme/ui` loads this in for the search components but unfortunately we aren't able to exclude this from being
-    // compiled into our dist, despite not using that component. Tf we treat it as a Webpack external it will thankfully
+    // compiled into our dist, despite not using that component. If we treat it as a Webpack external it will thankfully
     // be ignored.
-    'react-instantsearch-dom': 'react-instantsearch-dom',
-  },
+    'react-instantsearch-dom',
+  ],
   module: {
     rules: [
       {
