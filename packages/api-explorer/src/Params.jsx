@@ -26,7 +26,7 @@ class Params extends React.Component {
 
     const { operation } = this.props;
 
-    this.jsonSchema = operation.getParametersAsJsonSchema();
+    this.jsonSchema = operation.getParametersAsJsonSchema(this.props.parameters);
     this.operationId = operation.getOperationId();
 
     this.onModeChange = this.onModeChange.bind(this);
@@ -188,6 +188,7 @@ Params.propTypes = {
   onModeChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
+  parameters: PropTypes.object,
   resetForm: PropTypes.func.isRequired,
   SchemaField: PropTypes.func.isRequired,
   SelectWidget: PropTypes.func.isRequired,
