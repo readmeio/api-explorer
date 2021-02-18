@@ -1,3 +1,10 @@
+## 12.1.0 (2021-02-18)
+
+* refactor: decoupling our ui library from the api explorer codebase (#1193) ([4b93313](https://github.com/readmeio/api-explorer/commit/4b93313)), closes [#1193](https://github.com/readmeio/api-explorer/issues/1193)
+* fix: update the prop type on `placeholder` to accept numbers (#1191) ([7c0c238](https://github.com/readmeio/api-explorer/commit/7c0c238)), closes [#1191](https://github.com/readmeio/api-explorer/issues/1191)
+
+
+
 ## 12.0.0 (2021-02-18)
 
 * fix: updating oas to fix a bug with shapeless allOf child schemas (#1190) ([524a788](https://github.com/readmeio/api-explorer/commit/524a788)), closes [#1190](https://github.com/readmeio/api-explorer/issues/1190)
