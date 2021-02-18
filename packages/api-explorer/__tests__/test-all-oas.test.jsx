@@ -2,34 +2,40 @@ const React = require('react');
 const { mount } = require('enzyme');
 const { act } = require('react-dom/test-utils');
 const Oas = require('oas/tooling');
-// const createParams = require('../src/Params');
 const APIExplorer = require('../src');
 
 const fs = require('fs');
 const path = require('path');
 
-const folderPath = path.join(__dirname, '../../../example/swagger-files');
-// const folderPath = '/Users/aaronhedges/oasFileDump';
-const dir = fs.readdirSync(folderPath);
 const extensions = require('../../oas-extensions');
 const createDocs = require('./__fixtures__/create-docs');
 
-function wait(amount = 0) {
-  return new Promise(resolve => setTimeout(resolve, amount));
-}
-
-async function actWait(amount = 0) {
+// https://github.com/enzymejs/enzyme/issues/2073#issuecomment-565736674 (note, doesn't work in tests on its own. requires fake timers as seen in testOasJSON)
+const waitForComponentToPaint = async wrapper => {
   await act(async () => {
-    await wait(amount);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    wrapper.update();
   });
-}
+};
 
+const defaultProps = {
+  glossaryTerms: [],
+  suggestedEdits: false,
+  variables: { user: {}, defaults: [] },
+  maskErrorMessages: false,
+  dontLazyLoad: true,
+};
+
+/**
+ * Turn an oas file into apiexplorer props
+ */
 async function getProps(oas) {
+  // Manual apis are recorded in json as apiexplorer props. This is only valid for the example swagger files
   if (oas.oasFiles) {
-    return oas;
+    // Sometimes we don't have the defaults, fix that
+    return Object.assign(defaultProps, oas);
   }
 
-  const languages = ['node', 'curl'];
   const props = {
     appearance: {},
     flags: {},
@@ -44,7 +50,7 @@ async function getProps(oas) {
     maskErrorMessages: false,
   };
 
-  const oasObject = new Oas({ ...oas, [extensions.SAMPLES_LANGUAGES]: languages });
+  const oasObject = new Oas({ ...oas, [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'] });
   await oasObject.dereference();
 
   const { user, ...definition } = oasObject;
@@ -55,35 +61,40 @@ async function getProps(oas) {
   return props;
 }
 
-const defaultProps = {
-  glossaryTerms: [],
-  suggestedEdits: false,
-  variables: { user: {}, defaults: [] },
-  maskErrorMessages: false,
-};
-
 async function testOasJSON(oas) {
-  const doc = mount(React.createElement(APIExplorer, Object.assign(defaultProps, await getProps(oas))));
-  // Enzyme doesn't automatically wrap our mounted component in `act()` so we need to do some hocus pocus here to get
-  // ReactDOM from throwing the following error:
-  //
-  //    Warning: An update to DocAsync inside a test was not wrapped in act(...).
-  //
-  // https://github.com/enzymejs/enzyme/issues/2073#issuecomment-531488981
-  await actWait();
+  // necessary for waitForComponentToPaint to properly get act working
+  jest.useFakeTimers();
+  const doc = mount(React.createElement(APIExplorer, await getProps(oas)));
+  await waitForComponentToPaint(doc);
+  // necessary for waitForComponentToPaint to properly get act working
+  jest.runOnlyPendingTimers();
   expect(doc.html()).not.toContain('currently experiencing difficulties');
 }
 
-// eslint-disable-next-line jest/expect-expect
-test('should load fine', async () => {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const oasFilename of dir) {
-    // eslint-disable-next-line jest/no-if
-    if (oasFilename === 'directory.json') {
-      continue;
-    }
+// TODO: apis guru
 
-    console.log('checking ' + oasFilename);
-    await testOasJSON(JSON.parse(fs.readFileSync(path.join(folderPath, oasFilename))));
+// Test the examples
+// const folderPath = path.join(__dirname, '../../../example/swagger-files');
+
+// Test your local directory, filled with oas files via scanOasForExplorer
+const folderPath = '/Users/aaronhedges/oasFileDump';
+
+const dir = fs.readdirSync(folderPath);
+const paths = [];
+
+// Find all filenames
+// eslint-disable-next-line no-restricted-syntax
+for (const oasFilename of dir) {
+  // This is a non-oas file in the swagger-files folder. Ignore it.
+  if (oasFilename === 'directory.json') {
+    // eslint-disable-next-line no-continue
+    continue;
   }
+
+  paths.push([oasFilename]);
+}
+
+test.each(paths)('should load %s fine', async filename => {
+  console.log(`checking ${filename}`);
+  await testOasJSON(JSON.parse(fs.readFileSync(path.join(folderPath, filename))));
 });
