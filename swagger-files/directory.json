@@ -47,6 +47,14 @@
       }
     }
   },
+  "discriminators.json": {
+    "preferred": "1.0.0",
+    "versions": {
+      "1.0.0": {
+        "swaggerUrl": "swagger-files/discriminators.json"
+      }
+    }
+  },
   "empty-params.json": {
     "preferred": "0.0.1",
     "versions": {
