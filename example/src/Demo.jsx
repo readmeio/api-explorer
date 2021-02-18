@@ -1,7 +1,9 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const { Button, Flex, Tabs, Toggle, TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/components');
+const { Button, Flex, Tabs, Toggle } = require('@readme/ui/.bundles/es/ui/components');
+const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
+
 const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
 const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
