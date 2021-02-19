@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Simulate } from 'react-dom/test-utils';
 
-import { createFormComponent, submitForm } from './test_utils';
+import { createFormComponent } from './test_utils';
 
 const ArrayKeyDataAttr = 'data-rjsf-itemkey';
 const ExposedArrayKeyTemplate = function (props) {
@@ -34,8 +34,8 @@ const ExposedArrayKeyTemplate = function (props) {
 };
 
 describe('ArrayField', () => {
-  const CustomComponent = props => {
-    return <div id="custom">{props.rawErrors}</div>;
+  const CustomComponent = () => {
+    return <div id="custom" />;
   };
 
   describe('Unsupported array schema', () => {
@@ -135,27 +135,6 @@ describe('ArrayField', () => {
         widgets: { FileWidget: CustomComponent },
       });
       expect(node.querySelector('#custom')).not.toBeNull();
-    });
-
-    it('should pass rawErrors down to custom array field templates', () => {
-      const schema = {
-        type: 'array',
-        title: 'my list',
-        description: 'my description',
-        items: { type: 'string' },
-        minItems: 2,
-      };
-
-      const { node } = createFormComponent({
-        schema,
-        ArrayFieldTemplate: CustomComponent,
-        formData: [1],
-        liveValidate: true,
-      });
-
-      const matches = node.querySelectorAll('#custom');
-      expect(matches).toHaveLength(1);
-      expect(matches[0]).toHaveTextContent('should NOT have fewer than 2 items');
     });
 
     it('should contain no field in the list by default', () => {
@@ -437,79 +416,6 @@ describe('ArrayField', () => {
       expect(dropBtn).toBeNull();
     });
 
-    it('should force revalidation when a field is removed', () => {
-      // refs #195
-      const { node } = createFormComponent({
-        schema: {
-          ...schema,
-          items: { ...schema.items, minLength: 4 },
-        },
-        formData: ['foo', 'bar!'],
-      });
-
-      try {
-        Simulate.submit(node);
-      } catch (e) {
-        // Silencing error thrown as failure is expected here
-      }
-
-      expect(node.querySelectorAll('.has-error .error-detail')).toHaveLength(1);
-
-      const dropBtns = node.querySelectorAll('.array-item-remove');
-
-      Simulate.click(dropBtns[0]);
-
-      expect(node.querySelectorAll('.has-error .error-detail')).toHaveLength(0);
-    });
-
-    it('should handle cleared field values in the array', () => {
-      const schema = {
-        type: 'array',
-        items: { type: 'integer' },
-      };
-      const formData = [1, 2, 3];
-      const { node, onChange, onError } = createFormComponent({
-        liveValidate: true,
-        schema,
-        formData,
-      });
-
-      Simulate.change(node.querySelector('#root_1'), {
-        target: { value: '' },
-      });
-
-      expect(onChange).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          errorSchema: { 1: { __errors: ['should be integer'] } },
-          errors: [
-            {
-              message: 'should be integer',
-              name: 'type',
-              params: { type: 'integer' },
-              property: '[1]',
-              schemaPath: '#/items/type',
-              stack: '[1] should be integer',
-            },
-          ],
-          formData: [1, null, 3],
-        })
-      );
-
-      submitForm(node);
-      expect(onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            message: 'should be integer',
-            name: 'type',
-            params: { type: 'integer' },
-            property: '[1]',
-            schemaPath: '#/items/type',
-            stack: '[1] should be integer',
-          },
-        ])
-      );
-    });
-
     it('should render the input widgets with the expected ids', () => {
       const { node } = createFormComponent({
         schema,
@@ -657,65 +563,6 @@ describe('ArrayField', () => {
       expect(inputs[3].value).toBe('Unknown');
     });
 
-    it('should not add minItems extra formData entries when schema item is a multiselect', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          multipleChoicesList: {
-            type: 'array',
-            minItems: 3,
-            uniqueItems: true,
-            items: {
-              type: 'string',
-              enum: ['Aramis', 'Athos', 'Porthos', "d'Artagnan"],
-            },
-          },
-        },
-      };
-      const uiSchema = {
-        multipleChoicesList: {
-          'ui:widget': 'checkboxes',
-        },
-      };
-      let form = createFormComponent({
-        schema,
-        uiSchema,
-        formData: {},
-        liveValidate: true,
-        noValidate: true,
-      });
-      submitForm(form.node);
-
-      expect(form.onSubmit).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          formData: { multipleChoicesList: [] },
-        }),
-        expect.anything()
-      );
-
-      form = createFormComponent({
-        schema,
-        uiSchema,
-        formData: {},
-        liveValidate: true,
-        noValidate: false,
-      });
-      submitForm(form.node);
-
-      expect(form.onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            message: 'should NOT have fewer than 3 items',
-            name: 'minItems',
-            params: { limit: 3 },
-            property: '.multipleChoicesList',
-            schemaPath: '#/properties/multipleChoicesList/minItems',
-            stack: '.multipleChoicesList should NOT have fewer than 3 items',
-          },
-        ])
-      );
-    });
-
     it('should honor given formData, even when it does not meet ths minItems-requirement', () => {
       const complexSchema = {
         type: 'object',
@@ -859,21 +706,6 @@ describe('ArrayField', () => {
 
         expect(node.querySelector('select').id).toBe('root');
       });
-
-      it('should pass rawErrors down to custom widgets', () => {
-        const { node } = createFormComponent({
-          schema,
-          widgets: {
-            SelectWidget: CustomComponent,
-          },
-          formData: ['foo', 'foo'],
-          liveValidate: true,
-        });
-
-        const matches = node.querySelectorAll('#custom');
-        expect(matches).toHaveLength(1);
-        expect(matches[0]).toHaveTextContent('should NOT have duplicate items (items ## 1 and 0 are identical)');
-      });
     });
 
     describe('CheckboxesWidget', () => {
@@ -943,33 +775,6 @@ describe('ArrayField', () => {
         });
 
         expect(node.querySelectorAll('.checkbox-inline')).toHaveLength(3);
-      });
-
-      it('should pass rawErrors down to custom widgets', () => {
-        const schema = {
-          type: 'array',
-          title: 'My field',
-          items: {
-            enum: ['foo', 'bar', 'fuzz'],
-            type: 'string',
-          },
-          minItems: 3,
-          uniqueItems: true,
-        };
-
-        const { node } = createFormComponent({
-          schema,
-          widgets: {
-            CheckboxesWidget: CustomComponent,
-          },
-          uiSchema,
-          formData: [],
-          liveValidate: true,
-        });
-
-        const matches = node.querySelectorAll('#custom');
-        expect(matches).toHaveLength(1);
-        expect(matches[0]).toHaveTextContent('should NOT have fewer than 3 items');
       });
     });
   });
@@ -1051,31 +856,6 @@ describe('ArrayField', () => {
 
       expect(node.querySelector('input[type=file]').id).toBe('root');
     });
-
-    it('should pass rawErrors down to custom widgets', () => {
-      const schema = {
-        type: 'array',
-        title: 'My field',
-        items: {
-          type: 'string',
-          format: 'data-url',
-        },
-        minItems: 5,
-      };
-
-      const { node } = createFormComponent({
-        schema,
-        widgets: {
-          FileWidget: CustomComponent,
-        },
-        formData: [],
-        liveValidate: true,
-      });
-
-      const matches = node.querySelectorAll('#custom');
-      expect(matches).toHaveLength(1);
-      expect(matches[0]).toHaveTextContent('should NOT have fewer than 5 items');
-    });
   });
 
   describe('Nested lists', () => {
@@ -1109,44 +889,6 @@ describe('ArrayField', () => {
       Simulate.click(node.querySelector('.array-item-add button'));
 
       expect(node.querySelectorAll('fieldset fieldset')).toHaveLength(1);
-    });
-
-    it('should pass rawErrors down to every level of custom widgets', () => {
-      const CustomItem = props => <div id="custom-item">{props.children}</div>;
-      const CustomTemplate = props => {
-        return (
-          <div id="custom">
-            {props.items && props.items.map((p, i) => <CustomItem key={i} {...p} />)}
-            <div id="custom-error">{props.rawErrors && props.rawErrors.join(', ')}</div>
-          </div>
-        );
-      };
-
-      const schema = {
-        type: 'array',
-        title: 'A list of arrays',
-        items: {
-          type: 'array',
-          title: 'A list of numbers',
-          items: {
-            type: 'number',
-          },
-          minItems: 3,
-        },
-        minItems: 2,
-      };
-
-      const { node } = createFormComponent({
-        schema,
-        ArrayFieldTemplate: CustomTemplate,
-        formData: [[]],
-        liveValidate: true,
-      });
-
-      const matches = node.querySelectorAll('#custom-error');
-      expect(matches).toHaveLength(2);
-      expect(matches[0]).toHaveTextContent('should NOT have fewer than 3 items');
-      expect(matches[1]).toHaveTextContent('should NOT have fewer than 2 items');
     });
   });
 

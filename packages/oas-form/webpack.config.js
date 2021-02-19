@@ -39,12 +39,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: ['babel-loader'],
-        exclude: [
-          path.join(__dirname, 'node_modules', 'core-js'),
-          path.join(__dirname, 'node_modules', 'babel-runtime'),
-        ],
+        test: /\.js(x?)$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            extends: '../../.babelrc',
+          },
+        },
       },
     ],
   },

@@ -199,7 +199,6 @@ describe('BooleanField', () => {
   it('formData should default to undefined', () => {
     const { node, onSubmit } = createFormComponent({
       schema: { type: 'boolean' },
-      noValidate: true,
     });
     submitForm(node);
     expect(onSubmit).toHaveBeenLastCalledWith(

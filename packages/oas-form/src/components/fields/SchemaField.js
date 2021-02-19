@@ -91,30 +91,8 @@ function Help(props) {
   return <div className="help-block">{help}</div>;
 }
 
-function ErrorList(props) {
-  const { errors = [] } = props;
-  if (errors.length === 0) {
-    return null;
-  }
-
-  return (
-    <div>
-      <ul className="error-detail bs-callout bs-callout-info">
-        {errors
-          .filter(elem => !!elem)
-          .map((error, index) => {
-            return (
-              <li key={index} className="text-danger">
-                {error}
-              </li>
-            );
-          })}
-      </ul>
-    </div>
-  );
-}
 function DefaultTemplate(props) {
-  const { id, label, children, errors, help, description, hidden, required, displayLabel } = props;
+  const { id, label, children, help, description, hidden, required, displayLabel } = props;
   if (hidden) {
     return <div className="hidden">{children}</div>;
   }
@@ -124,7 +102,6 @@ function DefaultTemplate(props) {
       {displayLabel && <Label id={id} label={label} required={required} />}
       {displayLabel && description ? description : null}
       {children}
-      {errors}
       {help}
     </WrapIfAdditional>
   );
@@ -136,7 +113,6 @@ if (process.env.NODE_ENV !== 'production') {
     classNames: PropTypes.string,
     description: PropTypes.element,
     displayLabel: PropTypes.bool,
-    errors: PropTypes.element,
     fields: PropTypes.object,
     formContext: PropTypes.object,
     help: PropTypes.element,
@@ -144,7 +120,6 @@ if (process.env.NODE_ENV !== 'production') {
     id: PropTypes.string,
     label: PropTypes.string,
     rawDescription: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    rawErrors: PropTypes.arrayOf(PropTypes.string),
     rawHelp: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     readonly: PropTypes.bool,
     required: PropTypes.bool,
@@ -197,7 +172,6 @@ function SchemaFieldRender(props) {
   const {
     uiSchema,
     formData,
-    errorSchema,
     idPrefix,
     name,
     onKeyChange,
@@ -241,18 +215,14 @@ function SchemaFieldRender(props) {
     displayLabel = false;
   }
 
-  const { __errors, ...fieldErrorSchema } = errorSchema;
-
   // See #439: uiSchema: Don't pass consumed class names to child components
   const field = (
     <FieldComponent
       {...props}
       autofocus={autofocus}
       disabled={disabled}
-      errorSchema={fieldErrorSchema}
       formContext={formContext}
       idSchema={idSchema}
-      rawErrors={__errors}
       readonly={readonly}
       schema={schema}
       uiSchema={{ ...uiSchema, classNames: undefined }}
@@ -271,26 +241,15 @@ function SchemaFieldRender(props) {
   }
 
   const description = uiSchema['ui:description'] || props.schema.description || schema.description;
-  const errors = __errors;
   const help = uiSchema['ui:help'];
   const hidden = uiSchema['ui:widget'] === 'hidden';
-  const classNames = [
-    'form-group',
-    'field',
-    `field-${type}`,
-    errors && errors.length > 0 ? 'field-error has-error has-danger' : '',
-    uiSchema.classNames,
-  ]
-    .join(' ')
-    .trim();
+  const classNames = ['form-group', 'field', `field-${type}`, uiSchema.classNames].join(' ').trim();
 
   const fieldProps = {
     description: <DescriptionField description={description} formContext={formContext} id={`${id}__description`} />,
     rawDescription: description,
     help: <Help help={help} />,
     rawHelp: typeof help === 'string' ? help : undefined,
-    errors: <ErrorList errors={errors} />,
-    rawErrors: errors,
     id,
     label,
     hidden,
@@ -323,7 +282,6 @@ function SchemaFieldRender(props) {
         <_AnyOfField
           baseType={schema.type}
           disabled={disabled}
-          errorSchema={errorSchema}
           formData={formData}
           idPrefix={idPrefix}
           idSchema={idSchema}
@@ -341,7 +299,6 @@ function SchemaFieldRender(props) {
         <_OneOfField
           baseType={schema.type}
           disabled={disabled}
-          errorSchema={errorSchema}
           formData={formData}
           idPrefix={idPrefix}
           idSchema={idSchema}
@@ -371,7 +328,6 @@ class SchemaField extends React.Component {
 SchemaField.defaultProps = {
   autofocus: false,
   disabled: false,
-  errorSchema: {},
   idSchema: {},
   readonly: false,
   uiSchema: {},
@@ -379,7 +335,6 @@ SchemaField.defaultProps = {
 
 if (process.env.NODE_ENV !== 'production') {
   SchemaField.propTypes = {
-    errorSchema: PropTypes.object,
     formData: PropTypes.any,
     idSchema: PropTypes.object,
     registry: types.registry.isRequired,

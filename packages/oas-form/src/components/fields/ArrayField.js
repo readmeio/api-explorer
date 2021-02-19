@@ -1,7 +1,6 @@
 import AddButton from '../AddButton';
 import IconButton from '../IconButton';
 import React, { Component } from 'react';
-import includes from 'core-js/library/fn/array/includes';
 import * as types from '../../types';
 
 import {
@@ -205,7 +204,7 @@ class ArrayField extends Component {
     if (Array.isArray(itemSchema.type)) {
       // While we don't yet support composite/nullable jsonschema types, it's
       // future-proof to check for requirement against these.
-      return !includes(itemSchema.type, 'null');
+      return !itemSchema.type.includes('null');
     }
     // All non-null array item types are inherently required by design
     return itemSchema.type !== 'null';
@@ -284,34 +283,20 @@ class ArrayField extends Component {
       }
       const { onChange } = this.props;
       const { keyedFormData } = this.state;
-      // refs #195: revalidate to ensure properly reindexing errors
-      let newErrorSchema;
-      if (this.props.errorSchema) {
-        newErrorSchema = {};
-        const errorSchema = this.props.errorSchema;
-        for (let i in errorSchema) {
-          // eslint-disable-next-line radix
-          i = parseInt(i);
-          if (i < index) {
-            newErrorSchema[i] = errorSchema[i];
-          } else if (i > index) {
-            newErrorSchema[i - 1] = errorSchema[i];
-          }
-        }
-      }
+
       const newKeyedFormData = keyedFormData.filter((_, i) => i !== index);
       this.setState(
         {
           keyedFormData: newKeyedFormData,
           updatedKeyedFormData: true,
         },
-        () => onChange(keyedToPlainFormData(newKeyedFormData), newErrorSchema)
+        () => onChange(keyedToPlainFormData(newKeyedFormData))
       );
     };
   };
 
   onChangeForIndex = index => {
-    return (value, errorSchema) => {
+    return value => {
       const { formData, onChange } = this.props;
       const newFormData = formData.map((item, i) => {
         // We need to treat undefined items as nulls to have validation.
@@ -319,14 +304,7 @@ class ArrayField extends Component {
         const jsonValue = typeof value === 'undefined' ? null : value;
         return index === i ? jsonValue : item;
       });
-      onChange(
-        newFormData,
-        errorSchema &&
-          this.props.errorSchema && {
-            ...this.props.errorSchema,
-            [index]: errorSchema,
-          }
-      );
+      onChange(newFormData);
     };
   };
 
@@ -359,7 +337,6 @@ class ArrayField extends Component {
     const {
       schema,
       uiSchema,
-      errorSchema,
       idSchema,
       name,
       required,
@@ -370,7 +347,6 @@ class ArrayField extends Component {
       onBlur,
       onFocus,
       idPrefix,
-      rawErrors,
     } = this.props;
     const title = schema.title === undefined ? name : schema.title;
     const { ArrayFieldTemplate, rootSchema, fields, formContext } = registry;
@@ -382,7 +358,6 @@ class ArrayField extends Component {
       items: this.state.keyedFormData.map((keyedItem, index) => {
         const { key, item } = keyedItem;
         const itemSchema = retrieveSchema(schema.items, rootSchema, item);
-        const itemErrorSchema = errorSchema ? errorSchema[index] : undefined;
         const itemIdPrefix = `${idSchema.$id}_${index}`;
         const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, rootSchema, item, idPrefix);
         return this.renderArrayFieldItem({
@@ -390,7 +365,6 @@ class ArrayField extends Component {
           index,
           itemSchema,
           itemIdSchema,
-          itemErrorSchema,
           itemData: item,
           itemUiSchema: uiSchema.items,
           autofocus: autofocus && index === 0,
@@ -411,7 +385,6 @@ class ArrayField extends Component {
       TitleField,
       formContext,
       formData,
-      rawErrors,
       registry,
     };
 
@@ -435,7 +408,6 @@ class ArrayField extends Component {
       onBlur,
       onFocus,
       registry = getDefaultRegistry(),
-      rawErrors,
     } = this.props;
     const items = this.props.formData;
     const { widgets, rootSchema, formContext } = registry;
@@ -459,7 +431,6 @@ class ArrayField extends Component {
         onFocus={onFocus}
         options={options}
         placeholder={placeholder}
-        rawErrors={rawErrors}
         readonly={readonly}
         registry={registry}
         required={required}
@@ -481,7 +452,6 @@ class ArrayField extends Component {
       onBlur,
       onFocus,
       registry = getDefaultRegistry(),
-      rawErrors,
     } = this.props;
     const title = schema.title || name;
     const items = this.props.formData;
@@ -499,7 +469,6 @@ class ArrayField extends Component {
         onChange={this.onSelectChange}
         onFocus={onFocus}
         options={options}
-        rawErrors={rawErrors}
         readonly={readonly}
         schema={schema}
         title={title}
@@ -513,7 +482,6 @@ class ArrayField extends Component {
       schema,
       uiSchema,
       formData,
-      errorSchema,
       idPrefix,
       idSchema,
       name,
@@ -524,7 +492,6 @@ class ArrayField extends Component {
       registry = getDefaultRegistry(),
       onBlur,
       onFocus,
-      rawErrors,
     } = this.props;
     const title = schema.title || name;
     let items = this.props.formData;
@@ -559,7 +526,6 @@ class ArrayField extends Component {
           : Array.isArray(uiSchema.items) // eslint-disable-line unicorn/no-nested-ternary
           ? uiSchema.items[index]
           : uiSchema.items || {};
-        const itemErrorSchema = errorSchema ? errorSchema[index] : undefined;
 
         return this.renderArrayFieldItem({
           key,
@@ -569,7 +535,6 @@ class ArrayField extends Component {
           itemData: item,
           itemUiSchema,
           itemIdSchema,
-          itemErrorSchema,
           autofocus: autofocus && index === 0,
           onBlur,
           onFocus,
@@ -583,7 +548,6 @@ class ArrayField extends Component {
       title,
       TitleField,
       formContext,
-      rawErrors,
     };
 
     // Check if a custom template template was passed in
@@ -593,19 +557,7 @@ class ArrayField extends Component {
 
   renderArrayFieldItem(props) {
     let { itemSchema } = props;
-    const {
-      key,
-      index,
-      canRemove = true,
-      itemData,
-      itemUiSchema,
-      itemIdSchema,
-      itemErrorSchema,
-      autofocus,
-      onBlur,
-      onFocus,
-      rawErrors,
-    } = props;
+    const { key, index, canRemove = true, itemData, itemUiSchema, itemIdSchema, autofocus, onBlur, onFocus } = props;
     const { disabled, readonly, uiSchema, registry = getDefaultRegistry() } = this.props;
     const {
       fields: { SchemaField },
@@ -632,14 +584,12 @@ class ArrayField extends Component {
         <SchemaField
           autofocus={autofocus}
           disabled={this.props.disabled}
-          errorSchema={itemErrorSchema}
           formData={itemData}
           idSchema={itemIdSchema}
           index={index}
           onBlur={onBlur}
           onChange={this.onChangeForIndex(index)}
           onFocus={onFocus}
-          rawErrors={rawErrors}
           readonly={this.props.readonly}
           registry={this.props.registry}
           required={this.isItemRequired(itemSchema)}

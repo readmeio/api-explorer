@@ -1,5 +1,4 @@
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
 
 import SchemaField from '../src/components/fields/SchemaField';
 import TitleField from '../src/components/fields/TitleField';
@@ -312,74 +311,6 @@ describe('SchemaField', () => {
       });
 
       expect(node.querySelector('#custom')).toHaveTextContent('A Foo field');
-    });
-  });
-
-  describe('errors', () => {
-    const schema = {
-      type: 'object',
-      properties: {
-        foo: { type: 'string' },
-      },
-    };
-
-    const uiSchema = {
-      'ui:field': props => {
-        const { uiSchema, ...fieldProps } = props;
-        return <SchemaField {...fieldProps} />;
-      },
-    };
-
-    function validate(formData, errors) {
-      errors.addError('container');
-      errors.foo.addError('test');
-      return errors;
-    }
-
-    it('should render its own errors', () => {
-      const { node } = createFormComponent({
-        schema,
-        uiSchema,
-        validate,
-      });
-      Simulate.submit(node);
-
-      const matches = node.querySelectorAll('form > .form-group > div > .error-detail .text-danger');
-      expect(matches).toHaveLength(1);
-      expect(matches[0]).toHaveTextContent('container');
-    });
-
-    it('should pass errors to child component', () => {
-      const { node } = createFormComponent({
-        schema,
-        uiSchema,
-        validate,
-      });
-      Simulate.submit(node);
-
-      const matches = node.querySelectorAll('form .form-group .form-group .text-danger');
-      expect(matches).toHaveLength(1);
-      expect(matches[0]).toHaveTextContent('test');
-    });
-
-    describe('Custom error rendering', () => {
-      const customStringWidget = props => {
-        return <div className="custom-text-widget">{props.rawErrors}</div>;
-      };
-
-      it('should pass rawErrors down to custom widgets', () => {
-        const { node } = createFormComponent({
-          schema,
-          uiSchema,
-          validate,
-          widgets: { BaseInput: customStringWidget },
-        });
-        Simulate.submit(node);
-
-        const matches = node.querySelectorAll('.custom-text-widget');
-        expect(matches).toHaveLength(1);
-        expect(matches[0]).toHaveTextContent('test');
-      });
     });
   });
 });

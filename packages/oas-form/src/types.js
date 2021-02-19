@@ -14,13 +14,11 @@ export const registry = PropTypes.shape({
 export const fieldProps = {
   autofocus: PropTypes.bool,
   disabled: PropTypes.bool,
-  errorSchema: PropTypes.object,
   formData: PropTypes.any,
   idSchema: PropTypes.object,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
-  rawErrors: PropTypes.arrayOf(PropTypes.string),
   readonly: PropTypes.bool,
   registry: registry.isRequired,
   required: PropTypes.bool,

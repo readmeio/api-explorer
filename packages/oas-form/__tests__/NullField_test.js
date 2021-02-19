@@ -40,7 +40,6 @@ describe('NullField', () => {
           type: 'null',
         },
         formData: 3,
-        noValidate: true,
       });
 
       submitForm(node);

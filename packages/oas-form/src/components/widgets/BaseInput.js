@@ -19,7 +19,6 @@ function BaseInput(props) {
     schema,
     formContext,
     registry,
-    rawErrors,
     ...inputProps
   } = props;
 

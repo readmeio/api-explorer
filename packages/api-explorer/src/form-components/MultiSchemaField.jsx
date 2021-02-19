@@ -227,7 +227,6 @@ class MultiSchemaField extends Component {
     const {
       baseType,
       disabled,
-      errorSchema,
       formData,
       idPrefix,
       idSchema,
@@ -274,7 +273,6 @@ class MultiSchemaField extends Component {
           <div className="form-group">
             <SchemaField
               disabled={disabled}
-              errorSchema={errorSchema}
               formData={selectedValue}
               idPrefix={idPrefix}
               idSchema={idSchema}
@@ -292,7 +290,6 @@ class MultiSchemaField extends Component {
           {option !== null && (
             <SchemaField
               disabled={disabled}
-              errorSchema={errorSchema}
               formData={formData}
               idPrefix={idPrefix}
               idSchema={idSchema}
