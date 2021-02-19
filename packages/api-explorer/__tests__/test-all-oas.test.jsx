@@ -4,13 +4,18 @@ const React = require('react');
 const { mount } = require('enzyme');
 const { act } = require('react-dom/test-utils');
 const Oas = require('oas/tooling');
-const APIExplorer = require('../src');
+const { ApiExplorer } = require('../src');
 
 const fs = require('fs');
 const path = require('path');
 
 const extensions = require('../../oas-extensions');
 const createDocs = require('./__fixtures__/create-docs');
+
+const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
+const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
+const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
+const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
 // https://github.com/enzymejs/enzyme/issues/2073#issuecomment-565736674 (note, doesn't work in tests on its own. requires fake timers as seen in testOasJSON)
 const waitForComponentToPaint = async wrapper => {
@@ -26,6 +31,16 @@ const defaultProps = {
   variables: { user: {}, defaults: [] },
   maskErrorMessages: false,
   dontLazyLoad: true,
+  ui: {
+    Button,
+    Tabs,
+    tutorials: {
+      DEFAULT_TUTORIAL,
+      TutorialModal,
+      TutorialTile,
+      TutorialVariableContext,
+    },
+  },
 };
 
 /**
@@ -38,19 +53,15 @@ async function getProps(oas) {
     return Object.assign(defaultProps, oas);
   }
 
-  const props = {
+  const props = Object.assign(defaultProps, {
     appearance: {},
     flags: {},
-    glossaryTerms: [],
     oasFiles: {},
     oasUrls: {
       'test-api-setting': 'https://example.com/openapi.json',
     },
     shouldDereferenceOas: false,
-    suggestedEdits: false,
-    variables: { user: {}, defaults: [] },
-    maskErrorMessages: false,
-  };
+  });
 
   const oasObject = new Oas({ ...oas, [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'] });
   await oasObject.dereference();
@@ -64,13 +75,14 @@ async function getProps(oas) {
 }
 
 async function testOasJSON(oas) {
-  // necessary for waitForComponentToPaint to properly get act working
   jest.useFakeTimers();
-  const doc = mount(React.createElement(APIExplorer, await getProps(oas)));
-  await waitForComponentToPaint(doc);
   // necessary for waitForComponentToPaint to properly get act working
+  const doc = mount(React.createElement(ApiExplorer, await getProps(oas)));
+  // necessary to ensure the react element is properly rendered before we create the html
+  waitForComponentToPaint(doc);
+  // run the timers (from react and waitForComponent)
   jest.runOnlyPendingTimers();
-  expect(doc.html()).not.toContain('currently experiencing difficulties');
+  return doc.html();
 }
 
 // TODO: apis guru
@@ -80,9 +92,8 @@ async function testOasJSON(oas) {
 
 // Test your local directory, filled with oas files via scanOasForExplorer
 const folderPath = '/Users/aaronhedges/oasFileDump';
-
 const dir = fs.readdirSync(folderPath);
-const paths = [];
+let paths = [];
 
 // Find all filenames
 // eslint-disable-next-line no-restricted-syntax
@@ -96,7 +107,11 @@ for (const oasFilename of dir) {
   paths.push([oasFilename]);
 }
 
+// paths = [paths[0]];
+console.log('running tests');
+
 test.each(paths)('should load %s fine', async filename => {
-  console.log(`checking ${filename}`);
-  await testOasJSON(JSON.parse(fs.readFileSync(path.join(folderPath, filename))));
+  console.log(`testing ${filename}`);
+  const html = await testOasJSON(JSON.parse(fs.readFileSync(path.join(folderPath, filename))));
+  expect(html).not.toContain('currently experiencing difficulties');
 });
