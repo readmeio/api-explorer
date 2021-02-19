@@ -65,6 +65,10 @@ function BaseInput(props) {
     inputProps.maxLength = schema.maxLength;
   }
 
+  if (typeof schema.pattern !== 'undefined') {
+    inputProps.pattern = schema.pattern;
+  }
+
   const _onChange = ({ target: { value } }) => {
     return props.onChange(value === '' ? options.emptyValue : value);
   };
@@ -108,7 +112,7 @@ if (process.env.NODE_ENV !== 'production') {
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     readonly: PropTypes.bool,
     required: PropTypes.bool,
     value: PropTypes.any,

@@ -3,6 +3,7 @@ const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/oas-form/src/utils');
+const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 
 const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
@@ -27,6 +28,10 @@ const props = {
   onSubmit: () => {},
   operation,
   resetForm: () => {},
+  ui: {
+    Button,
+    Tabs,
+  },
 };
 
 const Params = createParams(oas, operation);
@@ -239,18 +244,27 @@ describe('oneOf/anyOf', () => {
 });
 
 describe('schema handling', () => {
-  describe('minLength / maxLength', () => {
-    it('should put a `minLength` and `maxLength` attribute on an input', () => {
-      const params = mount(
-        <div>
-          <Params {...props} operation={stringOas.operation('/format-password', 'get')} />
-        </div>
-      );
+  it('should put a `minLength` and `maxLength` attribute on an input', () => {
+    const params = mount(
+      <div>
+        <Params {...props} operation={stringOas.operation('/format-password', 'get')} />
+      </div>
+    );
 
-      expect(params.find('input')).toHaveLength(1);
-      expect(params.find('input').props()).toHaveProperty('minLength', 5);
-      expect(params.find('input').props()).toHaveProperty('maxLength', 20);
-    });
+    expect(params.find('input')).toHaveLength(1);
+    expect(params.find('input').props()).toHaveProperty('minLength', 5);
+    expect(params.find('input').props()).toHaveProperty('maxLength', 20);
+  });
+
+  it('should put a `pattern` on an input', () => {
+    const params = mount(
+      <div>
+        <Params {...props} operation={stringOas.operation('/format-string-with-pattern', 'get')} />
+      </div>
+    );
+
+    expect(params.find('input')).toHaveLength(1);
+    expect(params.find('input').props()).toHaveProperty('pattern', '(\\d{4})-(\\d{2})-(\\d{2})');
   });
 
   describe('format', () => {

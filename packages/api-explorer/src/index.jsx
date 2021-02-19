@@ -7,15 +7,12 @@ const Oas = require('oas/tooling');
 
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');
-const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
 
 const ErrorBoundary = require('./ErrorBoundary');
 const Doc = require('./Doc');
 const DocAsync = require('./DocAsync');
-const { TutorialModal } = require('@readme/ui/.bundles/es/ui/compositions');
 
 const getAuth = require('./lib/get-auth');
-const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
 const supportedHttpMethods = ['connect', 'delete', 'get', 'head', 'options', 'patch', 'post', 'put', 'trace'];
 
@@ -41,7 +38,7 @@ class ApiExplorer extends React.Component {
         selected: '',
         changeSelected: this.changeSelected,
       },
-      selectedTutorial: DEFAULT_TUTORIAL,
+      selectedTutorial: this.props.ui.tutorials.DEFAULT_TUTORIAL,
       showTutorialModal: false,
     };
 
@@ -240,11 +237,14 @@ class ApiExplorer extends React.Component {
   }
 
   closeTutorialModal() {
+    const { DEFAULT_TUTORIAL } = this.props.ui.tutorials;
+
     this.setState(() => ({ showTutorialModal: false, selectedTutorial: DEFAULT_TUTORIAL }));
   }
 
   renderTutorialModal() {
     const { selectedTutorial, showTutorialModal } = this.state;
+    const { TutorialModal } = this.props.ui.tutorials;
 
     return (
       <TutorialModal
@@ -260,6 +260,8 @@ class ApiExplorer extends React.Component {
   }
 
   render() {
+    const { TutorialVariableContext } = this.props.ui.tutorials;
+
     const docs = this.props.docs.filter(doc => {
       // If the HTTP method is something we don't support, then we shouldn't attempt to render it as a normal API
       // operation.
@@ -334,6 +336,7 @@ class ApiExplorer extends React.Component {
                                 setLanguage={this.setLanguage}
                                 suggestedEdits={this.props.suggestedEdits}
                                 tryItMetrics={this.props.tryItMetrics}
+                                ui={this.props.ui}
                                 useNewMarkdownEngine={this.props.useNewMarkdownEngine}
                                 user={this.props.variables.user}
                               />
@@ -383,6 +386,16 @@ ApiExplorer.propTypes = {
   shouldDereferenceOas: PropTypes.bool,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func,
+  ui: PropTypes.shape({
+    Button: PropTypes.func,
+    Tabs: PropTypes.func,
+    tutorials: PropTypes.shape({
+      DEFAULT_TUTORIAL: PropTypes.object,
+      TutorialModal: PropTypes.func,
+      TutorialTile: PropTypes.func,
+      TutorialVariableContext: PropTypes.object,
+    }),
+  }),
   useNewMarkdownEngine: PropTypes.bool,
   variables: PropTypes.shape({
     defaults: PropTypes.arrayOf(
@@ -413,6 +426,16 @@ ApiExplorer.defaultProps = {
   onError: () => {},
   shouldDereferenceOas: true,
   tryItMetrics: () => {},
+  ui: {
+    Button: () => {},
+    Tabs: () => {},
+    tutorials: {
+      DEFAULT_TUTORIAL: {},
+      TutorialModal: () => {},
+      TutorialTile: () => {},
+      TutorialVariableContext: {},
+    },
+  },
   useNewMarkdownEngine: false,
 };
 

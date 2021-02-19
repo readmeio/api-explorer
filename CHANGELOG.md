@@ -1,3 +1,50 @@
+## 12.1.0 (2021-02-18)
+
+* refactor: decoupling our ui library from the api explorer codebase (#1193) ([4b93313](https://github.com/readmeio/api-explorer/commit/4b93313)), closes [#1193](https://github.com/readmeio/api-explorer/issues/1193)
+* fix: update the prop type on `placeholder` to accept numbers (#1191) ([7c0c238](https://github.com/readmeio/api-explorer/commit/7c0c238)), closes [#1191](https://github.com/readmeio/api-explorer/issues/1191)
+
+
+
+## 12.0.0 (2021-02-18)
+
+* fix: updating oas to fix a bug with shapeless allOf child schemas (#1190) ([524a788](https://github.com/readmeio/api-explorer/commit/524a788)), closes [#1190](https://github.com/readmeio/api-explorer/issues/1190)
+* feat: add support for discriminators (#1157) ([3c18942](https://github.com/readmeio/api-explorer/commit/3c18942)), closes [#1157](https://github.com/readmeio/api-explorer/issues/1157)
+
+
+
+## <small>11.2.2 (2021-02-16)</small>
+
+* fix: upgrading httpsnippet to fix a ruby ssl exploit (#1187) ([e5732eb](https://github.com/readmeio/api-explorer/commit/e5732eb)), closes [#1187](https://github.com/readmeio/api-explorer/issues/1187)
+
+
+
+## <small>11.2.1 (2021-02-16)</small>
+
+* chore: bumping up the peer dep on @readme/variable in the explorer ([39ff3d5](https://github.com/readmeio/api-explorer/commit/39ff3d5))
+
+
+
+## 11.2.0 (2021-02-16)
+
+* chore(deps-dev): bump enzyme-adapter-react-16 from 1.15.5 to 1.15.6 (#1183) ([2dfc6dd](https://github.com/readmeio/api-explorer/commit/2dfc6dd)), closes [#1183](https://github.com/readmeio/api-explorer/issues/1183)
+* chore(deps): bump @readme/syntax-highlighter from 10.4.1 to 10.4.4 (#1186) ([880855e](https://github.com/readmeio/api-explorer/commit/880855e)), closes [#1186](https://github.com/readmeio/api-explorer/issues/1186)
+* chore(deps): bump httpsnippet-client-api from 2.7.0 to 2.7.1 (#1184) ([59f5ccf](https://github.com/readmeio/api-explorer/commit/59f5ccf)), closes [#1184](https://github.com/readmeio/api-explorer/issues/1184)
+* chore(deps): upgrading oas to 10.0.4 (#1182) ([366bba6](https://github.com/readmeio/api-explorer/commit/366bba6)), closes [#1182](https://github.com/readmeio/api-explorer/issues/1182)
+* feat: start exposing `pattern` attributes in schemas (#1181) ([e83bbf3](https://github.com/readmeio/api-explorer/commit/e83bbf3)), closes [#1181](https://github.com/readmeio/api-explorer/issues/1181)
+* fix: stop rendering array keys in json content (#1177) ([5384bd3](https://github.com/readmeio/api-explorer/commit/5384bd3)), closes [#1177](https://github.com/readmeio/api-explorer/issues/1177)
+* test: moving oas-form unit tests over to using Jest (#1178) ([4b86ada](https://github.com/readmeio/api-explorer/commit/4b86ada)), closes [#1178](https://github.com/readmeio/api-explorer/issues/1178)
+
+
+
+## <small>11.1.6 (2021-02-10)</small>
+
+* fix: missing operation schema exceptions (#1180) ([cc4daaf](https://github.com/readmeio/api-explorer/commit/cc4daaf)), closes [#1180](https://github.com/readmeio/api-explorer/issues/1180)
+* Revert "chore(deps-dev): bump @readme/eslint-config from 4.1.0 to 4.1.1 (#1174)" (#1175) ([e8f48eb](https://github.com/readmeio/api-explorer/commit/e8f48eb)), closes [#1174](https://github.com/readmeio/api-explorer/issues/1174) [#1175](https://github.com/readmeio/api-explorer/issues/1175)
+* chore(deps-dev): bump @readme/eslint-config from 4.1.0 to 4.1.1 (#1174) ([7563f1c](https://github.com/readmeio/api-explorer/commit/7563f1c)), closes [#1174](https://github.com/readmeio/api-explorer/issues/1174)
+* chore(deps-dev): bump nock from 13.0.5 to 13.0.7 (#1171) ([c115584](https://github.com/readmeio/api-explorer/commit/c115584)), closes [#1171](https://github.com/readmeio/api-explorer/issues/1171)
+
+
+
 ## <small>11.1.5 (2021-02-05)</small>
 
 * fix: bug where we'd crash if `examples` was an empty object (#1170) ([190945f](https://github.com/readmeio/api-explorer/commit/190945f)), closes [#1170](https://github.com/readmeio/api-explorer/issues/1170)
