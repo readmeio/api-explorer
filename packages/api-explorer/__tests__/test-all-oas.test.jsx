@@ -1,3 +1,5 @@
+// Run this to use a ton of memory, and write absolutely every bit of output to the file AND your terminal so you can watch progress
+// npx --max-old-space-size=18000 jest __tests__/test-all-oas.test.jsx 2>&1 | tee testOutput.txt
 const React = require('react');
 const { mount } = require('enzyme');
 const { act } = require('react-dom/test-utils');
