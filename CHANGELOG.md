@@ -1,3 +1,13 @@
+## 12.2.0 (2021-02-20)
+
+* chore: fixing some lockfile issues with oas-form ([6ed65df](https://github.com/readmeio/api-explorer/commit/6ed65df))
+* chore: removing some scripts from oas-form that no longer exist ([0f21200](https://github.com/readmeio/api-explorer/commit/0f21200))
+* test: disabling code coverage on oas-form because its fine ([e64f2fe](https://github.com/readmeio/api-explorer/commit/e64f2fe))
+* perf: oas-form bloat reduction and bundle overhauls (#1179) ([f86d388](https://github.com/readmeio/api-explorer/commit/f86d388)), closes [#1179](https://github.com/readmeio/api-explorer/issues/1179)
+* fix: upgrading oas to fix a bug with parsing null examples ([3bb3cb0](https://github.com/readmeio/api-explorer/commit/3bb3cb0))
+
+
+
 ## 12.1.0 (2021-02-18)
 
 * refactor: decoupling our ui library from the api explorer codebase (#1193) ([4b93313](https://github.com/readmeio/api-explorer/commit/4b93313)), closes [#1193](https://github.com/readmeio/api-explorer/issues/1193)
