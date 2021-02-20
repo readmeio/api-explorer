@@ -11,20 +11,18 @@
     "json-schema"
   ],
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
   "directories": {
     "test": "__tests__"
   },
   "scripts": {
     "build": "NODE_ENV=production webpack",
-    "dist": "npm run build:lib && npm run build:dist",
     "lint": "eslint . --ext js --ext jsx",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run prettier",
-    "preversion": "npm run dist && npm run lint",
-    "publish-to-npm": "npm run dist && npm publish",
+    "preversion": "npm run build && npm run lint",
+    "publish-to-npm": "npm run build && npm publish",
     "test": "jest --coverage"
   },
   "dependencies": {
