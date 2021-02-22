@@ -3,6 +3,7 @@ const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
 const Oas = require('oas/tooling');
 const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/oas-form/src/utils');
+const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 
 const Description = require('../src/form-components/DescriptionField');
 const createParams = require('../src/Params');
@@ -27,6 +28,10 @@ const props = {
   onSubmit: () => {},
   operation,
   resetForm: () => {},
+  ui: {
+    Button,
+    Tabs,
+  },
 };
 
 const Params = createParams(oas, operation);

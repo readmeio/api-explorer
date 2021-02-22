@@ -24,10 +24,7 @@
                   {
                     "$ref": "#/components/schemas/Dog"
                   }
-                ],
-                "discriminator": {
-                  "propertyName": "pet_type"
-                }
+                ]
               }
             }
           }

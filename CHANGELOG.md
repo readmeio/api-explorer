@@ -1,3 +1,27 @@
+## 12.2.0 (2021-02-20)
+
+* chore: fixing some lockfile issues with oas-form ([6ed65df](https://github.com/readmeio/api-explorer/commit/6ed65df))
+* chore: removing some scripts from oas-form that no longer exist ([0f21200](https://github.com/readmeio/api-explorer/commit/0f21200))
+* test: disabling code coverage on oas-form because its fine ([e64f2fe](https://github.com/readmeio/api-explorer/commit/e64f2fe))
+* perf: oas-form bloat reduction and bundle overhauls (#1179) ([f86d388](https://github.com/readmeio/api-explorer/commit/f86d388)), closes [#1179](https://github.com/readmeio/api-explorer/issues/1179)
+* fix: upgrading oas to fix a bug with parsing null examples ([3bb3cb0](https://github.com/readmeio/api-explorer/commit/3bb3cb0))
+
+
+
+## 12.1.0 (2021-02-18)
+
+* refactor: decoupling our ui library from the api explorer codebase (#1193) ([4b93313](https://github.com/readmeio/api-explorer/commit/4b93313)), closes [#1193](https://github.com/readmeio/api-explorer/issues/1193)
+* fix: update the prop type on `placeholder` to accept numbers (#1191) ([7c0c238](https://github.com/readmeio/api-explorer/commit/7c0c238)), closes [#1191](https://github.com/readmeio/api-explorer/issues/1191)
+
+
+
+## 12.0.0 (2021-02-18)
+
+* fix: updating oas to fix a bug with shapeless allOf child schemas (#1190) ([524a788](https://github.com/readmeio/api-explorer/commit/524a788)), closes [#1190](https://github.com/readmeio/api-explorer/issues/1190)
+* feat: add support for discriminators (#1157) ([3c18942](https://github.com/readmeio/api-explorer/commit/3c18942)), closes [#1157](https://github.com/readmeio/api-explorer/issues/1157)
+
+
+
 ## <small>11.2.2 (2021-02-16)</small>
 
 * fix: upgrading httpsnippet to fix a ruby ssl exploit (#1187) ([e5732eb](https://github.com/readmeio/api-explorer/commit/e5732eb)), closes [#1187](https://github.com/readmeio/api-explorer/issues/1187)

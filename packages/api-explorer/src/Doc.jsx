@@ -9,8 +9,6 @@ const oasToHar = require('@readme/oas-to-har');
 const Oas = require('oas/tooling');
 const { getPath, matchesMimeType } = require('oas/tooling/utils');
 
-const { TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
-
 const isAuthReady = require('./lib/is-auth-ready');
 
 const PathUrl = require('./PathUrl');
@@ -483,6 +481,7 @@ class Doc extends React.Component {
         operation={this.getOperation()}
         parameters={this.props.user.parameters}
         resetForm={this.resetForm}
+        ui={this.props.ui}
         validationErrors={validationErrors}
       />
     );
@@ -514,6 +513,7 @@ class Doc extends React.Component {
 
   render() {
     const { doc, lazy, oas, useNewMarkdownEngine } = this.props;
+    const { TutorialTile } = this.props.ui.tutorials;
 
     const renderEndpoint = () => {
       if (this.props.appearance.splitReferenceDocs) return this.renderEndpoint();
@@ -632,6 +632,16 @@ Doc.propTypes = {
   setLanguage: PropTypes.func.isRequired,
   suggestedEdits: PropTypes.bool.isRequired,
   tryItMetrics: PropTypes.func.isRequired,
+  ui: PropTypes.shape({
+    Button: PropTypes.func,
+    Tabs: PropTypes.func,
+    tutorials: PropTypes.shape({
+      DEFAULT_TUTORIAL: PropTypes.object,
+      TutorialModal: PropTypes.func,
+      TutorialTile: PropTypes.func,
+      TutorialVariableContext: PropTypes.object,
+    }),
+  }),
   useNewMarkdownEngine: PropTypes.bool,
   user: PropTypes.shape({
     parameters: PropTypes.object,
@@ -657,6 +667,16 @@ Doc.defaultProps = {
   onDereferenceCompletion: () => {},
   onError: () => {},
   openTutorialModal: () => {},
+  ui: {
+    Button: () => {},
+    Tabs: () => {},
+    tutorials: {
+      DEFAULT_TUTORIAL: {},
+      TutorialModal: () => {},
+      TutorialTile: () => {},
+      TutorialVariableContext: {},
+    },
+  },
   useNewMarkdownEngine: false,
   user: {},
 };

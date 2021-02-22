@@ -18,16 +18,20 @@ function StringField(props) {
     onBlur,
     onFocus,
     registry = getDefaultRegistry(),
-    rawErrors,
   } = props;
   const { title, format } = schema;
   const { widgets, formContext } = registry;
-  const enumOptions = isSelect(schema) && optionsList(schema);
+  let enumOptions = isSelect(schema) && optionsList(schema);
   let defaultWidget = enumOptions ? 'select' : 'text';
   if (format && hasWidget(schema, format, widgets)) {
     defaultWidget = format;
   }
   const { widget = defaultWidget, ...options } = getUiOptions(uiSchema);
+  // Allow the parent to override the options to provide custom keys via uiSchema:{ui:options: options}
+  if (options.enumOptions) {
+    enumOptions = options.enumOptions;
+  }
+
   const Widget = getWidget(schema, widget, widgets);
 
   // If we have examples present, let's pull the first out as a placeholder if it's a primitive value.
@@ -53,7 +57,6 @@ function StringField(props) {
       onFocus={onFocus}
       options={{ ...options, enumOptions }}
       placeholder={placeholder}
-      rawErrors={rawErrors}
       readonly={readonly}
       registry={registry}
       required={required}

@@ -1,7 +1,7 @@
 {
   "name": "@readme/api-explorer",
   "description": "UI components for the API explorer",
-  "version": "11.2.2",
+  "version": "12.2.0",
   "main": "dist/index.js",
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
@@ -11,7 +11,7 @@
     "directory": "packages/api-explorer"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.config.js",
     "lint": "eslint . --ext js --ext jsx",
     "pretest": "npm run lint && npm run prettier",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
@@ -21,17 +21,17 @@
   "dependencies": {
     "@readme/http-status-codes": "^7.1.0",
     "@readme/markdown-magic": "^11.0.0",
-    "@readme/oas-extensions": "^11.0.0",
-    "@readme/oas-form": "^11.2.0",
-    "@readme/oas-to-har": "^11.2.0",
-    "@readme/oas-to-snippet": "^11.2.2",
+    "@readme/oas-extensions": "^12.0.0",
+    "@readme/oas-form": "^12.2.0",
+    "@readme/oas-to-har": "^12.2.0",
+    "@readme/oas-to-snippet": "^12.2.0",
     "@readme/syntax-highlighter": "^10.4.1",
     "classnames": "^2.2.5",
     "fetch-har": "^4.0.2",
     "js-cookie": "^2.1.4",
     "lodash.clonedeep": "^4.5.0",
     "lodash.kebabcase": "^4.1.1",
-    "oas": "^10.1.0",
+    "oas": "^10.1.2",
     "prop-types": "^15.7.2",
     "react-copy-to-clipboard": "^5.0.1",
     "react-debounce-input": "^3.2.0",
@@ -41,7 +41,6 @@
   },
   "peerDependencies": {
     "@readme/markdown": "^6.21.0",
-    "@readme/ui": "^1.17.0",
     "@readme/variable": "^11.0.0",
     "react": "16.x",
     "react-dom": "16.x"
@@ -50,8 +49,8 @@
     "@readme/eslint-config": "^4.0.0",
     "@readme/markdown": "^6.21.0",
     "@readme/oas-examples": "^4.0.0",
-    "@readme/ui": "^1.17.6",
-    "@readme/variable": "^11.0.0",
+    "@readme/ui": "^1.17.8",
+    "@readme/variable": "^12.0.0",
     "@testing-library/react": "^11.2.2",
     "css-loader": "^4.3.0",
     "eslint": "^7.0.0",
@@ -62,8 +61,7 @@
     "react-dom": "^16.14.0",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.41.0",
-    "webpack-cli": "^3.3.9",
-    "webpack-merge": "^5.1.3"
+    "webpack-cli": "^3.3.9"
   },
   "prettier": "@readme/eslint-config/prettier"
 }

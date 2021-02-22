@@ -9,11 +9,11 @@ import Form from '../src';
 
 export function createComponent(Component, props) {
   const onChange = jest.fn();
-  const onError = jest.fn();
   const onSubmit = jest.fn();
-  const comp = renderIntoDocument(<Component onChange={onChange} onError={onError} onSubmit={onSubmit} {...props} />);
+  const comp = renderIntoDocument(<Component onChange={onChange} onSubmit={onSubmit} {...props} />);
   const node = findDOMNode(comp);
-  return { comp, node, onChange, onError, onSubmit };
+
+  return { comp, node, onChange, onSubmit };
 }
 
 export function createFormComponent(props) {

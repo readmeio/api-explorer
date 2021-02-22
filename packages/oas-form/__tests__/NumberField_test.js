@@ -69,7 +69,6 @@ describe('NumberField', () => {
         const { node, onSubmit } = createFormComponent({
           schema: { type: 'number' },
           uiSchema,
-          noValidate: true,
         });
 
         submitForm(node);
@@ -346,7 +345,6 @@ describe('NumberField', () => {
           enum: [1, 2],
           default: 1,
         },
-        noValidate: true,
       });
 
       expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ formData: 1 }));

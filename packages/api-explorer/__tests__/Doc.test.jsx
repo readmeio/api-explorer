@@ -2,6 +2,11 @@ const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
 const Oas = require('oas/tooling');
 
+const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
+const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
+const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
+const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
+
 global.Request = Request;
 
 const React = require('react');
@@ -34,6 +39,16 @@ const props = {
   setLanguage: () => {},
   suggestedEdits: false,
   tryItMetrics: () => {},
+  ui: {
+    Button,
+    Tabs,
+    tutorials: {
+      DEFAULT_TUTORIAL,
+      TutorialModal,
+      TutorialTile,
+      TutorialVariableContext,
+    },
+  },
 };
 
 const petExample = {

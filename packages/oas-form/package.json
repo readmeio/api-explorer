@@ -1,6 +1,6 @@
 {
   "name": "@readme/oas-form",
-  "version": "11.2.0",
+  "version": "12.2.0",
   "description": "A simple React component capable of building HTML forms out of an OpenAPI definition.",
   "main": "src/index.js",
   "license": "Apache-2.0",
@@ -11,31 +11,23 @@
     "json-schema"
   ],
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
   "directories": {
     "test": "__tests__"
   },
   "scripts": {
-    "build": "npm run dist",
-    "build:lib": "rimraf lib && NODE_ENV=production babel -d lib/ src/",
-    "build:dist": "rimraf dist && NODE_ENV=production webpack --config webpack.config.dist.js",
-    "dist": "npm run build:lib && npm run build:dist",
+    "build": "NODE_ENV=production webpack",
     "lint": "eslint . --ext js --ext jsx",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
     "pretest": "npm run lint && npm run prettier",
-    "preversion": "npm run dist && npm run lint",
-    "publish-to-npm": "npm run dist && npm publish",
+    "preversion": "npm run build && npm run lint",
+    "publish-to-npm": "npm run build && npm publish",
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.4.5",
-    "ajv": "^6.7.0",
-    "core-js": "^2.5.7",
     "json-schema-merge-allof": "^0.6.0",
     "jsonpointer": "^4.0.1",
-    "lodash": "^4.17.15",
     "nanoid": "^3.1.20",
     "prop-types": "^15.7.2"
   },
@@ -44,15 +36,9 @@
     "react-is": "16.x"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@babel/register": "^7.4.4",
     "@readme/eslint-config": "^4.0.0",
     "@testing-library/jest-dom": "^5.11.9",
     "babel-eslint": "^10.1.0",
@@ -65,9 +51,7 @@
     "prettier": "^2.1.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-is": "^16.13.1",
     "react-portal": "^4.2.0",
-    "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"

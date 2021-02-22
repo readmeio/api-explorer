@@ -1,7 +1,7 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 
-import { createFormComponent, submitForm } from './test_utils';
+import { createFormComponent } from './test_utils';
 
 describe('ObjectField', () => {
   describe('schema', () => {
@@ -164,150 +164,6 @@ describe('ObjectField', () => {
     });
   });
 
-  describe('fields ordering', () => {
-    const schema = {
-      type: 'object',
-      properties: {
-        foo: { type: 'string' },
-        bar: { type: 'string' },
-        baz: { type: 'string' },
-        qux: { type: 'string' },
-      },
-    };
-
-    it('should use provided order', () => {
-      const { node } = createFormComponent({
-        schema,
-        uiSchema: {
-          'ui:order': ['baz', 'qux', 'bar', 'foo'],
-        },
-      });
-      const labels = [].map.call(node.querySelectorAll('.field > label'), l => l.textContent);
-
-      expect(labels).toStrictEqual(['baz', 'qux', 'bar', 'foo']);
-    });
-
-    it('should insert unordered properties at wildcard position', () => {
-      const { node } = createFormComponent({
-        schema,
-        uiSchema: {
-          'ui:order': ['baz', '*', 'foo'],
-        },
-      });
-      const labels = [].map.call(node.querySelectorAll('.field > label'), l => l.textContent);
-
-      expect(labels).toStrictEqual(['baz', 'bar', 'qux', 'foo']);
-    });
-
-    it('should use provided order also if order list contains extraneous properties', () => {
-      const { node } = createFormComponent({
-        schema,
-        uiSchema: {
-          'ui:order': ['baz', 'qux', 'bar', 'wut?', 'foo', 'huh?'],
-        },
-      });
-
-      const labels = [].map.call(node.querySelectorAll('.field > label'), l => l.textContent);
-
-      expect(labels).toStrictEqual(['baz', 'qux', 'bar', 'foo']);
-    });
-
-    it('should throw when order list misses an existing property', () => {
-      const { node } = createFormComponent({
-        schema,
-        uiSchema: {
-          'ui:order': ['baz', 'bar'],
-        },
-      });
-
-      expect(node.querySelector('.config-error')).toHaveTextContent(/does not contain properties 'foo', 'qux'/);
-    });
-
-    it('should throw when more than one wildcard is present', () => {
-      const { node } = createFormComponent({
-        schema,
-        uiSchema: {
-          'ui:order': ['baz', '*', 'bar', '*'],
-        },
-      });
-
-      expect(node.querySelector('.config-error')).toHaveTextContent(/contains more than one wildcard/);
-    });
-
-    it('should order referenced schema definitions', () => {
-      const refSchema = {
-        definitions: {
-          testdef: { type: 'string' },
-        },
-        type: 'object',
-        properties: {
-          foo: { $ref: '#/definitions/testdef' },
-          bar: { $ref: '#/definitions/testdef' },
-        },
-      };
-
-      const { node } = createFormComponent({
-        schema: refSchema,
-        uiSchema: {
-          'ui:order': ['bar', 'foo'],
-        },
-      });
-      const labels = [].map.call(node.querySelectorAll('.field > label'), l => l.textContent);
-
-      expect(labels).toStrictEqual(['bar', 'foo']);
-    });
-
-    it('should order referenced object schema definition properties', () => {
-      const refSchema = {
-        definitions: {
-          testdef: {
-            type: 'object',
-            properties: {
-              foo: { type: 'string' },
-              bar: { type: 'string' },
-            },
-          },
-        },
-        type: 'object',
-        properties: {
-          root: { $ref: '#/definitions/testdef' },
-        },
-      };
-
-      const { node } = createFormComponent({
-        schema: refSchema,
-        uiSchema: {
-          root: {
-            'ui:order': ['bar', 'foo'],
-          },
-        },
-      });
-      const labels = [].map.call(node.querySelectorAll('.field > label'), l => l.textContent);
-
-      expect(labels).toStrictEqual(['bar', 'foo']);
-    });
-
-    it('should render the widget with the expected id', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          foo: { type: 'string' },
-          bar: { type: 'string' },
-        },
-      };
-
-      const { node } = createFormComponent({
-        schema,
-        uiSchema: {
-          'ui:order': ['bar', 'foo'],
-        },
-      });
-
-      const ids = [].map.call(node.querySelectorAll('input[type=text]'), node => node.id);
-      expect(ids).toStrictEqual(['root_bar', 'root_foo']);
-    });
-  });
-
   describe('Title', () => {
     const TitleField = props => <div id={`title-${props.title}`} />;
 
@@ -382,53 +238,6 @@ describe('ObjectField', () => {
       const labels = node.querySelectorAll('label.control-label');
       expect(labels[0]).toHaveTextContent('CustomName Key');
       expect(labels[1]).toHaveTextContent('CustomName');
-    });
-
-    it('should not throw validation errors if additionalProperties is undefined', () => {
-      const undefinedAPSchema = {
-        ...schema,
-        properties: { second: { type: 'string' } },
-      };
-      delete undefinedAPSchema.additionalProperties;
-      const { node, onSubmit, onError } = createFormComponent({
-        schema: undefinedAPSchema,
-        formData: { nonschema: 1 },
-      });
-
-      submitForm(node);
-      expect(onSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          formData: { nonschema: 1 },
-        }),
-        expect.anything()
-      );
-
-      expect(onError).not.toHaveBeenCalled();
-    });
-
-    it('should throw a validation error if additionalProperties is false', () => {
-      const { node, onSubmit, onError } = createFormComponent({
-        schema: {
-          ...schema,
-          additionalProperties: false,
-          properties: { second: { type: 'string' } },
-        },
-        formData: { nonschema: 1 },
-      });
-      submitForm(node);
-      expect(onSubmit).not.toHaveBeenCalled();
-      expect(onError).toHaveBeenLastCalledWith(
-        expect.arrayContaining([
-          {
-            message: 'is an invalid additional property',
-            name: 'additionalProperties',
-            params: { additionalProperty: 'nonschema' },
-            property: "['nonschema']",
-            schemaPath: '#/additionalProperties',
-            stack: "['nonschema'] is an invalid additional property",
-          },
-        ])
-      );
     });
 
     it('should still obey properties if additionalProperties is defined', () => {

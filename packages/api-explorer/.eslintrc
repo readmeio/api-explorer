@@ -3,6 +3,9 @@
     "@readme/eslint-config",
     "@readme/eslint-config/react"
   ],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "root": true,
   "rules": {
     "jsx-a11y/label-has-associated-control": [2, {

@@ -63,19 +63,18 @@ function getTypeLabel(schema) {
 }
 
 function CustomTemplateShell(props) {
-  const { classNames, help, errors, children } = props;
+  const { classNames, help, children } = props;
 
   return (
     <div className={`${classNames} param`}>
       {children}
-      {errors && <div className="errors">{errors}</div>}
       {help && <div className="help">{help}</div>}
     </div>
   );
 }
 
 function CustomTemplate(props) {
-  const { id, classNames, label, help, required, description, errors, children, schema, onKeyChange } = props;
+  const { id, classNames, label, help, required, description, children, schema, onKeyChange } = props;
 
   const EditLabel = (
     <input defaultValue={label} id={`${id}-key`} onBlur={event => onKeyChange(event.target.value)} type="text" />
@@ -92,7 +91,6 @@ function CustomTemplate(props) {
         {description && <div className="description">{description}</div>}
       </span>
       {children && <div className="children">{children}</div>}
-      {errors && <div className="errors">{errors}</div>}
       {help && <div className="help">{help}</div>}
     </div>
   );
@@ -100,6 +98,7 @@ function CustomTemplate(props) {
 
 function SchemaField(props) {
   let { schema } = props;
+  const { uiSchema } = props;
 
   // If this schema is going to be loaded with a $ref, prefetch it so we'll have a schema type to work with.
   if ('$ref' in schema) {
@@ -114,10 +113,16 @@ function SchemaField(props) {
     delete schema.format;
   }
 
+  // If there's no name on this field, then it's a lone schema with no label or children and as such we shouldn't try
+  // to render it with the custom template.
   if ('name' in props) {
-    // If there's no name on this field, then it's a lone schema with no label or children and as such we shouldn't try
-    // to render it with the custom template.
-    props.registry.FieldTemplate = CustomTemplate;
+    // This allows an element to be created and bypass the template, for example when we hide the discriminator in the object ui
+    if (uiSchema['ui:customTemplate'] === false) {
+      // We have to delete it because there's a chance something else on the page already assigned the custom template.
+      delete props.registry.FieldTemplate;
+    } else {
+      props.registry.FieldTemplate = CustomTemplate;
+    }
   } else if ('oneOf' in schema || 'anyOf' in schema) {
     // If this is a oneOf or anyOf schema, render it using a shell of a CustomTemplate that will render it within our
     // `div.param` work so it doesn't look like hot garbage.
@@ -165,7 +170,6 @@ CustomTemplate.propTypes = {
   children: PropTypes.node.isRequired,
   classNames: PropTypes.string.isRequired,
   description: PropTypes.node.isRequired,
-  errors: PropTypes.node.isRequired,
   help: PropTypes.node.isRequired,
   id: PropTypes.node.isRequired,
   label: PropTypes.string,
@@ -181,7 +185,6 @@ CustomTemplate.defaultProps = {
 CustomTemplateShell.propTypes = {
   children: PropTypes.node.isRequired,
   classNames: PropTypes.string.isRequired,
-  errors: PropTypes.node.isRequired,
   help: PropTypes.node.isRequired,
 };
 
@@ -198,10 +201,16 @@ SchemaField.propTypes = {
     readOnly: PropTypes.bool,
     type: PropTypes.string,
   }).isRequired,
-  uiSchema: PropTypes.shape({}),
+  uiSchema: PropTypes.shape({
+    'ui:customTemplate': PropTypes.bool,
+  }),
 };
 
-SchemaField.defaultProps = { uiSchema: {} };
+SchemaField.defaultProps = {
+  uiSchema: {
+    'ui:customTemplate': true,
+  },
+};
 
 function createSchemaField() {
   return SchemaField;

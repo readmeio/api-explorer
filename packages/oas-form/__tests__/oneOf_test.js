@@ -351,33 +351,6 @@ describe('oneOf', () => {
     expect(node.querySelectorAll('#custom-oneof-field')).toHaveLength(1);
   });
 
-  it('should select the correct field when the form is rendered from existing data', () => {
-    const schema = {
-      type: 'object',
-      properties: {
-        userId: {
-          oneOf: [
-            {
-              type: 'number',
-            },
-            {
-              type: 'string',
-            },
-          ],
-        },
-      },
-    };
-
-    const { node } = createFormComponent({
-      schema,
-      formData: {
-        userId: 'foobarbaz',
-      },
-    });
-
-    expect(node.querySelector('select').value).toBe('1');
-  });
-
   it.skip('should select the correct field when the formData property is updated', () => {
     const schema = {
       type: 'object',
