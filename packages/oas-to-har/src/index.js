@@ -316,7 +316,7 @@ module.exports = (
                   try {
                     cleanBody[prop] = JSON.parse(cleanBody[prop]);
                   } catch (e) {
-                    // console.log('leave the prop as a string value')
+                    // leave the prop as a string value
                   }
                 });
 
