@@ -216,6 +216,7 @@ Params.defaultProps = {
   enableJsonEditor: false,
   formData: {},
   formDataJsonRaw: '{}',
+  parameters: {},
   ui: {
     Button: () => {},
     Tabs: () => {},

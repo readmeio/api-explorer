@@ -479,7 +479,7 @@ class Doc extends React.Component {
         onModeChange={this.onModeChange}
         onSubmit={this.onSubmit}
         operation={this.getOperation()}
-        parameters={this.props.user.parameters}
+        parameters={this.props.user.parameters || {}}
         resetForm={this.resetForm}
         ui={this.props.ui}
         validationErrors={validationErrors}
