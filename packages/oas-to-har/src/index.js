@@ -305,16 +305,19 @@ module.exports = (
 
             // Find all `{ type: string, format: json }` properties in the schema because we need to manually JSON.parse
             // them before submit, otherwise they'll be escaped instead of actual objects.
+            // We also only want values that the user has entered, so we drop any undefined cleanBody keys
             const jsonTypes = Object.keys(requestBody.schema.properties).filter(
-              key => requestBody.schema.properties[key].format === 'json'
+              key => requestBody.schema.properties[key].format === 'json' && cleanBody[key] !== undefined
             );
 
             if (jsonTypes.length) {
               try {
                 jsonTypes.forEach(prop => {
-                  // Attempt to parse each of the JSON properties, but if it fails for the data being invalid JSON,
-                  // instead we'll catch the exception and handle it as raw text.
-                  cleanBody[prop] = JSON.parse(cleanBody[prop]);
+                  try {
+                    cleanBody[prop] = JSON.parse(cleanBody[prop]);
+                  } catch (e) {
+                    // leave the prop as a string value
+                  }
                 });
 
                 if (typeof cleanBody.RAW_BODY !== 'undefined') {

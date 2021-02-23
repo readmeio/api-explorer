@@ -1153,6 +1153,72 @@ describe('requestBody', () => {
         ).toBe(JSON.stringify({ a: JSON.parse('{ "b": "valid json" }') }));
       });
 
+      it('should parse one valid JSON format even if another is invalid', () => {
+        expect(
+          oasToHar(
+            oas,
+            {
+              path: '/body',
+              method: 'post',
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      required: ['a'],
+                      properties: {
+                        a: {
+                          type: 'string',
+                          format: 'json',
+                        },
+                        b: {
+                          type: 'string',
+                          format: 'json',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            { body: { a: '{ "z": "valid json" }', b: 'invalid json' } }
+          ).log.entries[0].request.postData.text
+        ).toBe(JSON.stringify({ a: { z: 'valid json' }, b: 'invalid json' }));
+      });
+
+      it('should parse one valid JSON format even if another is left empty', () => {
+        expect(
+          oasToHar(
+            oas,
+            {
+              path: '/body',
+              method: 'post',
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'object',
+                      required: ['a'],
+                      properties: {
+                        a: {
+                          type: 'string',
+                          format: 'json',
+                        },
+                        b: {
+                          type: 'string',
+                          format: 'json',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            { body: { a: '{ "z": "valid json" }', b: undefined } }
+          ).log.entries[0].request.postData.text
+        ).toBe(JSON.stringify({ a: { z: 'valid json' }, b: undefined }));
+      });
+
       it('should leave user specified empty object JSON alone', () => {
         expect(
           oasToHar(
