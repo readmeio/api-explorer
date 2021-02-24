@@ -1124,6 +1124,30 @@ describe('requestBody', () => {
         ).toBe(JSON.stringify({ a: '{ "b": invalid json' }));
       });
 
+      // TODO: Why do I have to json encode the resulting string? website doesn't seem to need that....
+      it('should parse valid arbitrary JSON request bodies', () => {
+        expect(
+          oasToHar(
+            oas,
+            {
+              path: '/body',
+              method: 'post',
+              requestBody: {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'string',
+                      format: 'json',
+                    },
+                  },
+                },
+              },
+            },
+            { body: '{ "a": { "b": "valid json" } }' }
+          ).log.entries[0].request.postData.text
+        ).toBe('{"a":{"b":"valid json"}}');
+      });
+
       it('should parse valid JSON as an object', () => {
         expect(
           oasToHar(
