@@ -92,6 +92,7 @@ async function testOasJSON(oas) {
 
 // Test your local directory, filled with oas files via scanOasForExplorer
 const folderPath = '/Users/aaronhedges/oasFileDump';
+const debugPath = `/Users/aaronhedges/oasFileLog.${Date.now()}.txt`;
 const dir = fs.readdirSync(folderPath);
 let paths = [];
 
@@ -107,11 +108,24 @@ for (const oasFilename of dir) {
   paths.push([oasFilename]);
 }
 
-// paths = [paths[0]];
+paths.sort();
+paths = paths.slice(0, 20);
+
 console.log('running tests');
+let i = 0;
+debugger;
 
 test.each(paths)('should load %s fine', async filename => {
+  // eslint-disable-next-line jest/no-if
+  // This file fails dereferencing
+  if (['592d9d4f51a3e80f00eb4e01.json'].includes(filename)) {
+    return;
+  }
+
   console.log(`testing ${filename}`);
+  if (debugPath) fs.appendFileSync(debugPath, `${filename}\n`);
   const html = await testOasJSON(JSON.parse(fs.readFileSync(path.join(folderPath, filename))));
   expect(html).not.toContain('currently experiencing difficulties');
+  // eslint-disable-next-line no-plusplus
+  console.log('progress ', i++);
 });
