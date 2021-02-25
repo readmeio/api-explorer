@@ -303,7 +303,7 @@ module.exports = (
           } else {
             har.postData.mimeType = contentType;
 
-            // Handle arbitraty JSON input via a string.
+            // Handle arbitrary JSON input via a string.
             // In OAS you usually find this in an application/json content type.
             //   with a schema type=string, format=json.
             // In the UI this is represented by an arbitrary text input
