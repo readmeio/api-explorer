@@ -1,3 +1,13 @@
+## <small>12.2.1 (2021-02-25)</small>
+
+* chore(deps): bump swagger2openapi from 7.0.4 to 7.0.5 (#1194) ([f247359](https://github.com/readmeio/api-explorer/commit/f247359)), closes [#1194](https://github.com/readmeio/api-explorer/issues/1194)
+* chore(deps): upgrading oas to 10.2.0 (#1198) ([9ef36d8](https://github.com/readmeio/api-explorer/commit/9ef36d8)), closes [#1198](https://github.com/readmeio/api-explorer/issues/1198)
+* fix: enabling useObjectBody on js fetch snippets (#1196) ([7fc9557](https://github.com/readmeio/api-explorer/commit/7fc9557)), closes [#1196](https://github.com/readmeio/api-explorer/issues/1196)
+* fix(oas-to-har): clean up formatting of raw json bodies (#1197) ([0d4cead](https://github.com/readmeio/api-explorer/commit/0d4cead)), closes [#1197](https://github.com/readmeio/api-explorer/issues/1197)
+* fix(oas-to-har): fix validation failures when using multiple json formats (#1195) ([1159c7b](https://github.com/readmeio/api-explorer/commit/1159c7b)), closes [#1195](https://github.com/readmeio/api-explorer/issues/1195)
+
+
+
 ## 12.2.0 (2021-02-20)
 
 * chore: fixing some lockfile issues with oas-form ([6ed65df](https://github.com/readmeio/api-explorer/commit/6ed65df))
