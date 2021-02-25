@@ -24,7 +24,7 @@ const supportedLanguages = {
     highlight: 'java',
   },
   javascript: {
-    httpsnippet: ['javascript', 'fetch'],
+    httpsnippet: ['javascript', 'fetch', { useObjectBody: true }],
     highlight: 'javascript',
   },
   kotlin: {
@@ -32,13 +32,7 @@ const supportedLanguages = {
     highlight: 'java',
   },
   node: {
-    httpsnippet: [
-      'node',
-      'fetch',
-      {
-        useObjectBody: true,
-      },
-    ],
+    httpsnippet: ['node', 'fetch', { useObjectBody: true }],
     highlight: 'javascript',
   },
   'node-simple': {
