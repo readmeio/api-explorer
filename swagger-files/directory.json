@@ -1,4 +1,12 @@
 {
+  "__592d9d4f51a3e80f00eb4e01.json": {
+    "preferred": "4",
+    "versions": {
+      "4": {
+        "swaggerUrl": "swagger-files/__592d9d4f51a3e80f00eb4e01.json"
+      }
+    }
+  },
   "additional-properties.json": {
     "preferred": "1.0.0",
     "versions": {
