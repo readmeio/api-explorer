@@ -445,6 +445,26 @@
         }
       }
     },
+    "/anything/top-level-string-json": {
+      "post": {
+        "summary": "Top level string property with JSON format",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "json"
+              }
+            }
+          }
+        }
+      }
+    },
     "/anything/top-level-integer": {
       "post": {
         "summary": "Top level integer property",
