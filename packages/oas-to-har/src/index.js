@@ -303,33 +303,43 @@ module.exports = (
           } else {
             har.postData.mimeType = contentType;
 
-            // Find all `{ type: string, format: json }` properties in the schema because we need to manually JSON.parse
-            // them before submit, otherwise they'll be escaped instead of actual objects.
-            // We also only want values that the user has entered, so we drop any undefined cleanBody keys
-            const jsonTypes = Object.keys(requestBody.schema.properties).filter(
-              key => requestBody.schema.properties[key].format === 'json' && cleanBody[key] !== undefined
-            );
+            // Handle arbitrary JSON input via a string.
+            // In OAS you usually find this in an application/json content type.
+            //   with a schema type=string, format=json.
+            // In the UI this is represented by an arbitrary text input
+            // This ensures we remove any newlines or tabs and use a clean json block in the example
+            if (requestBody.schema.type === 'string') {
+              har.postData.text = JSON.stringify(JSON.parse(cleanBody));
+            } else {
+              // Handle formatted JSON objects that have properties that accept arbitrary JSON
+              // Find all `{ type: string, format: json }` properties in the schema because we need to manually JSON.parse
+              // them before submit, otherwise they'll be escaped instead of actual objects.
+              // We also only want values that the user has entered, so we drop any undefined cleanBody keys
+              const jsonTypes = Object.keys(requestBody.schema.properties).filter(
+                key => requestBody.schema.properties[key].format === 'json' && cleanBody[key] !== undefined
+              );
 
-            if (jsonTypes.length) {
-              try {
-                jsonTypes.forEach(prop => {
-                  try {
-                    cleanBody[prop] = JSON.parse(cleanBody[prop]);
-                  } catch (e) {
-                    // leave the prop as a string value
+              if (jsonTypes.length) {
+                try {
+                  jsonTypes.forEach(prop => {
+                    try {
+                      cleanBody[prop] = JSON.parse(cleanBody[prop]);
+                    } catch (e) {
+                      // leave the prop as a string value
+                    }
+                  });
+
+                  if (typeof cleanBody.RAW_BODY !== 'undefined') {
+                    cleanBody = cleanBody.RAW_BODY;
                   }
-                });
 
-                if (typeof cleanBody.RAW_BODY !== 'undefined') {
-                  cleanBody = cleanBody.RAW_BODY;
+                  har.postData.text = JSON.stringify(cleanBody);
+                } catch (e) {
+                  har.postData.text = stringify(formData.body);
                 }
-
-                har.postData.text = JSON.stringify(cleanBody);
-              } catch (e) {
+              } else {
                 har.postData.text = stringify(formData.body);
               }
-            } else {
-              har.postData.text = stringify(formData.body);
             }
           }
         } catch (e) {
