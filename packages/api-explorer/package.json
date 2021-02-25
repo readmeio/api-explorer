@@ -41,7 +41,7 @@
   },
   "peerDependencies": {
     "@readme/markdown": "^6.21.0",
-    "@readme/variable": "^11.0.0",
+    "@readme/variable": "*",
     "react": "16.x",
     "react-dom": "16.x"
   },
