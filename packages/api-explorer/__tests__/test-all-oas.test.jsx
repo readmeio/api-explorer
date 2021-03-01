@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 // Run this to use a ton of memory, and write absolutely every bit of output to the file AND your terminal so you can watch progress
 // npx --max-old-space-size=18000 jest __tests__/test-all-oas.test.jsx 2>&1 | tee testOutput.txt
+
 const React = require('react');
-const { mount } = require('enzyme');
-const { act } = require('react-dom/test-utils');
 const Oas = require('oas/tooling');
 const { ApiExplorer } = require('../src');
 
@@ -17,13 +17,7 @@ const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compo
 const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
 const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
-// https://github.com/enzymejs/enzyme/issues/2073#issuecomment-565736674 (note, doesn't work in tests on its own. requires fake timers as seen in testOasJSON)
-const waitForComponentToPaint = async wrapper => {
-  await act(async () => {
-    await new Promise(resolve => setTimeout(resolve, 0));
-    wrapper.update();
-  });
-};
+const ReactDOMServer = require('react-dom/server');
 
 const defaultProps = {
   glossaryTerms: [],
@@ -75,26 +69,17 @@ async function getProps(oas) {
 }
 
 async function testOasJSON(oas) {
-  jest.useFakeTimers();
-  // necessary for waitForComponentToPaint to properly get act working
-  const doc = mount(React.createElement(ApiExplorer, await getProps(oas)));
-  // necessary to ensure the react element is properly rendered before we create the html
-  waitForComponentToPaint(doc);
-  // run the timers (from react and waitForComponent)
-  jest.runOnlyPendingTimers();
-  return doc.html();
+  return ReactDOMServer.renderToString(React.createElement(ApiExplorer, await getProps(oas)));
 }
 
-// TODO: apis guru
-
 // Test the examples
-// const folderPath = path.join(__dirname, '../../../example/swagger-files');
+const folderPath = path.join(__dirname, '../../../example/swagger-files');
 
 // Test your local directory, filled with oas files via scanOasForExplorer
-const folderPath = '/Users/aaronhedges/oasFileDump';
-const debugPath = `/Users/aaronhedges/oasFileLog.${Date.now()}.txt`;
+// const folderPath = '/Users/aaronhedges/oasFileDump';
+const debugPath = false;
 const dir = fs.readdirSync(folderPath);
-let paths = [];
+const paths = [];
 
 // Find all filenames
 // eslint-disable-next-line no-restricted-syntax
@@ -109,23 +94,29 @@ for (const oasFilename of dir) {
 }
 
 paths.sort();
-paths = paths.slice(0, 20);
+// Usefull line to reduce the amount of files we process
+// paths = paths.slice(0, 1000);
 
-console.log('running tests');
-let i = 0;
-debugger;
+// Useful code to catch additional errors and ignore warnings
+const standardWarn = console.warn;
+const standardErr = console.error;
 
+beforeEach(() => {
+  console.error = err => {
+    throw new Error(err);
+  };
+
+  console.warn = () => {};
+});
+
+afterEach(() => {
+  console.err = standardErr;
+  console.warn = standardWarn;
+});
+
+// DO NOT RUN THIS WITH CONCURRENT. IT BREAKS, BAD.
 test.each(paths)('should load %s fine', async filename => {
-  // eslint-disable-next-line jest/no-if
-  // This file fails dereferencing
-  if (['592d9d4f51a3e80f00eb4e01.json'].includes(filename)) {
-    return;
-  }
-
-  console.log(`testing ${filename}`);
   if (debugPath) fs.appendFileSync(debugPath, `${filename}\n`);
   const html = await testOasJSON(JSON.parse(fs.readFileSync(path.join(folderPath, filename))));
   expect(html).not.toContain('currently experiencing difficulties');
-  // eslint-disable-next-line no-plusplus
-  console.log('progress ', i++);
 });
