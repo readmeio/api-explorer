@@ -1,3 +1,13 @@
+## <small>12.2.2 (2021-03-02)</small>
+
+* fix: bug where js fetch snippets were sending false bodies ([cde3090](https://github.com/readmeio/api-explorer/commit/cde3090))
+* fix(oas-to-har): minor additions to the recent format:json fixes (#1199) ([2be7889](https://github.com/readmeio/api-explorer/commit/2be7889)), closes [#1199](https://github.com/readmeio/api-explorer/issues/1199)
+* chore(deps-dev): bump lodash from 4.17.20 to 4.17.21 (#1206) ([fffb7ab](https://github.com/readmeio/api-explorer/commit/fffb7ab)), closes [#1206](https://github.com/readmeio/api-explorer/issues/1206)
+* chore(deps): bump @readme/syntax-highlighter from 10.4.4 to 10.4.5 (#1204) ([f91c2e8](https://github.com/readmeio/api-explorer/commit/f91c2e8)), closes [#1204](https://github.com/readmeio/api-explorer/issues/1204)
+* chore(deps): loosening up the peerDep on @readme/variable ([20d07e2](https://github.com/readmeio/api-explorer/commit/20d07e2))
+
+
+
 ## <small>12.2.1 (2021-02-25)</small>
 
 * chore(deps): bump swagger2openapi from 7.0.4 to 7.0.5 (#1194) ([f247359](https://github.com/readmeio/api-explorer/commit/f247359)), closes [#1194](https://github.com/readmeio/api-explorer/issues/1194)
