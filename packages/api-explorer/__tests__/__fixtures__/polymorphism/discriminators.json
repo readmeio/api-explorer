@@ -72,6 +72,44 @@
           }
         }
       },
+      "/oneOfWithImproperlyPlacedDiscriminator": {
+        "patch": {
+          "summary": "oneOf with a discriminator that is referencing a property up a level",
+          "description": "This is an improper use of discriminators, but we should ignore the discriminator if this happens instead of failing to render the operation.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "connector_type": {
+                      "type": "string",
+                      "enum": [
+                        "s3Import",
+                        "gcsImport"
+                      ]
+                    },
+                    "connector_properties": {
+                      "type": "object",
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/gcsImport"
+                        },
+                        {
+                          "$ref": "#/components/schemas/s3Import"
+                        }
+                      ],
+                      "discriminator": {
+                        "propertyName": "connector_type"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "/pets": {
         "patch": {
           "summary": "oneOf request with a nested allOf and embedded discriminator",
@@ -359,6 +397,28 @@
               }
             }
           ]
+        },
+        "gcsImport": {
+          "type": "object",
+          "properties": {
+            "gcs_bucket": {
+              "type": "string"
+            },
+            "gcs_prefix": {
+              "type": "string"
+            }
+          }
+        },
+        "s3Import": {
+          "type": "object",
+          "properties": {
+            "s3_bucket": {
+              "type": "string"
+            },
+            "s3_prefix": {
+              "type": "string"
+            }
+          }
         }
       }
     }
