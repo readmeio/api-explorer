@@ -1,4 +1,12 @@
 {
+  "__mixpanel.json": {
+    "preferred": "3.0.0",
+    "versions": {
+      "3.0.0": {
+        "swaggerUrl": "swagger-files/__mixpanel.json"
+      }
+    }
+  },
   "additional-properties.json": {
     "preferred": "1.0.0",
     "versions": {
