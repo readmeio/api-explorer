@@ -194,4 +194,19 @@ describe('discriminator', () => {
     expect(secondChangeParamsText).toContain('bark');
     expect(secondChangeParamsText).not.toContain('hunts');
   });
+
+  it('should ignore the discriminator if it is improperly placed', async () => {
+    const testOas = new Oas(discriminators);
+    await testOas.dereference();
+    const operation = testOas.operation('/oneOfWithImproperlyPlacedDiscriminator', 'patch');
+    const Params = createParams(oas, operation);
+
+    expect(() => {
+      return mount(
+        <div>
+          <Params {...props} formData={{}} oas={testOas} operation={operation} />
+        </div>
+      );
+    }).not.toThrow("Cannot use 'in' operator to search for '$ref' in null");
+  });
 });

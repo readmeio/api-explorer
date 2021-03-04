@@ -241,9 +241,10 @@ class MultiSchemaField extends Component {
     const SchemaField = registry.fields.SchemaField;
     const { selectedIndex, selectedValue, discriminatorSchema, discriminatorFieldSchema, enumOptions } = this.state;
 
-    // We've got a custom path if there's a discriminator, otherwise we fall back ot the old multischema field
-    if (discriminatorSchema) {
-      // Find which schema we wnat to render by looking at the options prop. The order of these options matches the
+    // We've got a custom path if there's a properly-formed discriminator, otherwise we fall back ot the old MultiSchema
+    // field.
+    if (discriminatorFieldSchema && discriminatorSchema) {
+      // Find which schema we want to render by looking at the options prop. The order of these options matches the
       // order of the dropdown options, and so we can just stick with matching indicies.
       const option = options[selectedIndex] || null;
       let optionSchema;
