@@ -114,3 +114,31 @@ describe('multiple variables', () => {
 
   it.todo('should render auth dropdown if default and oauth enabled');
 });
+
+describe('variable with periods', () => {
+  const props = {
+    variable: 'api.key',
+    user: { 'api.key': '123456' },
+    defaults: [],
+    changeSelected: () => {},
+    selected: '',
+  };
+
+  it('should render value', () => {
+    const variable = shallow(<Variable {...props} />);
+
+    expect(variable.text()).toBe('123456');
+  });
+
+  it('should render default if value not set', () => {
+    const variable = shallow(<Variable {...props} defaults={[{ name: 'api.key', default: 'default' }]} user={{}} />);
+
+    expect(variable.text()).toBe('default');
+  });
+
+  it('should render uppercase if no value and no default', () => {
+    const variable = shallow(<Variable {...props} defaults={[]} user={{}} />);
+
+    expect(variable.text()).toBe('API.KEY');
+  });
+});
