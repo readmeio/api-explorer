@@ -1,3 +1,9 @@
+## <small>12.2.4 (2021-03-09)</small>
+
+* feat: allow periods in variable regex (#1220) ([b3cd79b](https://github.com/readmeio/api-explorer/commit/b3cd79b)), closes [#1220](https://github.com/readmeio/api-explorer/issues/1220)
+
+
+
 ## <small>12.2.3 (2021-03-04)</small>
 
 * fix: bug with improperly placed discriminators (#1211) ([ed23dca](https://github.com/readmeio/api-explorer/commit/ed23dca)), closes [#1211](https://github.com/readmeio/api-explorer/issues/1211)
