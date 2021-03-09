@@ -161,5 +161,5 @@ module.exports.Variable = Variable;
 // - \<<apiKey\>> - escaped variables
 // - <<apiKey>> - regular variables
 // - <<glossary:glossary items>> - glossary
-module.exports.VARIABLE_REGEXP = /(?:\\)?<<([-\w:\s]+)(?:\\)?>>/.source;
+module.exports.VARIABLE_REGEXP = /(?:\\)?<<([-\w:.\s]+)(?:\\)?>>/.source;
 module.exports.VariablesContext = VariablesContext;

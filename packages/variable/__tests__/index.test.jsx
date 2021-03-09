@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 
-const { Variable } = require('../index.jsx');
+const { Variable, VARIABLE_REGEXP } = require('../index.jsx');
 
 describe('single variable', () => {
   const props = {
@@ -115,30 +115,8 @@ describe('multiple variables', () => {
   it.todo('should render auth dropdown if default and oauth enabled');
 });
 
-describe('variable with periods', () => {
-  const props = {
-    variable: 'api.key',
-    user: { 'api.key': '123456' },
-    defaults: [],
-    changeSelected: () => {},
-    selected: '',
-  };
-
-  it('should render value', () => {
-    const variable = shallow(<Variable {...props} />);
-
-    expect(variable.text()).toBe('123456');
-  });
-
-  it('should render default if value not set', () => {
-    const variable = shallow(<Variable {...props} defaults={[{ name: 'api.key', default: 'default' }]} user={{}} />);
-
-    expect(variable.text()).toBe('default');
-  });
-
-  it('should render uppercase if no value and no default', () => {
-    const variable = shallow(<Variable {...props} defaults={[]} user={{}} />);
-
-    expect(variable.text()).toBe('API.KEY');
+describe('VARIABLE_REGEXP', () => {
+  it('should match against periods', () => {
+    expect('<<api.key>>').toMatch(new RegExp(VARIABLE_REGEXP));
   });
 });
