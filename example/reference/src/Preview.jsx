@@ -2,6 +2,11 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const extensions = require('../../../packages/oas-extensions');
 
+const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
+const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');
+const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
+const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
+
 const Sidebar = require('./Sidebar');
 const Version = require('./Version');
 const ApiExplorer = require('../../../packages/api-explorer/src');
@@ -101,6 +106,17 @@ class Preview extends React.Component {
             }}
             oauth={oauth}
             suggestedEdits={false}
+            // API Explorer does not ship with our UI library so we need to give it the components it needs.
+            ui={{
+              Button,
+              Tabs,
+              tutorials: {
+                DEFAULT_TUTORIAL,
+                TutorialModal,
+                TutorialTile,
+                TutorialVariableContext,
+              },
+            }}
             variables={{
               user: {},
               defaults: [],
