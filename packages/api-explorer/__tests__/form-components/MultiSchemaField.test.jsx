@@ -209,4 +209,19 @@ describe('discriminator', () => {
       );
     }).not.toThrow("Cannot use 'in' operator to search for '$ref' in null");
   });
+
+  it('should not error if `formData` is undefined for whatever reason', async () => {
+    const testOas = new Oas(discriminators);
+    await testOas.dereference();
+    const operation = testOas.operation('/potentially-undefined-formData', 'patch');
+    const Params = createParams(oas, operation);
+
+    expect(() => {
+      return mount(
+        <div>
+          <Params {...props} formData={undefined} oas={testOas} operation={operation} />
+        </div>
+      );
+    }).not.toThrow("Cannot read property 'event_type' of undefined");
+  });
 });
