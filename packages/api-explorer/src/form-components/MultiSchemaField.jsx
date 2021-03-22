@@ -142,13 +142,21 @@ function findEnumOptionsIndex(enumOptions, value) {
  * Note that this is the index and not the value
  */
 function notifySelectionValue(selectedIndex, selectedValue) {
-  const { formData, onChange, options, registry } = this.props;
+  let { formData } = this.props;
+  const { onChange, options, registry } = this.props;
   const { rootSchema } = registry;
   const { discriminatorSchema } = this.state;
 
   if (discriminatorSchema) {
+    // formData might be `undefined` here under some strange circumstances so let's be proactive and create it if we
+    // need to.
+    if (!formData) {
+      formData = {};
+    }
+
     formData[discriminatorSchema.propertyName] = selectedValue;
   }
+
   // Update the formData so the example code is properly rendered and ensure defaults are applied if applicable
   // Note: defaults might not be applicable, this line largely from the original multischema code!
   onChange(getDefaultFormState(options[selectedIndex], formData, rootSchema));
@@ -204,7 +212,7 @@ class MultiSchemaField extends Component {
         }
       }
 
-      initialSelectValue = formData[discriminatorSchema.propertyName] || enumOptions[0].value;
+      initialSelectValue = formData?.[discriminatorSchema.propertyName] || enumOptions[0].value;
       initialSelectIndex = findEnumOptionsIndex(enumOptions, initialSelectValue);
     }
 

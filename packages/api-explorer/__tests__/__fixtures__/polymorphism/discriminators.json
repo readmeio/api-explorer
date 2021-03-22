@@ -206,6 +206,37 @@
             }
           }
         }
+      },
+      "/potentially-undefined-formData": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationApprovedEvent"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ApplicationDeniedEvent"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "event_type",
+                  "mapping": {
+                    "application_approved": "#/components/schemas/ApplicationApprovedEvent",
+                    "application_denied": "#/components/schemas/ApplicationDeniedEvent"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "components": {
@@ -419,6 +450,80 @@
               "type": "string"
             }
           }
+        },
+        "ApplicationApprovedEvent": {
+          "title": "ApplicationApprovedEvent",
+          "description": "Emitted when an application is underwritten and approved.",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/BasePurchaseWebhookEvent"
+            }
+          ]
+        },
+        "ApplicationDeniedEvent": {
+          "title": "ApplicationDeniedEvent",
+          "description": "Emitted when an application is underwritten and denied.",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/BasePurchaseWebhookEvent"
+            }
+          ]
+        },
+        "BasePurchaseWebhookEvent": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/BaseBuyerWebhookEvent"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "type": "string",
+                  "description": "Provided Partner Order ID."
+                }
+              }
+            }
+          ]
+        },
+        "BaseBuyerWebhookEvent": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/BaseWebhookEvent"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "buyer_id": {
+                  "type": "string",
+                  "description": "ID of the buyer the event corresponds to."
+                }
+              },
+              "required": [
+                "buyer_id"
+              ]
+            }
+          ]
+        },
+        "BaseWebhookEvent": {
+          "type": "object",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "description": "Type of the webhook event.",
+              "enum": [
+                "application_approved",
+                "application_denied"
+              ]
+            },
+            "event_id": {
+              "type": "string",
+              "description": "ID of the event."
+            }
+          },
+          "required": [
+            "event_type",
+            "event_id"
+          ]
         }
       }
     }
