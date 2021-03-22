@@ -1,3 +1,11 @@
+## <small>12.2.5 (2021-03-22)</small>
+
+* fix: bug where formData might be undefined with discrimators (#1234) ([aa98288](https://github.com/readmeio/api-explorer/commit/aa98288)), closes [#1234](https://github.com/readmeio/api-explorer/issues/1234)
+* fix: loading the ui library into the `/reference` page ([dc2a471](https://github.com/readmeio/api-explorer/commit/dc2a471))
+* ci: dropping the frequency of dependabot updates to monthly ([a352a4b](https://github.com/readmeio/api-explorer/commit/a352a4b))
+
+
+
 ## <small>12.2.4 (2021-03-09)</small>
 
 * feat: allow periods in variable regex (#1220) ([b3cd79b](https://github.com/readmeio/api-explorer/commit/b3cd79b)), closes [#1220](https://github.com/readmeio/api-explorer/issues/1220)
