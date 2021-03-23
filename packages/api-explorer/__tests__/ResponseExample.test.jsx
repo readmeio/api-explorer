@@ -36,13 +36,23 @@ test('should show no examples if endpoint does not have any', () => {
 
 test('should check the operation level extensions first', () => {
   const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
-  operationExplorerEnabled.schema[extensions.EXPLORER_ENABLED] = true;
+  operationExplorerEnabled.schema['x-readme'] = {
+    [extensions.EXPLORER_ENABLED]: true,
+  };
 
   const comp = shallow(
     <ResponseExample
       {...props}
       examples={[]}
-      oas={new Oas({ ...oas, [extensions.EXPLORER_ENABLED]: false })}
+      oas={
+        new Oas({
+          ...oas,
+          'x-readme': {
+            ...oas['x-readme'],
+            [extensions.EXPLORER_ENABLED]: false,
+          },
+        })
+      }
       operation={operationExplorerEnabled}
     />
   );
@@ -52,7 +62,19 @@ test('should check the operation level extensions first', () => {
 
 test('should notify about no examples being available if explorer disabled', () => {
   const comp = shallow(
-    <ResponseExample {...props} examples={[]} oas={new Oas({ ...petstore, [extensions.EXPLORER_ENABLED]: false })} />
+    <ResponseExample
+      {...props}
+      examples={[]}
+      oas={
+        new Oas({
+          ...petstore,
+          'x-readme': {
+            ...petstore['x-readme'],
+            [extensions.EXPLORER_ENABLED]: false,
+          },
+        })
+      }
+    />
   );
 
   expect(comp.containsMatchingElement(<div>No response examples available</div>)).toBe(true);

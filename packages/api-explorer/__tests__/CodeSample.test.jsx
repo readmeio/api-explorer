@@ -30,8 +30,10 @@ describe('tabs', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: languages,
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: languages,
+            },
           })
         }
       />
@@ -47,8 +49,10 @@ describe('tabs', () => {
         {...props}
         oas={
           new Oas({
-            [extensions.SAMPLES_ENABLED]: false,
-            [extensions.SAMPLES_LANGUAGES]: ['node'],
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: false,
+              [extensions.SAMPLES_LANGUAGES]: ['node'],
+            },
           })
         }
       />
@@ -67,8 +71,10 @@ describe('code examples', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['node-simple'],
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['node-simple'],
+            },
           })
         }
       />
@@ -92,8 +98,10 @@ describe('code examples', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            },
           })
         }
       />
@@ -116,7 +124,9 @@ describe('code examples', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: false,
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: false,
+            },
           })
         }
       />
@@ -138,8 +148,10 @@ describe('code examples', () => {
           ]}
           oas={
             new Oas({
-              [extensions.SAMPLES_ENABLED]: true,
-              [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+              'x-readme': {
+                [extensions.SAMPLES_ENABLED]: true,
+                [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+              },
               servers: [{ url: 'http://example.com' }],
             })
           }
@@ -156,8 +168,10 @@ describe('code examples', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['css'],
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['css'],
+            },
           })
         }
       />
@@ -187,8 +201,10 @@ describe('code examples', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            },
           })
         }
       />
@@ -214,8 +230,10 @@ describe('code examples', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['css'],
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['css'],
+            },
           })
         }
       />
@@ -231,8 +249,10 @@ describe('code examples', () => {
         oas={
           new Oas({
             ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            'x-readme': {
+              [extensions.SAMPLES_ENABLED]: true,
+              [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
+            },
           })
         }
       />
@@ -248,21 +268,9 @@ describe('code examples', () => {
   // Skipped until https://github.com/readmeio/api-explorer/issues/965 is resolved.
   it.skip('should check the operation level extensions first', () => {
     const operationSamplesEnabled = oas.operation('/pet/{petId}', 'get');
-    operationSamplesEnabled.schema[extensions.SAMPLES_ENABLED] = true;
+    operationSamplesEnabled.schema['x-readme'][extensions.SAMPLES_ENABLED] = true;
 
-    const codeSample = shallow(
-      <CodeSample
-        {...props}
-        oas={
-          new Oas({
-            ...petstore,
-            [extensions.SAMPLES_ENABLED]: false,
-            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
-          })
-        }
-        operation={operationSamplesEnabled}
-      />
-    );
+    const codeSample = shallow(<CodeSample {...props} oas={new Oas(petstore)} operation={operationSamplesEnabled} />);
 
     expect(codeSample.find('.hub-code-auto')).toHaveLength(1);
 
@@ -288,13 +296,7 @@ describe('code examples', () => {
           },
         ]}
         language={'javascript'}
-        oas={
-          new Oas({
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['node', 'curl'],
-            servers: [{ url: 'http://example.com' }],
-          })
-        }
+        oas={new Oas(petstore)}
       />
     );
 
@@ -306,19 +308,7 @@ describe('updating language', () => {
   it('should call setLanguage', () => {
     const setLanguage = jest.fn();
 
-    const codeSample = shallow(
-      <CodeSample
-        {...props}
-        oas={
-          new Oas({
-            ...petstore,
-            [extensions.SAMPLES_ENABLED]: true,
-            [extensions.SAMPLES_LANGUAGES]: ['node'],
-          })
-        }
-        setLanguage={setLanguage}
-      />
-    );
+    const codeSample = shallow(<CodeSample {...props} oas={new Oas(petstore)} setLanguage={setLanguage} />);
 
     codeSample.find('.hub-lang-switch-node').simulate('click', { preventDefault: () => {} });
     expect(setLanguage.mock.calls[0]).toMatchObject(['node']);

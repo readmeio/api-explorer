@@ -358,8 +358,14 @@ describe('schema handling', () => {
   });
 });
 
-describe('x-explorer-enabled', () => {
-  const oasWithExplorerDisabled = { ...oas, [extensions.EXPLORER_ENABLED]: false };
+describe('EXPLORER_ENABLED extension', () => {
+  const oasWithExplorerDisabled = {
+    ...oas,
+    'x-readme': {
+      [extensions.EXPLORER_ENABLED]: false,
+    },
+  };
+
   const ParamsWithExplorerDisabled = createParams(oasWithExplorerDisabled, oas.operation('/pet', 'post'));
 
   it('array should still show add button, but sub-elements should not be editable', () => {
@@ -433,7 +439,9 @@ describe('x-explorer-enabled', () => {
 
   it('should check the operation level extensions first', () => {
     const operationExplorerEnabled = oas.operation('/pet/{petId}/uploadImage', 'post');
-    operationExplorerEnabled.schema[extensions.EXPLORER_ENABLED] = true;
+    operationExplorerEnabled.schema['x-readme'] = {
+      [extensions.EXPLORER_ENABLED]: true,
+    };
 
     const Component = createParams(oasWithExplorerDisabled, operationExplorerEnabled);
 

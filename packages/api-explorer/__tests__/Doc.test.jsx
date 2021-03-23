@@ -278,7 +278,9 @@ describe('onSubmit', () => {
 
     const proxyOas = new Oas({
       servers: [{ url: 'http://example.com' }],
-      [extensions.PROXY_ENABLED]: true,
+      'x-readme': {
+        [extensions.PROXY_ENABLED]: true,
+      },
       paths: {
         '/pet/{petId}': {
           get: {

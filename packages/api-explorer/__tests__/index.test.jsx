@@ -61,7 +61,14 @@ const props = {
 beforeAll(async () => {
   // Tests for this component default to not do async dereferencing with the `DocAsync` component so instead we're
   // supplying the `oasFiles` prop with dereferenced definitions.
-  const oas = new Oas({ ...petstore, [extensions.SAMPLES_LANGUAGES]: languages });
+  const oas = new Oas({
+    ...petstore,
+    'x-readme': {
+      ...petstore['x-readme'],
+      [extensions.SAMPLES_LANGUAGES]: languages,
+    },
+  });
+
   await oas.dereference();
 
   const { user, ...definition } = oas;
