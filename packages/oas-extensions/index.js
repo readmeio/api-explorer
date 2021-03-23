@@ -2,18 +2,22 @@
 // https://readme.readme.io/v2.0/docs/swagger-extensions
 
 module.exports = {
+  CODE_SAMPLES: 'code-samples',
   EXPLORER_ENABLED: 'explorer-enabled',
   HEADERS: 'headers',
   PROXY_ENABLED: 'proxy-enabled',
+  RESPONSE_SAMPLES: 'response-examples',
   SAMPLES_ENABLED: 'samples-enabled',
   SAMPLES_LANGUAGES: 'samples-languages',
   SEND_DEFAULTS: 'send-defaults',
 };
 
 module.exports.defaults = {
+  'code-samples': undefined,
   'explorer-enabled': true,
   headers: undefined,
   'proxy-enabled': true,
+  'response-examples': undefined,
   'samples-enabled': true,
   'samples-languages': ['curl', 'node', 'ruby', 'javascript', 'python'],
   'send-defaults': false,
