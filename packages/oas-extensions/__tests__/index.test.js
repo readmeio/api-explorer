@@ -11,7 +11,7 @@ test.each([
   ['SAMPLES_ENABLED'],
   ['SAMPLES_LANGUAGES'],
   ['SEND_DEFAULTS'],
-])("`%s` extension should have a default value", (extension) => {
+])('`%s` extension should have a default value', extension => {
   expect(extensions[extension] in extensions.defaults).toBe(true);
 });
 
