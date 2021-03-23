@@ -117,7 +117,7 @@ class ApiExplorer extends React.Component {
   getDefaultLanguage() {
     try {
       const firstOas = Object.keys(this.props.oasFiles)[0];
-      return this.props.oasFiles[firstOas][extensions.SAMPLES_LANGUAGES][0];
+      return extensions.getExtension(extensions.SAMPLES_LANGUAGES, this.props.oasFiles[firstOas])[0];
     } catch (e) {
       return 'curl';
     }

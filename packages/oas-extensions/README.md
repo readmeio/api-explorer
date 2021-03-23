@@ -1,7 +1,8 @@
 # @readme/oas-extensions
 
-A list of extensions that ReadMe has added to the OAS spec https://readme.readme.io/v2.0/docs/swagger-extensions
+A list of extensions that ReadMe has added to extend the OAS spec.
 
+https://docs.readme.com/docs/openapi-extensions
 
 [![Build](https://github.com/readmeio/api-explorer/workflows/CI/badge.svg)](https://github.com/readmeio/api-explorer/tree/master/packages/oas-extensions)
 

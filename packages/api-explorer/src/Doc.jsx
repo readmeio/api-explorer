@@ -565,7 +565,7 @@ class Doc extends React.Component {
           // TODO maybe we dont need to do this with a hidden input now
           // cos we can just pass it around?
         }
-        <input id={`swagger-${extensions.SEND_DEFAULTS}`} type="hidden" value={oas[extensions.SEND_DEFAULTS]} />
+        <input id={`swagger-${extensions.SEND_DEFAULTS}`} type="hidden" value={oas[`x-${extensions.SEND_DEFAULTS}`]} />
       </div>
     );
   }

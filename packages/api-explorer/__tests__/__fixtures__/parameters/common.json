@@ -227,8 +227,5 @@
         "in": "header"
       }
     }
-  },
-  "x-explorer-enabled": true,
-  "x-samples-enabled": true,
-  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"]
+  }
 }
