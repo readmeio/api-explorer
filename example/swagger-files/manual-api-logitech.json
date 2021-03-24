@@ -770,22 +770,24 @@
           }
         }
       },
-      "x-headers": [
-        {
-          "key": "X-API-Key",
-          "value": "abc123"
-        }
-      ],
-      "x-explorer-enabled": false,
-      "x-proxy-enabled": false,
-      "x-samples-enabled": false,
-      "x-samples-languages": [
-        "curl",
-        "node",
-        "ruby",
-        "javascript",
-        "python"
-      ]
+      "x-readme": {
+        "headers": [
+          {
+            "key": "X-API-Key",
+            "value": "abc123"
+          }
+        ],
+        "explorer-enabled": false,
+        "proxy-enabled": false,
+        "samples-enabled": false,
+        "samples-languages": [
+          "curl",
+          "node",
+          "ruby",
+          "javascript",
+          "python"
+        ]
+      }
     },
     "872e3bac-4172-42fe-b78d-95be254b25ff": {
       "openapi": "3.0.3",
@@ -889,22 +891,24 @@
           }
         }
       },
-      "x-headers": [
-        {
-          "key": "X-API-Key",
-          "value": "abcd1234"
-        }
-      ],
-      "x-explorer-enabled": false,
-      "x-proxy-enabled": false,
-      "x-samples-enabled": true,
-      "x-samples-languages": [
-        "curl",
-        "node",
-        "ruby",
-        "javascript",
-        "python"
-      ]
+      "x-readme": {
+        "headers": [
+          {
+            "key": "X-API-Key",
+            "value": "abcd1234"
+          }
+        ],
+        "explorer-enabled": false,
+        "proxy-enabled": false,
+        "samples-enabled": true,
+        "samples-languages": [
+          "curl",
+          "node",
+          "ruby",
+          "javascript",
+          "python"
+        ]
+      }
     }
   },
   "oasUrls": {

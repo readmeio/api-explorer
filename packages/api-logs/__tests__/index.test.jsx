@@ -7,8 +7,7 @@ const nock = require('nock');
 const { Logs } = require('../index.jsx');
 const { checkFreshness, handleResponse } = require('../utils');
 const requestmodel = require('./fixtures/requestmodel.json');
-const oas = require('./fixtures/oas.json');
-const operation = require('./fixtures/operation.json');
+const readme = require('@readme/oas-examples/3.0/json/readme.json');
 
 const baseUrl = 'https://docs.readme.com';
 
@@ -24,8 +23,8 @@ class LogTest extends Logs {
 describe('Logs', () => {
   const props = {
     query: {
-      url: `${oas.servers[0].url}${operation.path}`,
-      method: operation.method,
+      url: `${readme.servers[0].url}/docs/{slug}`,
+      method: 'delete',
     },
     baseUrl,
     group: 'someid',

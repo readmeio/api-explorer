@@ -84,17 +84,19 @@
       }
     }
   },
-  "x-samples-languages": [
-    "curl",
-    "python",
-    "java",
-    "javascript",
-    "node",
-    "node-simple",
-    "ruby",
-    "go",
-    "powershell",
-    "php",
-    "swift"
-  ]
+  "x-readme": {
+    "samples-languages": [
+      "curl",
+      "python",
+      "java",
+      "javascript",
+      "node",
+      "node-simple",
+      "ruby",
+      "go",
+      "powershell",
+      "php",
+      "swift"
+    ]
+  }
 }

@@ -21,7 +21,9 @@
       }
     }
   },
-  "x-explorer-enabled": true,
-  "x-samples-enabled": true,
-  "x-samples-languages": ["node", "php", "css"]
+  "x-readme": {
+    "explorer-enabled": true,
+    "samples-enabled": true,
+    "samples-languages": ["node", "php", "css"]
+  }
 }

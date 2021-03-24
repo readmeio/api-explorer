@@ -148,23 +148,25 @@
       }
     }
   },
-  "x-explorer-enabled": true,
-  "x-samples-enabled": true,
-  "x-samples-languages": [
-    "c",
-    "cplusplus",
-    "csharp",
-    "curl",
-    "go",
-    "java",
-    "javascript",
-    "kotlin",
-    "node",
-    "objectivec",
-    "php",
-    "powershell",
-    "python",
-    "ruby",
-    "swift"
-  ]
+  "x-readme": {
+    "explorer-enabled": true,
+    "samples-enabled": true,
+    "samples-languages": [
+      "c",
+      "cplusplus",
+      "csharp",
+      "curl",
+      "go",
+      "java",
+      "javascript",
+      "kotlin",
+      "node",
+      "objectivec",
+      "php",
+      "powershell",
+      "python",
+      "ruby",
+      "swift"
+    ]
+  }
 }
