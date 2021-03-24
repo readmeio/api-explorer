@@ -1,3 +1,20 @@
+## 13.1.0 (2021-03-24)
+
+* feat: adding a new `validateExtension` method to `oas-extensions` (#1240) ([6d6cb14](https://github.com/readmeio/api-explorer/commit/6d6cb14)), closes [#1240](https://github.com/readmeio/api-explorer/issues/1240)
+* chore(deps): upgrading httpsnippet-client-api (#1239) ([a2dbc7c](https://github.com/readmeio/api-explorer/commit/a2dbc7c)), closes [#1239](https://github.com/readmeio/api-explorer/issues/1239)
+
+
+
+## 13.0.0 (2021-03-24)
+
+* v13.0.0 ([c08898b](https://github.com/readmeio/api-explorer/commit/c08898b))
+* docs: updating existing references to our `x-` extensions to use `x-readme` (#1238) ([4331209](https://github.com/readmeio/api-explorer/commit/4331209)), closes [#1238](https://github.com/readmeio/api-explorer/issues/1238)
+* ci: stop running tests on node 10 (#1237) ([6a241b0](https://github.com/readmeio/api-explorer/commit/6a241b0)), closes [#1237](https://github.com/readmeio/api-explorer/issues/1237)
+* feat: adding new extensions for code and response samples (#1236) ([77f63d2](https://github.com/readmeio/api-explorer/commit/77f63d2)), closes [#1236](https://github.com/readmeio/api-explorer/issues/1236)
+* feat: adding support for storing our extensions in a `x-readme` object (#1235) ([203390d](https://github.com/readmeio/api-explorer/commit/203390d)), closes [#1235](https://github.com/readmeio/api-explorer/issues/1235)
+
+
+
 ## <small>12.2.6 (2021-03-24)</small>
 
 * chore(deps): upgrading httpsnippet-client-api ([d2c4b20](https://github.com/readmeio/api-explorer/commit/d2c4b20))
