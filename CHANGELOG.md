@@ -1,3 +1,9 @@
+## <small>12.2.6 (2021-03-24)</small>
+
+* chore(deps): upgrading httpsnippet-client-api ([d2c4b20](https://github.com/readmeio/api-explorer/commit/d2c4b20))
+
+
+
 ## <small>12.2.5 (2021-03-22)</small>
 
 * fix: bug where formData might be undefined with discrimators (#1234) ([aa98288](https://github.com/readmeio/api-explorer/commit/aa98288)), closes [#1234](https://github.com/readmeio/api-explorer/issues/1234)
