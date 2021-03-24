@@ -1,3 +1,12 @@
+## 13.0.0 (2021-03-24)
+
+* docs: updating existing references to our `x-` extensions to use `x-readme` (#1238) ([4331209](https://github.com/readmeio/api-explorer/commit/4331209)), closes [#1238](https://github.com/readmeio/api-explorer/issues/1238)
+* ci: stop running tests on node 10 (#1237) ([6a241b0](https://github.com/readmeio/api-explorer/commit/6a241b0)), closes [#1237](https://github.com/readmeio/api-explorer/issues/1237)
+* feat: adding new extensions for code and response samples (#1236) ([77f63d2](https://github.com/readmeio/api-explorer/commit/77f63d2)), closes [#1236](https://github.com/readmeio/api-explorer/issues/1236)
+* feat: adding support for storing our extensions in a `x-readme` object (#1235) ([203390d](https://github.com/readmeio/api-explorer/commit/203390d)), closes [#1235](https://github.com/readmeio/api-explorer/issues/1235)
+
+
+
 ## <small>12.2.5 (2021-03-22)</small>
 
 * fix: bug where formData might be undefined with discrimators (#1234) ([aa98288](https://github.com/readmeio/api-explorer/commit/aa98288)), closes [#1234](https://github.com/readmeio/api-explorer/issues/1234)
