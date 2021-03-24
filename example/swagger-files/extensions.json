@@ -37,7 +37,9 @@
             ]
           }
         ],
-        "x-explorer-enabled": false
+        "x-readme": {
+          "explorer-enabled": false
+        }
       }
     },
     "/x-samples-enabled": {
@@ -67,7 +69,9 @@
             ]
           }
         ],
-        "x-samples-enabled": false
+        "x-readme": {
+          "samples-enabled": false
+        }
       }
     },
     "/x-samples-languages": {
@@ -129,9 +133,11 @@
             ]
           }
         ],
-        "x-samples-languages": [
-          "curl"
-        ]
+        "x-readme": {
+          "samples-languages": [
+            "curl"
+          ]
+        }
       }
     },
     "/x-proxy-enabled": {
@@ -188,7 +194,9 @@
           }
         ],
         "deprecated": true,
-        "x-proxy-enabled": false
+        "x-readme": {
+          "proxy-enabled": false
+        }
       }
     }
   },

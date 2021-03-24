@@ -21,10 +21,12 @@
       }
     }
   },
-  "x-headers": [
-    {
-      "key": "x-api-key",
-      "value": "static-value"
-    }
-  ]
+  "x-readme": {
+    "headers": [
+      {
+        "key": "x-api-key",
+        "value": "static-value"
+      }
+    ]
+  }
 }

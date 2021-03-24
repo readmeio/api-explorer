@@ -112,7 +112,9 @@
       }
     }
   },
-  "x-explorer-enabled": true,
-  "x-samples-enabled": true,
-  "x-samples-languages": ["curl", "node", "node-simple", "ruby", "javascript", "python"]
+  "x-readme": {
+    "explorer-enabled": true,
+    "samples-enabled": true,
+    "samples-languages": ["curl", "node", "node-simple", "ruby", "javascript", "python"]
+  }
 }

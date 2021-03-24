@@ -36,5 +36,7 @@
       }
     }
   },
-  "x-samples-languages": ["curl", "node", "node-simple", "ruby", "javascript", "python"]
+  "x-readme": {
+    "samples-languages": ["curl", "node", "node-simple", "ruby", "javascript", "python"]
+  }
 }

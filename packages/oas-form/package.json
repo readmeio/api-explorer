@@ -20,7 +20,7 @@
     "build": "NODE_ENV=production webpack",
     "lint": "eslint . --ext js --ext jsx",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "pretest": "npm run lint && npm run prettier",
+    "pretest": "npm run lint",
     "preversion": "npm run build && npm run lint",
     "publish-to-npm": "npm run build && npm publish",
     "test": "jest --coverage"
