@@ -7,7 +7,6 @@ test.each([
   ['EXPLORER_ENABLED'],
   ['HEADERS'],
   ['PROXY_ENABLED'],
-  ['RESPONSE_SAMPLES'],
   ['SAMPLES_ENABLED'],
   ['SAMPLES_LANGUAGES'],
   ['SEND_DEFAULTS'],
@@ -74,6 +73,68 @@ describe('#getExtension', () => {
       operation.schema[`x-${extensions.EXPLORER_ENABLED}`] = false;
 
       expect(extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation)).toBe(false);
+    });
+  });
+});
+
+describe('#isExtensionValid()', () => {
+  it('should validate that `x-readme` is an object', () => {
+    expect(() => {
+      extensions.validateExtension(extensions.EXPLORER_ENABLED, { 'x-readme': [] });
+    }).toThrow(/must be of type "Object"/);
+
+    expect(() => {
+      extensions.validateExtension(extensions.EXPLORER_ENABLED, { 'x-readme': false });
+    }).toThrow(/must be of type "Object"/);
+
+    expect(() => {
+      extensions.validateExtension(extensions.EXPLORER_ENABLED, { 'x-readme': null });
+    }).toThrow(/must be of type "Object"/);
+  });
+
+  describe.each([
+    ['CODE_SAMPLES', [], false, 'Array'],
+    ['EXPLORER_ENABLED', true, 'false', 'Boolean'],
+    ['HEADERS', [{ key: 'X-API-Key', value: 'abc123' }], false, 'Array'],
+    ['PROXY_ENABLED', true, 'yes', 'Boolean'],
+    ['SAMPLES_ENABLED', true, 'no', 'Boolean'],
+    ['SAMPLES_LANGUAGES', ['swift'], {}, 'Array'],
+    ['SEND_DEFAULTS', true, 'absolutely not', 'Boolean'],
+  ])('%s', (extension, validValue, invalidValue, expectedType) => {
+    describe('should allow valid extensions', () => {
+      it('should allow at the root level', () => {
+        expect(() => {
+          extensions.validateExtension(extensions[extension], { [`x-${extensions[extension]}`]: validValue });
+        }).not.toThrow();
+      });
+
+      it('should allow if nested in `x-readme`', () => {
+        expect(() => {
+          extensions.validateExtension(extensions[extension], {
+            'x-readme': {
+              [extensions[extension]]: validValue,
+            },
+          });
+        }).not.toThrow();
+      });
+    });
+
+    describe('should fail on invalid extension values', () => {
+      it('should error if at the root level', () => {
+        expect(() => {
+          extensions.validateExtension(extensions[extension], { [`x-${extensions[extension]}`]: invalidValue });
+        }).toThrow(new RegExp(`"x-${extensions[extension]}" must be of type "${expectedType}"`));
+      });
+
+      it('should error if nested in `x-readme`', () => {
+        expect(() => {
+          extensions.validateExtension(extensions[extension], {
+            'x-readme': {
+              [extensions[extension]]: invalidValue,
+            },
+          });
+        }).toThrow(new RegExp(`"x-readme.${extensions[extension]}" must be of type "${expectedType}"`));
+      });
     });
   });
 });

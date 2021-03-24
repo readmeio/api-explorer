@@ -1,26 +1,32 @@
 // Make sure you document any changes on here:
-// https://readme.readme.io/v2.0/docs/swagger-extensions
+// https://docs.readme.com/docs/openapi-extensions
+
+const CODE_SAMPLES = 'code-samples';
+const EXPLORER_ENABLED = 'explorer-enabled';
+const HEADERS = 'headers';
+const PROXY_ENABLED = 'proxy-enabled';
+const SAMPLES_ENABLED = 'samples-enabled';
+const SAMPLES_LANGUAGES = 'samples-languages';
+const SEND_DEFAULTS = 'send-defaults';
 
 module.exports = {
-  CODE_SAMPLES: 'code-samples',
-  EXPLORER_ENABLED: 'explorer-enabled',
-  HEADERS: 'headers',
-  PROXY_ENABLED: 'proxy-enabled',
-  RESPONSE_SAMPLES: 'response-examples',
-  SAMPLES_ENABLED: 'samples-enabled',
-  SAMPLES_LANGUAGES: 'samples-languages',
-  SEND_DEFAULTS: 'send-defaults',
+  CODE_SAMPLES,
+  EXPLORER_ENABLED,
+  HEADERS,
+  PROXY_ENABLED,
+  SAMPLES_ENABLED,
+  SAMPLES_LANGUAGES,
+  SEND_DEFAULTS,
 };
 
 module.exports.defaults = {
-  'code-samples': undefined,
-  'explorer-enabled': true,
-  headers: undefined,
-  'proxy-enabled': true,
-  'response-examples': undefined,
-  'samples-enabled': true,
-  'samples-languages': ['curl', 'node', 'ruby', 'javascript', 'python'],
-  'send-defaults': false,
+  [CODE_SAMPLES]: undefined,
+  [EXPLORER_ENABLED]: true,
+  [HEADERS]: undefined,
+  [PROXY_ENABLED]: true,
+  [SAMPLES_ENABLED]: true,
+  [SAMPLES_LANGUAGES]: ['curl', 'node', 'ruby', 'javascript', 'python'],
+  [SEND_DEFAULTS]: false,
 };
 
 /**
@@ -50,4 +56,42 @@ module.exports.getExtension = (extension, oas, operation = null) => {
   }
 
   return module.exports.defaults[extension];
+};
+
+/**
+ * With one of our custom OAS extensions, determine if it's valid on a given OAS.
+ *
+ * @todo add support for validating on operations.
+ *
+ * @param {String} ext
+ * @param {Oas} oas
+ * @returns void
+ */
+module.exports.validateExtension = (extension, oas) => {
+  if (oas['x-readme'] !== undefined) {
+    if (typeof oas['x-readme'] !== 'object' || Array.isArray(oas['x-readme']) || oas['x-readme'] === null) {
+      throw new TypeError('"x-readme" must be of type "Object"');
+    }
+
+    if (oas['x-readme'][extension] !== undefined) {
+      if ([CODE_SAMPLES, HEADERS, SAMPLES_LANGUAGES].includes(extension)) {
+        if (!Array.isArray(oas['x-readme'][extension])) {
+          throw new TypeError(`"x-readme.${extension}" must be of type "Array"`);
+        }
+      } else if (typeof oas['x-readme'][extension] !== 'boolean') {
+        throw new TypeError(`"x-readme.${extension}" must be of type "Boolean"`);
+      }
+    }
+  }
+
+  // If the extension isn't grouped under `x-readme`, we need to look for them with `x-` prefixes.
+  if (oas[`x-${extension}`] !== undefined) {
+    if ([CODE_SAMPLES, HEADERS, SAMPLES_LANGUAGES].includes(extension)) {
+      if (!Array.isArray(oas[`x-${extension}`])) {
+        throw new TypeError(`"x-${extension}" must be of type "Array"`);
+      }
+    } else if (typeof oas[`x-${extension}`] !== 'boolean') {
+      throw new TypeError(`"x-${extension}" must be of type "Boolean"`);
+    }
+  }
 };
