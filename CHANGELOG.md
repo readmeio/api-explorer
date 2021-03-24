@@ -1,3 +1,9 @@
+## <small>12.2.6 (2021-03-24)</small>
+
+* chore(deps): upgrading httpsnippet-client-api ([d2c4b20](https://github.com/readmeio/api-explorer/commit/d2c4b20))
+
+
+
 ## 13.0.0 (2021-03-24)
 
 * docs: updating existing references to our `x-` extensions to use `x-readme` (#1238) ([4331209](https://github.com/readmeio/api-explorer/commit/4331209)), closes [#1238](https://github.com/readmeio/api-explorer/issues/1238)
