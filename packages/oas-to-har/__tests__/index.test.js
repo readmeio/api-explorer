@@ -7,6 +7,7 @@ const oasToHar = require('../src/index');
 const commonParameters = require('./__fixtures__/common-parameters.json');
 const multipartFormData = require('./__fixtures__/multipart-form-data.json');
 const multipartFormDataArrayOfFiles = require('./__fixtures__/multipart-form-data/array-of-files.json');
+const serverVariables = require('./__fixtures__/server-variables.json');
 
 const oas = new Oas();
 
@@ -51,6 +52,63 @@ describe('url', () => {
     expect(oasToHar(oas, { path: '/path with spaces', method: '' }).log.entries[0].request.url).toBe(
       'https://example.com/path%20with%20spaces'
     );
+  });
+
+  describe('server variables', () => {
+    const variablesOas = new Oas(serverVariables);
+    const operation = variablesOas.operation('/', 'post');
+
+    it('should use defaults if not supplied', () => {
+      const har = oasToHar(variablesOas, operation, {});
+      expect(har.log.entries[0].request.url).toBe('https://demo.example.com:443/v2/');
+    });
+
+    it('should support server variables', () => {
+      const formData = {
+        server: {
+          selected: 0,
+          variables: { name: 'buster', port: 8080, basePath: 'v2.1' },
+        },
+      };
+
+      const har = oasToHar(variablesOas, operation, formData);
+      expect(har.log.entries[0].request.url).toBe('https://buster.example.com:8080/v2.1/');
+    });
+
+    it('should support multiple/alternate servers', () => {
+      const formData = {
+        server: {
+          selected: 1,
+          variables: { name: 'buster', port: 8080, basePath: 'v2.1' },
+        },
+      };
+
+      const har = oasToHar(variablesOas, operation, formData);
+      expect(har.log.entries[0].request.url).toBe('http://buster.local/v2.1/');
+    });
+
+    it('should not error if the selected server does not exist', () => {
+      const formData = {
+        server: {
+          selected: 3,
+        },
+      };
+
+      const har = oasToHar(variablesOas, operation, formData);
+      expect(har.log.entries[0].request.url).toBe('https://example.com/');
+    });
+
+    it('should fill in missing variables with their defaults', () => {
+      const formData = {
+        server: {
+          selected: 0,
+          variables: { name: 'buster' }, // `port` and `basePath` are missing
+        },
+      };
+
+      const har = oasToHar(variablesOas, operation, formData);
+      expect(har.log.entries[0].request.url).toBe('https://buster.example.com:443/v2/');
+    });
   });
 
   describe('proxy url', () => {

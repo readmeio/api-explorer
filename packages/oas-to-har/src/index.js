@@ -97,7 +97,21 @@ module.exports = (
     operation = new Operation(oas, operationSchema.path, operationSchema.method, operationSchema);
   }
 
-  const formData = { ...defaultFormDataTypes, ...values };
+  const formData = {
+    ...defaultFormDataTypes,
+    server: {
+      selected: 0,
+      variables: oas.defaultVariables(0),
+    },
+    ...values,
+  };
+
+  // If the incoming `server.variables` is missing variables let's pad it out with defaults.
+  formData.server.variables = {
+    ...oas.defaultVariables(formData.server.selected),
+    ...formData.server.variables,
+  };
+
   const har = {
     cookies: [],
     headers: [],
@@ -106,7 +120,7 @@ module.exports = (
     postData: {},
     bodySize: 0,
     method: operation.method.toUpperCase(),
-    url: `${oas.url()}${operation.path}`.replace(/\s/g, '%20'),
+    url: `${oas.url(formData.server.selected, formData.server.variables)}${operation.path}`.replace(/\s/g, '%20'),
     httpVersion: 'HTTP/1.1',
   };
 
