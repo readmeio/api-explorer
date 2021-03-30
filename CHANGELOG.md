@@ -1,3 +1,10 @@
+## 13.2.0 (2021-03-30)
+
+* chore(deps): upgrading oas to 10.4.1 (#1245) ([be1c824](https://github.com/readmeio/api-explorer/commit/be1c824)), closes [#1245](https://github.com/readmeio/api-explorer/issues/1245)
+* feat: adding support for server variables into oas-to-har (#1241) ([abe0486](https://github.com/readmeio/api-explorer/commit/abe0486)), closes [#1241](https://github.com/readmeio/api-explorer/issues/1241)
+
+
+
 ## 13.1.0 (2021-03-24)
 
 * feat: adding a new `validateExtension` method to `oas-extensions` (#1240) ([6d6cb14](https://github.com/readmeio/api-explorer/commit/6d6cb14)), closes [#1240](https://github.com/readmeio/api-explorer/issues/1240)
