@@ -18,7 +18,7 @@ Object {
 
 const url = 'https://dash.readme.io/api/v1/categories/';
 
-const options = {method: 'GET'};
+const options = {method: 'GET', headers: {authorization: 'Basic xxx'}};
 
 fetch(url, options)
   .then(res => res.json())
