@@ -1,3 +1,10 @@
+## <small>13.2.1 (2021-04-13)</small>
+
+* feat: allowing for a HAR override to be passed in for snippet creation (#1249) ([df35bb8](https://github.com/readmeio/api-explorer/commit/df35bb8)), closes [#1249](https://github.com/readmeio/api-explorer/issues/1249)
+* chore(deps-dev): bump eslint from 7.17.0 to 7.23.0 (#1247) ([1492b0f](https://github.com/readmeio/api-explorer/commit/1492b0f)), closes [#1247](https://github.com/readmeio/api-explorer/issues/1247)
+
+
+
 ## 13.2.0 (2021-03-30)
 
 * chore(deps): upgrading oas to 10.4.1 (#1245) ([be1c824](https://github.com/readmeio/api-explorer/commit/be1c824)), closes [#1245](https://github.com/readmeio/api-explorer/issues/1245)
