@@ -25,6 +25,38 @@ const operation = {
 
 const formData = { path: { id: 123 } };
 
+test('should be able to accept a har override', () => {
+  const harOverride = {
+    log: {
+      entries: [
+        {
+          request: {
+            creator: {
+              name: 'readmeio',
+              version: '4.0.2',
+              comment: 'linux/v14.15.1',
+            },
+            method: 'GET',
+            url: 'https://dash.readme.io/api/v1/categories/',
+            httpVersion: 'HTTPS/1.1',
+            requestHeaders: [
+              {
+                name: 'authorization',
+                value: 'Basic xxx',
+              },
+            ],
+            queryString: [],
+            requestBody: { params: [] },
+          },
+        },
+      ],
+    },
+  };
+
+  const codeSnippet = generateCodeSnippet(oas, operation, {}, {}, 'node', oasUrl, harOverride);
+  expect(codeSnippet).toMatchSnapshot();
+});
+
 test('should return falsy values for an unknown language', () => {
   const codeSnippet = generateCodeSnippet(oas, operation, {}, {}, 'css', oasUrl);
 

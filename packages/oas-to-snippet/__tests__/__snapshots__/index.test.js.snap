@@ -11,3 +11,19 @@ Object {
   "highlightMode": "shell",
 }
 `;
+
+exports[`should be able to accept a har override 1`] = `
+Object {
+  "code": "const fetch = require('node-fetch');
+
+const url = 'https://dash.readme.io/api/v1/categories/';
+
+const options = {method: 'GET'};
+
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error('error:' + err));",
+  "highlightMode": "javascript",
+}
+`;
