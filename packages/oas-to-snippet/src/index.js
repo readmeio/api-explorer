@@ -11,9 +11,10 @@ const supportedLanguages = require('./supportedLanguages');
  * @param {Object} auth
  * @param {String} lang
  * @param {String} oasUrl
+ * @param {Object|undefined} harOverride
  */
-module.exports = (oas, operation, values, auth, lang, oasUrl) => {
-  const har = generateHar(oas, operation, values, auth);
+module.exports = (oas, operation, values, auth, lang, oasUrl, harOverride) => {
+  const har = harOverride || generateHar(oas, operation, values, auth);
 
   // API SDK client needs additional runtime information on the API definition we're showing the user so it can
   // generate an appropriate snippet.
