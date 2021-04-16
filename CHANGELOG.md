@@ -1,3 +1,9 @@
+## <small>13.2.2 (2021-04-16)</small>
+
+* fix: fatal error where basic auth scheme might be missing (#1250) ([552736c](https://github.com/readmeio/api-explorer/commit/552736c)), closes [#1250](https://github.com/readmeio/api-explorer/issues/1250)
+
+
+
 ## <small>13.2.1 (2021-04-13)</small>
 
 * feat: allowing for a HAR override to be passed in for snippet creation (#1249) ([df35bb8](https://github.com/readmeio/api-explorer/commit/df35bb8)), closes [#1249](https://github.com/readmeio/api-explorer/issues/1249)
