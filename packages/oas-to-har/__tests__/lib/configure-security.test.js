@@ -1,7 +1,7 @@
 const configureSecurity = require('../../src/lib/configure-security');
 
 describe('configure-security', () => {
-  it('should return {} if there is no security keys', () => {
+  it('should return an empty object if there is no security keys', () => {
     expect(configureSecurity({}, {}, '')).toStrictEqual({});
   });
 
@@ -11,10 +11,10 @@ describe('configure-security', () => {
     expect(
       configureSecurity(
         {
-          components: { securitySchemes: { test: security } },
+          components: { securitySchemes: { schemeName: security } },
         },
         {},
-        'test'
+        'schemeName'
       )
     ).toBeUndefined();
   });
@@ -25,118 +25,132 @@ describe('configure-security', () => {
     expect(
       configureSecurity(
         {
-          components: { securitySchemes: { test: security } },
+          components: { securitySchemes: { schemeName: security } },
         },
         {},
-        'test'
+        'schemeName'
       )
     ).toBeUndefined();
   });
 
-  describe('type=basic', () => {
-    it('should work for basic type', () => {
-      const user = 'user';
-      const pass = 'pass';
+  describe('http auth support', () => {
+    describe('type=basic', () => {
+      it('should work for basic type', () => {
+        const user = 'user';
+        const pass = 'pass';
 
-      expect(
-        configureSecurity(
-          {
-            components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
+        expect(
+          configureSecurity(
+            {
+              components: { securitySchemes: { schemeName: { type: 'http', scheme: 'basic' } } },
+            },
+            { schemeName: { user, pass } },
+            'schemeName'
+          )
+        ).toStrictEqual({
+          type: 'headers',
+          value: {
+            name: 'Authorization',
+            value: `Basic ${Buffer.from(`${user}:${pass}`).toString('base64')}`,
           },
-          { test: { user, pass } },
-          'test'
-        )
-      ).toStrictEqual({
-        type: 'headers',
-        value: {
-          name: 'Authorization',
-          value: `Basic ${Buffer.from(`${user}:${pass}`).toString('base64')}`,
-        },
+        });
+      });
+
+      it('should return with no header if wanted scheme is missing', () => {
+        expect(
+          configureSecurity(
+            {
+              components: { securitySchemes: { schemeName: { type: 'http', scheme: 'basic' } } },
+            },
+            { anotherSchemeName: { user: '', pass: '' } },
+            'schemeName'
+          )
+        ).toBe(false);
+      });
+
+      it('should return with no header if user and password are blank', () => {
+        expect(
+          configureSecurity(
+            {
+              components: { securitySchemes: { schemeName: { type: 'http', scheme: 'basic' } } },
+            },
+            { schemeName: { user: '', pass: '' } },
+            'schemeName'
+          )
+        ).toBe(false);
+      });
+
+      it('should return with a header if user or password are not blank', () => {
+        const user = 'user';
+
+        expect(
+          configureSecurity(
+            {
+              components: { securitySchemes: { schemeName: { type: 'http', scheme: 'basic' } } },
+            },
+            { schemeName: { user, pass: '' } },
+            'schemeName'
+          )
+        ).toStrictEqual({
+          type: 'headers',
+          value: {
+            name: 'Authorization',
+            value: `Basic ${Buffer.from(`${user}:`).toString('base64')}`,
+          },
+        });
       });
     });
 
-    it('should return with no header if user and password are blank', () => {
-      expect(
-        configureSecurity(
-          {
-            components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
-          },
-          { test: { user: '', pass: '' } },
-          'test'
-        )
-      ).toBe(false);
-    });
+    describe('scheme `bearer`', () => {
+      it('should work for bearer', () => {
+        const apiKey = '123456';
 
-    it('should return with a header if user or password are not blank', () => {
-      const user = 'user';
-
-      expect(
-        configureSecurity(
-          {
-            components: { securitySchemes: { test: { type: 'http', scheme: 'basic' } } },
+        expect(
+          configureSecurity(
+            {
+              components: { securitySchemes: { schemeName: { type: 'http', scheme: 'bearer' } } },
+            },
+            { schemeName: apiKey },
+            'schemeName'
+          )
+        ).toStrictEqual({
+          type: 'headers',
+          value: {
+            name: 'Authorization',
+            value: `Bearer ${apiKey}`,
           },
-          { test: { user, pass: '' } },
-          'test'
-        )
-      ).toStrictEqual({
-        type: 'headers',
-        value: {
-          name: 'Authorization',
-          value: `Basic ${Buffer.from(`${user}:`).toString('base64')}`,
-        },
+        });
+      });
+
+      it('should return with no header if apiKey is blank', () => {
+        const values = {
+          auth: { test: '' },
+        };
+
+        expect(
+          configureSecurity(
+            {
+              components: { securitySchemes: { schemeName: { type: 'http', scheme: 'bearer' } } },
+            },
+            values,
+            'schemeName'
+          )
+        ).toBe(false);
       });
     });
   });
 
-  describe('type=bearer', () => {
-    it('should work for bearer', () => {
-      const apiKey = '123456';
-
-      expect(
-        configureSecurity(
-          {
-            components: { securitySchemes: { test: { type: 'http', scheme: 'bearer' } } },
-          },
-          { test: apiKey },
-          'test'
-        )
-      ).toStrictEqual({
-        type: 'headers',
-        value: {
-          name: 'Authorization',
-          value: `Bearer ${apiKey}`,
-        },
-      });
-    });
-
-    it('should return with no header if apiKey is blank', () => {
-      const values = {
-        auth: { test: '' },
-      };
-
-      expect(
-        configureSecurity(
-          {
-            components: { securitySchemes: { test: { type: 'http', scheme: 'bearer' } } },
-          },
-          values,
-          'test'
-        )
-      ).toBe(false);
-    });
-  });
-
-  describe('type=oauth2', () => {
+  describe('oauth2 support', () => {
     it('should work for oauth2', () => {
       const apiKey = '123456';
 
       expect(
         configureSecurity(
           {
-            components: { securitySchemes: { test: { type: 'oauth2' } } },
+            components: { securitySchemes: { schemeName: { type: 'oauth2' } } },
           },
-          { test: apiKey },
-          'test'
+          { schemeName: apiKey },
+          'schemeName'
         )
       ).toStrictEqual({
         type: 'headers',
@@ -151,64 +165,64 @@ describe('configure-security', () => {
       expect(
         configureSecurity(
           {
-            components: { securitySchemes: { test: { type: 'oauth2' } } },
+            components: { securitySchemes: { schemeName: { type: 'oauth2' } } },
           },
-          { test: '' },
-          'test'
+          { schemeName: '' },
+          'schemeName'
         )
       ).toBe(false);
     });
   });
 
-  describe('type=apiKey', () => {
-    describe('in=query', () => {
+  describe('apiKey auth support', () => {
+    describe('in `query`', () => {
       it('should work for query', () => {
-        const values = { test: 'value' };
+        const values = { schemeName: 'value' };
         const security = { type: 'apiKey', in: 'query', name: 'key' };
 
         expect(
           configureSecurity(
             {
-              components: { securitySchemes: { test: security } },
+              components: { securitySchemes: { schemeName: security } },
             },
             values,
-            'test'
+            'schemeName'
           )
         ).toStrictEqual({
           type: 'queryString',
           value: {
             name: security.name,
-            value: values.test,
+            value: values.schemeName,
           },
         });
       });
     });
 
-    describe('in=header', () => {
+    describe('in `header`', () => {
       it('should work for header', () => {
-        const values = { test: 'value' };
+        const values = { schemeName: 'value' };
         const security = { type: 'apiKey', in: 'header', name: 'key' };
 
         expect(
           configureSecurity(
             {
-              components: { securitySchemes: { test: security } },
+              components: { securitySchemes: { schemeName: security } },
             },
             values,
-            'test'
+            'schemeName'
           )
         ).toStrictEqual({
           type: 'headers',
           value: {
             name: security.name,
-            value: values.test,
+            value: values.schemeName,
           },
         });
       });
 
       describe('x-bearer-format', () => {
         it('should work for bearer', () => {
-          const values = { test: 'value' };
+          const values = { schemeName: 'value' };
           const security = {
             type: 'apiKey',
             in: 'header',
@@ -219,22 +233,22 @@ describe('configure-security', () => {
           expect(
             configureSecurity(
               {
-                components: { securitySchemes: { test: security } },
+                components: { securitySchemes: { schemeName: security } },
               },
               values,
-              'test'
+              'schemeName'
             )
           ).toStrictEqual({
             type: 'headers',
             value: {
               name: security.name,
-              value: `Bearer ${values.test}`,
+              value: `Bearer ${values.schemeName}`,
             },
           });
         });
 
         it('should work for basic', () => {
-          const values = { test: 'value' };
+          const values = { schemeName: 'value' };
           const security = {
             type: 'apiKey',
             in: 'header',
@@ -245,22 +259,22 @@ describe('configure-security', () => {
           expect(
             configureSecurity(
               {
-                components: { securitySchemes: { test: security } },
+                components: { securitySchemes: { schemeName: security } },
               },
               values,
-              'test'
+              'schemeName'
             )
           ).toStrictEqual({
             type: 'headers',
             value: {
               name: security.name,
-              value: `Basic ${values.test}`,
+              value: `Basic ${values.schemeName}`,
             },
           });
         });
 
         it('should work for token', () => {
-          const values = { test: 'value' };
+          const values = { schemeName: 'value' };
           const security = {
             type: 'apiKey',
             in: 'header',
@@ -271,16 +285,16 @@ describe('configure-security', () => {
           expect(
             configureSecurity(
               {
-                components: { securitySchemes: { test: security } },
+                components: { securitySchemes: { schemeName: security } },
               },
               values,
-              'test'
+              'schemeName'
             )
           ).toStrictEqual({
             type: 'headers',
             value: {
               name: security.name,
-              value: `Token ${values.test}`,
+              value: `Token ${values.schemeName}`,
             },
           });
         });
