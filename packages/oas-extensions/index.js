@@ -25,7 +25,7 @@ module.exports.defaults = {
   [HEADERS]: undefined,
   [PROXY_ENABLED]: true,
   [SAMPLES_ENABLED]: true,
-  [SAMPLES_LANGUAGES]: ['curl', 'node', 'ruby', 'javascript', 'python'],
+  [SAMPLES_LANGUAGES]: ['curl', 'node', 'ruby', 'php', 'python'],
   [SEND_DEFAULTS]: false,
 };
 

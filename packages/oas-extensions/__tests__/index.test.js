@@ -22,7 +22,7 @@ describe('#getExtension', () => {
         'curl',
         'node',
         'ruby',
-        'javascript',
+        'php',
         'python',
       ]);
     });
@@ -54,7 +54,7 @@ describe('#getExtension', () => {
         'curl',
         'node',
         'ruby',
-        'javascript',
+        'php',
         'python',
       ]);
     });
