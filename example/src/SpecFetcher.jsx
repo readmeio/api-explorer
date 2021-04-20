@@ -35,7 +35,16 @@ function withSpecFetching(Component) {
       this.setState({ isLoading: true }, async () => {
         this.updateStatus('Fetching API definition');
 
-        const json = await fetch(url).then(res => {
+        let proxiedUrl = url;
+        try {
+          // If this is a valid URL tunnel it through our CORS proxy.
+          new URL(url); // eslint-disable-line no-new
+          proxiedUrl = `https://try.readme.io/${url}`;
+        } catch (err) {
+          // no-op
+        }
+
+        const json = await fetch(proxiedUrl).then(res => {
           if (!res.ok) {
             throw new Error('Failed to fetch');
           }
