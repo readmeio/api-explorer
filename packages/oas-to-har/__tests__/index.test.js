@@ -1404,6 +1404,36 @@ describe('requestBody', () => {
       ).toBe(JSON.stringify({ a: 'value' }));
     });
 
+    it('should not add undefined formData into postData', () => {
+      expect(
+        oasToHar(
+          oas,
+          {
+            path: '/',
+            method: 'get',
+            requestBody: {
+              content: {
+                'application/x-www-form-urlencoded': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      foo: {
+                        type: 'string',
+                      },
+                      bar: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          { formData: { foo: undefined, bar: undefined } }
+        ).log.entries[0].request.postData
+      ).toBeUndefined();
+    });
+
     it('should pass in value if one is set and prioritise provided values', () => {
       expect(
         oasToHar(
