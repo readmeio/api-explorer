@@ -246,15 +246,18 @@ module.exports = (
   if (requestBody.schema && Object.keys(requestBody.schema).length) {
     if (operation.isFormUrlEncoded()) {
       if (Object.keys(formData.formData).length) {
-        har.postData.params = [];
-        har.postData.mimeType = 'application/x-www-form-urlencoded';
+        const cleanFormData = removeUndefinedObjects(JSON.parse(JSON.stringify(formData.formData)));
+        if (cleanFormData !== undefined) {
+          har.postData.params = [];
+          har.postData.mimeType = 'application/x-www-form-urlencoded';
 
-        Object.keys(formData.formData).forEach(name => {
-          har.postData.params.push({
-            name,
-            value: String(formData.formData[name]),
+          Object.keys(cleanFormData).forEach(name => {
+            har.postData.params.push({
+              name,
+              value: String(cleanFormData[name]),
+            });
           });
-        });
+        }
       }
     } else if (
       'body' in formData &&
