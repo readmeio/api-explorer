@@ -1066,17 +1066,5 @@
         }
       }
     }
-  },
-  "x-readme": {
-    "explorer-enabled": true,
-    "samples-enabled": true,
-    "samples-languages": [
-      "curl",
-      "node",
-      "node-simple",
-      "ruby",
-      "javascript",
-      "python"
-    ]
   }
 }
