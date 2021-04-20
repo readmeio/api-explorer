@@ -17,7 +17,6 @@ Object {
   "code": "const fetch = require('node-fetch');
 
 const url = 'https://dash.readme.io/api/v1/categories/';
-
 const options = {method: 'GET', headers: {authorization: 'Basic xxx'}};
 
 fetch(url, options)
