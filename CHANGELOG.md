@@ -1,3 +1,12 @@
+## <small>13.2.3 (2021-04-20)</small>
+
+* feat: making php a default language in the SAMPLES_LANGUAGES extension (#1252) ([3c6063c](https://github.com/readmeio/api-explorer/commit/3c6063c)), closes [#1252](https://github.com/readmeio/api-explorer/issues/1252)
+* feat: tunnel OAS url requests through our CORS proxy (#1256) ([aab0bef](https://github.com/readmeio/api-explorer/commit/aab0bef)), closes [#1256](https://github.com/readmeio/api-explorer/issues/1256)
+* fix: removing undefined formData before prossing it into postData (#1255) ([0347d4f](https://github.com/readmeio/api-explorer/commit/0347d4f)), closes [#1255](https://github.com/readmeio/api-explorer/issues/1255)
+* fix: upgrading snippet dependencies to fix various issues (#1253) ([2466b79](https://github.com/readmeio/api-explorer/commit/2466b79)), closes [#1253](https://github.com/readmeio/api-explorer/issues/1253)
+
+
+
 ## <small>13.2.2 (2021-04-16)</small>
 
 * fix: fatal error where basic auth scheme might be missing (#1250) ([552736c](https://github.com/readmeio/api-explorer/commit/552736c)), closes [#1250](https://github.com/readmeio/api-explorer/issues/1250)

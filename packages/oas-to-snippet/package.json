@@ -1,7 +1,7 @@
 {
   "name": "@readme/oas-to-snippet",
   "description": "Transform an OpenAPI operation into a code snippet",
-  "version": "13.2.2",
+  "version": "13.2.3",
   "main": "src/index.js",
   "author": "Jon Ursenbach <jon@readme.io>",
   "license": "MIT",
@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "@readme/httpsnippet": "^2.4.5",
-    "@readme/oas-extensions": "^13.2.1",
-    "@readme/oas-to-har": "^13.2.2",
+    "@readme/oas-extensions": "^13.2.3",
+    "@readme/oas-to-har": "^13.2.3",
     "@readme/syntax-highlighter": "^10.4.1",
     "httpsnippet-client-api": "^3.0.1",
     "oas": "^10.4.1"

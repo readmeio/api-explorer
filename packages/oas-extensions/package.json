@@ -1,7 +1,7 @@
 {
   "name": "@readme/oas-extensions",
   "description": "A list of extensions that ReadMe has added to extend the OAS spec",
-  "version": "13.2.1",
+  "version": "13.2.3",
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
   "repository": {
