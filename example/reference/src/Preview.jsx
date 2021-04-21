@@ -67,7 +67,9 @@ class Preview extends React.Component {
                     {invalidSpec ? (
                       <div>
                         <h3 className="hub-reference-loading-error-header">Invalid API Specification</h3>
-                        <p>{invalidSpec}</p>
+                        <p>
+                          <pre>{invalidSpec}</pre>
+                        </p>
                         <p>
                           <a
                             className="btn btn-primary btn-lg"

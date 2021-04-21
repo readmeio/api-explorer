@@ -122,7 +122,7 @@ function withSpecFetching(Component) {
             });
           })
           .catch(e => {
-            this.setState({ isLoading: false });
+            this.setState({ isLoading: false, invalidSpec: e.message, invalidSpecPath: url });
             this.updateStatus(`There was an error handling your API definition:\n\n${e.message}`);
           });
       });
