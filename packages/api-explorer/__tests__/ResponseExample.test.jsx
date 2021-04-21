@@ -82,6 +82,19 @@ test('should notify about no examples being available if explorer disabled', () 
 
 describe('has examples', () => {
   describe('from an openapi definition', () => {
+    it('should not fail if an response example present has no language content', () => {
+      const exampleOas = new Oas(exampleResults);
+      const operation = exampleOas.operation('/results', 'delete');
+
+      const comp = shallow(
+        <ResponseExample {...props} examples={operation.getResponseExamples()} oas={exampleOas} operation={operation} />
+      );
+
+      expect(comp.find(ExampleTabs).render().find('.tabber-tab').text().trim()).toStrictEqual('204 No Content');
+      expect(comp.find('pre')).toHaveLength(1);
+      expect(comp.find('pre').at(0).text()).toBe('No Content');
+    });
+
     it('should show each example', () => {
       const exampleOas = new Oas(exampleResults);
       const operation = exampleOas.operation('/results', 'get');

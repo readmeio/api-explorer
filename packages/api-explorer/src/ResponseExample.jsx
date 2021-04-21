@@ -3,6 +3,8 @@ const PropTypes = require('prop-types');
 const ReactJson = require('react-json-view').default;
 const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const extensions = require('@readme/oas-extensions');
+const { getStatusCode } = require('@readme/http-status-codes');
+
 const Oas = require('oas/tooling');
 const { matchesMimeType } = require('oas/tooling/utils');
 
@@ -182,10 +184,6 @@ class ResponseExample extends React.Component {
     const { currentTab, responseMediaType, responseMediaTypeExample } = this.state;
     const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
-    const hasExamples = examples.find(e => {
-      return e.languages.find(ee => (ee.code && ee.code !== '{}') || 'multipleExamples' in ee);
-    });
-
     const getHighlightedExample = hx => {
       return (
         <div className="example">
@@ -206,7 +204,7 @@ class ResponseExample extends React.Component {
 
     return (
       <div className="hub-reference-results-examples code-sample">
-        {examples && examples.length > 0 && hasExamples && (
+        {examples && examples.length > 0 && (
           <span>
             <ExampleTabs examples={examples} selected={currentTab} setCurrentTab={this.setCurrentTab} />
 
@@ -214,6 +212,29 @@ class ResponseExample extends React.Component {
               {examples.map((ex, index) => {
                 let example;
                 const mediaTypes = ex.languages;
+
+                // If this response has no documented languages/media types we should render out its status message as
+                // the documented example instead of showing an empty box.
+                if (!mediaTypes.length) {
+                  let statusMessage;
+                  try {
+                    const code = getStatusCode(ex.status);
+                    statusMessage = code.message;
+                  } catch (err) {
+                    statusMessage = `HTTP Status Code: ${ex.status}`;
+                  }
+
+                  return (
+                    <div key={index}>
+                      <pre
+                        className={`tomorrow-night tabber-body tabber-body-${index}`}
+                        style={{ display: index === currentTab ? 'block' : '' }}
+                      >
+                        {statusMessage}
+                      </pre>
+                    </div>
+                  );
+                }
 
                 if (mediaTypes.length > 1) {
                   example = responseMediaTypeExample || mediaTypes[0];
@@ -259,7 +280,7 @@ class ResponseExample extends React.Component {
           </span>
         )}
 
-        {(examples.length === 0 || (!hasExamples && result === null)) && (
+        {(examples.length === 0 || !result === null) && (
           <div className="hub-no-code">
             {explorerEnabled ? 'Try the API to see Results' : 'No response examples available'}
           </div>
