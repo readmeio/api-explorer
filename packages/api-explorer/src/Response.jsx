@@ -68,13 +68,7 @@ class Response extends React.Component {
             )}
           </div>
 
-          <ResponseExample
-            examples={this.examples}
-            oas={oas}
-            onChange={this.props.onChange}
-            operation={operation}
-            result={result}
-          />
+          <ResponseExample examples={this.examples} oas={oas} onChange={this.props.onChange} operation={operation} />
         </div>
       </div>
     );

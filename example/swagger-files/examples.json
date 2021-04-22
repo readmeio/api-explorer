@@ -26,7 +26,7 @@
               }
             }
           },
-          "204": {
+          "206": {
             "description": "OK",
             "content": {
               "application/json": {
@@ -39,6 +39,14 @@
                 ]
               }
             }
+          }
+        }
+      },
+      "delete": {
+        "description": "Showcase of an operation with responses that contain no examples.",
+        "responses": {
+          "204": {
+            "description": "No content"
           }
         }
       }

@@ -62,6 +62,13 @@
             }
           }
         }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "No content"
+          }
+        }
       }
     },
     "/single-media-type-multiple-examples": {
