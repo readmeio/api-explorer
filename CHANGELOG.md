@@ -1,3 +1,10 @@
+## <small>13.2.4 (2021-04-22)</small>
+
+* feat: adding support for responses that don't have examples (#1257) ([5c11bf1](https://github.com/readmeio/api-explorer/commit/5c11bf1)), closes [#1257](https://github.com/readmeio/api-explorer/issues/1257)
+* fix: surface validation errors on preview.readme.io/reference ([b43b95e](https://github.com/readmeio/api-explorer/commit/b43b95e))
+
+
+
 ## <small>13.2.3 (2021-04-20)</small>
 
 * feat: making php a default language in the SAMPLES_LANGUAGES extension (#1252) ([3c6063c](https://github.com/readmeio/api-explorer/commit/3c6063c)), closes [#1252](https://github.com/readmeio/api-explorer/issues/1252)
