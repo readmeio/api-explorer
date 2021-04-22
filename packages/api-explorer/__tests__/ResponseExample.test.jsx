@@ -17,7 +17,6 @@ const oas = new Oas(petstore);
 const props = {
   oas,
   onChange: () => {},
-  result: null,
 };
 
 beforeAll(async () => {

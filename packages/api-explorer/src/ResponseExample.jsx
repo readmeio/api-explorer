@@ -180,7 +180,7 @@ class ResponseExample extends React.Component {
   }
 
   render() {
-    const { examples, oas, operation, result } = this.props;
+    const { examples, oas, operation } = this.props;
     const { currentTab, responseMediaType, responseMediaTypeExample } = this.state;
     const explorerEnabled = extensions.getExtension(extensions.EXPLORER_ENABLED, oas, operation);
 
@@ -204,7 +204,7 @@ class ResponseExample extends React.Component {
 
     return (
       <div className="hub-reference-results-examples code-sample">
-        {examples && examples.length > 0 && (
+        {examples && examples.length > 0 ? (
           <span>
             <ExampleTabs examples={examples} selected={currentTab} setCurrentTab={this.setCurrentTab} />
 
@@ -225,7 +225,7 @@ class ResponseExample extends React.Component {
                   }
 
                   return (
-                    <div key={index}>
+                    <div key={`response-${index}`}>
                       <pre
                         className={`tomorrow-night tabber-body tabber-body-${index}`}
                         style={{ display: index === currentTab ? 'block' : '' }}
@@ -247,7 +247,7 @@ class ResponseExample extends React.Component {
                   (matchesMimeType.json(example.language) || matchesMimeType.wildcard(example.language));
 
                 return (
-                  <div key={index}>
+                  <div key={`response-${index}`}>
                     <pre
                       className={`tomorrow-night tabber-body tabber-body-${index}`}
                       style={{ display: index === currentTab ? 'block' : '' }}
@@ -278,9 +278,7 @@ class ResponseExample extends React.Component {
               })}
             </div>
           </span>
-        )}
-
-        {(examples.length === 0 || !result === null) && (
+        ) : (
           <div className="hub-no-code">
             {explorerEnabled ? 'Try the API to see Results' : 'No response examples available'}
           </div>
@@ -296,12 +294,10 @@ ResponseExample.propTypes = {
   oas: PropTypes.instanceOf(Oas).isRequired,
   onChange: PropTypes.func.isRequired,
   operation: PropTypes.instanceOf(Operation).isRequired,
-  result: PropTypes.shape({}),
 };
 
 ResponseExample.defaultProps = {
   exampleResponses: [],
-  result: {},
 };
 
 module.exports = ResponseExample;
