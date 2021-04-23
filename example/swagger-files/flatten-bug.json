@@ -1,66 +1,15 @@
 {
   "openapi": "3.0.0",
-  "servers": [
-    {
-      "url": "https://httpbin.org"
-    }
-  ],
   "info": {
-    "title": "response schemas",
-    "version": "1.0"
+    "version": "1.0.0",
+    "title": "flatten bug"
   },
   "paths": {
-    "/anything/markdown": {
+    "/": {
       "get": {
-        "summary": "Markdown in Excerpt",
-        "description": "# Markdown",
         "responses": {
           "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/anything/html": {
-      "get": {
-        "summary": "HTML in Excerpt",
-        "description": "<h3>This is HTML</h3>",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/anything/mixed": {
-      "get": {
-        "summary": "HTML/Markdown in Excerpt",
-        "description": "#### markdown \n<p>html</p> ",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/anything/escaping": {
-      "get": {
-        "summary": "Escaping bad HTML",
-        "description": "<img src=\"x\" onerror=\"alert('charlie')\">",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-     "/rightside/codeblocks": {
-      "get": {
-        "summary": "Displaying copy button",
-        "description": "`const options = { copyButtons: false };`\n```javascript\nconst options = { copyButtons: true }\n```",
-        "responses": {
-          "200": {
-            "description": "OK",
+            "description": "successful operation",
             "content": {
               "application/json;charset=UTF-8": {
                 "schema": {
@@ -73,6 +22,11 @@
       }
     }
   },
+  "servers": [
+    {
+      "url": "https://httpbin.org"
+    }
+  ],
   "components": {
     "schemas": {
       "extendedAttribute": {
@@ -155,3 +109,4 @@
     }
   }
 }
+

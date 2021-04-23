@@ -48,6 +48,7 @@ const Content = props => {
   if (useNewMarkdownEngine) {
     const content = markdown(body, {
       compatibilityMode: flags.rdmdCompatibilityMode,
+      copyButtons: flags.copyButtons,
       showAnchorIcons: splitReferenceDocs,
     });
 

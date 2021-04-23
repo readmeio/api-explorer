@@ -511,7 +511,7 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, lazy, oas, useNewMarkdownEngine } = this.props;
+    const { doc, flags, lazy, oas, useNewMarkdownEngine } = this.props;
     const { TutorialTile } = this.props.ui.tutorials;
 
     const renderEndpoint = () => {
@@ -545,7 +545,9 @@ class Doc extends React.Component {
               <h2>{doc.title}</h2>
               {doc.excerpt && (
                 <div className="markdown-body excerpt">
-                  {useNewMarkdownEngine ? markdown(doc.excerpt, { copyButtons: false }) : markdownMagic(doc.excerpt)}
+                  {useNewMarkdownEngine
+                    ? markdown(doc.excerpt, { copyButtons: flags.copyButtons })
+                    : markdownMagic(doc.excerpt)}
                 </div>
               )}
             </header>
@@ -606,6 +608,7 @@ Doc.propTypes = {
   }).isRequired,
   enableRequestBodyJsonEditor: PropTypes.bool,
   flags: PropTypes.shape({
+    copyButtons: PropTypes.bool,
     correctnewlines: PropTypes.bool,
   }),
   group: PropTypes.string,
@@ -653,6 +656,7 @@ Doc.defaultProps = {
   baseUrl: '/',
   enableRequestBodyJsonEditor: false,
   flags: {
+    copyButtons: true,
     correctnewlines: false,
   },
   group: '',
