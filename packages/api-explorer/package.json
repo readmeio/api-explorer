@@ -25,7 +25,7 @@
     "@readme/oas-form": "^13.2.1",
     "@readme/oas-to-har": "^13.2.4",
     "@readme/oas-to-snippet": "^13.2.4",
-    "@readme/syntax-highlighter": "^10.4.1",
+    "@readme/syntax-highlighter": "^10.7.0",
     "classnames": "^2.2.5",
     "fetch-har": "^4.0.2",
     "js-cookie": "^2.1.4",
@@ -40,14 +40,14 @@
     "whatwg-fetch": "^3.0.0"
   },
   "peerDependencies": {
-    "@readme/markdown": "^6.21.0",
+    "@readme/markdown": "^6.27.0",
     "@readme/variable": "*",
     "react": "16.x",
     "react-dom": "16.x"
   },
   "devDependencies": {
     "@readme/eslint-config": "^4.0.0",
-    "@readme/markdown": "^6.21.0",
+    "@readme/markdown": "^6.27.0",
     "@readme/oas-examples": "^4.0.0",
     "@readme/ui": "^1.17.8",
     "@readme/variable": "^13.2.1",

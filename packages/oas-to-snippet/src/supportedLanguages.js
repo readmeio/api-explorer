@@ -3,6 +3,10 @@ const supportedLanguages = {
     httpsnippet: ['c'],
     highlight: 'text/x-csrc',
   },
+  clojure: {
+    httpsnippet: ['clojure'],
+    highlight: 'clojure',
+  },
   cplusplus: {
     httpsnippet: ['c'],
     highlight: 'text/x-c++src',
@@ -43,6 +47,10 @@ const supportedLanguages = {
     httpsnippet: ['objc', 'NSURLSession'],
     highlight: 'objectivec',
   },
+  ocaml: {
+    httpsnippet: ['ocaml'],
+    highlight: 'ocaml',
+  },
   php: {
     httpsnippet: ['php', 'curl'],
     highlight: 'php',
@@ -58,6 +66,10 @@ const supportedLanguages = {
   ruby: {
     httpsnippet: ['ruby'],
     highlight: 'ruby',
+  },
+  r: {
+    httpsnippet: ['r'],
+    highlight: 'r',
   },
   swift: {
     httpsnippet: ['swift', 'nsurlsession'],
