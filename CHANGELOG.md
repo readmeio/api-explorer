@@ -1,3 +1,9 @@
+## 13.3.0 (2021-04-26)
+
+* feat: adding support for clojure, ocaml, and r languages (#1259) ([c0bd0fa](https://github.com/readmeio/api-explorer/commit/c0bd0fa)), closes [#1259](https://github.com/readmeio/api-explorer/issues/1259)
+
+
+
 ## <small>13.2.4 (2021-04-22)</small>
 
 * feat: adding support for responses that don't have examples (#1257) ([5c11bf1](https://github.com/readmeio/api-explorer/commit/5c11bf1)), closes [#1257](https://github.com/readmeio/api-explorer/issues/1257)
