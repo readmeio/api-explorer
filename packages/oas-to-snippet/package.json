@@ -20,7 +20,7 @@
     "@readme/httpsnippet": "^2.4.5",
     "@readme/oas-extensions": "^13.2.4",
     "@readme/oas-to-har": "^13.2.4",
-    "@readme/syntax-highlighter": "^10.4.1",
+    "@readme/syntax-highlighter": "^10.7.0",
     "httpsnippet-client-api": "^3.0.1",
     "oas": "^10.7.0"
   },

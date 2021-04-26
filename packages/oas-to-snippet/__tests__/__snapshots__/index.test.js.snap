@@ -26,3 +26,282 @@ fetch(url, options)
   "highlightMode": "javascript",
 }
 `;
+
+exports[`supported languages should support c 1`] = `
+Object {
+  "code": "CURL *hnd = curl_easy_init();
+
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, \\"GET\\");
+curl_easy_setopt(hnd, CURLOPT_URL, \\"https://example.com/path/123\\");
+
+CURLcode ret = curl_easy_perform(hnd);",
+  "highlightMode": "text/x-csrc",
+}
+`;
+
+exports[`supported languages should support clojure 1`] = `
+Object {
+  "code": "(require '[clj-http.client :as client])
+
+(client/get \\"https://example.com/path/123\\")",
+  "highlightMode": "clojure",
+}
+`;
+
+exports[`supported languages should support cplusplus 1`] = `
+Object {
+  "code": "CURL *hnd = curl_easy_init();
+
+curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, \\"GET\\");
+curl_easy_setopt(hnd, CURLOPT_URL, \\"https://example.com/path/123\\");
+
+CURLcode ret = curl_easy_perform(hnd);",
+  "highlightMode": "text/x-c++src",
+}
+`;
+
+exports[`supported languages should support csharp 1`] = `
+Object {
+  "code": "var client = new RestClient(\\"https://example.com/path/123\\");
+var request = new RestRequest(Method.GET);
+IRestResponse response = client.Execute(request);",
+  "highlightMode": "text/x-csharp",
+}
+`;
+
+exports[`supported languages should support curl 1`] = `
+Object {
+  "code": "curl --request GET \\\\
+  --url https://example.com/path/123",
+  "highlightMode": "shell",
+}
+`;
+
+exports[`supported languages should support go 1`] = `
+Object {
+  "code": "package main
+
+import (
+	\\"fmt\\"
+	\\"net/http\\"
+	\\"io/ioutil\\"
+)
+
+func main() {
+
+	url := \\"https://example.com/path/123\\"
+
+	req, _ := http.NewRequest(\\"GET\\", url, nil)
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println(res)
+	fmt.Println(string(body))
+
+}",
+  "highlightMode": "go",
+}
+`;
+
+exports[`supported languages should support java 1`] = `
+Object {
+  "code": "OkHttpClient client = new OkHttpClient();
+
+Request request = new Request.Builder()
+  .url(\\"https://example.com/path/123\\")
+  .get()
+  .build();
+
+Response response = client.newCall(request).execute();",
+  "highlightMode": "java",
+}
+`;
+
+exports[`supported languages should support javascript 1`] = `
+Object {
+  "code": "const options = {method: 'GET'};
+
+fetch('https://example.com/path/123', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));",
+  "highlightMode": "javascript",
+}
+`;
+
+exports[`supported languages should support kotlin 1`] = `
+Object {
+  "code": "OkHttpClient client = new OkHttpClient();
+
+Request request = new Request.Builder()
+  .url(\\"https://example.com/path/123\\")
+  .get()
+  .build();
+
+Response response = client.newCall(request).execute();",
+  "highlightMode": "java",
+}
+`;
+
+exports[`supported languages should support node 1`] = `
+Object {
+  "code": "const fetch = require('node-fetch');
+
+const url = 'https://example.com/path/123';
+const options = {method: 'GET'};
+
+fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error('error:' + err));",
+  "highlightMode": "javascript",
+}
+`;
+
+exports[`supported languages should support objectivec 1`] = `
+Object {
+  "code": "#import <Foundation/Foundation.h>
+
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@\\"https://example.com/path/123\\"]
+                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                   timeoutInterval:10.0];
+[request setHTTPMethod:@\\"GET\\"];
+
+NSURLSession *session = [NSURLSession sharedSession];
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                if (error) {
+                                                    NSLog(@\\"%@\\", error);
+                                                } else {
+                                                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                                                    NSLog(@\\"%@\\", httpResponse);
+                                                }
+                                            }];
+[dataTask resume];",
+  "highlightMode": "objectivec",
+}
+`;
+
+exports[`supported languages should support ocaml 1`] = `
+Object {
+  "code": "open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+
+let uri = Uri.of_string \\"https://example.com/path/123\\" in
+
+Client.call \`GET uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)",
+  "highlightMode": "ocaml",
+}
+`;
+
+exports[`supported languages should support php 1`] = `
+Object {
+  "code": "<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => \\"https://example.com/path/123\\",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => \\"\\",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => \\"GET\\",
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+  echo \\"cURL Error #:\\" . $err;
+} else {
+  echo $response;
+}",
+  "highlightMode": "php",
+}
+`;
+
+exports[`supported languages should support powershell 1`] = `
+Object {
+  "code": "$response = Invoke-WebRequest -Uri 'https://example.com/path/123' -Method GET ",
+  "highlightMode": "powershell",
+}
+`;
+
+exports[`supported languages should support python 1`] = `
+Object {
+  "code": "import requests
+
+url = \\"https://example.com/path/123\\"
+
+response = requests.request(\\"GET\\", url)
+
+print(response.text)",
+  "highlightMode": "python",
+}
+`;
+
+exports[`supported languages should support r 1`] = `
+Object {
+  "code": "library(httr)
+
+url <- \\"https://example.com/path/123\\"
+
+response <- VERB(\\"GET\\", url, content_type(\\"application/octet-stream\\"))
+
+content(response, \\"text\\")",
+  "highlightMode": "r",
+}
+`;
+
+exports[`supported languages should support ruby 1`] = `
+Object {
+  "code": "require 'uri'
+require 'net/http'
+require 'openssl'
+
+url = URI(\\"https://example.com/path/123\\")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Get.new(url)
+
+response = http.request(request)
+puts response.read_body",
+  "highlightMode": "ruby",
+}
+`;
+
+exports[`supported languages should support swift 1`] = `
+Object {
+  "code": "import Foundation
+
+let request = NSMutableURLRequest(url: NSURL(string: \\"https://example.com/path/123\\")! as URL,
+                                        cachePolicy: .useProtocolCachePolicy,
+                                    timeoutInterval: 10.0)
+request.httpMethod = \\"GET\\"
+
+let session = URLSession.shared
+let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+  if (error != nil) {
+    print(error)
+  } else {
+    let httpResponse = response as? HTTPURLResponse
+    print(httpResponse)
+  }
+})
+
+dataTask.resume()",
+  "highlightMode": "swift",
+}
+`;

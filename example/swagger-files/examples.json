@@ -161,6 +161,7 @@
     "samples-enabled": true,
     "samples-languages": [
       "c",
+      "clojure",
       "cplusplus",
       "csharp",
       "curl",
@@ -170,9 +171,11 @@
       "kotlin",
       "node",
       "objectivec",
+      "ocaml",
       "php",
       "powershell",
       "python",
+      "r",
       "ruby",
       "swift"
     ]

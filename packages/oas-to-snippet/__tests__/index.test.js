@@ -5,6 +5,7 @@ const path = require('path');
 const datauri = require('datauri');
 
 const generateCodeSnippet = require('../src');
+const supportedLanguages = require('../src/supportedLanguages');
 
 const { getLangName } = generateCodeSnippet;
 
@@ -152,23 +153,6 @@ test('should return with unhighlighted code', () => {
   expect(code).not.toMatch(/cm-s-tomorrow-night/);
 });
 
-test('should support node-simple', () => {
-  const petstoreOas = new Oas(petstore);
-  const snippet = generateCodeSnippet(
-    petstoreOas,
-    petstoreOas.operation('/user/login', 'get'),
-    {
-      query: { username: 'woof', password: 'barkbarkbark' },
-    },
-    {},
-    'node-simple',
-    oasUrl
-  );
-
-  expect(snippet.code).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
-  expect(snippet.highlightMode).toBe('javascript');
-});
-
 describe('multipart/form-data handlings', () => {
   let formDataOas;
   let owlbert;
@@ -294,6 +278,34 @@ test('should not double-encode query strings', () => {
   expect(snippet.code).not.toContain(encodeURIComponent(encodeURIComponent(endTime)));
 });
 
+describe('supported languages', () => {
+  const languages = Object.keys(supportedLanguages)
+    .filter(lang => lang !== 'node-simple')
+    .map(lang => [lang]);
+
+  it.each(languages)('should support %s', lang => {
+    const { code, highlightMode } = generateCodeSnippet(oas, operation, formData, {}, lang, oasUrl);
+    expect({ code, highlightMode }).toMatchSnapshot();
+  });
+
+  it('should support node-simple', () => {
+    const petstoreOas = new Oas(petstore);
+    const snippet = generateCodeSnippet(
+      petstoreOas,
+      petstoreOas.operation('/user/login', 'get'),
+      {
+        query: { username: 'woof', password: 'barkbarkbark' },
+      },
+      {},
+      'node-simple',
+      oasUrl
+    );
+
+    expect(snippet.code).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
+    expect(snippet.highlightMode).toBe('javascript');
+  });
+});
+
 describe('#getLangName()', () => {
   it('should convert name to correct case', () => {
     expect(getLangName('c')).toBe('C');
@@ -307,9 +319,11 @@ describe('#getLangName()', () => {
     expect(getLangName('node')).toBe('Node');
     expect(getLangName('node-simple')).toBe('Node (simple)');
     expect(getLangName('objectivec')).toBe('Objective-C');
+    expect(getLangName('ocaml')).toBe('OCaml');
     expect(getLangName('php')).toBe('PHP');
     expect(getLangName('powershell')).toBe('PowerShell');
     expect(getLangName('python')).toBe('Python');
+    expect(getLangName('r')).toBe('R');
     expect(getLangName('ruby')).toBe('Ruby');
     expect(getLangName('swift')).toBe('Swift');
   });
