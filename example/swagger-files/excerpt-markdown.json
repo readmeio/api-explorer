@@ -53,6 +53,105 @@
           }
         }
       }
+    },
+     "/rightside/codeblocks": {
+      "get": {
+        "summary": "Displaying copy button",
+        "description": "`const options = { copyButtons: false };`\n```javascript\nconst options = { copyButtons: true }\n```",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/extendedAttribute"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "extendedAttribute": {
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date",
+            "description": "yyyy-MM-dd'T'HH:mm:ss.SSSZ. Generated and managed by the service. `Read-only`"
+          },
+          "lastModifiedOn": {
+            "type": "string",
+            "format": "date",
+            "description": "yyyy-MM-dd'T'HH:mm:ss.SSSZ. Generated and managed by the service. `Read-only`"
+          },
+          "application": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/link"
+              }
+            ]
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "linkBase": {
+        "type": "object",
+        "required": [
+          "href",
+          "rel"
+        ],
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The URI of the resource this `Link` represents."
+          },
+          "rel": {
+            "type": "string",
+            "description": "Relation to the resource represented by the `Link`,"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the resource represented by this Link.",
+            "readOnly": true,
+            "enum": [
+              "Enabled",
+              "Disabled",
+              "Suspended",
+              "Deleted"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "Some descriptive text about the Link. Generally name of the resource represented by this Link.",
+            "readOnly": true
+          }
+        }
+      },
+      "link": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/linkBase"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "source": {
+                "$ref": "#/components/schemas/linkBase"
+              }
+            }
+          }
+        ]
+      }
     }
   }
 }
