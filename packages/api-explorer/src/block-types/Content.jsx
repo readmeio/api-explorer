@@ -43,12 +43,12 @@ const Loop = ({ content, column, flags, splitReferenceDocs }) => {
 };
 
 const Content = props => {
-  const { body, flags, isThreeColumn, splitReferenceDocs, useNewMarkdownEngine } = props;
+  const { body, copyButtons, flags, isThreeColumn, splitReferenceDocs, useNewMarkdownEngine } = props;
 
   if (useNewMarkdownEngine) {
     const content = markdown(body, {
       compatibilityMode: flags.rdmdCompatibilityMode,
-      copyButtons: flags.copyButtons,
+      copyButtons,
       showAnchorIcons: splitReferenceDocs,
     });
 
@@ -128,6 +128,7 @@ Loop.defaultProps = {
 
 Content.propTypes = {
   body: PropTypes.string,
+  copyButtons: PropTypes.bool,
   flags: PropTypes.shape(),
   isThreeColumn: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   splitReferenceDocs: PropTypes.bool,
