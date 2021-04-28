@@ -137,6 +137,7 @@ Content.propTypes = {
 
 Content.defaultProps = {
   body: '',
+  copyButtons: false,
   flags: {},
   isThreeColumn: true,
   splitReferenceDocs: false,
