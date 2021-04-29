@@ -38,6 +38,10 @@ const auth = {
 }
 
 // This is the language to generate a snippet to. See below for supported languages.
+//
+// For supplying an alternative language target (like `axios` for `node`), you can do so by
+// changing this variable to an array: `['node', 'axios']`. For the full list of alternative
+// language targets that we support, see below.
 const language = 'node';
 
 // This URL parameter is only necessary when using the `node-simple` language and it should be an
@@ -53,22 +57,42 @@ const { code, highlightMode } = generateSnippet(apiDefinition, operation, formDa
 
 ## Supported Languages
 
-Since this library uses [HTTP Snippet](https://github.com/Kong/httpsnippet), we support most languages that does which are the following:
+Since this library uses [HTTP Snippet](https://github.com/Kong/httpsnippet), we support most of its languages, and their associated targets, which are the following:
 
 * `c`
+* `clojure`
 * `cplusplus`
 * `csharp`
+  * `httpclient`
+  * `restsharp`
 * `curl`
 * `go`
 * `java`
+  * `asynchttp`
+  * `nethttp`
+  * `okhttp`
+  * `unirest`
 * `javascript`
+  * `axios`
+  * `fetch`
+  * `jquery`
+  * `xhr`
 * `kotlin`
+  * `okhttp`
 * `node`
+  * `api`: This is our OpenAPI-powered SDK generation library; see https://npm.im/api for more info.
+  * `axios`
+  * `fetch`
+  * `native`
+  * `request`
+* `node-simple`: This is a shortcut for supplying `['node', 'api']` as the `lang` argument.
 * `objectivec`
+* `ocaml`
 * `php`
+  * `curl`
 * `powershell`
 * `python`
+  * `requests`
+* `r`
 * `ruby`
 * `swift`
-
-We also support `node-simple`, which is a custom Node snippet wrapper we have for our [api](https://www.npmjs.com/package/api) package that facilitates the easy usage of calling an API from an OpenAPI definition.

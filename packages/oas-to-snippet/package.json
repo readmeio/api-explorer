@@ -29,6 +29,7 @@
     "@readme/oas-examples": "^4.0.0",
     "datauri": "^3.0.0",
     "eslint": "^7.0.0",
+    "har-examples": "^1.0.6",
     "jest": "^26.0.1",
     "prettier": "^2.0.1"
   },
