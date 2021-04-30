@@ -315,6 +315,7 @@ class Doc extends React.Component {
 
         <Content
           body={doc.body}
+          copyButtons={this.props.copyButtons}
           flags={this.props.flags}
           isThreeColumn
           splitReferenceDocs={this.props.appearance.splitReferenceDocs}
@@ -342,6 +343,7 @@ class Doc extends React.Component {
 
               <Content
                 body={doc.body}
+                copyButtons={this.props.copyButtons}
                 flags={this.props.flags}
                 isThreeColumn="left"
                 splitReferenceDocs={this.props.appearance.splitReferenceDocs}
