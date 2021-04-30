@@ -1,80 +1,212 @@
-const supportedLanguages = {
+module.exports = {
   c: {
-    httpsnippet: ['c'],
     highlight: 'text/x-csrc',
+    httpsnippet: {
+      lang: 'c',
+      default: 'c',
+      targets: {
+        c: {},
+      },
+    },
   },
   clojure: {
-    httpsnippet: ['clojure'],
     highlight: 'clojure',
+    httpsnippet: {
+      lang: 'clojure',
+      default: 'clojure',
+      targets: {
+        clojure: {},
+      },
+    },
   },
   cplusplus: {
-    httpsnippet: ['c'],
     highlight: 'text/x-c++src',
+    httpsnippet: {
+      lang: 'c',
+      default: 'c',
+      targets: {
+        c: {},
+      },
+    },
   },
   csharp: {
-    httpsnippet: ['csharp', 'restsharp'],
     highlight: 'text/x-csharp',
+    httpsnippet: {
+      lang: 'csharp',
+      default: 'restsharp',
+      targets: {
+        httpclient: {},
+        restsharp: {},
+      },
+    },
   },
   curl: {
-    httpsnippet: ['shell', 'curl'],
     highlight: 'shell',
+    httpsnippet: {
+      lang: 'shell',
+      default: 'curl',
+      targets: {
+        curl: {},
+      },
+    },
   },
   go: {
-    httpsnippet: ['go', 'native'],
     highlight: 'go',
+    httpsnippet: {
+      lang: 'go',
+      default: 'native',
+      targets: {
+        native: {},
+      },
+    },
   },
   java: {
-    httpsnippet: ['java', 'okhttp'],
     highlight: 'java',
+    httpsnippet: {
+      lang: 'java',
+      default: 'okhttp',
+      targets: {
+        asynchttp: {},
+        nethttp: {},
+        okhttp: {},
+        unirest: {},
+      },
+    },
   },
   javascript: {
-    httpsnippet: ['javascript', 'fetch', { useObjectBody: true }],
     highlight: 'javascript',
+    httpsnippet: {
+      lang: 'javascript',
+      default: 'fetch',
+      targets: {
+        axios: {
+          install: 'npm install axios --save',
+        },
+        fetch: {
+          opts: { useObjectBody: true },
+        },
+        jquery: {},
+        xhr: {},
+      },
+    },
   },
   kotlin: {
-    httpsnippet: ['java', 'okhttp'],
     highlight: 'java',
+    httpsnippet: {
+      lang: 'java',
+      default: 'okhttp',
+      targets: {
+        okhttp: {},
+      },
+    },
   },
   node: {
-    httpsnippet: ['node', 'fetch', { useObjectBody: true }],
     highlight: 'javascript',
-  },
-  'node-simple': {
-    httpsnippet: ['node', 'api'],
-    highlight: 'javascript',
+    httpsnippet: {
+      lang: 'node',
+      default: 'fetch',
+      targets: {
+        api: {
+          opts: {
+            apiDefinition: null,
+            apiDefinitionUri: null,
+          },
+          install: 'npm install api --save',
+        },
+        axios: {
+          install: 'npm install axios --save',
+        },
+        fetch: {
+          opts: { useObjectBody: true },
+          install: 'npm install node-fetch --save',
+        },
+        native: {},
+        request: {
+          install: 'npm install request --save',
+        },
+      },
+    },
   },
   objectivec: {
-    httpsnippet: ['objc', 'NSURLSession'],
     highlight: 'objectivec',
+    httpsnippet: {
+      lang: 'objc',
+      default: 'nsurlsession',
+      targets: {
+        nsurlsession: {},
+      },
+    },
   },
   ocaml: {
-    httpsnippet: ['ocaml'],
     highlight: 'ocaml',
+    httpsnippet: {
+      lang: 'ocaml',
+      default: 'ocaml',
+      targets: {
+        ocaml: {},
+      },
+    },
   },
   php: {
-    httpsnippet: ['php', 'curl'],
     highlight: 'php',
+    httpsnippet: {
+      lang: 'php',
+      default: 'curl',
+      targets: {
+        curl: {},
+      },
+    },
   },
   powershell: {
-    httpsnippet: ['powershell'],
     highlight: 'powershell',
+    httpsnippet: {
+      lang: 'powershell',
+      default: 'powershell',
+      targets: {
+        powershell: {},
+      },
+    },
   },
   python: {
-    httpsnippet: ['python', 'requests'],
     highlight: 'python',
-  },
-  ruby: {
-    httpsnippet: ['ruby'],
-    highlight: 'ruby',
+    httpsnippet: {
+      lang: 'python',
+      default: 'requests',
+      targets: {
+        requests: {
+          install: 'python -m pip install requests',
+        },
+      },
+    },
   },
   r: {
-    httpsnippet: ['r'],
     highlight: 'r',
+    httpsnippet: {
+      lang: 'r',
+      default: 'r',
+      targets: {
+        r: {},
+      },
+    },
+  },
+  ruby: {
+    highlight: 'ruby',
+    httpsnippet: {
+      lang: 'ruby',
+      default: 'ruby',
+      targets: {
+        ruby: {},
+      },
+    },
   },
   swift: {
-    httpsnippet: ['swift', 'nsurlsession'],
     highlight: 'swift',
+    httpsnippet: {
+      lang: 'swift',
+      default: 'nsurlsession',
+      targets: {
+        nsurlsession: {},
+      },
+    },
   },
 };
-
-module.exports = supportedLanguages;

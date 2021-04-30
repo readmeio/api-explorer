@@ -3,6 +3,7 @@ const Oas = require('oas/tooling');
 const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
 const path = require('path');
 const datauri = require('datauri');
+const harExamples = require('har-examples');
 
 const generateCodeSnippet = require('../src');
 const supportedLanguages = require('../src/supportedLanguages');
@@ -10,6 +11,7 @@ const supportedLanguages = require('../src/supportedLanguages');
 const { getLangName } = generateCodeSnippet;
 
 const oas = new Oas();
+const petstoreOas = new Oas(petstore);
 
 const oasUrl = 'https://example.com/openapi.json';
 const operation = {
@@ -27,28 +29,7 @@ const operation = {
 const formData = { path: { id: 123 } };
 
 test('should be able to accept a har override', () => {
-  const harOverride = {
-    log: {
-      entries: [
-        {
-          request: {
-            method: 'GET',
-            url: 'https://dash.readme.io/api/v1/categories/',
-            httpVersion: 'HTTPS/1.1',
-            headers: [
-              {
-                name: 'authorization',
-                value: 'Basic xxx',
-              },
-            ],
-            queryString: [],
-          },
-        },
-      ],
-    },
-  };
-
-  const codeSnippet = generateCodeSnippet(oas, operation, {}, {}, 'node', oasUrl, harOverride);
+  const codeSnippet = generateCodeSnippet(null, null, null, null, 'node', null, harExamples.full);
   expect(codeSnippet).toMatchSnapshot();
 });
 
@@ -279,17 +260,61 @@ test('should not double-encode query strings', () => {
 });
 
 describe('supported languages', () => {
-  const languages = Object.keys(supportedLanguages)
-    .filter(lang => lang !== 'node-simple')
-    .map(lang => [lang]);
+  const languages = Object.keys(supportedLanguages).map(lang => [lang]);
 
-  it.each(languages)('should support %s', lang => {
-    const { code, highlightMode } = generateCodeSnippet(oas, operation, formData, {}, lang, oasUrl);
-    expect({ code, highlightMode }).toMatchSnapshot();
+  describe.each(languages)('%s', lang => {
+    const targets = Object.keys(supportedLanguages[lang].httpsnippet.targets);
+
+    it('should have a language definition', () => {
+      expect(supportedLanguages[lang]).toMatchObject({
+        highlight: expect.any(String),
+        httpsnippet: {
+          lang: expect.any(String),
+          default: expect.any(String),
+          targets: expect.any(Object),
+        },
+      });
+
+      expect(targets.length).toBeGreaterThanOrEqual(1);
+      expect(targets).toContain(supportedLanguages[lang].httpsnippet.default);
+
+      targets.forEach(target => {
+        if ('opts' in supportedLanguages[lang].httpsnippet.targets[target]) {
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(supportedLanguages[lang].httpsnippet.targets[target].opts).toStrictEqual(expect.any(Object));
+        }
+
+        if ('install' in supportedLanguages[lang].httpsnippet.targets[target]) {
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(supportedLanguages[lang].httpsnippet.targets[target].install).toStrictEqual(expect.any(String));
+        }
+      });
+    });
+
+    it('should generate code for the default target', () => {
+      const snippet = generateCodeSnippet(oas, operation, formData, {}, lang);
+      expect(snippet).toMatchSnapshot();
+    });
+
+    describe('targets', () => {
+      it.each(targets.map(target => [target]))('%s', target => {
+        const snippet = generateCodeSnippet(
+          petstoreOas,
+          petstoreOas.operation('/user/login', 'get'),
+          {
+            query: { username: 'woof', password: 'barkbarkbark' },
+          },
+          {},
+          [lang, target],
+          oasUrl
+        );
+
+        expect(snippet).toMatchSnapshot();
+      });
+    });
   });
 
-  it('should support node-simple', () => {
-    const petstoreOas = new Oas(petstore);
+  it('should support `node-simple`', () => {
     const snippet = generateCodeSnippet(
       petstoreOas,
       petstoreOas.operation('/user/login', 'get'),
@@ -311,6 +336,7 @@ describe('#getLangName()', () => {
     expect(getLangName('c')).toBe('C');
     expect(getLangName('cplusplus')).toBe('C++');
     expect(getLangName('csharp')).toBe('C#');
+    expect(getLangName('clojure')).toBe('Clojure');
     expect(getLangName('curl')).toBe('cURL');
     expect(getLangName('go')).toBe('Go');
     expect(getLangName('java')).toBe('Java');
