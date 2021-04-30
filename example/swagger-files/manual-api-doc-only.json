@@ -1,0 +1,45 @@
+{
+  "readmeManual": true,
+  "docs": [
+    {
+      "_id": "5c2e346b-50f9-4192-9e97-88e3155b24e4",
+      "metadata": {
+        "image": [],
+        "title": "",
+        "description": ""
+      },
+      "api": {
+        "method": "get",
+        "url": "",
+        "auth": "required",
+        "params": []
+      },
+      "next": {
+        "description": "",
+        "pages": []
+      },
+      "title": "Getting Started With Your API",
+      "updates": [],
+      "type": "basic",
+      "slug": "getting-started-with-your-api-1",
+      "excerpt": "This page will help you get started with FUn API.",
+      "body": "This is where you show your users how to set it up. You can use code samples, like this:\n[block:code]\n{\n  \"codes\": [\n    {\n      \"code\": \"$http.post('/someUrl', data).success(successCallback);\\n\\nalert('test');\",\n      \"language\": \"javascript\"\n    }\n  ]\n}\n[/block]\nTry dragging a block from the right to see how easy it is to add more content!",
+      "order": 999,
+      "isReference": true,
+      "hidden": false,
+      "sync_unique": "",
+      "link_url": "",
+      "link_external": false,
+      "pendingAlgoliaPublish": false,
+      "previousSlug": "",
+      "slugUpdatedAt": "2021-04-29T21:05:51.244Z",
+      "createdAt": "2021-04-29T21:42:53.568Z",
+      "updatedAt": "2021-04-29T21:42:53.568Z",
+      "__v": 0,
+      "children": [],
+      "childrenPages": []
+    }
+  ],
+  "oasFiles": {},
+  "oasUrls": {}
+}
