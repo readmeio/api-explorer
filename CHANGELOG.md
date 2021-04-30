@@ -1,3 +1,11 @@
+## 13.4.0 (2021-04-30)
+
+* feat: adding support to oas-to-snippet for alternative language targets (#1261) ([ea8d42a](https://github.com/readmeio/api-explorer/commit/ea8d42a)), closes [#1261](https://github.com/readmeio/api-explorer/issues/1261)
+* fix: dont put copy buttons schema descriptions (#1260) ([8f3f017](https://github.com/readmeio/api-explorer/commit/8f3f017)), closes [#1260](https://github.com/readmeio/api-explorer/issues/1260)
+* fix: enable code copy buttons (#1258) ([a4414ee](https://github.com/readmeio/api-explorer/commit/a4414ee)), closes [#1258](https://github.com/readmeio/api-explorer/issues/1258)
+
+
+
 ## 13.3.0 (2021-04-26)
 
 * feat: adding support for clojure, ocaml, and r languages (#1259) ([c0bd0fa](https://github.com/readmeio/api-explorer/commit/c0bd0fa)), closes [#1259](https://github.com/readmeio/api-explorer/issues/1259)
