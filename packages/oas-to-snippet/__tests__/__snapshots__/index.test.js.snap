@@ -51,7 +51,7 @@ CURLcode ret = curl_easy_perform(hnd);",
 }
 `;
 
-exports[`supported languages c targets c 1`] = `
+exports[`supported languages c targets c should support snippet generation 1`] = `
 Object {
   "code": "CURL *hnd = curl_easy_init();
 
@@ -76,7 +76,7 @@ Object {
 }
 `;
 
-exports[`supported languages clojure targets clojure 1`] = `
+exports[`supported languages clojure targets clojure should support snippet generation 1`] = `
 Object {
   "code": "(require '[clj-http.client :as client])
 
@@ -99,7 +99,7 @@ CURLcode ret = curl_easy_perform(hnd);",
 }
 `;
 
-exports[`supported languages cplusplus targets c 1`] = `
+exports[`supported languages cplusplus targets c should support snippet generation 1`] = `
 Object {
   "code": "CURL *hnd = curl_easy_init();
 
@@ -124,7 +124,7 @@ IRestResponse response = client.Execute(request);",
 }
 `;
 
-exports[`supported languages csharp targets httpclient 1`] = `
+exports[`supported languages csharp targets httpclient should support snippet generation 1`] = `
 Object {
   "code": "var client = new HttpClient();
 var request = new HttpRequestMessage
@@ -146,7 +146,7 @@ using (var response = await client.SendAsync(request))
 }
 `;
 
-exports[`supported languages csharp targets restsharp 1`] = `
+exports[`supported languages csharp targets restsharp should support snippet generation 1`] = `
 Object {
   "code": "var client = new RestClient(\\"http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark\\");
 var request = new RestRequest(Method.GET);
@@ -164,7 +164,7 @@ Object {
 }
 `;
 
-exports[`supported languages curl targets curl 1`] = `
+exports[`supported languages curl targets curl should support snippet generation 1`] = `
 Object {
   "code": "curl --request GET \\\\
   --url 'http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark' \\\\
@@ -202,7 +202,7 @@ func main() {
 }
 `;
 
-exports[`supported languages go targets native 1`] = `
+exports[`supported languages go targets native should support snippet generation 1`] = `
 Object {
   "code": "package main
 
@@ -247,7 +247,7 @@ Response response = client.newCall(request).execute();",
 }
 `;
 
-exports[`supported languages java targets asynchttp 1`] = `
+exports[`supported languages java targets asynchttp should support snippet generation 1`] = `
 Object {
   "code": "AsyncHttpClient client = new DefaultAsyncHttpClient();
 client.prepare(\\"GET\\", \\"http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark\\")
@@ -262,7 +262,7 @@ client.close();",
 }
 `;
 
-exports[`supported languages java targets nethttp 1`] = `
+exports[`supported languages java targets nethttp should support snippet generation 1`] = `
 Object {
   "code": "HttpRequest request = HttpRequest.newBuilder()
     .uri(URI.create(\\"http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark\\"))
@@ -275,7 +275,7 @@ System.out.println(response.body());",
 }
 `;
 
-exports[`supported languages java targets okhttp 1`] = `
+exports[`supported languages java targets okhttp should support snippet generation 1`] = `
 Object {
   "code": "OkHttpClient client = new OkHttpClient();
 
@@ -290,7 +290,7 @@ Response response = client.newCall(request).execute();",
 }
 `;
 
-exports[`supported languages java targets unirest 1`] = `
+exports[`supported languages java targets unirest should support snippet generation 1`] = `
 Object {
   "code": "HttpResponse<String> response = Unirest.get(\\"http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark\\")
   .header(\\"Accept\\", \\"application/xml\\")
@@ -311,7 +311,7 @@ fetch('https://example.com/path/123', options)
 }
 `;
 
-exports[`supported languages javascript targets axios 1`] = `
+exports[`supported languages javascript targets axios should support snippet generation 1`] = `
 Object {
   "code": "import axios from \\"axios\\";
 
@@ -331,7 +331,7 @@ axios.request(options).then(function (response) {
 }
 `;
 
-exports[`supported languages javascript targets fetch 1`] = `
+exports[`supported languages javascript targets fetch should support snippet generation 1`] = `
 Object {
   "code": "const options = {method: 'GET', headers: {Accept: 'application/xml'}};
 
@@ -343,7 +343,7 @@ fetch('http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkb
 }
 `;
 
-exports[`supported languages javascript targets jquery 1`] = `
+exports[`supported languages javascript targets jquery should support snippet generation 1`] = `
 Object {
   "code": "const settings = {
   \\"async\\": true,
@@ -362,7 +362,7 @@ $.ajax(settings).done(function (response) {
 }
 `;
 
-exports[`supported languages javascript targets xhr 1`] = `
+exports[`supported languages javascript targets xhr should support snippet generation 1`] = `
 Object {
   "code": "const data = null;
 
@@ -397,7 +397,7 @@ Response response = client.newCall(request).execute();",
 }
 `;
 
-exports[`supported languages kotlin targets okhttp 1`] = `
+exports[`supported languages kotlin targets okhttp should support snippet generation 1`] = `
 Object {
   "code": "OkHttpClient client = new OkHttpClient();
 
@@ -427,7 +427,7 @@ fetch(url, options)
 }
 `;
 
-exports[`supported languages node targets api 1`] = `
+exports[`supported languages node targets api should support snippet generation 1`] = `
 Object {
   "code": "const sdk = require('api')('https://example.com/openapi.json');
 
@@ -438,7 +438,7 @@ sdk.loginUser({username: 'woof', password: 'barkbarkbark', Accept: 'application/
 }
 `;
 
-exports[`supported languages node targets axios 1`] = `
+exports[`supported languages node targets axios should support snippet generation 1`] = `
 Object {
   "code": "var axios = require(\\"axios\\").default;
 
@@ -458,7 +458,7 @@ axios.request(options).then(function (response) {
 }
 `;
 
-exports[`supported languages node targets fetch 1`] = `
+exports[`supported languages node targets fetch should support snippet generation 1`] = `
 Object {
   "code": "const fetch = require('node-fetch');
 
@@ -473,7 +473,7 @@ fetch(url, options)
 }
 `;
 
-exports[`supported languages node targets native 1`] = `
+exports[`supported languages node targets native should support snippet generation 1`] = `
 Object {
   "code": "const http = require(\\"http\\");
 
@@ -505,7 +505,7 @@ req.end();",
 }
 `;
 
-exports[`supported languages node targets request 1`] = `
+exports[`supported languages node targets request should support snippet generation 1`] = `
 Object {
   "code": "const request = require('request');
 
@@ -550,7 +550,7 @@ NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
 }
 `;
 
-exports[`supported languages objectivec targets nsurlsession 1`] = `
+exports[`supported languages objectivec targets nsurlsession should support snippet generation 1`] = `
 Object {
   "code": "#import <Foundation/Foundation.h>
 
@@ -592,7 +592,7 @@ Client.call \`GET uri
 }
 `;
 
-exports[`supported languages ocaml targets ocaml 1`] = `
+exports[`supported languages ocaml targets ocaml should support snippet generation 1`] = `
 Object {
   "code": "open Cohttp_lwt_unix
 open Cohttp
@@ -638,7 +638,7 @@ if ($err) {
 }
 `;
 
-exports[`supported languages php targets curl 1`] = `
+exports[`supported languages php targets curl should support snippet generation 1`] = `
 Object {
   "code": "<?php
 
@@ -678,7 +678,16 @@ Object {
 }
 `;
 
-exports[`supported languages powershell targets powershell 1`] = `
+exports[`supported languages powershell targets restmethod should support snippet generation 1`] = `
+Object {
+  "code": "$headers=@{}
+$headers.Add(\\"Accept\\", \\"application/xml\\")
+$response = Invoke-RestMethod -Uri 'http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark' -Method GET -Headers $headers",
+  "highlightMode": "powershell",
+}
+`;
+
+exports[`supported languages powershell targets webrequest should support snippet generation 1`] = `
 Object {
   "code": "$headers=@{}
 $headers.Add(\\"Accept\\", \\"application/xml\\")
@@ -700,7 +709,7 @@ print(response.text)",
 }
 `;
 
-exports[`supported languages python targets requests 1`] = `
+exports[`supported languages python targets requests should support snippet generation 1`] = `
 Object {
   "code": "import requests
 
@@ -730,7 +739,7 @@ content(response, \\"text\\")",
 }
 `;
 
-exports[`supported languages r targets r 1`] = `
+exports[`supported languages r targets r should support snippet generation 1`] = `
 Object {
   "code": "library(httr)
 
@@ -767,7 +776,7 @@ puts response.read_body",
 }
 `;
 
-exports[`supported languages ruby targets ruby 1`] = `
+exports[`supported languages ruby targets ruby should support snippet generation 1`] = `
 Object {
   "code": "require 'uri'
 require 'net/http'
@@ -809,7 +818,7 @@ dataTask.resume()",
 }
 `;
 
-exports[`supported languages swift targets nsurlsession 1`] = `
+exports[`supported languages swift targets nsurlsession should support snippet generation 1`] = `
 Object {
   "code": "import Foundation
 

@@ -5,7 +5,7 @@ module.exports = {
       lang: 'c',
       default: 'c',
       targets: {
-        c: {},
+        c: { name: 'libcurl' },
       },
     },
   },
@@ -15,7 +15,7 @@ module.exports = {
       lang: 'clojure',
       default: 'clojure',
       targets: {
-        clojure: {},
+        clojure: { name: 'clj-http' },
       },
     },
   },
@@ -25,7 +25,7 @@ module.exports = {
       lang: 'c',
       default: 'c',
       targets: {
-        c: {},
+        c: { name: 'libcurl' },
       },
     },
   },
@@ -35,8 +35,11 @@ module.exports = {
       lang: 'csharp',
       default: 'restsharp',
       targets: {
-        httpclient: {},
-        restsharp: {},
+        httpclient: { name: 'HttpClient' },
+        restsharp: {
+          name: 'RestSharp',
+          install: 'dotnet add package RestSharp',
+        },
       },
     },
   },
@@ -46,7 +49,7 @@ module.exports = {
       lang: 'shell',
       default: 'curl',
       targets: {
-        curl: {},
+        curl: { name: 'cURL' },
       },
     },
   },
@@ -56,7 +59,7 @@ module.exports = {
       lang: 'go',
       default: 'native',
       targets: {
-        native: {},
+        native: { name: 'http.NewRequest' },
       },
     },
   },
@@ -66,10 +69,10 @@ module.exports = {
       lang: 'java',
       default: 'okhttp',
       targets: {
-        asynchttp: {},
-        nethttp: {},
-        okhttp: {},
-        unirest: {},
+        asynchttp: { name: 'AsyncHttp' },
+        nethttp: { name: 'java.net.http' },
+        okhttp: { name: 'OkHttp' },
+        unirest: { name: 'Unirest' },
       },
     },
   },
@@ -80,13 +83,15 @@ module.exports = {
       default: 'fetch',
       targets: {
         axios: {
+          name: 'Axios',
           install: 'npm install axios --save',
         },
         fetch: {
+          name: 'fetch',
           opts: { useObjectBody: true },
         },
-        jquery: {},
-        xhr: {},
+        jquery: { name: 'jQuery' },
+        xhr: { name: 'XMLHttpRequest' },
       },
     },
   },
@@ -96,7 +101,7 @@ module.exports = {
       lang: 'java',
       default: 'okhttp',
       targets: {
-        okhttp: {},
+        okhttp: { name: 'OkHttp' },
       },
     },
   },
@@ -107,6 +112,7 @@ module.exports = {
       default: 'fetch',
       targets: {
         api: {
+          name: 'api',
           opts: {
             apiDefinition: null,
             apiDefinitionUri: null,
@@ -114,14 +120,17 @@ module.exports = {
           install: 'npm install api --save',
         },
         axios: {
+          name: 'Axios',
           install: 'npm install axios --save',
         },
         fetch: {
+          name: 'fetch',
           opts: { useObjectBody: true },
           install: 'npm install node-fetch --save',
         },
-        native: {},
+        native: { name: 'http' },
         request: {
+          name: 'Request',
           install: 'npm install request --save',
         },
       },
@@ -133,7 +142,7 @@ module.exports = {
       lang: 'objc',
       default: 'nsurlsession',
       targets: {
-        nsurlsession: {},
+        nsurlsession: { name: 'NSURLSession' },
       },
     },
   },
@@ -143,7 +152,10 @@ module.exports = {
       lang: 'ocaml',
       default: 'ocaml',
       targets: {
-        ocaml: {},
+        ocaml: {
+          name: 'CoHTTP',
+          install: 'opam install cohttp-lwt-unix cohttp-async',
+        },
       },
     },
   },
@@ -153,7 +165,7 @@ module.exports = {
       lang: 'php',
       default: 'curl',
       targets: {
-        curl: {},
+        curl: { name: 'cURL' },
       },
     },
   },
@@ -161,9 +173,10 @@ module.exports = {
     highlight: 'powershell',
     httpsnippet: {
       lang: 'powershell',
-      default: 'powershell',
+      default: 'webrequest',
       targets: {
-        powershell: {},
+        restmethod: { name: 'Invoke-RestMethod' },
+        webrequest: { name: 'Invoke-WebRequest' },
       },
     },
   },
@@ -174,6 +187,7 @@ module.exports = {
       default: 'requests',
       targets: {
         requests: {
+          name: 'Requests',
           install: 'python -m pip install requests',
         },
       },
@@ -185,7 +199,7 @@ module.exports = {
       lang: 'r',
       default: 'r',
       targets: {
-        r: {},
+        r: { name: 'httr' },
       },
     },
   },
@@ -195,7 +209,7 @@ module.exports = {
       lang: 'ruby',
       default: 'ruby',
       targets: {
-        ruby: {},
+        ruby: { name: 'net::http' },
       },
     },
   },
@@ -205,7 +219,7 @@ module.exports = {
       lang: 'swift',
       default: 'nsurlsession',
       targets: {
-        nsurlsession: {},
+        nsurlsession: { name: 'NSURLSession' },
       },
     },
   },
