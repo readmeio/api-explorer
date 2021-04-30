@@ -1,3 +1,9 @@
+## <small>13.4.1 (2021-04-30)</small>
+
+* fix: copy code buttons in markdown blocks (#1262) ([87d147a](https://github.com/readmeio/api-explorer/commit/87d147a)), closes [#1262](https://github.com/readmeio/api-explorer/issues/1262)
+
+
+
 ## 13.4.0 (2021-04-30)
 
 * feat: adding support to oas-to-snippet for alternative language targets (#1261) ([ea8d42a](https://github.com/readmeio/api-explorer/commit/ea8d42a)), closes [#1261](https://github.com/readmeio/api-explorer/issues/1261)
