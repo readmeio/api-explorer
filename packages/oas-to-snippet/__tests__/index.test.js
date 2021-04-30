@@ -277,18 +277,6 @@ describe('supported languages', () => {
 
       expect(targets.length).toBeGreaterThanOrEqual(1);
       expect(targets).toContain(supportedLanguages[lang].httpsnippet.default);
-
-      targets.forEach(target => {
-        if ('opts' in supportedLanguages[lang].httpsnippet.targets[target]) {
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(supportedLanguages[lang].httpsnippet.targets[target].opts).toStrictEqual(expect.any(Object));
-        }
-
-        if ('install' in supportedLanguages[lang].httpsnippet.targets[target]) {
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(supportedLanguages[lang].httpsnippet.targets[target].install).toStrictEqual(expect.any(String));
-        }
-      });
     });
 
     it('should generate code for the default target', () => {
@@ -297,19 +285,35 @@ describe('supported languages', () => {
     });
 
     describe('targets', () => {
-      it.each(targets.map(target => [target]))('%s', target => {
-        const snippet = generateCodeSnippet(
-          petstoreOas,
-          petstoreOas.operation('/user/login', 'get'),
-          {
-            query: { username: 'woof', password: 'barkbarkbark' },
-          },
-          {},
-          [lang, target],
-          oasUrl
-        );
+      describe.each(targets.map(target => [target]))('%s', target => {
+        it('should be properly defined', () => {
+          expect(supportedLanguages[lang].httpsnippet.targets[target].name).toStrictEqual(expect.any(String));
 
-        expect(snippet).toMatchSnapshot();
+          if ('opts' in supportedLanguages[lang].httpsnippet.targets[target]) {
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(supportedLanguages[lang].httpsnippet.targets[target].opts).toStrictEqual(expect.any(Object));
+          }
+
+          if ('install' in supportedLanguages[lang].httpsnippet.targets[target]) {
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(supportedLanguages[lang].httpsnippet.targets[target].install).toStrictEqual(expect.any(String));
+          }
+        });
+
+        it('should support snippet generation', () => {
+          const snippet = generateCodeSnippet(
+            petstoreOas,
+            petstoreOas.operation('/user/login', 'get'),
+            {
+              query: { username: 'woof', password: 'barkbarkbark' },
+            },
+            {},
+            [lang, target],
+            oasUrl
+          );
+
+          expect(snippet).toMatchSnapshot();
+        });
       });
     });
   });
