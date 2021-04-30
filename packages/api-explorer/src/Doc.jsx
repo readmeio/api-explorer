@@ -315,7 +315,7 @@ class Doc extends React.Component {
 
         <Content
           body={doc.body}
-          copyButtons={this.props.copyButtons}
+          copyButtons={true}
           flags={this.props.flags}
           isThreeColumn
           splitReferenceDocs={this.props.appearance.splitReferenceDocs}
@@ -343,7 +343,7 @@ class Doc extends React.Component {
 
               <Content
                 body={doc.body}
-                copyButtons={this.props.copyButtons}
+                copyButtons={true}
                 flags={this.props.flags}
                 isThreeColumn="left"
                 splitReferenceDocs={this.props.appearance.splitReferenceDocs}
@@ -513,7 +513,7 @@ class Doc extends React.Component {
   }
 
   render() {
-    const { doc, copyButtons, lazy, oas, useNewMarkdownEngine } = this.props;
+    const { doc, lazy, oas, useNewMarkdownEngine } = this.props;
     const { TutorialTile } = this.props.ui.tutorials;
 
     const renderEndpoint = () => {
@@ -547,7 +547,7 @@ class Doc extends React.Component {
               <h2>{doc.title}</h2>
               {doc.excerpt && (
                 <div className="markdown-body excerpt">
-                  {useNewMarkdownEngine ? markdown(doc.excerpt, { copyButtons }) : markdownMagic(doc.excerpt)}
+                  {useNewMarkdownEngine ? markdown(doc.excerpt, { copyButtons: true }) : markdownMagic(doc.excerpt)}
                 </div>
               )}
             </header>
@@ -580,7 +580,6 @@ Doc.propTypes = {
   }),
   auth: PropTypes.shape({}).isRequired,
   baseUrl: PropTypes.string,
-  copyButtons: PropTypes.bool,
   doc: PropTypes.shape({
     api: PropTypes.shape({
       examples: PropTypes.shape({
@@ -654,7 +653,6 @@ Doc.defaultProps = {
     splitReferenceDocs: false,
   },
   baseUrl: '/',
-  copyButtons: true,
   enableRequestBodyJsonEditor: false,
   flags: {
     correctnewlines: false,

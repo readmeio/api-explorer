@@ -362,7 +362,6 @@ ApiExplorer.propTypes = {
     splitReferenceDocs: PropTypes.bool,
   }).isRequired,
   baseUrl: PropTypes.string,
-  copyButtons: PropTypes.bool,
   docs: PropTypes.arrayOf(PropTypes.object).isRequired,
   dontLazyLoad: PropTypes.bool,
   enableRequestBodyJsonEditor: PropTypes.bool,
@@ -414,7 +413,6 @@ ApiExplorer.propTypes = {
 
 ApiExplorer.defaultProps = {
   baseUrl: '/',
-  copyButtons: true,
   dontLazyLoad: false,
   enableRequestBodyJsonEditor: false,
   flags: {
