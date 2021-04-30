@@ -1,3 +1,9 @@
+## <small>13.4.2 (2021-04-30)</small>
+
+* feat: exposing supported language target names in our export (#1263) ([a1ad9db](https://github.com/readmeio/api-explorer/commit/a1ad9db)), closes [#1263](https://github.com/readmeio/api-explorer/issues/1263)
+
+
+
 ## <small>13.4.1 (2021-04-30)</small>
 
 * fix: copy code buttons in markdown blocks (#1262) ([87d147a](https://github.com/readmeio/api-explorer/commit/87d147a)), closes [#1262](https://github.com/readmeio/api-explorer/issues/1262)
