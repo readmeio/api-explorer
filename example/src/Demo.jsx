@@ -98,6 +98,8 @@ class Demo extends React.Component {
       // baseUrl: '/child/v1.0',
       baseUrl: '/',
 
+      copyButtons: true,
+
       // To test the top level error boundary, uncomment this
       // docs: [null, null],
       docs,
