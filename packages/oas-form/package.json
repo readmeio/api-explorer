@@ -44,7 +44,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "create-react-ref": "^0.1.0",
-    "css-loader": "^0.23.1",
+    "css-loader": "^5.2.4",
     "eslint": "^7.11.0",
     "jest": "^26.6.3",
     "json-loader": "^0.5.7",
