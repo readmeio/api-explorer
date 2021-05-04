@@ -1,3 +1,10 @@
+## <small>13.4.3 (2021-05-04)</small>
+
+* chore(deps): bump oas from 10.7.0 to 10.7.1 (#1264) ([1744ff6](https://github.com/readmeio/api-explorer/commit/1744ff6)), closes [#1264](https://github.com/readmeio/api-explorer/issues/1264)
+* chore(deps): upgrading oas (#1270) ([723475d](https://github.com/readmeio/api-explorer/commit/723475d)), closes [#1270](https://github.com/readmeio/api-explorer/issues/1270)
+
+
+
 ## <small>13.4.2 (2021-04-30)</small>
 
 * feat: exposing supported language target names in our export (#1263) ([a1ad9db](https://github.com/readmeio/api-explorer/commit/a1ad9db)), closes [#1263](https://github.com/readmeio/api-explorer/issues/1263)
