@@ -39,7 +39,7 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@readme/eslint-config": "^4.0.0",
+    "@readme/eslint-config": "^5.0.5",
     "@testing-library/jest-dom": "^5.11.9",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
