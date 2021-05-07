@@ -21,8 +21,8 @@
     "@readme/oas-extensions": "^13.4.3",
     "@readme/oas-to-har": "^13.4.3",
     "@readme/syntax-highlighter": "^10.7.0",
-    "httpsnippet-client-api": "^3.0.2",
-    "oas": "^10.7.2"
+    "httpsnippet-client-api": "^3.0.3",
+    "oas": "^10.7.4"
   },
   "devDependencies": {
     "@readme/eslint-config": "^4.0.0",
