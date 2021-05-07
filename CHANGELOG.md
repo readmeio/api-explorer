@@ -1,3 +1,9 @@
+## <small>13.4.4 (2021-05-07)</small>
+
+* chore(deps): upgrading oas (#1273) ([ea1cd02](https://github.com/readmeio/api-explorer/commit/ea1cd02)), closes [#1273](https://github.com/readmeio/api-explorer/issues/1273)
+
+
+
 ## <small>13.4.3 (2021-05-04)</small>
 
 * chore(deps): bump oas from 10.7.0 to 10.7.1 (#1264) ([1744ff6](https://github.com/readmeio/api-explorer/commit/1744ff6)), closes [#1264](https://github.com/readmeio/api-explorer/issues/1264)
