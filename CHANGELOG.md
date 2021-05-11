@@ -1,3 +1,15 @@
+## <small>13.4.5 (2021-05-11)</small>
+
+* v13.4.4 ([f460bd7](https://github.com/readmeio/api-explorer/commit/f460bd7))
+* chore: renamaing `next` to `main`, dropping `master` (#1282) ([c9d1b9b](https://github.com/readmeio/api-explorer/commit/c9d1b9b)), closes [#1282](https://github.com/readmeio/api-explorer/issues/1282)
+* chore(deps): bump lodash from 4.17.20 to 4.17.21 in /packages/oas-to-har (#1274) ([780adb8](https://github.com/readmeio/api-explorer/commit/780adb8)), closes [#1274](https://github.com/readmeio/api-explorer/issues/1274)
+* chore(deps): bump lodash in /packages/oas-to-snippet (#1278) ([27e376c](https://github.com/readmeio/api-explorer/commit/27e376c)), closes [#1278](https://github.com/readmeio/api-explorer/issues/1278)
+* chore(deps): upgrading oas (#1273) ([ea1cd02](https://github.com/readmeio/api-explorer/commit/ea1cd02)), closes [#1273](https://github.com/readmeio/api-explorer/issues/1273)
+* chore(deps): upgrading oas to 11.0.0 (#1291) ([06d7aeb](https://github.com/readmeio/api-explorer/commit/06d7aeb)), closes [#1291](https://github.com/readmeio/api-explorer/issues/1291)
+* ci: fixing the codeql workflow ([5ddd70b](https://github.com/readmeio/api-explorer/commit/5ddd70b))
+
+
+
 ## <small>13.4.4 (2021-05-11)</small>
 
 * chore: renamaing `next` to `main`, dropping `master` (#1282) ([c9d1b9b](https://github.com/readmeio/api-explorer/commit/c9d1b9b)), closes [#1282](https://github.com/readmeio/api-explorer/issues/1282)

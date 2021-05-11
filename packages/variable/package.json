@@ -1,7 +1,7 @@
 {
   "name": "@readme/variable",
   "description": "React component for Variables",
-  "version": "13.4.4",
+  "version": "13.4.5",
   "main": "dist/index.js",
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
