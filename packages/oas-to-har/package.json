@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@readme/oas-extensions": "^13.4.3",
-    "oas": "^10.7.4",
+    "oas": "^11.0.0",
     "parse-data-url": "^3.0.0"
   },
   "devDependencies": {
