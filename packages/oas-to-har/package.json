@@ -26,7 +26,7 @@
     "datauri": "^3.0.0",
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
-    "jest-expect-har": "^1.0.0",
+    "jest-expect-har": "^2.0.0",
     "prettier": "^2.0.1"
   },
   "prettier": "@readme/eslint-config/prettier",
