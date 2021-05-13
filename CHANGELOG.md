@@ -1,3 +1,21 @@
+## <small>13.4.6 (2021-05-13)</small>
+
+* feat: updating httpsnippet and httpsnippet-client-api (#1299) ([66f2724](https://github.com/readmeio/api-explorer/commit/66f2724)), closes [#1299](https://github.com/readmeio/api-explorer/issues/1299)
+* chore(deps-dev): bump @babel/core from 7.12.10 to 7.14.2 (#1298) ([333715e](https://github.com/readmeio/api-explorer/commit/333715e)), closes [#1298](https://github.com/readmeio/api-explorer/issues/1298)
+* chore(deps-dev): bump eslint from 7.23.0 to 7.26.0 (#1292) ([9947947](https://github.com/readmeio/api-explorer/commit/9947947)), closes [#1292](https://github.com/readmeio/api-explorer/issues/1292)
+* chore(deps-dev): bump jest-expect-har from 1.0.3 to 2.0.0 (#1289) ([9df5624](https://github.com/readmeio/api-explorer/commit/9df5624)), closes [#1289](https://github.com/readmeio/api-explorer/issues/1289)
+* chore(deps-dev): bump prettier from 2.2.1 to 2.3.0 (#1290) ([65ceeca](https://github.com/readmeio/api-explorer/commit/65ceeca)), closes [#1290](https://github.com/readmeio/api-explorer/issues/1290)
+* chore(deps): bump actions/setup-node from 2.1.4 to 2.1.5 (#1281) ([66a9f5f](https://github.com/readmeio/api-explorer/commit/66a9f5f)), closes [#1281](https://github.com/readmeio/api-explorer/issues/1281)
+* chore(deps): bump classnames from 2.2.6 to 2.3.1 (#1284) ([217bb1d](https://github.com/readmeio/api-explorer/commit/217bb1d)), closes [#1284](https://github.com/readmeio/api-explorer/issues/1284)
+* chore(deps): bump elliptic from 6.5.3 to 6.5.4 in /packages/api-logs (#1294) ([d2185da](https://github.com/readmeio/api-explorer/commit/d2185da)), closes [#1294](https://github.com/readmeio/api-explorer/issues/1294)
+* chore(deps): bump hosted-git-info in /packages/api-logs (#1295) ([7fe9bdb](https://github.com/readmeio/api-explorer/commit/7fe9bdb)), closes [#1295](https://github.com/readmeio/api-explorer/issues/1295)
+* chore(deps): bump lodash from 4.17.19 to 4.17.21 in /packages/api-logs (#1293) ([a13bc34](https://github.com/readmeio/api-explorer/commit/a13bc34)), closes [#1293](https://github.com/readmeio/api-explorer/issues/1293)
+* chore(deps): bump parse-data-url from 3.0.0 to 4.0.1 (#1288) ([bb0cdff](https://github.com/readmeio/api-explorer/commit/bb0cdff)), closes [#1288](https://github.com/readmeio/api-explorer/issues/1288)
+* chore(deps): bump ssri from 6.0.1 to 6.0.2 in /packages/api-logs (#1297) ([067b776](https://github.com/readmeio/api-explorer/commit/067b776)), closes [#1297](https://github.com/readmeio/api-explorer/issues/1297)
+* chore(deps): bump y18n from 4.0.0 to 4.0.3 in /packages/api-logs (#1296) ([ed6f5c0](https://github.com/readmeio/api-explorer/commit/ed6f5c0)), closes [#1296](https://github.com/readmeio/api-explorer/issues/1296)
+
+
+
 ## <small>13.4.5 (2021-05-11)</small>
 
 * v13.4.4 ([f460bd7](https://github.com/readmeio/api-explorer/commit/f460bd7))
