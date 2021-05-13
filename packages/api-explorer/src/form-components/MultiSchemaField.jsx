@@ -232,19 +232,8 @@ class MultiSchemaField extends Component {
   }
 
   render() {
-    const {
-      baseType,
-      disabled,
-      formData,
-      idPrefix,
-      idSchema,
-      onBlur,
-      onChange,
-      onFocus,
-      options,
-      registry,
-      uiSchema,
-    } = this.props;
+    const { baseType, disabled, formData, idPrefix, idSchema, onBlur, onChange, onFocus, options, registry, uiSchema } =
+      this.props;
 
     const SchemaField = registry.fields.SchemaField;
     const { selectedIndex, selectedValue, discriminatorSchema, discriminatorFieldSchema, enumOptions } = this.state;

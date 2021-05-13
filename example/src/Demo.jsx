@@ -79,13 +79,8 @@ class Demo extends React.Component {
 
   render() {
     const { appearance, docs, fetchSwagger, flags, status, oas, oasFiles, oasUrl, oasUrls, oauth } = this.props;
-    const {
-      brokenExplorerState,
-      enableJsonEditor,
-      enableTutorials,
-      maskErrorMessages,
-      useNewMarkdownEngine,
-    } = this.state;
+    const { brokenExplorerState, enableJsonEditor, enableTutorials, maskErrorMessages, useNewMarkdownEngine } =
+      this.state;
 
     const props = {
       appearance: {
