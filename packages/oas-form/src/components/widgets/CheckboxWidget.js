@@ -32,19 +32,8 @@ function schemaRequiresTrueValue(schema) {
 }
 
 function CheckboxWidget(props) {
-  const {
-    schema,
-    id,
-    value,
-    disabled,
-    readonly,
-    label,
-    autofocus,
-    onBlur,
-    onFocus,
-    onChange,
-    DescriptionField,
-  } = props;
+  const { schema, id, value, disabled, readonly, label, autofocus, onBlur, onFocus, onChange, DescriptionField } =
+    props;
 
   // Because an unchecked checkbox will cause html5 validation to fail, only add
   // the "required" attribute if the field value must be "true", due to the
