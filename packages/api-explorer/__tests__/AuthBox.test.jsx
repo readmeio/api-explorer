@@ -1,6 +1,6 @@
 const React = require('react');
 const { shallow, mount } = require('enzyme');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const AuthBox = require('../src/AuthBox');
 

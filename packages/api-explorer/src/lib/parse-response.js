@@ -1,5 +1,5 @@
 const { stringify } = require('querystring');
-const { matchesMimeType } = require('oas/tooling/utils');
+const { matchesMimeType } = require('oas/src/utils');
 
 function getQuerystring(har) {
   // Converting [{ name: a, value: '123456' }] => { a: '123456' } so we can use querystring.stringify

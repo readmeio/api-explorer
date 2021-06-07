@@ -1,6 +1,6 @@
 const extensions = require('@readme/oas-extensions');
 const { Request, Response } = require('node-fetch');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');

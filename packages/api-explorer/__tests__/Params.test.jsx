@@ -1,7 +1,7 @@
 const React = require('react');
 const { mount } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 const { ADDITIONAL_PROPERTY_FLAG } = require('@readme/oas-form/src/utils');
 const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 

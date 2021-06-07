@@ -3,7 +3,7 @@ const { act } = require('react-dom/test-utils');
 const { shallow, mount } = require('enzyme');
 const Cookie = require('js-cookie');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const { Button, Tabs } = require('@readme/ui/.bundles/es/ui/components');
 const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compositions');

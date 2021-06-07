@@ -1,6 +1,6 @@
 const React = require('react');
 const { shallow } = require('enzyme');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const ResponseSchema = require('../src/ResponseSchema');
 const petstore = require('./__fixtures__/petstore/oas.json');
@@ -36,6 +36,7 @@ test.each([[true], [false]])(
     const responseSchema = shallow(<ResponseSchema {...props} useNewMarkdownEngine={useNewMarkdownEngine} />);
     let text;
 
+    // eslint-disable-next-line jest/no-if
     if (useNewMarkdownEngine) {
       text = responseSchema.find('.markdown-body > .pin > *').first().text();
     } else {

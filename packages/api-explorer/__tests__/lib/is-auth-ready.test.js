@@ -1,4 +1,4 @@
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const isAuthReady = require('../../src/lib/is-auth-ready');
 const authTypesOas = require('../__fixtures__/auth-types/oas.json');

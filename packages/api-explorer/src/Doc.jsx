@@ -6,8 +6,8 @@ const markdown = require('@readme/markdown').default;
 const markdownMagic = require('@readme/markdown-magic');
 const { Waypoint } = require('react-waypoint');
 const oasToHar = require('@readme/oas-to-har');
-const Oas = require('oas/tooling');
-const { getPath, matchesMimeType } = require('oas/tooling/utils');
+const Oas = require('oas');
+const { getPath, matchesMimeType } = require('oas/src/utils');
 
 const isAuthReady = require('./lib/is-auth-ready');
 

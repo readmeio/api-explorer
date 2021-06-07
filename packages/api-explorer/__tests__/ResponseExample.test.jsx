@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const petstore = require('./__fixtures__/petstore/oas.json');
 const string = require('./__fixtures__/string/oas.json');

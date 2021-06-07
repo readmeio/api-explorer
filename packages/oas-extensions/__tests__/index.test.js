@@ -1,6 +1,6 @@
 const extensions = require('..');
 const petstore = require('@readme/oas-examples/3.0/json/petstore.json');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 test.each([
   ['CODE_SAMPLES'],
