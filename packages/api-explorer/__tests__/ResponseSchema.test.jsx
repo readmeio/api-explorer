@@ -36,7 +36,6 @@ test.each([[true], [false]])(
     const responseSchema = shallow(<ResponseSchema {...props} useNewMarkdownEngine={useNewMarkdownEngine} />);
     let text;
 
-    // eslint-disable-next-line jest/no-if
     if (useNewMarkdownEngine) {
       text = responseSchema.find('.markdown-body > .pin > *').first().text();
     } else {
