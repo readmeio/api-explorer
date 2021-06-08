@@ -1,3 +1,24 @@
+## <small>13.4.7 (2021-06-08)</small>
+
+* chore: lockfile updates ([61f633c](https://github.com/readmeio/api-explorer/commit/61f633c))
+* chore: upgrading `oas` and `httpsnippet-client-api` (#1317) ([bbcf83f](https://github.com/readmeio/api-explorer/commit/bbcf83f)), closes [#1317](https://github.com/readmeio/api-explorer/issues/1317)
+* chore(deps-dev): bump @babel/preset-react from 7.12.10 to 7.13.13 (#1308) ([29748be](https://github.com/readmeio/api-explorer/commit/29748be)), closes [#1308](https://github.com/readmeio/api-explorer/issues/1308)
+* chore(deps-dev): bump @commitlint/config-conventional (#1311) ([5e7bb38](https://github.com/readmeio/api-explorer/commit/5e7bb38)), closes [#1311](https://github.com/readmeio/api-explorer/issues/1311)
+* chore(deps-dev): bump @readme/oas-examples from 4.0.0 to 4.2.0 (#1312) ([3f2ac0f](https://github.com/readmeio/api-explorer/commit/3f2ac0f)), closes [#1312](https://github.com/readmeio/api-explorer/issues/1312)
+* chore(deps-dev): bump eslint from 7.26.0 to 7.28.0 (#1316) ([45a1dcf](https://github.com/readmeio/api-explorer/commit/45a1dcf)), closes [#1316](https://github.com/readmeio/api-explorer/issues/1316)
+* chore(deps): bump browserslist in /packages/api-logs (#1301) ([f86ed6b](https://github.com/readmeio/api-explorer/commit/f86ed6b)), closes [#1301](https://github.com/readmeio/api-explorer/issues/1301)
+* chore(deps): bump browserslist in /packages/oas-extensions (#1302) ([af6283e](https://github.com/readmeio/api-explorer/commit/af6283e)), closes [#1302](https://github.com/readmeio/api-explorer/issues/1302)
+* chore(deps): bump browserslist in /packages/variable (#1300) ([b764776](https://github.com/readmeio/api-explorer/commit/b764776)), closes [#1300](https://github.com/readmeio/api-explorer/issues/1300)
+* chore(deps): bump glob-parent in /packages/oas-to-har (#1315) ([608290d](https://github.com/readmeio/api-explorer/commit/608290d)), closes [#1315](https://github.com/readmeio/api-explorer/issues/1315)
+* chore(deps): bump glob-parent in /packages/oas-to-snippet (#1314) ([dd8c19f](https://github.com/readmeio/api-explorer/commit/dd8c19f)), closes [#1314](https://github.com/readmeio/api-explorer/issues/1314)
+* chore(deps): bump swagger2openapi from 7.0.5 to 7.0.6 (#1309) ([a4068b0](https://github.com/readmeio/api-explorer/commit/a4068b0)), closes [#1309](https://github.com/readmeio/api-explorer/issues/1309)
+* chore(deps): bump ws from 7.3.1 to 7.4.6 in /packages/api-logs (#1304) ([93ab115](https://github.com/readmeio/api-explorer/commit/93ab115)), closes [#1304](https://github.com/readmeio/api-explorer/issues/1304)
+* chore(deps): bump ws from 7.3.1 to 7.4.6 in /packages/oas-to-har (#1306) ([109aa6b](https://github.com/readmeio/api-explorer/commit/109aa6b)), closes [#1306](https://github.com/readmeio/api-explorer/issues/1306)
+* chore(deps): bump ws from 7.4.2 to 7.4.6 in /packages/oas-to-snippet (#1307) ([027786b](https://github.com/readmeio/api-explorer/commit/027786b)), closes [#1307](https://github.com/readmeio/api-explorer/issues/1307)
+* chore(deps): bump ws from 7.4.4 to 7.4.6 in /packages/oas-extensions (#1303) ([45295b6](https://github.com/readmeio/api-explorer/commit/45295b6)), closes [#1303](https://github.com/readmeio/api-explorer/issues/1303)
+
+
+
 ## <small>13.4.6 (2021-05-13)</small>
 
 * feat: updating httpsnippet and httpsnippet-client-api (#1299) ([66f2724](https://github.com/readmeio/api-explorer/commit/66f2724)), closes [#1299](https://github.com/readmeio/api-explorer/issues/1299)
