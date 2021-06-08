@@ -49,7 +49,12 @@ module.exports = {
       lang: 'shell',
       default: 'curl',
       targets: {
-        curl: { name: 'cURL' },
+        curl: {
+          name: 'cURL',
+          opts: {
+            escapeBrackets: true,
+          },
+        },
       },
     },
   },

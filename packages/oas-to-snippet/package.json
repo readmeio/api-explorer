@@ -17,7 +17,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@readme/httpsnippet": "^2.5.0",
+    "@readme/httpsnippet": "^2.5.1",
     "@readme/oas-extensions": "^13.4.7",
     "@readme/oas-to-har": "^13.4.7",
     "@readme/syntax-highlighter": "^10.7.0",
