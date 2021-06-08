@@ -1,3 +1,9 @@
+## <small>13.4.8 (2021-06-08)</small>
+
+* fix: updating @readme/httpsnippet for curl snippet fixes ([09d77b2](https://github.com/readmeio/api-explorer/commit/09d77b2))
+
+
+
 ## <small>13.4.7 (2021-06-08)</small>
 
 * chore: lockfile updates ([61f633c](https://github.com/readmeio/api-explorer/commit/61f633c))
