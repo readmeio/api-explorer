@@ -1,6 +1,6 @@
 const React = require('react');
 const { mount } = require('enzyme');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 const createParams = require('../../src/Params');
 
 const discriminators = require('../__fixtures__/polymorphism/discriminators.json');

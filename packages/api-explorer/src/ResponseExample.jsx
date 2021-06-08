@@ -5,8 +5,8 @@ const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').de
 const extensions = require('@readme/oas-extensions');
 const { getStatusCode } = require('@readme/http-status-codes');
 
-const Oas = require('oas/tooling');
-const { matchesMimeType } = require('oas/tooling/utils');
+const Oas = require('oas');
+const { matchesMimeType } = require('oas/src/utils');
 
 const ExampleTabs = require('./ExampleTabs');
 

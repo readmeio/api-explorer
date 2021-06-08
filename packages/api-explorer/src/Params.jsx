@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const Form = require('@readme/oas-form').default;
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const { PasswordWidget, TextWidget, UpDownWidget } = require('@readme/oas-form/src/components/widgets').default;
 

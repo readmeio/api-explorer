@@ -1,6 +1,6 @@
 const React = require('react');
 const { shallow } = require('enzyme');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const PathUrl = require('../src/PathUrl');
 

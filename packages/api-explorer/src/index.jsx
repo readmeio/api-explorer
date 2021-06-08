@@ -3,7 +3,7 @@ const Cookie = require('js-cookie');
 const PropTypes = require('prop-types');
 const cloneDeep = require('lodash.clonedeep');
 const extensions = require('@readme/oas-extensions');
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const OauthContext = require('@readme/variable/contexts/Oauth');
 const SelectedAppContext = require('@readme/variable/contexts/SelectedApp');

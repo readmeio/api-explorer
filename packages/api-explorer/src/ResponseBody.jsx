@@ -3,7 +3,7 @@ const PropTypes = require('prop-types');
 const syntaxHighlighter = require('@readme/syntax-highlighter/dist/index.js').default;
 const ReactJson = require('react-json-view').default;
 const oauthHref = require('./lib/oauth-href');
-const { matchesMimeType } = require('oas/tooling/utils');
+const { matchesMimeType } = require('oas/src/utils');
 
 function Authorized({ result }) {
   const isJson =

@@ -1,4 +1,4 @@
-const Oas = require('oas/tooling');
+const Oas = require('oas');
 
 const oasToHar = require('../../../src/index');
 
