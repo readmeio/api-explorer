@@ -10,12 +10,15 @@
     "url": "https://github.com/readmeio/api-explorer.git",
     "directory": "packages/api-logs"
   },
+  "engines": {
+    "npm": "^7"
+  },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint . --ext .jsx --ext .js",
     "pretest": "npm run lint",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage --runInBand",
+    "test": "jest --coverage",
     "watch": "webpack -w --progress"
   },
   "dependencies": {
