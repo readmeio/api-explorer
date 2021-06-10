@@ -19,5 +19,9 @@ jobs:
       - name: Build bundles
         run: npx lerna run build
 
+      # node-sass gets weird with this setup we have, rebuilding it fixes it.
+      - name: Rebuild node-sass
+        run: npm rebuild node-sass
+
       - name: Analyze Bundle
         run: npx bundlewatch
