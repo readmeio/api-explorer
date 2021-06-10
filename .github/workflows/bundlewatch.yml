@@ -16,10 +16,6 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # node-sass gets weird with this setup we have, rebuilding it fixes it.
-      - name: Rebuild node-sass
-        run: npm rebuild node-sass
-
       - name: Build bundles
         run: npx lerna run build
 

@@ -21,6 +21,7 @@
     "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",
     "lint": "eslint example/ lib/ scripts/ *.js --ext js --ext jsx",
+    "postinstall": "npm rebuild node-sass",
     "publish": "lerna publish",
     "pretest": "npm run update:examples; npm run lint",
     "start": "npm run update:examples; webpack-dev-server --open",

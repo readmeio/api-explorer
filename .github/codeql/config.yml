@@ -2,3 +2,5 @@ paths-ignore:
   - '**/node_modules/**'
   - 'packages/api-explorer/dist/*'
   - 'packages/api-logs/dist/*'
+  - 'packages/oas-form/dist/*'
+  - 'packages/variable/dist/*'
