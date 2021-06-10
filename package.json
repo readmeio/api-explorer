@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "heroku-postbuild": "node scripts/update-example-swagger-files && npm run build",
-    "build": "npm run update:emojis; ./build.sh; lerna run build",
+    "build": "npm run update:emojis; ./build.sh; npm run build --workspaces --if-present",
     "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",
     "lint": "eslint example/ lib/ scripts/ *.js --ext js --ext jsx",
