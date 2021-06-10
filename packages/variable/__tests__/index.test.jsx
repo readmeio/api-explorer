@@ -1,7 +1,7 @@
 const React = require('react');
 const { shallow } = require('enzyme');
 
-const { Variable, VARIABLE_REGEXP } = require('../index.jsx');
+const { Variable, VARIABLE_REGEXP } = require('../index');
 
 describe('single variable', () => {
   const props = {
