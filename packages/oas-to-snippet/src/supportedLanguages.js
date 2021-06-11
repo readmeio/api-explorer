@@ -53,6 +53,7 @@ module.exports = {
           name: 'cURL',
           opts: {
             escapeBrackets: true,
+            indent: '     ',
           },
         },
       },
