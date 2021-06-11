@@ -1,3 +1,10 @@
+## <small>13.4.10 (2021-06-11)</small>
+
+* chore: updating oas to v13 (#1321) ([841d01f](https://github.com/readmeio/api-explorer/commit/841d01f)), closes [#1321](https://github.com/readmeio/api-explorer/issues/1321)
+* fix(code snippets): align curl params in code snippets correctly (#1320) ([34039e2](https://github.com/readmeio/api-explorer/commit/34039e2)), closes [#1320](https://github.com/readmeio/api-explorer/issues/1320)
+
+
+
 ## <small>13.4.9 (2021-06-11)</small>
 
 * feat: moving local development up to npm@7 (#1318) ([7738bb8](https://github.com/readmeio/api-explorer/commit/7738bb8)), closes [#1318](https://github.com/readmeio/api-explorer/issues/1318)
