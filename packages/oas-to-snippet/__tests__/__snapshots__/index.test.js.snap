@@ -3,11 +3,11 @@
 exports[`multipart/form-data handlings should convert a multipart/form-data operation into a proper snippet that uses the original file 1`] = `
 Object {
   "code": "curl --request POST \\\\
-  --url https://example.com/multipart \\\\
-  --header 'Content-Type: multipart/form-data; boundary=---011000010111000001101001' \\\\
-  --form orderId=10 \\\\
-  --form userId=3232 \\\\
-  --form documentFile=@owlbert.png",
+     --url https://example.com/multipart \\\\
+     --header 'Content-Type: multipart/form-data; boundary=---011000010111000001101001' \\\\
+     --form orderId=10 \\\\
+     --form userId=3232 \\\\
+     --form documentFile=@owlbert.png",
   "highlightMode": "shell",
 }
 `;
@@ -37,6 +37,14 @@ fetch(url, options)
   .catch(err => console.error('error:' + err));",
   "highlightMode": "javascript",
 }
+`;
+
+exports[`should have special indents for curl snippets 1`] = `
+"curl --request GET \\\\
+     --url https://example.com/body \\\\
+     --header 'Content-Type: application/x-www-form-urlencoded' \\\\
+     --data a=test \\\\
+     --data 'b=1,2,3'"
 `;
 
 exports[`supported languages c should generate code for the default target 1`] = `
@@ -159,7 +167,7 @@ IRestResponse response = client.Execute(request);",
 exports[`supported languages curl should generate code for the default target 1`] = `
 Object {
   "code": "curl --request GET \\\\
-  --url https://example.com/path/123",
+     --url https://example.com/path/123",
   "highlightMode": "shell",
 }
 `;
@@ -167,8 +175,8 @@ Object {
 exports[`supported languages curl targets curl should support snippet generation 1`] = `
 Object {
   "code": "curl --request GET \\\\
-  --url 'http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark' \\\\
-  --header 'Accept: application/xml'",
+     --url 'http://petstore.swagger.io/v2/user/login?username=woof&password=barkbarkbark' \\\\
+     --header 'Accept: application/xml'",
   "highlightMode": "shell",
 }
 `;

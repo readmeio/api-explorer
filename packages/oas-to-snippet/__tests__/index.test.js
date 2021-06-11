@@ -109,6 +109,36 @@ test('should pass through form encoded values to code snippet', () => {
   expect(code).toMatch('body: encodedParams');
 });
 
+test('should have special indents for curl snippets', () => {
+  const { code } = generateCodeSnippet(
+    oas,
+    {
+      path: '/body',
+      method: 'get',
+      requestBody: {
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              required: ['a'],
+              properties: {
+                a: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    { formData: { a: 'test', b: [1, 2, 3] } },
+    {},
+    'curl'
+  );
+
+  expect(code).toMatchSnapshot();
+});
+
 test('should not contain proxy url', () => {
   const { code } = generateCodeSnippet(
     new Oas({ [extensions.PROXY_ENABLED]: true }),
