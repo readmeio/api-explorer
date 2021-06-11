@@ -10,22 +10,26 @@
     "url": "https://github.com/readmeio/api-explorer.git",
     "directory": "packages/api-explorer"
   },
+  "engines": {
+    "npm": "^7"
+  },
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "lint": "eslint . --ext js --ext jsx",
     "pretest": "npm run lint",
     "prettier": "prettier --list-different --write \"./**/**.{js,jsx}\"",
-    "test": "jest --coverage --runInBand",
+    "test": "jest --coverage",
     "watch": "webpack -w --progress"
   },
   "dependencies": {
     "@readme/http-status-codes": "^7.1.0",
     "@readme/markdown-magic": "^11.0.0",
-    "@readme/oas-extensions": "^13.4.7",
-    "@readme/oas-form": "^13.4.7",
-    "@readme/oas-to-har": "^13.4.7",
-    "@readme/oas-to-snippet": "^13.4.8",
+    "@readme/oas-extensions": "file:../oas-extensions",
+    "@readme/oas-form": "file:../oas-form",
+    "@readme/oas-to-har": "file:../oas-to-har",
+    "@readme/oas-to-snippet": "file:../oas-to-snippet",
     "@readme/syntax-highlighter": "^10.7.0",
+    "@readme/variable": "file:../variable",
     "classnames": "^2.2.5",
     "fetch-har": "^4.0.2",
     "js-cookie": "^2.1.4",
@@ -41,7 +45,6 @@
   },
   "peerDependencies": {
     "@readme/markdown": "^6.27.0",
-    "@readme/variable": "*",
     "react": "16.x",
     "react-dom": "16.x"
   },
@@ -50,7 +53,6 @@
     "@readme/markdown": "^6.27.0",
     "@readme/oas-examples": "^4.0.0",
     "@readme/ui": "^1.17.8",
-    "@readme/variable": "^13.4.7",
     "@testing-library/react": "^11.2.2",
     "css-loader": "^4.3.0",
     "eslint": "^7.0.0",

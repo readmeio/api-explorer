@@ -182,6 +182,7 @@ class Logs extends React.Component {
       case 'python':
         return <PythonSvg />;
       case 'php':
+      case 'PHP':
         return <PhpSvg />;
       case 'ruby':
         return <RubySvg />;

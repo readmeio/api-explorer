@@ -10,6 +10,9 @@
     "url": "https://github.com/readmeio/api-explorer.git",
     "directory": "packages/oas-to-har"
   },
+  "engines": {
+    "npm": "^7"
+  },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
@@ -17,7 +20,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@readme/oas-extensions": "^13.4.7",
+    "@readme/oas-extensions": "file:../oas-extensions",
     "oas": "^12.0.0",
     "parse-data-url": "^4.0.1"
   },

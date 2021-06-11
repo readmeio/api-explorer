@@ -9,6 +9,9 @@
     "url": "https://github.com/readmeio/api-explorer.git",
     "directory": "packages/oas-extensions"
   },
+  "engines": {
+    "npm": "^7"
+  },
   "scripts": {
     "lint": "eslint .",
     "pretest": "eslint .",

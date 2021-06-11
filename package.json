@@ -9,14 +9,19 @@
     "type": "git",
     "url": "git@github.com:readme/api-explorer.git"
   },
+  "engines": {
+    "npm": "^7"
+  },
+  "workspaces": [
+    "./packages/*"
+  ],
   "scripts": {
-    "heroku-postbuild": "npm run bootstrap && node scripts/update-example-swagger-files && npm run build",
-    "bootstrap": "lerna bootstrap --concurrency 2 --hoist",
-    "build": "npm run update:emojis; ./build.sh; lerna run build",
+    "heroku-postbuild": "node scripts/update-example-swagger-files && npm run build",
+    "build": "npm run update:emojis; ./build.sh; npm run build --workspaces --if-present",
     "clean": "lerna clean",
     "deploy": "gh-pages --dotfiles -d example/dist",
     "lint": "eslint example/ lib/ scripts/ *.js --ext js --ext jsx",
-    "postinstall": "npm run bootstrap",
+    "postinstall": "npm rebuild node-sass",
     "publish": "lerna publish",
     "pretest": "npm run update:examples; npm run lint",
     "start": "npm run update:examples; webpack-dev-server --open",
@@ -64,7 +69,6 @@
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
     "lerna": "^3.14.1",
-    "lodash": "^4.17.20",
     "node-sass": "^4.12.0",
     "prettier": "^2.0.1",
     "react": "^16.14.0",
