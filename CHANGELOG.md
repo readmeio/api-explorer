@@ -1,3 +1,9 @@
+## <small>13.4.9 (2021-06-11)</small>
+
+* feat: moving local development up to npm@7 (#1318) ([7738bb8](https://github.com/readmeio/api-explorer/commit/7738bb8)), closes [#1318](https://github.com/readmeio/api-explorer/issues/1318)
+
+
+
 ## <small>13.4.8 (2021-06-08)</small>
 
 * fix: updating @readme/httpsnippet for curl snippet fixes ([09d77b2](https://github.com/readmeio/api-explorer/commit/09d77b2))

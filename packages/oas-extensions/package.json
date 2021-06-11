@@ -1,13 +1,16 @@
 {
   "name": "@readme/oas-extensions",
   "description": "A list of extensions that ReadMe has added to extend the OAS spec",
-  "version": "13.4.7",
+  "version": "13.4.9",
   "author": "Dom Harrington <dom@harrington-mail.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
     "url": "https://github.com/readmeio/api-explorer.git",
     "directory": "packages/oas-extensions"
+  },
+  "engines": {
+    "npm": "^7"
   },
   "scripts": {
     "lint": "eslint .",

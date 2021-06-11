@@ -236,7 +236,7 @@ describe('Logs', () => {
     comp.setState({ logs: [requestmodel] });
     const tableData = comp.find('td .useragent').first();
     expect(tableData.exists('SvgrURL')).toBe(true);
-    expect(tableData.contains('php')).toBe(true);
+    expect(tableData.contains('PHP')).toBe(true);
   });
 
   it('should render other userAgents without svg icons', () => {

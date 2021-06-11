@@ -39,8 +39,9 @@ export function getFormattedUserAgent(userAgent) {
     case 'node':
     case 'python':
     case 'ruby':
-    case 'php':
       return prettyUA;
+    case 'php':
+      return 'PHP';
     default:
       return userAgentString;
   }

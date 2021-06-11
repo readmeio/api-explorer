@@ -2,7 +2,7 @@ rm -rf example/dist
 mkdir example/dist
 mkdir example/dist/reference
 
-webpack --config webpack.prod.js
+npx webpack --config webpack.prod.js
 
 # webpack-dev-server requires you to give an exact path match to it's
 # bundle otherwise you'll actually be loading the regular built webpack
