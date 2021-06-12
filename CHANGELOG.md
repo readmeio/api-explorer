@@ -1,3 +1,9 @@
+## <small>13.4.11 (2021-06-12)</small>
+
+* chore(deps): upgrading httpsnippet-client-api to use oas@13 ([4018131](https://github.com/readmeio/api-explorer/commit/4018131))
+
+
+
 ## <small>13.4.10 (2021-06-11)</small>
 
 * chore: updating oas to v13 (#1321) ([841d01f](https://github.com/readmeio/api-explorer/commit/841d01f)), closes [#1321](https://github.com/readmeio/api-explorer/issues/1321)
