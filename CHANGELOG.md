@@ -1,3 +1,9 @@
+## <small>13.4.12 (2021-06-16)</small>
+
+* fix: re-export SelectedAppContext (#1322) ([afd1941](https://github.com/readmeio/api-explorer/commit/afd1941)), closes [#1322](https://github.com/readmeio/api-explorer/issues/1322)
+
+
+
 ## <small>13.4.11 (2021-06-12)</small>
 
 * chore(deps): upgrading httpsnippet-client-api to use oas@13 ([4018131](https://github.com/readmeio/api-explorer/commit/4018131))
