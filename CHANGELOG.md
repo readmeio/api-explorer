@@ -1,3 +1,9 @@
+## <small>13.4.13 (2021-06-17)</small>
+
+* feat: adding an extension to control `api` simple mode (#1323) ([59bb6f2](https://github.com/readmeio/api-explorer/commit/59bb6f2)), closes [#1323](https://github.com/readmeio/api-explorer/issues/1323)
+
+
+
 ## <small>13.4.12 (2021-06-16)</small>
 
 * fix: re-export SelectedAppContext (#1322) ([afd1941](https://github.com/readmeio/api-explorer/commit/afd1941)), closes [#1322](https://github.com/readmeio/api-explorer/issues/1322)
