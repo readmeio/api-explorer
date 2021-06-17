@@ -10,6 +10,7 @@ test.each([
   ['SAMPLES_ENABLED'],
   ['SAMPLES_LANGUAGES'],
   ['SEND_DEFAULTS'],
+  ['SIMPLE_MODE'],
 ])('`%s` extension should have a default value', extension => {
   expect(extensions[extension] in extensions.defaults).toBe(true);
 });
@@ -100,6 +101,7 @@ describe('#isExtensionValid()', () => {
     ['SAMPLES_ENABLED', true, 'no', 'Boolean'],
     ['SAMPLES_LANGUAGES', ['swift'], {}, 'Array'],
     ['SEND_DEFAULTS', true, 'absolutely not', 'Boolean'],
+    ['SIMPLE_MODE', true, 'absolutely not', 'Boolean'],
   ])('%s', (extension, validValue, invalidValue, expectedType) => {
     describe('should allow valid extensions', () => {
       it('should allow at the root level', () => {
