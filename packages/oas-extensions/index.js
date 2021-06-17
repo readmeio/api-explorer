@@ -8,6 +8,7 @@ const PROXY_ENABLED = 'proxy-enabled';
 const SAMPLES_ENABLED = 'samples-enabled';
 const SAMPLES_LANGUAGES = 'samples-languages';
 const SEND_DEFAULTS = 'send-defaults';
+const SIMPLE_MODE = 'simple-mode';
 
 module.exports = {
   CODE_SAMPLES,
@@ -17,6 +18,7 @@ module.exports = {
   SAMPLES_ENABLED,
   SAMPLES_LANGUAGES,
   SEND_DEFAULTS,
+  SIMPLE_MODE,
 };
 
 module.exports.defaults = {
@@ -27,6 +29,7 @@ module.exports.defaults = {
   [SAMPLES_ENABLED]: true,
   [SAMPLES_LANGUAGES]: ['curl', 'node', 'ruby', 'php', 'python'],
   [SEND_DEFAULTS]: false,
+  [SIMPLE_MODE]: true,
 };
 
 /**
