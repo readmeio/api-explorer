@@ -17,9 +17,15 @@ module.exports = function configureSecurity(oas, values, scheme) {
       if (!values[scheme]) return false;
       if (!values[scheme].user && !values[scheme].pass) return false;
 
+      const user = values[scheme].user;
+      let pass = values[scheme].pass;
+      if (pass === null || pass.length === 0) {
+        pass = '';
+      }
+
       return harValue('headers', {
         name: 'Authorization',
-        value: `Basic ${Buffer.from(`${values[scheme].user}:${values[scheme].pass}`).toString('base64')}`,
+        value: `Basic ${Buffer.from(`${user}:${pass}`).toString('base64')}`,
       });
     } else if (security.scheme === 'bearer') {
       if (!values[scheme]) return false;
