@@ -1,3 +1,9 @@
+## <small>13.4.14 (2021-06-18)</small>
+
+* fix: stop adding `null` basic auth passwords into base64 encoded auth headers (#1324) ([dde955a](https://github.com/readmeio/api-explorer/commit/dde955a)), closes [#1324](https://github.com/readmeio/api-explorer/issues/1324)
+
+
+
 ## <small>13.4.13 (2021-06-17)</small>
 
 * feat: adding an extension to control `api` simple mode (#1323) ([59bb6f2](https://github.com/readmeio/api-explorer/commit/59bb6f2)), closes [#1323](https://github.com/readmeio/api-explorer/issues/1323)
