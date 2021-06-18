@@ -56,6 +56,27 @@ describe('configure-security', () => {
         });
       });
 
+      it('should work if the password is empty or null', () => {
+        const user = 'user';
+        const pass = null;
+
+        expect(
+          configureSecurity(
+            {
+              components: { securitySchemes: { schemeName: { type: 'http', scheme: 'basic' } } },
+            },
+            { schemeName: { user, pass } },
+            'schemeName'
+          )
+        ).toStrictEqual({
+          type: 'headers',
+          value: {
+            name: 'Authorization',
+            value: `Basic ${Buffer.from(`${user}:`).toString('base64')}`,
+          },
+        });
+      });
+
       it('should return with no header if wanted scheme is missing', () => {
         expect(
           configureSecurity(
