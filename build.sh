@@ -14,6 +14,3 @@ cp example/*.css example/dist
 cp -R example/fonts example/dist
 cp -R example/img example/dist
 cp -R example/swagger-files example/dist
-
-# Copy over CNAME for gh-pages custom domain
-cp example/CNAME example/dist

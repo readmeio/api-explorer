@@ -37,12 +37,9 @@ To spin up an example server:
 npm start
 ```
 
-## Fetching the latest stylesheet from ReadMe (for the demo site)
+## Fetching the latest stylesheet from ReadMe
 
 ```
 # Fetch the latest
 curl https://docs.readme.com/css/bundle-hub2.css -o example/bundle-hub2.css
-
-# Remove relative paths for gh-pages
-sed -i '' 's/\.\.\///g' example/bundle-hub2.css
 ```
