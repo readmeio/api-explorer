@@ -1,3 +1,10 @@
+## <small>13.4.15 (2021-06-28)</small>
+
+* chore: removing github pages integration (#1326) ([1c4112b](https://github.com/readmeio/api-explorer/commit/1c4112b)), closes [#1326](https://github.com/readmeio/api-explorer/issues/1326)
+* chore: upgrading oas and httpsnippet-client-api to the latest versions (#1325) ([50e0bf3](https://github.com/readmeio/api-explorer/commit/50e0bf3)), closes [#1325](https://github.com/readmeio/api-explorer/issues/1325)
+
+
+
 ## <small>13.4.14 (2021-06-18)</small>
 
 * fix: stop adding `null` basic auth passwords into base64 encoded auth headers (#1324) ([dde955a](https://github.com/readmeio/api-explorer/commit/dde955a)), closes [#1324](https://github.com/readmeio/api-explorer/issues/1324)
