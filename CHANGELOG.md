@@ -1,3 +1,9 @@
+## <small>13.4.16 (2021-06-28)</small>
+
+* chore(deps): upgrading oas to fix a quirk in matching paths without servers ([03612c0](https://github.com/readmeio/api-explorer/commit/03612c0))
+
+
+
 ## <small>13.4.15 (2021-06-28)</small>
 
 * chore: removing github pages integration (#1326) ([1c4112b](https://github.com/readmeio/api-explorer/commit/1c4112b)), closes [#1326](https://github.com/readmeio/api-explorer/issues/1326)
