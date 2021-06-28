@@ -11,6 +11,5 @@ lerna-debug.log
 
 example/swagger-files/directory.json
 
-example/dist
 example/demo-bundle.*
 example/reference-bundle.*
