@@ -1,5 +1,4 @@
 **/node_modules
 coverage
-example/dist
 example/demo-bundle.*
 example/reference-bundle.*
