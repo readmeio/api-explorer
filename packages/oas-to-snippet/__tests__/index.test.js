@@ -363,6 +363,15 @@ describe('supported languages', () => {
     expect(snippet.code).toStrictEqual(expect.stringMatching('https://example.com/openapi.json'));
     expect(snippet.highlightMode).toBe('javascript');
   });
+
+  it('should gracefully fallback to `fetch` snippets if our `api` target fails', () => {
+    // Reason that this'll trigger a failure in the `api` snippet target is because we aren't passing in an API
+    // definition for it to look or an operation in.
+    const snippet = generateCodeSnippet(null, null, null, null, 'node-simple', oasUrl, harExamples.full);
+
+    expect(snippet.code).toStrictEqual(expect.stringMatching('node-fetch'));
+    expect(snippet.highlightMode).toBe('javascript');
+  });
 });
 
 describe('#getLangName()', () => {
