@@ -49,7 +49,7 @@ module.exports = (oas, operation, values, auth, lang, oasUrl, harOverride) => {
   const har = harOverride || generateHar(oas, operation, values, auth);
   const snippet = new HTTPSnippet(har, { escapeQueryStrings: false });
 
-  const targetOpts = config.httpsnippet.targets[target].opts || {};
+  let targetOpts = config.httpsnippet.targets[target].opts || {};
   const highlightMode = config.highlight;
 
   // API SDK client needs additional runtime information on the API definition we're showing the user so it can
@@ -67,10 +67,25 @@ module.exports = (oas, operation, values, auth, lang, oasUrl, harOverride) => {
     targetOpts.apiDefinitionUri = oasUrl;
   }
 
-  return {
-    code: snippet.convert(language, target, targetOpts),
-    highlightMode,
-  };
+  try {
+    return {
+      code: snippet.convert(language, target, targetOpts),
+      highlightMode,
+    };
+  } catch (err) {
+    if (language !== 'node' && target !== 'api') {
+      throw err;
+    }
+
+    // Since `api` depends upon the API definition it's more subject to breakage than other snippet targets, so if we
+    // failed when attempting to generate one for that let's instead render out a `fetch` snippet.
+    targetOpts = config.httpsnippet.targets.fetch.opts || {};
+
+    return {
+      code: snippet.convert(language, 'fetch', targetOpts),
+      highlightMode,
+    };
+  }
 };
 
 module.exports.getLangName = lang => {
