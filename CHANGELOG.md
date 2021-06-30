@@ -1,3 +1,9 @@
+## <small>13.4.17 (2021-06-30)</small>
+
+* fix: adding better handling for api snippet failures (#1327) ([dfac5c3](https://github.com/readmeio/api-explorer/commit/dfac5c3)), closes [#1327](https://github.com/readmeio/api-explorer/issues/1327)
+
+
+
 ## <small>13.4.16 (2021-06-28)</small>
 
 * chore(deps): upgrading oas to fix a quirk in matching paths without servers ([03612c0](https://github.com/readmeio/api-explorer/commit/03612c0))
