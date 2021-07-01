@@ -29,7 +29,7 @@
     "react": "16.x"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^4.0.0",
+    "@readme/eslint-config": "^5.1.0",
     "@readme/oas-examples": "^4.0.0",
     "@svgr/webpack": "^5.5.0",
     "eslint": "^7.0.0",
