@@ -27,7 +27,7 @@
     "@readme/oas-extensions": "file:../oas-extensions",
     "@readme/oas-form": "file:../oas-form",
     "@readme/oas-to-har": "file:../oas-to-har",
-    "@readme/oas-to-snippet": "file:../oas-to-snippet",
+    "@readme/oas-to-snippet": "^13.5.1",
     "@readme/syntax-highlighter": "^10.7.0",
     "@readme/variable": "file:../variable",
     "classnames": "^2.2.5",
