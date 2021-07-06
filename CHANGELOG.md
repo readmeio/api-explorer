@@ -1,3 +1,16 @@
+## <small>13.4.18 (2021-07-06)</small>
+
+* docs: adding a notice to email support ([887badb](https://github.com/readmeio/api-explorer/commit/887badb))
+* docs: deprecation notice ([3feae16](https://github.com/readmeio/api-explorer/commit/3feae16))
+* ci: removing dependabot ([4eeb102](https://github.com/readmeio/api-explorer/commit/4eeb102))
+* chore: removing @readme/oas-extensions from this repository (#1343) ([5da8589](https://github.com/readmeio/api-explorer/commit/5da8589)), closes [#1343](https://github.com/readmeio/api-explorer/issues/1343)
+* chore: removing @readme/oas-to-har from this repository (#1344) ([5e9cfa0](https://github.com/readmeio/api-explorer/commit/5e9cfa0)), closes [#1344](https://github.com/readmeio/api-explorer/issues/1344)
+* chore: removing @readme/oas-to-snippet from this repository (#1339) ([9d3ce62](https://github.com/readmeio/api-explorer/commit/9d3ce62)), closes [#1339](https://github.com/readmeio/api-explorer/issues/1339)
+* chore: removing @readme/variable from this repository (#1345) ([5bf4078](https://github.com/readmeio/api-explorer/commit/5bf4078)), closes [#1345](https://github.com/readmeio/api-explorer/issues/1345)
+* chore(deps): bump actions/setup-node from 2.1.5 to 2.2.0 (#1328) ([c0dbb79](https://github.com/readmeio/api-explorer/commit/c0dbb79)), closes [#1328](https://github.com/readmeio/api-explorer/issues/1328)
+
+
+
 ## <small>13.4.17 (2021-06-30)</small>
 
 * fix: adding better handling for api snippet failures (#1327) ([dfac5c3](https://github.com/readmeio/api-explorer/commit/dfac5c3)), closes [#1327](https://github.com/readmeio/api-explorer/issues/1327)
