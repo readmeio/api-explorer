@@ -20,7 +20,7 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@readme/oas-extensions": "file:../oas-extensions",
+    "@readme/oas-extensions": "^13.5.0",
     "oas": "^13.0.4",
     "parse-data-url": "^4.0.1"
   },

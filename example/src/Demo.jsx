@@ -7,7 +7,7 @@ const { TutorialModal, TutorialTile } = require('@readme/ui/.bundles/es/ui/compo
 const { cmVariableContext: TutorialVariableContext } = require('@readme/ui/.bundles/es/views');
 const { DEFAULT_TUTORIAL } = require('@readme/ui/.bundles/es/ui/compositions/Tutorials/Modal/constants/stepDefaults');
 
-const extensions = require('../../packages/oas-extensions');
+const extensions = require('@readme/oas-extensions');
 
 const withSpecFetching = require('./SpecFetcher');
 
