@@ -31,6 +31,7 @@
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.0.1",
     "@readme/emojis": "^3.0.0",
+    "@readme/oas-extensions": "^13.5.0",
     "@readme/ui": "^1.17.8",
     "babel-polyfill": "^6.26.0",
     "oas": "^13.0.4",

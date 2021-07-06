@@ -24,7 +24,7 @@
   "dependencies": {
     "@readme/http-status-codes": "^7.1.0",
     "@readme/markdown-magic": "^11.0.0",
-    "@readme/oas-extensions": "file:../oas-extensions",
+    "@readme/oas-extensions": "^13.5.0",
     "@readme/oas-form": "file:../oas-form",
     "@readme/oas-to-har": "file:../oas-to-har",
     "@readme/oas-to-snippet": "^13.5.1",
