@@ -88,10 +88,6 @@
       {
         "path": "packages/api-logs/dist/index.js",
         "maxSize": "15KB"
-      },
-      {
-        "path": "packages/variable/dist/index.js",
-        "maxSize": "5KB"
       }
     ]
   },
