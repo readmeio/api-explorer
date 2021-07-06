@@ -1,4 +1,6 @@
 > 🚨 With the release of ReadMe's reference guide redesign this repository and codebase has been deprecated.
+>
+> If you have issues with this legacy API Explorer or our current Reference guides, please email our support team at support@readme.io
 
 # api-explorer
 
