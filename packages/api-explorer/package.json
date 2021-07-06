@@ -49,7 +49,7 @@
     "react-dom": "16.x"
   },
   "devDependencies": {
-    "@readme/eslint-config": "^4.0.0",
+    "@readme/eslint-config": "^5.2.0",
     "@readme/markdown": "^6.27.0",
     "@readme/oas-examples": "^4.0.0",
     "@readme/ui": "^1.17.8",
