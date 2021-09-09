@@ -1,6 +1,8 @@
 import resolveRootRef from '../../src/JsonForm/resolveRootRef'
 import ROOT_REF_SCHEMA from '../testdata/config-root-ref-and-nested.json'
 import EXPECTED_ROOT_REF from '../testdata/config-root-ref-and-nested.resolveRootRef.expected.json'
+import ROOT_REF_DOTS_SCHEMA from '../testdata/config-root-ref-and-nested-with-dots.json'
+import EXPECTED_ROOT_REF_WITH_DOTS from '../testdata/config-root-ref-and-nested.resolveRootRef-with-dots.expected.json'
 import CIRCULAR_ROOT_SCHEMA from '../testdata/circular-on-root.json'
 import MISSING_REFERENCE from '../testdata/missing-reference.json'
 
@@ -15,4 +17,9 @@ test('circular on root throws error', async () => {
 
 test('missing reference on root throws error', async () => {
   await expect(() => resolveRootRef(MISSING_REFERENCE)).toThrowError(new Error('missing reference'))
+})
+
+test('resolve correctly $ref on root with dots', async () => {
+  const resp = await resolveRootRef(ROOT_REF_DOTS_SCHEMA)
+  expect(resp).toEqual(EXPECTED_ROOT_REF_WITH_DOTS)
 })

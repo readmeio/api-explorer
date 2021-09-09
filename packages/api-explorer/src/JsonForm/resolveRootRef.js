@@ -14,7 +14,7 @@ export default function resolveRootRef(schema, count = 0) {
   }
 
   // e.g.: "#/components/schemas/Pet" -> "components.schemas.Pet"
-  const componentsPath = ref.slice(2, ref.length).replace(/\//g, '.')
+  const componentsPath = ref.slice(2, ref.length).split(/\//g)
   const foundReference = get(schema, componentsPath)
 
   if(!foundReference) {
