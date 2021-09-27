@@ -116,7 +116,7 @@ module.exports = (
       if (typeof value === 'undefined') return;
       har.queryString.push({
         name: queryString.name,
-        value: String(value),
+        value: encodeURIComponent(String(value)),
       });
     });
   }
@@ -197,7 +197,7 @@ module.exports = (
 
         // WARNING! I'm updating the provided contentType argument, this is bad practice
         // but as of now it's the only way to push forward the updated Content-Type value
-        // featuring the boundary. 
+        // featuring the boundary.
         contentType = multipartData.headers['Content-Type'] // eslint-disable-line
       } else {
         har.postData.text = querystring.stringify(formData.formData);

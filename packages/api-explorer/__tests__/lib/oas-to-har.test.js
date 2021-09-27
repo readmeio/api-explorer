@@ -249,6 +249,23 @@ describe('query values', () => {
       ).log.entries[0].request.queryString,
     ).toEqual([{ name: 'custom', value: '0' }]);
   });
+
+  it('should encode values', () => {
+    expect(
+      oasToHar(oas, {
+        path: '/query',
+        method: 'get',
+        parameters: [
+          {
+            name: 'a',
+            in: 'query',
+            required: true,
+            example: 'aaa+2@aa.it',
+          },
+        ],
+      }).log.entries[0].request.queryString,
+    ).toEqual([{ name: 'a', value: 'aaa%2B2%40aa.it' }]);
+  });
 });
 
 describe('header values', () => {
@@ -1286,7 +1303,7 @@ describe('content-type & accept header', () => {
     it('should generate multipart body with values string and number', () => {
       const now = 1592479223953
       const dateNow = Date.now
-  
+
       Date.now = jest.fn(() => now)
 
       const testOperationPath = {
@@ -1314,12 +1331,12 @@ describe('content-type & accept header', () => {
           }
         }
       }
-      const values = { 
-        formData: { 
-          file: 'data:xx;base64,the-data', 
+      const values = {
+        formData: {
+          file: 'data:xx;base64,the-data',
           testNumber: 111,
-          testString: 'this-is-the-string' 
-        } 
+          testString: 'this-is-the-string'
+        }
       }
       const contentType = 'multipart/form-data'
 
@@ -1328,17 +1345,17 @@ describe('content-type & accept header', () => {
           oas,
           testOperationPath,
           values,
-          {}, {}, 
+          {}, {},
           contentType
         ).log.entries[0].request.postData.text).toMatchSnapshot()
 
       Date.now = dateNow
     });
-    
+
     it('should properly generate multipart body with multipart/form-data content-type header', () => {
       const now = Date.now()
       const dateNow = Date.now
-  
+
       Date.now = jest.fn(() => now)
       const har = oasToHar(oas, {
         path: '/body',
@@ -1365,7 +1382,7 @@ describe('content-type & accept header', () => {
         .toEqual(
           `--${now}\r\nContent-Disposition: form-data; name="some"; filename="myfile.jpeg"\r\n\r\nthe-data\r\n--${now}--\r\n`
         )
-  
+
       Date.now = dateNow
     })
   })
