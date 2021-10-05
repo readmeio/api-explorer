@@ -1,12 +1,12 @@
 {
   "name": "@mia-platform/oas-extensions",
   "description": "A list of extensions that ReadMe has added to the OAS spec",
-  "version": "6.4.0",
+  "version": "6.6.0",
   "scripts": {
     "test": "eslint -f unix ."
   },
   "publishConfig": {
-    "registry": "http://registry.npmjs.org",
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "author": "Mia Platform Core Team<core@mia-platform.eu>",

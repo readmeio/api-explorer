@@ -5,6 +5,7 @@ import React from 'react'
 import { Collapse, Tag, Divider } from 'antd';
 import get from 'lodash.get'
 import extensions from '@mia-platform/oas-extensions'
+import { Helmet } from 'react-helmet'
 
 import { IntlProvider, addLocaleData } from 'react-intl';
 import itLocale from 'react-intl/locale-data/it';
@@ -26,6 +27,7 @@ const VariablesContext = require('@mia-platform/variable/contexts/Variables');
 const OauthContext = require('@mia-platform/variable/contexts/Oauth');
 const GlossaryTermsContext = require('@mia-platform/markdown/contexts/GlossaryTerms');
 const SelectedAppContext = require('@mia-platform/variable/contexts/SelectedApp');
+const ViewModeContext = require('./context/ViewMode');
 const markdown = require('@mia-platform/markdown');
 
 const getAuth = require('./lib/get-auth');
@@ -39,6 +41,14 @@ const messages = {
 function getDescription(oasFiles){
   return get(oasFiles, 'api-setting.info.description')
 }
+
+const panelStyle = {
+  margin: '5px 0px',
+  borderRadius: 5,
+  overflow: 'hidden',
+}
+
+const REDOC_CDN = 'https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.56/bundles/redoc.standalone.js'
 
 class ApiExplorer extends React.Component {
   constructor(props) {
@@ -176,12 +186,6 @@ class ApiExplorer extends React.Component {
       border: `1px solid ${colors[method] ? colors[method].border : colors.defaultBorder}`,
     })
 
-    const panelStyle = {
-      margin: '5px 0px',
-      borderRadius: 5,
-      overflow: 'hidden',
-    }
-
     const defaultOpenDoc = this.props.defaultOpenDoc ? this.props.defaultOpenDoc : '0'
     const defaultOpen = this.props.defaultOpen ? [defaultOpenDoc] : null
     const localizedMessages = messages[this.props.i18n.locale] || messages[this.props.i18n.defaultLocale]
@@ -196,32 +200,39 @@ class ApiExplorer extends React.Component {
           <OauthContext.Provider value={this.props.oauth}>
             <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
               <SelectedAppContext.Provider value={this.state.selectedApp}>
-                <div className={`is-lang-${this.state.language}`}>
-                  {this.props.showOnlyAPI ? null : this.renderDescription()}
-                  <div
-                    id="hub-reference"
-                    className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
-                    style={{padding: 16}}
-                  >
-                    <Collapse
-                      defaultActiveKey={defaultOpen}
-                      style={{background: 'none', border: 'none'}}
-                      accordion
-                      onChange={this.props.onDocChange}
+                <ViewModeContext.Provider value={this.props.isViewMode}>
+                  { this.props.isViewMode &&
+                    <Helmet>
+                      <script src={REDOC_CDN} />
+                    </Helmet>
+                  }
+                  <div className={`is-lang-${this.state.language}`}>
+                    {this.props.showOnlyAPI ? null : this.renderDescription()}
+                    <div
+                      id="hub-reference"
+                      className={`content-body hub-reference-sticky hub-reference-theme-${this.props.appearance.referenceLayout}`}
+                      style={{padding: 16}}
                     >
-                      {this.props.docs.map((doc) => (
-                        <Panel
-                          header={this.renderHeaderPanel(doc)}
-                          key={`${doc.api.method}-${doc.swagger.path}`}
-                          style={{...styleByMethod(doc.api.method), ...panelStyle}}
-                          forceRender={this.props.forcePanelRender}
-                        >
-                          {this.renderDoc(doc)}
-                        </Panel>
-                      ))}
-                    </Collapse>
+                      <Collapse
+                        defaultActiveKey={defaultOpen}
+                        style={{background: 'none', border: 'none'}}
+                        accordion
+                        onChange={this.props.onDocChange}
+                      >
+                        {this.props.docs.map((doc) => (
+                          <Panel
+                            header={this.renderHeaderPanel(doc)}
+                            key={`${doc.api.method}-${doc.swagger.path}`}
+                            style={{...styleByMethod(doc.api.method), ...panelStyle}}
+                            forceRender={this.props.forcePanelRender}
+                          >
+                            {this.renderDoc(doc)}
+                          </Panel>
+                        ))}
+                      </Collapse>
+                    </div>
                   </div>
-                </div>
+                </ViewModeContext.Provider>
               </SelectedAppContext.Provider>
             </GlossaryTermsContext.Provider>
           </OauthContext.Provider>
@@ -267,6 +278,7 @@ ApiExplorer.propTypes = {
   fallbackUrl: PropTypes.string,
   stripSlash: PropTypes.bool,
   forcePanelRender: PropTypes.bool,
+  isViewMode: PropTypes.bool
 };
 
 ApiExplorer.defaultProps = {
@@ -288,6 +300,7 @@ ApiExplorer.defaultProps = {
   fallbackUrl: '',
   stripSlash: false,
   forcePanelRender: false,
+  isViewMode: false
 };
 
 module.exports = props => (

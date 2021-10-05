@@ -198,6 +198,24 @@ describe('Response body', () => {
       }}
       oas={oas}
     /></IntlProvider>);
+    
+    const result = responseBody.find(Result);
+
+    expect(result).toHaveLength(1);
+    expect(result.prop('result')).toEqual({status: 401, responseBody: null});
+  });
+
+  test('should not display Result if result.responseBody is not set', () => {
+    const responseBody = mount(<IntlProvider><ResponseBody
+      operation={oas.operation('/pet', 'post')}
+      isOauth
+      oauth={false}
+      result={{
+        status: 401,
+        responseBody: undefined
+      }}
+      oas={oas}
+    /></IntlProvider>);
     expect(responseBody.find(Result)).toHaveLength(0);
   });
 
