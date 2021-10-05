@@ -55,7 +55,7 @@ function ResponseBody({ result, isOauth, oauth, isCollapsed}) {
   return (
     <div style={{ display: 'block', color: '#fff'}}>
       {status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />}
-      {responseBody !== undefined ?
+      {responseBody !== undefined && responseBody !== null ?
         <Result result={result} isCollapse={isCollapsed} /> :
         renderPlainText('response.noBody', 'The response has no body')
       }
