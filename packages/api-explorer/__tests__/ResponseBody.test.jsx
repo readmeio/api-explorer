@@ -187,7 +187,7 @@ describe('Response body', () => {
     expect(result.prop('result')).toEqual({status: 401, responseBody: 0});
   });
 
-  test('should display Result if result.responseBody is null', () => {
+  test('should not display Result if result.responseBody is null', () => {
     const responseBody = mount(<IntlProvider><ResponseBody
       operation={oas.operation('/pet', 'post')}
       isOauth
@@ -203,6 +203,20 @@ describe('Response body', () => {
 
     expect(result).toHaveLength(1);
     expect(result.prop('result')).toEqual({status: 401, responseBody: null});
+  });
+
+  test('should not display Result if result.responseBody is not set', () => {
+    const responseBody = mount(<IntlProvider><ResponseBody
+      operation={oas.operation('/pet', 'post')}
+      isOauth
+      oauth={false}
+      result={{
+        status: 401,
+        responseBody: undefined
+      }}
+      oas={oas}
+    /></IntlProvider>);
+    expect(responseBody.find(Result)).toHaveLength(0);
   });
 
   test('should not display Result if result.responseBody is not set', () => {
