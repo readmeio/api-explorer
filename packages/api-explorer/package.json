@@ -29,6 +29,7 @@
     "ramda": "^0.26.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-debounce-input": "^3.2.0",
+    "react-helmet": "^6.1.0",
     "react-intl": "^2.8.0",
     "react-json-view": "^1.19.1",
     "whatwg-fetch": "^2.0.3"

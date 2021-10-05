@@ -21,6 +21,9 @@ import SchemaTabs from './components/SchemaTabs'
 import Select from './components/Select'
 import colors from './colors';
 import Params from './Params'
+import ViewMode from './context/ViewMode'
+import ViewOnlyMode from './components/ViewOnlyMode'
+import docPropTypes from './prop-types/doc'
 
 const PathUrl = require('./PathUrl');
 const CodeSample = require('./CodeSample');
@@ -77,6 +80,14 @@ const styles = {
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-word',
     fontFamily: 'monospace',
+  },
+  endpointWrapperStyle: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gridTemplateRows: 'repeat(auto-fit, minmax(50px, min-content))',
+    gridGap: 8,
+    paddingRight: '16px',
+    minWidth: 0,
   }
 }
 
@@ -440,18 +451,24 @@ class Doc extends React.Component {
     const {isCollapse} = this.state
     const { doc } = this.props;
     const oas = this.oas;
+    const isViewMode = this.context
 
     return (
       <ErrorBoundary>
         <div id={`page-${doc.slug}`}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: isCollapse ? 'minmax(480px, 1fr) minmax(320px, 480px)' : '1fr',
-            position: 'relative'
-          }}
-          >
-            {this.renderEndpoint()}
-          </div>
+          { !isViewMode &&
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isCollapse ? 'minmax(480px, 1fr) minmax(320px, 480px)' : '1fr',
+              position: 'relative'
+            }}
+            >
+              {this.renderEndpoint()}
+            </div>
+          }
+          {
+            isViewMode && <ViewOnlyMode doc={doc} oas={oas} />
+          }
           {
             // TODO maybe we dont need to do this with a hidden input now
             // cos we can just pass it around?
@@ -470,31 +487,7 @@ class Doc extends React.Component {
 module.exports = Doc;
 
 Doc.propTypes = {
-  doc: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    excerpt: PropTypes.string,
-    slug: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    api: PropTypes.shape({
-      method: PropTypes.string.isRequired,
-      examples: PropTypes.shape({
-        codes: PropTypes.arrayOf(
-          PropTypes.shape({
-            language: PropTypes.string.isRequired,
-            code: PropTypes.string.isRequired,
-          }),
-        ),
-      }),
-      results: PropTypes.shape({
-        codes: PropTypes.arrayOf(
-          PropTypes.shape({}), // TODO: Jsinspect threw an error because this was too similar to L330
-        ),
-      }),
-    }).isRequired,
-    swagger: PropTypes.shape({
-      path: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  doc: PropTypes.shape(docPropTypes).isRequired,
   user: PropTypes.shape({}),
   auth: PropTypes.shape({}).isRequired,
   Logs: PropTypes.func,
@@ -530,3 +523,5 @@ Doc.defaultProps = {
   fallbackUrl: '',
   stripSlash: false,
 };
+
+Doc.contextType = ViewMode

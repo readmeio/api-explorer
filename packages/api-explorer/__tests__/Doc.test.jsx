@@ -1,15 +1,18 @@
 import { mountWithIntl } from 'enzyme-react-intl';
 import { IntlProvider, FormattedMessage } from 'react-intl';
-import {shallow} from 'enzyme'
+import { shallow } from 'enzyme'
 import {Button} from 'antd'
 
 import ContentWithTitle from '../src/components/ContentWithTitle'
 import SchemaTabs from '../src/components/SchemaTabs'
 import PathUrl from '../src/PathUrl'
 import Params from '../src/Params';
+import ViewOnlyMode from '../src/components/ViewOnlyMode'
 
 const extensions = require('@mia-platform/oas-extensions');
 const { Request, Response } = require('node-fetch');
+
+const ViewModeContext = require('../src/context/ViewMode')
 
 global.Request = Request;
 
@@ -18,6 +21,10 @@ const React = require('react');
 const Doc = require('../src/Doc');
 const oas = require('./fixtures/petstore/circular-oas');
 const oasWithSlashes = require('./fixtures/petstore/oas')
+
+window.Redoc = {
+  init: jest.fn()
+}
 
 const props = {
   doc: {
@@ -170,7 +177,7 @@ test('should update formData correctly on Params onChange with schema', () => {
    }
   }
 
-  const element = shallow(<Doc
+  const element = mountWithIntl(<Doc
     {...props}
     stripSlash
     doc={{
@@ -193,7 +200,7 @@ test('should update formData correctly on Params onChange with schema', () => {
 })
 
 test('should NOT update formData on Params onChange without schema', () => {
-  const element = shallow(<Doc
+  const element = mountWithIntl(<Doc
     {...props}
     stripSlash
     doc={{
@@ -356,16 +363,23 @@ describe('toggleAuth', () => {
 
 describe('PathUrl', () => {
   it('should be passed auth from props if the one in state is undefined', () => {
-    const doc = shallow(<Doc {...props} auth={{api_key: '123' }} />);
+    const doc = mountWithIntl(<Doc {...props} auth={{api_key: '123' }} />);
     const pathUrl = doc.find(PathUrl)
     expect(pathUrl.prop('auth')).toEqual({api_key: '123' })
   })
   it('should be passed auth from state if the one in state is not undefined', () => {
-    const doc = shallow(<Doc {...props} auth={{api_key: '123' }} />);
+    const doc = mountWithIntl(<Doc {...props} auth={{api_key: '123' }} />);
     const pathUrl = doc.find(PathUrl)
     pathUrl.prop('onChange')({api_key: '456'})
     doc.update()
     expect(doc.find(PathUrl).prop('auth')).toEqual({api_key: '456' })
+  })
+})
+
+describe('ViewOnlyMode', () => {
+  it('should be passed auth from props if the one in state is undefined', () => {
+    const doc = mountWithIntl(<ViewModeContext.Provider value><Doc {...props} auth={{api_key: '123' }} /></ViewModeContext.Provider>);
+    expect(doc.find(ViewOnlyMode).length).toBe(1)
   })
 })
 
