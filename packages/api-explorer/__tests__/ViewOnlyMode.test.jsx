@@ -1,5 +1,6 @@
 import React from 'react'
 import {mount} from 'enzyme'
+import { RedocStandalone } from 'redoc'
 
 import ViewOnlyMode from '../src/components/ViewOnlyMode'
 
@@ -33,11 +34,9 @@ describe('ViewOnlyMode', () => {
       },
       "excerpt": "The list can be filtered specifying the following parameters"
     }
-    window.Redoc = {
-      init: jest.fn()
-    }
-    mount(<ViewOnlyMode doc={doc} oas={oas} />)
-    expect(window.Redoc.init.mock.calls[0][0]).toMatchObject({
+    const viewOnlyMode = mount(<ViewOnlyMode doc={doc} oas={oas} />)
+    const redocStandaloneProps = viewOnlyMode.find(RedocStandalone).props()
+    expect(redocStandaloneProps.spec).toMatchObject({
       ...oas,
       info: {},
       paths: {
@@ -46,7 +45,7 @@ describe('ViewOnlyMode', () => {
         }
       }
     })
-    expect(window.Redoc.init.mock.calls[0][1]).toMatchObject({
+    expect(redocStandaloneProps.options).toMatchObject({
       disableSearch: true,
       hideDownloadButton: true,
       lazyRendering: true,

@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { RedocStandalone } from 'redoc'
 
 import docPropTypes from '../../prop-types/doc'
 import colors from '../../colors'
@@ -15,8 +16,6 @@ const REDOC_OPTIONS = {
     }
   }
 }
-
-const REDOC_CONTAINER_ID = 'redoc-container'
 
 const SUPPORTED_METHODS = Object.keys(colors).filter(key => colors[key].color)
 
@@ -44,7 +43,6 @@ const patchRedoc = () => {
     reduceHeight(apiContent)
     apiContent.style.width = '100%'
     apiContent.children[0].remove()
-    apiContent.children[0].remove()
     apiContent.nextSibling.style.width = 'calc(100% * 0.4)'
     redocMenu.remove()
   }
@@ -52,7 +50,6 @@ const patchRedoc = () => {
 
 const ViewOnlyMode = ({doc, oas}) => {
   const path = Object.keys(oas.paths).find(key => key === doc.swagger.path)
-  const containerId = `${REDOC_CONTAINER_ID}-${path}-${doc.api.method}`
 
   const oasObject = {
     ...oas,
@@ -64,13 +61,7 @@ const ViewOnlyMode = ({doc, oas}) => {
     }
   }
 
-
-  useEffect(() => {
-    // eslint-disable-next-line
-    Redoc.init(oasObject, REDOC_OPTIONS, document.getElementById(containerId), patchRedoc)
-  })
-
-  return <div id={containerId} />
+  return <RedocStandalone spec={oasObject} onLoaded={patchRedoc} options={REDOC_OPTIONS} />
 }
 
 ViewOnlyMode.propTypes = {

@@ -5,7 +5,6 @@ import React from 'react'
 import { Collapse, Tag, Divider } from 'antd';
 import get from 'lodash.get'
 import extensions from '@mia-platform/oas-extensions'
-import { Helmet } from 'react-helmet'
 
 import { IntlProvider, addLocaleData } from 'react-intl';
 import itLocale from 'react-intl/locale-data/it';
@@ -47,8 +46,6 @@ const panelStyle = {
   borderRadius: 5,
   overflow: 'hidden',
 }
-
-const REDOC_CDN = 'https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.56/bundles/redoc.standalone.js'
 
 class ApiExplorer extends React.Component {
   constructor(props) {
@@ -201,11 +198,6 @@ class ApiExplorer extends React.Component {
             <GlossaryTermsContext.Provider value={this.props.glossaryTerms}>
               <SelectedAppContext.Provider value={this.state.selectedApp}>
                 <ViewModeContext.Provider value={this.props.isViewMode}>
-                  { this.props.isViewMode &&
-                    <Helmet>
-                      <script src={REDOC_CDN} />
-                    </Helmet>
-                  }
                   <div className={`is-lang-${this.state.language}`}>
                     {this.props.showOnlyAPI ? null : this.renderDescription()}
                     <div
