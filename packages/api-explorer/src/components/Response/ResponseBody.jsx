@@ -49,15 +49,18 @@ Unauthorized.defaultProps = {
   isOauth: false,
 };
 
+const noBodyValues = [undefined, null, '']
+
 // eslint-disable-next-line react/prop-types
 function ResponseBody({ result, isOauth, oauth, isCollapsed}) {
   const { status, responseBody } = result;
+  const hasNoBody = noBodyValues.includes(responseBody)
   return (
     <div style={{ display: 'block', color: '#fff'}}>
       {status === 401 && <Unauthorized isOauth={isOauth} oauth={oauth} />}
-      {responseBody !== undefined && responseBody !== null ?
-        <Result result={result} isCollapse={isCollapsed} /> :
-        renderPlainText('response.noBody', 'The response has no body')
+      { hasNoBody ?
+        renderPlainText('response.noBody', 'The response has no body') :
+        <Result result={result} isCollapse={isCollapsed} />
       }
     </div>
   );
