@@ -53,7 +53,9 @@ const ViewOnlyMode = ({doc, oas}) => {
 
   const oasObject = {
     ...oas,
+    components: [],
     info: {},
+    security: [],
     paths: {
       [path]: {
         [doc.api.method]: oas.paths[path][doc.api.method]

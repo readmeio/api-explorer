@@ -39,6 +39,8 @@ describe('ViewOnlyMode', () => {
     expect(redocStandaloneProps.spec).toMatchObject({
       ...oas,
       info: {},
+      components: [],
+      security: [],
       paths: {
         '/v2/v1adapter/': {
           'get': oas.paths['/v2/v1adapter/'].get
