@@ -12,8 +12,8 @@ function Basic({ user, pass, change, authInputRef, Input }) {
   return (
     <div className="row">
       <div className="col-xs-6">
-        <label htmlFor="user">
-          <FormattedMessage id="auth.basic.username" defaultMessage="username" />
+        <label htmlFor="user" style={{padding: 0}}>
+          <FormattedMessage id="auth.basic.username" defaultMessage="Username" />
         </label>
         <Input
           inputRef={authInputRef}
@@ -24,8 +24,8 @@ function Basic({ user, pass, change, authInputRef, Input }) {
         />
       </div>
       <div className="col-xs-6">
-        <label htmlFor="password">
-          <FormattedMessage id="auth.basic.password" defaultMessage="password" />
+        <label htmlFor="password" style={{padding: 0}}>
+          <FormattedMessage id="auth.basic.password" defaultMessage="Password" />
         </label>
         <Input
           type="text"

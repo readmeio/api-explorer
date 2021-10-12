@@ -21,8 +21,8 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
     <section>
       <div>
         <div>
-          <label htmlFor="apiKey">
-            <FormattedMessage id="auth.oauth2.authorization" defaultMessage="authorization" />
+          <label htmlFor="apiKey" style={{padding: 0}}>
+            <FormattedMessage id="auth.oauth2.authorization" defaultMessage="Authorization" />
           </label>
         </div>
         <div>

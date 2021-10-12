@@ -115,7 +115,7 @@ describe('apiKey', () => {
     const onChange = jest.fn();
     const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
 
-    expect(securityInput.find('label').text()).toBe('api_key');
+    expect(securityInput.find('label').text()).toBe('Api_key');
   });
 });
 
