@@ -168,7 +168,7 @@ class Doc extends React.Component {
           this.authInput.focus();
         }
         this.setState({ needsAuth: true });
-      }, 600);
+      });
       return false;
     }
     this.setState({ loading: true, showAuthBox: false, needsAuth: false });

@@ -29,7 +29,9 @@ function renderButtonTry(loading, onSubmit, error) {
       type={error ? 'danger' : 'primary'}
       loading={loading}
     >
-      {error ? <FormattedMessage id="error" defaultMessage="Error" /> : <FormattedMessage id="api.try" defaultMessage="Try It" />}
+      {error ?
+        <FormattedMessage id="error" defaultMessage="Error" /> : 
+        <FormattedMessage id="api.try" defaultMessage="Try It" />}
     </Button>
   )
 }

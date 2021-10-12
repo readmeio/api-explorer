@@ -1,20 +1,8 @@
 import {FormattedMessage} from 'react-intl';
-import colors from '../colors'
 
 const React = require('react');
 const PropTypes = require('prop-types');
-
 const oauthHref = require('../lib/oauth-href');
-
-const style = {
-  container: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, minmax(50px, min-content))',
-    alignItems: 'center',
-    gridGap: 10,
-    fontSize: 12
-  }
-}
 
 function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
   if (!apiKey && oauth) {
@@ -31,19 +19,11 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
 
   return (
     <section>
-      {
-        // TODO
-        //   if security.description
-        //     != marked(security.description)
-      }
-      <div style={style.container}>
+      <div>
         <div>
           <label htmlFor="apiKey">
-            <FormattedMessage id="auth.oauth2.authorization" defaultMessage="Authorization" />
+            <FormattedMessage id="auth.oauth2.authorization" defaultMessage="authorization" />
           </label>
-        </div>
-        <div style={{color: colors.authType}}>
-          <FormattedMessage id="auth.oauth2.bearer" defaultMessage="Bearer" />
         </div>
         <div>
           <Input

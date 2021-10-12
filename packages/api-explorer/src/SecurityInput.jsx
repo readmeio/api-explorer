@@ -37,10 +37,9 @@ class Input extends React.Component {
 }
 
 function SecurityInput(props) {
-  const {auth, scheme} = props
-  function change(value) {
-    return props.onChange({ [scheme._key]: value });
-  }
+  const { auth, scheme } = props
+  
+  const change = (value) => props.onChange({ [scheme._key]: value });
 
   switch (scheme.type) {
     case 'apiKey':
@@ -69,7 +68,12 @@ function SecurityInput(props) {
       }
       if (scheme.scheme === 'bearer') {
         return (
-          <Oauth2 {...props} apiKey={auth[scheme._key]} change={change} Input={Input} />
+          <Oauth2
+            {...props}
+            apiKey={auth[scheme._key]}
+            change={change}
+            Input={Input}
+          />
         );
       }
       break;

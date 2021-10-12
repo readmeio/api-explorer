@@ -12,6 +12,9 @@ const styles = {
     display: 'grid',
     gridTemplateRows: 'repeat(auto-fit, minmax(50px, 1fr))'
   },
+  input: {
+    margin: '10px'
+  },
   inputsContainer: {
     paddingTop: 10
   },
@@ -35,37 +38,31 @@ function getSecuritySections(securityTypes, config, onChange, onSubmit, schemeNa
   const {authInputRef, oauth, auth} = config
   return (
     <form 
-      onSubmit={(e) => {
+      onSubmit={e => {
         e.preventDefault() 
         onSubmit()
       }}
     >
-      <div>
-        {
-          Object.keys(securityTypes).map((type, index) => {
-            const securities = securityTypes[type];
-            return (
-              <div key={`security-${type + index}`} >
-                <div style={{padding: '15px 17px'}}>
-                  <section>
-                    {
-                      securities.map(security => (
-                        <SecurityInput
-                          {...{ auth, onChange, authInputRef, oauth }}
-                          key={security._key}
-                          scheme={security}
-                          schemeName={schemeName}
-                        />
-                      ))
-                    }
-                  </section>
+      {
+        Object.entries(securityTypes).map(([type, securities], index) => (
+          <section key={`security-${type + index}`}>
+            {
+              securities.map(security => (
+                <div style={styles.input}>
+                  <SecurityInput
+                    {...{ auth, onChange, authInputRef, oauth }}
+                    key={security._key}
+                    scheme={security}
+                    schemeName={schemeName}
+                  />
                 </div>
-              </div>
-          )})
-        }
-      </div>
+              ))
+            }
+          </section>
+        ))
+      }
     </form>
-    )
+  )
 }
 
 class AuthForm extends Component {
@@ -96,15 +93,20 @@ class AuthForm extends Component {
                 <div key={`field-${schemeName}`}>
                   <span style={styles.schemeName}>{schemeName}</span>
                   <div style={styles.inputsContainer}>
-                    {getSecuritySections(
-                      pick(securitySchemes, schemeName),
-                      { authInputRef, oauth, auth },
-                      onChange, 
-                      onSubmit,
-                      schemeName
-                      )}
+                    {
+                      getSecuritySections(
+                        pick(securitySchemes, schemeName),
+                        { authInputRef, oauth, auth },
+                        onChange,
+                        onSubmit,
+                        schemeName
+                      )
+                    }
                   </div>
-                  {index < schemeKeys.length - 1 ? <Divider /> : null}
+                  {index < schemeKeys.length - 1 ?
+                    <Divider /> :
+                    null
+                  }
                 </div>
               )
             })
