@@ -48,10 +48,9 @@ function getSecuritySections(securityTypes, config, onChange, onSubmit, schemeNa
           <section key={`security-${type + index}`}>
             {
               securities.map(security => (
-                <div style={styles.input}>
+                <div key={security._key} style={styles.input}>
                   <SecurityInput
                     {...{ auth, onChange, authInputRef, oauth }}
-                    key={security._key}
                     scheme={security}
                     schemeName={schemeName}
                   />

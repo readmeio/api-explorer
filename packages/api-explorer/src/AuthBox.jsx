@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Alert, Button, Icon, Popover} from 'antd'
@@ -96,7 +96,7 @@ class AuthBox extends Component {
     } = this.props
 
     return (
-      <>
+      <Fragment>
         {this.renderAuthAlert()}
         <AuthForm 
           onChange={onChange}
@@ -110,8 +110,7 @@ class AuthBox extends Component {
           }
         />
         {this.renderResetButton()}
-
-      </>
+      </Fragment>
     )
   }
 
