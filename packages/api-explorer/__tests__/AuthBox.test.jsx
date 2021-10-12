@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl';
 import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
 
 import AuthBox from '../src/AuthBox';
