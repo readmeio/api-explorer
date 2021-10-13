@@ -4,6 +4,12 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const oauthHref = require('../lib/oauth-href');
 
+const styles = {
+  label: {
+    padding: 0
+  }
+}
+
 function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
   if (!apiKey && oauth) {
     return (
@@ -21,7 +27,7 @@ function Oauth2({ apiKey, authInputRef, oauth, change, Input }) {
     <section>
       <div>
         <div>
-          <label htmlFor="apiKey" style={{padding: 0}}>
+          <label htmlFor="apiKey" style={styles.label}>
             <FormattedMessage id="auth.oauth2.authorization" defaultMessage="Authorization" />
           </label>
         </div>

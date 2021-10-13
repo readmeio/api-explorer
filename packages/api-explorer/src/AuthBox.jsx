@@ -7,6 +7,9 @@ import uniq from 'lodash.uniq'
 
 import AuthForm from './components/AuthForm';
 
+const UNLOCK = 'unlock'
+const LOCK = 'lock'
+
 function filterSecurityScheme(security, securitySchemes) {
   const securities = uniq(flatten(security.map(elem => Object.keys(elem))))
   const newSecurityScheme = {}
@@ -33,7 +36,7 @@ class AuthBox extends Component {
     
     return (
       <Icon
-        type={open ? 'unlock' : 'lock'}
+        type={open ? UNLOCK : LOCK}
         onClick={toggle}
       />
     )
@@ -42,19 +45,8 @@ class AuthBox extends Component {
   renderAuthAlert() {
     const { needsAuth } = this.props
     
-    const message = (
-      <FormattedMessage
-        id='warning'
-        defaultMessage='Warning'
-      />
-    )
-
-    const description = (
-      <FormattedMessage
-        id='api.auth.required'
-        defaultMessage='Authentication is required for this endpoint'
-      />
-    )
+    const message = <FormattedMessage id='warning' defaultMessage='Warning' />
+    const description = <FormattedMessage id='api.auth.required' defaultMessage='Authentication is required for this endpoint' />
     
     return( needsAuth ?
       <Alert
@@ -126,7 +118,7 @@ class AuthBox extends Component {
         style={{padding: 0}}
         trigger={'click'}
         visible={this.props.open}
-        onVisibleChange={visibility => onVisibleChange(visibility)}
+        onVisibleChange={onVisibleChange}
       >
         {this.renderIconLock()}
       </Popover>
