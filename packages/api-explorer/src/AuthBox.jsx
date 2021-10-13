@@ -7,9 +7,6 @@ import uniq from 'lodash.uniq'
 
 import AuthForm from './components/AuthForm';
 
-const UNLOCK = 'unlock'
-const LOCK = 'lock'
-
 function filterSecurityScheme(security, securitySchemes) {
   const securities = uniq(flatten(security.map(elem => Object.keys(elem))))
   const newSecurityScheme = {}
@@ -34,9 +31,11 @@ class AuthBox extends Component {
   renderIconLock() {
     const { toggle, open } = this.props
     
+    const type = open ? 'unlock' : 'lock'
+    
     return (
       <Icon
-        type={open ? UNLOCK : LOCK}
+        type={type}
         onClick={toggle}
       />
     )
