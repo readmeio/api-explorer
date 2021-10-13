@@ -11,19 +11,25 @@ const baseProps = {
 test('should render an Oauth2 component if type is oauth2', () => {
   const props = { scheme: { type: 'oauth2', _key: 'auth', name: 'auth' } };
   const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
-  expect(securityInput.find('Oauth2').length).toBe(1);
+  const oauth2 = securityInput.find('Oauth2')
+  expect(oauth2.length).toBe(1);
+  expect(oauth2.html()).toMatchSnapshot();
 });
 
 test('should render an ApiKey component if type is apiKey', () => {
   const props = { scheme: { type: 'apiKey', _key: 'auth', name: 'auth' } };
   const securityInput = shallow(<SecurityInput {...props} {...baseProps} />);
-  expect(securityInput.find('ApiKey').length).toBe(1);
+  const apiKey = securityInput.find('ApiKey');
+  expect(apiKey.length).toBe(1);
+  expect(apiKey.html()).toMatchSnapshot();
 });
 
 test('should render a Basic component if type is http/basic', () => {
   const props = { scheme: { type: 'http', scheme: 'basic', _key: 'auth', name: 'auth' } };
   const securityInput = shallow(<SecurityInput {...props} {...baseProps} auth={{ auth: {} }} />);
-  expect(securityInput.find('Basic').length).toBe(1);
+  const basic = securityInput.find('Basic')
+  expect(basic.length).toBe(1);
+  expect(basic.html()).toMatchSnapshot();
 });
 
 test('should render an Oauth2 component if type is http/bearer', () => {
@@ -31,7 +37,9 @@ test('should render an Oauth2 component if type is http/bearer', () => {
   const securityInput = shallow(
     <SecurityInput {...props} {...baseProps} auth={{ auth: '123456' }} />,
   );
-  expect(securityInput.find('Oauth2').length).toBe(1);
+  const oauth2 = securityInput.find('Oauth2')
+  expect(oauth2.length).toBe(1);
+  expect(oauth2.html()).toMatchSnapshot();
 });
 
 describe('oauth2', () => {
@@ -115,7 +123,7 @@ describe('apiKey', () => {
     const onChange = jest.fn();
     const securityInput = mount(<SecurityInput {...props} {...baseProps} onChange={onChange} />);
 
-    expect(securityInput.find('label').text()).toBe('api_key');
+    expect(securityInput.find('label').text()).toBe('Api_key');
   });
 });
 

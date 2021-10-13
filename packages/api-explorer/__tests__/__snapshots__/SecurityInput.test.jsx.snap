@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a Basic component if type is http/basic 1`] = `"<div class=\\"row\\"><div class=\\"col-xs-6\\"><label for=\\"user\\" style=\\"padding:0\\"><span>Username</span></label><input type=\\"text\\" name=\\"user\\" style=\\"border:1px solid #ddd;border-radius:2px;padding:5px 7px;width:100%;font-size:13px;color:#666;min-width:100px\\" value=\\"\\"/></div><div class=\\"col-xs-6\\"><label for=\\"password\\" style=\\"padding:0\\"><span>Password</span></label><input type=\\"text\\" name=\\"pass\\" style=\\"border:1px solid #ddd;border-radius:2px;padding:5px 7px;width:100%;font-size:13px;color:#666;min-width:100px\\" value=\\"\\"/></div></div>"`;
+
+exports[`should render an ApiKey component if type is apiKey 1`] = `"<div><div><label for=\\"apiKey\\" style=\\"padding:0\\">Auth</label></div><div><input type=\\"text\\" style=\\"border:1px solid #ddd;border-radius:2px;padding:5px 7px;width:100%;font-size:13px;color:#666;min-width:100px\\" value=\\"\\"/></div></div>"`;
+
+exports[`should render an Oauth2 component if type is http/bearer 1`] = `"<section><div><div><label for=\\"apiKey\\" style=\\"padding:0\\"><span>Authorization</span></label></div><div><input type=\\"text\\" name=\\"apiKey\\" style=\\"border:1px solid #ddd;border-radius:2px;padding:5px 7px;width:100%;font-size:13px;color:#666;min-width:100px\\" value=\\"123456\\"/></div></div></section>"`;
+
+exports[`should render an Oauth2 component if type is oauth2 1`] = `"<section><div><div><label for=\\"apiKey\\" style=\\"padding:0\\"><span>Authorization</span></label></div><div><input type=\\"text\\" name=\\"apiKey\\" style=\\"border:1px solid #ddd;border-radius:2px;padding:5px 7px;width:100%;font-size:13px;color:#666;min-width:100px\\" value=\\"\\"/></div></div></section>"`;

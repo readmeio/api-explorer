@@ -1,11 +1,12 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
 
 import AuthBox from '../src/AuthBox';
-import AuthForm from '../src/components/AuthForm'
+import AuthForm from '../src/components/AuthForm';
 
-const Oas = require('../src/lib/Oas.js');
-const multipleSecurities = require('./fixtures/multiple-securities/oas');
+const Oas = require('../src/lib/Oas');
+const multipleSecurities = require('./fixtures/multiple-securities/oas.json');
 
 const oas = new Oas(multipleSecurities);
 
@@ -33,4 +34,18 @@ test('should display a single heading for single auth type', () => {
   const popoverContent = shallowWithIntl(<div>{authBox.find('Popover').prop('content')}</div>)
 
   expect(popoverContent.find(AuthForm)).toHaveLength(1);
+});
+
+test('should display a reset button', () => {
+  // This object is retrieved from OAS library while running in prod.
+  const securityTypes = {
+    "Header Auth":[{"type":"auth","flows":{"implicit":{"authorizationUrl":"http://petstore.swagger.io/oauth/dialog","scopes":{"write:pets":"modify pets in your account","read:pets":"read your pets"}}},"_key":"petstore_auth"}],
+  }
+  const security = [{"Header Auth": []}]
+  const authBox = mountWithIntl(<AuthBox {...props} securityTypes={securityTypes} security={security} />);
+  const popoverContent = shallowWithIntl(<div>{authBox.find('Popover').prop('content')}</div>)
+  const button = popoverContent.find('Button')
+
+  expect(button).toHaveLength(1);
+  expect(button.find(FormattedMessage).prop('id')).toBe('reset');
 });

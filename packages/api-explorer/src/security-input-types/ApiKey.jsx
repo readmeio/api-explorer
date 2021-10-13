@@ -1,11 +1,19 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
+const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
+const styles = {
+  label: {
+    padding: 0
+  }
+}
+
 function ApiKey({ apiKey, scheme, authInputRef, change, Input }) {
   return (
     <div>
       <div>
-        <label htmlFor="apiKey">{scheme.name}</label>
+        <label htmlFor="apiKey" style={styles.label}>{capitalize(scheme.name)}</label> 
       </div>
       <div>
         <Input

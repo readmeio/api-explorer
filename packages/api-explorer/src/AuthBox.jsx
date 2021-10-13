@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage, intlShape} from 'react-intl';
-import {Icon, Popover, Alert, Button} from 'antd'
+import {FormattedMessage, injectIntl} from 'react-intl';
+import {Alert, Button, Icon, Popover} from 'antd'
 import flatten from 'lodash.flatten'
 import uniq from 'lodash.uniq'
 
@@ -27,27 +27,51 @@ function filterSecurityScheme(security, securitySchemes) {
 }
 
 class AuthBox extends Component {
+  
   renderIconLock() {
-    const {toggle, open} = this.props
-    return(
-      <Icon type={open ? 'unlock' : 'lock'} onClick={toggle} />
+    const { toggle, open } = this.props
+    
+    const type = open ? 'unlock' : 'lock'
+    
+    return (
+      <Icon
+        type={type}
+        onClick={toggle}
+      />
     )
   }
 
   renderAuthAlert() {
-    const {needsAuth, intl} = this.props
-
-    const message = intl.formatMessage({id:'warning', defaultMessage: 'Warning'})
-    const description = intl.formatMessage({id:'api.auth.required', defaultMessage: 'Authentication is required for this endpoint'})
-    return(
-      needsAuth ?
-        <Alert
-          message={message}
-          description={description}
-          type="warning"
-          showIcon
-        /> :
+    const { needsAuth } = this.props
+    
+    const message = <FormattedMessage id='warning' defaultMessage='Warning' />
+    const description = <FormattedMessage id='api.auth.required' defaultMessage='Authentication is required for this endpoint' />
+    
+    return ( needsAuth ?
+      <Alert
+        message={message}
+        description={description}
+        type="warning"
+        showIcon
+        style={{marginBottom: '20px'}}
+      /> :
       null
+    )
+  }
+
+  renderResetButton() {
+    const {showReset, onReset} = this.props
+
+    return (
+      <Button
+        disabled={!showReset}
+        ghost
+        onClick={onReset}
+        style={{marginTop: '20px', width: '100%'}}
+        type={'danger'}
+      >
+        <FormattedMessage id="reset" defaultMessage="Reset" />
+      </Button>
     )
   }
 
@@ -59,55 +83,41 @@ class AuthBox extends Component {
       onChange,
       oauth,
       auth,
-      authInputRef,
-      showReset,
-      onReset
+      authInputRef
     } = this.props
 
-    return(
+    return (
       <Fragment>
+        {this.renderAuthAlert()}
         <AuthForm 
           onChange={onChange}
           onSubmit={onSubmit} 
           authInputRef={authInputRef}
           auth={auth}
           oauth={oauth}
-          securitySchemes={security ? filterSecurityScheme(security,securityTypes) : {}} 
+          securitySchemes={security ?
+            filterSecurityScheme(security, securityTypes) :
+            {}
+          }
         />
-        {
-          showReset ?
-            <div style={{padding: 5}}>
-              <Button
-                onClick={onReset}
-                type={'danger'}
-                size={'small'}
-              >
-                <FormattedMessage
-                  id="reset"
-                  defaultMessage="Reset"
-                />
-              </Button>
-            </div>
-          : null
-        }
-        {this.renderAuthAlert()}
+        {this.renderResetButton()}
       </Fragment>
     )
   }
 
   render() {
-    const {securityTypes, onVisibleChange} = this.props
+    const { securityTypes, onVisibleChange } = this.props
+    
     if (Object.keys(securityTypes).length === 0) return null;
 
     return (
       <Popover
         content={this.renderSecurityBox()}
+        getPopupContainer={triggerNode => triggerNode}
         style={{padding: 0}}
         trigger={'click'}
         visible={this.props.open}
-        onVisibleChange={(visibility) => {
-          onVisibleChange(visibility)
-        }}
+        onVisibleChange={onVisibleChange}
       >
         {this.renderIconLock()}
       </Popover>
@@ -156,7 +166,6 @@ AuthBox.propTypes = {
   auth: PropTypes.shape({}),
   onReset: PropTypes.func,
   showReset: PropTypes.bool,
-  intl: intlShape.isRequired,
   onVisibleChange: PropTypes.func,
   security: PropTypes.arrayOf(PropTypes.object)
 };
