@@ -47,7 +47,7 @@ class AuthBox extends Component {
     const message = <FormattedMessage id='warning' defaultMessage='Warning' />
     const description = <FormattedMessage id='api.auth.required' defaultMessage='Authentication is required for this endpoint' />
     
-    return( needsAuth ?
+    return ( needsAuth ?
       <Alert
         message={message}
         description={description}
