@@ -35,6 +35,13 @@ const reduceHeight = (apiContent) => {
   lastSection.style.minHeight = 'unset'
 }
 
+const adjustSection = (section) => {
+  const sectionTitle = section.querySelector("h1")
+  if(sectionTitle) {
+    sectionTitle.remove()
+  }
+}
+
 const patchRedoc = () => {
   const redocMenu = document.querySelector(".menu-content")
   if (redocMenu) {
@@ -44,6 +51,7 @@ const patchRedoc = () => {
     apiContent.style.width = '100%'
     apiContent.children[0].remove()
     apiContent.nextSibling.style.width = 'calc(100% * 0.4)'
+    apiContent.querySelectorAll('div[id^=tag]').forEach(adjustSection)
     redocMenu.remove()
   }
 }
