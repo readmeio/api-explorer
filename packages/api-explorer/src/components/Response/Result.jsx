@@ -16,9 +16,13 @@ const FileSvg = (
   </svg>
 )
 
+const objectDepth = (o) => Object (o) === o ? 1 + Math.max (-1, ... Object.values(o).map(objectDepth)) : 0
+
 export default function Result({result, isCollapse}) {
   const isJson =
     result.type && contentTypeIsJson(result.type) && typeof result.responseBody === 'object';
+
+  const isTooDeep = isJson && objectDepth(result.responseBody) > 10
 
   return (
     <div>
@@ -46,7 +50,7 @@ export default function Result({result, isCollapse}) {
       {!result.isBinary && isJson && (
         <ReactJson
           src={result.responseBody}
-          collapsed={isCollapse ? 1 : false}
+          collapsed={isCollapse || isTooDeep ? 1 : false}
           collapseStringsAfterLength={100}
           enableClipboard={false}
           theme="tomorrow"

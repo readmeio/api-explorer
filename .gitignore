@@ -16,3 +16,4 @@ example/demo-bundle.*
 example/reference-bundle.*
 
 packages/**/dist
+.vscode
