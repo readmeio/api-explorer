@@ -6,7 +6,7 @@
  *  reference: https://github.com/json-editor/json-editor/issues/156
  */
 
- 
+
 function injectDefinitions (ref) {
   return ref.split('/').join('/definitions/')
 }
@@ -34,7 +34,7 @@ function isChildADefinition (currentKey, obj) {
 
 export default function replaceRefs(obj)  {
   const searchStr = '$ref'
-  
+
   if (obj === undefined) {
     return;
   }
@@ -46,13 +46,16 @@ export default function replaceRefs(obj)  {
   } else if (typeof obj === 'object') {
     return Object.keys(obj).reduce((acc, k) => {
         if (typeof obj[k] === 'object') {
+          if (obj[k] === null) {
+            return acc
+          }
           if (k === searchStr) {
             return {...acc, [searchStr]: replaceRefs(obj[k])};
           }
           if (k === 'components') {
             return {
               ...acc,
-              definitions: { 
+              definitions: {
                 [k]: {
                   definitions: replaceRefs(obj[k])
                 }
