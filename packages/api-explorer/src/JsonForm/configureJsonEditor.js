@@ -11,6 +11,11 @@ function setDefaultCustomization (JSONEditor) {
 
   editorsKeys.forEach(key => {
     JSONEditor.defaults.editors[key] = class Customization extends JSONEditor.defaults.editors[key] {
+
+      getTitle () {
+        return this.key
+      }
+
       postBuild() {
         super.postBuild()
         if (this.editjson_textarea && this.editjson_copy && this.editjson_save && this.editjson_cancel) {
